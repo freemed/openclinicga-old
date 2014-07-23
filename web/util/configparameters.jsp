@@ -175,7 +175,7 @@
         
     <%-- BUTTONS --%>
     <center style="padding-top:5px;">
-        <input type="button" name="saveButton" class="button" value="<%=getTran("web","save",sWebLanguage)%>" onClick="configForm.submit()">
+        <input type="submit" name="save" class="button" value='<%=getTran("web","save",sWebLanguage)%>'/>	
         <input type="button" name="backButton" class="button" value="<%=getTran("web","back",sWebLanguage)%>" onClick="doBack();">
     </center>
 </form>
