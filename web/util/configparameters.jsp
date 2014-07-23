@@ -146,7 +146,7 @@
 									String[] options = checkString(sOptions).split(";");
 									
 									for(int n=0; n<options.length; n++){																		
-										out.print("<input type='radio' class='hand' name='par_"+sName+"' id='par_"+sName+"_"+n+"' value='"+options[n]+"'><label class='hand' for='par_"+sName+"_"+n+"'>"+options[n]+"</label>&nbsp;");	
+										out.print("<input type='radio' class='hand' name='par_"+sName+"' id='par_"+sName+"_"+n+"' value='"+options[n]+"' "+(options[n].equalsIgnoreCase(MedwanQuery.getInstance().getConfigString(sName,sDefaultValue))?"checked":"")+"><label class='hand' for='par_"+sName+"_"+n+"'>"+options[n]+"</label>&nbsp;");	
 									}
 								}
 								//*** text (default) ***
