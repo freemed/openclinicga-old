@@ -58,7 +58,7 @@
 %>
 
 <%
-	String sAction = checkString(request.getParameter("Action"));
+    String sAction = checkString(request.getParameter("Action"));
 
     String sSection1  = checkString(request.getParameter("section_1")),
            sSection2  = checkString(request.getParameter("section_2")),
@@ -159,7 +159,6 @@
         <tr>
             <td class="admin">
 		        <%
-
 		            if(Picture.exists(Integer.parseInt(activePatient.personid))){
 		           	    %><input type="checkbox" name="section_2" id="section_2" value="on" <%=(sSection2.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","photo",sWebLanguage,"section_2")%><%
 		            }
@@ -211,9 +210,7 @@
                 <input type="checkbox" name="section_8" id="section_8" value="on" <%=(sSection8.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","activeCarePrescriptions",sWebLanguage,"section_8")%>
             </td>
         </tr>
-         <%
-
-         %>
+         
         <%-- 9 : vaccinations --%>
         <tr>
             <td class="admin">
@@ -255,9 +252,6 @@
                 <input type="checkbox" name="section_14" id="section_14" value="on" <%=(sSection14.equals("on")?"CHECKED":"")%> onClick="toggleEncounterTable(this);">&nbsp;<%=getLabel("pdf","encounterHistroy",sWebLanguage,"section_14")%>
             </td>
         </tr>   
-         <%
-
-         %>
             
         <%
             //************************************************************************************
@@ -289,23 +283,23 @@
 		        Encounter encounter;
 				for(int i=0; i<visits.size(); i++){
 			        encounter = (Encounter)visits.get(i);
-
+	
                     // alternate row-style
                     if(sClass.length()==0) sClass = "1";
                     else                   sClass = "";
 
 					// one counter
-                    sOut.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">");
-                         sOut.append("<td align='center'>");
-                         sOut.append("<input type='checkbox' value='"+encounter.getUid()+"' name='encounterUID_"+cbCounter+"'>");
-                         sOut.append("</td>");
-                         sOut.append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+getTran("encountertype",encounter.getType(),sWebLanguage)+"</td>");
-                         sOut.append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getBegin())+"</td>");
-                         sOut.append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getEnd())+"</td>");
-                         sOut.append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+getTran("urgency.origin",encounter.getOrigin(),sWebLanguage)+"</td>");
-                         sOut.append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+(encounter.getService()!=null?encounter.getService().getLabel(sWebLanguage):encounter.getServiceUID())+"</td>");
-                         sOut.append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\" style='padding-left:5px;'>"+ReasonForEncounter.getReasonsForEncounterAsText(encounter.getUid(),sWebLanguage).replaceAll("\n","<br>")+"</td>");
-                        sOut.append("</tr>");
+                    sOut.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">")
+                         .append("<td align='center'>")
+                         .append("<input type='checkbox' value='"+encounter.getUid()+"' name='encounterUID_"+cbCounter+"'>")
+                         .append("</td>")
+                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+getTran("encountertype",encounter.getType(),sWebLanguage)+"</td>")
+                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getBegin())+"</td>")
+                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getEnd())+"</td>")
+                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+getTran("urgency.origin",encounter.getOrigin(),sWebLanguage)+"</td>")
+                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+encounter.getService().getLabel(sWebLanguage)+"</td>")
+                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\" style='padding-left:5px;'>"+ReasonForEncounter.getReasonsForEncounterAsText(encounter.getUid(),sWebLanguage).replaceAll("\n","<br>")+"</td>")
+                        .append("</tr>");
 
                     cbCounter++;		
 			     }
@@ -318,8 +312,7 @@
 	                .append("</tr>");
 			}
 			*/
-
-
+			
 			//*** 2 - admissions ***
 			Vector admissions = (Vector)Encounter.getInactiveEncounters(activePatient.personid,"admission",new java.util.Date());
 			if(admissions.size() > 0){
@@ -344,26 +337,25 @@
 		        Encounter encounter;
 				for(int i=0; i<visits.size(); i++){
 			        encounter = (Encounter)visits.get(i);
-					if(encounter!=null){
-	                    // alternate row-style
-	                    if(sClass.length()==0) sClass = "1";
-	                    else                   sClass = "";
 	
-					    // one counter
-	                    sOut.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">")
-	                         .append("<td align='center'>")
-	                          .append("<input type='checkbox' value='"+encounter.getUid()+"' name='encounterUID_"+cbCounter+"'>")
-	                         .append("</td>")
-	                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\">&nbsp;"+getTran("encountertype",checkString(encounter.getType()),sWebLanguage)+"</td>")
-	                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getBegin())+"</td>")
-	                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\">&nbsp;"+(encounter.getEnd()==null?"":ScreenHelper.stdDateFormat.format(encounter.getEnd()))+"</td>")
-	                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\">&nbsp;"+getTran("urgency.origin",checkString(encounter.getOrigin()),sWebLanguage)+"</td>")
-	                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\">&nbsp;"+(encounter.getService()==null?"":encounter.getService().getLabel(sWebLanguage))+"</td>")
-	                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\" style='padding-left:5px;'>"+ReasonForEncounter.getReasonsForEncounterAsText(encounter.getUid(),sWebLanguage).replaceAll("\n","<br>")+"</td>")
-	                        .append("</tr>");
-	
-	                    cbCounter++;
-					}
+                    // alternate row-style
+                    if(sClass.length()==0) sClass = "1";
+                    else                   sClass = "";
+
+				    // one counter
+                    sOut.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">")
+                         .append("<td align='center'>")
+                          .append("<input type='checkbox' value='"+encounter.getUid()+"' name='encounterUID_"+cbCounter+"'>")
+                         .append("</td>")
+                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\">&nbsp;"+getTran("encountertype",encounter.getType(),sWebLanguage)+"</td>")
+                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getBegin())+"</td>")
+                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getEnd())+"</td>")
+                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\">&nbsp;"+getTran("urgency.origin",encounter.getOrigin(),sWebLanguage)+"</td>")
+                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\">&nbsp;"+encounter.getService().getLabel(sWebLanguage)+"</td>")
+                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\" style='padding-left:5px;'>"+ReasonForEncounter.getReasonsForEncounterAsText(encounter.getUid(),sWebLanguage).replaceAll("\n","<br>")+"</td>")
+                        .append("</tr>");
+
+                    cbCounter++;		
 			 	}
 		    }
 			/*
@@ -384,9 +376,6 @@
         
             sOut.append("</tbody>");
         %>      
-                 <%
-
-         %>
         
         <tr id="encounterTable" style="display:none">
             <td class="admin">
@@ -424,160 +413,170 @@
 	        //*** list all saved examination-types as options ************************************
             //************************************************************************************
 	        SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
-	        if(sessionContainerWO.getHealthRecordVO()!=null && sessionContainerWO.getHealthRecordVO().getTransactions()!=null){
-		        Collection transactions = sessionContainerWO.getHealthRecordVO().getTransactions();
-		        Iterator tranIter = transactions.iterator();
-		        Hashtable hTrans = new Hashtable();
-		        TransactionVO transaction, newTransaction;
-		
-		        String sSelectedTranCtxt = "allContexts";
-		        sOut = new StringBuffer();
-		        cbCounter = 1;
-		        sClass = "1";
-		        String sList = "1", sTransTranslation;
-		        String tranID, serverID, tranType, tranUserName = "", tranCtxt, sExaminationName, sDocType;
-		        Timestamp tranDate;
-		        ItemVO docTypeItem;
-	         
-	            SortedSet set = new TreeSet();
+	        Collection transactions = sessionContainerWO.getHealthRecordVO().getTransactions();
+	        Iterator tranIter = transactions.iterator();
+	        Hashtable hTrans = new Hashtable();
+	        TransactionVO transaction, newTransaction;
 	
-	            while(tranIter.hasNext()){
-	                transaction = (TransactionVO)tranIter.next();
-	                tranDate = new Timestamp(transaction.getUpdateTime().getTime());
-	
-	                sTransTranslation = getTran("web.occup",transaction.getTransactionType(),sWebLanguage);
-	                newTransaction = (TransactionVO)hTrans.get(sTransTranslation);
-	 
-	                if(newTransaction==null){
-	                    hTrans.put(sTransTranslation,transaction);
-	                    set.add(sTransTranslation);
-	                }
-	            }
-	
-	            /*
-		        // subtitle		         
-	            sOut.append("<tr class='admin' height='20'>")
-	                 .append("<td colspan='3'>"+getTran("web","examinationTypes",sWebLanguage)+"</td>")
+	        String sSelectedTranCtxt = "allContexts";
+	        sOut = new StringBuffer();
+	        cbCounter = 1;
+	        sClass = "1";
+	        String sList = "1", sTransTranslation;
+	        String tranID, serverID, tranType, tranUserName = "", tranCtxt, sExaminationName, sDocType;
+	        Timestamp tranDate;
+	        ItemVO docTypeItem;
+         
+            SortedSet set = new TreeSet();
+
+            while(tranIter.hasNext()){
+                transaction = (TransactionVO)tranIter.next();
+                tranDate = new Timestamp(transaction.getUpdateTime().getTime());
+
+                sTransTranslation = getTran("web.occup",transaction.getTransactionType(),sWebLanguage);
+                newTransaction = (TransactionVO)hTrans.get(sTransTranslation);
+ 
+                if(newTransaction==null){
+                    hTrans.put(sTransTranslation,transaction);
+                    set.add(sTransTranslation);
+                }
+            }
+
+            /*
+	        // subtitle		         
+            sOut.append("<tr class='admin' height='20'>")
+                 .append("<td colspan='3'>"+getTran("web","examinationTypes",sWebLanguage)+"</td>")
+                .append("</tr>");
+            */
+
+            // records
+            sOut.append("<tbody style='cursor:pointer;'>");
+
+            if(hTrans.size() > 0){    	        
+                // header
+                sOut.append("<tr height='20'>")
+                     .append("<td class='admin2' width='30'>&nbsp;</td>")
+                     .append("<td class='admin2' width='400'>"+getTran("web.occup","medwan.common.contacttype",sWebLanguage)+"</td>")
+                     .append("<td class='admin2' width='*'>"+getTran("web.occup","medwan.common.context",sWebLanguage)+"</td>")
+                    .append("</tr>");
+                
+                Iterator setIter = set.iterator();
+
+                while(setIter.hasNext()){
+                    transaction = (TransactionVO)hTrans.get(setIter.next().toString());
+                    tranType = transaction.getTransactionType();
+
+                    // exclude vaccinations and warnings
+                    if(!tranType.endsWith("TRANSACTION_TYPE_VACCINATION") && !tranType.endsWith("TRANSACTION_TYPE_ALERT")){
+                        transaction = MedwanQuery.getInstance().loadTransaction(transaction.getServerId(),transaction.getTransactionId().intValue());
+                        boolean privateInfo = false;
+                       
+                        if(transaction!=null){
+	                        // private info ?
+                            ItemVO privateInfoItem = transaction.getItem(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_PRIVATE_INFO");
+                            if(privateInfoItem!=null){
+                                privateInfo = checkString(privateInfoItem.getValue()).equalsIgnoreCase("medwan.common.true");
+                            }
+                        }
+
+                        if(transaction!=null && !privateInfo){ 
+                            // context
+                            tranCtxt = "";
+                            ItemVO itemVO = transaction.getContextItem();
+                            if(itemVO!=null){
+                                tranCtxt = itemVO.getValue();
+                            }
+ 
+                            //*** what context-modifier ***
+                            if(sSelectedTranCtxt.equals("allContexts")){
+                                // alternate row-style
+                                if(sClass.length()==0) sClass = "1";
+                                else                   sClass = "";
+ 
+                                sOut.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">")
+                                     .append("<td align='center'>")
+                                      .append("<input type='checkbox' value='"+tranType+"' name='tranType_"+cbCounter+"'>")
+                                     .append("</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"')\">&nbsp;"+getTran("web.occup",tranType,sWebLanguage)+"</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"')\">&nbsp;"+getTran("web.occup",tranCtxt,sWebLanguage)+"</td>")
+                                    .append("</tr>");
+ 
+                                cbCounter++;
+                            }
+                            else if(sSelectedTranCtxt.equals("withoutContext")){
+                                if(tranCtxt.length()==0){
+                                    // alternate row-style
+                                    if(sClass.length()==0) sClass = "1";
+                                    else                   sClass = "";
+ 
+                                    sOut.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">")
+                                         .append("<td align='center'>")
+                                          .append("<input type='checkbox' value='"+tranType+"' name='tranType_"+cbCounter+"'>")
+                                         .append("</td>")
+                                         .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"')\">&nbsp;"+getTran("web.occup",tranType,sWebLanguage)+"</td>")
+                                         .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"')\">&nbsp;"+getTran("web.occup",tranCtxt,sWebLanguage)+"</td>")
+                                        .append("</tr>");
+ 
+                                    cbCounter++;
+                                }
+                            }
+                            else if(tranCtxt.equalsIgnoreCase(sSelectedTranCtxt)){
+                                // alternate row-style
+                                if(sClass.length()==0) sClass = "1";
+                                else                   sClass = "";
+ 
+                                sOut.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">")
+                                     .append("<td align='center'>")
+                                      .append("<input type='checkbox' value='"+tranType+"' name='tranType_"+cbCounter+"'>")
+                                     .append("</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"');\">&nbsp;"+getTran("web.occup",tranType,sWebLanguage)+"</td>")
+                                     .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"');\">&nbsp;"+getTran("web.occup",tranCtxt,sWebLanguage)+"</td>")
+                                    .append("</tr>");
+
+                                cbCounter++;
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+		        // no records found		    	
+                sOut.append("<tr>")
+	                 .append("<td class='admin2' colspan='3'>"+getTran("web","noRecordsFound",sWebLanguage)+"</td>")
 	                .append("</tr>");
-	            */
-	
-	            // records
-	            sOut.append("<tbody style='cursor:pointer;'>");
-	
-	            if(hTrans.size() > 0){    	        
-	                // header
-	                sOut.append("<tr height='20'>")
-	                     .append("<td class='admin2' width='30'>&nbsp;</td>")
-	                     .append("<td class='admin2' width='400'>"+getTran("web.occup","medwan.common.contacttype",sWebLanguage)+"</td>")
-	                     .append("<td class='admin2' width='*'>"+getTran("web.occup","medwan.common.context",sWebLanguage)+"</td>")
-	                    .append("</tr>");
-	                
-	                Iterator setIter = set.iterator();
-	
-	                while(setIter.hasNext()){
-	                    transaction = (TransactionVO)hTrans.get(setIter.next().toString());
-	                    tranType = transaction.getTransactionType();
-	
-	                    // exclude vaccinations and warnings
-	                    if(!tranType.endsWith("TRANSACTION_TYPE_VACCINATION") && !tranType.endsWith("TRANSACTION_TYPE_ALERT")){
-	                        transaction = MedwanQuery.getInstance().loadTransaction(transaction.getServerId(),transaction.getTransactionId().intValue());
-	                        boolean privateInfo = false;
-	                       
-	                        if(transaction!=null){
-		                        // private info ?
-	                            ItemVO privateInfoItem = transaction.getItem(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_PRIVATE_INFO");
-	                            if(privateInfoItem!=null){
-	                                privateInfo = checkString(privateInfoItem.getValue()).equalsIgnoreCase("medwan.common.true");
-	                            }
-	                        }
-	
-	                        if(!privateInfo){ 
-	                            // context
-	                            tranCtxt = "";
-	                            ItemVO itemVO = transaction.getContextItem();
-	                            if(itemVO!=null){
-	                                tranCtxt = itemVO.getValue();
-	                            }
-	 
-	                            //*** what context-modifier ***
-	                            if(sSelectedTranCtxt.equals("allContexts")){
-	                                // alternate row-style
-	                                if(sClass.length()==0) sClass = "1";
-	                                else                   sClass = "";
-	 
-	                                sOut.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">")
-	                                     .append("<td align='center'>")
-	                                      .append("<input type='checkbox' value='"+tranType+"' name='tranType_"+cbCounter+"'>")
-	                                     .append("</td>")
-	                                     .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"')\">&nbsp;"+getTran("web.occup",tranType,sWebLanguage)+"</td>")
-	                                     .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"')\">&nbsp;"+getTran("web.occup",tranCtxt,sWebLanguage)+"</td>")
-	                                    .append("</tr>");
-	 
-	                                cbCounter++;
-	                            }
-	                            else if(sSelectedTranCtxt.equals("withoutContext")){
-	                                if(tranCtxt.length()==0){
-	                                    // alternate row-style
-	                                    if(sClass.length()==0) sClass = "1";
-	                                    else                   sClass = "";
-	 
-	                                    sOut.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">")
-	                                         .append("<td align='center'>")
-	                                          .append("<input type='checkbox' value='"+tranType+"' name='tranType_"+cbCounter+"'>")
-	                                         .append("</td>")
-	                                         .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"')\">&nbsp;"+getTran("web.occup",tranType,sWebLanguage)+"</td>")
-	                                         .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"')\">&nbsp;"+getTran("web.occup",tranCtxt,sWebLanguage)+"</td>")
-	                                        .append("</tr>");
-	 
-	                                    cbCounter++;
-	                                }
-	                            }
-	                            else if(tranCtxt.equalsIgnoreCase(sSelectedTranCtxt)){
-	                                // alternate row-style
-	                                if(sClass.length()==0) sClass = "1";
-	                                else                   sClass = "";
-	 
-	                                sOut.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">")
-	                                     .append("<td align='center'>")
-	                                      .append("<input type='checkbox' value='"+tranType+"' name='tranType_"+cbCounter+"'>")
-	                                     .append("</td>")
-	                                     .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"');\">&nbsp;"+getTran("web.occup",tranType,sWebLanguage)+"</td>")
-	                                     .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"');\">&nbsp;"+getTran("web.occup",tranCtxt,sWebLanguage)+"</td>")
-	                                    .append("</tr>");
-	
-	                                cbCounter++;
-	                            }
-	                        }
-	                    }
-	                }
-	            }
-	            else{
-			        // no records found		    	
-	                sOut.append("<tr>")
-		                 .append("<td class='admin2' colspan='3'>"+getTran("web","noRecordsFound",sWebLanguage)+"</td>")
-		                .append("</tr>");
-		        }
-	
-	            sOut.append("</tbody>");
-	        %>      
-	        
-	        <tr id="tranTable" style="display:none">
-	            <td class="admin">
-			        <%-- TRANSACTIONS --%>
-	                <table width="100%" cellspacing="1">
-						<tr class="admin">
-						    <td><%=getTran("web","examinationTypes",sWebLanguage)%></td>
-						</tr>     
-	                </table>
-		                
-	                <table width="100%" class="sortable" id="tblTransactions" cellspacing="1" headerRowCount="2" style="background:#ccc;">
-			            <%=sOut%>
-			        </table>
-			    </td>
-			</tr>
-		<%
 	        }
-		%>
+        
+            sOut.append("</tbody>");
+        %>      
+        
+        <tr id="tranTable" style="display:none">
+            <td class="admin">
+		        <%-- TRANSACTIONS --%>
+                <table width="100%" cellspacing="1">
+					<tr class="admin">
+					    <td><%=getTran("web","examinationTypes",sWebLanguage)%></td>
+					</tr>     
+                </table>
+	                
+                <table width="100%" class="sortable" id="tblTransactions" cellspacing="1" headerRowCount="2" style="background:#ccc;">
+		            <%=sOut%>
+		        </table>
+		        
+			    <%-- UN/CHECK ALL examinationTypes --%>
+			    <table width="100%" cellspacing="1">
+			        <tr>
+			            <td>
+			                <a href="#" onclick="checkAllExaminationTypes(true);"><%=getTran("web.manage","CheckAll",sWebLanguage)%></a>
+			                <a href="#" onclick="checkAllExaminationTypes(false);"><%=getTran("web.manage","UncheckAll",sWebLanguage)%></a>
+			            </td>
+			            <td align="right">
+			                <a href="#top"><img src="<c:url value='/_img'/>/top.jpg" class="link"></a>
+			            </td>
+			        </tr>
+			    </table>
+		    </td>
+		</tr>
+
         <%-- 17 : signature
         <tr>
             <td class="admin">
@@ -644,7 +643,7 @@
     	cbCount++; // skip first section
     	
     	if(cbCount > 1){
-          if(printForm.elements[i].name.startsWith("section") && '<%=MedwanQuery.getInstance().getConfigString("excludePrintSections", "")%>'.indexOf('*'+printForm.elements[i].name+'*')<0){
+          if(printForm.elements[i].name.startsWith("section")){
             printForm.elements[i].checked = setchecked;
           }
     	}
@@ -662,6 +661,17 @@
 
     toggleEncounterTable(document.getElementById("section_14"));
     toggleTranTable(document.getElementById("section_16"));
+  }
+  
+  <%-- CHECK ALL EXAMINATION TYPES --%>
+  function checkAllExaminationTypes(setchecked){	
+    for(var i=0; i<printForm.elements.length; i++){
+      if(printForm.elements[i].type=="checkbox"){
+        if(printForm.elements[i].name.startsWith("tranType_")){
+          printForm.elements[i].checked = setchecked;
+        }
+      }
+    }
   }
 
   <%-- DO PRINT --%>
