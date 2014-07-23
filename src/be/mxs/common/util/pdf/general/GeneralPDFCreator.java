@@ -892,6 +892,9 @@ public class GeneralPDFCreator extends PDFCreator {
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_OPHTALMOLOGY_CDO")){
             loadTransactionOfType("PDFOphtalmologyCDO",transactionVO,partsOfTransactionToPrint);
         }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_OPHTALMOLOGY_IOTA")){
+            loadTransactionOfType("PDFOphtalmologyIOTA",transactionVO,partsOfTransactionToPrint);
+        }
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_BIOMETRY")){ // pediatryBiometry.jsp
             loadTransactionOfType("PDFBiometry",transactionVO,partsOfTransactionToPrint);
         }

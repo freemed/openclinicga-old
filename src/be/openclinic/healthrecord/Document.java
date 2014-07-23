@@ -33,6 +33,7 @@ public class Document {
                     if(rs.next()){
                         sFilename = ScreenHelper.checkString(rs.getString("OC_DOCUMENT_NAME"));
                         String sFolderStore = MedwanQuery.getInstance().getConfigString("DocumentsFolder","c:/projects/openclinic/web/documents/");
+                        
                         File file = new File(sFolderStore+"/"+sFilename);
                         FileOutputStream fileOutputStream = new FileOutputStream(file);
                         fileOutputStream.write(rs.getBytes("OC_DOCUMENT_VALUE"));
@@ -63,7 +64,7 @@ public class Document {
     public static String store(String sFileName, String sUserId, byte[] aValue){
         String sId = "";
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             int iServerId = MedwanQuery.getInstance().getConfigInt("serverId");
             int iObjectId = MedwanQuery.getInstance().getOpenclinicCounter("DocumentID");
@@ -79,21 +80,28 @@ public class Document {
             ps.setBytes(7,aValue);
             ps.executeUpdate();
             ps.close();
+            
+            // delete temp file from upload folder
+            String sFolderStore = MedwanQuery.getInstance().getConfigString("DocumentsFolder","c:/projects/openclinic/web/documents/");
+            File file = new File(sFolderStore+"/"+sFileName);
+            file.delete();
 
             sId = iServerId+"."+iObjectId;
         }
         catch(Exception e){
+        	sId = "ERR_"+e.getMessage(); // mark id as error
             Debug.println("OpenClinic => Document.java => store => "+e.getMessage());
             e.printStackTrace();
         }
-        
-        // close DB-connection
-        try{
-			oc_conn.close();
-		} 
-        catch(SQLException e){
-			e.printStackTrace();
-		}
+        finally{        
+	        // close DB-connection
+	        try{
+				oc_conn.close();
+			} 
+	        catch(SQLException e){
+				e.printStackTrace();
+			}
+        }
         
         return sId;
     }
@@ -121,6 +129,7 @@ public class Document {
 
                     if(rs.next()){
                         sFileName = ScreenHelper.checkString(rs.getString("OC_DOCUMENT_NAME"));
+                        sFileName = sFileName.substring(sFileName.indexOf("_")+1);
                     }
 	            }
 	            catch(Exception e){

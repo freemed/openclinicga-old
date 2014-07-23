@@ -1,5 +1,6 @@
 package be.openclinic.system;
 import be.openclinic.common.OC_Object;
+
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.ScreenHelper;
@@ -7,8 +8,7 @@ import be.mxs.common.util.system.ScreenHelper;
 import java.sql.*;
 import java.util.List;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.Iterator;
+
 public class Center extends OC_Object {
     private String name;
     private String province;
@@ -27,6 +27,7 @@ public class Center extends OC_Object {
     private String remTransport;
     private String remPersonnel;
     private String remOther;
+    
     private int populationTotal;
     private float populationLt1m;
     private float populationLt1y;
@@ -39,7 +40,10 @@ public class Center extends OC_Object {
     private String NumeroUid;
     private int beds;
     private int active;
+    
     private boolean actual;
+    
+    
     public String getName() {
         return name;
     }
@@ -220,6 +224,8 @@ public class Center extends OC_Object {
     public void setActual(boolean actual) {
         this.actual = actual;
     }
+    
+    //--- STORE -----------------------------------------------------------------------------------
     public void store() {
         PreparedStatement ps;
         ResultSet rs;
@@ -348,6 +354,8 @@ public class Center extends OC_Object {
 			e.printStackTrace();
 		}
     }
+    
+    //--- GET ALL ---------------------------------------------------------------------------------
     public static List getAll(String begin, String end, boolean actual) {
         List l = new LinkedList();
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
@@ -388,7 +396,7 @@ public class Center extends OC_Object {
             rs.close();
             ps.close();
         } catch (Exception e) {
-            Debug.println("OpenClinic => Bed.java => get => " + e.getMessage());
+            Debug.println("OpenClinic => Center.java => getAll => " + e.getMessage());
             e.printStackTrace();
         }
         try {
@@ -398,20 +406,25 @@ public class Center extends OC_Object {
 		}
         return l;
     }
+    
+    //--- GET -------------------------------------------------------------------------------------
     public static Center get(int version, boolean actual) {
         Center center = null;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        
         try {
             String[] ids = new String[]{MedwanQuery.getInstance().getConfigString("serverId"), 1 + ""};
             String sSelect = "";
             if (actual) {
                 sSelect = "SELECT * FROM OC_HC WHERE OC_HC_SERVERID = ? AND OC_HC_OBJECTID = ? ";
-            } else {
+            }
+            else {
                 sSelect = "SELECT * FROM OC_HC_HISTORY WHERE OC_HC_SERVERID = ? AND OC_HC_OBJECTID = ? ";
             }
             if (version > 0) {
                 sSelect += " AND OC_HC_VERSION = ?";
             }
+            
             PreparedStatement ps;
             ResultSet rs;
             ps = oc_conn.prepareStatement(sSelect);
@@ -459,18 +472,61 @@ public class Center extends OC_Object {
                 center.setActive(rs.getInt("OC_HC_ACTIVE"));
             }
             rs.close();
-            ps.close();
-        } catch (Exception e) {
-            Debug.println("OpenClinic => Bed.java => get => " + e.getMessage());
+            ps.close();            
+        }
+        catch(Exception e){
+            Debug.println("OpenClinic => Center.java => get => " + e.getMessage());
             e.printStackTrace();
         }
-        try {
+        
+        try{
 			oc_conn.close();
-		} catch (SQLException e) {
+		}
+        catch(SQLException e){
 			e.printStackTrace();
 		}
+        
         return center;
     }
 
+    //--- DELETE ----------------------------------------------------------------------------------
+    public static boolean delete(String sUID){
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
 
+        boolean errorOccured = false;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try{
+            String sSql = "DELETE FROM OC_HC WHERE OC_HC_SERVERID = ?"+
+                          " AND OC_HC_OBJECTID = ?";            
+            ps = oc_conn.prepareStatement(sSql);
+            ps.setInt(1,Integer.parseInt(sUID.split("\\.")[0]));
+            ps.setInt(2,Integer.parseInt(sUID.split("\\.")[1]));
+            ps.executeUpdate();
+            
+            sSql = "DELETE FROM OC_HC_HISTORY WHERE OC_HC_SERVERID = ?"+
+                   " AND OC_HC_OBJECTID = ?";            
+	        ps = oc_conn.prepareStatement(sSql);
+	        ps.setInt(1,Integer.parseInt(sUID.split("\\.")[0]));
+	        ps.setInt(2,Integer.parseInt(sUID.split("\\.")[1]));
+	        ps.executeUpdate();                         
+        }
+        catch(Exception e){
+        	errorOccured = true;
+            e.printStackTrace();
+        }
+        finally{
+        	try{
+	        	if(oc_conn!=null) oc_conn.close();
+			}
+	        catch(SQLException e){
+	        	errorOccured = true;
+				e.printStackTrace();
+			}
+        }
+        
+        return errorOccured;
+    }
+    
 }
