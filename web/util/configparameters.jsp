@@ -1,6 +1,7 @@
 <%@page import="java.io.*,org.dom4j.*,org.dom4j.io.*"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+<%=sJSTOOLTIP%>
 
 <%!
     //--- CONTAINS VISIBLE PARAMETERS -------------------------------------------------------------
@@ -74,6 +75,8 @@
 		Element group, parameter, descrEl;
 		Iterator parameters, descrIter;
 		String sGroupClass;
+		int infoIconCount = 0;
+		
 		while(groups.hasNext()){
 			group = (Element)groups.next();
 
@@ -105,7 +108,7 @@
 							   sClass = checkString(parameter.attributeValue("class")),
 							   sOptions = checkString(parameter.attributeValue("options"));
 						
-						// look for description in weblanguage
+						//*** look for description in weblanguage ***
 						descrIter = parameter.elementIterator("description");
 						String sDescription = "";
 						
@@ -113,6 +116,12 @@
 							descrEl = (Element)descrIter.next();
 							if(descrEl.attributeValue("language").equalsIgnoreCase(sWebLanguage)){
 								sDescription = checkString(descrEl.getText());
+								
+								sDescription = sDescription.replaceAll("\r\n",""); // no white lines
+								sDescription = sDescription.replaceAll("\n",""); // no white lines
+								sDescription = sDescription.replaceAll("\t"," "); // tap to space
+								sDescription = sDescription.replaceAll("  "," "); // single spaces only
+								
 								break;
 							}
 						}
@@ -158,8 +167,9 @@
 								out.print("<td class='admin2'>"+sDefaultValue+"</td>");
 								out.print("<td class='admin2'>");
 								if(sDescription.length() > 0){
+									infoIconCount++;
 									sDescription = sDescription.replaceAll("'","´");
-								    out.print("<img class='link' src='"+sCONTEXTPATH+"/_img/icon_info.gif' title='"+sDescription+"'/>");
+								    out.print("<img class='link' src='"+sCONTEXTPATH+"/_img/icon_info.gif' id='info_"+infoIconCount+"' tooltiptext='"+sDescription+"'/>");
 								}
 								out.print("</td>");
 							out.print("</tr>");
@@ -174,7 +184,7 @@
 	</table>
         
     <%-- BUTTONS --%>
-    <center style="padding-top:5px;">
+    <center style="padding-top:10px;">
         <input type="submit" name="save" class="button" value='<%=getTran("web","save",sWebLanguage)%>'/>	
         <input type="button" name="backButton" class="button" value="<%=getTran("web","back",sWebLanguage)%>" onClick="doBack();">
     </center>
@@ -192,6 +202,7 @@ function expandAll(){
 		}
 	}
 }	
+
 function collapseAll(){
 	for(n=0;n<document.all.length;n++){
 		if((document.all[n].id+"").indexOf('gr_')==0){
@@ -204,6 +215,18 @@ function collapseAll(){
 	}
 }
 
+<%-- enable tooltips on info-icons --%>
+window.onload = function(){
+  var imgs = document.getElementsByTagName("img");
+  
+  for(var i=0; i<imgs.length; i++){
+    if(imgs[i].id!=null && imgs[i].id.startsWith("info_")){
+      enableTooltip(imgs[i].id);
+    }
+  }
+};
+
+<%-- DO BACK --%>
 function doBack(){
   window.location.href = "<c:url value='/main.do'/>?Page=system/menu.jsp";
 }
