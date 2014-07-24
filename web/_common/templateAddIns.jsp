@@ -27,7 +27,23 @@
                "}"+
               "</script>");
 %>
-<script>
+<script> 
+<%-- HIDE SELECTS --%>
+function hideSelects(){
+  var selects = document.getElementsByTagName("SELECT");
+  for(var i=0; i<selects.length; i++){
+    selects[i].style.visibility = "hidden";
+  }
+}
+
+<%-- UNHIDE SELECTS --%>
+function unhideSelects(){
+  var selects = document.getElementsByTagName("SELECT");
+  for(var i=0; i<selects.length; i++){
+    selects[i].style.visibility = "visible";
+  }
+}
+  
 function dateError(field){
   alertDialog("Web.Occup","date.error");
   setTimeout('document.getElementById("'+field.id+'").focus();',100);
