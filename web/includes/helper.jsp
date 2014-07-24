@@ -889,6 +889,7 @@
     String sCSSTREEMENU      = "<link href='"+sCONTEXTPATH+"/_common/_css/dhtmlxtree.css' rel='stylesheet' type='text/css'>";
     
     // JS
+    String sJSTOOLTIP = "<script src='"+sCONTEXTPATH+"/_common/_script/tooltip.js'></script>";
     String sJSSHORTCUTS = "<script src='"+sCONTEXTPATH+"/_common/_script/shortcuts.js'></script>";
     String sJSCHAR = "<script src='"+sCONTEXTPATH+"/_common/_script/char.js'></script>";
     String sJSPOPUPSEARCH = "<script src='"+sCONTEXTPATH+"/_common/_script/popupsearch.js'></script>";
