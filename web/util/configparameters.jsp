@@ -47,11 +47,18 @@
 		}
 	}
 %>
-
+    
 <form name='configForm' method='post'>
-	<input type='checkbox' class="hand" value='1' name='advanced' id="advanced" onclick='configForm.submit();' style="vertical-align:-3px;" <%=checkString(request.getParameter("advanced")).equalsIgnoreCase("1")?"checked":"" %>/><label for="advanced" class="hand"><%=getTran("web","advanced",sWebLanguage)%></label></label>&nbsp;
-	<input type='submit' class="button" name='save' value='<%=getTran("web","save",sWebLanguage)%>'/>
+	<span style="width:50%;text-align:left">
+		<input type='checkbox' class="hand" value='1' name='advanced' id="advanced" onclick='configForm.submit();' style="vertical-align:-3px;" <%=checkString(request.getParameter("advanced")).equalsIgnoreCase("1")?"checked":"" %>/><label for="advanced" class="hand"><%=getTran("web","advanced",sWebLanguage)%></label></label>&nbsp;
+		<input type='submit' class="button" name='save' value='<%=getTranNoLink("web","save",sWebLanguage)%>'/>
+	</span>
 	
+	<%-- LINK TO BOTTOM --%>
+	<span style="width:50%;text-align:right">
+	    <a href="#bottom" class="bottombutton">&nbsp;</a>
+	</span>
+	    
 	<table width='100%' cellpadding="0" cellspacing="1" class="list">
 		<%-- header --%>
 		<tr>
@@ -144,13 +151,15 @@
 								}
 							}
 							
-							//*** unit ***
+							// unit
 							String sUnit = checkString(parameter.attributeValue("unit")); // id
 							sUnit = getTran("web",sUnit,sWebLanguage); // label
+
+     						String sModus = checkString(parameter.attributeValue("modus"));
 							
 							// stored value 
-							String sStoredValue = MedwanQuery.getInstance().getConfigString(sName);
-							
+							String sStoredValue = checkString(MedwanQuery.getInstance().getConfigString(sName));
+														
 							//*** generate html ***
 							out.print("<tr>");
 								out.print("<td class='admin'>"+(sClass.equalsIgnoreCase("advanced")?"<font color='#ff6600'>":"")+sName+(sClass.equalsIgnoreCase("advanced")?"</font>":"")+"&nbsp;</td>");	
@@ -158,12 +167,12 @@
 								
 								//*** integer ***
 								if(sType.equalsIgnoreCase("integer")){
-									out.print("<input type='text' name='par_"+sName+"' id='par_"+sName+"' size='10' value='"+sStoredValue+"' onKeyUp=\"if(!isInteger(this))this.value='';\" "+(sStoredValue.length()==0?"style='background-color:#ff9999'":"")+"/>");
+									out.print("<input type='text' name='par_"+sName+"' id='par_"+sName+"' size='10' value='"+sStoredValue+"' onKeyUp=\"if(!isInteger(this))this.value='';\" "+(sStoredValue.length()==0&&sDefaultValue.length()>0?"style='background-color:#ff9999'":"")+"/>");
 									if(sUnit.length() > 0) out.print(" "+sUnit);
 								}
 								//*** textarea ***
 								else if(sType.equalsIgnoreCase("textarea")){
-									out.print("<textarea onKeyup='resizeTextarea(this,10);limitChars(this,255);' cols='60' name='par_"+sName+"' id='par_"+sName+"' "+(sStoredValue.length()==0?"style='background-color:#ff9999'":"")+">"+sStoredValue+"</textarea>");
+									out.print("<textarea onKeyup='resizeTextarea(this,10);limitChars(this,255);' cols='60' name='par_"+sName+"' id='par_"+sName+"' "+(sStoredValue.length()==0&&sDefaultValue.length()>0?"style='background-color:#ff9999'":"")+">"+sStoredValue+"</textarea>");
 									if(sUnit.length() > 0) out.print(" "+sUnit);
 								}
 								//*** select ***
@@ -190,7 +199,7 @@
 								}
 								//*** text (default) ***
 								else{
-									out.print("<input type='text' class='text' size='60' name='par_"+sName+"' id='par_"+sName+"' value='"+sStoredValue+"' "+(sStoredValue.length()==0?"style='background-color:#ff9999'":"")+"/>");
+									out.print("<input type='text' class='text' size='60' name='par_"+sName+"' id='par_"+sName+"' value='"+sStoredValue+"' "+(sStoredValue.length()==0&&sDefaultValue.length()>0?"style='background:#ff9999'":"")+" "+(sModus.equalsIgnoreCase("readonly")?"readonly":"")+"/>");
 									if(sUnit.length() > 0) out.print(" "+sUnit);
 								}
 								out.print("</td>");
@@ -219,7 +228,14 @@
         <input type="submit" name="save" class="button" value='<%=getTran("web","save",sWebLanguage)%>'/>	
         <input type="button" name="backButton" class="button" value="<%=getTran("web","back",sWebLanguage)%>" onClick="doBack();">
     </center>
+    
+    <%-- LINK TO TOP --%>
+    <span style="width:100%;text-align:right">
+        <a href="#topp" class="topbutton">&nbsp;</a>
+    </span>
 </form>
+
+<a name="bottom"></a>
 
 <script>
 function expandAll(){
