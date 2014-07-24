@@ -74,11 +74,14 @@
 		
 		Element group, parameter, descrEl;
 		Iterator parameters, descrIter;
-		String sGroupClass;
+		String sGroupClass, sGroupShow;
 		int infoIconCount = 0;
 		
 		while(groups.hasNext()){
 			group = (Element)groups.next();
+			
+			sGroupShow = checkString(group.attributeValue("show"));
+			if(sGroupShow.equalsIgnoreCase("false")) continue; // do not show group
 
 			sGroupClass = checkString(group.attributeValue("class"));
 			if(!sGroupClass.equals("advanced") || advanced){
@@ -139,6 +142,9 @@
 							}
 						}
 						
+						//*** unit ***
+						String sUnit = checkString(parameter.attributeValue("unit"));
+												
 						//*** interprete xml to html ***
 						if(!sClass.equalsIgnoreCase("advanced") || advanced){
 							out.print("<tr>");
@@ -148,10 +154,12 @@
 								//*** integer ***
 								if(sType.equalsIgnoreCase("integer")){
 									out.print("<input type='text' name='par_"+sName+"' id='par_"+sName+"' size='10' value='"+MedwanQuery.getInstance().getConfigString(sName,"")+"' onKeyUp=\"if(!isInteger(this))this.value='';\"/>");
+									if(sUnit.length() > 0) out.print(" "+sUnit);
 								}
 								//*** textarea ***
 								else if(sType.equalsIgnoreCase("textarea")){
 									out.print("<textarea onKeyup='resizeTextarea(this,10);limitChars(this,255);' cols='60' name='par_"+sName+"' id='par_"+sName+"'>"+MedwanQuery.getInstance().getConfigString(sName,"")+"</textarea>");
+									if(sUnit.length() > 0) out.print(" "+sUnit);
 								}
 								//*** select ***
 								else if(sType.equalsIgnoreCase("select")){
@@ -163,6 +171,7 @@
 									}
 									
 									out.print("</select>");
+									if(sUnit.length() > 0) out.print(" "+sUnit);
 								}
 								//*** radio ***
 								else if(sType.equalsIgnoreCase("radio")){
@@ -171,10 +180,12 @@
 									for(int n=0; n<options.length; n++){																		
 										out.print("<input type='radio' class='hand' name='par_"+sName+"' id='par_"+sName+"_"+n+"' value='"+options[n]+"' "+(options[n].equalsIgnoreCase(MedwanQuery.getInstance().getConfigString(sName,sDefaultValue))?"checked":"")+"><label class='hand' for='par_"+sName+"_"+n+"'>"+options[n]+"</label>&nbsp;");	
 									}
+									if(sUnit.length() > 0) out.print(" "+sUnit);
 								}
 								//*** text (default) ***
 								else{
 									out.print("<input type='text' class='text' size='60' name='par_"+sName+"' id='par_"+sName+"' value='"+MedwanQuery.getInstance().getConfigString(sName,"")+"'/>");
+									if(sUnit.length() > 0) out.print(" "+sUnit);
 								}
 								out.print("</td>");
 								
