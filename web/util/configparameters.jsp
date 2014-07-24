@@ -123,42 +123,47 @@
 							   sDefaultValue = checkString(parameter.attributeValue("default")),
 							   sClass = checkString(parameter.attributeValue("class")),
 							   sOptions = checkString(parameter.attributeValue("options"));
-						
-						//*** look for description in weblanguage ***
-						descrIter = parameter.elementIterator("description");
-						String sDescription = "";
-						
-						while(descrIter.hasNext()){
-							descrEl = (Element)descrIter.next();
-							if(descrEl.attributeValue("language").equalsIgnoreCase(sWebLanguage)){
-								sDescription = checkString(descrEl.getText());
-								
-								sDescription = sDescription.replaceAll("\r\n",""); // no white lines
-								sDescription = sDescription.replaceAll("\n",""); // no white lines
-								sDescription = sDescription.replaceAll("\t"," "); // tap to space
-								sDescription = sDescription.replaceAll("  "," "); // single spaces only
-								
-								break;
-							}
-						}
-						
-						//*** unit ***
-						String sUnit = checkString(parameter.attributeValue("unit"));
-												
+																		
 						//*** interprete xml to html ***
 						if(!sClass.equalsIgnoreCase("advanced") || advanced){
+							//*** look for description in weblanguage ***
+							descrIter = parameter.elementIterator("description");
+							String sDescription = "";
+							
+							while(descrIter.hasNext()){
+								descrEl = (Element)descrIter.next();
+								if(descrEl.attributeValue("language").equalsIgnoreCase(sWebLanguage)){
+									sDescription = checkString(descrEl.getText());
+									
+									sDescription = sDescription.replaceAll("\r\n",""); // no white lines
+									sDescription = sDescription.replaceAll("\n",""); // no white lines
+									sDescription = sDescription.replaceAll("\t"," "); // tap to space
+									sDescription = sDescription.replaceAll("  "," "); // single spaces only
+									
+									break;
+								}
+							}
+							
+							//*** unit ***
+							String sUnit = checkString(parameter.attributeValue("unit")); // id
+							sUnit = getTran("web",sUnit,sWebLanguage); // label
+							
+							// stored value 
+							String sStoredValue = MedwanQuery.getInstance().getConfigString(sName);
+							
+							//*** generate html ***
 							out.print("<tr>");
 								out.print("<td class='admin'>"+(sClass.equalsIgnoreCase("advanced")?"<font color='#ff6600'>":"")+sName+(sClass.equalsIgnoreCase("advanced")?"</font>":"")+"&nbsp;</td>");	
 								out.print("<td class='admin2'>");
 								
 								//*** integer ***
 								if(sType.equalsIgnoreCase("integer")){
-									out.print("<input type='text' name='par_"+sName+"' id='par_"+sName+"' size='10' value='"+MedwanQuery.getInstance().getConfigString(sName,"")+"' onKeyUp=\"if(!isInteger(this))this.value='';\"/>");
+									out.print("<input type='text' name='par_"+sName+"' id='par_"+sName+"' size='10' value='"+sStoredValue+"' onKeyUp=\"if(!isInteger(this))this.value='';\" "+(sStoredValue.length()==0?"style='background-color:#ff9999'":"")+"/>");
 									if(sUnit.length() > 0) out.print(" "+sUnit);
 								}
 								//*** textarea ***
 								else if(sType.equalsIgnoreCase("textarea")){
-									out.print("<textarea onKeyup='resizeTextarea(this,10);limitChars(this,255);' cols='60' name='par_"+sName+"' id='par_"+sName+"'>"+MedwanQuery.getInstance().getConfigString(sName,"")+"</textarea>");
+									out.print("<textarea onKeyup='resizeTextarea(this,10);limitChars(this,255);' cols='60' name='par_"+sName+"' id='par_"+sName+"' "+(sStoredValue.length()==0?"style='background-color:#ff9999'":"")+">"+sStoredValue+"</textarea>");
 									if(sUnit.length() > 0) out.print(" "+sUnit);
 								}
 								//*** select ***
@@ -178,13 +183,14 @@
 									String[] options = checkString(sOptions).split(";");
 									
 									for(int n=0; n<options.length; n++){																		
-										out.print("<input type='radio' class='hand' name='par_"+sName+"' id='par_"+sName+"_"+n+"' value='"+options[n]+"' "+(options[n].equalsIgnoreCase(MedwanQuery.getInstance().getConfigString(sName,sDefaultValue))?"checked":"")+"><label class='hand' for='par_"+sName+"_"+n+"'>"+options[n]+"</label>&nbsp;");	
+										out.print("<input type='radio' class='hand' name='par_"+sName+"' id='par_"+sName+"_"+n+"' value='"+options[n]+"' "+(options[n].equalsIgnoreCase(MedwanQuery.getInstance().getConfigString(sName,sDefaultValue))?"checked":"")+">"+
+									              "<label class='hand' for='par_"+sName+"_"+n+"'>"+options[n]+"</label>&nbsp;");	
 									}
 									if(sUnit.length() > 0) out.print(" "+sUnit);
 								}
 								//*** text (default) ***
 								else{
-									out.print("<input type='text' class='text' size='60' name='par_"+sName+"' id='par_"+sName+"' value='"+MedwanQuery.getInstance().getConfigString(sName,"")+"'/>");
+									out.print("<input type='text' class='text' size='60' name='par_"+sName+"' id='par_"+sName+"' value='"+sStoredValue+"' "+(sStoredValue.length()==0?"style='background-color:#ff9999'":"")+"/>");
 									if(sUnit.length() > 0) out.print(" "+sUnit);
 								}
 								out.print("</td>");
