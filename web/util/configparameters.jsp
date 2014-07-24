@@ -96,12 +96,25 @@
 					out.print("<tbody id='gr_"+group.attributeValue("id")+"' name='gr_"+group.attributeValue("id")+"'>");
 					
 					parameters = group.elementIterator("parameter");
+
+					//*** order by parameter-name ***
+					Hashtable parameterHash = new Hashtable();
+					String sName;
 					while(parameters.hasNext()){
-						parameter = (Element)parameters.next();
-						
-						String sName = checkString(parameter.attributeValue("name"));
-						
+						parameter = (Element)parameters.next();						
+						sName = checkString(parameter.attributeValue("name"));
 						if(sName.length()==0) continue; // do not display empty parameters
+						parameterHash.put(sName,parameter);
+					}
+					
+					Vector parameterVector = new Vector(parameterHash.keySet());
+					Collections.sort(parameterVector);
+						
+					//*** display parameters ***
+					parameters = parameterVector.iterator();
+					while(parameters.hasNext()){
+						sName = (String)parameters.next();												
+						parameter = (Element)parameterHash.get(sName);
 						
 						String sType = checkString(parameter.attributeValue("type")),
 							   sDefaultValue = checkString(parameter.attributeValue("default")),
@@ -126,6 +139,7 @@
 							}
 						}
 						
+						//*** interprete xml to html ***
 						if(!sClass.equalsIgnoreCase("advanced") || advanced){
 							out.print("<tr>");
 								out.print("<td class='admin'>"+(sClass.equalsIgnoreCase("advanced")?"<font color='#ff6600'>":"")+sName+(sClass.equalsIgnoreCase("advanced")?"</font>":"")+"&nbsp;</td>");	
