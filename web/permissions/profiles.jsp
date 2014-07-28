@@ -6,12 +6,12 @@
     //--- WRITE PERMISSION ------------------------------------------------------------------------
     public String writePermission(String sLabel, String sScreenID, String sUserProfileID, int idx, int categoryIdx){
         String sSelect = "", sAdd = "", sEdit = "", sDelete = "", sPermission;
-        
+
 	    if(sUserProfileID.trim().length() > 0){
-	        Vector vPermissions = UserProfilePermission.getActiveUserProfilePermissions(sUserProfileID, sScreenID.toLowerCase());
+	        Vector vPermissions = UserProfilePermission.getActiveUserProfilePermissions(sUserProfileID,sScreenID.toLowerCase());
 	        Iterator iter = vPermissions.iterator();
 	        while(iter.hasNext()){
-	            sPermission = (String) iter.next();
+	            sPermission = (String)iter.next();
 	                 if(sPermission.equalsIgnoreCase("select")) sSelect = "checked";
 	            else if(sPermission.equalsIgnoreCase("add")) sAdd = "checked";
 	            else if(sPermission.equalsIgnoreCase("edit")) sEdit = "checked";
@@ -23,11 +23,11 @@
 	            "<td></td>"+
 	            "<td width='25%'><b>"+sLabel+"</b></td>"+
 	            "<td width='25%'>"+sScreenID+"</td>"+
-	            "<td><input type='checkbox' onclick=\"checkRow("+categoryIdx+",'"+sScreenID+"',this.checked);\" name='cat"+categoryIdx+"$"+sScreenID+"'></td>"+
-	            "<td><input type='checkbox' onClick=\"uncheckRowSelector("+categoryIdx+",'"+sScreenID+"');applyPolicy1(this,"+categoryIdx+",'"+sScreenID+"');\" name='cat"+categoryIdx+"$"+sScreenID+".Select' "+sSelect+"></td>"+
-	            "<td><input type='checkbox' onClick=\"uncheckRowSelector("+categoryIdx+",'"+sScreenID+"');applyPolicy2(this,"+categoryIdx+",'"+sScreenID+"');\" name='cat"+categoryIdx+"$"+sScreenID+".Add' "+sAdd+"></td>"+
-	            "<td><input type='checkbox' onClick=\"uncheckRowSelector("+categoryIdx+",'"+sScreenID+"');applyPolicy2(this,"+categoryIdx+",'"+sScreenID+"');\" name='cat"+categoryIdx+"$"+sScreenID+".Edit' "+sEdit+"></td>"+
-	            "<td colspan='2'><input type='checkbox' onClick=\"uncheckRowSelector("+categoryIdx+",'"+sScreenID+"');applyPolicy2(this,"+categoryIdx+",'"+sScreenID+"');\" name='cat"+categoryIdx+"$"+sScreenID+".Delete' "+sDelete+"></td>"+
+	            "<td><img src='"+sCONTEXTPATH+"/_img/uncheck.gif' name='cat"+categoryIdx+"$"+sScreenID+"' class='link' onclick='checkRow(\""+categoryIdx+"\",\""+sScreenID+"\");'></td>"+
+	    	    "<td><img src='"+sCONTEXTPATH+"/_img/"+(sSelect.equals("checked")?"check.gif":"uncheck.gif")+"' name='cat"+categoryIdx+"$"+sScreenID+".Select' class='link' onclick='uncheckRowSelector(\""+categoryIdx+"\",\""+sScreenID+"\");applyPolicy1(this,"+categoryIdx+",\""+sScreenID+"\");'></td>"+
+	    	    "<td><img src='"+sCONTEXTPATH+"/_img/"+(sAdd.equals("checked")?"check.gif":"uncheck.gif")+"' name='cat"+categoryIdx+"$"+sScreenID+".Add' class='link' onclick='uncheckRowSelector(\""+categoryIdx+"\",\""+sScreenID+"\");applyPolicy2(this,"+categoryIdx+",\""+sScreenID+"\");'></td>"+
+	    	    "<td><img src='"+sCONTEXTPATH+"/_img/"+(sEdit.equals("checked")?"check.gif":"uncheck.gif")+"' name='cat"+categoryIdx+"$"+sScreenID+".Edit' class='link' onclick='uncheckRowSelector(\""+categoryIdx+"\",\""+sScreenID+"\");applyPolicy2(this,"+categoryIdx+",\""+sScreenID+"\");'></td>"+
+	    	    "<td colspan='2'><img src='"+sCONTEXTPATH+"/_img/"+(sDelete.equals("checked")?"check.gif":"uncheck.gif")+"' name='cat"+categoryIdx+"$"+sScreenID+".Delete' class='link' onclick='uncheckRowSelector(\""+categoryIdx+"\",\""+sScreenID+"\");applyPolicy2(this,"+categoryIdx+",\""+sScreenID+"\");'></td>"+
 	           "</tr>";
 	}
 
@@ -43,7 +43,7 @@
                   "</td>"+
                   "<td>"+sHeader+"</td>"+
                   "<td>Permission</td>"+
-                "<td width='8%'>&nbsp;<a href='javascript:togglePermissions("+headerIdx+");'>"+getTran("web","all",sWebLanguage)+"</a></td>"+
+                "<td width='8%'>&nbsp;<a href='javascript:selectPermissions("+headerIdx+");'>"+getTran("web","all",sWebLanguage)+"</a></td>"+
                 "<td width='8%'>&nbsp;"+getTran("web","view",sWebLanguage)+"</td>"+
                 "<td width='8%'>&nbsp;"+getTran("web","add",sWebLanguage)+"</td>"+
                 "<td width='8%'>&nbsp;"+getTran("web","edit",sWebLanguage)+"</td>"+
@@ -53,11 +53,13 @@
                "<tbody id='Input_"+headerIdx+"' name='Input_"+headerIdx+"'>";
     }
     
+    //--- WRITE FOOTER ----------------------------------------------------------------------------
     public String writeFooter(){
         return " </tbody>"+
                "</table>";
     }
     
+    //--- DISPLAY PERMISSIONS ---------------------------------------------------------------------
     private String displayPermissions(String categoryName, Hashtable permissions, String sUserProfileID,
                                       int categoryIdx, boolean sortPermissions, boolean displaySection, 
                                       String sWebLanguage){
@@ -85,15 +87,19 @@
     String sProfiles = "", sTmpProfileID, sTmpProfileName, sUserProfileName = "",
            sUserProfileID = "", sDefaultPage = "";
     String sSearchProfileID = checkString(request.getParameter("SearchUserprofile"));
+    Debug.println("sSearchProfileID : "+sSearchProfileID); 
 
-    //*** SAVE ***
-    if(request.getParameter("saveButton")!=null){
+    String sAction = checkString(request.getParameter("Action"));
+    Debug.println("sAction : "+sAction); 
+    
+    //*** SAVE ************************************************************************************
+    if(sAction.equals("save")){
         sUserProfileID = checkString(request.getParameter("UserProfileID"));
         sUserProfileName = checkString(request.getParameter("UserProfileName"));
         UserProfile userProfile;
         UserProfilePermission userProfilePermission;
-		if(sUserProfileName.length()>0){
-
+        
+		if(sUserProfileName.length() > 0){
 	        //*** INSERT PROFILE ***
 	        if(sUserProfileID.length()==0){
 	        	//First find out if the user profile name does not exist yet
@@ -130,52 +136,55 @@
 	        }
 	        
 	        sSearchProfileID = sUserProfileID;
+
+	        //*** REGISTER PERMISSIONS ***
 	        String sTmpName, sTmpValue, sTmpScreenID, sTmpPermission;
-	        Enumeration e = request.getParameterNames();
-	        while(e.hasMoreElements()){
-	            sTmpName = (String)e.nextElement();
-	            
-	            if(sTmpName.toLowerCase().endsWith(".select") ||
-	               sTmpName.toLowerCase().endsWith(".add") ||
-	               sTmpName.toLowerCase().endsWith(".edit") ||
-	               sTmpName.toLowerCase().endsWith(".delete")){
-	                sTmpScreenID = sTmpName.substring(sTmpName.indexOf("$")+1,sTmpName.lastIndexOf(".")).toLowerCase();
-	                sTmpPermission = sTmpName.substring(sTmpName.lastIndexOf(".")+1).toLowerCase();
-	                
-	                userProfilePermission = new UserProfilePermission();
-	                userProfilePermission.setUserprofileid(Integer.parseInt(sUserProfileID));
-	                userProfilePermission.setScreenid(sTmpScreenID);
-	                userProfilePermission.setPermission(sTmpPermission);
-	                int updatedRows = userProfilePermission.setActiveProfilePermission();
+	        String sCheckedPermissions = checkString(request.getParameter("checkedPermissions"));
+	        String[] checkedPermissions = sCheckedPermissions.split(";");
+	        Debug.println("checkedPermissions : "+checkedPermissions.length);
+	        
+	        for(int i=0; i<checkedPermissions.length; i++){
+	            if(checkedPermissions[i].toLowerCase().endsWith(".select") ||
+	 	           checkedPermissions[i].toLowerCase().endsWith(".add") ||
+	 	           checkedPermissions[i].toLowerCase().endsWith(".edit") ||
+	 	           checkedPermissions[i].toLowerCase().endsWith(".delete")){	        	
+		        	sTmpScreenID = checkedPermissions[i].split("\\$")[1];
+		        	sTmpScreenID = sTmpScreenID.substring(0,sTmpScreenID.lastIndexOf(".")).toLowerCase();
+		        	sTmpPermission = checkedPermissions[i].substring(checkedPermissions[i].lastIndexOf(".")+1).toLowerCase();
+		        		            	        	            
+		            userProfilePermission = new UserProfilePermission();
+		            userProfilePermission.setUserprofileid(Integer.parseInt(sUserProfileID));
+		            userProfilePermission.setScreenid(sTmpScreenID);
+		            userProfilePermission.setPermission(sTmpPermission);
+		            int updatedRows = userProfilePermission.setActiveProfilePermission();
 	
-	                // insert if not found
-	                if(updatedRows==0){
-	                    userProfilePermission.setUpdatetime(getSQLTime());
-	                    userProfilePermission.insert();
-	                }
-	            }
-	            // default page
-	            else if(sTmpName.equalsIgnoreCase("defaultpage")){
-	                sTmpValue = checkString(request.getParameter(sTmpName));
-	                if(sTmpValue.length() > 0){
-	                    userProfilePermission = new UserProfilePermission();
-	                    userProfilePermission.setUserprofileid(Integer.parseInt(sUserProfileID));
-	                    userProfilePermission.setScreenid("defaultpage");
-	                    userProfilePermission.deleteByScreenAndId();
-	                    userProfilePermission.setPermission(sTmpValue.toLowerCase());
-	                    userProfilePermission.setUpdatetime(getSQLTime());
-	                    userProfilePermission.insert();
-	                }
+		            // insert if not found
+		            if(updatedRows==0){
+		                userProfilePermission.setUpdatetime(getSQLTime());
+		                userProfilePermission.insert();
+		            }
 	            }
 	        }
-	
+	        		
+            // default page
+            String sDefaultpage = checkString(request.getParameter("defaultpage"));
+            if(sDefaultpage.length() > 0){
+                userProfilePermission = new UserProfilePermission();
+                userProfilePermission.setUserprofileid(Integer.parseInt(sUserProfileID));
+                userProfilePermission.setScreenid("defaultpage");
+                userProfilePermission.deleteByScreenAndId();
+                userProfilePermission.setPermission(sDefaultpage.toLowerCase());
+                userProfilePermission.setUpdatetime(getSQLTime());
+                userProfilePermission.insert();
+            }
+	         
 	        // reload permissions in user-object
 	        activeUser.initialize(Integer.parseInt(activeUser.userid));
 	        session.setAttribute("activeUser",activeUser);
 		}
     }
+    //*** DELETE PROFILE **************************************************************************
     else{
-        //*** DELETE USER PERMISSION ***
         if(request.getParameter("DeletePermissionID")!=null){
             if(UserProfile.removeUserPermissionByPermissionId(request.getParameter("DeletePermissionID"))==1){
                 out.print("<script>document.location.href = \""+sCONTEXTPATH+"/main.do?Page=permissions/profiles.jsp&ts="+getTs()+"\";</script>");
@@ -216,6 +225,7 @@
     }
 %>
 <script>
+  <%-- TOGGLE SECION --%>
   function toggleSection(sectionIdx){
     if($("cat"+sectionIdx+"_selected")){
       var sectionDisplayed = (document.getElementById("cat"+sectionIdx+"_selected").value=="1");
@@ -232,6 +242,9 @@
 <a name="topp"></a>
 
 <form name="profileForm" id="profileForm" method="post" onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
+    <input type="hidden" name="checkedPermissions" value="">
+    <input type="hidden" name="Action" value="">
+    
     <%=writeTableHeader("Web.UserProfile","UserProfile",sWebLanguage," doBack();")%>
     
     <table width="100%" class="menu" cellpadding="1" cellspacing="0">
@@ -320,15 +333,16 @@
         </table>
     </div>
     
+    <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>
-	    <input type="submit" class="button" name="saveButton" id="saveButton" value="<%=getTran("Web","Save",sWebLanguage)%>">&nbsp;
+	    <input type="button" class="button" name="saveButton" id="saveButton" value="<%=getTran("Web","Save",sWebLanguage)%>" onClick="doSubmit();">&nbsp;
 	    <input type="button" class="button" name="printButton" value="<%=getTran("Web","print",sWebLanguage)%>" onclick="doPrint();">&nbsp;
-	    <input type="button" class="button" name="backButton" Value='<%=getTran("Web","Back",sWebLanguage)%>' OnClick="doBack();">
 	    <%
 	    	if(sUserProfileID.trim().length() > 0){
-	    	    %><input type="button" class="button" name="deleteButton" value="<%=getTran("Web","delete",sWebLanguage)%>" onclick="doDelete('<%=sUserProfileID%>','<%=sUserProfileName%>');"><%
+	    	    %><input type="button" class="button" name="deleteButton" value="<%=getTran("Web","delete",sWebLanguage)%>" onclick="doDelete('<%=sUserProfileID%>','<%=sUserProfileName%>');">&nbsp;<%
 	    	}
 	    %>
+	    <input type="button" class="button" name="backButton" Value='<%=getTran("Web","Back",sWebLanguage)%>' OnClick="doBack();">
     <%=ScreenHelper.alignButtonsStop()%>
     
     <input type="hidden" name="UserProfileID" value="<%=sUserProfileID%>">
@@ -340,6 +354,25 @@
   <%-- DO PRINT --%>
   function doPrint(){
     openPopup("/_common/print/print.jsp&Field=printtable&ts=<%=getTs()%>");
+  }
+  
+  <%-- DO SUBMIT --%>
+  function doSubmit(){
+	concatPermissions();
+	profileForm.Action.value = "save";
+	profileForm.submit();
+  }
+  
+  <%-- CONCAT PERMISSIONS --%>
+  function concatPermissions(){
+    var imgs = document.getElementsByTagName("img");
+    for(var i=0; i<imgs.length; i++){
+      if(imgs[i].name!=null && imgs[i].name.indexOf("cat")==0){
+    	if(!imgs[i].src.endsWith("uncheck.gif")){
+          profileForm.checkedPermissions.value+= imgs[i].name+";";
+    	}
+      }
+    }
   }
     
   <%-- DO BACK --%>
@@ -358,54 +391,72 @@
       }
     }
     
-    for(var i=0; i<profileForm.elements.length; i++){
-      if(profileForm.elements[i].type=="checkbox"){
-        profileForm.elements[i].checked = setchecked;
+    var imgs = document.getElementsByTagName("img");
+    for(var i=0; i<imgs.length; i++){
+      if(imgs[i].name!=null && imgs[i].name.indexOf("cat")==0){
+    	imgs[i].src = (setchecked==true?"<%=sCONTEXTPATH%>/_img/check.gif":"<%=sCONTEXTPATH%>/_img/uncheck.gif");
       }
     }
   }
   
   <%-- CHECK ROW --%>
-  function checkRow(categoryIdx,screenID,setChecked){
-    eval("document.getElementsByName('cat"+categoryIdx+"$"+screenID+".Select')[0]").checked = setChecked;
-    eval("document.getElementsByName('cat"+categoryIdx+"$"+screenID+".Add')[0]").checked = setChecked;
-    eval("document.getElementsByName('cat"+categoryIdx+"$"+screenID+".Edit')[0]").checked = setChecked;
-    eval("document.getElementsByName('cat"+categoryIdx+"$"+screenID+".Delete')[0]").checked = setChecked;
+  function checkRow(categoryIdx,screenID){
+    var leaderCheck = eval("document.getElementsByName('cat"+categoryIdx+"$"+screenID+"')[0]");
+    var leaderChecked = true;
+    
+    if(leaderCheck.src.endsWith("uncheck.gif")){
+      leaderChecked = false;
+      leaderCheck.src = "<%=sCONTEXTPATH%>/_img/check.gif";
+    }
+    else{
+      leaderCheck.src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
+    }
+    
+    eval("document.getElementsByName('cat"+categoryIdx+"$"+screenID+".Select')[0]").src = leaderCheck.src;
+    eval("document.getElementsByName('cat"+categoryIdx+"$"+screenID+".Add')[0]").src = leaderCheck.src;
+    eval("document.getElementsByName('cat"+categoryIdx+"$"+screenID+".Edit')[0]").src = leaderCheck.src;
+    eval("document.getElementsByName('cat"+categoryIdx+"$"+screenID+".Delete')[0]").src = leaderCheck.src;
   }
   
   <%-- UNCHECK ROW SELECTOR --%>
   function uncheckRowSelector(categoryIdx,screenID){
-    eval("document.getElementsByName('cat"+categoryIdx+"$"+screenID+"')[0]").checked = false;
+    var leaderCheck = eval("document.getElementsByName('cat"+categoryIdx+"$"+screenID+"')[0]");
+    leaderCheck.src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
   }
   
-  <%-- TOGGLE PERMISSIONS --%>
-  function togglePermissions(headerIdx){
-    var isChecked = (document.getElementsByName('cat'+headerIdx+'_selected')[0].value==1);
-    if(isChecked) document.getElementsByName('cat'+headerIdx+'_selected')[0].value = 0;
-    else          document.getElementsByName('cat'+headerIdx+'_selected')[0].value = 1;
- 
-    for(var i=0; i<profileForm.elements.length; i++){
-      if(profileForm.elements[i].type=="checkbox"){
-        if(profileForm.elements[i].name.indexOf("cat"+headerIdx+"$")==0){
-          profileForm.elements[i].checked = isChecked;
+  <%-- SELECT PERMISSIONS --%>
+  function selectPermissions(headerIdx){
+    var imgs = document.getElementsByTagName("img");
+    for(var i=0; i<imgs.length; i++){
+      if(imgs[i].name!=null && imgs[i].name.indexOf("cat")==0){
+        if(imgs[i].name.indexOf("cat"+headerIdx+"$")==0){
+          imgs[i].src = "<%=sCONTEXTPATH%>/_img/check.gif";
         }
       }
     }
   }
   
   <%-- APPLY POLICY 1 --%>
-  function applyPolicy1(checkBox,categoryIdx,screenId){
-    if(!checkBox.checked){
-      document.getElementsByName("cat"+categoryIdx+"$"+screenId+".Add")[0].checked = false;
-      document.getElementsByName("cat"+categoryIdx+"$"+screenId+".Edit")[0].checked = false;
-      document.getElementsByName("cat"+categoryIdx+"$"+screenId+".Delete")[0].checked = false;
+  function applyPolicy1(checkBoxImg,categoryIdx,screenId){
+    if(checkBoxImg.src.endsWith("uncheck.gif")){
+    	checkBoxImg.src = "<%=sCONTEXTPATH%>/_img/check.gif";
+    }
+    else{
+    	checkBoxImg.src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
+      
+      document.getElementsByName("cat"+categoryIdx+"$"+screenId+".Add")[0].src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
+      document.getElementsByName("cat"+categoryIdx+"$"+screenId+".Edit")[0].src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
+      document.getElementsByName("cat"+categoryIdx+"$"+screenId+".Delete")[0].src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
     }
   }
 
   <%-- APPLY POLICY 2 --%>
-  function applyPolicy2(checkBox,categoryIdx,screenId){
+  function applyPolicy2(checkBoxImg,categoryIdx,screenId){
+    if(checkBoxImg.src.endsWith("uncheck.gif")) checkBoxImg.src = "<%=sCONTEXTPATH%>/_img/check.gif";
+    else                                        checkBoxImg.src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
+	    
     var selectCB = document.getElementsByName("cat"+categoryIdx+"$"+screenId+".Select")[0];
-    if(checkBox.checked) selectCB.checked = true;
+    if(checkBoxImg.src.endsWith("check.gif")) selectCB.src = "<%=sCONTEXTPATH%>/_img/check.gif";
   }
     
   <%-- DO DELETE --%>
