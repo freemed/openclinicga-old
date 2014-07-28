@@ -115,6 +115,7 @@
     %>
   }
 
+  <%-- DO BACK --%>
   function doBack(){
     window.location.href = '<%=sCONTEXTPATH%>/main.do?Page=curative/index.jsp&ts=<%=getTs()%>';
   }
