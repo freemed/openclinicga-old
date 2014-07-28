@@ -27,17 +27,18 @@
                 sFileName = file.getFileName();
                 file.setFileName(sFileName);
                 Debug.println("sFileName : "+sFileName);
-                Debug.println("--> fileSize : "+file.getFileSize()); 
+                Debug.println("--> fileSize : "+file.getFileSize()+" bytes"); 
                 
                 upBean.setFolderstore(sFolderStore);
                 upBean.setParsertmpdir(application.getRealPath("/")+"/"+MedwanQuery.getInstance().getConfigString("tempdir","/tmp/"));
                 upBean.store(mrequest, "filename");
 
                 sDocumentId = be.openclinic.healthrecord.Document.store(sFileName,activeUser.userid,file.getData());
+                Debug.println("--> sDocumentId : "+sDocumentId); 
             }
         }
         catch(Exception e){
-            e.printStackTrace();
+        	Debug.printStackTrace(e);
         }
     }
 %>
@@ -48,8 +49,8 @@
       }
       else{
           %>
-    	    window.opener.document.getElementsByName('divDocuments')[0].innerHTML += '<a href="#" onclick="openDocument(\'<%=sDocumentId%>\')"><%=sFileName%></a><br>';
-    	    window.opener.document.getElementsByName('EditDocument')[0].value += ';<%=sDocumentId%>';
+    	    window.opener.document.getElementById('divDocuments').innerHTML += "<a href='#' onclick='openDocument(\"<%=sDocumentId%>\");'><%=sFileName%></a><br>";
+    	    window.opener.document.getElementById('EditDocument').value += ";<%=sDocumentId%>";
 	      <%
       }
   %>
