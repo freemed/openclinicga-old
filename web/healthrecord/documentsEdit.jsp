@@ -3,6 +3,10 @@
 <%=checkPermission("occup.documents","select",activeUser)%>
 <%=sJSPROTOTYPE%>
 
+<script>
+  var docNames = new Array();
+</script>
+
 <form name="transactionForm" id="transactionForm" method="POST" action="<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>" onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 	<%=checkPrestationToday(activePatient.personid,false,activeUser,(TransactionVO)transaction) %>
@@ -52,7 +56,11 @@
 	
 	                    for(int i=0;i<aDocuments.length;i++){
 	                        if(checkString(aDocuments[i]).length()>0){
-	                            %><a href="#" onclick="openDocument('<%=aDocuments[i]%>')"><%=be.openclinic.healthrecord.Document.getName(aDocuments[i])%></a><br><%
+	                        	String sDocName = be.openclinic.healthrecord.Document.getName(aDocuments[i]);
+	                        	
+	                            %><img src="<%=sCONTEXTPATH%>/_img/icon_delete.gif" class="link" onClick="deleteDocument('<%=aDocuments[i]%>');" title="<%=getTranNoLink("web","delete",sWebLanguage)%>">
+	                              <a href="#" onclick="openDocument('<%=aDocuments[i]%>')"><%=sDocName%></a><br>
+	                              <script>docNames[docNames.length] = "<%=sDocName%>";</script><%
 	                        }
 	                    }
 	                %>
@@ -88,7 +96,7 @@
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","doc_upload",sWebLanguage)%></td>
             <td class="admin2">
-                <input class='text' name="filename" type="file" title="" size='<%=sTextWidth%>' onchange="uploadFile()"/>
+                <input class="text" name="filename" type="file" title="" size='<%=sTextWidth%>' onchange="uploadFile()"/>
             </td>
         </tr>
     </table>
@@ -135,6 +143,58 @@
         $('divMessage').innerHTML = "Error in function openDocument() => "+resp.responseText;
       }
     });
+  }
+  
+  <%-- DELETE DOCUMENT --%>
+  function deleteDocument(sId){	
+    if(yesnoDialog("Web","areYouSureToDelete")){
+	  var remainingDocIds = "";
+	  var deletedIdx = -1;
+	  
+      <%-- 1 : remove id from hidden value --%>
+	  var docIds = document.getElementById("EditDocument").value;
+	  docIds = docIds.split(";");
+	  for(var i=0; i<docIds.length; i++){
+	    if(docIds[i]!=sId){
+		  remainingDocIds+= docIds[i]+";";   
+	    }	
+	    else{
+	      deletedIdx = i;
+	    }
+ 	  }
+	  
+	  if(remainingDocIds.endsWith(";")){
+		remainingDocIds = remainingDocIds.substr(0,remainingDocIds.length-1); 
+	  }
+	  
+	  <%-- 2 : maintain array of names --%>
+	  document.getElementById("EditDocument").value = remainingDocIds;
+	  docNames.splice(deletedIdx,1);
+
+	  <%-- 3 : rebuild list of displayed documents --%>
+	  document.getElementById("divDocuments").innerHTML = "";
+
+	  docIds = document.getElementById("EditDocument").value;
+	  docIds = docIds.split(";");
+	  for(var i=0; i<docIds.length; i++){
+        if(docIds[i].length > 0){
+          <%-- delete-icon --%>
+          <%
+              if(activeUser.getAccessRight("occup.documents.delete")){
+	              %>document.getElementById("divDocuments").innerHTML+= "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' class='link' onClick='deleteDocument(\""+docIds[i]+"\");' title='<%=getTranNoLink("web","delete",sWebLanguage)%>'>&nbsp;";<%
+              }
+          %>
+	      
+	      <%-- name of document --%>
+	      document.getElementById("divDocuments").innerHTML+= "<a href='#' onclick='openDocument(\""+docIds[i]+"\")'>"+docNames[i]+"</a><br>";
+        }
+	  }
+    }
+  }
+  
+  <%-- ADD DOC NAME --%>
+  function addDocName(name){
+	docNames[docNames.length] = name;
   }
 </script>
 
