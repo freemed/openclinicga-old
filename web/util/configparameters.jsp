@@ -72,20 +72,21 @@
 		</tr>
 		
 	<%
+	    boolean advanced = checkString(request.getParameter("advanced")).equals("1");
+	
 		SAXReader reader = new SAXReader(false);
 		Document document = reader.read(new URL(MedwanQuery.getInstance().getConfigString("templateSource") + "/configparameters.xml"));
 		Element root = document.getRootElement();
-		Iterator groups = root.elementIterator("parametergroup");
-
-		boolean advanced = checkString(request.getParameter("advanced")).equals("1");
 		
 		Element group, parameter, descrEl;
 		Iterator parameters, descrIter;
 		String sGroupClass, sGroupShow;
 		int infoIconCount = 0;
-		
+
+		Iterator groups = root.elementIterator("parametergroup");
 		while(groups.hasNext()){
 			group = (Element)groups.next();
+			Debug.println("\n"+checkString("############# GROUP : "+group.attributeValue("name"))+" #############");
 			
 			sGroupShow = checkString(group.attributeValue("show"));
 			if(sGroupShow.equalsIgnoreCase("false")) continue; // do not show group
@@ -125,6 +126,7 @@
 					while(parameters.hasNext()){
 						sName = (String)parameters.next();												
 						parameter = (Element)parameterHash.get(sName);
+						Debug.println(" "+sName);
 						
 						String sType = checkString(parameter.attributeValue("type")),
 							   sDefaultValue = checkString(parameter.attributeValue("default")),
@@ -135,19 +137,27 @@
 						if(!sClass.equalsIgnoreCase("advanced") || advanced){
 							//*** look for description in weblanguage ***
 							descrIter = parameter.elementIterator("description");
-							String sDescription = "";
+							String sDescription = "", sDescrLang;
 							
 							while(descrIter.hasNext()){
 								descrEl = (Element)descrIter.next();
-								if(descrEl.attributeValue("language").equalsIgnoreCase(sWebLanguage)){
-									sDescription = checkString(descrEl.getText());
-									
-									sDescription = sDescription.replaceAll("\r\n",""); // no white lines
-									sDescription = sDescription.replaceAll("\n",""); // no white lines
-									sDescription = sDescription.replaceAll("\t"," "); // tap to space
-									sDescription = sDescription.replaceAll("  "," "); // single spaces only
-									
-									break;
+								sDescrLang = checkString(descrEl.attributeValue("language"));
+								
+								if(sDescrLang.length() > 0){
+									if(sDescrLang.equalsIgnoreCase(sWebLanguage)){
+										sDescription = checkString(descrEl.getText());
+										
+										sDescription = sDescription.replaceAll("\r\n",""); // no white lines
+										sDescription = sDescription.replaceAll("\n",""); // no white lines
+										sDescription = sDescription.replaceAll("\t"," "); // tap to space
+										sDescription = sDescription.replaceAll("  "," "); // single spaces only
+										sDescription = sDescription.replaceAll("  "," "); // single spaces only (second time)
+										
+										break;
+									}
+								}
+								else{
+									Debug.println("--- WARNING : Tag 'description' without attribute 'language'. ("+sName+")");
 								}
 							}
 							
