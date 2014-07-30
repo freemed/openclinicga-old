@@ -17,25 +17,16 @@
 		<parameter name="servicesXMLFile" default="services.xml">
 		    <description language="en">Xml-file specifying services to group searched users in</description>
 		</parameter>
-		<parameter name="query.statistics.hospital.overheadcosts" default="9885674">
+		<parameter name="printableDocumentExtensions" default="doc,pdf,txt,rtf" class="advanced">
 		    <description language="en"></description>
-		</parameter>
-		<parameter name="productstockoperationdocumentmandatory" default="1" type="radio" options="0;1">
-		    <description language="en">Wether a document should be specified for this stock-operation</description>
-		</parameter>
-		<parameter name="printableDocumentExtensions" default="doc,pdf,txt,rtf">
-		    <description language="en"></description>
-		</parameter>
-		<parameter name="priceFormatInsurar" default="#">
-		    <description language="en">The format used in pdfs about insurance</description>
 		</parameter>		
 		<parameter name="printPDFreceiptenabled" default="0" type="radio" options="0;1">
 		    <description language="en">Wether to display a button to print a receipt-pdf</description>
 		</parameter>
 		<parameter name="patientMedicationDeliveryHistoryDuration" default="14" type="integer" unit="days">
-		    <description language="en">The default length of the medication delivery history for a dossier</description>
+		    <description language="en">The length of the medication-delivery history for a dossier</description>
 		</parameter>
-		<parameter name="patientSourceDestinationType" default="">
+		<parameter name="patientSourceDestinationType" default="patient" class="advanced">
 		    <description language="en"></description>
 		</parameter>
 		<parameter name="patientLabelHeight" default="890" type="integer" unit="pixels">
@@ -44,22 +35,8 @@
 		<parameter name="patientLabelWidth" default="360" type="integer" unit="pixels">
 		    <description language="en"></description>
 		</parameter>
-		<parameter name="patientinvoicefootertop" default="0" type="radio" options="0;1">
-		    <description language="en">When activated, space is made on pdfs to place a footer</description>
-		</parameter>
-		<parameter name="patientInvoiceClosedStatus" default="closed">
-		    <description language="en">Status assigned to a fullfilled invoice (balance = 0)</description>
-		</parameter>
 		<parameter name="patientCardHeight" default="860" type="integer" unit="pixels"/>
 		<parameter name="patientCardWidth" default="540" type="integer" unit="pixels"/>
-		<parameter name="openclinicdbName" default="">
-		    <description language="en">The real name of the "occup"-database used;
-		    when reffered to in a configged query, the placeholder is '@openclinic@'</description>
-		</parameter>
-		<parameter name="objectCacheSize" default="10000" type="integer" class="advanced">
-		    <description language="en">Often used objects are cached, to increase general system performance;
-		    this setting limits the size of the cache</description>
-		</parameter>
 		<parameter name="numberOfTransToListInSummary" default="25" type="integer">
 		    <description language="en">How many performed examinations should be shown in the summary of a dossier</description>
 		</parameter>
@@ -80,9 +57,6 @@
 		</parameter>
 		<parameter name="MinimumTimeoutInSeconds" default="" type="integer" units="milliseconds">
 		    <description language="en">Each user can define the time-out of his session; it must be at least x</description>
-		</parameter>
-		<parameter name="MFPextendedInformation" default="0" type="radio" options="0;1">
-		    <description language="en">When activated extra fields appear when editing insurances</description>
 		</parameter>
 		<parameter name="MFP" default="$$$">
 		    <description language="en">[serverid].[objectid]</description>
@@ -107,12 +81,6 @@
 		<parameter name="showLinkNoTranslation" default="on" type="radio" options="on;off">
 		    <description language="en">Wether to show a link to add a translation when a translation is missing</description>
 		</parameter>
-		<parameter name="showProductCategory" default="1" type="radio" options="0;1">
-		    <description language="en">Wether to show the products' category (subgroup) when managing products</description>
-		</parameter>
-		<parameter name="showProductGroup" default="1">
-		    <description language="en">Wether to show the products' group when managing products</description>
-		</parameter>
 		<parameter name="showServiceInPatientList" default="on" type="radio" options="on;off">
 		    <description language="en">Wether to show the patients' service and bed when searching patients</description>
 		</parameter>
@@ -136,12 +104,6 @@
 		</parameter>
 		<parameter name="insulineUnit" default="lU">
 		    <description language="en">Unit for insuline-values displayed in examination and its pdf</description>
-		</parameter>
-		<parameter name="JavaPOSPrinter" default="Star TSP100 Cutter (TSP143)_1">
-		    <description language="en">System name of the POS printer (Point Of Service)</description>
-		</parameter>
-		<parameter name="javaPOSenabled" default="0" type="radio" options="0;1">
-		    <description language="en">When activated a button to print the receipt is shown</description>
 		</parameter>
 		<parameter name="invalidLabelKeyChars" default="/:">
 		    <description language="en">Some characters are not allowed in labels; no separator</description>
@@ -215,12 +177,6 @@
 		<parameter name="ftpTimeOut" default="1000" type="integer" unit="milliseconds">
 		    <description language="en">Maximum response time for ftp-server to react</description>
 		</parameter>
-		<parameter name="assumeStock" default="0" type="radio" options="0;1">
-	        <description language="en">The product will be considered "in stock", even if it is not in stock</description>
-		</parameter>
-		<parameter name="authorizeCancellationOfOpenInvoices" default="1" type="radio" options="0;1">
-		    <description language="en">Wether to display (1) or not display (0) a button to authorise cancellation of open invoices</description>
-		</parameter>
 		<parameter name="canmodifyexistingcoreadmindata" default="1" type="radio" options="0;1">
 		    <description language="en">Wether the user can alter the key-values which specify
 		    a dossier : lastname, firstname and date of birth</description>
@@ -230,12 +186,6 @@
 		</parameter>	
 		<parameter name="cardvalidityperiod" default="5" type="integer" unit="years">
 		    <description language="en">The validity of the printed card</description>
-		</parameter>
-		<parameter name="defaultInsuranceCreditType" default="insurance.payment">
-		    <description language="en">The default type of credit</description>
-		</parameter>
-		<parameter name="defaultInvoiceModel" default="">
-		    <description language="en">ctams, mfp, rama, hmk, ambusa, ...</description>
 		</parameter>
 		<parameter name="defaultMedicationDeliveryType" default="b1" type="select" optoins="b1;b2">
 		    <description language="en">With (b1) or without (b2) prescription</description>
@@ -248,9 +198,6 @@
 		</parameter>
 		<parameter name="enableBurundi" default="0" type="radio" options="0;1"/>
 		<parameter name="enableCMCK" default="0" type="radio" options="0;1"/>
-		<parameter name="enableComplementaryInsurance2" default="0" type="radio" options="0;1">
-		    <description language="en">When activated a complementory insurance can be specified</description>
-		</parameter>
 		<parameter name="enableDatacenterPatientExport" default="0" type="radio" options="0;1">
 		    <description language="en">When activated, each dossier can be marked as "to export"</description>
 		</parameter>
@@ -280,16 +227,10 @@
 		<parameter name="enableMFP" default="0" type="radio" options="0;1"/>
 		<parameter name="enableMFPAdmission" default="0" type="radio" options="0;1"/>
 		<parameter name="enableMonitorMiniStats" default="0" type="radio" options="0;1"/>
-		<parameter name="enablePatientInvoiceReceiptCPLR" default="0" type="radio" options="0;1">
-		    <description language="en">When activated an other type (CPRL) of invoice is printed</description>
-		</parameter>
 		<parameter name="enableProductionWarning" default="0" type="radio" options="0;1">
 		    <description language="en">When activated a warning message appears telling the application is a test-system, not a production-system</description>
 		</parameter>
 		<parameter name="enableProfessionalCouncilRegistrationValidation" default="0" type="radio" options="0;1"/>		
-		<parameter name="enableProformaPatientInvoice" default="0" type="radio" options="0;1">
-		    <description language="en">When activated a button to print a pro-forma invoice shows up</description>
-		</parameter>		
 		<parameter name="enableRwanda" default="0" type="radio" options="0;1"/>		
 		<parameter name="enableVip" default="0" type="radio" options="0;1">
 		    <description language="en">Wether dossiers can be marked as VIP or not</description>
@@ -333,9 +274,6 @@
 		</parameter>
 		<parameter name="defaultGender" default="F" type="radio" options="M;F">
 		    <description language="en">F=female, M=male; when creating a new dossier, this is the pre-selected gender</description>
-		</parameter>
-		<parameter name="defaultInsuranceCategoryPatientShare" default="" type="select" options="A;B;C">
-		    <description language="en"></description>
 		</parameter>
 		<parameter name="excludedLabelTypesNew" default="labanalysis,labanalysis.short,labanalysis.monster,labanalysis.refcomment,
 		                                                 labprofiles,activitycodes,worktime,patientsharecoverageinsurance,patientsharecoverageinsurance2,
@@ -395,16 +333,13 @@
 		<parameter name="currencyDecimals" default="2" type="integer">
 		    <description language="en">The accuracy whenever displaying the currency</description>
 		</parameter>
-		<parameter name="javaPOSServer" default="http://localhost/openclinic"/>
 		<parameter name="globalHealthBarometerCenterCountry" default=""/>
 		<parameter name="globalHealthBarometerCenterCity" default=""/>
 		<parameter name="mxsref" default="rw" type="radio" options="rw;bi;ml">
 		    <description language="en">Determines which flag is shown when logging in</description>
 		</parameter>
-		<parameter name="remoteServer" default="http://10.254.0.2/openclinic/login.jsp?javaPOSServer=http://10.254.1.27/openclinic"/>
-		<parameter name="doInitialSetup" default=""/>
-		<parameter name="configureCountry" default=""/>
-		<parameter name="immoprefix" default="CHUK"/>
+		<parameter name="doInitialSetup" default="" show="false"/>
+		<parameter name="configureCountry" default="" class="advanced" show="false"/>
 		<parameter name="securePorts" default="443,4343">
 		    <description language="en">comma-separated. When loading a pdf in the browser, when SSL is applied on the server,
 		    specify the used secure ports</description>
@@ -425,32 +360,20 @@
 		    <description language="en">The application can serve multiple projects (with specific specifications);
 		    each user can be permitted acces to all (default) or just certain projects</description>
 		</parameter>		
-		<parameter name="valueColumn" default="value">
-		    <description language="en">Some database-servers consider 'value' as a function, others do allow you to name a column that way</description>
-		</parameter>		
 		<parameter name="gynae.caeserian.url" default=""/>		
 		<parameter name="gynae.anesthesie.url" default=""/>
 		<parameter name="echo.gyn.url" default="base/FR_EchoGyn.pdf"/>
 		<parameter name="glycemyUnit" default="mg / dl"/>
 		<parameter name="insulineUnit" default="lU"/>
 		<parameter name="socialServiceID" default="CNAR.SOC"/>
-		<parameter name="virtualLabAnalysisEditors" default="virtual"/>
 		<parameter name="localMoney" default="RWF"/>
-		<parameter name="quickList" default=""/>
 		<parameter name="fillUpSearchServiceScreens" default="on" type="radio" options="on;off">
 		    <description language="en">When searching services, specifying no search-criteria will show all services</description>
 		</parameter>
-		<parameter name="Intrusion_BlockPage" default="blocked.jsp">
-		    <description language="en">When a user attempts to enter the application too many times in vain,
-		    he will be redirected to a page telling him his account is blocked</description>
-		</parameter>
-		<parameter name="calculatableContexts" default=""/>
+		<parameter name="calculatableContexts" default="" class="advanced" show="false"/>
 		<parameter name="Debug" default="on" type="radio" options="on;off">
 		    <description language="en">When activated, backstage-info is shown in the Tomcat box and the Tomcat log-file</description>
-		</parameter>		
-		<parameter name="templateDirectory" default="c:/projects/openclinic/web/_common/xml">
-		    <description language="en">Location where many configuration- and system-files are stored, local PATH</description>
-		</parameter>
+		</parameter>	
 		<parameter name="updateVersion" default="">
 		    <description language="en">The current application-version, shown at login</description>
 		</parameter>	
@@ -461,6 +384,18 @@
 		
 	<!-- ###### SYSTEM ######################################################################## -->
 	<parametergroup id="sys" name="System" class="advanced">
+		<parameter name="Intrusion_BlockPage" default="blocked.jsp">
+		    <description language="en">When a user attempts to enter the application too many times in vain,
+		    he will be redirected to a page telling him his account is blocked</description>
+		</parameter>
+		<parameter name="openclinicdbName" default="">
+		    <description language="en">The real name of the "occup"-database used;
+		    when reffered to in a configged query, the placeholder is '@openclinic@'</description>
+		</parameter>
+		<parameter name="objectCacheSize" default="10000" type="integer" class="advanced">
+		    <description language="en">Often used objects are cached, to increase general system performance;
+		    this setting limits the size of the cache</description>
+		</parameter>
 		<parameter name="serverId" default="1" type="integer" class="advanced">
 		    <description language="en">Each computer serving OpenClinic, must have a unique server-id,
 		    in order to make synchronisation towards the main-server possible</description>
@@ -476,6 +411,9 @@
 		<parameter name="admindbName" default="ocadmin"/>
 		<parameter name="tempDirectory" default="/tmp">
 		    <description language="en">Directory where all kinds of temporary files are stored</description>
+		</parameter>	
+		<parameter name="templateDirectory" default="c:/projects/openclinic/web/_common/xml">
+		    <description language="en">Location where many configuration- and system-files are stored, local PATH</description>
 		</parameter>
 		<parameter name="tempdir" default="/adt/tmp"/>	
 		<parameter name="documentsdir" default="adt/documents/">
@@ -509,6 +447,9 @@
 		<parameter name="spiroBankIn" default=""/>
 		<parameter name="spiroBankExecutable" default=""/>
 		<parameter name="spiroBankDirectory" default=""/>
+		<parameter name="valueColumn" default="value">
+		    <description language="en">Some database-servers consider 'value' as a function, others do allow you to name a column that way</description>
+		</parameter>		
 		<parameter name="charindexFunction" default="">
 		    <description language="en">Each sql-server has its own dialect, some functions do the same but have different names</description>
 		</parameter>
@@ -693,6 +634,24 @@
 		    <description language="en">Invoice balance will be 0 when it has a value between 0 and this specified value</description>
 		</parameter>
 		<parameter name="defaultPatientCreditType" default="patient.payment"/>
+		<parameter name="enableProformaPatientInvoice" default="0" type="radio" options="0;1">
+		    <description language="en">When activated a button to print a pro-forma invoice shows up</description>
+		</parameter>
+		<parameter name="enablePatientInvoiceReceiptCPLR" default="0" type="radio" options="0;1">
+		    <description language="en">When activated an other type (CPRL) of invoice is printed</description>
+		</parameter>
+		<parameter name="defaultInvoiceModel" default="">
+		    <description language="en">ctams, mfp, rama, hmk, ambusa, ...</description>
+		</parameter>
+		<parameter name="authorizeCancellationOfOpenInvoices" default="1" type="radio" options="0;1">
+		    <description language="en">Wether to display (1) or not display (0) a button to authorise cancellation of open invoices</description>
+		</parameter>
+		<parameter name="patientinvoicefootertop" default="0" type="radio" options="0;1">
+		    <description language="en">When activated, space is made on pdfs to place a footer</description>
+		</parameter>
+		<parameter name="patientInvoiceClosedStatus" default="closed">
+		    <description language="en">Status assigned to a fullfilled invoice (balance = 0)</description>
+		</parameter>
 	</parametergroup>
 	
 	<!-- ###### X-RAY / IMAGEHUB ############################################################## -->
@@ -813,11 +772,18 @@
 		<parameter name="JPOSenabled" default="0" type="radio" options="0;1">
 		    <description language="en">Wether to initialise the barcodescanner or not</description>
 		</parameter>
+		<parameter name="javaPOSServer" default="http://localhost/openclinic"/>
 		<!-- 
 		<parameter name="CCDKeyboardTransformString" default="à&é\\\"'(§è!ç">
 		    <description language="en">Each of these characters in a scanned barcode will be replaced by their index in the configured value</description>
 		</parameter>
 		-->
+		<parameter name="JavaPOSPrinter" default="Star TSP100 Cutter (TSP143)_1">
+		    <description language="en">System name of the POS printer (Point Of Service)</description>
+		</parameter>
+		<parameter name="javaPOSenabled" default="0" type="radio" options="0;1">
+		    <description language="en">When activated a button to print the receipt is shown</description>
+		</parameter>
 		<parameter name="remoteServer" default="http://10.254.0.2/openclinic/login.jsp?javaPOSServer=http://10.254.1.27/openclinic">
 		    <description language="en"></description>
 		</parameter>
@@ -825,6 +791,7 @@
 	
 	<!-- ###### LABO ########################################################################## -->
 	<parametergroup id="lab" name="Labo">
+		<parameter name="virtualLabAnalysisEditors" default="virtual"/>
 		<parameter name="spoolnotifiermessagesfordays" default="7" type="integer" unit="days">
 		    <description language="en">The pace used to report new lab-results</description>
 		</parameter>
@@ -872,6 +839,13 @@
 		<parameter name="lastSagePrestationSync" modus="readonly"/>
 	</parametergroup>
 	
+	<!-- ###### STATISTICS #################################################################### -->
+	<parametergroup id="stats" name="Statistics">
+		<parameter name="query.statistics.hospital.overheadcosts" default="select 9885674 as cost" class="advanced">
+		    <description language="en"></description>
+		</parameter>
+	</parametergroup>
+	
 	<!-- ###### QUICKLIST ##################################################################### -->
 	<parametergroup id="quickList" name="Quicklist" class="advanced">
 		<parameter name="quickConsult1" default="encounter-type;origin;serviceid;manageruid"/>
@@ -889,7 +863,7 @@
 		    <description language="en">The number of rows in which the labo quicklist must be shown</description>
 		</parameter>
 		<parameter name="quickList" default="">
-		    <description language="en">prestationids, semicolon separated, default value for user-bound quicklist</description>
+		    <description language="en">prestationids, semicolon separated; default value for user-bound quicklist</description>
         </parameter>
 		<parameter name="quickListCols" default="2" type="integer" unit="columns">
 		    <description language="en">The number of columns in which the financial quicklist must be shown</description>
@@ -924,6 +898,12 @@
 		<parameter name="forcepatientforproductstockoperations" default="medicationreceipt.2">
 		    <description language="en">1="Reception from other stock", 2="Reception from a patient", 3="Correction after inventory", 4="Reception from external provider";
 		    Destinationtype will be forced to 'patient'</description>
+		</parameter>
+		<parameter name="showProductCategory" default="1" type="radio" options="0;1">
+		    <description language="en">Wether to show the products' category (subgroup) when managing products</description>
+		</parameter>
+		<parameter name="showProductGroup" default="1">
+		    <description language="en">Wether to show the products' group when managing products</description>
 		</parameter>
 		<parameter name="forceproviderforproductstockoperations" type="select" default="medicationreceipt.4" options="medicationreceipt.1;medicationreceipt.2;medicationreceipt.3;medicationreceipt.4">
 		    <description language="en">1="Reception from other stock", 2="Reception from a patient", 3="Correction after inventory", 4="Reception from external provider";
@@ -980,6 +960,12 @@
 		    <description language="en">[serverid].[objectid], For hospitalized patients : active users' active services' default service stock,
 		    otherwise the configured pharmacy</description>
 		</parameter>
+		<parameter name="assumeStock" default="0" type="radio" options="0;1">
+	        <description language="en">The product will be considered "in stock", even if it is not in stock</description>
+		</parameter>
+		<parameter name="productstockoperationdocumentmandatory" default="1" type="radio" options="0;1">
+		    <description language="en">Wether a document should be specified for this stock-operation</description>
+		</parameter>
 	</parametergroup>
 	
 	<!-- ###### OPEN INSURANCE ################################################################ -->
@@ -1000,6 +986,21 @@
 			<description language="en">The OpenInsurance software keeps the last selected insurance company in memory
 			when coding patient encounters. The value is then used for preventing from having to re-select the same
 			insurance company as long as they code data for the same company.</description>
+		</parameter>
+		<parameter name="defaultInsuranceCategoryPatientShare" default="" type="select" options="A;B;C">
+		    <description language="en"></description>
+		</parameter>
+		<parameter name="enableComplementaryInsurance2" default="0" type="radio" options="0;1">
+		    <description language="en">When activated a complementory insurance can be specified</description>
+		</parameter>
+		<parameter name="defaultInsuranceCreditType" default="insurance.payment">
+		    <description language="en">The default type of credit</description>
+		</parameter>
+		<parameter name="MFPextendedInformation" default="0" type="radio" options="0;1">
+		    <description language="en">When activated extra fields appear when editing insurances</description>
+		</parameter>
+		<parameter name="priceFormatInsurar" default="#">
+		    <description language="en">The format used in pdfs about insurance</description>
 		</parameter>
 		<parameter name="CTAMSactsCategory" default="A" class="advanced"/>
 		<parameter name="CTAMSadmissionCategory" default="S" class="advanced"/>
