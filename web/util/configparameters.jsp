@@ -182,7 +182,7 @@
 								}
 								//*** textarea ***
 								else if(sType.equalsIgnoreCase("textarea")){
-									out.print("<textarea onKeyup='resizeTextarea(this,10);limitChars(this,255);' cols='60' name='par_"+sName+"' id='par_"+sName+"' "+(sStoredValue.length()==0&&sDefaultValue.length()>0?"style='background-color:#ff9999'":"")+">"+sStoredValue+"</textarea>");
+									out.print("<textarea onKeyup='resizeTextarea(this,10);limitChars(this,255);' class='text' cols='60' name='par_"+sName+"' id='par_"+sName+"' "+(sStoredValue.length()==0&&sDefaultValue.length()>0?"style='background-color:#ff9999'":"")+" "+(sModus.equalsIgnoreCase("readonly")?"readonly":"")+">"+sStoredValue+"</textarea>");
 									if(sUnit.length() > 0) out.print(" "+sUnit);
 								}
 								//*** select ***
