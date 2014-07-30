@@ -498,6 +498,7 @@
   }
 
   function doSave(){
+	document.getElementById("buttonSave").disabled=true;
     if(EditForm.EditCreditDate.value.length > 0 &&
        EditForm.EditCreditAmount.value.length > 0 &&
        EditForm.EditCreditEncounterUid.value.length > 0 &&
@@ -508,6 +509,8 @@
                 if(document.getElementById("EditCreditWicketUid").selectedIndex==0){
                   alertDialog("web.manage","datamissing");
                   EditForm.EditCreditWicketUid.focus();
+	            	document.getElementById("buttonSave").disabled=false;
+
                 }
                 else {
                   EditForm.buttonSave.disabled = true;
@@ -543,6 +546,8 @@
       }
 
       alertDialog("web.manage","datamissing");
+	  	document.getElementById("buttonSave").disabled=false;
+
     }
   }
 

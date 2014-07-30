@@ -139,7 +139,7 @@
         </tr>
         <%=ScreenHelper.setFormButtonsStart()%>
         	<%
-        		if(!sEditWicketOperationType.equalsIgnoreCase("patient.payment") && (activeUser.getAccessRight("financial.wicketoperation.edit") || sEditWicketOperationUID.length()==0)){
+        		if((activeUser.getAccessRight("financial.superuser.select") || !sEditWicketOperationType.equalsIgnoreCase("patient.payment")) && (activeUser.getAccessRight("financial.wicketoperation.edit") || sEditWicketOperationUID.length()==0)){
         	%>
             	<input class='button' type="button" name="EditSaveButton" value='<%=getTran("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
             <%

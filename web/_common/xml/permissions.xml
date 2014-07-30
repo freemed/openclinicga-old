@@ -173,6 +173,7 @@
         <permission type="web" id="financial.modifyinsuranceend">financial.modifyinsuranceend</permission>
         <permission type="web" id="financial.printopeninvoice">financial.printopeninvoice</permission>
         <permission type="web" id="financial.modifyinvoice">financial.modifyinvoice</permission>
+        <permission type="web" id="financial.superuser">financial.superuser</permission>
     </application>
     <application type="Web" id="executive">
         <permission type="web" id="bedoccupation">occup.bedoccupation</permission>
