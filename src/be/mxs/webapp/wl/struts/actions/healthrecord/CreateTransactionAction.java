@@ -86,14 +86,14 @@ public class CreateTransactionAction extends Action {
 
                     TransactionFactoryGeneral factory = new TransactionFactoryGeneral();
                     factory.setContext(_param_activeDepartment,_param_activeContext,"");
-                    transactionVO = factory.createTransactionVO( sessionContainerWO.getUserVO(),transactionType );
+                    transactionVO = factory.createTransactionVO( sessionContainerWO.getUserVO(),transactionType,false);
                     factory.populateTransaction(transactionVO,existingTransaction);
                 }
                 catch (TransactionNotFoundException e) {
                     TransactionFactoryGeneral factory = new TransactionFactoryGeneral();
                     factory.setContext(_param_activeDepartment,_param_activeContext,"");
                     
-                    transactionVO = factory.createTransactionVO( sessionContainerWO.getUserVO(),transactionType );
+                    transactionVO = factory.createTransactionVO( sessionContainerWO.getUserVO(),transactionType,true);
                 }
                 catch (NumberFormatException e) {
                     e.printStackTrace();

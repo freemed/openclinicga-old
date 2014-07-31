@@ -187,7 +187,7 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
                         //baseTransactionVO2=null;
                         if (factoryClass.equalsIgnoreCase("be.mxs.common.model.vo.healthrecord.util.TransactionFactoryClinicalExamination")){
                             baseTransactionVO = TransactionFactory.createTransactionFactory(factoryClass).createTransactionVO(subClass);
-                            baseTransactionVO2 = new TransactionFactoryGeneral().createTransactionVO(sessionContainerWO.getUserVO(),sessionContainerWO.getCurrentTransactionVO().getTransactionType());
+                            baseTransactionVO2 = new TransactionFactoryGeneral().createTransactionVO(sessionContainerWO.getUserVO(),sessionContainerWO.getCurrentTransactionVO().getTransactionType(),false);
                         }
                         else {
                             baseTransactionVO = TransactionFactory.createTransactionFactory(factoryClass).createTransactionVO(subClass);
