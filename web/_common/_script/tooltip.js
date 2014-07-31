@@ -27,6 +27,7 @@ function createTooltip(elem){
   span.style.padding = "5px";
   span.style.border = "1px solid #aaa";
   span.style.width = "300px";
+  span.style.fontSize = "11px";
 
   // add title in bold, if any specified
   if(ttTitle!=null){
