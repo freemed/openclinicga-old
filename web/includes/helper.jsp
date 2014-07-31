@@ -316,10 +316,10 @@
             
             // private data checkbox
             if(sessionContainerWO.getUserVO().userId.intValue()==transactionVO.getUser().userId.intValue()){
-            	result+= "<input id='privatetransaction' name='privatetransaction' type='checkbox' value='1' "+(checkString(transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PRIVATETRANSACTION")).equalsIgnoreCase("1")?"checked":"")+"/>"+getLabel("web","privatetransaction",language,"privatetransaction");
+            	result+= "<input id='privatetransaction' name='privatetransaction' class='hand' type='checkbox' value='1' "+(checkString(transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PRIVATETRANSACTION")).equalsIgnoreCase("1")?"checked":"")+"/>"+getLabel("web","privatetransaction",language,"privatetransaction");
             }
             else{
-            	result+= "<input id='privatetransaction' name='privatetransaction' type='hidden' value='"+checkString(transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PRIVATETRANSACTION"))+"'/>";
+            	result+= "<input id='privatetransaction' name='privatetransaction' class='hand' type='hidden' value='"+checkString(transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PRIVATETRANSACTION"))+"'/>";
             }
         }
         catch(Exception e){
