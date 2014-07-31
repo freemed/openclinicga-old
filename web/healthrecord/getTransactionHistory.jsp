@@ -1,20 +1,23 @@
 <%@include file="/includes/validateUser.jsp"%>
-<%@page import="be.mxs.common.util.system.*" %>
+<%@page import="be.mxs.common.util.system.*"%>
 
 <form name='transactionForm' id='transactionForm' method='post'>
 	<input type='hidden' name='transactionid' value='<%=checkString(request.getParameter("transactionid")) %>'/>
-	<input type='hidden' name='depth' value='<%=checkString(request.getParameter("depth")) %>'/>
+	<input type='hidden' name='depth' value='<%=checkString(request.getParameter("depth"))%>'/>
 	<input type='hidden' name='transactionversion' id='transactionversion' value='<%=checkString(request.getParameter("transactionversion")) %>'/>
 	<input type='hidden' name='nobuttons' value='1'/>
 </form>
-<table width='100%'>
+
+<table width='100%' class="list" cellpadding="0" cellspacing="1">
+    <%-- header --%>
 	<tr class='admin'>
-		<td><%=getTran("web","version",sWebLanguage) %></td>
-		<td><%=getTran("web","date",sWebLanguage) %></td>
-		<td><%=getTran("web","user",sWebLanguage) %></td>
+		<td width="10%"><%=getTran("web","version",sWebLanguage) %></td>
+		<td width="20%"><%=getTran("web","date",sWebLanguage) %></td>
+		<td width="70%"><%=getTran("web","user",sWebLanguage) %></td>
 	</tr>
 <%
-	String transactionid=checkString(request.getParameter("transactionid"));
+	String transactionid = checkString(request.getParameter("transactionid"));
+
 	int depth=20;
 	try{
 		depth = Integer.parseInt(request.getParameter("depth"));
@@ -22,6 +25,7 @@
 	catch(Exception e){
 		e.printStackTrace();
 	}
+	
 	if(transactionid.split("\\.").length>2){
 		int activeversion=0;
 		try{
@@ -33,6 +37,7 @@
 				else{
 					activeversion=Integer.parseInt(request.getParameter("transactionversion"));
 				}
+				
 				String sUserName="";
 				for(int n=tran.getVersion();n>0 && n>tran.getVersion()-depth;n--){
 					TransactionVO historytran=MedwanQuery.getInstance().loadTransaction(tran.getServerId()+"", tran.getTransactionId()+"", n+"", tran.getServerId()+"");
@@ -43,33 +48,41 @@
 						else {
 							sUserName=User.getFullUserName(Pointer.getPointer("TU."+historytran.getServerId()+"."+historytran.getTransactionId()+"."+historytran.getVersion()));
 						}
-						out.println("<tr><td class='admin"+(activeversion==historytran.getVersion()?"":"2")+"'>"+historytran.getVersion()+"</td><td class='admin"+(activeversion==historytran.getVersion()?"":"2")+"'><a href='javascript:openTransaction("+n+")'>"+ScreenHelper.getSQLTimeStamp(new java.sql.Timestamp(historytran.getTimestamp().getTime()))+"</a></td><td class='admin"+(activeversion==historytran.getVersion()?"":"2")+"'>"+sUserName+"</td></tr>");
+						
+						out.println("<tr><td class='admin"+(activeversion==historytran.getVersion()?"":"2")+"'>"+historytran.getVersion()+"</td>"+
+						                "<td class='admin"+(activeversion==historytran.getVersion()?"":"2")+"'><a href='javascript:openTransaction("+n+")'>"+ScreenHelper.getSQLTimeStamp(new java.sql.Timestamp(historytran.getTimestamp().getTime()))+"</a></td>"+
+						                "<td class='admin"+(activeversion==historytran.getVersion()?"":"2")+"'>"+sUserName+"</td></tr>");
 					}
 				}
 			}
-			%>
-			<tr><td colspan='3'>
-			<%
-				if(request.getParameter("transactionversion")!=null){
-					SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName() );
-					TransactionVO curtran = sessionContainerWO.getCurrentTransactionVO();
-					tran=MedwanQuery.getInstance().loadTransaction(tran.getServerId()+"", tran.getTransactionId()+"", request.getParameter("transactionversion"), tran.getServerId()+"");
-					sessionContainerWO.setCurrentTransactionVO(tran);
-					String sPage=MedwanQuery.getInstance().getForward(tran.getTransactionType());
-					if(sPage.indexOf("Page=")>-1){
-						sPage=sPage.substring(sPage.indexOf("Page=")+5);
-					}
-					ScreenHelper.setIncludePage(sPage+"?be.mxs.healthrecord.server_id="+tran.getServerId()+"&be.mxs.healthrecord.transaction_id="+tran.getTransactionId()+"&ts="+getTs(), pageContext);
-					sessionContainerWO.setCurrentTransactionVO(curtran);
+			
+			if(request.getParameter("transactionversion")!=null){
+				%><tr><td colspan='3'><br><%
+						
+				SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName() );
+				TransactionVO curtran = sessionContainerWO.getCurrentTransactionVO();
+				tran=MedwanQuery.getInstance().loadTransaction(tran.getServerId()+"", tran.getTransactionId()+"", request.getParameter("transactionversion"), tran.getServerId()+"");
+				sessionContainerWO.setCurrentTransactionVO(tran);
+				String sPage=MedwanQuery.getInstance().getForward(tran.getTransactionType());
+				if(sPage.indexOf("Page=")>-1){
+					sPage=sPage.substring(sPage.indexOf("Page=")+5);
 				}
+				ScreenHelper.setIncludePage(sPage+"?be.mxs.healthrecord.server_id="+tran.getServerId()+"&be.mxs.healthrecord.transaction_id="+tran.getTransactionId()+"&ts="+getTs(), pageContext);
+				sessionContainerWO.setCurrentTransactionVO(curtran);
+			}
 		}
 		catch(Exception e2){
 			e2.printStackTrace();
 		}
 	}
 %>
-</td></tr>
+</td>
+</tr>
 </table>
+
+<div style="text-align:center;padding:10px;">
+    <input class="button" type="button" onclick="window.close();" value="<%=getTranNoLink("web","close",sWebLanguage)%>"/>
+</div>        
 
 <script>
 	function openTransaction(version){
