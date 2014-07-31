@@ -2092,8 +2092,8 @@ public class MedwanQuery {
     public static MedwanQuery getInstance(String uri){
         if(medwanQuery == null){
             medwanQuery = new MedwanQuery(uri);
-        } else
-        if((medwanQuery.uri == null && uri!=null) || (medwanQuery.uri!=null && !medwanQuery.uri.equalsIgnoreCase(uri))){
+        }
+        else if((medwanQuery.uri == null && uri!=null) || (medwanQuery.uri!=null && !medwanQuery.uri.equalsIgnoreCase(uri))){
             Hashtable labels = medwanQuery.labels;
             medwanQuery = new MedwanQuery(uri);
             medwanQuery.labels = labels;
@@ -2105,7 +2105,8 @@ public class MedwanQuery {
     	Connection conn=null;
     	try{
     		conn=dsAdmin.getConnection();
-		} catch(Exception e){
+		} 
+    	catch(Exception e){
 			e.printStackTrace();
 		}
     	return conn;
@@ -2115,7 +2116,8 @@ public class MedwanQuery {
     	Connection conn=null;
     	try{
     		if(dsOpenClinic!=null) conn=dsOpenClinic.getConnection();
-		} catch(Exception e){
+		} 
+    	catch(Exception e){
 			e.printStackTrace();
 		}
     	return conn;
@@ -2125,7 +2127,8 @@ public class MedwanQuery {
     	Connection conn=null;
     	try{
     		conn=dsLongOpenClinic.getConnection();
-		} catch(Exception e){
+		}
+    	catch(Exception e){
 			e.printStackTrace();
 		}
     	return conn;
@@ -2135,7 +2138,8 @@ public class MedwanQuery {
     	Connection conn=null;
     	try{
     		conn=dsLongAdmin.getConnection();
-		} catch(Exception e){
+		}
+    	catch(Exception e){
 			e.printStackTrace();
 		}
     	return conn;
@@ -2145,13 +2149,16 @@ public class MedwanQuery {
     	Connection conn=null;
     	try{
     		conn=dsStats.getConnection();
-		} catch(Exception e){
+		}
+    	catch(Exception e){
 			e.printStackTrace();
 		}
     	return conn;
     }
     
-    public boolean storeDocument(String type, String format, String name, String filename, int userid, String folder, java.util.Date updatetime, int personId){
+    //--- STORE DOCUMENT --------------------------------------------------------------------------
+    public boolean storeDocument(String type, String format, String name, String filename,
+    		                     int userid, String folder, java.util.Date updatetime, int personId){
         Connection OccupdbConnection;
         try{
             OccupdbConnection = getOpenclinicConnection();
@@ -2275,6 +2282,7 @@ public class MedwanQuery {
         }
     }
     
+    //--- FILL TRANSACTION ITEMS ------------------------------------------------------------------
     public void fillTransactionItems(TransactionVO transactionVO){
         try{
             Connection OccupdbConnection = getOpenclinicConnection();
@@ -2301,6 +2309,7 @@ public class MedwanQuery {
         }
     }
     
+    //--- LOAD REPEATABLE TRANSACTION ITEMS -------------------------------------------------------
     public Hashtable loadRepeatableTransactionItems(String transactionTypeId){
     	Hashtable items = new Hashtable();
         PreparedStatement ps;
@@ -2316,18 +2325,25 @@ public class MedwanQuery {
             rs.close();
             ps.close();
             OccupdbConnection.close();
-
-        } catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
         return items;
     	
     }
     
+    //--- LOAD TRANSACTION ITEMS ------------------------------------------------------------------
+    // --> default value
     public Vector loadTransactionItems(String transactionTypeId, ItemContextVO itemContextVO){
+        return loadTransactionItems(transactionTypeId,itemContextVO,true);	
+    }
+    
+    public Vector loadTransactionItems(String transactionTypeId, ItemContextVO itemContextVO, boolean loadDefaultValues){
         Vector items = new Vector();
         PreparedStatement ps;
         Connection OccupdbConnection;
+        
         try{
             OccupdbConnection = getOpenclinicConnection();
             ps = OccupdbConnection.prepareStatement("select * from TransactionItems where transactionTypeId=?");
@@ -2336,19 +2352,21 @@ public class MedwanQuery {
             ItemVO item;
             while (rs.next()){
                 item = new ItemVO(new Integer(IdentifierFactory.getInstance().getTemporaryNewIdentifier()),
-                        rs.getString("itemTypeId"), rs.getString("defaultValue"), new Date(), itemContextVO);
+                                  rs.getString("itemTypeId"), (loadDefaultValues?rs.getString("defaultValue"):""), new Date(), itemContextVO);
                 items.add(item);
             }
             rs.close();
             ps.close();
             OccupdbConnection.close();
-
-        } catch(Exception e){
+        } 
+        catch(Exception e){
             e.printStackTrace();
         }
+        
         return items;
     }
     
+    //--- LOAD TRANSACTION ITEMS (2) --------------------------------------------------------------
     public Vector loadTransactionItems(String transactionTypeId, ItemContextVO itemContextVO, String sItemType){
         Vector items = new Vector();
         PreparedStatement ps;
@@ -2362,7 +2380,7 @@ public class MedwanQuery {
             ItemVO item;
             while (rs.next()){
                 item = new ItemVO(new Integer(IdentifierFactory.getInstance().getTemporaryNewIdentifier()),
-                        rs.getString("itemTypeId"), rs.getString("defaultValue"), new Date(), itemContextVO);
+                                  rs.getString("itemTypeId"), rs.getString("defaultValue"), new Date(), itemContextVO);
                 items.add(item);
             }
             rs.close();
@@ -2404,6 +2422,7 @@ public class MedwanQuery {
         if(language.equalsIgnoreCase("N")){
             label = "labelnl";
         }
+        
         //First find all keywords
         String[] keys = keywords.toUpperCase().split(" ");
         String sQuery = "";
@@ -2449,11 +2468,13 @@ public class MedwanQuery {
                     rs.close();
                     ps.close();
                     OccupdbConnection.close();
-                } catch(Exception e){
+                }
+                catch(Exception e){
                     e.printStackTrace();
                 }
             }
         }
+        
         Vector returncodes = new Vector();
         Hashtable existing = new Hashtable();
         for (int n = 0; n < codes.size(); n++){
@@ -2466,6 +2487,7 @@ public class MedwanQuery {
                 }
             }
         }
+        
         return returncodes;
     }
     
@@ -2488,6 +2510,7 @@ public class MedwanQuery {
         if(language.equalsIgnoreCase("N")){
             label = "labelnl";
         }
+        
         //First find all keywords
         String[] keys = keywords.toUpperCase().split(" ");
         String sQuery = "";
@@ -2495,6 +2518,7 @@ public class MedwanQuery {
             if(keys[n].length() > 0){
                 sQuery = " select distinct code as code" +
                         " from dsm4 where "+label+" like '%"+ScreenHelper.normalizeSpecialCharacters(keys[n].toLowerCase()).toUpperCase()+"%' or code like '"+ScreenHelper.normalizeSpecialCharacters(keys[n].toLowerCase()).toUpperCase()+"%'";
+                
                 if(getConfigInt("cacheDB") == 1){
                     sQuery += " union" +
                             " select distinct dsm4 as code" +
@@ -2503,7 +2527,8 @@ public class MedwanQuery {
                             " b.dsm4 is not null and" +
                             " b.concept=c.concept and" +
                             " c.keyword like '"+ScreenHelper.normalizeSpecialCharacters(keys[n].toLowerCase()).toUpperCase()+"%'";
-                } else{
+                }
+                else{
                     sQuery += " union" +
                             " select distinct dsm4 as code" +
                             " from dsm4concepts b,Keywords c" +
@@ -2533,11 +2558,13 @@ public class MedwanQuery {
                     rs.close();
                     ps.close();
                     OccupdbConnection.close();
-                } catch(Exception e){
+                } 
+                catch(Exception e){
                     e.printStackTrace();
                 }
             }
         }
+        
         Vector returncodes = new Vector();
         Hashtable existing = new Hashtable();
         for (int n = 0; n < codes.size(); n++){
@@ -2550,9 +2577,11 @@ public class MedwanQuery {
                 }
             }
         }
+        
         return returncodes;
     }
     
+    //--- FIND ICD10 CODES ------------------------------------------------------------------------
     public Vector findICD10Codes(String keywords, String language){
         Vector codes = new Vector();
         Hashtable counters = new Hashtable();
@@ -2572,6 +2601,7 @@ public class MedwanQuery {
         if(language.equalsIgnoreCase("N")){
             label = "labelnl";
         }
+        
         //First find all keywords
         String[] keys = keywords.toUpperCase().split(" ");
         String sQuery = "";
@@ -2605,6 +2635,7 @@ public class MedwanQuery {
                 }
             }
         }
+        
         Vector returncodes = new Vector();
         Hashtable existing = new Hashtable();
         for (int n = 0; n < codes.size(); n++){
@@ -2617,9 +2648,11 @@ public class MedwanQuery {
                 }
             }
         }
+        
         return returncodes;
     }
  
+    //--- SAVE ENTERPRISE VISIT -------------------------------------------------------------------
     public EnterpriseVisitVO saveEnterpriseVisit(EnterpriseVisitVO visit){
         PreparedStatement ps;
         Connection OccupdbConnection;
@@ -2669,9 +2702,11 @@ public class MedwanQuery {
                 ps.close();
             }
             OccupdbConnection.close();
-        } catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
+        
         return visit;
     }
     
@@ -4030,6 +4065,7 @@ public class MedwanQuery {
         return personalVaccinationsInfoVO;
     }
     
+    //--- LOAD TRANSACTION ------------------------------------------------------------------------
     public TransactionVO loadTransaction(int serverId, int transactionId){
         TransactionVO transactionVO = (TransactionVO)MedwanQuery.getInstance().getObjectCache().getObject("transaction",serverId+"."+transactionId);
         if(transactionVO!=null){
@@ -4039,7 +4075,16 @@ public class MedwanQuery {
         try{
             OccupdbConnection = getOpenclinicConnection();
             String sItemType;
-            PreparedStatement Occupstatement = OccupdbConnection.prepareStatement("SELECT c.start,c.stop,d.*,a.transactionType,a.creationDate,a.updateTime as ut,a.ts,a.status,a.userId,b.*,a.healthRecordId from Transactions a,Items b,UsersView c,AdminView d where a.userId=c.userid and c.personid=d.personid and a.transactionId=b.transactionId and a.serverid=b.serverid and a.serverid=? and a.transactionId=? order by b.priority");
+            String sSql = "SELECT c.start,c.stop,d.*,a.transactionType,a.creationDate,a.updateTime as ut,a.ts,a.status,a.userId,b.*,a.healthRecordId"+
+                          "  from Transactions a,Items b,UsersView c,AdminView d"+
+            		      "   where a.userId=c.userid"+
+                          "    and c.personid=d.personid"+
+            		      "    and a.transactionId=b.transactionId"+
+                          "    and a.serverid=b.serverid"+
+            		      "    and a.serverid=?"+
+                          "    and a.transactionId=?"+
+                          "  order by b.priority";
+            PreparedStatement Occupstatement = OccupdbConnection.prepareStatement(sSql);
             Occupstatement.setInt(1, serverId);
             Occupstatement.setInt(2, transactionId);
             ResultSet Occuprs = Occupstatement.executeQuery();
@@ -4091,14 +4136,18 @@ public class MedwanQuery {
         return transactionVO;
     }
 
+    //--- LOAD TRANSACTION (2) --------------------------------------------------------------------
     public TransactionVO loadTransaction(String serverId, String transactionId, String version, String versionServerId){
-        if(version == null || versionServerId == null)
+        if(version == null || versionServerId == null){
             return loadTransaction((Integer.parseInt(serverId)), Integer.parseInt(transactionId));
+        }
+        
         TransactionVO transactionVO = null;
         Connection OccupdbConnection;
         try{
             OccupdbConnection = getOpenclinicConnection();
-            PreparedStatement Occupstatement = OccupdbConnection.prepareStatement("SELECT * from Transactions where serverid=? and transactionId=? and version=? and versionserverid=?");
+            String sSql = "SELECT * from Transactions where serverid=? and transactionId=? and version=? and versionserverid=?";
+            PreparedStatement Occupstatement = OccupdbConnection.prepareStatement(sSql);
             Occupstatement.setInt(1, Integer.parseInt(serverId));
             Occupstatement.setInt(2, Integer.parseInt(transactionId));
             Occupstatement.setInt(3, Integer.parseInt(version));
@@ -4132,12 +4181,14 @@ public class MedwanQuery {
             Occuprs.close();
             Occupstatement.close();
             OccupdbConnection.close();
-
-        } catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
         return transactionVO;
     }
+    
+    //--- LOAD TRANSACTION HISTORY ----------------------------------------------------------------
     public TransactionVO loadTransactionHistory(String serverId, String transactionId, String version, String versionServerId){
         TransactionVO transactionVO = null;
         Connection OccupdbConnection;
@@ -4184,6 +4235,8 @@ public class MedwanQuery {
         }
         return transactionVO;
     }
+    
+    //--- GET PERSON ------------------------------------------------------------------------------
     public PersonVO getPerson(String personId){
         PersonVO personVO = null;
         if(personId!=null && !personId.equals("")){
@@ -4207,6 +4260,8 @@ public class MedwanQuery {
         }
         return personVO;
     }
+    
+    //--- GET USER --------------------------------------------------------------------------------
     public UserVO getUser(String userId){
         UserVO userVO = null;
         Connection OccupdbConnection;
@@ -4236,6 +4291,7 @@ public class MedwanQuery {
         return userVO;
     }
     
+    //--- GET EXAMINATION -------------------------------------------------------------------------
     public ExaminationVO getExamination(String examinationId, String language){
         ExaminationVO examinationVO = (ExaminationVO)examinations.get(examinationId+"."+language);
         if(examinationVO==null){
@@ -4261,6 +4317,7 @@ public class MedwanQuery {
         return examinationVO;
     }
     
+    //--- FIND ALL RISKCODES ----------------------------------------------------------------------
     public Collection findAllRiskCodes(String language){
         Vector riskCodes = new Vector();
         Connection OccupdbConnection;
@@ -4283,6 +4340,8 @@ public class MedwanQuery {
         }
         return riskCodes;
     }
+    
+    //--- FIND RISKCODE ---------------------------------------------------------------------------
     public RiskCodeVO findRiskCode(String riskCodeId, String language){
         RiskCodeVO riskCode = null;
         Connection OccupdbConnection;
@@ -4304,6 +4363,7 @@ public class MedwanQuery {
         return riskCode;
     }
     
+    //--- GET ALL EXAMINATIONS --------------------------------------------------------------------
     public Collection getAllExaminations(String language){
         Vector allExaminations = new Vector();
         Connection OccupdbConnection;
@@ -4325,6 +4385,7 @@ public class MedwanQuery {
         return allExaminations;
     }
     
+    //--- GET RISKPROFILE COMMENT -----------------------------------------------------------------
     public String getRiskProfileComment(SessionContainerWO sessionContainerWO){
         String comment = "";
         Integer personId = sessionContainerWO.getPersonVO().getPersonId();
@@ -4348,6 +4409,8 @@ public class MedwanQuery {
         }
         return comment;
     }
+    
+    //--- GET RISKPROFILE SYSTEM INFO -------------------------------------------------------------
     public RiskProfileSystemInfoVO getRiskProfileSystemInfo(SessionContainerWO sessionContainerWO, String language){
         Vector allWorkplaces = new Vector();
         Vector allFunctionCategories = new Vector();
@@ -4387,6 +4450,8 @@ public class MedwanQuery {
         }
         return new RiskProfileSystemInfoVO(allWorkplaces, allFunctionCategories, allFunctionGroups);
     }
+    
+    //--- UPDATE RISKPROFILE RISKCODES ------------------------------------------------------------
     public RiskProfileVO updateRiskProfileRiskCodes(long personId, Hashtable updatedRiskcodes, SessionContainerWO sessionContainerWO, String comment){
         exportPerson(new Long(personId).intValue());
         try{
