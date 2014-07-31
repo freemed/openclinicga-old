@@ -347,7 +347,7 @@
             Timestamp t = (Timestamp)ss[0];
             Hashtable u = User.getUserName((String)ss[1]);
             sReturn+= "<div style='float:right'><span style='font-weight:normal'>"+getTranNoLink("web.occup","last.access",sWebLanguage)+"  "+ScreenHelper.fullDateFormat.format(t)+" "+getTranNoLink("web","by",sWebLanguage)+" <b>"+u.get("firstname")+" "+u.get("lastname")+"</b></span>";
-            sReturn+= " | <a href='javascript:void(0)' onclick=\"Modalbox.show('"+sCONTEXTPATH+"/healthrecord/ajax/getTransHistoryAccess.jsp?ts="+getTs()+"&trans="+sTrans+"&nb=15', {title: '"+getTranNoLink("web", "accesshistory", sWebLanguage)+"', width: 420,height:370},{evalScripts: true} );\" class='link linkdark history' title='"+getTranNoLink("web","accesshistory",sWebLanguage)+"' alt=\""+getTranNoLink("web","accesshistory",sWebLanguage)+"\">...</a>"+(version>1?"<a href='javascript:void(0)' onclick='getTransactionHistory(\""+sTrans+"\",20)' class='link transactionhistory' title='"+getTranNoLink("web","modificationshistory",sWebLanguage)+"' alt=\""+getTranNoLink("web","modificationshistory",sWebLanguage)+"\">...</a>":"")+"</div>";
+            sReturn+= " | <a href='javascript:void(0)' onclick=\"Modalbox.show('"+sCONTEXTPATH+"/healthrecord/ajax/getTransHistoryAccess.jsp?ts="+getTs()+"&trans="+sTrans+"&nb=15', {title: '"+getTranNoLink("web", "accesshistory", sWebLanguage)+"', width: 420,height:370},{evalScripts: true} );\" class='link linkdark history' title='"+getTranNoLink("web","accesshistory",sWebLanguage)+"' alt=\""+getTranNoLink("web","accesshistory",sWebLanguage)+"\">...</a>"+(version>1?"<a href='javascript:void(0)' onclick='getTransactionHistory(\""+sTrans+"\",20)' class='link linkdark transactionhistory' title='"+getTranNoLink("web","modificationshistory",sWebLanguage)+"' alt=\""+getTranNoLink("web","modificationshistory",sWebLanguage)+"\">...</a>":"")+"</div>";
         }
 
         return sReturn;
@@ -374,7 +374,7 @@
 
     //--- GET LABEL -------------------------------------------------------------------------------
     public String getLabel(String sType, String sID, String sLanguage, String sObject){
-        return "<label for='"+sObject+"'>"+getTran(sType,sID,sLanguage)+"</label>";
+        return "<label for='"+sObject+"' class='hand'>"+getTran(sType,sID,sLanguage)+"</label>";
     }
 
     //--- SET ROW ---------------------------------------------------------------------------------
