@@ -113,6 +113,7 @@
             	<%
             		if(sEditWicketOperationType.equalsIgnoreCase("patient.payment")){
             			out.println(getTran("credit.type","patient.payment",sWebLanguage));
+            			out.println("<input type='hidden' name='EditWicketOperationType' id='EditWicketOperationType' value='"+sEditWicketOperationType+"'/>");
             		}
             		else {
             	%>
@@ -226,7 +227,6 @@
     }
     else{
       EditForm.EditSaveButton.disabled = true;
-
       var today = new Date();
       var url = '<c:url value="/financial/wicket/manageWicketOperationCreditSave.jsp"/>?ts='+today;
       new Ajax.Request(url,{
