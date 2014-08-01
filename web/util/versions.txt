@@ -13,3 +13,10 @@
 4.89.21 - Multiple user profiles with the same name could be created, which is not very clean. UserProfile class updated.
 4.89.22 - Database statement not properly closed after retrieval of last transaction in MedwanQuery
 4.89.23 - Corrected system/manageServiceExaminations.jsp (test version slipped into production release)
+4.89.24 - Added RAMA csv format to complementary insurer invoice printing
+4.89.25 - Added RAMA csv format to patient share covering insurer invoice printing
+4.89.26 - Corrected error in /statistics/patientslistsummary.jsp when no care provider was specified for care delivery
+4.89.27 - Limited usage of default values for items to newly created transactions
+4.89.28 - Updated userprofile management screen to use checkbox images instead of checkbox input elements (performance)
+4.89.29 - Bug correction in insurer invoice edit screen: added possibility to hide rwandan invoice templates
+

@@ -18,6 +18,26 @@
 			sOutput+=CsvInvoiceRama.getOutput(request);
 		}
 	}
+	else if("invoice.rama.extra".equalsIgnoreCase(request.getParameter("docid"))){
+		ExtraInsurarInvoice invoice = ExtraInsurarInvoice.get(request.getParameter("invoiceuid"));
+		if(invoice!=null){
+			sOutput+="INVOICE NUMBER:;"+invoice.getUid()+"\r\n";
+			sOutput+="INVOICE DATE:;"+ScreenHelper.stdDateFormat.format(invoice.getDate())+"\r\n";
+			sOutput+="INSURAR:;"+invoice.getInsurar().getName()+"\r\n";
+			sOutput+="\r\n";
+			sOutput+=CsvInvoiceRamaExtra.getOutput(request);
+		}
+	}
+	else if("invoice.rama.extra2".equalsIgnoreCase(request.getParameter("docid"))){
+		ExtraInsurarInvoice2 invoice = ExtraInsurarInvoice2.get(request.getParameter("invoiceuid"));
+		if(invoice!=null){
+			sOutput+="INVOICE NUMBER:;"+invoice.getUid()+"\r\n";
+			sOutput+="INVOICE DATE:;"+ScreenHelper.stdDateFormat.format(invoice.getDate())+"\r\n";
+			sOutput+="INSURAR:;"+invoice.getInsurar().getName()+"\r\n";
+			sOutput+="\r\n";
+			sOutput+=CsvInvoiceRamaExtra2.getOutput(request);
+		}
+	}
 	else if("invoice.cplr".equalsIgnoreCase(request.getParameter("docid"))){
 		InsurarInvoice invoice = InsurarInvoice.get(request.getParameter("invoiceuid"));
 		if(invoice!=null){

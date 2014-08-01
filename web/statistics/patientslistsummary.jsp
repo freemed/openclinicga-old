@@ -70,6 +70,7 @@
 	rs.close();
 	ps.close();
 	oc_conn.close();
+
 	//Nu gaan we alle records tonen
 	if(records.size()>0){
 		out.println("<tr class='admin'><td>#</td><td>"+getTran("web","date",sWebLanguage)+"</td><td>"+getTran("web","insurance.number",sWebLanguage)+"</td><td>"+getTran("web","patient",sWebLanguage)+"</td><td>"+getTran("web","administrator",sWebLanguage)+"</td>");
@@ -97,7 +98,7 @@
 			continue;
 		}
 		AdminPerson patient = AdminPerson.getAdminPerson(uid.split(";")[1]);
-		out.println("<tr><td class='admin2'>"+counter+"</td><td class='admin2'>"+uid.split(";")[0]+"</td><td class='admin2'>"+(insurance==null?"":insurance.getInsuranceNr())+"</td><td class='admin2'>"+(patient.lastname==null?"":patient.lastname.toUpperCase())+", "+patient.firstname+"</td><td class='admin2'>"+uid.split(";")[3]+"</td>");
+		out.println("<tr><td class='admin2'>"+counter+"</td><td class='admin2'>"+uid.split(";")[0]+"</td><td class='admin2'>"+(insurance==null?"":insurance.getInsuranceNr())+"</td><td class='admin2'>"+(patient.lastname==null?"":patient.lastname.toUpperCase())+", "+patient.firstname+"</td><td class='admin2'>"+(uid.split(";").length<4?"?":uid.split(";")[3])+"</td>");
 		Hashtable amounts = (Hashtable)records.get(uid);
 		double patienttotal=0,insurartotal=0;
 		Iterator m = invoicegroups.keySet().iterator();

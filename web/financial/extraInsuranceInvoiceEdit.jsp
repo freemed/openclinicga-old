@@ -212,6 +212,7 @@
                             	if(MedwanQuery.getInstance().getConfigInt("enableRwanda",1)==1){ 
                             %>
 	                            <option value="ramanew" <%=defaultmodel.equalsIgnoreCase("ramanew")?"selected":""%>><%=getTranNoLink("web","ramanewmodel",sWebLanguage)%></option>
+	                            <option value="ramacsv" <%=defaultmodel.equalsIgnoreCase("ramacsv")?"selected":""%>><%=getTranNoLink("web","ramacsvmodel",sWebLanguage)%></option>
 	                            <option value="ctams" <%=defaultmodel.equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
 	                        <%	
 	                        	}
@@ -366,14 +367,18 @@ function doBalance(oObject, bAdd){
 
 <%-- PRINT PDF --%>
 function doPrintPdf(invoiceUid){
-  if(EditForm.PrintModel.value=='cplrcsv2'){
-	var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid="+invoiceUid+"&ts=<%=getTs()%>&docid=invoice.cplr2";
-	window.open(url, "ExtraInsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
-  }
-  else{
-	var url = "<c:url value='/financial/createExtraInsurarInvoicePdf.jsp'/>?InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value+ "&PrintType="+EditForm.PrintType.value+"&PrintModel="+EditForm.PrintModel.value;
-   	window.open(url, "InsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
-  }
+	  if(EditForm.PrintModel.value=='cplrcsv2'){
+			var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid="+invoiceUid+"&ts=<%=getTs()%>&docid=invoice.cplr2";
+			window.open(url, "ExtraInsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+		  }
+	  else if(EditForm.PrintModel.value=='ramacsv'){
+			var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid="+invoiceUid+"&ts=<%=getTs()%>&docid=invoice.rama.extra";
+			window.open(url, "ExtraInsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+		  }
+	  else{
+		var url = "<c:url value='/financial/createExtraInsurarInvoicePdf.jsp'/>?InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value+ "&PrintType="+EditForm.PrintType.value+"&PrintModel="+EditForm.PrintModel.value;
+	   	window.open(url, "InsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+	  }
 }
 
 function searchInsurar(){
