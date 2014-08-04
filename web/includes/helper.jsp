@@ -570,13 +570,28 @@
         buf.append("<script>")
            .append(" var historyPopup;");
 
-        buf.append("function openHistoryPopup(){")
+        buf.append("function openHistoryPopupOLD(){")
             .append("var url = '").append(sCONTEXTPATH).append("/healthrecord/managePrintHistoryPopup.do?transactionType=").append(transactionType).append("&ts=").append(getTs()).append("';")
             .append("historyPopup = window.open(url,'History','height=1, width=1, toolbar=no, status=no, scrollbars=yes, resizable=yes, menubar=no');")
             //.append("openPopup('/healthrecord/printHistoryPopup.do&transactionType="+transactionType+"&ts="+getTs()+"');")
            .append("}");
 
-        buf.append("</script>");
+        // SHOW TRANSACTION HISTORY WITH ITEMS
+        buf.append("function openHistoryPopup(contextSelector){") // showTransactionHistoryWithItems
+            .append("var selectedContext = '';")
+            .append("if(contextSelector!=null){")
+             .append("selectedContext = contextSelector.options[contextSelector.selectedIndex].value;")
+            .append("}")
+      	
+      	    .append("var url = '"+sCONTEXTPATH+"/healthrecord/showTransactionHistoryWithItems.jsp';")
+      	    .append("if(selectedContext.length > 0){")
+      	     .append("url+= '?SelectedContext='+selectedContext;")
+            .append("}")
+           
+            .append("openPage(url,'TransactionHistoryWithItems','directories=no,location=no,menubar=no,status=yes,toolbar=no,scrollbars=yes,resizable=yes,width=1,height=1');")
+           .append("}")
+           
+           .append("</script>");
 
         return buf.toString();
     }

@@ -591,4 +591,32 @@ public class SessionContainerWO extends be.mxs.webapp.wo.common.system.SessionCo
     public void setFullRecord(FullRecordVO fullRecordVO) {
         putObject(FullRecordVO.class.getName(), fullRecordVO);
     }
+
+    //--- IS COMPOSING ITEM -----------------------------------------------------------------------
+    // the specified item is part of a group of composing items, with a numbered name, BUT not the first item
+    public boolean isComposingItem(ItemVO item, Collection items){
+        boolean isComposingItem = false;
+                
+        String sLastChar = item.getType().substring(item.getType().length()-1);
+        try{
+            int digit1 = Integer.parseInt(sLastChar);
+                
+            // check the second last char when the last char is an integer
+            sLastChar = item.getType().substring(item.getType().length()-2,item.getType().length()-1);
+            
+            try{
+                int digit2 = Integer.parseInt(sLastChar);
+                isComposingItem = true;
+            }
+            catch(Exception e){
+                isComposingItem = (digit1 > 1);
+            }            
+        }
+        catch(Exception e){
+            isComposingItem = false;
+        }
+
+        return isComposingItem; 
+    }
+    
 }

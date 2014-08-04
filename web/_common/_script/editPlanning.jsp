@@ -400,12 +400,16 @@
         <td class="admin"/>
         <td class="admin2">
             <input type="hidden" id="EditPage" value="<%=sPage%>" />
-            <%-- Buttons --%><%if (activeUser.getAccessRight("planning.add") || activeUser.getAccessRight("planning.edit")) {%>
-            <input class='button' type="button" name="buttonSave" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="saveAppointment();">&nbsp;<%
-            }
-            if ((sFindPlanningUID.length() > 0) && (activeUser.getAccessRight("planning.delete"))) {
-        %>
-            <input class='button' type="button" name="buttonDelete" value='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="deleteAppointment2();">&nbsp;<%}%>
+            
+            <%-- Buttons --%>
+            <%
+                if(activeUser.getAccessRight("planning.add") || activeUser.getAccessRight("planning.edit")){
+                   %><input class='button' type="button" name="buttonSave" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="saveAppointment();">&nbsp;<%
+                }
+                if((sFindPlanningUID.length() > 0) && (activeUser.getAccessRight("planning.delete"))){
+                    %><input class='button' type="button" name="buttonDelete" value='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="deleteAppointment2();">&nbsp;<%
+                }
+            %>
             <input class='button' type="button" name="buttonBack" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doClose();">
         </td>
     </tr>

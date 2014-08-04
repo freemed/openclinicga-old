@@ -1848,6 +1848,74 @@ public class ScreenHelper {
                "<script src='"+sCONTEXTDIR+"/_common/_script/buttons.js'></script>";
     }
 
+    //--- WRITE SAVE BUTTON -----------------------------------------------------------------------    
+    public static String writeSaveButton(String sLanguage){
+        return writeSaveButton("doSubmit();",sLanguage,-1);
+    }
+    
+    public static String writeSaveButton(String sLanguage, int height){
+        return writeSaveButton("doSubmit();",sLanguage,height);
+    }
+    
+    public static String writeSaveButton(String sFunction, String sLanguage){
+        return writeSaveButton(sFunction,sLanguage,-1);
+    }
+    
+    public static String writeSaveButton(String sFunction, String sLanguage, int height){
+        return "<input class='button' type='button' name='saveButton' id='saveButton' "+(height>0?"style='height:"+height+"px'":"")+" value='"+getTranNoLink("web","save",sLanguage)+"' onclick='"+sFunction+"'/>";
+    }
+
+    //--- WRITE SEARCH BUTTON ---------------------------------------------------------------------
+    public static String writeSearchButton(String sLanguage){
+        return writeSearchButton("doSearch();",sLanguage);
+    }
+    
+    public static String writeSearchButton(String sFunction, String sLanguage){
+        return "<input class='button' type='button' name='searchButton' id='searchButton' value='"+getTranNoLink("web","search",sLanguage)+"' onclick='"+sFunction+"'/>";
+    }
+
+    //--- WRITE BACK BUTTON -----------------------------------------------------------------------
+    public static String writeBackButton(String sLanguage){
+        return writeBackButton("doBack();",sLanguage);
+    }
+    
+    public static String writeBackButton(String sFunction, String sLanguage){
+        return "<input class='button' type='button' name='backButton' id='backButton' value='"+getTranNoLink("web","back",sLanguage)+"' onclick='doBack();'/>";
+    }
+    
+    //--- WRITE PRINT BUTTON ----------------------------------------------------------------------
+    public static String writePrintButton(String sLanguage){
+        return writePrintButton("doPrint();",sLanguage);
+    }
+    
+    public static String writePrintButton(String sFunction, String sLanguage){
+        return "<input class='button' type='button' name='printButton' id='printButton' value='"+getTranNoLink("web","print",sLanguage)+"' onclick='doPrint();'/>";
+    }
+    
+    //--- WRITE RESET BUTTON ----------------------------------------------------------------------
+    public static String writeResetButton(String sLanguage){
+    	return writeResetButton("transactionForm.reset()",sLanguage);
+    }
+
+    public static String writeResetButton(String sFunction, String sLanguage){
+        // sFunction can be formName too
+    	if(sFunction.toLowerCase().endsWith("form")){
+            sFunction+= ".reset();";    		
+    	}
+    
+        return "<input class='button' type='button' name='resetButton' id='resetButton' value='"+getTranNoLink("web","reset",sLanguage)+"' onclick='"+sFunction+"'/>";
+    }    
+    
+    //--- WRITE CLOSE BUTTON ----------------------------------------------------------------------
+    public static String writeCloseButton(String sLanguage){
+        return writeCloseButton("window.close();",sLanguage);
+    }
+    
+    public static String writeCloseButton(String sFunction, String sLanguage){
+        return "<input class='button' type='button' name='closeButton' id='closeButton' value='"+getTranNoLink("web","close",sLanguage)+"' onclick='"+sFunction+"'/>";
+    }
+
+    //--- CLOSE QUIETLY ---------------------------------------------------------------------------
     public static void closeQuietly(Connection connection, Statement statement, ResultSet resultSet) {
         if(resultSet != null) try { resultSet.close(); } catch (SQLException logOrIgnore) {logOrIgnore.printStackTrace();}
         if(statement != null) try { statement.close(); } catch (SQLException logOrIgnore) {logOrIgnore.printStackTrace();}
@@ -1953,30 +2021,30 @@ public class ScreenHelper {
         return sString;
     }
 
-/////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////
     public static String alignButtonsStart() {
       return "<p align='center'>";
     }
-/////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////
     public static String alignButtonsStop() {
       return "</p>";
     }
-/////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////
     public static String setFormButtonsStart(){
         return "<tr>" +
                     "<td class='admin'/>" +
                     "<td class='admin2'>";
     }
-/////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////
     public static String setFormButtonsStop(){
         return      "</td>" +
                 "</tr>";
     }
-////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////
     public static String setSearchFormButtonsStart(){
         return "<tr><td/><td>";
     }
-/////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////
     public static String setSearchFormButtonsStop(){
         return "</td></tr>";
     }
@@ -1987,7 +2055,8 @@ public class ScreenHelper {
     	ScreenHelper.closeQuietly(conn, null, null);
     	return s;
     }
-////////////////////////////////////////////////////////////////////////////////////////////
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////
     public static String getFullPersonName(String personId,Connection dbConnection){
         String sReturn = "";
 

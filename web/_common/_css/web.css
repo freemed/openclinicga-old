@@ -1078,6 +1078,21 @@ td.arrow {
   overflow: hidden;
 }
 
+TR.list {  
+  color: #333333;
+  font-family: arial, sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  text-align: left;
+  background-color: #fff;
+  padding-left: 5px;
+  padding-right: 1px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  border: solid #000000 0;
+  height: 20px;
+}
+
 TR.list1 {
   color: #333333;
   font-family: arial, sans-serif;

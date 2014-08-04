@@ -15,6 +15,7 @@
     +writeTblChild("main.do?Page=system/manageQuickLabList.jsp&UserQuickLabList=1",getTran("Web.UserProfile","ManageQuickLabList",sWebLanguage))
     +writeTblChild("main.do?Page=system/manageShortcuts.jsp&UserQuickList=1",getTran("Web.UserProfile","ManageShortcuts",sWebLanguage))
     +writeTblChild("main.do?Page=userprofile/manageUserShortcuts.jsp",getTranNoLink("web.userProfile","manageUserShortcuts",sWebLanguage))
+    +writeTblChild("main.do?Page=userprofile/manageHistoryItems.jsp",getTranNoLink("web.manage","manageHistoryItems",sWebLanguage))
     +ScreenHelper.writeTblFooter()
  )
 %>

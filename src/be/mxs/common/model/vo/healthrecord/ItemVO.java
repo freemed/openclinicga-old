@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 
-public class ItemVO implements Serializable, IIdentifiable {
+public class ItemVO implements Serializable, IIdentifiable, Comparable {
     private Integer itemId;
     private String type = "";
     private String value = "";
@@ -113,6 +113,31 @@ public class ItemVO implements Serializable, IIdentifiable {
 
     public int hashCode(){
         return itemId.hashCode();
+    }
+
+    //--- EQUALS ----------------------------------------------------------------------------------
+     public boolean equals(Object o){
+        if(this==o) return true;
+        if(!(o instanceof ItemVO)) return false;
+
+        ItemVO otherItem = (ItemVO)o;
+
+        return (itemId==otherItem.itemId && type.equals(otherItem.type) && value.equals(otherItem.value));
+    }
+
+    //--- COMPARE TO ------------------------------------------------------------------------------
+    // to sort on type (not the translation for it, just the English name)
+    public int compareTo(Object o){
+        int comparison;
+
+        if(o.getClass().isInstance(this)){
+            comparison = this.type.compareTo(((ItemVO)o).type);
+        }
+        else{
+            throw new ClassCastException();
+        }
+
+        return comparison;
     }
 
     //--- CREATE XML ------------------------------------------------------------------------------
