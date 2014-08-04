@@ -34,8 +34,9 @@
     MedwanQuery.getInstance("http://" + request.getServerName() +":"+request.getServerPort()+ request.getRequestURI().replaceAll(request.getServletPath(), "") + "/" + sAPPDIR);
     reloadSingleton(request.getSession());
     
+    UpdateSystem systemUpdate = new UpdateSystem();
     if(MedwanQuery.getInstance().getConfigString("doInitialSetup","").length()>0){
-    	UpdateSystem.updateSetup("os",MedwanQuery.getInstance().getConfigString("doInitialSetup",""),request);
+    	systemUpdate.updateSetup("os",MedwanQuery.getInstance().getConfigString("doInitialSetup",""),request);
     	MedwanQuery.getInstance().setConfigString("doInitialSetup","");
     }
 
@@ -43,7 +44,7 @@
     String version = "version unknown";
     try {
 		if(MedwanQuery.getInstance().getConfigString("configureCountry","").length()>0){
-			UpdateSystem.initialSetup("country", MedwanQuery.getInstance().getConfigString("configureCountry",""), request);
+			systemUpdate.initialSetup("country", MedwanQuery.getInstance().getConfigString("configureCountry",""), request);
 			MedwanQuery.getInstance().reloadConfigValues();
 			MedwanQuery.getInstance().reloadLabels();
 			MedwanQuery.getInstance().setConfigString("configureCountry", "");
@@ -56,13 +57,7 @@
         session.setAttribute("ProjectVersion", version);
         int thisversion=Integer.parseInt(element.attribute("major").getValue())*1000000+Integer.parseInt(element.attribute("minor").getValue())*1000+Integer.parseInt(element.attribute("bug").getValue());
         if(thisversion>MedwanQuery.getInstance().getConfigInt("updateVersion",0)){
-    		%>
-    		<script>
-    	      <%-- ALERT DIALOG MESSAGE --%>
-    		  alert("Upgrade needed, this may take several minutes depending on your system´s performance");
-    		  window.location.href='<%=sCONTEXTPATH%>/util/updateSystem.jsp?updateVersion=<%=thisversion+""%>';
-    		</script>    		
-    		<%
+    		%><script>window.location.href='<%=sCONTEXTPATH%>/systemUpdateServlet?updateVersion=<%=thisversion+""%>';</script><%
         }
     }
     catch (Exception e) {

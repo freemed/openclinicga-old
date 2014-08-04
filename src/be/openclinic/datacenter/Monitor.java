@@ -160,7 +160,8 @@ public class Monitor implements Runnable{
     		Date lastCouncilValidation = new SimpleDateFormat("yyyyMMdd").parse(MedwanQuery.getInstance().getConfigString("lastProfessionalCouncilValidation","19000101"));
     		if(new java.util.Date().getTime()-lastCouncilValidation.getTime()>=day){
 				if(MedwanQuery.getInstance().getConfigInt("enableProfessionalCouncilRegistrationValidation",1)==1){
-					UpdateSystem.validateCouncilRegistrations();
+					UpdateSystem systemUpdate = new UpdateSystem();
+					systemUpdate.validateCouncilRegistrations();
 				}
     		}
         }

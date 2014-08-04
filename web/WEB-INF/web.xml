@@ -122,6 +122,16 @@
       </init-param>
       <load-on-startup>4</load-on-startup>
     </servlet>
+    
+    <servlet>
+      <servlet-name>systemUpdateServlet</servlet-name>
+      <servlet-class>be.openclinic.util.SystemUpdateServlet</servlet-class>       
+    </servlet>
+    
+    <servlet>
+      <servlet-name>systemUpdateProgressServlet</servlet-name>
+      <servlet-class>be.openclinic.util.SystemUpdateProgressServlet</servlet-class>       
+    </servlet>
 
 
     <!-- ========== SERVLET MAPPINGS ========================================== -->
@@ -133,6 +143,16 @@
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>systemUpdateServlet</servlet-name>
+        <url-pattern>/systemUpdateServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>systemUpdateProgressServlet</servlet-name>
+        <url-pattern>/systemUpdateProgressServlet</url-pattern>
+    </servlet-mapping>
+    
     <session-config>
       <session-timeout>30</session-timeout>
     </session-config>

@@ -932,6 +932,7 @@
 	  						"<link rel='Stylesheet' type='text/css' href='"+sCONTEXTPATH+"/_common/_css/jPicker.css' />"+
 	  						"<script src='"+sCONTEXTPATH+"/_common/_script/jquery-1.4.4.min.js' type='text/javascript'></script>"+
 	  						"<script src='"+sCONTEXTPATH+"/_common/_script/jpicker-1.1.6.min.js' type='text/javascript'></script>";
+	String sJSJQUERY = "<script src='"+sCONTEXTPATH+"/_common/_script/jquery-1.4.4.min.js' type='text/javascript'></script>";
 
     // varia
     String sTDAdminWidth = "200";
