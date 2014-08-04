@@ -38,12 +38,45 @@ import org.dom4j.io.SAXReader;
 import be.mxs.common.util.db.MedwanQuery;
 import be.openclinic.system.TransactionItem;
 
-public class UpdateSystem {
-	public static void update(String basedir){
+public class UpdateSystem implements Runnable {
+	private int progress = -1;
+	private String basedir;
+	Thread thread;
+
+	//--- RUN -------------------------------------------------------------------------------------
+	public void run(){
+        update(); // perform only once
+	}
+	
+	//--- CONSTRUCTOR -----------------------------------------------------------------------------
+	public UpdateSystem(){
+	}
+	
+	//--- START -----------------------------------------------------------------------------------
+	public void start(){
+		thread = new Thread(this);
+		thread.start();
+	}
+	
+	//--- SET BASE DIR ----------------------------------------------------------------------------
+	public void setBasedir(String basedir){
+		this.basedir = basedir;
+	}
+	
+	//--- UPDATE ----------------------------------------------------------------------------------
+	public void update(){
+		 setProgress(0); // "started"
 		updateDb();
+		 setProgress(20); // "updateDb done"
 		updateLabels(basedir);
+		 setProgress(40); // "updateLabels done"
 		updateTransactionItems(basedir);
+		 setProgress(60); // "updateTransactionItems done"
+		updateCounters();
+		 setProgress(80); // "updateCounters done"
 		updateExaminations();
+		 setProgress(90); // "updateExaminations done"
+			
         String sDoc = MedwanQuery.getInstance().getConfigString("templateSource") + "application.xml";
         SAXReader reader = new SAXReader(false);
         try{
@@ -55,13 +88,28 @@ public class UpdateSystem {
         catch(Exception e){
         	e.printStackTrace();
         }
+                
+		setProgress(100); // "completed"
 	}
 	
-	public static void updateQueries(javax.servlet.ServletContext application){
+	//--- SET PROGRESS ----------------------------------------------------------------------------
+	private void setProgress(int progress){
+		this.progress = progress;
+	}
+	
+	//--- GET PROGRESS ----------------------------------------------------------------------------
+	public int getProgress(){
+		return this.progress;
+	}
+	
+	
+	//--- UPDATE QUERIES --------------------------------------------------------------------------
+	public void updateQueries(javax.servlet.ServletContext application){
 		UpdateQueries.updateQueries(application);
 	}
 	
-	public static void updateDb(){
+	//--- UPDATE DB -------------------------------------------------------------------------------
+	public void updateDb(){
 		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": start updatedb");
 		try {
 			String sDoc="";
@@ -360,13 +408,17 @@ public class UpdateSystem {
 		catch (Exception e) {
 		    e.printStackTrace();
 		}
+		
 		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": end updatedb");
 	}
-	public static void updateLabels(String basedir){
+	
+	//--- UPDATE LABELS ---------------------------------------------------------------------------
+	public void updateLabels(String basedir){
 		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": reload labels");
         reloadSingleton();
 		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": end reload labels");
 		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": start updateLabels");
+		
         String paramName, paramValue;
         String[] identifiers;
         String[] languages = MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en,pt").split("\\,");
@@ -435,7 +487,8 @@ public class UpdateSystem {
 		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": end updateLabels");
 	}
 	
-	public static void updateTransactionItems(String basedir){
+	//--- UPDATE TRANSACTION ITEMS ----------------------------------------------------------------
+	public void updateTransactionItems(String basedir){
 		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": start updatetransactionitems");
 		Hashtable transactionItems = MedwanQuery.getInstance().getAllTransactionItems();
         String paramName, paramValue;
@@ -468,8 +521,8 @@ public class UpdateSystem {
 		System.out.println(new SimpleDateFormat("HH:mm:ss.SSS").format(new java.util.Date())+": end updatetransactionitems");
 	}
 	
-
-    public static void reloadSingleton() {
+    //--- RELOAD SINGLETON ------------------------------------------------------------------------
+    public void reloadSingleton() {
         Hashtable labelLanguages = new Hashtable();
         Hashtable labelTypes = new Hashtable();
         Hashtable labelIds;
@@ -512,7 +565,8 @@ public class UpdateSystem {
         MedwanQuery.getInstance().putLabels(labelLanguages);
     }
     
-    public static void updateProject(String sProject){
+    //--- UPDATE PROJECT --------------------------------------------------------------------------
+    public void updateProject(String sProject){
     	Connection conn = MedwanQuery.getInstance().getAdminConnection();
     	PreparedStatement ps;
 		try {
@@ -527,7 +581,9 @@ public class UpdateSystem {
 			e.printStackTrace();
 		}
     }
-    private static Properties getPropertyFile(String sFilename) {
+    
+    //--- GET PROPERTY FILE -----------------------------------------------------------------------
+    private Properties getPropertyFile(String sFilename) {
         FileInputStream iniIs;
         Properties iniProps = new Properties();
 
@@ -552,7 +608,8 @@ public class UpdateSystem {
         return iniProps;
     }
     
-    public static void validateCouncilRegistrations(){
+    //--- VALIDATE COUNCIL REGISTRATIONS ----------------------------------------------------------
+    public void validateCouncilRegistrations(){
     	String regnrs="";
     	Hashtable hRegs=new Hashtable();
     	Hashtable councils=new Hashtable();
@@ -586,6 +643,7 @@ public class UpdateSystem {
 	    	}
 	    	rs.close();
 	    	ps.close();
+	    	
 	    	//We now have all id's to verify
 	    	Enumeration r = councils.keys();
 	    	while(r.hasMoreElements()){
@@ -662,7 +720,8 @@ public class UpdateSystem {
     	}
     }
     
-    public static void updateSetup(String section, String code, HttpServletRequest request){
+    //--- UPDATE SETUP ----------------------------------------------------------------------------
+    public void updateSetup(String section, String code, HttpServletRequest request){
     	MedwanQuery.getInstance().setConfigString("setup."+section, code);
         try{
 	        SAXReader xmlReader = new SAXReader();
@@ -713,7 +772,8 @@ public class UpdateSystem {
         }
     }
     
-    public static void initialSetup(String section, String code, HttpServletRequest request){
+    //--- INITIAL SETUP ---------------------------------------------------------------------------
+    public void initialSetup(String section, String code, HttpServletRequest request){
     	MedwanQuery.getInstance().setConfigString("setup."+section, code);
         try{
 	        SAXReader xmlReader = new SAXReader();
@@ -767,7 +827,8 @@ public class UpdateSystem {
         }
     }
     
-    public static int updateExaminations(){
+    //--- UPDATE EXAMINATIONS ---------------------------------------------------------------------
+    public int updateExaminations(){
         int counter=0;
     	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
     	PreparedStatement ps=null;
@@ -879,7 +940,8 @@ public class UpdateSystem {
     	return counter;
     }
     
-    public static void updateCounters() {
+    //--- UPDATE COUNTERS -------------------------------------------------------------------------
+    public void updateCounters() {
         try{
         	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
         	PreparedStatement ps = conn.prepareStatement("select * from oc_config where oc_key like 'quickList%'");
@@ -929,6 +991,7 @@ public class UpdateSystem {
         }catch (Exception e){
         	e.printStackTrace();
         }
+        
         //Patients archiveFileCode
         String s="select max(archivefilecode) as maxcode from adminview where "+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(archivefilecode)=(select max("+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(archivefilecode)) from adminview where "+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(archivefilecode)<7)";
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
