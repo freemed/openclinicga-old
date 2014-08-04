@@ -1,5 +1,5 @@
 <%@page import="be.mxs.common.util.system.*" %>
-<%@include file="/includes/validateUser.jsp"%>
+<%@include file="/includes/helper.jsp"%>
 <%
     String sTmpAPPDIR   = ScreenHelper.checkString(ScreenHelper.getCookie("activeProjectDir", request));
 %>
