@@ -1,16 +1,6 @@
 <parameters>
 	<!-- ###### GENERAL ####################################################################### -->
 	<parametergroup id="gen" name="General">
-		<parameter name="reportPriceFormat" default="#,###.00">
-		    <description language="en">[0]=zero when no other value, [#]=nothing unless a value is specified;
-		    price format when reporting a hospitals' finances</description>
-		</parameter>
-		<parameter name="resetServiceUidForNewDebet" default="0" type="radio" options="0;1">
-		    <description language="en">When registering a new debet, should the service be reset ?</description>
-		</parameter>
-		<parameter name="resetUserDebetsDate" default="01/01/1900">
-		    <description language="en">dd/MM/yyyy; prestations before this date are not considered</description>
-		</parameter>
 		<parameter name="searchDelay" default="1000" type="integer" unit="milliseconds">
 		    <description language="en">The delay applied when displaying products after selecting a product-category</description>
 		</parameter>
@@ -87,15 +77,6 @@
 		<parameter name="socialServiceID" default="CNAR.SOC">
 		    <description language="en">[service].[devision]; what service the social-service manager should be searched in</description>
 		</parameter>
-		<parameter name="stats.barchartheight" default="480" type="integer">
-		    <description language="en"></description>
-		</parameter>
-		<parameter name="stats.barchartwidth" default="640" type="integer">
-		    <description language="en"></description>
-		</parameter>
-		<parameter name="stats.piechartwidth" default="640" type="integer">
-		    <description language="en"></description>
-		</parameter>
 		<parameter name="topxadmissiondiagnosisfrequencies" default="10" type="integer">
 		    <description language="en">Tells the statistics-generator how large the top of the reported data must be</description>
 		</parameter>	
@@ -107,15 +88,6 @@
 		</parameter>
 		<parameter name="invalidLabelKeyChars" default="/:">
 		    <description language="en">Some characters are not allowed in labels; no separator</description>
-		</parameter>
-		<parameter name="limitFunction" default="">
-		    <description language="en">Each sql-server has its own dialect, some functions do the same but have different names</description>
-		</parameter>
-		<parameter name="lengthFunction" default="len">
-		    <description language="en">Each sql-server has its own dialect, some functions do the same but have different names</description>
-		</parameter>
-		<parameter name="lowerCompare" default="lower()">
-		    <description language="en">Each sql-server has its own dialect, some functions do the same but have different names</description>
 		</parameter>
 		<parameter name="maxcertainty" default="1" type="integer" unit="percentage">
 		    <description language="en">To make the value of a diagnosis relative against a maximal value</description>
@@ -144,9 +116,6 @@
 		<parameter name="getVaccinationQuery" default="" type="textarea" modus="readonly">
 		    <description language="en">Query to fetch vaccinations from the database (defined in config.xml)</description>
 		</parameter>
-		<parameter name="patientSelfInsurarUID" default="none">
-		    <description language="en">Excludes self-insured patients when set to 'none'</description>
-		</parameter>
 		<parameter name="gbhPublicInactivityPeriodInMonths" default="3" type="integer" unit="months">
 		    <description language="en"></description>
 		</parameter>
@@ -164,9 +133,6 @@
 		</parameter>
 		<parameter name="image_extensions" default="gif,jpg,bmp">
 		    <description language="en">Specifies the kind of images the user can use for bed-locations</description>
-		</parameter>
-		<parameter name="iifFunction" default="case when $condition$ then $iftrue$ else $iffalse$ end" class="advanced">
-		    <description language="en">For MySQL: if($condition$,$iftrue$,$iffalse$); to dynamically implement IF-statements in queries</description>
 		</parameter>
 		<parameter name="iconExtensions" default="ico,png,jpg,bmp,gif">
 		    <description language="en">Comma-separated; specifies the kind of images the user can use for his shortcuts</description>
@@ -204,9 +170,6 @@
 		<parameter name="enableExpiredProductsDistribution" default="0" type="radio" options="0;1">
 		    <description language="en">Wether to deliver expired medication or no longer take it into account</description>
 		</parameter>
-		<parameter name="enableFinancialStatusPrestations" default="0" type="radio" options="0;1">
-		    <description language="en">When activated show "deliveries in last 24 hours"</description>
-		</parameter>
 		<parameter name="enableHMK" default="0" type="radio" options="0;1"/>
 		<parameter name="enableICD10" default="0" type="radio" options="0;1">
 		    <description language="en">Searching for ICPC codes will search through ICD10 codes too</description>
@@ -226,7 +189,6 @@
 		<parameter name="enableMedicalCouncilLookup" default="0" type="radio" options="0;1"/>
 		<parameter name="enableMFP" default="0" type="radio" options="0;1"/>
 		<parameter name="enableMFPAdmission" default="0" type="radio" options="0;1"/>
-		<parameter name="enableMonitorMiniStats" default="0" type="radio" options="0;1"/>
 		<parameter name="enableProductionWarning" default="0" type="radio" options="0;1">
 		    <description language="en">When activated a warning message appears telling the application is a test-system, not a production-system</description>
 		</parameter>
@@ -234,40 +196,12 @@
 		<parameter name="enableRwanda" default="0" type="radio" options="0;1"/>		
 		<parameter name="enableVip" default="0" type="radio" options="0;1">
 		    <description language="en">Wether dossiers can be marked as VIP or not</description>
-		</parameter>		
-		<parameter name="encounterDiseaseCategoryMandatory" default="0" type="radio" options="0;1">
-		    <description language="en">When activated a category is mandatory</description>
-		</parameter>
-		<parameter name="dateColumn" default="date">
-		    <description language="en">Some database-servers consider 'date' as a function, others do allow you to name a column that way</description>
-		</parameter>
-		<parameter name="dateaddFunction" default="date_add($datecolumn$,INTERVAL $quantity$ $interval$)">
-		    <description language="en">Each sql-server has its own dialect, some functions do the same but have different names</description>
-		</parameter>
-		<parameter name="datediffFunction" default="datediff($interval$,$begindate$,$enddate$)">
-		    <description language="en">Each sql-server has its own dialect, some functions do the same but have different names</description>
-		</parameter>
-		<parameter name="dateFunction" default="getdate()">
-		    <description language="en">Each sql-server has its own dialect, some functions do the same but have different names</description>
 		</parameter>
 		<parameter name="defaultAdmissionManager" default="" type="integer">
 		    <description language="en">Userid; defines the user who is 'defaultAdmissionManager'</description>
 		</parameter>
 		<parameter name="defaultAdmissionService" default="">
 		    <description language="en">ServiceId; defines the service which is 'defaultAdmissionService'</description>
-		</parameter>
-		<parameter name="defaultEncounterCategory" default="A" type="select" options="A;B;C;D;E">
-		    <description language="en">???</description>
-		</parameter>
-		<parameter name="defaultEncounterOrigin" default="">
-		    <description language="en">The default origin of an encounter, its location</description>
-		</parameter>
-		<parameter name="defaultEncounterType" default="visit"/>
-		<parameter name="" default="">
-		    <description language="en"></description>
-		</parameter>
-		<parameter name="defaultExtraInsurar" default="-1">
-		    <description language="en">[serverid].[objectid], the id of the default extra insurar when creating debets</description>
 		</parameter>
 		<parameter name="DefaultFromMailAddress" default="">
 		    <description language="en">When the system sends emails, who should be displayed as the sender ?</description>
@@ -333,8 +267,6 @@
 		<parameter name="currencyDecimals" default="2" type="integer">
 		    <description language="en">The accuracy whenever displaying the currency</description>
 		</parameter>
-		<parameter name="globalHealthBarometerCenterCountry" default=""/>
-		<parameter name="globalHealthBarometerCenterCity" default=""/>
 		<parameter name="mxsref" default="rw" type="radio" options="rw;bi;ml">
 		    <description language="en">Determines which flag is shown when logging in</description>
 		</parameter>
@@ -360,11 +292,6 @@
 		    <description language="en">The application can serve multiple projects (with specific specifications);
 		    each user can be permitted acces to all (default) or just certain projects</description>
 		</parameter>		
-		<parameter name="gynae.caeserian.url" default=""/>		
-		<parameter name="gynae.anesthesie.url" default=""/>
-		<parameter name="echo.gyn.url" default="base/FR_EchoGyn.pdf"/>
-		<parameter name="glycemyUnit" default="mg / dl"/>
-		<parameter name="insulineUnit" default="lU"/>
 		<parameter name="socialServiceID" default="CNAR.SOC"/>
 		<parameter name="localMoney" default="RWF"/>
 		<parameter name="fillUpSearchServiceScreens" default="on" type="radio" options="on;off">
@@ -497,6 +424,30 @@
 		    <description language="en">To limit the amount of records fetched by one query, starting at the top. 
 		    Each sql-server has its own dialect, some functions do the same but have different names</description>
 		</parameter>
+		<parameter name="dateColumn" default="date">
+		    <description language="en">Some database-servers consider 'date' as a function, others do allow you to name a column that way</description>
+		</parameter>
+		<parameter name="dateaddFunction" default="date_add($datecolumn$,INTERVAL $quantity$ $interval$)">
+		    <description language="en">Each sql-server has its own dialect, some functions do the same but have different names</description>
+		</parameter>
+		<parameter name="datediffFunction" default="datediff($interval$,$begindate$,$enddate$)">
+		    <description language="en">Each sql-server has its own dialect, some functions do the same but have different names</description>
+		</parameter>
+		<parameter name="dateFunction" default="getdate()">
+		    <description language="en">Each sql-server has its own dialect, some functions do the same but have different names</description>
+		</parameter>
+		<parameter name="limitFunction" default="">
+		    <description language="en">Each sql-server has its own dialect, some functions do the same but have different names</description>
+		</parameter>
+		<parameter name="lengthFunction" default="len">
+		    <description language="en">Each sql-server has its own dialect, some functions do the same but have different names</description>
+		</parameter>
+		<parameter name="lowerCompare" default="lower()">
+		    <description language="en">Each sql-server has its own dialect, some functions do the same but have different names</description>
+		</parameter>
+		<parameter name="iifFunction" default="case when $condition$ then $iftrue$ else $iffalse$ end" class="advanced">
+		    <description language="en">For MySQL: if($condition$,$iftrue$,$iffalse$); to dynamically implement IF-statements in queries</description>
+		</parameter>
 	</parametergroup>
 	
 	<!-- ###### STRUCT ######################################################################## -->
@@ -579,6 +530,8 @@
 		<parameter name="datacenterVisitTypes" default="'visit'">
 		    <description language="en">Type of encounter to search for when exporting medical data (medical.1.2)</description>
 		</parameter>
+		<parameter name="globalHealthBarometerCenterCountry" default=""/>
+		<parameter name="globalHealthBarometerCenterCity" default=""/>
 	</parametergroup>
 	
 	<!-- ###### GLOBAL HEALTH BAROMETER ####################################################### -->
@@ -628,7 +581,6 @@
 		<parameter name="defaultIncomingInvoiceModel" default="default"/>
 		<parameter name="defaultInvoiceSortType" default="sortbydate" type="select" options="sortbydate;sortbypatient"/>	
 		<parameter name="defaultPatientInvoiceStatus" default="open" type="select" options="open;proforma;closed;cancelled"/>
-		<parameter name="InsuranceAgentAcceptationNeededFor" default="" class="advanced" modus="readonly"/>
 		<parameter name="multiplePatientInvoiceSeries" default="" class="advanced" modus="readonly"/>
 		<parameter name="minimumInvoiceBalance" default="1" type="integer">
 		    <description language="en">Invoice balance will be 0 when it has a value between 0 and this specified value</description>
@@ -651,6 +603,19 @@
 		</parameter>
 		<parameter name="patientInvoiceClosedStatus" default="closed">
 		    <description language="en">Status assigned to a fullfilled invoice (balance = 0)</description>
+		</parameter>
+		<parameter name="resetServiceUidForNewDebet" default="0" type="radio" options="0;1">
+		    <description language="en">When registering a new debet, should the service be reset ?</description>
+		</parameter>
+		<parameter name="resetUserDebetsDate" default="01/01/1900">
+		    <description language="en">dd/MM/yyyy; prestations before this date are not considered</description>
+		</parameter>
+		<parameter name="reportPriceFormat" default="#,###.00">
+		    <description language="en">[0]=zero when no other value, [#]=nothing unless a value is specified;
+		    price format when reporting a hospitals' finances</description>
+		</parameter>
+		<parameter name="enableFinancialStatusPrestations" default="0" type="radio" options="0;1">
+		    <description language="en">When activated show "deliveries in last 24 hours"</description>
 		</parameter>
 	</parametergroup>
 	
@@ -687,6 +652,40 @@
 		</parameter>
 		<parameter name="referringServer" default="">
 		    <description language="en">Fingerprints are read locally, from the central server, the referring server is the remote computer</description>
+		</parameter>
+	</parametergroup>
+		
+	<!-- ###### BARCODE ####################################################################### -->
+	<parametergroup id="barcode" name="Barcode">
+		<parameter name="enableNationalBarcodeID" default="0" type="radio" options="0;1">
+		    <description language="en">When activated the barcode-module is accessible</description>
+		</parameter>
+		<parameter name="barcodeUpdateURL" default="http://localhost/openclinic/util/setbarcode.jsp">
+		    <description language="en">The configured page sets the national barcode for the actual patient</description>
+		</parameter>
+		<parameter name="imageLabelWidth" default="360" type="integer" unit="pixels">
+		    <description language="en">Width in pixels of barcodes printed to pdfs</description>
+		</parameter>
+		<parameter name="jposFile" default="http://localhost/openclinic/_common/xml/jpos.xml">
+		    <description language="en">Configuration-file for the POS printer</description>
+		</parameter>
+		<parameter name="JPOSenabled" default="0" type="radio" options="0;1">
+		    <description language="en">Wether to initialise the barcodescanner or not</description>
+		</parameter>
+		<parameter name="javaPOSServer" default="http://localhost/openclinic"/>
+		<!-- 
+		<parameter name="CCDKeyboardTransformString" default="à&é\\\"'(§è!ç">
+		    <description language="en">Each of these characters in a scanned barcode will be replaced by their index in the configured value</description>
+		</parameter>
+		-->
+		<parameter name="JavaPOSPrinter" default="Star TSP100 Cutter (TSP143)_1">
+		    <description language="en">System name of the POS printer (Point Of Service)</description>
+		</parameter>
+		<parameter name="javaPOSenabled" default="0" type="radio" options="0;1">
+		    <description language="en">When activated a button to print the receipt is shown</description>
+		</parameter>
+		<parameter name="remoteServer" default="http://10.254.0.2/openclinic/login.jsp?javaPOSServer=http://10.254.1.27/openclinic">
+		    <description language="en"></description>
 		</parameter>
 	</parametergroup>
 	
@@ -754,40 +753,6 @@
 			This parameter can also be managed using the GUI in the 'system&gt;manage&gt;manage active vaccinations' menu</description>
 		</parameter>
 	</parametergroup>
-		
-	<!-- ###### BARCODE ####################################################################### -->
-	<parametergroup id="barcode" name="Barcode">
-		<parameter name="enableNationalBarcodeID" default="0" type="radio" options="0;1">
-		    <description language="en">When activated the barcode-module is accessible</description>
-		</parameter>
-		<parameter name="barcodeUpdateURL" default="http://localhost/openclinic/util/setbarcode.jsp">
-		    <description language="en">The configured page sets the national barcode for the actual patient</description>
-		</parameter>
-		<parameter name="imageLabelWidth" default="360" type="integer" unit="pixels">
-		    <description language="en">Width in pixels of barcodes printed to pdfs</description>
-		</parameter>
-		<parameter name="jposFile" default="http://localhost/openclinic/_common/xml/jpos.xml">
-		    <description language="en">Configuration-file for the POS printer</description>
-		</parameter>
-		<parameter name="JPOSenabled" default="0" type="radio" options="0;1">
-		    <description language="en">Wether to initialise the barcodescanner or not</description>
-		</parameter>
-		<parameter name="javaPOSServer" default="http://localhost/openclinic"/>
-		<!-- 
-		<parameter name="CCDKeyboardTransformString" default="à&é\\\"'(§è!ç">
-		    <description language="en">Each of these characters in a scanned barcode will be replaced by their index in the configured value</description>
-		</parameter>
-		-->
-		<parameter name="JavaPOSPrinter" default="Star TSP100 Cutter (TSP143)_1">
-		    <description language="en">System name of the POS printer (Point Of Service)</description>
-		</parameter>
-		<parameter name="javaPOSenabled" default="0" type="radio" options="0;1">
-		    <description language="en">When activated a button to print the receipt is shown</description>
-		</parameter>
-		<parameter name="remoteServer" default="http://10.254.0.2/openclinic/login.jsp?javaPOSServer=http://10.254.1.27/openclinic">
-		    <description language="en"></description>
-		</parameter>
-	</parametergroup>
 	
 	<!-- ###### LABO ########################################################################## -->
 	<parametergroup id="lab" name="Labo">
@@ -831,6 +796,25 @@
 		</parameter>
 	</parametergroup>
 	
+	<!-- ###### ENCOUNTER ##################################################################### -->
+	<parametergroup id="enc" name="Encounters" class="advanced">
+		<parameter name="gynae.caeserian.url" default=""/>		
+		<parameter name="gynae.anesthesie.url" default=""/>
+		<parameter name="echo.gyn.url" default="base/FR_EchoGyn.pdf"/>
+		<parameter name="glycemyUnit" default="mg / dl"/>
+		<parameter name="insulineUnit" default="lU"/>
+		<parameter name="defaultEncounterCategory" default="A" type="select" options="A;B;C;D;E">
+		    <description language="en">???</description>
+		</parameter>
+		<parameter name="defaultEncounterOrigin" default="">
+		    <description language="en">The default origin of an encounter, its location</description>
+		</parameter>
+		<parameter name="defaultEncounterType" default="visit"/>		
+		<parameter name="encounterDiseaseCategoryMandatory" default="0" type="radio" options="0;1">
+		    <description language="en">When activated a category is mandatory</description>
+		</parameter>
+	</parametergroup>
+	
 	<!-- ###### SAGE ########################################################################## -->
 	<parametergroup id="sage" name="SAGE" class="advanced">
 		<parameter name="lastSageInsurarSync" modus="readonly"/>
@@ -844,6 +828,16 @@
 		<parameter name="query.statistics.hospital.overheadcosts" default="select 9885674 as cost" class="advanced">
 		    <description language="en"></description>
 		</parameter>
+		<parameter name="stats.barchartheight" default="480" type="integer">
+		    <description language="en"></description>
+		</parameter>
+		<parameter name="stats.barchartwidth" default="640" type="integer">
+		    <description language="en"></description>
+		</parameter>
+		<parameter name="stats.piechartwidth" default="640" type="integer">
+		    <description language="en"></description>
+		</parameter>
+		<parameter name="enableMonitorMiniStats" default="0" type="radio" options="0;1"/>
 	</parametergroup>
 	
 	<!-- ###### QUICKLIST ##################################################################### -->
@@ -980,6 +974,7 @@
 		    <description language="en">[serverid].[objectid]</description>
 		</parameter>
 		<parameter name="defaultInsuranceCreditType" default="insurance.payment"/>
+		<parameter name="InsuranceAgentAcceptationNeededFor" default="" class="advanced" modus="readonly"/>
 		<parameter name="defaultInvoiceStatus" default="open"/>
 		<parameter name="multiplePatientInvoiceSeries" default=""/>
 		<parameter name="activeInsuranceServiceUID" default="INS" class="advanced">
@@ -1001,6 +996,12 @@
 		</parameter>
 		<parameter name="priceFormatInsurar" default="#">
 		    <description language="en">The format used in pdfs about insurance</description>
+		</parameter>
+		<parameter name="defaultExtraInsurar" default="-1">
+		    <description language="en">[serverid].[objectid], the id of the default extra insurar when creating debets</description>
+		</parameter>
+		<parameter name="patientSelfInsurarUID" default="none">
+		    <description language="en">Excludes self-insured patients when set to 'none'</description>
 		</parameter>
 		<parameter name="CTAMSactsCategory" default="A" class="advanced"/>
 		<parameter name="CTAMSadmissionCategory" default="S" class="advanced"/>
