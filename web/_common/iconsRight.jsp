@@ -271,12 +271,12 @@
 		<%
 				}
 		%>
-        	<img class="link" onclick="window.location.href='<c:url value="/mobile/patientMenu.jsp"/>'"  border='0' src="<c:url value='/_img/blackberry.jpg'/>" title="<%=getTranNoLink("web","mobile.interface",sWebLanguage)%>"/>
+        	<img class="link" onclick="window.location.href='<c:url value="/mobile/patientMenu.jsp"/>'"  border='0' src="<c:url value='/_img/androidicon.png'/>" title="<%=getTranNoLink("web","mobile.interface",sWebLanguage)%>"/>
         <%
 			}
 			else {
         %>	
-        	<img class="link" onclick="window.location.href='<c:url value="/mobile/searchPatient.jsp"/>'"  border='0' src="<c:url value='/_img/blackberry.jpg'/>" title="<%=getTranNoLink("web","mobile.interface",sWebLanguage)%>"/>
+        	<img class="link" onclick="window.location.href='<c:url value="/mobile/searchPatient.jsp"/>'"  border='0' src="<c:url value='/_img/androidicon.png'/>" title="<%=getTranNoLink("web","mobile.interface",sWebLanguage)%>"/>
         <%
 			}
         if(activeUser.getAccessRight("labos.patientlaboresults.select") && activePatient!=null && activePatient.personid.length()>0 && activePatient.hasLabRequests()){

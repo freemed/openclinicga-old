@@ -19,4 +19,6 @@
 4.89.27 - Limited usage of default values for items to newly created transactions
 4.89.28 - Updated userprofile management screen to use checkbox images instead of checkbox input elements (performance)
 4.89.29 - Bug correction in insurer invoice edit screen: added possibility to hide rwandan invoice templates
+4.89.30 - Changed mobile interface icon from blackberry to android
+4.89.31 - util/updateExaminations.jsp now redirects to login screen instead of session expired screen
 
