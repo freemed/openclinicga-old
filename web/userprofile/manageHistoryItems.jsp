@@ -795,7 +795,7 @@
       if(transactionForm.elements[i].type=="text"){ 
     	if(transactionForm.elements[i].name.startsWith("Order_")){
     	  var id = transactionForm.elements[i].name.substring("Order_".length);
-          transactionForm.elements[i].value = transactionForm.all["DefaultOrder_"+id].value;
+          transactionForm.elements[i].value = eval("transactionForm.DefaultOrder_"+id+".value");
     	}
       }
     }
@@ -814,14 +814,14 @@
   
   <%-- CLICK CHECKBOX --%>
   function clickCheckbox(cbName){
-    var cb = transactionForm.all[cbName];
+    var cb = eval("transactionForm."+cbName);
     if(cb.src.endsWith("uncheck.gif")) cb.src = "<%=sCONTEXTPATH%>/_img/check.gif";
     else                               cb.src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
   }
 
   <%-- TOGGLE CHECKBOX --%>
   function toggleCheckbox(cbName){
-    var cb = transactionForm.all[cbName];
+    var cb = eval("transactionForm."+cbName);
     if(cb.src.endsWith("uncheck.gif")) cb.src = "<%=sCONTEXTPATH%>/_img/check.gif";
     else                               cb.src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
   }
