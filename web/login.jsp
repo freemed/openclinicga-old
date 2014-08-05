@@ -55,11 +55,26 @@
         Element element = document.getRootElement().element("version");
         version = "v" + element.attribute("major").getValue() + "." + element.attribute("minor").getValue() + "." + element.attribute("bug").getValue() + " (" + element.attribute("date").getValue() + ")";
         session.setAttribute("ProjectVersion", version);
-        int thisversion=Integer.parseInt(element.attribute("major").getValue())*1000000+Integer.parseInt(element.attribute("minor").getValue())*1000+Integer.parseInt(element.attribute("bug").getValue());
+        int thisversion = Integer.parseInt(element.attribute("major").getValue())*1000000+Integer.parseInt(element.attribute("minor").getValue())*1000+Integer.parseInt(element.attribute("bug").getValue());
         if(thisversion>MedwanQuery.getInstance().getConfigInt("updateVersion",0)){
+        	// format new version
+        	version = element.attribute("major").getValue() + "." + element.attribute("minor").getValue() + "." + element.attribute("bug").getValue();
+        	String sUpdateVersion = ""+MedwanQuery.getInstance().getConfigInt("updateVersion",0);
+        	String sMajor = sUpdateVersion.substring(0,1),
+        		   sMinor = sUpdateVersion.substring(1,sUpdateVersion.length()-3), 
+        		   sBug   = sUpdateVersion.substring(sUpdateVersion.length()-3);  
+        	if(sMinor.startsWith("0")) sMinor = sMinor.substring(1);  
+        	if(sBug.startsWith("0")) sBug = sBug.substring(1);
+        	sUpdateVersion = sMajor+"."+sMinor+"."+sBug;
+        	
+        	// compose update-question-label
+        	String sUpdateLabel = getTranNoLink("web","applyUpdateVersion","en");
+        	sUpdateLabel = sUpdateLabel.replaceAll("#currVersion#",""+version);
+        	sUpdateLabel = sUpdateLabel.replaceAll("#newVersion#",sUpdateVersion);
+        	
         	%>
     		    <script>
-    		      if(yesnoDialogDirectText("<%=getTranNoLink("web","applyUpdate","en")%>")){
+    		      if(yesnoDialogDirectText("<%=sUpdateLabel%>")){
     		        window.location.href = "<%=sCONTEXTPATH%>/systemUpdateServlet?updateVersion=<%=thisversion%>";
     		      }
     		        
