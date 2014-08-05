@@ -1,16 +1,28 @@
-<%@ page import="be.openclinic.medical.AnesthesieControl" %>
+<%@page import="be.openclinic.medical.AnesthesieControl"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%=checkPermission("medical.controlanesthesie","select",activeUser)%>
+
 <%
+    String sAction = checkString(request.getParameter("Action")),
+           sCAID   = checkString(request.getParameter("EditUID"));
+
+    /// DEBUG //////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n*********** medical/controlAnesthesieEdit.jsp ***********");
+    	Debug.println("sAction : "+sAction);
+    	Debug.println("sCAID   : "+sCAID+"\n");
+    }
+    ////////////////////////////////////////////////////////////////////////////////
+    
     String sControlByName = "";
-    String sAction = checkString(request.getParameter("Action"));
-    String sCAID = checkString(request.getParameter("EditUID"));
     AnesthesieControl ac;
 
    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-    if (sAction.equals("SAVE")){
-        if (sCAID.length()==0){
+   	
+   	//*** SAVE ******************************************************
+    if(sAction.equals("SAVE")){
+        if(sCAID.length()==0){
             ac = new AnesthesieControl();
             ac.setCreateDateTime(getSQLTime());
         }
@@ -20,9 +32,8 @@
         }
 
         String sDate = checkString(request.getParameter("EditDate"));
-        if (sDate.length()==0){
-            sDate = getDate();
-        }
+        if(sDate.length()==0) sDate = getDate();
+        
         ac.setDate(ScreenHelper.getSQLDate(sDate));
         ac.setControlPerformedById(checkString(request.getParameter("EditControlByID")));
         ac.setBeginHour(checkString(request.getParameter("EditBeginHour")));
@@ -44,30 +55,35 @@
         ac.setUpdateUser(activeUser.userid);
         ac.store();
 
-        if (ac.getControlPerformedById().length()>0){
+        if(ac.getControlPerformedById().length()>0){
             sControlByName = ScreenHelper.getFullUserName(ac.getControlPerformedById(),ad_conn);
         }
+        
+        %><script>window.location.href = "<%=sCONTEXTPATH%>/main.jsp?Page=medical/controlAnesthesieFind.jsp&ts=<%=getTs()%>";</script><%
     }
-    else if (sCAID.length()>0){
+    else if(sCAID.length()>0){
         ac = AnesthesieControl.get(sCAID);
-        if (ac.getControlPerformedById().length()>0){
+        if(ac.getControlPerformedById().length()>0){
             sControlByName = ScreenHelper.getFullUserName(ac.getControlPerformedById(),ad_conn);
         }
     }
-    else {
+    else{
         ac = new AnesthesieControl();
         ac.setDate(ScreenHelper.parseDate(getDate()));
         ac.setControlPerformedById(activeUser.userid);
         sControlByName = ScreenHelper.getFullUserName(activeUser.userid,ad_conn);
     }
+   	
     ad_conn.close();
 %>
-<form name="editForm" method="post" action="<c:url value='/main.do'/>?Page=medical/controlAnesthesieEdit.jsp&ts=<%=getTs()%>">
+
+<form name="transactionForm" method="post" action="<c:url value='/main.do'/>?Page=medical/controlAnesthesieEdit.jsp&ts=<%=getTs()%>">
     <%=writeTableHeader("Web","controlanesthesie",sWebLanguage," doBack();")%>
+    
     <table class="list" width="100%" border="0" cellspacing="1" cellpadding="0">
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%></td>
-            <td class="admin2" colspan="3"><%=writeDateField("EditDate","editForm",checkString(ScreenHelper.stdDateFormat.format(ac.getDate())),sWebLanguage)%></td>
+            <td class="admin2" colspan="3"><%=writeDateField("EditDate","transactionForm",checkString(ScreenHelper.stdDateFormat.format(ac.getDate())),sWebLanguage)%></td>
         </tr>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","begin_hour",sWebLanguage)%></td>
@@ -92,15 +108,18 @@
             <td class="admin2" colspan="3">
                 <input type="hidden" id="EditControlByID" name="EditControlByID" value="<%=ac.getControlPerformedById()%>">
                 <input class="text" type="text" name="EditControlByName" readonly size="<%=sTextWidth%>" value="<%=sControlByName%>">
+               
                 <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchUser('EditControlByID','EditControlByName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditControlByID').value='';editForm.EditControlByName.value='';">
+                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditControlByID').value='';transactionForm.EditControlByName.value='';">
             </td>
         </tr>
-        <tr>
-            <td class="admin"/>
-            <td class="admin" width="50"><%=getTran("openclinic.chuk","ok",sWebLanguage)%></td>
-            <td class="admin" width="50"><%=getTran("openclinic.chuk","nok",sWebLanguage)%></td>
-            <td class="admin"><%=getTran("openclinic.chuk","remark",sWebLanguage)%></td>
+        
+        <%-- CHECK-LIST --%>
+        <tr class="admin">
+            <td/>
+            <td width="50"><%=getTran("openclinic.chuk","ok",sWebLanguage)%></td>
+            <td width="50"><%=getTran("openclinic.chuk","nok",sWebLanguage)%></td>
+            <td><%=getTran("openclinic.chuk","remark",sWebLanguage)%></td>
         </tr>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","equipment_anesthesie",sWebLanguage)%></td>
@@ -138,28 +157,23 @@
             <td class="admin2"><input type="radio" onDblClick="uncheckRadio(this);" name="EditOther" value="nok"<%if(ac.getOther().equals("nok")){out.print(" checked");}%>></td>
             <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="100" rows="2" name="EditOtherRemark"><%=ac.getOtherRemark()%></textarea></td>
         </tr>
-        <tr>
-            <td class="admin"/>
-            <td class="admin2" colspan="3">
-<%-- BUTTONS --%>
-    <%
-      //if ((activeUser.getAccessRight("controlanesthesie.add") || activeUser.getAccessRight("controlanesthesie.edit"))&&(sView.length()==0)){
-    %>
-            <INPUT class="button" type="button" name="buttonSave" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
-    <%
-      //}
-    %>
-                <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/main.do?Page=medical/controlAnesthesieFind.jsp"/>&ts=<%=getTs()%>'}">
-            </td>
-        </tr>
     </table>
-    <input type='hidden' name='Action' value=''>
-    <input type='hidden' name='EditUID' value='<%=ac.getUid()%>'>
+     
+    <%-- BUTTONS --%>
+    <%=ScreenHelper.alignButtonsStart()%>
+        <%=getButtonsHtml(request,activeUser,activePatient,"medical.controlanesthesie",sWebLanguage,false)%>
+    <%=ScreenHelper.alignButtonsStop()%>
+    
+    <input type="hidden" name="Action" value="">
+    <input type="hidden" name="EditUID" value="<%=ac.getUid()%>">
+    <%=ScreenHelper.contextFooter(request)%>
+</form>
     
 <script>
-  function calculateInterval(sBegin, sEnd, sReturn){
+  <%-- CALCULATE INTERVAL --%>
+  function calculateInterval(sBegin,sEnd,sReturn){
     document.getElementById(sReturn).value = "";
-    if ((document.getElementById(sBegin).value.length>0) && (document.getElementById(sEnd).value.length>0)){
+    if(document.getElementById(sBegin).value.length>0 && document.getElementById(sEnd).value.length>0){
       var aTimeBegin = document.getElementById(sBegin).value.split(":");
       var startHour = aTimeBegin[0];
       if(startHour.length==0) startHour = 0;
@@ -189,22 +203,30 @@
     }
   }
 
+  <%-- GET MINUTES IN INTERVAL --%>
   function getMinutesInInterval(from,until){
     var millisDiff = until.getTime() - from.getTime();
     return (millisDiff/60000);
   }
 
+  <%-- SEARCH USER --%>
   function searchUser(userID,userName){
     openPopup("/_common/search/searchUser.jsp&ts=<%=getTs()%>&ReturnUserID="+userID+"&ReturnName="+userName);
   }
 
+  <%-- SUBMIT FORM --%>
   function submitForm(){
-    editForm.buttonSave.disabled = true;
-    editForm.Action.value = "SAVE";
-    editForm.submit();
+    transactionForm.saveButton.disabled = true;
+    transactionForm.Action.value = "SAVE";
+    transactionForm.submit();
+  }
+  
+  <%-- DO BACK --%>
+  function doBack(){
+    if(checkSaveButton()){
+      window.location.href = "<c:url value='/main.do?Page=medical/controlAnesthesieFind.jsp'/>&ts=<%=getTs()%>";
+    }
   }
 </script>
-</form>
-<%
-    
-%>
+
+<%=writeJSButtons("transactionForm","saveButton")%>
