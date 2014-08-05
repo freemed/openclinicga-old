@@ -23,6 +23,8 @@
 </table>
 
 <script>
+  <%=sCenterWindow%>
+
   <%-- DO CLOSE --%>
   function doClose(iReturn){
     window.returnValue = iReturn;
