@@ -1633,7 +1633,8 @@ public class Screen extends OC_Object {
         }
                 
         // update examinations-table and labels, based on examinations.xml
-        UpdateSystem.updateExaminations();
+        UpdateSystem systemUpdate = new UpdateSystem();
+        systemUpdate.updateExaminations();
     }
     
     //--- UNREGISTER EXAMINATION ------------------------------------------------------------------
@@ -1717,7 +1718,8 @@ public class Screen extends OC_Object {
         }        
 
         // update examinations-table and labels, based on examinations.xml
-        UpdateSystem.updateExaminations();
+        UpdateSystem systemUpdate = new UpdateSystem();
+        systemUpdate.updateExaminations();
         
         return examFound;
     }
