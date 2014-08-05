@@ -501,11 +501,7 @@ function isAtLeastOneBeroepsFieldFilled(){
 }
 
 function deleteBeroep(rowid){
-  var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer = window.showModalDialog(popupUrl,'',modalities);
-
-  if(answer==1){
+  if(yesnoDialog("web","areYouSureToDelete")){
     sBeroeps = deleteRowFromArrayString(sBeroeps,rowid.id);
     tblBeroeps.deleteRow(rowid.rowIndex);
     clearBeroepsFields();
@@ -593,11 +589,7 @@ function isAtLeastOneAOFieldFilled(){
 }
 
 function deleteArbeidsOngeval(rowid){
-  var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer = window.showModalDialog(popupUrl,'',modalities);
-
-  if(answer==1){
+  if(yesnoDialog("web","areYouSureToDelete")){
     sAO = deleteRowFromArrayString(sAO,rowid.id);
     tblAO.deleteRow(rowid.rowIndex);
     clearArbeidsOngevalFields();
@@ -693,11 +685,7 @@ function isAtLeastOneBZFieldFilled(){
 }
 
 function deleteBZ(rowid){
-  var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer = window.showModalDialog(popupUrl,'',modalities);
-
-  if(answer==1){
+  if(yesnoDialog("web","areYouSureToDelete")){
     sBZ = deleteRowFromArrayString(sBZ,rowid.id);
     tblBZ.deleteRow(rowid.rowIndex);
     clearBZFields();

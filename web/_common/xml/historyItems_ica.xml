@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<items>
+  <item tranTypeShort="TRANSACTION_TYPE_GENERAL_CLINICAL_EXAMINATION" itemTypeShort="ITEM_TYPE_CE_KLINISCH_ONDERZOEK_COMMENT" actif="true" order="7">
+    <label type="web.occup" id="comments"/>
+  </item>
+  <item tranTypeShort="TRANSACTION_TYPE_GENERAL_CLINICAL_EXAMINATION" itemTypeShort="ITEM_TYPE_CE_KLACHTEN_PROFESSIONEEL1" actif="true" order="5">
+    <label type="web.occup" id="medwan.healthrecord.anamnese.general.complaints.professional"/>
+  </item>
+  <item tranTypeShort="TRANSACTION_TYPE_GENERAL_CLINICAL_EXAMINATION" itemTypeShort="ITEM_TYPE_CE_KLACHTEN_PERSOONLIJK1" actif="true" order="6">
+    <label type="web.occup" id="medwan.healthrecord.anamnese.general.complaints.personal"/>
+  </item>
+  <item tranTypeShort="TRANSACTION_TYPE_GENERAL_CLINICAL_EXAMINATION" itemTypeShort="ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_BLOODPRESSURE_SYSTOLIC" actif="true" order="4">
+    <label type="web.occup" id="medwan.common.blood-pressure.systolic"/>
+  </item>
+  <item tranTypeShort="TRANSACTION_TYPE_GENERAL_CLINICAL_EXAMINATION" itemTypeShort="ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_BLOODPRESSURE_DIASTOLIC" actif="true" order="1">
+    <label type="web.occup" id="medwan.common.blood-pressure.diastolic"/>
+  </item>
+  <item tranTypeShort="TRANSACTION_TYPE_GENERAL_CLINICAL_EXAMINATION" itemTypeShort="ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_BLOODPRESSURE_ARM" actif="true" order="1">
+    <label type="web.occup" id="medwan.common.blood-pressure.arm"/>
+  </item>
+  <item tranTypeShort="TRANSACTION_TYPE_ABDOMINAL_ECHOGRAPHY_PROTOCOL" itemTypeShort="ITEM_TYPE_ABDOMINAL_ECHOGRAPHY_PROTOCOL_AORTA" actif="true" order="">
+    <label type="openclinic.chuk" id="aorta"/>
+  </item>
+  <item tranTypeShort="TRANSACTION_TYPE_ABDOMINAL_ECHOGRAPHY_PROTOCOL" itemTypeShort="ITEM_TYPE_ABDOMINAL_ECHOGRAPHY_PROTOCOL_BILIARY_VESICLE" actif="true" order="">
+    <label type="web.occup" id="be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ABDOMINAL_ECHOGRAPHY_PROTOCOL_BILIARY_VESICLE"/>
+  </item>
+  <item tranTypeShort="TRANSACTION_TYPE_ABDOMINAL_ECHOGRAPHY_PROTOCOL" itemTypeShort="ITEM_TYPE_ABDOMINAL_ECHOGRAPHY_PROTOCOL_HILE" actif="true" order="">
+    <label type="web.occup" id="be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ABDOMINAL_ECHOGRAPHY_PROTOCOL_HILE"/>
+  </item>
+</items>

@@ -61,11 +61,12 @@
         Vector userSelectedItems = new Vector();
 
         ItemContextVO itemContextVO = new ItemContextVO(new Integer(IdentifierFactory.getInstance().getTemporaryNewIdentifier()),"","");
+        Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try{
-            Connection conn = MedwanQuery.getInstance().getAdminConnection();
+            conn = MedwanQuery.getInstance().getAdminConnection();
             String sSql = "SELECT value FROM userparameters"+
                           " WHERE parameter LIKE ?"+
                           "  AND userid = ?"+
@@ -109,6 +110,7 @@
             try{
                 if(rs!=null) rs.close();
                 if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
             }
             catch(Exception e){
                 Debug.printStackTrace(e);
@@ -254,7 +256,7 @@
         sForward = MedwanQuery.getInstance().getForward(tran.getTransactionType());
 
         if(sForward!=null){
-            sForward = sForward.replaceAll("template.jsp","viewTransaction.jsp");
+            sForward = sForward.replaceAll("main.do","healthrecord/viewTransaction.jsp");
 
             if(sForward.indexOf("?") > -1){
             	// &

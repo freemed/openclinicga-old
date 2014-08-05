@@ -764,7 +764,7 @@
     %>
 
     <%-- BUTTONS --%>
-    <div style="text-align:right;padding-top:10px;">
+    <div style="text-align:center;padding-top:10px;">
         <%
             if(itemCount > 0){
                 %>

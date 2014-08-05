@@ -65,7 +65,7 @@ public class UpdateSystem implements Runnable {
 	
 	//--- UPDATE ----------------------------------------------------------------------------------
 	public void update(){
-		 setProgress(0); // "started"
+		 setProgress(5); // "started"
 		updateDb();
 		 setProgress(20); // "updateDb done"
 		updateLabels(basedir);

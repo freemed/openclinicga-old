@@ -336,10 +336,7 @@
       else if(transactionForm.EditLabelID.value.length==0) transactionForm.EditLabelID.focus();
     }
     else{
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      var answer=(window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-      if(answer==1){
+      if(yesnoDialog("Web","areYouSureToDelete")){
         var url= path + '/system/manageTranslationsStore.jsp?ts=' + <%=getTs()%>;
           new Ajax.Request(url,{
                 method: "POST",

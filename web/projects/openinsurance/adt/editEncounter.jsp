@@ -379,26 +379,27 @@
     }
 %>
 <script>
-    if(EditEncounterForm.EditEncounterService.value==""){
-        EditEncounterForm.SearchBedButton.disabled = true;
-    }else{
-        EditEncounterForm.SearchBedButton.disabled = false;
-    }
-    checkEncounterType();
+  if(EditEncounterForm.EditEncounterService.value==""){
+    EditEncounterForm.SearchBedButton.disabled = true;
+  }
+  else{
+    EditEncounterForm.SearchBedButton.disabled = false;
+  }
+  checkEncounterType();
 
-    function searchService(serviceUidField,serviceNameField){
-        var sNeedsBeds="";
-        if(serviceNameField != 'EditEncounterDestinationName'){
-			if(document.getElementById("EditEncounterType").value=='admission'){
-				sNeedsBeds="&needsbeds=1";
-			}
-			else {
-				sNeedsBeds="&needsvisits=1";
-			}
-        }
-        openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField+sNeedsBeds);
-        document.getElementById(serviceNameField).focus();
+  function searchService(serviceUidField,serviceNameField){
+    var sNeedsBeds="";
+    if(serviceNameField != 'EditEncounterDestinationName'){
+      if(document.getElementById("EditEncounterType").value=='admission'){
+        sNeedsBeds="&needsbeds=1";
+	  }
+	  else{
+	    sNeedsBeds="&needsvisits=1";
+	  }
     }
+    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField+sNeedsBeds);
+    document.getElementById(serviceNameField).focus();
+  }
 
     function doSave(){
 		if(EditEncounterForm.EditEncounterBegin.value == ""){
@@ -476,28 +477,20 @@
     }
 
     function deleteService(sID){
-        var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-        var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
-
-        if(answer==1){
-            var params = '';
-            var today = new Date();
-            var url= '<c:url value="/adt/ajaxActions/editEncounterDeleteService.jsp"/>?EncounterUID=<%=sEditEncounterUID%>&ServiceUID='+sID+'&ts='+today;
-            document.getElementById('divServices').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
-            new Ajax.Request(url,{
-                    method: "GET",
-                    parameters: params,
-                    onSuccess: function(resp){
-                        $('divServices').innerHTML=resp.responseText;
-                    },
-                    onFailure: function(){
-                    }
-                }
-            );
-
-        }
+      if(yesnoDialog("Web","areYouSureToDelete")){
+        var params = '';
+        var today = new Date();
+        var url= '<c:url value="/adt/ajaxActions/editEncounterDeleteService.jsp"/>?EncounterUID=<%=sEditEncounterUID%>&ServiceUID='+sID+'&ts='+today;
+        document.getElementById('divServices').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+        new Ajax.Request(url,{
+          method: "GET",
+          parameters: params,
+          onSuccess: function(resp){
+            $('divServices').innerHTML=resp.responseText;
+          },
+          onFailure: function(){
+          }
+        });
+      }
     }
-
 </script>

@@ -79,7 +79,9 @@
 							ps.execute();
 							ps.close();
 							conn.close();
-							UpdateSystem.updateCounters();
+
+					        UpdateSystem systemUpdate = new UpdateSystem();
+					        systemUpdate.updateCounters();
 						}
 						int serverid=MedwanQuery.getInstance().getConfigInt("serverId"),objectid;
 						String code,name,price,category,prestationclass,mfppct,mfpadmissionpct;
@@ -149,7 +151,9 @@
 							ps.execute();
 							ps.close();
 							conn.close();
-							UpdateSystem.updateCounters();
+
+					        UpdateSystem systemUpdate = new UpdateSystem();
+					        systemUpdate.updateCounters();
 						}
 						String code,name,language,beds,visits,parentcode;
 						//Read file as a prestations csv file
@@ -241,8 +245,11 @@
 							ps.execute();
 							ps.close();
 							conn.close();
-							UpdateSystem.updateCounters();
-						}						String type,id,language,label;
+
+					        UpdateSystem systemUpdate = new UpdateSystem();
+					        systemUpdate.updateCounters();					        
+						}	
+						String type,id,language,label;
 						//Read file as a prestations csv file
 		                File f = new File(upBean.getFolderstore()+"/"+sFileName);
 						BufferedReader br = new BufferedReader(new FileReader(f));
@@ -340,7 +347,9 @@
 							ps.execute();
 							ps.close();
 							conn.close();
-							UpdateSystem.updateCounters();
+
+					        UpdateSystem systemUpdate = new UpdateSystem();
+					        systemUpdate.updateCounters();
 						}						
 						String type,id,language,label;
 						//Read file as a prestations csv file

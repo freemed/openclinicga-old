@@ -376,11 +376,7 @@
   }
 
   function deletePrestation(sPrestationUid){
-    var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm('<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>');
-
-    if(answer==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       transactionForm.EditPrestationUid.value = sPrestationUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();
@@ -515,18 +511,7 @@
   }
 
   function deleteCategory(rowid){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-    var answer;
-    if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,"",modalitiesIE);
-    }
-    else{
-      answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-    }
-
-    if(answer==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       sCategory = deleteRowFromArrayString(sCategory,rowid.id.substring(11,rowid.id.length-1));
       tblCategories.deleteRow(rowid.rowIndex);
       clearCategoryFields();

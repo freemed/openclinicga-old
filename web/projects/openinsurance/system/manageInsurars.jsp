@@ -545,11 +545,7 @@
 
   <%-- DELETE INSURAR --%>
   function deleteInsurar(sInsurarUid){
-    var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-
-    if(answer==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       transactionForm.EditInsurarId.value = sInsurarUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();
@@ -785,11 +781,7 @@
       else{
         if(patientCount==0){
           <%-- no patients in this category, so delete it --%>
-          var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-          var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm('<%=getTranNoLink("web","areyousure",sWebLanguage)%>');
-
-          if(answer==1){
+          if(yesnoDialog("Web","areYouSureToDelete")){
             sCategories = deleteRowFromArrayString(sCategories,rowid.id);
             initCategoriesArray(sCategories);
             tblCategories.deleteRow(rowid.rowIndex);
@@ -821,11 +813,7 @@
     }
     else{
       <%-- category that has not been saved yet, so delete it --%>
-      var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm('<%=getTranNoLink("web","areyousure",sWebLanguage)%>');
-
-      if(answer==1){
+      if(yesnoDialog("Web","areYouSureToDelete")){
         sCategories = deleteRowFromArrayString(sCategories,rowid.id);
         initCategoriesArray(sCategories);
         tblCategories.deleteRow(rowid.rowIndex);
@@ -913,11 +901,7 @@
   <%-- DELETE ALL CATEGORIES --%>
   function deleteAllCategories(){
     if(tblCategories.rows.length > 1){
-      var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm('<%=getTranNoLink("web","areyousure",sWebLanguage)%>');
-
-      if(answer==1){
+      if(yesnoDialog("Web","areYouSureToDelete")){
         deleteAllCategoriesNoConfirm();
       }
     }

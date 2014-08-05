@@ -57,7 +57,29 @@
         session.setAttribute("ProjectVersion", version);
         int thisversion=Integer.parseInt(element.attribute("major").getValue())*1000000+Integer.parseInt(element.attribute("minor").getValue())*1000+Integer.parseInt(element.attribute("bug").getValue());
         if(thisversion>MedwanQuery.getInstance().getConfigInt("updateVersion",0)){
-    		%><script>window.location.href='<%=sCONTEXTPATH%>/systemUpdateServlet?updateVersion=<%=thisversion+""%>';</script><%
+        	%>
+    		    <script>
+    		      if(yesnoDialogDirectText("<%=getTranNoLink("web","applyUpdate","en")%>")){
+    		        window.location.href = "<%=sCONTEXTPATH%>/systemUpdateServlet?updateVersion=<%=thisversion%>";
+    		      }
+    		        
+    		      <%-- YESNO DIALOG DIRECT TEXT (yesnoPopupSimple.jsp does not require a valid session) --%>
+    		      function yesnoDialogDirectText(labelText){
+    		        var answer = "";
+    		            
+    		        if(window.showModalDialog){
+    		          var popupUrl = "<c:url value='/_common/search/yesnoPopupSimple.jsp'/>?ts=<%=ScreenHelper.getTs()%>&labelValue="+labelText;
+    		          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+    		          answer = window.showModalDialog(popupUrl,"",modalities);
+    		        }
+    		        else{
+    		          answer = window.confirm(labelText);          
+    		        }
+    		            
+    		        return answer; // FF
+    		      }
+    		    </script>
+    		<%
         }
     }
     catch (Exception e) {

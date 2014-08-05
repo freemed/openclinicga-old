@@ -3863,6 +3863,50 @@ public class MedwanQuery {
         }
         return transactionVO;
     }
+
+    //--- GET LAST TRANSACTION BY TYPE ------------------------------------------------------------
+    public TransactionVO getLastTransactionByType(HealthRecordVO healthRecord, String transactionType){
+        int personId = healthRecord.getPerson().getPersonId().intValue();
+        return getLastTransactionByType(personId,transactionType);
+    }
+
+    public TransactionVO getLastTransactionByType(int personId, String transactionType){
+        TransactionVO transactionVO = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try{
+            String sSql = "SELECT a.serverId, a.transactionId"+
+                          " FROM Transactions a, Healthrecord b"+
+                          "  WHERE a.healthRecordId = b.healthRecordId"+
+                          "   AND personId = ?"+
+                          "   AND transactionType = ?"+
+                          " ORDER BY a.updateTime DESC";
+            ps = getOpenclinicConnection().prepareStatement(sSql);
+            ps.setInt(1,personId);
+            ps.setString(2,transactionType);
+            rs = ps.executeQuery();
+
+            if(rs.next()){
+                transactionVO = loadTransaction(rs.getInt("serverid"),rs.getInt("transactionId"));
+            }
+        }
+        catch(Exception e){
+            Debug.printStackTrace(e);
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+            }
+            catch(SQLException e){
+                Debug.printStackTrace(e);
+            }
+        }
+
+        return transactionVO;
+    }
+    
     public PersonalVaccinationsInfoVO getPersonalVaccinationsInfo(PersonVO personVO, UserVO userVO){
         return getPersonalVaccinationsInfo(personVO, userVO.getPersonVO().getLanguage());
     }

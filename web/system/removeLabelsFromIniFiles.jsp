@@ -385,11 +385,7 @@
       for(i=0; i<transactionForm.elements.length; i++){
         if(transactionForm.elements[i].type=="checkbox" && transactionForm.elements[i].name.indexOf("checkbox$")>-1){
           if(transactionForm.elements[i].checked==true){
-            var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-            var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            var answer = window.showModalDialog(popupUrl,'',modalities);
-
-            if(answer==1){
+      	    if(yesnoDialog("Web","areYouSureToDelete")){
               transactionForm.action.value = action;
               transactionForm.submit();
             }

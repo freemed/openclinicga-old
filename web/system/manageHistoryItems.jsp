@@ -843,7 +843,7 @@
     %>
 
     <%-- BUTTONS --%>
-    <div style="text-align:right;padding-top:10px;">
+    <div style="text-align:center;padding-top:10px;">
         <%
             if(itemCount > 0){
                 %>
@@ -872,7 +872,7 @@
   
   <%-- CLICK CHECKBOX --%>
   function clickCheckbox(cbName){
-    var cb = transactionForm.all[cbName];
+    var cb = eval("transactionForm."+cbName);
     if(cb.src.endsWith("uncheck.gif")) cb.src = "<%=sCONTEXTPATH%>/_img/check.gif";
     else                               cb.src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
 	
@@ -881,7 +881,7 @@
   
   <%-- TOGGLE CHECKBOX --%>
   function toggleCheckbox(cbName){
-    var cb = transactionForm.all[cbName];
+    var cb = eval("transactionForm."+cbName);
     if(cb.src.endsWith("uncheck.gif")) cb.src = "<%=sCONTEXTPATH%>/_img/check.gif";
     else                               cb.src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
     
@@ -892,14 +892,14 @@
   function autoBlurLabel(cbName){
     var itemCount = cbName.substr(3); // remove cb_
     
-    if(transactionForm.all[cbName].src.endsWith("uncheck.gif")){
-      transactionForm.all["LabelType_"+itemCount].value = "";
-      transactionForm.all["LabelId_"+itemCount].value = "";
-      transactionForm.all["LabelField_"+itemCount].innerHTML = "";
+    if(eval("transactionForm."+cbName+".src").endsWith("uncheck.gif")){
+      eval("transactionForm.LabelType_"+itemCount+".value = '';");
+      eval("transactionForm.LabelId_"+itemCount+".value = '';");
+      document.getElementById("LabelField_"+itemCount).innerHTML = "";
     }
     else{
-      transactionForm.all["LabelType_"+itemCount].value = "web.occup";
-      transactionForm.all["LabelId_"+itemCount].value = transactionForm.all["ItemType_"+itemCount].value;
+      eval("transactionForm.LabelType_"+itemCount+".value = 'web.occup';");
+      eval("transactionForm.LabelId_"+itemCount+".value = transactionForm.ItemType_"+itemCount+".value");
       blurLabel(itemCount);   
     }
   }
@@ -923,8 +923,7 @@
 	var imgs = document.getElementsByTagName("img");
     for(var i=0; i<imgs.length; i++){
       if(imgs[i].id.startsWith("cb_")){
-        transactionForm.ConcatCheckboxes.value+= imgs[i].id+"="+(!imgs[i].src.endsWith("uncheck.gif"))+";";	   	
-	    autoBlurLabel(imgs[i].name);
+        transactionForm.ConcatCheckboxes.value+= imgs[i].id+"="+(!imgs[i].src.endsWith("uncheck.gif"))+";";	 
 	  }
 	}
   }
@@ -949,28 +948,30 @@
 
   <%-- BLUR LABEL --%>
   function blurLabel(itemId){
-    if(transactionForm.all["LabelType_"+itemId].value.length > 0 && 
-       transactionForm.all["LabelId_"+itemId].value.length > 0){
+    var labelType = eval("transactionForm.LabelType_"+itemId+".value"),
+        labelId   = eval("transactionForm.LabelId_"+itemId+".value");
+      
+    if(labelType.length > 0 && labelId.length > 0){
       var url = "<%=sCONTEXTPATH%>/system/ajax/blurLabel.jsp?skipRequestQueue=true&ts="+new Date().getTime();
       new Ajax.Request(url,
         {
           method: "GET",
           parameters: {
-            LabelType: transactionForm.all["LabelType_"+itemId].value,
-            LabelId: transactionForm.all["LabelId_"+itemId].value 
+            LabelType: labelType,
+            LabelId: labelId 
           },
           onSuccess: function(resp){
             var respText = convertSpecialCharsToHTML(resp.responseText);
             respText = trim(respText);
-            
+
             if(respText.length > 0){
-              transactionForm.all["LabelField_"+itemId].innerHTML = respText;
+              document.getElementById("LabelField_"+itemId).innerHTML = respText;
             }
             else{
-              transactionForm.all["LabelField_"+itemId].innerHTML = "<font color='red'><%=getTranNoLink("web","labelNotFound",sWebLanguage)%></font>";
+           	  document.getElementById("LabelField_"+itemId).innerHTML = "<font color='red'><%=getTranNoLink("web","labelNotFound",sWebLanguage)%></font>";
 
-              transactionForm.all["LabelType_"+itemId].value = "";
-              transactionForm.all["LabelId_"+itemId].value = "";
+              eval("transactionForm.LabelType_"+itemId+".value = '';");
+              eval("transactionForm.LabelId_"+itemId+".value = '';");
             }
           },
           onFailure: function(resp){
@@ -980,7 +981,7 @@
       );
     }
     else{
-      transactionForm.all["LabelField_"+itemId].innerHTML = "";
+      document.getElementById("LabelField_"+itemId).innerHTML = "";
     }
   }
   
@@ -988,13 +989,14 @@
   blurExistingLabels();
   
   function blurExistingLabels(){
-    for(var i=0; i<transactionForm.elements.length; i++){
-	  if(transactionForm.elements[i].type=="checkbox"){
-	    var itemId = (transactionForm.elements[i].id).substring("cb_".length);
+    var imgs = document.getElementsByTagName("img");
+    for(var i=0; i<imgs.length; i++){
+      if(imgs[i].id.startsWith("cb_")){
+        var itemId = (imgs[i].id).substring("cb_".length);
 	    blurLabel(itemId);
 	  }
 	}
-  } 
+  }
 
   <%-- DO BACK --%>
   function doBack(){

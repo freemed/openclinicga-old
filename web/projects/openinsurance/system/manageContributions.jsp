@@ -435,19 +435,17 @@
   }
 
   function deletePrestation(sPrestationUid){
-    var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm('<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>');
-
-    if(answer==1){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       transactionForm.EditPrestationUid.value = sPrestationUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();
     }
   }
+  
   function searchCoveragePlan(){
-	    openPopup("/_common/search/searchCoveragePlan.jsp&ts=<%=getTs()%>&VarCode=EditCoveragePlanCategoryLetter&VarText=EditCoveragePlanName&VarCompUID=EditCoveragePlan&VarCat=EditCoveragePlanCategory&VarTyp=EditCoveragePlanType&VarTypName=EditCoveragePlanTypeName");
-	}
+	openPopup("/_common/search/searchCoveragePlan.jsp&ts=<%=getTs()%>&VarCode=EditCoveragePlanCategoryLetter&VarText=EditCoveragePlanName&VarCompUID=EditCoveragePlan&VarCat=EditCoveragePlanCategory&VarTyp=EditCoveragePlanType&VarTypName=EditCoveragePlanTypeName");
+  }
+  
   function searchPrestation(){
     document.getElementById('divFindRecords').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
     var today = new Date();
@@ -576,18 +574,7 @@
   }
 
   function deleteCategory(rowid){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-    var modalitiesIE = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-    var answer;
-    if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl,"",modalitiesIE);
-    }
-    else{
-      answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-    }
-
-    if(answer==1){
+    if(yesnoDialog("web","areYouSureToDelete")){
       sCategory = deleteRowFromArrayString(sCategory,rowid.id.substring(11,rowid.id.length-1));
       tblCategories.deleteRow(rowid.rowIndex);
       clearCategoryFields();

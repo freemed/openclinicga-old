@@ -419,18 +419,7 @@ function clearToothFields(){
 }
 
 function deleteTooth(rowid){
-  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-  var answer;
-
-  if(window.showModalDialog){
-    answer = window.showModalDialog(popupUrl,'',modalities);
-  }
-  else{
-    answer = window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-  }
-
-  if(answer==1){
+  if(yesnoDialog("web","areYouSureToDelete")){
     vSelectedHashtable.remove(getCelFromRowString(getRowFromArrayString(sTeeth,rowid.id),0));
     sTeeth = deleteRowFromArrayString(sTeeth,rowid.id);
     tblTeeth.deleteRow(rowid.rowIndex);

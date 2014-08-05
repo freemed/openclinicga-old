@@ -953,4 +953,8 @@
     String sTDAdminWidth = "200";
     String sIcon = "<link rel='shortcut icon' href='"+sCONTEXTPATH+"/_img/openclinic.ico'>\n"+
                    "<link rel='icon' type='image/x-icon' href='"+sCONTEXTPATH+"/_img/openclinic.ico'/>";
+                   
+    String sCenterWindow   = "window.moveTo((self.screen.width-document.body.clientWidth)/2,(self.screen.height-document.body.clientHeight)/2);",
+     	   sDecenterWindow = "window.moveTo((self.screen.width-document.body.clientWidth)/2,(self.screen.height-document.body.clientHeight)/1.5);",
+           sHideWindow     = "window.moveTo(self.screen.width+100,self.screen.height+100);"; // out of screen-bounds
 %>

@@ -162,11 +162,7 @@
 
     <script>
       function deleteLabel(sLabelType, sLabelID, sLabelLang){
-        var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretodelete";
-        var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        var answer = window.showModalDialog(popupUrl,'',modalities);
-
-        if(answer==1){
+  	    if(yesnoDialog("Web","areYouSureToDelete")){
           transactionForm.EditLabelType.value = sLabelType;
           transactionForm.EditLabelID.value = sLabelID;
           transactionForm.EditLabelLang.value = sLabelLang;

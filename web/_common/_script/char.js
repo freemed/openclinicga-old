@@ -361,3 +361,67 @@ function formatNumber(value,decimals){
     
   return value;
 }
+
+function convertSpecialCharsToHTML(text){
+  // accents
+  text = replaceAll(text,"&eacute;","é");
+  text = replaceAll(text,"&egrave;","è");
+  text = replaceAll(text,"&aacute;","á");
+  text = replaceAll(text,"&agrave;","à");
+  text = replaceAll(text,"&uacute;","ú");
+  text = replaceAll(text,"&ugrave;","ù");
+  text = replaceAll(text,"&oacute;","ó");
+  text = replaceAll(text,"&ograve;","ò");
+  text = replaceAll(text,"&iacute;","í");
+  text = replaceAll(text,"&igrave;","ì");
+
+  text = replaceAll(text,"&Eacute;","É");
+  text = replaceAll(text,"&Egrave;","È");
+  text = replaceAll(text,"&Aacute;","Á");
+  text = replaceAll(text,"&Agrave;","À");
+  text = replaceAll(text,"&Uacute;","Ú");
+  text = replaceAll(text,"&Ugrave;","Ù");
+  text = replaceAll(text,"&Oacute;","Ó");
+  text = replaceAll(text,"&Ograve;","Ò");
+  text = replaceAll(text,"&Iacute;","Í");
+  text = replaceAll(text,"&Igrave;","Ì");
+
+  // trema
+  text = replaceAll(text,"&iuml;","ï");
+  text = replaceAll(text,"&euml;","ë");
+  text = replaceAll(text,"&ouml;","ö");
+  text = replaceAll(text,"&auml;","ä");
+  text = replaceAll(text,"&uuml;","ü");
+
+  text = replaceAll(text,"&Iuml;","Ï");
+  text = replaceAll(text,"&Euml;","Ë");
+  text = replaceAll(text,"&Ouml;","Ö");
+  text = replaceAll(text,"&Auml;","Ä");
+  text = replaceAll(text,"&Uuml;","Ü");
+
+  // hat
+  text = replaceAll(text,"&ecirc;","ê");
+  text = replaceAll(text,"&acirc;","â");
+  text = replaceAll(text,"&ucirc;","û");
+  text = replaceAll(text,"&ocirc;","ô");
+  text = replaceAll(text,"&icirc;","î");
+
+  text = replaceAll(text,"&Ecirc;","Ê");
+  text = replaceAll(text,"&Acirc;","Â");
+  text = replaceAll(text,"&Ucirc;","Û");
+  text = replaceAll(text,"&Ocirc;","Ô");
+  text = replaceAll(text,"&Icirc;","Î");
+
+  // varia
+  text = replaceAll(text,"&acute;","´");
+  text = replaceAll(text,"&#231;","ç");
+  text = replaceAll(text,"&#156;","œ");
+  text = replaceAll(text,"&#234;","ê");
+  //text = replaceAll(text,"?;","ê"); // unicode --> crashes JS !
+  text = replaceAll(text,"&#202;","Ê");
+  text = replaceAll(text,"<br>","\r\n");
+  text = replaceAll(text,"&gt;",">");
+  text = replaceAll(text,"&lt;","<");
+
+  return text;
+}

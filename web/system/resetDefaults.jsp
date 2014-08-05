@@ -8,18 +8,20 @@
 	if(country==null) country=MedwanQuery.getInstance().getConfigString("setup.country","");
 	if(os==null) os=MedwanQuery.getInstance().getConfigString("setup.os","");
 	if(database==null) database=MedwanQuery.getInstance().getConfigString("setup.database","");
-	if(request.getParameter("update")!=null){
-		UpdateSystem.updateSetup("country",country,request);
-		UpdateSystem.updateSetup("os",os,request);
-		UpdateSystem.updateSetup("database",database,request);
+	if(request.getParameter("update")!=null){		
+        UpdateSystem systemUpdate = new UpdateSystem();
+        
+        systemUpdate.updateSetup("country",country,request);
+        systemUpdate.updateSetup("os",os,request);
+        systemUpdate.updateSetup("database",database,request);
 		if(request.getParameter("updatedb")!=null){
-			UpdateSystem.updateDb();
+			systemUpdate.updateDb();
 		}
 		if(request.getParameter("updatelabels")!=null){
-			UpdateSystem.updateLabels(sAPPFULLDIR);
+			systemUpdate.updateLabels(sAPPFULLDIR);
 		}
 		if(checkString(request.getParameter("project")).length()>0){
-			UpdateSystem.updateProject(request.getParameter("project"));
+			systemUpdate.updateProject(request.getParameter("project"));
 		}
 		MedwanQuery.getInstance().reloadConfigValues();
 		MedwanQuery.getInstance().reloadLabels();
