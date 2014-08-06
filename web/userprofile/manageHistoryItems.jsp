@@ -73,11 +73,13 @@
     
         String sTranTypeShort = sTranType.substring(sTranType.indexOf(ScreenHelper.ITEM_PREFIX)+ScreenHelper.ITEM_PREFIX.length());
         ItemContextVO itemContextVO = new ItemContextVO(new Integer(IdentifierFactory.getInstance().getTemporaryNewIdentifier()),"","");
+        
         PreparedStatement ps = null;
         ResultSet rs = null;
+        Connection conn = null;
     
         try{
-            Connection conn = MedwanQuery.getInstance().getAdminConnection();
+            conn = MedwanQuery.getInstance().getAdminConnection();
             String sSql = "SELECT value FROM userparameters"+
                           " WHERE parameter LIKE ?"+
                           "  AND userid = ?"+
@@ -133,6 +135,7 @@
             try{
                 if(rs!=null) rs.close();
                 if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
             }
             catch(Exception e){
                 Debug.printStackTrace(e);
@@ -378,9 +381,10 @@
     //--- REMOVE PARAMETERS STARTING WITH ---------------------------------------------------------
     public void removeParametersStartingWith(String sParameterBegin, int userId){
         PreparedStatement ps = null;
+        Connection conn = null;
     
         try{
-            Connection conn = MedwanQuery.getInstance().getAdminConnection();
+            conn = MedwanQuery.getInstance().getAdminConnection();
             String sSql = "DELETE FROM userparameters"+
                           " WHERE parameter LIKE ?"+
                           "  AND userid = ?";
@@ -395,6 +399,7 @@
         finally{
             try{
                 if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
             }
             catch(Exception e){
                 Debug.printStackTrace(e);
