@@ -251,7 +251,7 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
 			table.addCell(cell);
 			
 			Enumeration ePrestationClasses = prestationClasses.keys();
-			double generaltotal=0;
+			double generaltotal=0,classtotal=0;
 			while(ePrestationClasses.hasMoreElements()){
 				String key = (String)ePrestationClasses.nextElement();
 				cell = createBoldLabelCell(getTran("prestation.class",key), 100,10);
@@ -2541,7 +2541,7 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
             Date begin = new Date();
             Date end = ScreenHelper.parseDate("01/01/1900");
             Hashtable prestationClasses = new Hashtable();
-            Hashtable adherents;
+            SortedMap adherents;
             Hashtable beneficiaries;
             String uid;
             for(int n=0;n<debets.size();n++){
@@ -2560,22 +2560,24 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
             		uid=debet.getPrestation().getPrestationClass();
             	}
             	if(prestationClasses.get(uid)==null){
-            		prestationClasses.put(uid, new Hashtable());
+            		prestationClasses.put(uid, new TreeMap());
             	}
-            	adherents=(Hashtable)prestationClasses.get(uid);
+            	adherents=(SortedMap)prestationClasses.get(uid);
             	//Adherent
             	if(debet.getInsurance()==null || ScreenHelper.checkString(debet.getInsurance().getMember()).length()==0){
             		uid="?";
             	}
             	else {
             		String patientinvoice="| ";
+            		String bc="|";
             		if(debet.getPatientInvoiceUid()!=null){
             			PatientInvoice inv = PatientInvoice.get(debet.getPatientInvoiceUid());
             			if(inv!=null){
             				patientinvoice+=getTran("web","invoicenumber")+": "+inv.getInvoiceNumber()+"  "+getTran("web","bcnumber")+": "+inv.getInsurarreference();
+            				bc=inv.getInsurarreference()+bc;
             			}
             		}
-            		uid=debet.getInsurance().getMember()+patientinvoice;
+            		uid=bc+debet.getInsurance().getMember()+patientinvoice;
             	}
             	if(adherents.get(uid)==null){
             		adherents.put(uid, new Hashtable());
@@ -2630,27 +2632,31 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
 			table.addCell(cell);
 			
 			Enumeration ePrestationClasses = prestationClasses.keys();
-			double generaltotal=0,generalpatienttotal=0;
+			String classname="";
+			double generaltotal=0,generalpatienttotal=0,classinsurertotal=0,classpatienttotal=0;
 			while(ePrestationClasses.hasMoreElements()){
 				String key = (String)ePrestationClasses.nextElement();
-				cell = createBoldLabelCell(getTran("prestation.class",key), 100,10);
+				classname=getTran("prestation.class",key);
+				cell = createBoldLabelCell(classname, 100,10);
 				cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
 				cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 				cell.setBorder(PdfPCell.BOX);
 				table.addCell(cell);
-				adherents=(Hashtable)prestationClasses.get(key);
+				adherents=(SortedMap)prestationClasses.get(key);
 				double adherenttotal=0;
 				double patienttotal=0;
-				Enumeration eAdherents = adherents.keys();
-				while(eAdherents.hasMoreElements()){
-					key=(String)eAdherents.nextElement();
+				classinsurertotal=0;
+				classpatienttotal=0;
+				Iterator eAdherents = adherents.keySet().iterator();
+				while(eAdherents.hasNext()){
+					key=(String)eAdherents.next();
 					String adherent = key;
 					adherenttotal=0;
 					patienttotal=0;
-					cell = createBoldLabelCell(getTran("web","adherent")+": "+key.split("\\|")[0], 50,10);
+					cell = createBoldLabelCell(getTran("web","adherent")+": "+(key.split("\\|").length<2?"":key.split("\\|")[1]), 50,10);
 					cell.setBorder(PdfPCell.TOP+PdfPCell.LEFT);
 					table.addCell(cell);
-					cell = createBoldLabelCell(key.split("\\|").length<2?"":key.split("\\|")[1], 50,10);
+					cell = createBoldLabelCell(key.split("\\|").length<3?"":key.split("\\|")[2], 50,10);
 					cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
 					table.addCell(cell);
 					beneficiaries = (Hashtable)adherents.get(key);
@@ -2684,8 +2690,10 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
 							table.addCell(cell);
 							adherenttotal+=debet.getInsurarAmount();
 							generaltotal+=debet.getInsurarAmount();
+							classinsurertotal+=debet.getInsurarAmount();
 							patienttotal+=debet.getAmount();
 							generalpatienttotal+=debet.getAmount();
+							classpatienttotal+=debet.getAmount();
 						}
 						cell = createBoldLabelCell("\n", 100);
 						cell.setBorder(PdfPCell.LEFT+PdfPCell.RIGHT);
@@ -2706,6 +2714,21 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
 					cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
 					table.addCell(cell);
 				}
+				//Show total for this class
+				cell = createBoldLabelCell("", 30);
+				cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP);
+				table.addCell(cell);
+				cell = createBoldLabelCell(getTran("web","total")+" "+classname, 50,9);
+				cell.setBorder(PdfPCell.TOP);
+				table.addCell(cell);
+				cell = createBoldLabelCell(new Double(classinsurertotal).intValue()+"", 10,9);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+				cell.setBorder(PdfPCell.TOP);
+				table.addCell(cell);
+				cell = createBoldLabelCell(new Double(classpatienttotal).intValue()+"", 10,9);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+				cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
+				table.addCell(cell);
 			}
 
 			
@@ -2880,7 +2903,7 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
             Date begin = new Date();
             Date end = ScreenHelper.parseDate("01/01/1900");
             Hashtable prestationClasses = new Hashtable();
-            Hashtable adherents;
+            SortedMap adherents;
             Hashtable beneficiaries;
             String uid;
             for(int n=0;n<debets.size();n++){
@@ -2899,22 +2922,24 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
             		uid=debet.getPrestation().getPrestationClass();
             	}
             	if(prestationClasses.get(uid)==null){
-            		prestationClasses.put(uid, new Hashtable());
+            		prestationClasses.put(uid, new TreeMap());
             	}
-            	adherents=(Hashtable)prestationClasses.get(uid);
+            	adherents=(SortedMap)prestationClasses.get(uid);
             	//Adherent
             	if(debet.getInsurance()==null || ScreenHelper.checkString(debet.getInsurance().getMember()).length()==0){
             		uid="?";
             	}
             	else {
             		String patientinvoice="| ";
+            		String bc="|";
             		if(debet.getPatientInvoiceUid()!=null){
             			PatientInvoice inv = PatientInvoice.get(debet.getPatientInvoiceUid());
             			if(inv!=null){
             				patientinvoice+=getTran("web","invoicenumber")+": "+inv.getInvoiceNumber()+"  "+getTran("web","bcnumber")+": "+inv.getInsurarreference();
+            				bc=inv.getInsurarreference()+bc;
             			}
             		}
-            		uid=debet.getInsurance().getMember()+patientinvoice;
+            		uid=bc+debet.getInsurance().getMember()+patientinvoice;
             	}
             	if(adherents.get(uid)==null){
             		adherents.put(uid, new Hashtable());
@@ -2969,27 +2994,31 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
 			table.addCell(cell);
 			
 			Enumeration ePrestationClasses = prestationClasses.keys();
-			double generaltotal=0,generalpatienttotal=0;
+			double generaltotal=0,generalpatienttotal=0,classinsurertotal=0,classpatienttotal=0;
+			String classname="";
 			while(ePrestationClasses.hasMoreElements()){
 				String key = (String)ePrestationClasses.nextElement();
-				cell = createBoldLabelCell(getTran("prestation.class",key), 100,10);
+				classname=getTran("prestation.class",key);
+				cell = createBoldLabelCell(classname, 100,10);
 				cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
 				cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 				cell.setBorder(PdfPCell.BOX);
 				table.addCell(cell);
-				adherents=(Hashtable)prestationClasses.get(key);
+				adherents=(SortedMap)prestationClasses.get(key);
 				double adherenttotal=0;
 				double patienttotal=0;
-				Enumeration eAdherents = adherents.keys();
-				while(eAdherents.hasMoreElements()){
-					key=(String)eAdherents.nextElement();
+				classpatienttotal=0;
+				classinsurertotal=0;
+				Iterator eAdherents = adherents.keySet().iterator();
+				while(eAdherents.hasNext()){
+					key=(String)eAdherents.next();
 					String adherent = key;
 					adherenttotal=0;
 					patienttotal=0;
-					cell = createBoldLabelCell(getTran("web","adherent")+": "+key.split("\\|")[0], 50,10);
+					cell = createBoldLabelCell(getTran("web","adherent")+": "+(key.split("\\|").length>1?key.split("\\|")[1]:""), 50,10);
 					cell.setBorder(PdfPCell.TOP+PdfPCell.LEFT);
 					table.addCell(cell);
-					cell = createBoldLabelCell(key.split("\\|")[1], 50,10);
+					cell = createBoldLabelCell(key.split("\\|").length>2?key.split("\\|")[2]:"", 50,10);
 					cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
 					table.addCell(cell);
 					beneficiaries = (Hashtable)adherents.get(key);
@@ -3023,8 +3052,10 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
 							table.addCell(cell);
 							adherenttotal+=debet.getInsurarAmount();
 							generaltotal+=debet.getInsurarAmount();
+							classinsurertotal+=debet.getInsurarAmount();
 							patienttotal+=debet.getAmount();
 							generalpatienttotal+=debet.getAmount();
+							classpatienttotal+=debet.getAmount();
 						}
 						cell = createBoldLabelCell("\n", 100);
 						cell.setBorder(PdfPCell.LEFT+PdfPCell.RIGHT);
@@ -3045,6 +3076,21 @@ public class PDFInsurarInvoiceGeneratorASCOMA extends PDFInvoiceGenerator {
 					cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
 					table.addCell(cell);
 				}
+				//Show total for this class
+				cell = createBoldLabelCell("", 30);
+				cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP);
+				table.addCell(cell);
+				cell = createBoldLabelCell(getTran("web","total")+" "+classname, 50,9);
+				cell.setBorder(PdfPCell.TOP);
+				table.addCell(cell);
+				cell = createBoldLabelCell(new Double(classinsurertotal).intValue()+"", 10,9);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+				cell.setBorder(PdfPCell.TOP);
+				table.addCell(cell);
+				cell = createBoldLabelCell(new Double(classpatienttotal).intValue()+"", 10,9);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+				cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
+				table.addCell(cell);
 			}
 
 			

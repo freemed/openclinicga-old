@@ -99,10 +99,10 @@ public class PDFInsurarInvoiceGeneratorAMBUSA extends PDFInvoiceGenerator {
             	if(hasVisits){
             		doc.newPage();
             	}
-	            addHeading(invoice);
-	            addInsurarData(invoice);
-	            printAdmissionInvoice(invoice);
-	            doc.newPage();
+	            //addHeading(invoice);
+	            //addInsurarData(invoice);
+	            //printAdmissionInvoice(invoice);
+	            //doc.newPage();
 	            addHeading(invoice);
 	            addInsurarData(invoice);
 	            printAdmissionInvoiceDetailed(invoice);
@@ -1409,11 +1409,16 @@ public class PDFInsurarInvoiceGeneratorAMBUSA extends PDFInvoiceGenerator {
             		begin=debet.getDate();
             	}
             	//PrestationClass
+            	String classname="";
             	if(debet.getPrestation()==null || debet.getPrestation().getPrestationClass()==null){
             		uid="?";
             	}
             	else {
             		uid=debet.getPrestation().getPrestationClass();
+            		classname=uid;
+            	}
+            	if(classname.equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("drugclass","drug"))){
+            		continue;
             	}
             	if(prestationClasses.get(uid)==null){
             		prestationClasses.put(uid, new Hashtable());
@@ -1436,6 +1441,14 @@ public class PDFInsurarInvoiceGeneratorAMBUSA extends PDFInvoiceGenerator {
             	}
             	else {
             		uid=ScreenHelper.stdDateFormat.format(debet.getEncounter().getBegin())+" - "+debet.getEncounter().getPatient().getFullName();
+            		if(classname.equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("actclass","act"))){
+            			if(debet.getServiceUid()!=null){
+            				Service service = Service.getService(debet.getServiceUid());
+            				if(service!=null){
+            					uid+=" ("+service.getLabel(sPrintLanguage)+")";
+            				}
+            			}
+            		}
             	}
             	if(beneficiaries.get(uid)==null){
             		beneficiaries.put(uid, debet.getInsurarAmount());
@@ -1444,6 +1457,61 @@ public class PDFInsurarInvoiceGeneratorAMBUSA extends PDFInvoiceGenerator {
             		beneficiaries.put(uid,((Double)beneficiaries.get(uid)).doubleValue()+debet.getInsurarAmount());
             	}
             }
+            
+            //Now also add admission records as a separate class
+            debets = new Vector();
+            for(int n=0;n<invoice.getDebets().size();n++){
+            	Debet debet = (Debet)invoice.getDebets().elementAt(n);
+            	if(debet!=null && debet.getEncounter()!=null && debet.getCredited()==0 && debet.getEncounter().getType().equalsIgnoreCase("admission")){
+            		debets.addElement(debet);
+            	}
+            }
+            for(int n=0;n<debets.size();n++){
+            	Debet debet = (Debet)debets.elementAt(n);
+            	if(debet.getDate().after(end)){
+            		end=debet.getDate();
+            	}
+            	if(debet.getDate().before(begin)){
+            		begin=debet.getDate();
+            	}
+            	//PrestationClass
+            	String classname=ScreenHelper.getTranNoLink("web","admission",sPrintLanguage);
+            	if(prestationClasses.get(classname)==null){
+            		prestationClasses.put(classname, new Hashtable());
+            	}
+            	adherents=(Hashtable)prestationClasses.get(classname);
+            	//Adherent
+            	if(debet.getInsurance()==null || ScreenHelper.checkString(debet.getInsurance().getMember()).length()==0){
+            		uid="?";
+            	}
+            	else {
+            		uid=debet.getInsurance().getMember();
+            	}
+            	if(adherents.get(uid)==null){
+            		adherents.put(uid, new Hashtable());
+            	}
+            	beneficiaries=(Hashtable)adherents.get(uid);
+            	//Beneficiaries
+            	if(debet.getEncounter()==null || debet.getEncounter().getPatient()==null){
+            		uid="?";
+            	}
+            	else {
+            		uid=ScreenHelper.stdDateFormat.format(debet.getEncounter().getBegin())+" - "+debet.getEncounter().getPatient().getFullName();
+        			if(debet.getServiceUid()!=null){
+        				Service service = Service.getService(debet.getServiceUid());
+        				if(service!=null){
+        					uid+=" ("+service.getLabel(sPrintLanguage)+")";
+        				}
+        			}
+            	}
+            	if(beneficiaries.get(uid)==null){
+            		beneficiaries.put(uid, debet.getInsurarAmount());
+            	}
+            	else {
+            		beneficiaries.put(uid,((Double)beneficiaries.get(uid)).doubleValue()+debet.getInsurarAmount());
+            	}
+            }
+
             cell=createBoldLabelCell(new SimpleDateFormat("MM/yyyy").format(begin)+(new SimpleDateFormat("MM/yyyy").format(begin).equalsIgnoreCase(new SimpleDateFormat("MM/yyyy").format(end))?"":" - "+new SimpleDateFormat("MM/yyyy").format(end)), 55);
             table.addCell(cell);
 			cell=createLabelCell("\n",100);
@@ -1475,16 +1543,19 @@ public class PDFInsurarInvoiceGeneratorAMBUSA extends PDFInvoiceGenerator {
 			table.addCell(cell);
 			
 			Enumeration ePrestationClasses = prestationClasses.keys();
-			double generaltotal=0;
+			double generaltotal=0,classtotal=0;
+			String classname="";
 			while(ePrestationClasses.hasMoreElements()){
 				String key = (String)ePrestationClasses.nextElement();
-				cell = createBoldLabelCell(getTran("prestation.class",key), 100,10);
+				classname=getTran("prestation.class",key);
+				cell = createBoldLabelCell(classname, 100,10);
 				cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
 				cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 				cell.setBorder(PdfPCell.BOX);
 				table.addCell(cell);
 				adherents=(Hashtable)prestationClasses.get(key);
 				double adherenttotal=0;
+				classtotal=0;
 				Enumeration eAdherents = adherents.keys();
 				while(eAdherents.hasMoreElements()){
 					key=(String)eAdherents.nextElement();
@@ -1507,6 +1578,7 @@ public class PDFInsurarInvoiceGeneratorAMBUSA extends PDFInvoiceGenerator {
 						table.addCell(cell);
 						adherenttotal+=amount;
 						generaltotal+=amount;
+						classtotal+=amount;
 					}
 					cell = createBoldLabelCell("", 80);
 					cell.setBorder(PdfPCell.LEFT);
@@ -1519,6 +1591,17 @@ public class PDFInsurarInvoiceGeneratorAMBUSA extends PDFInvoiceGenerator {
 					cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
 					table.addCell(cell);
 				}
+				//Class total
+				cell = createBoldLabelCell("", 40);
+				cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP);
+				table.addCell(cell);
+				cell = createBoldLabelCell(getTran("web","total")+" "+classname, 50,9);
+				cell.setBorder(PdfPCell.TOP);
+				table.addCell(cell);
+				cell = createBoldLabelCell(new Double(classtotal).intValue()+"", 10,9);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+				cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
+				table.addCell(cell);
 			}
 
 			
@@ -1639,16 +1722,19 @@ public class PDFInsurarInvoiceGeneratorAMBUSA extends PDFInvoiceGenerator {
 			table.addCell(cell);
 			
 			Enumeration ePrestationClasses = prestationClasses.keys();
-			double generaltotal=0;
+			double generaltotal=0,classtotal=0;
+			String classname="";
 			while(ePrestationClasses.hasMoreElements()){
 				String key = (String)ePrestationClasses.nextElement();
-				cell = createBoldLabelCell(getTran("prestation.class",key), 100,10);
+				classname=getTran("prestation.class",key);
+				cell = createBoldLabelCell(classname, 100,10);
 				cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
 				cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 				cell.setBorder(PdfPCell.BOX);
 				table.addCell(cell);
 				adherents=(Hashtable)prestationClasses.get(key);
 				double adherenttotal=0;
+				classtotal=0;
 				Enumeration eAdherents = adherents.keys();
 				while(eAdherents.hasMoreElements()){
 					key=(String)eAdherents.nextElement();
@@ -1685,6 +1771,7 @@ public class PDFInsurarInvoiceGeneratorAMBUSA extends PDFInvoiceGenerator {
 							table.addCell(cell);
 							adherenttotal+=debet.getInsurarAmount();
 							generaltotal+=debet.getInsurarAmount();
+							classtotal+=debet.getInsurarAmount();
 						}
 						cell = createBoldLabelCell("\n", 100);
 						cell.setBorder(PdfPCell.LEFT+PdfPCell.RIGHT);
@@ -1701,6 +1788,17 @@ public class PDFInsurarInvoiceGeneratorAMBUSA extends PDFInvoiceGenerator {
 					cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
 					table.addCell(cell);
 				}
+				//Show class total
+				cell = createBoldLabelCell("", 40);
+				cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP);
+				table.addCell(cell);
+				cell = createBoldLabelCell(getTran("web","total")+" "+classname, 50,9);
+				cell.setBorder(PdfPCell.TOP);
+				table.addCell(cell);
+				cell = createBoldLabelCell(new Double(classtotal).intValue()+"", 10,9);
+				cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+				cell.setBorder(PdfPCell.TOP+PdfPCell.RIGHT);
+				table.addCell(cell);
 			}
 
 			
