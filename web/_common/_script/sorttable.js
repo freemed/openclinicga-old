@@ -375,7 +375,7 @@ function getLastValidCharIdx(txt){
   txt = txt.trim();
   txt = txt.toLowerCase();
   
-  var validChars = "abcdefghijklmnopqrstuvwxyz* ";
+  var validChars = "abcdefghijklmnopqrstuvwxyz*'´יטבאשףעתשםל ";
   var lastValidCharIdx = -1;
   
   for(var i=0; i<txt.length; i++){
