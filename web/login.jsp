@@ -53,45 +53,27 @@
         SAXReader reader = new SAXReader(false);
         Document document = reader.read(new URL(sDoc));
         Element element = document.getRootElement().element("version");
-        version = "v" + element.attribute("major").getValue() + "." + element.attribute("minor").getValue() + "." + element.attribute("bug").getValue() + " (" + element.attribute("date").getValue() + ")";
+    	String sUpdateVersion = ""+MedwanQuery.getInstance().getConfigInt("updateVersion",0);
+    	String sMajor = sUpdateVersion.substring(0,1),
+    		   sMinor = sUpdateVersion.substring(1,sUpdateVersion.length()-3), 
+    		   sBug   = sUpdateVersion.substring(sUpdateVersion.length()-3);  
+    	if(sMinor.startsWith("0")) sMinor = sMinor.substring(1);  
+    	if(sBug.startsWith("0")) sBug = sBug.substring(1);
+    	sUpdateVersion = sMajor+"."+sMinor+"."+sBug;
+        version = "v" + sUpdateVersion + " (" + element.attribute("date").getValue() + ")";
         session.setAttribute("ProjectVersion", version);
         int thisversion = Integer.parseInt(element.attribute("major").getValue())*1000000+Integer.parseInt(element.attribute("minor").getValue())*1000+Integer.parseInt(element.attribute("bug").getValue());
         if(thisversion>MedwanQuery.getInstance().getConfigInt("updateVersion",0)){
         	// format new version
         	String sCurrVersion = element.attribute("major").getValue() + "." + element.attribute("minor").getValue() + "." + element.attribute("bug").getValue();
-        	String sUpdateVersion = ""+MedwanQuery.getInstance().getConfigInt("updateVersion",0);
-        	String sMajor = sUpdateVersion.substring(0,1),
-        		   sMinor = sUpdateVersion.substring(1,sUpdateVersion.length()-3), 
-        		   sBug   = sUpdateVersion.substring(sUpdateVersion.length()-3);  
-        	if(sMinor.startsWith("0")) sMinor = sMinor.substring(1);  
-        	if(sBug.startsWith("0")) sBug = sBug.substring(1);
-        	sUpdateVersion = sMajor+"."+sMinor+"."+sBug;
         	
         	// compose update-question-label
-        	String sUpdateLabel = getTranNoLink("web","applyUpdateVersion","en");
-        	sUpdateLabel = sUpdateLabel.replaceAll("#currVersion#",sCurrVersion);
-        	sUpdateLabel = sUpdateLabel.replaceAll("#newVersion#",sUpdateVersion);
+        	String sUpdateLabel = "A new version was detected. Do you want to update from version "+sUpdateVersion+" to version "+sCurrVersion+"?";
         	
         	%>
     		    <script>
-    		      if(yesnoDialogDirectText("<%=sUpdateLabel%>")){
+    		      if(window.confirm("<%=sUpdateLabel%>")){
     		        window.location.href = "<%=sCONTEXTPATH%>/systemUpdateServlet?updateVersion=<%=thisversion%>";
-    		      }
-    		        
-    		      <%-- YESNO DIALOG DIRECT TEXT (yesnoPopupSimple.jsp does not require a valid session) --%>
-    		      function yesnoDialogDirectText(labelText){
-    		        var answer = "";
-    		            
-    		        if(window.showModalDialog){
-    		          var popupUrl = "<c:url value='/_common/search/yesnoPopupSimple.jsp'/>?ts=<%=ScreenHelper.getTs()%>&labelValue="+labelText;
-    		          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    		          answer = window.showModalDialog(popupUrl,"",modalities);
-    		        }
-    		        else{
-    		          answer = window.confirm(labelText);          
-    		        }
-    		            
-    		        return answer; // FF
     		      }
     		    </script>
     		<%

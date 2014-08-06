@@ -1,3 +1,4 @@
+<%@page import="be.mxs.common.util.system.HTMLEntities"%>
 <%@page import="be.mxs.common.model.vo.healthrecord.TransactionVO,
                 be.mxs.common.model.vo.healthrecord.ItemContextVO,
                 org.dom4j.io.XMLWriter,
@@ -736,11 +737,11 @@
                         <tr>
                             <td class="admin" width="14"></td>
                             <td class="admin" width="320"><%=getTran("web","itemType",sWebLanguage)%></td>
-                            <td class="admin" width="55"><SORTTYPE:NUM><%=getTran("web","savedOrder",sWebLanguage)%></SORTTYPE:NUM></td>
-                            <td class="admin" width="55"><NOSORT><%=getTran("web","newOrder",sWebLanguage)%></NOSORT></td>
-                            <td class="admin" width="95"><NOSORT>LabelType</NOSORT></td>
-                            <td class="admin" width="240"><NOSORT>LabelId</NOSORT></td>
-                            <td class="admin" width="240"><NOSORT>Existing label</NOSORT></td>
+                            <td class="admin" width="55"><SORTTYPE:NUM><%=HTMLEntities.htmlentities(getTran("web","savedOrder",sWebLanguage))%></SORTTYPE:NUM></td>
+                            <td class="admin" width="55"><NOSORT><%=HTMLEntities.htmlentities(getTran("web","newOrder",sWebLanguage))%></NOSORT></td>
+                            <td class="admin" width="95"><NOSORT><%=HTMLEntities.htmlentities(getTran("web","labeltype",sWebLanguage))%></NOSORT></td>
+                            <td class="admin" width="240"><NOSORT><%=HTMLEntities.htmlentities(getTran("web","labelid",sWebLanguage))%></NOSORT></td>
+                            <td class="admin" width="240"><NOSORT><%=HTMLEntities.htmlentities(getTran("web","existinglabel",sWebLanguage))%></NOSORT></td>
                         </tr>
                 <%
                 

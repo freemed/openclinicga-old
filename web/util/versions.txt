@@ -21,4 +21,6 @@
 4.89.29 - Bug correction in insurer invoice edit screen: added possibility to hide rwandan invoice templates
 4.89.30 - Changed mobile interface icon from blackberry to android
 4.89.31 - util/updateExaminations.jsp now redirects to login screen instead of session expired screen
+4.89.32 - progress bar added to system update screen
+4.89.33 - extended history functionality for clinical data entry screens
 
