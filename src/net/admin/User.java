@@ -699,6 +699,7 @@ public class User extends OC_Object {
             PreparedStatement ps=connection.prepareStatement("select * from UserParameters where userid=? and parameter=?");
             ps.setInt(1,Integer.parseInt(this.userid));
             ps.setString(2,parameter.parameter);
+
             ResultSet rs=ps.executeQuery();
             if (rs.next()){
                 if (parameter.parameter.toLowerCase().equals("favorite")){

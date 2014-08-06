@@ -352,7 +352,7 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
         Iterator iterator = items.iterator();
         ItemVO item;
         while (iterator.hasNext()){
-            item = (ItemVO)iterator.next();
+            item = (ItemVO)iterator.next();            
             if( item!=null && item.getType().equalsIgnoreCase(itemType)){
                 return item;
             }

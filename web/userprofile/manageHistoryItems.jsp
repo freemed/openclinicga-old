@@ -63,6 +63,123 @@
     
     }
 
+    //--- UPDATE PARAMETER ------------------------------------------------------------------------
+    public boolean updateParameter(User user, Parameter parameter){
+        return updateParameter(user,parameter,true);
+    }
+
+    public boolean updateParameter(User user, Parameter parameter, boolean setUpdateInfo){
+        //  "favorite" & "AllowedService" parameters can have multiple occurences;
+        //    their value is a part of their unique identifier --> do not process them here
+        //  Other parameters can have only one occurrence;
+        //    their name is the only part of their unique identifier
+        boolean nameAndValueAreIdentifiers = false;
+        if(parameter.parameter.equalsIgnoreCase("favorite") || 
+           parameter.parameter.equalsIgnoreCase("AllowedService") ||
+           parameter.parameter.startsWith("HistoryItem")){
+            nameAndValueAreIdentifiers = true;
+        }
+
+        String sSelect = "";
+
+        try{
+            // check existence
+            String sSql = "SELECT * FROM UserParameters WHERE userid = ? AND parameter = ?";
+            if(nameAndValueAreIdentifiers){
+                sSql+= " AND value = ?";
+            }
+
+            PreparedStatement ps = MedwanQuery.getInstance().getAdminConnection().prepareStatement(sSql);
+            ps.setInt(1,Integer.parseInt(user.userid));
+            ps.setString(2,parameter.parameter);
+            if(nameAndValueAreIdentifiers){
+                ps.setString(3,parameter.value);
+            }
+            ResultSet rs = ps.executeQuery();
+            boolean parameterFound = rs.next();
+            rs.close();
+            ps.close();
+
+            String sValueCol = MedwanQuery.getInstance().getConfigString("valueColumn");
+
+            if(parameterFound){
+                //***** UPDATE ******
+                if(setUpdateInfo){
+                    // activate the parameter and set update-userid and update-time
+                    if(nameAndValueAreIdentifiers){
+                        sSelect = "UPDATE UserParameters SET active = 1, updatetime = ?, updateuserid = ?"+
+                                  " WHERE "+sValueCol+" = ?"+
+                                  "  AND userid = ? AND parameter = ?";
+                    }
+                    else{
+                        sSelect = "UPDATE UserParameters SET active = 1, updatetime = ?, updateuserid = ?, "+sValueCol+" = ?"+
+                                  " WHERE userid = ? AND parameter = ?";
+                    }
+                }
+                else{
+                    // just activate the parameter
+                    if(nameAndValueAreIdentifiers){
+                        sSelect = "UPDATE UserParameters SET active = 1"+
+                                  " WHERE "+sValueCol+" = ?"+
+                                  "  AND userid = ? AND parameter = ?";
+                    }
+                    else{
+                        sSelect = "UPDATE UserParameters SET active = 1, "+sValueCol+" = ?"+
+                                  " WHERE userid = ? AND parameter = ?";
+                    }
+                }
+
+                ps = MedwanQuery.getInstance().getAdminConnection().prepareStatement(sSelect);
+                int psIdx = 1;
+                if(setUpdateInfo){
+                    ps.setTimestamp(psIdx++,new Timestamp(new java.util.Date().getTime())); // now
+                    ps.setString(psIdx++,parameter.updateuserid);
+                }
+                ps.setString(psIdx++,parameter.value);
+                ps.setInt(psIdx++,Integer.parseInt(user.userid));
+                ps.setString(psIdx,parameter.parameter);
+                ps.execute();
+                ps.close();
+            }
+            else{
+                //***** INSERT ******
+                sSelect = "INSERT INTO UserParameters(userid,parameter,"+sValueCol+",updatetime,active)"+
+                          " VALUES (?,?,?,?,1)";
+                ps = MedwanQuery.getInstance().getAdminConnection().prepareStatement(sSelect);
+                ps.setInt(1,Integer.parseInt(user.userid));
+                ps.setString(2,parameter.parameter);
+                ps.setString(3,parameter.value);
+                ps.setTimestamp(4,new Timestamp(new java.util.Date().getTime())); // now
+                ps.execute();
+                ps.close();
+            }
+
+            // update parameters in user-object
+            if(!nameAndValueAreIdentifiers){
+            	user.parameters.removeElement(parameter);
+            	user.parameters.add(parameter);
+            }
+            
+            // set updatetime for user to make sure userparameters are synced
+            String sQuery = "UPDATE Users SET updatetime = ? WHERE userid = ?";
+            ps = MedwanQuery.getInstance().getAdminConnection().prepareStatement(sQuery);
+            ps.setDate(1,new java.sql.Date(new java.util.Date().getTime())); // now
+            ps.setInt(2,Integer.parseInt(user.userid));
+            ps.execute();
+            ps.close();
+
+            return true;
+        }
+        catch(Exception e){
+            if(Debug.enabled){
+                Debug.println("ERROR : User.updateParameter : sql="+sSelect);
+            }
+
+            Debug.printStackTrace(e);
+            return false;
+        }
+    }
+
     //--- GET USER SELECTED ITEMS -----------------------------------------------------------------
     public Vector getUserSelectedItems(int userId){
         return getUserSelectedItems(userId,""); // load items for any type of transaction       
@@ -96,7 +213,8 @@
             ItemVO item;
             
             while(rs.next()){
-                sValue = checkString(rs.getString("value"));                
+                sValue = checkString(rs.getString("value"));
+                System.out.println("sValue : "+sValue); /////////
                 if(sValue.length() > 0){
                     valueParts = sValue.split("\\$"); // sItemTypeShort $ user defined label $ order
                     
@@ -107,6 +225,7 @@
                     if(valueParts.length > 2) sOrder = checkString(valueParts[2]);
                     else                      sOrder = ""; // keep value from being copied
                     
+                    System.out.println("sItemTypeShort : "+sItemTypeShort); //////
                     item = new ItemVO(new Integer(IdentifierFactory.getInstance().getTemporaryNewIdentifier()),
 		                    		  ScreenHelper.ITEM_PREFIX+sItemTypeShort.toUpperCase(),
 		                              "", // default value
@@ -368,7 +487,7 @@
     private ItemAndLabel getItemFromVector(Vector userHistItems, String sItemType){
         ItemAndLabel itemAndLabel;
         
-        for(int i=0; i< userHistItems.size(); i++){
+        for(int i=0; i<userHistItems.size(); i++){
             itemAndLabel = (ItemAndLabel)userHistItems.get(i);
             if(itemAndLabel.item.getType().equals(sItemType)){
                 return itemAndLabel;
@@ -506,14 +625,18 @@
         
         // run over parameters and save checked items to the userparameters-table
         String sConcatCheckboxes = checkString(request.getParameter("ConcatCheckboxes"));
+        Debug.println("sConcatCheckboxes : "+sConcatCheckboxes); ///
         if(sConcatCheckboxes.length() > 0){
         	String[] checkboxes = sConcatCheckboxes.split(";"); 
-        			
+
+            System.out.println("checkboxes.length : "+checkboxes.length); //////
         	for(int i=0; i<checkboxes.length; i++){
         		sParamName = checkboxes[i];
+                Debug.println("sParamName : "+sParamName); ///
 
 	            if(sParamName.startsWith("cb_")){
                     cbCount = Integer.parseInt(sParamName.substring(sParamName.indexOf("_")+1));
+                    System.out.println("cbCount : "+cbCount); //////
                     
                     sItemLabel = checkString(request.getParameter("UserDefinedLabel_"+cbCount));
                     sItemType = checkString(request.getParameter("ItemType_"+cbCount));
@@ -530,7 +653,8 @@
                     Parameter parameter = new Parameter("HistoryItem."+sTranTypeShort,
                     		                            sItemTypeShort+"$"+sItemLabel+"$"+sOrder+"$"+sAddFunction,
                     		                            activeUser.userid);
-                    activeUser.updateParameter(parameter);
+                    System.out.println("new parameter : HistoryItem."+sTranTypeShort+", "+sItemTypeShort+"$"+sItemLabel+"$"+sOrder+"$"+sAddFunction); //////
+                    updateParameter(activeUser,parameter);
                 }
             }
         }
@@ -667,6 +791,7 @@
                 int tabIndex = 1, defaultOrder;
                 ItemVO item;
                 
+                System.out.println("xmlHistItems.size() : "+xmlHistItems.size()); ////
                 for(int i=0; i< xmlHistItems.size(); i++){
                     xmlItem = (ItemAndLabel)xmlHistItems.get(i);
                     
@@ -677,6 +802,7 @@
                    
                     // checked ? + label
                     userItem = getItemFromVector(userHistItems,sItemType);
+                    System.out.println("--> userItem : "+(userItem==null)); ////////
                     sChecked = "";
                     int order = 0, savedOrder = 0;
                     sImg = "uncheck.gif";
@@ -846,7 +972,7 @@
       submitForm();
 	}
 	else{
-      if(confirmPopup("<%=getTranNoLink("web","noItemsSelectedContinue",sWebLanguage)%>")==1){
+      if(yesnoDialog("web","noItemsSelectedContinue")==1){
         transactionForm.Action.value = "saveItems";
     	submitForm();
       }

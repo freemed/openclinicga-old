@@ -99,7 +99,7 @@
 		                              itemContextVO);
                     
                     itemAndLabel = new ItemAndLabel(item,sUserDefLabel,sOrder);                    
-                    userSelectedItems.add(itemAndLabel);    
+                    userSelectedItems.add(itemAndLabel);
                 }                
             }
         }
@@ -314,7 +314,7 @@
                                 // fetch user selected items (userprofile/manageHistoryItems)
                                 String sTranTypeShort = tran.getTransactionType().substring(tran.getTransactionType().indexOf(ScreenHelper.ITEM_PREFIX)+ScreenHelper.ITEM_PREFIX.length());
                                 Vector userSelectedItems = getUserSelectedItems(Integer.parseInt(activeUser.userid),sTranTypeShort);
-                           
+                                                           
                                 if(userSelectedItems.size() > 0){
                                     Collections.sort(userSelectedItems);
                                     

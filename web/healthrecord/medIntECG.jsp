@@ -168,37 +168,41 @@
   <%-- SUBMIT FORM --%>
   function submitForm(){
     if(document.getElementById('encounteruid').value==''){
-		alertDialog("web","no.encounter.linked");
-		searchEncounter();
+      alertDialog("web","no.encounter.linked");
+      searchEncounter();
 	}	
-    else {
-	    var result = "";
-	    if(document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_RAS" property="itemId"/>]>.value')[0].checked){
-	      result = "medwan.common.RAS";
-	    }
-	    else if(document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_RESULT_NORMAL_ABNORMAL" property="itemId"/>]>.value')[0].checked){
-	      result = "medwan.common.normal";
-	    }
-	    else if(document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_RESULT_NORMAL_ABNORMAL" property="itemId"/>]>.value')[1].checked){
-	      result = "medwan.common.anormal";
-	    }
+    else{
+	  var result = "";
+	  if(document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_RAS" property="itemId"/>]>.value')[0].checked){
+	    result = "medwan.common.RAS";
+	  }
+	  else if(document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_RESULT_NORMAL_ABNORMAL" property="itemId"/>]>.value')[0].checked){
+	    result = "medwan.common.normal";
+	  }
+	  else if(document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ECG_RESULT_NORMAL_ABNORMAL" property="itemId"/>]>.value')[1].checked){
+	    result = "medwan.common.anormal";
+	  }
 	
-	    document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRANSACTION_RESULT" property="itemId"/>]>.value')[0].value=result;
-	    document.getElementById("buttonsDiv").style.visibility = "hidden";
-	    var temp = Form.findFirstElement(transactionForm);   // for ff compatibility
-	    <%
-	        SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
-	        out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
-	    %>
+	  document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_TRANSACTION_RESULT" property="itemId"/>]>.value')[0].value=result;
+	  document.getElementById("buttonsDiv").style.visibility = "hidden";
+	  var temp = Form.findFirstElement(transactionForm);   // for ff compatibility
+	  <%
+	      SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
+	      out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
+	  %>
     }
   }
+  
+  <%-- SEARCH ENCOUNTER --%>
   function searchEncounter(){
-      openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
+    openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
   }
+  
   if(document.getElementById('encounteruid').value==''){
 	alertDialog("web","no.encounter.linked");
 	searchEncounter();
-  }	
+  }
+  
   window.setInterval('document.getElementById("ecg-c1").onclick()','200');
 </script>
 
