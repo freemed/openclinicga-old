@@ -366,9 +366,10 @@
     //--- REMOVE ITEM FROM USERPARAMETERS ---------------------------------------------------------
     public void removeItemFromUserParameters(String sTranTypeShort, String sItemTypeShort){          
         PreparedStatement ps = null;
+        Connection conn = null;
     
         try{
-            Connection conn = MedwanQuery.getInstance().getAdminConnection();
+            conn = MedwanQuery.getInstance().getAdminConnection();
             String sSql = "DELETE FROM userparameters"+
                           " WHERE parameter = ? AND value LIKE ?";
             ps = conn.prepareStatement(sSql);
@@ -382,6 +383,7 @@
         finally{
             try{
                 if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
             }
             catch(Exception e){
                 Debug.printStackTrace(e);
