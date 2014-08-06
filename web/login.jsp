@@ -58,7 +58,7 @@
         int thisversion = Integer.parseInt(element.attribute("major").getValue())*1000000+Integer.parseInt(element.attribute("minor").getValue())*1000+Integer.parseInt(element.attribute("bug").getValue());
         if(thisversion>MedwanQuery.getInstance().getConfigInt("updateVersion",0)){
         	// format new version
-        	version = element.attribute("major").getValue() + "." + element.attribute("minor").getValue() + "." + element.attribute("bug").getValue();
+        	String sCurrVersion = element.attribute("major").getValue() + "." + element.attribute("minor").getValue() + "." + element.attribute("bug").getValue();
         	String sUpdateVersion = ""+MedwanQuery.getInstance().getConfigInt("updateVersion",0);
         	String sMajor = sUpdateVersion.substring(0,1),
         		   sMinor = sUpdateVersion.substring(1,sUpdateVersion.length()-3), 
@@ -69,7 +69,7 @@
         	
         	// compose update-question-label
         	String sUpdateLabel = getTranNoLink("web","applyUpdateVersion","en");
-        	sUpdateLabel = sUpdateLabel.replaceAll("#currVersion#",""+version);
+        	sUpdateLabel = sUpdateLabel.replaceAll("#currVersion#",sCurrVersion);
         	sUpdateLabel = sUpdateLabel.replaceAll("#newVersion#",sUpdateVersion);
         	
         	%>
