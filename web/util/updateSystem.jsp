@@ -45,7 +45,7 @@
 <center>
 <div style="width:100%;height:100%;padding-top:100px">
   <div id="infoBox">
-    <br><%=getTran("web","systemUpdateInfo","en")%><br><br>
+    <br>The OpenClinic system is being updated. This might take several minutes.<br><br>
     <div id="progressBarSpace">
       <div id="progressBar" style="text-weight:normal"></div>
     </div>

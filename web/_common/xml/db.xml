@@ -4687,6 +4687,7 @@
     	<columns>
     		<column name="serverid" dbtype="int" javatype="integer"/>
     		<column name="objectid" dbtype="int" javatype="integer"/>
+    		<column name="transactionid" dbtype="int" javatype="integer"/>
     		<column name="analysiscode" dbtype="varchar" javatype="string" size="50"/>
     		<column name="comment" dbtype="varchar" javatype="string" size="255"/>
     		<column name="resultvalue" dbtype="varchar" javatype="string" size="255"/>
@@ -4709,6 +4710,11 @@
     		<column name="sampler" dbtype="int" javatype="integer"/>
     		<column name="worklisteddatetime" dbtype="datetime" javatype="date"/>
     	</columns>
+		<indexes>
+			<index name="transactionid">
+				<indexcolumn order="ASC" name="transactionid"/>
+			</index>
+		</indexes>
     </table>
     <table name="OC_ANTIBIOGRAMS" db="openclinic" sync="NONE">
         <columns>

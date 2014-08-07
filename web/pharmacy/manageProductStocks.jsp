@@ -2,14 +2,25 @@
                 be.openclinic.pharmacy.Product,
                 be.openclinic.pharmacy.ProductStock,
                 be.openclinic.medical.Prescription,
-                java.util.Vector" %>
+                java.util.Vector,be.mxs.common.util.system.*" %>
 <%@ page import="be.openclinic.pharmacy.ProductOrder" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 
 <%=checkPermission("pharmacy.manageproductstocks","all",activeUser)%>
 <%=sJSSORTTABLE%>
+<%!
+	static 	Hashtable pumps = new Hashtable(), pumpcounts=new Hashtable();
 
+	public double getLastYearsAveragePrice(Product product){
+		double price=0;
+		if(pumps.get(product.getUid())!=null && pumpcounts.get(product.getUid())!=null){
+			price=(Double)pumps.get(product.getUid())/(Double)pumpcounts.get(product.getUid());
+		}
+		return price;
+	}
+
+%>
 <%!
     //--- OBJECTS TO HTML (layout 1) --------------------------------------------------------------
     private StringBuffer objectsToHtml1(Vector objects, String sWebLanguage) {
@@ -126,7 +137,8 @@
             java.util.Date tmpDate = productStock.getBegin();
             if (tmpDate != null) sStockBegin = stdDateFormat.format(tmpDate);
 
-            double nPUMP = product.getLastYearsAveragePrice();
+            double nPUMP = getLastYearsAveragePrice(product);
+            //double nPUMP = 0;
             int commandLevel = ProductOrder.getOpenOrderedQuantity(productStock.getUid());
 
             // alternate row-style
@@ -204,7 +216,43 @@
 %>
 
 <%
-    String sDefaultSortCol = "OC_PRODUCT_NAME",
+	long day = 24*3600*1000;
+	long year = 365*day;
+	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+	PreparedStatement ps = null;
+	try{
+		ps=conn.prepareStatement("select OC_POINTER_KEY,OC_POINTER_VALUE from OC_POINTERS where OC_POINTER_KEY like 'drugprice.%' and OC_POINTER_UPDATETIME between ? and ? order by OC_POINTER_VALUE");
+		ps.setTimestamp(1, new java.sql.Timestamp(new java.util.Date(new java.util.Date().getTime()-year).getTime()));
+		ps.setTimestamp(2, new java.sql.Timestamp(new java.util.Date().getTime()));
+		ResultSet rs = ps.executeQuery();
+		while(rs.next()){
+			String key = rs.getString("OC_POINTER_KEY");
+			String value= rs.getString("OC_POINTER_VALUE");
+			key = "1."+key.split("\\.")[2];
+			double totalprice = Double.parseDouble(value.split(";")[0])*Double.parseDouble(value.split(";")[1]);
+			double count=Double.parseDouble(value.split(";")[0]);
+			if(pumps.get(key)==null){
+				pumps.put(key,totalprice);
+			}
+			else {
+				pumps.put(key,(Double)pumps.get(key)+totalprice);
+			}
+			if(pumpcounts.get(key)==null){
+				pumpcounts.put(key,count);
+			}
+			else {
+				pumpcounts.put(key,(Double)pumpcounts.get(key)+count);
+			}
+		}
+		rs.close();
+		ps.close();
+		conn.close();
+	}
+	catch(Exception e){
+		e.printStackTrace();
+	}
+  
+	String sDefaultSortCol = "OC_PRODUCT_NAME",
            sDefaultSortDir = "ASC";
 
     String sAction = checkString(request.getParameter("Action"));
@@ -403,6 +451,7 @@
             	sFindServiceStockUid = sEditServiceStockUid;
         	}
         }
+
         Vector productStocks = ProductStock.find(sFindServiceStockUid,sFindProductUid,sFindLevel,sFindMinimumLevel,
                                                  sFindMaximumLevel,sFindOrderLevel,sFindBegin,sFindEnd,sFindDefaultImportance,
                                                  sFindSupplierUid,"",sSortCol,sSortDir);

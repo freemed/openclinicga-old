@@ -24,4 +24,7 @@
 4.89.32 - progress bar added to system update screen
 4.89.33 - extended history functionality for clinical data entry screens
 4.89.34 - version control algorithm updated in login.jsp
+4.89.35 - system update progress bar modified (higher granularity)
+4.89.36 - transactionid column added to RequestedLabanalyses table definition in db.xml
+4.89.37 - index transactionid added to RequestedLabanalyses table
 
