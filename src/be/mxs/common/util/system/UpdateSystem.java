@@ -178,7 +178,7 @@ public class UpdateSystem implements Runnable {
 				}
 				adminColumns.put((tableName+"$"+columnName).toLowerCase(),"");
 			}
-			
+			setProgress(7);
 			databaseMetaData=loc_conn.getMetaData();
 			rsCheck=databaseMetaData.getColumns(null, null, null, null);
 			while(rsCheck.next()){
@@ -194,6 +194,7 @@ public class UpdateSystem implements Runnable {
 				}
 				openclinicColumns.put((tableName+"$"+columnName).toLowerCase(),"");
 			}
+			setProgress(9);
 
 			databaseMetaData=sta_conn.getMetaData();
 			rsCheck=databaseMetaData.getColumns(null, null, null, null);
@@ -210,6 +211,7 @@ public class UpdateSystem implements Runnable {
 				}
 				statsColumns.put((tableName+"$"+columnName).toLowerCase(),"");
 			}
+			setProgress(11);
 			
 		    tables = model.elementIterator("table");
 		    while (tables.hasNext()) {
@@ -453,6 +455,7 @@ public class UpdateSystem implements Runnable {
 	            }
 	        }
         }
+		setProgress(25);
         String sDeliveries=MedwanQuery.getInstance().getConfigString("autorizedProductStockOperationDeliveries","'medicationdelivery.1','medicationdelivery.2','medicationdelivery.3','medicationdelivery.4','medicationdelivery.5','medicationdelivery.99'");
         String sReceipts=MedwanQuery.getInstance().getConfigString("autorizedProductStockOperationReceipts","'medicationreceipt.1','medicationreceipt.2','medicationreceipt.3','medicationreceipt.4','medicationreceipt.99'");
         String sOutcomes=MedwanQuery.getInstance().getConfigString("autorizedEncounterOutcomes","'better','contrareference','dead','deterioration','escape','other','recovered','reference'");
@@ -470,6 +473,7 @@ public class UpdateSystem implements Runnable {
         catch(Exception e){
         	e.printStackTrace();
         }
+		setProgress(30);
         //Clear non-existing extrainsurars
         try{
         	PreparedStatement ps = conn.prepareStatement("delete from OC_LABELS where OC_LABEL_TYPE='patientsharecoverageinsurance' and replace(OC_LABEL_ID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') not in (select OC_INSURAR_OBJECTID from OC_INSURARS)");
@@ -495,7 +499,11 @@ public class UpdateSystem implements Runnable {
         TransactionItem objTI;
         Properties iniProps = getPropertyFile(basedir+"/_common/xml/TransactionItems.ini");
         Enumeration e = iniProps.keys();
+        int n =0,n2=iniProps.size();
+        System.out.println("propssize="+n2);
         while(e.hasMoreElements()){
+        	n++;
+			setProgress(40+20*n/n2);
             paramName = (String)e.nextElement();
             paramValue = iniProps.getProperty(paramName);
             if (transactionItems.get(paramName)==null) {
@@ -844,8 +852,11 @@ public class UpdateSystem implements Runnable {
 	            Element root = document.getRootElement();
 	            if (root != null) {
 	                Iterator elements = root.elementIterator("Row");
+	                int n=0,n2=root.elements("Row").size();
 	                while (elements.hasNext()) {
-	                    Element e = (Element) elements.next();
+	                	n++;
+	           		 	setProgress(80+10*n/n2);
+	                	Element e = (Element) elements.next();
 	                    Element id = e.element("id");
 	                    Element transactiontype = e.element("transactiontype");
 	                    Element data =e.element("Data");
@@ -969,7 +980,8 @@ public class UpdateSystem implements Runnable {
         			MedwanQuery.getInstance().setConfigString(oc_key, news);
         		}
         	}
-        	rs.close();
+   		 	setProgress(65);
+   		 	rs.close();
         	ps.close();
         	conn.close();
 	        SAXReader xmlReader = new SAXReader();
@@ -991,6 +1003,7 @@ public class UpdateSystem implements Runnable {
         }catch (Exception e){
         	e.printStackTrace();
         }
+	 	setProgress(70);
         
         //Patients archiveFileCode
         String s="select max(archivefilecode) as maxcode from adminview where "+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(archivefilecode)=(select max("+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(archivefilecode)) from adminview where "+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(archivefilecode)<7)";
