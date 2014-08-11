@@ -12,13 +12,13 @@
     private String addAuthorizedUser(int userIdx, String userName, String sWebLanguage) {
         StringBuffer html = new StringBuffer();
 
-        html.append("<tr id='rowAuthorizedUsers" + userIdx + "'>")
+        html.append("<tr id='rowAuthorizedUsers"+userIdx+"'>")
              .append("<td width='18'>")
-              .append("<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers" + userIdx + ")'>")
-               .append("<img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web", "delete", sWebLanguage) + "' class='link'>")
+              .append("<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+userIdx+")'>")
+               .append("<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTran("Web", "delete", sWebLanguage)+"' class='link'>")
               .append("</a>")
              .append("</td>")
-             .append("<td>" + userName + "</td>")
+             .append("<td>"+userName+"</td>")
             .append("</tr>");
 
         return html.toString();
@@ -62,38 +62,38 @@
 
             // alternate row-style
             if (sClass.equals("")) sClass = "1";
-            else sClass = "";
+            else                   sClass = "";
 
             //*** display stock in one row ***
-            html.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>");
+            html.append("<tr class='list"+sClass+"' title='"+detailsTran+"'>");
             if((serviceStock.isAuthorizedUser(activeUser.userid) || activeUser.getAccessRight("sa")) && activeUser.getAccessRight("pharmacy.manageservicestocks.delete")){
-                html.append(" <td align='left'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + sServiceStockUid + "');\"/>");
-                html.append("<img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' class='link' onclick=\"printFiche('" + sServiceStockUid+"','"+serviceStock.getName() + "');\" title='" + getTranNoLink("web","stockfiche",sWebLanguage) + "'/>");
+                html.append("<td align='left'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+sServiceStockUid+"');\"/>");
+                html.append("<img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' class='link' onclick=\"printFiche('"+sServiceStockUid+"','"+serviceStock.getName()+"');\" title='"+getTranNoLink("web","stockfiche",sWebLanguage)+"'/>");
             }
             else {
                 html.append("<td>");
             }
             if(serviceStock.getNosync()==0){
-                html.append("<img src='" + sCONTEXTPATH + "/_img/sync.jpg'/>");
+                html.append("<img src='"+sCONTEXTPATH+"/_img/sync.jpg'/>");
             }
             if(serviceStock.hasOpenDeliveries()){
-                html.append("<a href='javascript:bulkReceive(\""+serviceStock.getUid()+"\");'><img src='" + sCONTEXTPATH + "/_img/incoming.jpg'/></a>");
+                html.append("&nbsp;<img src='"+sCONTEXTPATH+"/_img/incoming.jpg' onclick='javascript:bulkReceive(\""+serviceStock.getUid()+"\");'/></a>");
             }
             html.append("</td>");
-            html.append("<td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + serviceStock.getName() + "</td>")
-                .append("<td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + sServiceName + "</td>")
-                .append("<td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + sManagerName + "</td>")
-                .append("<td onclick=\"doShowDetails('" + sServiceStockUid + "');\">" + productCount + "</td>");
+            html.append("<td onclick=\"doShowDetails('"+sServiceStockUid+"');\">"+serviceStock.getName()+"</td>")
+                .append("<td onclick=\"doShowDetails('"+sServiceStockUid+"');\">"+sServiceName+"</td>")
+                .append("<td onclick=\"doShowDetails('"+sServiceStockUid+"');\">"+sManagerName+"</td>")
+                .append("<td onclick=\"doShowDetails('"+sServiceStockUid+"');\">"+productCount+"</td>");
 
             // display "manage product stocks"-button when user is authorized
             if (serviceStock.isAuthorizedUser(activeUser.userid)) {
                 html.append("<td>")
-                    .append("<input type='button' class='button' value='" + calculateOrderTran + "' onclick=\"doCalculateOrder('" + sServiceStockUid + "','" + sServiceName + "');\">&nbsp;")
-                    .append("<input type='button' class='button' value='" + productStockTran + "' onclick=\"displayProductStockManagement('" + sServiceStockUid + "','" + sServiceUid + "');\">&nbsp;")
+                     .append("<input type='button' class='button' value='"+calculateOrderTran+"' onclick=\"doCalculateOrder('"+sServiceStockUid+"','"+sServiceName+"');\">&nbsp;")
+                     .append("<input type='button' class='button' value='"+productStockTran+"' onclick=\"displayProductStockManagement('"+sServiceStockUid+"','"+sServiceUid+"');\">&nbsp;")
                     .append("</td>");
             } 
             else {
-                html.append("<td onclick=\"doShowDetails('" + sServiceStockUid + "');\">&nbsp;</td>");
+                html.append("<td onclick=\"doShowDetails('"+sServiceStockUid+"');\">&nbsp;</td>");
             }
 
             html.append("</tr>");
