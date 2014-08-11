@@ -27,4 +27,9 @@
 4.89.35 - system update progress bar modified (higher granularity)
 4.89.36 - transactionid column added to RequestedLabanalyses table definition in db.xml
 4.89.37 - index transactionid added to RequestedLabanalyses table
+4.89.38 - performance update manageProductStocks.jsp (retrieval of products in a pharmacy stock)
+4.89.39	- some minor javascript errors and layout corrections
+4.89.40 - pharmaceutical product orders were not shown in pharmacy/manageProductOrders.jsp as long as nothing was delivered
+4.89.41 - updating batchnumber in pharmacy product stock operation now also reflects the transfered quantity in the product stock batches
+
 

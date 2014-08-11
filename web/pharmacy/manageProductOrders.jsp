@@ -389,6 +389,16 @@
 	    	            batch.setUpdateUser(activeUser.userid);
 	    	            batch.store();
 	            	}
+	            	//If the batchnumber differs from an existing previous one, we must transfer the quantity from the old to the new batch
+	            	if(operation.getBatchUid()!=null && operation.getBatchUid().length()>0 && !sEditBatchNumber.equalsIgnoreCase(operation.getBatchNumber())){
+	            		Batch oldbatch = Batch.get(operation.getBatchUid());
+	            		if(oldbatch!=null && batch!=null){
+	            			oldbatch.setLevel(oldbatch.getLevel()-nPackagesDelivered);
+	            			oldbatch.store();
+	            			batch.setLevel(batch.getLevel()+nPackagesDelivered);
+	            			batch.store();
+	            		}
+	            	}
 	            	operation.setBatchUid(batch.getUid());
 	            }
 	            
