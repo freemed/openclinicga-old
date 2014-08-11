@@ -89,7 +89,7 @@
 	</table>
 	<%
 		if(operations.size()>0){
-			%><input type='submit' name='submit' value='<%=getTran("web","save",sWebLanguage)%>'/><%
+			%><input type='submit' name='submit' class='button' value='<%=getTranNoLink("web","save",sWebLanguage)%>'/><%
 		}
 		else {
 			%>
