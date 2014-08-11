@@ -57,17 +57,17 @@
             else sClass = "";
 
             //*** display order in one row ***
-            html.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
-                    .append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + order.getUid() + "');\">")
-                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + checkString(order.getDescription()) + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sServiceStockName + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sProductName + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + order.getPackagesOrdered() + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + order.getPackagesDelivered() + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sDateOrdered + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sDateDelivered + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sImportance + "</td>")
-                    .append("</tr>");
+            html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
+                 .append("<td align='center'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+order.getUid()+"');\">")
+                 .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+checkString(order.getDescription())+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sServiceStockName+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sProductName+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+order.getPackagesOrdered()+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+order.getPackagesDelivered()+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sDateOrdered+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sDateDelivered+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sImportance+"</td>")
+                .append("</tr>");
         }
 
         return html;
@@ -115,7 +115,7 @@
                     if (product != null) {
                         sProductName = product.getName();
                     } else {
-                        sProductName = "<font color='red'>" + getTran("web.manage", "unexistingproduct", sWebLanguage) + "</font>";
+                        sProductName = "<font color='red'>"+getTran("web.manage", "unexistingproduct", sWebLanguage)+"</font>";
                     }
 
                     // service stock
@@ -123,11 +123,11 @@
                     if (serviceStock != null) {
                         sServiceStockName = serviceStock.getName();
                     } else {
-                        sServiceStockName = "<font color='red'>" + getTran("web.manage", "unexistingservicestock", sWebLanguage) + "</font>";
+                        sServiceStockName = "<font color='red'>"+getTran("web.manage", "unexistingservicestock", sWebLanguage)+"</font>";
                     }
                 } else {
-                    sProductName = "<font color='red'>" + getTran("web.manage", "unexistingproduct", sWebLanguage) + "</font>";
-                    sServiceStockName = "<font color='red'>" + getTran("web.manage", "unexistingservicestock", sWebLanguage) + "</font>";
+                    sProductName = "<font color='red'>"+getTran("web.manage", "unexistingproduct", sWebLanguage)+"</font>";
+                    sServiceStockName = "<font color='red'>"+getTran("web.manage", "unexistingservicestock", sWebLanguage)+"</font>";
                 }
             }
 
@@ -142,16 +142,16 @@
             else sClass = "";
 
             //*** display order in one row ***
-            html.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
-                    .append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + order.getUid() + "');\">")
-                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + checkString(order.getDescription()) + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sServiceStockName + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sProductName + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + order.getPackagesOrdered() + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + order.getPackagesDelivered() + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sDateOrdered + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sDateDeliveryDue + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + order.getUid() + "');\">" + sImportance + "</td>")
+            html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
+                    .append(" <td align='center'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+order.getUid()+"');\">")
+                    .append(" <td onclick=\"doShowDetails('"+order.getUid()+"');\">"+checkString(order.getDescription())+"</td>")
+                    .append(" <td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sServiceStockName+"</td>")
+                    .append(" <td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sProductName+"</td>")
+                    .append(" <td onclick=\"doShowDetails('"+order.getUid()+"');\">"+order.getPackagesOrdered()+"</td>")
+                    .append(" <td onclick=\"doShowDetails('"+order.getUid()+"');\">"+order.getPackagesDelivered()+"</td>")
+                    .append(" <td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sDateOrdered+"</td>")
+                    .append(" <td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sDateDeliveryDue+"</td>")
+                    .append(" <td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sImportance+"</td>")
                     .append("</tr>");
         }
 
@@ -167,56 +167,59 @@
 
     // retreive form data
     String sEditOrderUid = checkString(request.getParameter("EditOrderUid")),
-            sEditDescription = checkString(request.getParameter("EditDescription")),
-            sEditSupplierUid = checkString(request.getParameter("EditSupplierUid")),
-            sEditProductStockUid = checkString(request.getParameter("EditProductStockUid")),
-            sEditPackagesOrdered = checkString(request.getParameter("EditPackagesOrdered")),
-            sEditPackagesDelivered = checkString(request.getParameter("EditPackagesDelivered")),
-            sEditDateOrdered = checkString(request.getParameter("EditDateOrdered")),
-            sEditDateDeliveryDue = checkString(request.getParameter("EditDateDeliveryDue")),
-            sEditDateDelivered = checkString(request.getParameter("EditDateDelivered")),
-            sEditBatchNumber = checkString(request.getParameter("EditBatchNumber")),
-            sEditBatchComment = checkString(request.getParameter("EditBatchComment")),
-            sEditSupplier = checkString(request.getParameter("EditSupplier")),
-            sEditBatchEnd = checkString(request.getParameter("EditBatchEnd")),
-            sEditProductStockDocumentUid = checkString(request.getParameter("EditProductStockDocumentUid")),
-            sEditProductStockDocumentUidText = "",
-            sEditProductStockOperationUid = checkString(request.getParameter("EditProductStockOperationUid")),
-            sEditImportance = checkString(request.getParameter("EditImportance")); // (native|high|low)
+           sEditDescription = checkString(request.getParameter("EditDescription")),
+           sEditSupplierUid = checkString(request.getParameter("EditSupplierUid")),
+           sEditProductStockUid = checkString(request.getParameter("EditProductStockUid")),
+           sEditPackagesOrdered = checkString(request.getParameter("EditPackagesOrdered")),
+           sEditPackagesDelivered = checkString(request.getParameter("EditPackagesDelivered")),
+           sEditDateOrdered = checkString(request.getParameter("EditDateOrdered")),
+           sEditDateDeliveryDue = checkString(request.getParameter("EditDateDeliveryDue")),
+           sEditDateDelivered = checkString(request.getParameter("EditDateDelivered")),
+           sEditBatchNumber = checkString(request.getParameter("EditBatchNumber")),
+           sEditBatchComment = checkString(request.getParameter("EditBatchComment")),
+           sEditSupplier = checkString(request.getParameter("EditSupplier")),
+           sEditBatchEnd = checkString(request.getParameter("EditBatchEnd")),
+           sEditProductStockDocumentUid = checkString(request.getParameter("EditProductStockDocumentUid")),
+           sEditProductStockDocumentUidText = "",
+           sEditProductStockOperationUid = checkString(request.getParameter("EditProductStockOperationUid")),
+           sEditImportance = checkString(request.getParameter("EditImportance")); // (native|high|low)
 
-            if(sEditProductStockDocumentUid.length()>0){
-            	sEditProductStockDocumentUidText=getTran("operationdocumenttypes",OperationDocument.get(sEditProductStockDocumentUid).getType(),sWebLanguage);
-            }
+           if(sEditProductStockDocumentUid.length()>0){
+               sEditProductStockDocumentUidText=getTran("operationdocumenttypes",OperationDocument.get(sEditProductStockDocumentUid).getType(),sWebLanguage);
+           }
+           
     // afgeleide data
     String sEditProductName = checkString(request.getParameter("EditProductName"));
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if (Debug.enabled) {
-        Debug.println("################## sAction : " + sAction + " ################################");
-        Debug.println("* sEditOrderUid          : " + sEditOrderUid);
-        Debug.println("* sEditDescription       : " + sEditDescription);
-        Debug.println("* sEditSupplierUid       : " + sEditSupplierUid);
-        Debug.println("* sEditProductStockUid   : " + sEditProductStockUid);
-        Debug.println("* sEditPackagesOrdered   : " + sEditPackagesOrdered);
-        Debug.println("* sEditPackagesDelivered : " + sEditPackagesDelivered);
-        Debug.println("* sEditDateOrdered       : " + sEditDateOrdered);
-        Debug.println("* sEditDateDeliveryDue   : " + sEditDateDeliveryDue);
-        Debug.println("* sEditDateDelivered     : " + sEditDateDelivered);
-        Debug.println("* sEditImportance        : " + sEditImportance);
-        Debug.println("** sEditProductName      : " + sEditProductName + "\n");
+        Debug.println("\n******************** pharmacy/managePrductOrders.jsp *******************");
+        Debug.println("sAction                : "+sAction);
+        Debug.println("sEditOrderUid          : "+sEditOrderUid);
+        Debug.println("sEditDescription       : "+sEditDescription);
+        Debug.println("sEditSupplierUid       : "+sEditSupplierUid);
+        Debug.println("sEditProductStockUid   : "+sEditProductStockUid);
+        Debug.println("sEditPackagesOrdered   : "+sEditPackagesOrdered);
+        Debug.println("sEditPackagesDelivered : "+sEditPackagesDelivered);
+        Debug.println("sEditDateOrdered       : "+sEditDateOrdered);
+        Debug.println("sEditDateDeliveryDue   : "+sEditDateDeliveryDue);
+        Debug.println("sEditDateDelivered     : "+sEditDateDelivered);
+        Debug.println("sEditImportance        : "+sEditImportance);
+        Debug.println("sEditProductName       : "+sEditProductName+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     String msg = "", sFindDescription = "", sFindServiceStockUid = "", sFindServiceUid = "",
-            sFindProductStockUid = "", sFindPackagesOrdered = "", sFindPackagesDelivered = "",
-            sFindDateOrdered = "", sFindDateDeliveryDue = "", sFindDateDelivered = "", sFindImportance = "",
-            sSelectedProductStockUid = "", sSelectedDescription = "", sSelectedPackagesOrdered = "",
-            sSelectedPackagesDelivered = "", sSelectedDateOrdered = "", sSelectedDateDeliveryDue = "",
-            sSelectedDateDelivered = "", sSelectedImportance = "", sSelectedProductName = "", sSelectedServiceStockName="",
-            sFindServiceName = "", sFindServiceStockName = "", sFindProductName = "", sDeliveredQuantity="",
-            sFindSupplierUid = "", sFindSupplierName = "", sFindDateDeliveredSince = "";
+           sFindProductStockUid = "", sFindPackagesOrdered = "", sFindPackagesDelivered = "",
+           sFindDateOrdered = "", sFindDateDeliveryDue = "", sFindDateDelivered = "", sFindImportance = "",
+           sSelectedProductStockUid = "", sSelectedDescription = "", sSelectedPackagesOrdered = "",
+           sSelectedPackagesDelivered = "", sSelectedDateOrdered = "", sSelectedDateDeliveryDue = "",
+           sSelectedDateDelivered = "", sSelectedImportance = "", sSelectedProductName = "", sSelectedServiceStockName="",
+           sFindServiceName = "", sFindServiceStockName = "", sFindProductName = "", sDeliveredQuantity="",
+           sFindSupplierUid = "", sFindSupplierName = "", sFindDateDeliveredSince = "";
 
     int nTotalPackagesDelivered=0, nPackagesActualOrder=0;
+    
     // get find-data from form
     sFindDescription = (checkString(request.getParameter("FindDescription"))+"%").replaceAll("%%", "%");
     sFindSupplierUid = checkString(request.getParameter("FindSupplierUid"));
@@ -231,22 +234,23 @@
     sFindDateDeliveredSince = checkString(request.getParameter("FindDateDeliveredSince"));
     sFindImportance = checkString(request.getParameter("FindImportance")); // (native|high|low)
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if (Debug.enabled) {
-        Debug.println("* sFindDescription        : " + sFindDescription);
-        Debug.println("* sFindSupplierUid        : " + sFindSupplierUid);
-        Debug.println("* sFindServiceUid         : " + sFindServiceUid);
-        Debug.println("* sFindServiceStockUid    : " + sFindServiceStockUid);
-        Debug.println("* sFindProductStockUid    : " + sFindProductStockUid);
-        Debug.println("* sFindPackagesOrdered    : " + sFindPackagesOrdered);
-        Debug.println("* sFindPackagesDelivered  : " + sFindPackagesDelivered);
-        Debug.println("* sFindDateOrdered        : " + sFindDateOrdered);
-        Debug.println("* sFindDateDeliveryDue    : " + sFindDateDeliveryDue);
-        Debug.println("* sFindDateDeliveryDue    : " + sFindDateDeliveryDue);
-        Debug.println("* sFindImportance         : " + sFindImportance);
-        Debug.println("* sFindDateDeliveredSince : " + sFindDateDeliveredSince + "\n");
+        Debug.println("sFindDescription        : "+sFindDescription);
+        Debug.println("sFindSupplierUid        : "+sFindSupplierUid);
+        Debug.println("sFindServiceUid         : "+sFindServiceUid);
+        Debug.println("sFindServiceStockUid    : "+sFindServiceStockUid);
+        Debug.println("sFindProductStockUid    : "+sFindProductStockUid);
+        Debug.println("sFindPackagesOrdered    : "+sFindPackagesOrdered);
+        Debug.println("sFindPackagesDelivered  : "+sFindPackagesDelivered);
+        Debug.println("sFindDateOrdered        : "+sFindDateOrdered);
+        Debug.println("sFindDateDeliveryDue    : "+sFindDateDeliveryDue);
+        Debug.println("sFindDateDeliveryDue    : "+sFindDateDeliveryDue);
+        Debug.println("sFindImportance         : "+sFindImportance);
+        Debug.println("sFindDateDeliveredSince : "+sFindDateDeliveredSince+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    
     int foundOrderCount = 0;
     StringBuffer ordersHtml = null;
     SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
@@ -258,13 +262,17 @@
     String sDisplaySearchFields = checkString(request.getParameter("DisplaySearchFields"));
     if (sDisplaySearchFields.length() == 0) sDisplaySearchFields = "true"; // default
     boolean displaySearchFields = sDisplaySearchFields.equalsIgnoreCase("true");
+    Debug.println("displaySearchFields      : "+displaySearchFields);
+    
     String sDisplayDeliveredOrders = checkString(request.getParameter("DisplayDeliveredOrders"));
     if (sDisplayDeliveredOrders.length() == 0) sDisplayDeliveredOrders = "false"; // default
     boolean displayDeliveredOrders = sDisplayDeliveredOrders.equalsIgnoreCase("true");
+    Debug.println("displayDeliveredOrders   : "+displayDeliveredOrders);
 
     String sDisplayUndeliveredOrders = checkString(request.getParameter("DisplayUndeliveredOrders"));
     if (sDisplayUndeliveredOrders.length() == 0) sDisplayUndeliveredOrders = "true"; // default
     boolean displayUndeliveredOrders = sDisplayUndeliveredOrders.equalsIgnoreCase("true");
+    Debug.println("sDisplayUndeliveredOrders : "+sDisplayUndeliveredOrders);
 
     // sortcol
     String sSortCol = checkString(request.getParameter("SortCol"));
@@ -310,6 +318,7 @@
     //*********************************************************************************************
     //*** process actions *************************************************************************
     //*********************************************************************************************
+    
     //--- SAVE ------------------------------------------------------------------------------------
    	 int nPackagesDelivered=0;
    	 try{
@@ -382,6 +391,7 @@
 	            	}
 	            	operation.setBatchUid(batch.getUid());
 	            }
+	            
 	            ProductStock productStock = ProductStock.get(sEditProductStockUid);
 	            ObjectReference sd=new ObjectReference("supplier",sEditSupplier);
 	            operation.setSourceDestination(sd);
@@ -420,7 +430,7 @@
             order.store();
         }
 
-        if (Debug.enabled) Debug.println("*** orderIsClosed : " + orderIsClosed);
+        if (Debug.enabled) Debug.println("*** orderIsClosed : "+orderIsClosed);
 
         sEditOrderUid = order.getUid();
         sAction="find";
@@ -443,9 +453,9 @@
         if (sAction.equals("findShowOverview")) displayEditFields = false;
 
         Vector orders = ProductOrder.find(displayDeliveredOrders, displayUndeliveredOrders,
-                sFindDescription, sFindServiceUid, sFindProductStockUid,
-                sFindPackagesOrdered, sFindDateDeliveryDue, sFindDateOrdered,
-                sFindSupplierUid, sFindServiceStockUid, sSortCol, sSortDir,sFindDateDeliveredSince);
+						                  sFindDescription, sFindServiceUid, sFindProductStockUid,
+						                  sFindPackagesOrdered, sFindDateDeliveryDue, sFindDateOrdered,
+						                  sFindSupplierUid, sFindServiceStockUid, sSortCol, sSortDir,sFindDateDeliveredSince);
 
         if (displayDeliveredOrders) ordersHtml = ordersToHtml(orders, sWebLanguage);
         if (displayUndeliveredOrders) ordersHtml = undeliveredOrdersToHtml(orders, sWebLanguage);
@@ -470,8 +480,8 @@
 
             sSelectedProductStockUid = order.getProductStockUid();
             sSelectedDescription = checkString(order.getDescription());
-            sSelectedPackagesOrdered = (order.getPackagesOrdered() < 0 ? "" : order.getPackagesOrdered() + "");
-            sSelectedPackagesDelivered = (order.getPackagesDelivered() < 0 ? "" : order.getPackagesDelivered() + "");
+            sSelectedPackagesOrdered = (order.getPackagesOrdered() < 0 ? "" : order.getPackagesOrdered()+"");
+            sSelectedPackagesDelivered = (order.getPackagesDelivered() < 0 ? "" : order.getPackagesDelivered()+"");
             sSelectedImportance = checkString(order.getImportance());
 			
             // format date ordered
@@ -499,7 +509,8 @@
             }
             
             nTotalPackagesDelivered=order.getPackagesDelivered();
-        } else if (sAction.equals("showDetailsAfterAddReject")) {
+        }
+        else if (sAction.equals("showDetailsAfterAddReject")) {
             // do not get data from DB, but show data that were allready on form
             sSelectedProductStockUid = sEditProductStockUid;
             sSelectedDescription = sEditDescription;
@@ -513,7 +524,8 @@
 
             // afgeleide data
             sSelectedProductName = sEditProductName;
-        } else if (sAction.equals("showDetailsNew")) {
+        }
+        else if (sAction.equals("showDetailsNew")) {
             sSelectedProductStockUid = sEditProductStockUid;
             displayDeliveredOrders = false;
             displayUndeliveredOrders = false;
@@ -527,9 +539,11 @@
     if (sSelectedDateDelivered.length() == 0) {
         if (sSelectedPackagesDelivered.equals("0")) sSelectedPackagesDelivered = "";
     }
+    
     // onclick : when editing, save, else search when pressing 'enter'
     String sOnKeyDown="";
 %>
+
 <form name="transactionForm" id="transactionForm" method="post" <%=sOnKeyDown%> <%=((displaySearchFields||orderIsClosed)?"onClick=\"clearMessage();\"":"onClick=\"setSaveButton(event);clearMessage();\" onKeyUp=\"setSaveButton(event);\"")%>>
     <%-- page title --%>
     <%=writeTableHeader("Web.manage","ManageProductOrders",sWebLanguage," doBack();")%>
@@ -1053,6 +1067,7 @@
                     <br>
                 <%
             }
+            
             //Also list all existing operations on this product order
             Vector operations = ProductStockOperation.searchProductStockOperations("", "", "", "", "", sEditOrderUid,"");
             if(operations.size()>0){
@@ -1253,23 +1268,23 @@
 	  }
 
   function doShowOperationDetails(orderUid,operationUid){
-	    if(transactionForm.searchButton!=undefined) transactionForm.searchButton.disabled = true;
-	    if(transactionForm.clearButton!=undefined) transactionForm.clearButton.disabled = true;
-	    if(transactionForm.searchDeliveredOrdersButton!=undefined) transactionForm.searchDeliveredOrdersButton.disabled = true;
+	if(transactionForm.searchButton!=undefined) transactionForm.searchButton.disabled = true;
+	if(transactionForm.clearButton!=undefined) transactionForm.clearButton.disabled = true;
+    if(transactionForm.searchDeliveredOrdersButton!=undefined) transactionForm.searchDeliveredOrdersButton.disabled = true;
 
-	    transactionForm.EditOrderUid.value = orderUid;
-	    transactionForm.EditProductStockOperationUid.value = operationUid;
-	    transactionForm.Action.value = "showDetails";
-	    transactionForm.submit();
-	  }
-
+    transactionForm.EditOrderUid.value = orderUid;
+	transactionForm.EditProductStockOperationUid.value = operationUid;
+	transactionForm.Action.value = "showDetails";
+	transactionForm.submit();
+  }
+  
   function doDeleteOperation(orderUid,operationUid){
-	    if(yesnoDialog("Web","areYouSureToDelete")){
-		    transactionForm.EditOrderUid.value = orderUid;
-		    transactionForm.EditProductStockOperationUid.value = operationUid;
-		    transactionForm.Action.value = "deleteOperation";
-		    transactionForm.submit();
-	    }
+	if(yesnoDialog("Web","areYouSureToDelete")){
+	  transactionForm.EditOrderUid.value = orderUid;
+	  transactionForm.EditProductStockOperationUid.value = operationUid;
+	  transactionForm.Action.value = "deleteOperation";
+	  transactionForm.submit();
+	}
   }
   function doEditDetails(orderUid){
     if(transactionForm.searchButton!=undefined) transactionForm.searchButton.disabled = true;
