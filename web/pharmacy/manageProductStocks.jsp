@@ -1341,9 +1341,11 @@
     window.location.href = "<%=sCONTEXTPATH%>/main.do?Page=pharmacy/manageProductStocks.jsp&DisplaySearchFields=true&ts=<%=getTs()%>";
   }
 
-  if('<%=sAction%>'=='findShowOverview'){
-     document.getElementById('filtersection').style.display='';
-      
+  if('<%=sAction%>'=='findShowOverview' || '<%=sAction%>'=='find'){
+     if(document.getElementById('filtersection')!=null){
+       document.getElementById('filtersection').style.display='';
+     }
+     
 	 <%-- close "search in progress"-popup that might still be open --%>
 	 var popup = window.open("","Searching","width=1,height=1");
 	 popup.close();
@@ -1352,6 +1354,8 @@
      }
    }
    else{
-    document.getElementById('filtersection').style.display='none';
+	 if(document.getElementById('filtersection')!=null){
+       document.getElementById('filtersection').style.display='none';
+	 }
    }
 </script>
