@@ -712,6 +712,22 @@ public class ProductOrder extends OC_Object{
 	                          String sFindServiceUid, String sFindProductStockUid, String sFindPackagesOrdered,
 	                          String sFindDateDeliveryDue, String sFindDateOrdered, String sFindSupplierUid,
 	                          String sFindServiceStockUid, String sSortCol, String sSortDir,String sFindDateDeliveredSince){
+		if(Debug.enabled){
+			Debug.println("\n********************** ProductOrder.find **********************");
+			Debug.println("searchDelivered         : "+searchDelivered);
+			Debug.println("searchUndelivered       : "+searchUndelivered);
+			Debug.println("sFindDescription        : "+sFindDescription);
+			Debug.println("sFindServiceUid         : "+sFindServiceUid);
+			Debug.println("sFindProductStockUid    : "+sFindProductStockUid);
+			Debug.println("sFindPackagesOrdered    : "+sFindPackagesOrdered);
+			Debug.println("sFindDateDeliveryDue    : "+sFindDateDeliveryDue);
+			Debug.println("sFindDateOrdered        : "+sFindDateOrdered);
+			Debug.println("sFindSupplierUid        : "+sFindSupplierUid);
+			Debug.println("sFindServiceStockUid    : "+sFindServiceStockUid);
+			Debug.println("sSortDir                : "+sSortDir);
+			Debug.println("sFindDateDeliveredSince : "+sFindDateDeliveredSince+"\n");
+		}
+		
 	    Vector foundObjects = new Vector();
 	    PreparedStatement ps = null;
 	    ResultSet rs = null;
@@ -744,12 +760,15 @@ public class ProductOrder extends OC_Object{
 	            if(sSelect.indexOf("WHERE") > -1) sSelect+= " AND ";
 	            else                              sSelect+= " WHERE ";
 	
+	            Debug.println("sFindDescription : "+sFindDescription);
 	            if(sFindDescription.length() > 0){
 	                String sLowerOrderDescr = MedwanQuery.getInstance().getConfigParam("lowerCompare","po.OC_ORDER_DESCRIPTION");
 	                sSelect+= sLowerOrderDescr+" LIKE ? AND ";
 	            }
 	
 	            if(sFindSupplierUid.length() > 0){
+		            Debug.println("sFindSupplierUid : "+sFindSupplierUid);
+		            
 	                // search all service and its child-services
 	                Vector childIds = Service.getChildIds(sFindSupplierUid);
 	                childIds.add(sFindSupplierUid);
@@ -763,9 +782,11 @@ public class ProductOrder extends OC_Object{
 	            }
 	
 	            if(sFindServiceStockUid.length() > 0){
+		            Debug.println("sFindServiceStockUid : "+sFindServiceStockUid);
 	                sSelect+= "ps.OC_STOCK_SERVICESTOCKUID = ? AND ";
 	            }
 	            else if(sFindServiceUid.length() > 0){
+		            Debug.println("sFindServiceUid : "+sFindServiceUid);
 	                Vector serviceStocks = Service.getServiceStocks(sFindServiceUid);
 	                String sServiceStockUids = "";
 	                for(int i=0; i<serviceStocks.size(); i++){
@@ -802,7 +823,14 @@ public class ProductOrder extends OC_Object{
 	            if(sFindPackagesOrdered.length() > 0) sSelect+= "po.OC_ORDER_PACKAGESORDERED = ? AND ";
 	            if(sFindDateOrdered.length() > 0)     sSelect+= "po.OC_ORDER_DATEORDERED >= ? AND ";
 	            if(sFindDateDeliveryDue.length() > 0) sSelect+= "po.OC_ORDER_DATEDELIVERYDUE >= ? AND ";
-	            if(sFindDateDeliveredSince.length() > 0) sSelect+= "po.OC_ORDER_DATEDELIVERED >= ? AND ";
+	            if(sFindDateDeliveredSince.length() > 0){ 
+		            if(searchUndelivered){
+			            sSelect+= "(po.OC_ORDER_DATEDELIVERED >= ? OR po.OC_ORDER_DATEDELIVERED IS NULL) AND ";	
+		            }
+		            else{
+			            sSelect+= "po.OC_ORDER_DATEDELIVERED >= ? AND ";
+		            }
+	            }
 	
 	            // remove last AND if any
 	            if(sSelect.indexOf("AND ")>0){
@@ -812,6 +840,7 @@ public class ProductOrder extends OC_Object{
 	
 	        // order by selected col or default col
 	        sSelect+= "ORDER BY po."+sSortCol+" "+sSortDir;
+	        Debug.println("\n"+sSelect+"\n");
 	        ps = oc_conn.prepareStatement(sSelect);
 	
 	        // set questionmark values
