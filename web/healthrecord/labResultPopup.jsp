@@ -245,7 +245,7 @@
 </p>
 <script>
   window.resizeTo(670,430);
-  transactionForm.EditResultValue.focus();
+  if(transactionForm.EditResultValue!=null) transactionForm.EditResultValue.focus();
 
   resizeAllTextareas(10);
 
@@ -258,7 +258,7 @@
     }
     else{
       alertDialog("web.manage","datamissing");
-      transactionForm.EditResultValue.focus();
+      if(transactionForm.EditResultValue!=null) transactionForm.EditResultValue.focus();
     }
   }
 
