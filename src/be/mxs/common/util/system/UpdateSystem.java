@@ -500,7 +500,6 @@ public class UpdateSystem implements Runnable {
         Properties iniProps = getPropertyFile(basedir+"/_common/xml/TransactionItems.ini");
         Enumeration e = iniProps.keys();
         int n =0,n2=iniProps.size();
-        System.out.println("propssize="+n2);
         while(e.hasMoreElements()){
         	n++;
 			setProgress(40+20*n/n2);
@@ -980,7 +979,6 @@ public class UpdateSystem implements Runnable {
         			MedwanQuery.getInstance().setConfigString(oc_key, news);
         		}
         	}
-   		 	setProgress(65);
    		 	rs.close();
         	ps.close();
         	conn.close();
@@ -1003,7 +1001,6 @@ public class UpdateSystem implements Runnable {
         }catch (Exception e){
         	e.printStackTrace();
         }
-	 	setProgress(70);
         
         //Patients archiveFileCode
         String s="select max(archivefilecode) as maxcode from adminview where "+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(archivefilecode)=(select max("+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(archivefilecode)) from adminview where "+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(archivefilecode)<7)";
