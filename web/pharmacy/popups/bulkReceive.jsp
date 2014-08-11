@@ -75,7 +75,7 @@
 				productname=operation.getProductStock().getProduct().getName();
 			}
 			out.println("<tr class='admin2'>");
-			out.println("<td><a href='javascript:doDelete(\""+operation.getUid()+"\");'><img src='_img/icon_delete.gif'/></a></td>");
+			out.println("<td><img src='_img/icon_delete.gif' onclick='javascript:doDelete(\""+operation.getUid()+"\");' class='link'/></td>");
 			out.println("<td>"+operation.getUid()+"</td>");
 			out.println("<td>"+ScreenHelper.stdDateFormat.format(operation.getDate())+"</td>");
 			out.println("<td>"+servicename+"</td>");
@@ -89,15 +89,13 @@
 	</table>
 	<%
 		if(operations.size()>0){
-	%>
-		<input type='submit' name='submit' value='<%=getTran("web","save",sWebLanguage) %>'/>
-	<%
+			%><input type='submit' name='submit' value='<%=getTran("web","save",sWebLanguage)%>'/><%
 		}
 		else {
-	%>
-		<label class='text'><%=getTran("web","noresults",sWebLanguage) %></label>
-		<script>window.opener.location.reload();</script>
-	<%
+			%>
+				<label class='text'><%=getTran("web","noresults",sWebLanguage) %></label>
+				<script>window.opener.location.reload();</script>
+			<%
 		}
 	%>
 </form>
@@ -111,13 +109,13 @@
 	}
 	
 	function doDelete(operationuid){
-        var params = '';
-        var today = new Date();
-        var url= '<c:url value="/pharmacy/closeProductStockOperation.jsp"/>?operationuid='+operationuid+'&ts='+today;
-        new Ajax.Request(url,{
-			method: "GET",
-            parameters: params,
-            onSuccess: function(resp){
+      var params = '';
+      var today = new Date();
+      var url= '<c:url value="/pharmacy/closeProductStockOperation.jsp"/>?operationuid='+operationuid+'&ts='+today;
+      new Ajax.Request(url,{
+		method: "GET",
+        parameters: params,
+        onSuccess: function(resp){
 				window.location.reload();
             }
         }
