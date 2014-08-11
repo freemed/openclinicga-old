@@ -45,7 +45,7 @@
                     serverid = Integer.parseInt(labrequestid.split("\\.")[0]);
                     transactionid = Integer.parseInt(labrequestid.split("\\.")[1]);
                 }
-                LabRequest labRequest = LabRequest.getUnsampledRequest(serverid, transactionid, sWebLanguage);
+                LabRequest labRequest = LabRequest.getUnsampledRequest(serverid, Integer.toString(transactionid), sWebLanguage);
                 if (labRequest != null) {
                     out.print("<tr>");
                     out.print("<td colspan='2'>" + (labRequest.getRequestdate()!=null?ScreenHelper.fullDateFormat.format(labRequest.getRequestdate()):"") + "<BR/><a href='javascript:showRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>" + labRequest.getTransactionid() + "</b></a></td>");
