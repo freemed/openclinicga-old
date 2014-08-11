@@ -43,58 +43,61 @@
 
             // get service stock name
             ServiceStock serviceStock = productStock.getServiceStock();
-            if (serviceStock != null) {
+            if(serviceStock != null) {
                 sServiceStockName = serviceStock.getName();
             } else {
-                sServiceStockName = "<font color='red'>" + getTran("web", "nonexistingserviceStock", sWebLanguage) + "</font>";
+                sServiceStockName = "<font color='red'>"+getTran("web", "nonexistingserviceStock", sWebLanguage)+"</font>";
             }
 
             // get product name
             product = productStock.getProduct();
-            if (product != null) {
+            if(product != null) {
                 sProductName = product.getName();
             } else {
-                sProductName = "<font color='red'>" + getTran("web", "nonexistingproduct", sWebLanguage) + "</font>";
+                sProductName = "<font color='red'>"+getTran("web", "nonexistingproduct", sWebLanguage)+"</font>";
             }
 
             // format begin date
             java.util.Date tmpDate = productStock.getBegin();
-            if (tmpDate != null) sStockBegin = stdDateFormat.format(tmpDate);
+            if(tmpDate != null) sStockBegin = stdDateFormat.format(tmpDate);
 
             // levels
             stockLevel = productStock.getLevel();
-            sOrderLevel = (productStock.getOrderLevel() < 0 ? "" : productStock.getOrderLevel() + "");
-            sMinimumLevel = (productStock.getMinimumLevel() < 0 ? "" : productStock.getMinimumLevel() + "");
+            sOrderLevel = (productStock.getOrderLevel() < 0 ? "" : productStock.getOrderLevel()+"");
+            sMinimumLevel = (productStock.getMinimumLevel() < 0 ? "" : productStock.getMinimumLevel()+"");
 
             // alternate row-style
-            if (sClass.equals("")) sClass = "1";
+            if(sClass.equals("")) sClass = "1";
             else sClass = "";
 
             // display stock in one row
-            html.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
-                    .append(" <td onclick=\"doShowDetails('" + sStockUid + "');\" align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sStockUid + "');\"></td>")
-                    .append(" <td onclick=\"doShowDetails('" + sStockUid + "');\">" + sServiceStockName + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sStockUid + "');\">" + sProductName + "</td>");
+            html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
+                 .append("<td onclick=\"doShowDetails('"+sStockUid+"');\" align='center'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' class='link' alt='"+deleteTran+"' onclick=\"doDelete('"+sStockUid+"');\"></td>")
+                 .append("<td onclick=\"doShowDetails('"+sStockUid+"');\">"+sServiceStockName+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+sStockUid+"');\">"+sProductName+"</td>");
 
-            if (sMinimumLevel.length() > 0 && sOrderLevel.length() > 0) {
+            if(sMinimumLevel.length() > 0 && sOrderLevel.length() > 0) {
                 int minimumLevel = Integer.parseInt(sMinimumLevel),
                         orderLevel = Integer.parseInt(sOrderLevel);
 
                 // indicate level in orange or red
-                if (stockLevel <= minimumLevel) {
-                    html.append(" <td align='right' onclick=\"doShowDetails('" + sStockUid + "');\"><font color='red'>" + stockLevel + "</font>&nbsp;&nbsp;</td>");
-                } else if (stockLevel <= orderLevel) {
-                    html.append(" <td align='right' onclick=\"doShowDetails('" + sStockUid + "');\"><font color='orange'>" + stockLevel + "</font>&nbsp;&nbsp;</td>");
-                } else {
-                    html.append(" <td align='right' onclick=\"doShowDetails('" + sStockUid + "');\">" + stockLevel + "&nbsp;&nbsp;</td>");
+                if(stockLevel <= minimumLevel) {
+                    html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\"><font color='red'>"+stockLevel+"</font>&nbsp;&nbsp;</td>");
                 }
-            } else {
-                html.append(" <td align='right' onclick=\"doShowDetails('" + sStockUid + "');\">" + stockLevel + "&nbsp;&nbsp;</td>");
+                else if(stockLevel <= orderLevel) {
+                    html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\"><font color='orange'>"+stockLevel+"</font>&nbsp;&nbsp;</td>");
+                }
+                else {
+                    html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+stockLevel+"&nbsp;&nbsp;</td>");
+                }
+            }
+            else {
+                html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+stockLevel+"&nbsp;&nbsp;</td>");
             }
 
-            html.append(" <td align='right' onclick=\"doShowDetails('" + sStockUid + "');\">" + sOrderLevel + "&nbsp;&nbsp;</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sStockUid + "');\">" + sStockBegin + "</td>")
-                    .append("</tr>");
+            html.append(" <td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+sOrderLevel+"&nbsp;&nbsp;</td>")
+                .append(" <td onclick=\"doShowDetails('"+sStockUid+"');\">"+sStockBegin+"</td>")
+                .append("</tr>");
         }
 
         return html;
@@ -126,72 +129,75 @@
             sStockUid = productStock.getUid();
 
             product = productStock.getProduct();
-            if (product != null) {
+            if(product != null) {
                 sProductName = product.getName();
                 sProductUid = product.getUid();
-            } else {
-                sProductName = "<font color='red'>" + getTran("web", "nonexistingproduct", sWebLanguage) + "</font>";
+            } 
+            else {
+                sProductName = "<font color='red'>"+getTran("web", "nonexistingproduct", sWebLanguage)+"</font>";
             }
 
             // format begin date
             java.util.Date tmpDate = productStock.getBegin();
-            if (tmpDate != null) sStockBegin = stdDateFormat.format(tmpDate);
+            if(tmpDate != null) sStockBegin = stdDateFormat.format(tmpDate);
 
             double nPUMP = getLastYearsAveragePrice(product);
             //double nPUMP = 0;
             int commandLevel = ProductOrder.getOpenOrderedQuantity(productStock.getUid());
 
             // alternate row-style
-            if (sClass.equals("")) sClass = "1";
-            else sClass = "";
+            if(sClass.equals("")) sClass = "1";
+            else                  sClass = "";
             
             //*** display stock in one row ***
-            html.append("<tr class='list" + sClass + "' >")
-                    .append(" <td align='center'>"+(activeUser.getAccessRight("pharmacy.manageproductstocks.delete")?"<img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' alt='" + deleteTran + "' onclick=\"doDelete('" + sStockUid + "');\" title='" + deleteTran + "'></td>":"<td/>"))
-		            .append(" <td align='center'>"+(activeUser.getAccessRight("pharmacy.viewproductstockfiches.select")?"<img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' class='link' onclick=\"printFiche('" + sStockUid + "');\" title='" + ficheTran + "'></td>":"<td/>"));
+            html.append("<tr class='list"+sClass+"' >")
+                 .append("<td align='center'>"+(activeUser.getAccessRight("pharmacy.manageproductstocks.delete")?"<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' class='link' alt='"+deleteTran+"' onclick=\"doDelete('"+sStockUid+"');\" title='"+deleteTran+"'></td>":"<td/>"))
+		         .append("<td align='center'>"+(activeUser.getAccessRight("pharmacy.viewproductstockfiches.select")?"<img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' class='link' onclick=\"printFiche('"+sStockUid+"');\" title='"+ficheTran+"'></td>":"<td/>"));
             if(productStock.hasOpenDeliveries()){
-                html.append("<td><a href='javascript:receiveProduct(\"" + sStockUid + "\",\"" + sProductName + "\");'><img src='" + sCONTEXTPATH + "/_img/incoming.jpg'/></a></td>");
+                html.append("<td><img src='"+sCONTEXTPATH+"/_img/incoming.jpg' class='link' onclick='javascript:receiveProduct(\""+sStockUid+"\",\""+sProductName+"\");'/></td>");
             }
             else {
             	html.append("<td/>");
             }
 
-
             // non-existing productname in red
-            if (sProductName.length() == 0) {
-                html.append(" <td onclick=\"doShowDetails('" + sStockUid + "');\"><font color='red'>" + getTran("web", "nonexistingproduct", sWebLanguage) + "</font></td>");
-            } else {
-                html.append(" <td onclick=\"doShowDetails('" + sStockUid + "');\">" + sProductName + "</td>");
+            if(sProductName.length() == 0) {
+                html.append(" <td onclick=\"doShowDetails('"+sStockUid+"');\"><font color='red'>"+getTran("web", "nonexistingproduct", sWebLanguage)+"</font></td>");
+            } 
+            else {
+                html.append(" <td onclick=\"doShowDetails('"+sStockUid+"');\">"+sProductName+"</td>");
             }
 
             // level
             int stockLevel = productStock.getLevel();
-            String sOrderLevel = (productStock.getOrderLevel() < 0 ? "" : productStock.getOrderLevel() + ""),
-                    sMinimumLevel = (productStock.getMinimumLevel() < 0 ? "" : productStock.getMinimumLevel() + ""),
-                    sMaximumLevel = (productStock.getMaximumLevel() < 0 ? "" : productStock.getMaximumLevel() + "");
+            String sOrderLevel = (productStock.getOrderLevel() < 0 ? "" : productStock.getOrderLevel()+""),
+                   sMinimumLevel = (productStock.getMinimumLevel() < 0 ? "" : productStock.getMinimumLevel()+""),
+                   sMaximumLevel = (productStock.getMaximumLevel() < 0 ? "" : productStock.getMaximumLevel()+"");
 
-            if (sMinimumLevel.length() > 0 && sOrderLevel.length() > 0) {
+            if(sMinimumLevel.length() > 0 && sOrderLevel.length() > 0) {
                 int minimumLevel = Integer.parseInt(sMinimumLevel),
-                        orderLevel = Integer.parseInt(sOrderLevel);
+                    orderLevel = Integer.parseInt(sOrderLevel);
 
                 // indicate level in orange or red
-                if (stockLevel <= minimumLevel) {
-                    html.append(" <td align='right' onclick=\"doShowDetails('" + sStockUid + "');\"><font color='red'>" + stockLevel + "</font>&nbsp;&nbsp;</td>");
-                } else if (stockLevel <= orderLevel) {
-                    html.append(" <td align='right' onclick=\"doShowDetails('" + sStockUid + "');\"><font color='orange'>" + stockLevel + "</font>&nbsp;&nbsp;</td>");
-                } else {
-                    html.append(" <td align='right' onclick=\"doShowDetails('" + sStockUid + "');\">" + stockLevel + "&nbsp;&nbsp;</td>");
+                if(stockLevel <= minimumLevel) {
+                    html.append(" <td align='right' onclick=\"doShowDetails('"+sStockUid+"');\"><font color='red'>"+stockLevel+"</font>&nbsp;&nbsp;</td>");
+                } 
+                else if(stockLevel <= orderLevel) {
+                    html.append(" <td align='right' onclick=\"doShowDetails('"+sStockUid+"');\"><font color='orange'>"+stockLevel+"</font>&nbsp;&nbsp;</td>");
+                } 
+                else {
+                    html.append(" <td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+stockLevel+"&nbsp;&nbsp;</td>");
                 }
             } else {
-                html.append(" <td align='right' onclick=\"doShowDetails('" + sStockUid + "');\">" + stockLevel + "&nbsp;&nbsp;</td>");
+                html.append(" <td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+stockLevel+"&nbsp;&nbsp;</td>");
             }
 
-            html.append(" <td align='right' onclick=\"doShowDetails('" + sStockUid + "');\">" + commandLevel + "&nbsp;&nbsp;</td>");
-            html.append(" <td align='right' onclick=\"doShowDetails('" + sStockUid + "');\">" + sMinimumLevel + "&nbsp;&nbsp;</td>");
-            html.append(" <td align='right' onclick=\"doShowDetails('" + sStockUid + "');\">" + sMaximumLevel + "&nbsp;&nbsp;</td>")
-                    .append(" <td align='right' onclick=\"doShowDetails('" + sStockUid + "');\">" + sOrderLevel + "&nbsp;&nbsp;</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sStockUid + "');\">" + sStockBegin + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sStockUid + "');\">" + (nPUMP>0?new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(nPUMP)+" "+MedwanQuery.getInstance().getConfigString("currency","EUR"):"?") + "</td>");
+            html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+commandLevel+"&nbsp;&nbsp;</td>");
+            html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+sMinimumLevel+"&nbsp;&nbsp;</td>");
+            html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+sMaximumLevel+"&nbsp;&nbsp;</td>")
+                 .append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+sOrderLevel+"&nbsp;&nbsp;</td>")
+                 .append("<td onclick=\"doShowDetails('"+sStockUid+"');\">"+sStockBegin+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+sStockUid+"');\">"+(nPUMP>0?new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(nPUMP)+" "+MedwanQuery.getInstance().getConfigString("currency","EUR"):"?")+"</td>");
 
             // 3 buttons
             html.append("<td style=\"text-align:right;\" nowrap>&nbsp;");
@@ -199,11 +205,11 @@
             // no buttons for unexisting product
             if(product != null){
                 if(productStock.getLevel() > 0){
-                    html.append("<input type='button' title='" + changeLevelOutTran + "' class='button' style='width:30px;' value=\"" + outTran + "\" onclick=\"deliverProduct('" + sStockUid + "','" + sProductName + "','" + stockLevel + "');\">&nbsp;");
+                    html.append("<input type='button' title='"+changeLevelOutTran+"' class='button' style='width:30px;' value=\""+outTran+"\" onclick=\"deliverProduct('"+sStockUid+"','"+sProductName+"','"+stockLevel+"');\">&nbsp;");
                 }
-                html.append("<input type='button' title='" + changeLevelInTran + "' class='button' style='width:30px;' value=\"" + inTran + "\" onclick=\"receiveProduct('" + sStockUid + "','" + sProductName + "');\">&nbsp;");
-                html.append("<input type='button' title='" + orderThisProductTran + "' class='button' value=\"" + orderTran + "\" onclick=\"orderProduct('" + sStockUid + "','" + sProductName + "');\">&nbsp;");
-                html.append("<input type='button' title='" + batchesTran + "' class='button' value=\"" + batchesTran + "\" onclick=\"batchesList('" + sStockUid + "');\">&nbsp;");
+                html.append("<input type='button' title='"+changeLevelInTran+"' class='button' style='width:30px;' value=\""+inTran+"\" onclick=\"receiveProduct('"+sStockUid+"','"+sProductName+"');\">&nbsp;");
+                html.append("<input type='button' title='"+orderThisProductTran+"' class='button' value=\""+orderTran+"\" onclick=\"orderProduct('"+sStockUid+"','"+sProductName+"');\">&nbsp;");
+                html.append("<input type='button' title='"+batchesTran+"' class='button' value=\""+batchesTran+"\" onclick=\"batchesList('"+sStockUid+"');\">&nbsp;");
             }
 
             html.append("</td>");
@@ -444,7 +450,7 @@
         if(sServiceId.length() > 0) {
         	sFindServiceStockUid = sEditServiceStockUid;
         }
-        else if (sEditServiceStockUid.length()>0){
+        else if(sEditServiceStockUid.length()>0){
         	ServiceStock serviceStock = ServiceStock.get(sEditServiceStockUid);
         	if(serviceStock!=null){
         		sServiceId=serviceStock.getServiceUid();
@@ -644,6 +650,7 @@
                         <td class="admin2">
                             <input type="hidden" name="FindProductUid" value="<%=sFindProductUid%>">
                             <input class="text" type="text" name="FindProductName" readonly size="<%=sTextWidth%>" value="<%=sFindProductName%>">
+                           
                             <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchProduct('FindProductUid','FindProductName');">
                             <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindProductUid.value='';transactionForm.FindProductName.value='';">
                         </td>
@@ -702,6 +709,7 @@
                         <td class="admin2">
                             <input type="hidden" name="FindSupplierUid" value="<%=sFindSupplierUid%>">
                             <input class="text" type="text" name="FindSupplierName" readonly size="<%=sTextWidth%>" value="<%=sFindSupplierName%>">
+                           
                             <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('FindSupplierUid','FindSupplierName');">
                             <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindSupplierUid.value='';transactionForm.FindSupplierName.value='';">
                         </td>
@@ -713,6 +721,7 @@
                             <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearch('<%=sDefaultSortCol%>');">
                             <input type="button" class="button" name="clearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearSearchFields();">
                             <input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">&nbsp;
+                           
                             <%-- display message --%>
                             <span id="msgArea"><%=msg%></span>
                         </td>
@@ -947,6 +956,7 @@
                         <td class="admin2">
                             <input type="hidden" name="EditSupplierUid" id="EditSupplierUid" value="<%=sSelectedSupplierUid%>">
                             <input class="text" type="text" name="EditSupplierName" id="EditSupplierName" readonly size="<%=sTextWidth%>" value="<%=sSelectedSupplierName%>">
+                           
                             <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('EditSupplierUid','EditSupplierName');">
                             <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditSupplierUid.value='';transactionForm.EditSupplierName.value='';">
                         </td>
