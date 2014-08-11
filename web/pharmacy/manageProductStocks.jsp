@@ -154,7 +154,7 @@
                  .append("<td align='center'>"+(activeUser.getAccessRight("pharmacy.manageproductstocks.delete")?"<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' class='link' alt='"+deleteTran+"' onclick=\"doDelete('"+sStockUid+"');\" title='"+deleteTran+"'></td>":"<td/>"))
 		         .append("<td align='center'>"+(activeUser.getAccessRight("pharmacy.viewproductstockfiches.select")?"<img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' class='link' onclick=\"printFiche('"+sStockUid+"');\" title='"+ficheTran+"'></td>":"<td/>"));
             if(productStock.hasOpenDeliveries()){
-                html.append("<td><img src='"+sCONTEXTPATH+"/_img/incoming.jpg' class='link' onclick='javascript:receiveProduct(\""+sStockUid+"\",\""+sProductName+"\");'/></td>");
+                html.append("<td>&nbsp;<img src='"+sCONTEXTPATH+"/_img/incoming.jpg' class='link' onclick='javascript:receiveProduct(\""+sStockUid+"\",\""+sProductName+"\");'/></td>");
             }
             else {
             	html.append("<td/>");
