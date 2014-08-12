@@ -71,12 +71,15 @@ public class POP3Receiver extends Receiver {
 		            }
 		            catch(MessagingException e){
 		            	Debug.println(e.getMessage());
+				    	message[i].setFlag(Flags.Flag.DELETED, true);
 		            } catch (UnsupportedEncodingException e) {
 		    			// TODO Auto-generated catch block
 		    			e.printStackTrace();
+				    	message[i].setFlag(Flags.Flag.DELETED, true);
 		    		} catch (DocumentException e) {
 		    			// TODO Auto-generated catch block
 		    			e.printStackTrace();
+				    	message[i].setFlag(Flags.Flag.DELETED, true);
 		    		} catch (IOException e) {
 		    			// TODO Auto-generated catch block
 		    			e.printStackTrace();
@@ -107,12 +110,15 @@ public class POP3Receiver extends Receiver {
 		            }
 		            catch(MessagingException e){
 		            	Debug.println(e.getMessage());
+				    	message[i].setFlag(Flags.Flag.DELETED, true);
 		            } catch (UnsupportedEncodingException e) {
 		    			// TODO Auto-generated catch block
 		    			e.printStackTrace();
+				    	message[i].setFlag(Flags.Flag.DELETED, true);
 		    		} catch (DocumentException e) {
 		    			// TODO Auto-generated catch block
 		    			e.printStackTrace();
+				    	message[i].setFlag(Flags.Flag.DELETED, true);
 		    		} catch (IOException e) {
 		    			// TODO Auto-generated catch block
 		    			e.printStackTrace();
@@ -145,12 +151,15 @@ public class POP3Receiver extends Receiver {
 		            }
 		            catch(MessagingException e){
 		            	Debug.println(e.getMessage());
+				    	message[i].setFlag(Flags.Flag.DELETED, true);
 		            } catch (UnsupportedEncodingException e) {
 		    			// TODO Auto-generated catch block
 		    			e.printStackTrace();
+				    	message[i].setFlag(Flags.Flag.DELETED, true);
 		    		} catch (DocumentException e) {
 		    			// TODO Auto-generated catch block
 		    			e.printStackTrace();
+				    	message[i].setFlag(Flags.Flag.DELETED, true);
 		    		} catch (IOException e) {
 		    			// TODO Auto-generated catch block
 		    			e.printStackTrace();
