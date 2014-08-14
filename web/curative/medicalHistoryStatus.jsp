@@ -180,6 +180,20 @@ try{
                                                                             </a>
                                                                         <%
                                                                     }
+                                                                    else if(transactionType.equalsIgnoreCase("be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ARCHIVE_DOCUMENT")){
+                                                                    	transactionVO.preload();
+                                                                        %>
+                                                                            <a href="<c:url value='/healthrecord/editTransaction.do'/>?be.mxs.healthrecord.createTransaction.transactionType=<%=transactionType%>&be.mxs.healthrecord.transaction_id=<%=transactionVO.getTransactionId()%>&be.mxs.healthrecord.server_id=<%=transactionVO.getServerId()%>&ts=<%=getTs()%>" onMouseOver="window.status='';return true;">
+                                                                                <%=getTran("web.occup",transactionType,sWebLanguage)%>
+                                                                                <%
+                                                                                    String sReference = transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_REFERENCE");
+                                                                                    if(sReference.length() > 0){
+                                                                                        %>(<%=sReference%>)<%                                                                                    	
+                                                                                    }
+                                                                                %>
+                                                                            </a>
+                                                                        <%
+                                                                    }
                                                                     // no Document
                                                                     else{
                                                                         %>

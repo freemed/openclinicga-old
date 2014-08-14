@@ -1,27 +1,31 @@
-<%@ page import="be.openclinic.medical.LabRequest,be.openclinic.medical.LabSample" %>
-<%@ page import="java.util.*" %>
+<%@page import="be.openclinic.medical.LabRequest,be.openclinic.medical.LabSample"%>
+<%@page import="java.util.*"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("labos.samplereception","select",activeUser)%>
+
 <%
-    String labrequestid=checkString(request.getParameter("labrequestid"));
-    int serverid=0;
-    int transactionid=0;
+    String labrequestid = checkString(request.getParameter("labrequestid"));
+    int serverid = 0;
+    int transactionid = 0;
+    
     Enumeration parameters = request.getParameterNames();
     if(parameters!=null){
-        while (parameters.hasMoreElements()) {
+        while(parameters.hasMoreElements()){
             String name = (String) parameters.nextElement();
             String fields[] = name.split("\\.");
-            if (fields[0].equalsIgnoreCase("receive") && fields.length == 4) {
+            if(fields[0].equalsIgnoreCase("receive") && fields.length == 4){
                 serverid=Integer.parseInt(fields[1]);
                 transactionid=Integer.parseInt(fields[2]);
                 LabRequest.setSampleReceived(serverid, transactionid, fields[3]);
-                labrequestid="";
+                labrequestid ="";
             }
         }
     }
 %>
-<form name="frmSampleReception" method="post" action="<c:url value="/main.do"/>?Page=labos/manageLabSampleReception.jsp">
+
+<form name="frmSampleReception" method="post">
     <%=writeTableHeader("Web","sampleReception",sWebLanguage," doBack();")%>
+    
     <table width="100%" class="menu" cellspacing="0" cellpadding="0">
         <tr>
             <td>
@@ -32,6 +36,7 @@
         </tr>
     </table>
     <br>
+    
     <table class="list" cellspacing="0" cellpadding="0">
 <%
     boolean bInitialized = false;
@@ -51,6 +56,7 @@
                     out.print("<td colspan='2'>" + (labRequest.getRequestdate()!=null?ScreenHelper.fullDateFormat.format(labRequest.getRequestdate()):"") + "<BR/><a href='javascript:showRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>" + labRequest.getTransactionid() + "</b></a></td>");
                     out.print("<td><a href='javascript:readBarcode3(\"0"+labRequest.getPersonid()+"\");'><b>" + labRequest.getPatientname() + "</b></a> (°"+(labRequest.getPatientdateofbirth()!=null?ScreenHelper.stdDateFormat.format(labRequest.getPatientdateofbirth()):"")+" - "+labRequest.getPatientgender()+")<br/><i>"+labRequest.getServicename()+" - "+MedwanQuery.getInstance().getUserName(labRequest.getUserid())+"</i></td>");
                     out.print("</tr>");
+                    
                     Hashtable allsamples=labRequest.findAllSamples(sWebLanguage);
                     Hashtable unreceived = labRequest.findUnreceivedSamples(sWebLanguage);
                     Enumeration enumeration = allsamples.elements();
@@ -62,9 +68,7 @@
                             bInitialized=true;
                         }
                         else {
-                            %>
-                            <img src="<c:url value='/_img/check.gif'/>"/>
-                            <%
+                            %><img src="<c:url value='/_img/check.gif'/>"/><%
                         }
                         out.print("</center></td><td colspan='2'>"+MedwanQuery.getInstance().getLabel("labanalysis.monster",labSample.type,sWebLanguage)+"</td></tr>");
                     }
@@ -89,22 +93,22 @@
     </table>
 <%
     if (bInitialized){
-    %>
-        <input type="submit" class="button" name="receive" value="<%=getTran("web","receive",sWebLanguage)%>"/>
-    <%
+        %><br><input type="submit" class="button" name="receive" value="<%=getTran("web","receive",sWebLanguage)%>"/><%
     }
 %>
     <div id="sampleReceiver"/>
 </form>
+
 <script>
-    document.getElementsByName('labrequestid')[0].focus();
-    function selectRequest(serverid,transactionid){
-        window.location.href="<c:url value="/main.do"/>?Page=labos/manageLabSampleReception.jsp&find=1&labrequestid="+serverid+"."+transactionid;
-    }
-    function showRequest(serverid,transactionid){
-        window.open("<c:url value='/labos/manageLabResult_view.jsp'/>?ts=<%=getTs()%>&show."+serverid+"."+transactionid+"=1","Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=800,height=600,menubar=no");
-    }
-    function doBack(){
-        window.location.href="<c:url value="/main.do"/>?Page=labos/index.jsp";
-    }
+  document.getElementsByName('labrequestid')[0].focus();
+    
+  function selectRequest(serverid,transactionid){
+    window.location.href="<c:url value="/main.do"/>?Page=labos/manageLabSampleReception.jsp&find=1&labrequestid="+serverid+"."+transactionid;
+  }
+  function showRequest(serverid,transactionid){
+    window.open("<c:url value='/labos/manageLabResult_view.jsp'/>?ts=<%=getTs()%>&show."+serverid+"."+transactionid+"=1","Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=800,height=600,menubar=no");
+  }
+  function doBack(){
+    window.location.href="<c:url value="/main.do"/>?Page=labos/index.jsp";
+  }
 </script>

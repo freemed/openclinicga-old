@@ -35,7 +35,7 @@
         <tr>
             <td class='admin'><%=getTran("Web.Occup","medwan.common.expiration-date",sWebLanguage)%>&nbsp;</td>
             <td class='admin2'>
-                <input id="expiration" class="text" type="text" size="11" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ALERTS_EXPIRATION_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ALERTS_EXPIRATION_DATE" property="value" formatType="date"  format="dd/mm/yyyy"/>" onblur="checkDate(this);">
+                <input id="expiration" class="text" type="text" size="11" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ALERTS_EXPIRATION_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ALERTS_EXPIRATION_DATE" property="value" formatType="date"/>" onblur="checkDate(this);">
                 <script>writeMyDate("expiration");</script>
             </td>
         </tr>
