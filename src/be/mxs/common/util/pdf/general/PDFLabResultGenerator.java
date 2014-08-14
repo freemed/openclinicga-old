@@ -7,6 +7,7 @@ import be.mxs.common.util.pdf.official.EndPage;
 import be.mxs.common.util.pdf.official.EndPage2;
 import be.mxs.common.util.pdf.official.PDFOfficialBasic;
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.adt.Encounter;
 import be.openclinic.medical.LabRequest;
@@ -53,6 +54,7 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
     public void addContent(){
     }
 
+    //--- ADD FOOTER ------------------------------------------------------------------------------
     protected void addFooter(String sId){
         int serverid=Integer.parseInt(sId.split("\\.")[0]);
         int transactionid=Integer.parseInt(sId.split("\\.")[1]);
@@ -61,7 +63,8 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         AdminPerson adminPerson=AdminPerson.getAdminPerson(ad_conn,labRequest.getPersonid()+"");
         try {
 			ad_conn.close();
-		} catch (SQLException e) {
+		} 
+        catch (SQLException e) {
 			e.printStackTrace();
 		}
         String sFooter=adminPerson.lastname.toUpperCase()+", "+adminPerson.firstname.toUpperCase()+" - "+sId+" - ";
@@ -130,8 +133,10 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 
     //---- ADD PAGE HEADER ------------------------------------------------------------------------
     private void addPageHeader() throws Exception {
+    	// empty
     }
 
+    //--- PRINT LABRESULT -------------------------------------------------------------------------
     protected void printLabResult(String sLabRequestId,Date since){
         try {
             int serverid=Integer.parseInt(sLabRequestId.split("\\.")[0]);
@@ -149,6 +154,7 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         }
     }
 
+    //--- PRINT FOOTER ----------------------------------------------------------------------------
     private void printFooter(LabRequest labRequest,AdminPerson adminPerson,Date since) throws Exception{
         table = new PdfPTable(100);
         table.setWidthPercentage(100);
@@ -156,55 +162,70 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         cell=createLabelCourier(" ",10,5,Font.NORMAL);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         table.addCell(cell);
+        
         cell=createLabelCourier("*",10,5,Font.NORMAL);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         table.addCell(cell);
+        
         cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","resultnewerthan",user.person.language)+" "+ScreenHelper.fullDateFormat.format(since),8,90,Font.NORMAL);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         table.addCell(cell);
+        
         // Show legenda when bacteriology results available
         if(labRequest.hasBacteriology()){
 	        cell=createLabelCourier(" ",10,10,Font.NORMAL);
 	        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	        table.addCell(cell);
+	        
 	        cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","legenda",user.person.language),8,90,Font.NORMAL);
 	        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	        table.addCell(cell);
         }
+        
         // Print general comment if it exists
         TransactionVO tran = MedwanQuery.getInstance().loadTransaction(MedwanQuery.getInstance().getConfigInt("serverId"), labRequest.getTransactionid());
         if(tran!=null && tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_COMMENT").length()>0){
 	        cell=createLabelCourier(" ",10,10,Font.NORMAL);
 	        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	        table.addCell(cell);
+	        
 	        cell=createLabelCourier(MedwanQuery.getInstance().getLabel("web","comment",user.person.language)+": "+tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_COMMENT"),10,90,Font.NORMAL);
 	        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	        table.addCell(cell);
         }
+        
         cell=createLabelCourier(" ",10,10,Font.NORMAL);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         table.addCell(cell);
+        
         cell=createLabelCourier(" \n"+MedwanQuery.getInstance().getLabel("labresult","validatedby",user.person.language),10,90,Font.NORMAL);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         table.addCell(cell);
+        
         Enumeration enumeration = labRequest.getAnalyses().elements();
         Hashtable validators=new Hashtable();
         while(enumeration.hasMoreElements()){
             RequestedLabAnalysis requestedLabAnalysis = (RequestedLabAnalysis)enumeration.nextElement();
             if(validators.get(requestedLabAnalysis.getFinalvalidation()+"")==null){
                 validators.put(requestedLabAnalysis.getFinalvalidation()+"","1");
+                
                 cell=createLabelCourier(" ",10,10,Font.NORMAL);
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 table.addCell(cell);
+                
                 cell=createLabelCourier(MedwanQuery.getInstance().getUserName(requestedLabAnalysis.getFinalvalidation()),10,90,Font.BOLD);
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 table.addCell(cell);
             }
         }
+        
         doc.add(table);
     }
 
+    //--- PRINT CONTENT ---------------------------------------------------------------------------
     private void printContent(LabRequest labRequest,AdminPerson adminPerson,Date since) throws Exception{
+        Debug.println("\n@@@@@@@@@@@@@@@@@@@@@@@@ printContent @@@@@@@@@@@@@@@@@@@@@@@@");
+        
         table = new PdfPTable(100);
         table.setWidthPercentage(100);
 
@@ -220,22 +241,27 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
             }
             ((TreeMap)groups.get(getTran("labanalysis.group",requestedLabAnalysis.getLabgroup()))).put(requestedLabAnalysis.getAnalysisCode()+"$"+LabAnalysis.labelForCode(requestedLabAnalysis.getAnalysisCode(),user.person.language),requestedLabAnalysis.getAnalysisCode());
         }
+        
         Iterator groupsIterator = groups.keySet().iterator();
         int counter=0;
         while(groupsIterator.hasNext()){
-        	counter++;
+        	counter++;        	
             String groupname=(String)groupsIterator.next();
+            
             cell=createLabelCourier(" ",12,100,Font.NORMAL);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             subTable.addCell(cell);
+            
             cell=createLabelCourier(groupname,12,45,Font.BOLD);
             cell.setBorder(PdfPCell.BOTTOM);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             subTable.addCell(cell);
+            
             cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","value",user.person.language),10,15,Font.BOLD);
             cell.setBorder(PdfPCell.BOTTOM);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
             subTable.addCell(cell);
+            
             if(groupname.equalsIgnoreCase(MedwanQuery.getInstance().getLabel("labanalysis.group", "bacteriology", sPrintLanguage))){
 	            cell=createLabelCourier("",10,40,Font.BOLD);
 	            cell.setBorder(PdfPCell.BOTTOM);
@@ -247,23 +273,29 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 	            cell.setBorder(PdfPCell.BOTTOM);
 	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	            subTable.addCell(cell);
+	            
 	            cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","min",user.person.language),10,10,Font.BOLD);
 	            cell.setBorder(PdfPCell.BOTTOM);
 	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	            subTable.addCell(cell);
+	            
 	            cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","max",user.person.language),10,10,Font.BOLD);
 	            cell.setBorder(PdfPCell.BOTTOM);
 	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	            subTable.addCell(cell);
+	            
 	            cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labresult","normal",user.person.language),10,10,Font.BOLD);
 	            cell.setBorder(PdfPCell.BOTTOM);
 	            cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	            subTable.addCell(cell);
             }
+            
             TreeMap analysisList = (TreeMap)groups.get(groupname);
             Iterator analysisEnumeration = analysisList.keySet().iterator();
             while (analysisEnumeration.hasNext()){
                 String analysisCode=(String)analysisList.get((String)analysisEnumeration.next());
+                Debug.println("##### analysisCode : "+analysisCode+" #####");
+                
                 String result="";
                 String unit="";
                 String min="";
@@ -271,40 +303,58 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
                 String normal="";
                 String newresult="";
                 int fonttype=Font.NORMAL;
+                
                 RequestedLabAnalysis requestedLabAnalysis=(RequestedLabAnalysis)labRequest.getAnalyses().get(analysisCode);
                 if(requestedLabAnalysis!=null){
-                    unit=requestedLabAnalysis.getResultUnit();
-                    min=requestedLabAnalysis.getResultRefMin();
-                    max=requestedLabAnalysis.getResultRefMax();
+                    unit = requestedLabAnalysis.getResultUnit();
+                    min = requestedLabAnalysis.getResultRefMin();
+                    max = requestedLabAnalysis.getResultRefMax();
+                    Debug.println("unit  : "+unit);
+                    Debug.println("min   : "+min);
+                    Debug.println("max   : "+max);
+                    
                     if(requestedLabAnalysis.getFinalvalidationdatetime()!=null){
                     	if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getLimitedVisibility()>0 && !user.getAccessRight("labos.limitedvisibility.select")){
                     		result=MedwanQuery.getInstance().getLabel("web","invisible",sPrintLanguage);                	}
                     	else {
                     		result=requestedLabAnalysis.getResultValue();
                     	}
+                        Debug.println("result : "+result);
+                    	
                         normal=requestedLabAnalysis.getResultModifier();
+                        Debug.println("normal : "+normal);
+                        
                         if(requestedLabAnalysis.getFinalvalidationdatetime().after(since)){
                             newresult="*";
+                            Debug.println("newresult : *");
                         }
                         if(normal.length()>0 && MedwanQuery.getInstance().getConfigString("abnormalModifiers","*+*++*+++*-*--*---*h*hh*hhh*l*ll*lll*").indexOf("*"+normal+"*")>-1){
                             fonttype=Font.BOLD;
                         }
                     }
                 }
+                
                 cell=createLabelCourier(newresult,8,5,fonttype);
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
                 subTable.addCell(cell);
+                
                 cell=createLabelCourier(analysisCode,8,10,fonttype);
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
                 subTable.addCell(cell);
+                
                 cell=createLabelCourier(LabAnalysis.labelForCode(analysisCode,user.person.language),8,30,fonttype);
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
                 subTable.addCell(cell);
-                //Hier moeten we evalueren of het om een antibiogram gaat
+                
+                Debug.println("Editor : "+LabAnalysis.getLabAnalysisByLabcode(analysisCode).getEditor());
+
+                //*** 1 - ANTI-BIOGRAM ************************************************************
                 if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getEditor().equalsIgnoreCase("antibiogram")){
+                	Debug.println("*** 1 - antibiogram ***");
+                	
 	                //Stel het resultaat samen
                 	//Voor elk van de ingevulde kiemen geven we de sensibiliteits-gegevens
                 	Map ab = RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode());
@@ -368,12 +418,16 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
+	                
                 	cell=createLabelCourier(result,8,52,Font.NORMAL);
 	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
                 }
+                //*** 2 - ANTI-BIOGRAM NEW ********************************************************
                 else if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getEditor().equalsIgnoreCase("antibiogramnew")){
+                	Debug.println("*** 2 - antibiogramnew ***");
+                	
 	                //Stel het resultaat samen
                 	//Voor elk van de ingevulde kiemen geven we de sensibiliteits-gegevens
                 	Map ab = RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode());
@@ -437,35 +491,49 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
+	                
                 	cell=createLabelCourier(result,8,52,Font.NORMAL);
 	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
                 }
+                //*** 3 - NUMERIC *****************************************************************
                 else if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getEditor().equalsIgnoreCase("numeric")){
+                	Debug.println("*** 3 - numeric ***");
+                	
 	                cell=createLabelCourier(result,8,15,Font.BOLD);
 	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
+	                
 	                cell=createLabelCourier(unit,8,10,fonttype);
 	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
+	                
 	                cell=createLabelCourier(min,8,10,fonttype);
 	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
+	                
 	                cell=createLabelCourier(max,8,10,fonttype);
 	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
+
                     if(normal.length()==0){
+                    	Debug.println("'normal' is empty"); 
+                    	
                     	//We proberen na te gaan of de waarde buiten de grenzen valt
                     	try{
 	                        double iResult = Double.parseDouble(result.replaceAll(",", "\\."));
 	                        double iMin = Double.parseDouble(min.replaceAll(",", "\\."));
 	                        double iMax = Double.parseDouble(max.replaceAll(",", "\\."));
-	
+
+	                        Debug.println("iResult : "+iResult);
+	                        Debug.println("iMin    : "+iMin);
+	                        Debug.println("iMax    : "+iMax);
+	                        
 	                        if ((iResult >= iMin)&&(iResult <= iMax)){
 	                            normal = "n";
 	                        }
@@ -491,18 +559,26 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 	                                normal = "-";
 	                            }
 	                        }
+	                        
+	                        Debug.println("normal  : "+normal); 
                     	}
                     	catch(Exception e2){
                     		//e2.printStackTrace();
                     	}
                     }
+                    
+                	Debug.println("normal : "+normal); 
+                    
 	                cell=createLabelCourier(normal,8,10,fonttype);
 	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
+	                
+	                // comment
                 	if(ScreenHelper.checkString(requestedLabAnalysis.getResultComment()).length()>0){
 	                	cell=createLabelCourier("", 8, 45, fonttype);
 		                subTable.addCell(cell);
+		                
 	                	cell=createLabelCourier(requestedLabAnalysis.getResultComment(),8,55,Font.NORMAL);
 		                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 		                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
@@ -513,6 +589,7 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 	                if(!MedwanQuery.getInstance().getLabel("labanalysis.refcomment",analysisCode,user.person.language).equals(analysisCode)){
 	                	cell=createLabelCourier("", 8, 45, fonttype);
 		                subTable.addCell(cell);
+		                
 	                	cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labanalysis.refcomment",analysisCode,user.person.language),8,55,Font.NORMAL);
 		                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 		                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
@@ -524,9 +601,11 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
+	                
                 	if(ScreenHelper.checkString(requestedLabAnalysis.getResultComment()).length()>0){
 	                	cell=createLabelCourier("", 8, 45, fonttype);
 		                subTable.addCell(cell);
+		                
 	                	cell=createLabelCourier(requestedLabAnalysis.getResultComment(),8,55,Font.NORMAL);
 		                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 		                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
@@ -534,20 +613,26 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
                 	}
                 }
             }
+            
             cell=createBorderlessCell(5);
             table.addCell(cell);
+            
             cell=createBorderlessCell(90);
             cell.setBorder(PdfPCell.LEFT+PdfPCell.RIGHT+(counter==1?PdfPCell.TOP:0)+(counter==groups.keySet().size()?PdfPCell.BOTTOM:0));
             cell.addElement(subTable);
             table.addCell(cell);
+            
             cell=createBorderlessCell(5);
             table.addCell(cell);
+            
             subTable = new PdfPTable(100);
             subTable.setWidthPercentage(100);
         }
+        
         doc.add(table);
     }
     
+    //--- GET ANTIBIOTIC NEW ----------------------------------------------------------------------
     private String getAntibioticNew(String id){
     	if(id.equalsIgnoreCase("1")){
     		return ScreenHelper.getTranNoLink("antibiotics","pen",sPrintLanguage);
@@ -617,6 +702,7 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
     	}
     }
     
+    //--- GET ANTIBIOTIC --------------------------------------------------------------------------
     private String getAntibiotic(String id){
     	if(id.equalsIgnoreCase("1")){
     		return MedwanQuery.getInstance().getLabel("web","penicillineg",sPrintLanguage);
@@ -686,13 +772,13 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
     	}
     }
     
-
+    //--- PRINT HEADER ----------------------------------------------------------------------------
     private void printHeader(LabRequest labRequest,AdminPerson adminPerson) throws Exception{
         Encounter encounter = Encounter.getActiveEncounter(adminPerson.personid);
         table = new PdfPTable(100);
         table.setWidthPercentage(100);
+        
         //Hospital logo
-        //Logo
         try{
 	        Image image =Image.getInstance(new URL(url+contextPath+projectDir+"/_img/logo_patientcard.gif"));
 	        image.scaleToFit(72*400/254,144);
@@ -710,18 +796,22 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         
         PdfPTable table2 = new PdfPTable(1);
         table2.setWidthPercentage(100);
+        
         //Label1
         cell=createLabel(ScreenHelper.getTranNoLink("labresult","title1",user.person.language).replaceAll("title1", ""),MedwanQuery.getInstance().getConfigInt("labtitle1size",14),1,Font.BOLD);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         table2.addCell(cell);
+        
         //Label2
         cell=createLabel(ScreenHelper.getTranNoLink("labresult","title2",user.person.language).replaceAll("title2", ""),MedwanQuery.getInstance().getConfigInt("labtitle2size",10),1,Font.BOLD);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         table2.addCell(cell);
-        //Label3
+        
+        //Label3        
         cell=createLabel(ScreenHelper.getTranNoLink("labresult","title3",user.person.language).replaceAll("title3", ""),MedwanQuery.getInstance().getConfigInt("labtitle3size",10),1,Font.BOLD);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         table2.addCell(cell);
+        
         //Titel
         cell=createLabel(MedwanQuery.getInstance().getLabel("labresult","title",user.person.language),14,1,Font.BOLD);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
@@ -734,7 +824,8 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         
         table2 = new PdfPTable(1);
         table2.setWidthPercentage(100);
-       //*** barcode ***
+       
+        //*** barcode ***
         PdfContentByte cb = docWriter.getDirectContent();
         Barcode39 barcode39 = new Barcode39();
         barcode39.setCode("7"+labRequest.getTransactionid());
@@ -863,10 +954,10 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         cell=createLabel(" ",8,100,Font.ITALIC);
         table.addCell(cell);
 
-
         doc.add(table);
     }
 
+    
     //################################### UTILITY FUNCTIONS #######################################
 
     //--- CREATE UNDERLINED CELL ------------------------------------------------------------------

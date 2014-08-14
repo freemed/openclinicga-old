@@ -20,6 +20,7 @@ import be.mxs.webapp.wl.exceptions.SessionContainerFactoryException;
 import be.mxs.webapp.wl.servlet.http.RequestParameterParser;
 import be.mxs.webapp.wl.session.SessionContainerFactory;
 import be.openclinic.adt.Encounter;
+import be.openclinic.archiving.ArchiveDocument;
 import be.openclinic.common.ObjectReference;
 import be.openclinic.finance.Debet;
 import be.openclinic.finance.Prestation;
@@ -445,6 +446,28 @@ public class UpdateTransactionAction extends org.apache.struts.action.Action {
                     	if(encounter!=null){
                     		saveDiagnosesToTable(RequestParameterParser.getInstance().parseRequestParameters(request, "ICPCCode"),RequestParameterParser.getInstance().parseRequestParameters(request, "ICD10Code"),RequestParameterParser.getInstance().parseRequestParameters(request, "DSM4Code"),returnedTransactionVO.getServerId()+"."+returnedTransactionVO.getTransactionId(),sessionContainerWO,encounter);
                     	}
+                    }
+
+                    if(returnedTransactionVO.getTransactionType().equals(ScreenHelper.ITEM_PREFIX+"TRANSACTION_TYPE_ARCHIVE_DOCUMENT")){
+                        boolean isNewTran = (sessionContainerWO.getCurrentTransactionVO().getTransactionId() < 0);
+                        
+                    	//*** duplicate data in an ArchiveDocument-record ***
+                    	ArchiveDocument archDoc = ArchiveDocument.save(isNewTran,returnedTransactionVO,sessionContainerWO.getUserVO());
+                    	// returned object contains only UID and UDI !
+                    	
+                    	if(isNewTran){
+                        	// register UID in transaction = link to document
+                        	returnedTransactionVO.getItems().add(new ItemVO(new Integer(IdentifierFactory.getInstance().getTemporaryNewIdentifier()),
+                                                                 ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_DOC_UID",
+                                                                 archDoc.getUid(),new Date(),null));
+                        	
+	                    	// register udi in transaction
+	                    	returnedTransactionVO.getItems().add(new ItemVO(new Integer(IdentifierFactory.getInstance().getTemporaryNewIdentifier()),
+	                                                             ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_DOC_UDI",
+	                                                             archDoc.udi,new Date(),null));
+                    	}
+                    	
+                        MedwanQuery.getInstance().updateTransaction(sessionContainerWO.getPersonVO().personId,returnedTransactionVO);
                     }
 
                     sessionContainerWO.setCurrentTransactionVO(returnedTransactionVO);

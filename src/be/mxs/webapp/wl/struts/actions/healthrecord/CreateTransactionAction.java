@@ -25,6 +25,7 @@ import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.services.healthrecord.exceptions.TransactionNotFoundException;
 import be.openclinic.adt.Encounter;
+import be.openclinic.archiving.ArchiveDocument;
 
 public class CreateTransactionAction extends Action {
 
@@ -126,7 +127,7 @@ public class CreateTransactionAction extends Action {
                 }  
                 
                 sessionContainerWO.setCurrentTransactionVO(transactionVO);
-
+                
                 actionForward = new ActionForward(MedwanQuery.getInstance().getForward(transactionType)+"&ts=" + new java.util.Date().hashCode()+extraParameters, true);
             }
         }

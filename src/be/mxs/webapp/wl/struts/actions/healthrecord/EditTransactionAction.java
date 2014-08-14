@@ -8,10 +8,13 @@ import be.mxs.common.model.vo.healthrecord.HealthRecordVO;
 import be.mxs.common.model.vo.healthrecord.util.TransactionFactoryGeneral;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
+import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.services.healthrecord.exceptions.TransactionNotFoundException;
 import be.mxs.webapp.wl.exceptions.SessionContainerFactoryException;
 import be.mxs.webapp.wl.session.SessionContainerFactory;
 import be.openclinic.adt.Planning;
+import be.openclinic.archiving.ArchiveDocument;
+
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -87,8 +90,8 @@ public class EditTransactionAction extends Action {
                 actionForward = new ActionForward("/util/loadPDFFromDb.jsp?file=base/"+item.getValue()+"&"+sParameters, true);
             }
 
-            //--- ALL OTHER TYPES OF TRANSACTIONS ----------------------------------------------------------------------
-            else {
+            //--- ALL OTHER TYPES OF TRANSACTIONS ---------------------------------------------------------------------
+            else {                
                 TransactionVO transactionVO = null;
                 String _param_activeDepartment = request.getParameter("be.medwan.context.department");
                 String _param_activeContext    = request.getParameter("be.medwan.context.context");
@@ -131,6 +134,8 @@ public class EditTransactionAction extends Action {
                 }
 
                 sessionContainerWO.setCurrentTransactionVO(transactionVO);
+                
+                //--- PLANNING ---
                 if(request.getParameter("UpdatePlanning")!=null){
                     Planning planning = Planning.get(request.getParameter("UpdatePlanning"));
                     if(planning.getEffectiveDate()==null){
@@ -142,6 +147,7 @@ public class EditTransactionAction extends Action {
                     }
                 }
                 
+                //--- CUSTOM EXAMINATION ---
                 if(transactionType.indexOf("_CUSTOMEXAMINATION") > -1){
                     String sCustomExamType = transactionType.substring(transactionType.indexOf("_CUSTOMEXAMINATION")+"_CUSTOMEXAMINATION".length());
                     Debug.println("Loading CUSTOM EXAMINATION of type '"+sCustomExamType+"'");                                        
@@ -149,7 +155,7 @@ public class EditTransactionAction extends Action {
 
                     transactionType = transactionType.substring(0,transactionType.indexOf("_CUSTOMEXAMINATION")+"_CUSTOMEXAMINATION".length());
                 }
-                
+
                 actionForward = new ActionForward(MedwanQuery.getInstance().getForward(transactionType)+"&"+sParameters, true);
             }
         }

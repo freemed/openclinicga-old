@@ -46,6 +46,7 @@ import java.util.Date;
 
 import jpos.JposException;
 import be.openclinic.adt.Encounter;
+import be.openclinic.archiving.ArchiveDocument;
 import be.openclinic.common.OC_Object;
 import be.openclinic.datacenter.Monitor;
 import be.openclinic.datacenter.Scheduler;
@@ -3336,6 +3337,15 @@ public class MedwanQuery {
     
     //--- DELETE TRANSACTION ----------------------------------------------------------------------
     public void deleteTransaction(String transactionId, String serverId){
+        //--- ARCHIVE DOCUMENT ---
+        TransactionVO tran = MedwanQuery.getInstance().loadTransaction(Integer.parseInt(serverId),Integer.parseInt(transactionId));
+        if(tran!=null){            	
+            if(tran.getTransactionType().equals(ScreenHelper.ITEM_PREFIX+"TRANSACTION_TYPE_ARCHIVE_DOCUMENT")){
+            	// mark the duplicated data (ArchiveDocument-record) as deleted            	
+            	ArchiveDocument.delete(tran.getItemValue(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_DOC_UID")); 
+            }
+        }
+        
         Connection OccupdbConnection;
         try{
             OccupdbConnection = getOpenclinicConnection();
@@ -3366,7 +3376,6 @@ public class MedwanQuery {
                 addToDeleteObjects("Transaction", serverId+"."+transactionId);
             }
             OccupdbConnection.close();
-
         }
         catch(Exception e){
             e.printStackTrace();

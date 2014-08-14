@@ -352,7 +352,7 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
         Iterator iterator = items.iterator();
         ItemVO item;
         while (iterator.hasNext()){
-            item = (ItemVO)iterator.next();            
+            item = (ItemVO)iterator.next(); 
             if( item!=null && item.getType().equalsIgnoreCase(itemType)){
                 return item;
             }
@@ -496,17 +496,17 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
             items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_VACCINATION_STATUS"));
         }
         // CONTACT
-        if(this.getTransactionType().equalsIgnoreCase(ScreenHelper.ITEM_PREFIX+"TRANSACTION_TYPE_CONTACT")){
+        else if(this.getTransactionType().equalsIgnoreCase(ScreenHelper.ITEM_PREFIX+"TRANSACTION_TYPE_CONTACT")){
             items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_CONTACTTYPE"));
             items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_CONTACTPERSONS"));
         }
         // MIR2 (rx)
-        if(this.getTransactionType().equalsIgnoreCase(IConstants.TRANSACTION_TYPE_MIR2)){
+        else if(this.getTransactionType().equalsIgnoreCase(IConstants.TRANSACTION_TYPE_MIR2)){
             items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_MIR2_SCREEN_FIXED_UNIT"));
             items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_MIR2_SCREEN_MOBILE_UNIT"));
         }
         // OPHTALMOLOGY
-        if(this.getTransactionType().startsWith(IConstants.TRANSACTION_TYPE_OPHTALMOLOGY)){
+        else if(this.getTransactionType().startsWith(IConstants.TRANSACTION_TYPE_OPHTALMOLOGY)){
             // ophta-type 
             items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_SCREEN_ERGOVISION"));
             items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_SCREEN_VISIOTEST"));
@@ -520,8 +520,12 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
             items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_CONTEXT_CONTEXT_EXTERNAL"));
         }
         // OTHER EXAMINATION
-        if(this.getTransactionType().equalsIgnoreCase(IConstants.TRANSACTION_TYPE_OTHER_REQUESTS)){
+        else if(this.getTransactionType().equalsIgnoreCase(IConstants.TRANSACTION_TYPE_OTHER_REQUESTS)){
             items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,IConstants.ITEM_TYPE_SPECIALIST_TYPE));
+        }
+        // ARCHIVE_DOCUMENT
+        else if(this.getTransactionType().equalsIgnoreCase(ScreenHelper.ITEM_PREFIX+"TRANSACTION_TYPE_ARCHIVE_DOCUMENT")){
+            items.add(MedwanQuery.getInstance().getItem(serverId,transactionId,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_DOC_REFERENCE"));
         }
         // DOCUMENT
         else if(this.getTransactionType().equalsIgnoreCase(IConstants.TRANSACTION_TYPE_DOCUMENT)){

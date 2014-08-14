@@ -188,7 +188,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -253,7 +252,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -297,7 +295,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return labRequest;
@@ -342,7 +339,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -407,7 +403,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -472,7 +467,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -514,7 +508,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return results;
@@ -559,7 +552,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return results;
@@ -616,7 +608,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return results;
@@ -665,7 +656,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return results;
@@ -709,7 +699,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return results;
@@ -753,7 +742,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return results;
@@ -796,7 +784,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return results;
@@ -828,7 +815,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return results;
@@ -872,7 +858,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return results;
@@ -929,7 +914,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return requests;
@@ -968,7 +952,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return requests;
@@ -1005,7 +988,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return samples;
@@ -1042,7 +1024,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return samples;
@@ -1079,7 +1060,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return samples;
@@ -1141,7 +1121,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
@@ -1226,7 +1205,6 @@ public class LabRequest {
         try {
 			oc_conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }

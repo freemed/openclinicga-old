@@ -12,24 +12,20 @@ import be.dpms.medwan.webapp.wo.common.system.SessionContainerWO;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.webapp.wl.session.SessionContainerFactory;
 
-/**
- * Created by IntelliJ IDEA.
- * User: frank
- * Date: 16-sep-2003
- * Time: 15:51:39
- * To change this template use Options | File Templates.
- */
 public class ManageDeleteTransactionAction extends org.apache.struts.action.Action {
+	
+	//--- PERFORM ---------------------------------------------------------------------------------
     public ActionForward perform(ActionMapping mapping,
-                                       ActionForm form,
-                                       HttpServletRequest request,
-                                       HttpServletResponse response)
+                                 ActionForm form,
+                                 HttpServletRequest request,
+                                 HttpServletResponse response)
         throws IOException, ServletException {
 
-        ActionForward actionForward = mapping.findForward( "success" );
+        ActionForward actionForward = mapping.findForward("success");
 
-        String transactionId = request.getParameter("transactionId");
-        String serverId = request.getParameter("serverId");
+        String transactionId = request.getParameter("transactionId"),
+               serverId      = request.getParameter("serverId");
+        
         MedwanQuery.getInstance().deleteTransaction(transactionId,serverId);
 
         try {
@@ -40,11 +36,13 @@ public class ManageDeleteTransactionAction extends org.apache.struts.action.Acti
         catch(Exception e){
             e.printStackTrace();
         }
+        
         String actionForwardKey = request.getParameter("be.mxs.healthrecord.updateTransaction.actionForwardKey");
-        if (actionForwardKey != null) {
-            actionForward = new ActionForward(actionForwardKey, true);
+        if(actionForwardKey!=null){
+            actionForward = new ActionForward(actionForwardKey,true);
         }
 
         return actionForward;
     }
+    
 }

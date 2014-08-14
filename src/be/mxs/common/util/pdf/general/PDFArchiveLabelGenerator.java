@@ -13,16 +13,13 @@ import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
 import java.util.Vector;
 
-/**
- * User: stijn smets
- * Date: 21-nov-2006
- */
 public class PDFArchiveLabelGenerator extends PDFOfficialBasic {
 
     // declarations
     private final int pageWidth = 100;
     private String type;
     PdfWriter docWriter=null;
+    
     public void addHeader(){
     }
     public void addContent(){
