@@ -1269,5 +1269,12 @@
 		<fr>Consultation ophtalmologique - mod&#232;le IOTA</fr>
 		<en>Ophtalmology consultation - IOTA model</en>
 	</Row>
+	<Row>
+		<id>1172</id>
+		<class>archive</class>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ARCHIVE_DOCUMENT</transactiontype>
+		<fr>Document d&apos;archive</fr>
+		<en>Archive-document</en>
+	</Row>
 </Examinations>
 

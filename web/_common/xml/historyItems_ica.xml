@@ -28,4 +28,29 @@
   <item tranTypeShort="TRANSACTION_TYPE_ABDOMINAL_ECHOGRAPHY_PROTOCOL" itemTypeShort="ITEM_TYPE_ABDOMINAL_ECHOGRAPHY_PROTOCOL_HILE" actif="true" order="">
     <label type="web.occup" id="be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ABDOMINAL_ECHOGRAPHY_PROTOCOL_HILE"/>
   </item>
+  <item tranTypeShort="TRANSACTION_TYPE_GENERAL_CLINICAL_EXAMINATION" itemTypeShort="ITEM_TYPE_ABDOMINAL_COMPLAINTS" actif="true" order="">
+    <label type="web.occup" id="be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ABDOMINAL_COMPLAINTS"/>
+  </item>
+  <item tranTypeShort="TRANSACTION_TYPE_GENERAL_CLINICAL_EXAMINATION" itemTypeShort="ITEM_TYPE_AUDIOMETRY_LEFT_LOSS" actif="true" order="">
+    <label type="web.occup" id="be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_AUDIOMETRY_LEFT_LOSS"/>
+  </item>
+  <item tranTypeShort="TRANSACTION_TYPE_SURGERY_CONSULTATION" itemTypeShort="[GENERAL.ANAMNESE]ITEM_TYPE_OBJECTIVE" actif="true" order=""/>
+  <item tranTypeShort="TRANSACTION_TYPE_SURGERY_CONSULTATION" itemTypeShort="[GENERAL.ANAMNESE]ITEM_TYPE_OBJECTIVE1" actif="true" order=""/>
+  <item tranTypeShort="TRANSACTION_TYPE_SURGERY_CONSULTATION" itemTypeShort="[GENERAL.DIAGNOSE]ITEM_TYPE_OBESITY" actif="true" order="">
+    <label type="web.occup" id="be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.DIAGNOSE]ITEM_TYPE_OBESITY"/>
+  </item>
+  <item tranTypeShort="TRANSACTION_TYPE_SURGERY_CONSULTATION" itemTypeShort="ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_DIASTOLIC_PRESSURE_LEFT" actif="true" order="">
+    <label type="web.occup" id="be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_DIASTOLIC_PRESSURE_LEFT"/>
+  </item>
+  <item tranTypeShort="TRANSACTION_TYPE_SURGERY_CONSULTATION" itemTypeShort="ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_DIASTOLIC_PRESSURE_RIGHT" actif="true" order="">
+    <label type="web.occup" id="be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_DIASTOLIC_PRESSURE_RIGHT"/>
+  </item>
+  <item tranTypeShort="TRANSACTION_TYPE_SURGERY_CONSULTATION" itemTypeShort="ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_SYSTOLIC_PRESSURE_LEFT" actif="true" order="">
+    <label type="web.occup" id="be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_SYSTOLIC_PRESSURE_LEFT"/>
+  </item>
+  <item tranTypeShort="TRANSACTION_TYPE_SURGERY_CONSULTATION" itemTypeShort="ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_SYSTOLIC_PRESSURE_RIGHT" actif="true" order="">
+    <label type="web.occup" id="be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_SYSTOLIC_PRESSURE_RIGHT"/>
+  </item>
+  <item tranTypeShort="TRANSACTION_TYPE_SURGERY_CONSULTATION" itemTypeShort="[GENERAL.ANAMNESE]ITEM_TYPE_SUBJECTIVE" actif="true" order=""/>
+  <item tranTypeShort="TRANSACTION_TYPE_SURGERY_CONSULTATION" itemTypeShort="[GENERAL.ANAMNESE]ITEM_TYPE_SUBJECTIVE1" actif="true" order=""/>
 </items>

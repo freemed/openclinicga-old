@@ -97,5 +97,6 @@
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CNAR_CONSULTATION"                     path="/main.do?Page=/healthrecord/CNARConsultation.jsp"                          accessright="occup.kinesitherapy.application"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CNAR_KINECONSULTATION"                 path="/main.do?Page=/healthrecord/CNARkinesitherapyConsultationTreatment.jsp"    accessright="[file not found]"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_RMH_OUTPATIENT"                 		path="/main.do?Page=/healthrecord/manageRMHOutpatientFile.jsp"    				 accessright="occup.outpatientfile"/>
+    <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_ARCHIVE_DOCUMENT"                		path="/main.do?Page=/healthrecord/archiveDocument.jsp"        				     accessright="occup.arch.document"/>
     <mapping id="be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CUSTOMEXAMINATION"                		path="/main.do?Page=/healthrecord/customExamination.jsp"        				 accessright="occup.customexamination"/>
 </mappings>

@@ -487,8 +487,8 @@
     	<column name="OC_CALCULATION_BEGIN" dbtype="datetime" javatype="date"/>
     	<column name="OC_CALCULATION_END" dbtype="datetime" javatype="date"/>
     	<column name="OC_CALCULATION_PERSONID" dbtype="int" javatype="integer"/> 
-    	<column name="OC_CALCULATION_SOURCE" dbtype="varchar(50)" javatype="String"/> 
-    	<column name="OC_CALCULATION_TYPE" dbtype="varchar(50)" javatype="String"/>  	     
+    	<column name="OC_CALCULATION_SOURCE" dbtype="varchar" javatype="string" size="50"/> 
+    	<column name="OC_CALCULATION_TYPE" dbtype="varchar" javatype="string" size="50"/>  	     
 	    <column name="OC_CALCULATION_UPDATETIME" dbtype="datetime" javatype="date"/>
     	<column name="OC_CALCULATION_UPDATEID" dbtype="int" javatype="integer"/>
       </columns>
@@ -525,6 +525,39 @@
         
 
     <!-- ####################################### VARIA TABLES ##################################### --> 
+    <table name="arch_documents" db="openclinic" sync="NONE">
+    	<columns>
+			<column name="ARCH_DOCUMENT_SERVERID" dbtype="int" javatype="integer" />
+			<column name="ARCH_DOCUMENT_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="ARCH_DOCUMENT_UDI" dbtype="varchar" javatype="string" size="50"/>  
+			<column name="ARCH_DOCUMENT_TITLE" dbtype="varchar" javatype="string" size="255"/>
+			<column name="ARCH_DOCUMENT_DESCRIPTION" dbtype="text" javatype="string"/>
+			<column name="ARCH_DOCUMENT_CATEGORY" dbtype="varchar" javatype="string" size="255"/>
+			<column name="ARCH_DOCUMENT_AUTHOR" dbtype="varchar" javatype="string" size="50"/>
+	        <column name="ARCH_DOCUMENT_DATE" dbtype="datetime" javatype="date"/>
+			<column name="ARCH_DOCUMENT_DESTINATION" dbtype="varchar" javatype="string" size="255"/>
+	        <column name="ARCH_DOCUMENT_REFERENCE" dbtype="varchar" javatype="string" size="50"/>
+	        <column name="ARCH_DOCUMENT_PERSONID" dbtype="int" javatype="integer"/>
+	        <column name="ARCH_DOCUMENT_STORAGENAME" dbtype="varchar" javatype="string" size="255"/>
+	        <column name="ARCH_DOCUMENT_TRAN_SERVERID" dbtype="int" javatype="integer"/>
+	        <column name="ARCH_DOCUMENT_TRAN_TRANSACTIONID" dbtype="int" javatype="integer"/>
+	        <column name="ARCH_DOCUMENT_DELETEDATE" dbtype="datetime" javatype="date"/>
+	        <column name="ARCH_DOCUMENT_UPDATETIME" dbtype="datetime" javatype="date"/>
+			<column name="ARCH_DOCUMENT_UPDATEID" dbtype="int" javatype="integer"/>
+    	</columns>
+    	<indexes>
+	        <index name="ARCH_DOCUMENT_OBJECTID">
+	            <indexcolumn order="ASC" name="ARCH_DOCUMENT_OBJECTID"/>
+	        </index>
+	        <index name="ARCH_DOCUMENT_UDI">
+	            <indexcolumn order="ASC" name="ARCH_DOCUMENT_UDI"/>
+	        </index>
+	        <index name="ARCH_DOCUMENT_PERSONID">
+	            <indexcolumn order="ASC" name="ARCH_DOCUMENT_PERSONID"/>
+	        </index>
+    	</indexes>
+    </table>
+
     <table name="oc_screens" db="openclinic" sync="NONE">
     	<columns>
 			<column name="OC_SCREEN_SERVERID" dbtype="int" javatype="integer"/>  
