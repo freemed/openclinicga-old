@@ -150,6 +150,7 @@
                         // get examinations
                         while (iter.hasNext()) {
                             hResults = (Hashtable) iter.next();
+                            System.out.println((String) hResults.get("id")); //////////
                             hExaminations.put(getTran("examination", (String) hResults.get("id"), sWebLanguage), hResults.get("id"));
                         }
 
