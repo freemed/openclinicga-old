@@ -1,19 +1,18 @@
-<%@include file="/includes/validateUser.jsp"%>
-<%@page errorPage="/includes/error.jsp"%>
-<%@page import="java.io.ByteArrayOutputStream,
-                com.itextpdf.text.DocumentException,
-                java.io.PrintWriter"%>
-<%@ page import="be.openclinic.sync.*" %>
-
+<%@page import="java.io.ByteArrayOutputStream,java.io.PrintWriter,java.text.*"%><%@ page import="be.openclinic.sync.*" %>
 <%
     try{
         // XML generator
-
         OpenclinicExporter exporter = new OpenclinicExporter();
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "Attachment;Filename=\"OpenClinicExport" + new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date()) + ".xml\"");
         ServletOutputStream os = response.getOutputStream();
-        byte[] b = exporter.run().getBytes();
+        byte[] b = null;
+        try{
+        	b = exporter.run().getBytes();
+        }
+        catch(Exception e){
+        	e.printStackTrace();
+        }
         for (int n=0;n<b.length;n++) {
             os.write(b[n]);
         }
