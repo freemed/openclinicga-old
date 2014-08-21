@@ -229,7 +229,7 @@ public class CarePrescription extends OC_Object{
         try{
             if(this.getUid().equals("-1") && !prescrWithSameDataExists){
                 //***** INSERT *****
-                Debug.println("@@@ CAREPRECRIPTION insert @@@");
+                Debug.println("@@@ CAREPRESCRIPTION insert @@@");
 
                 sSelect = "INSERT INTO OC_CAREPRESCRIPTIONS (OC_CAREPRESCR_SERVERID,OC_CAREPRESCR_OBJECTID,OC_CAREPRESCR_PATIENTUID,"+
                           "  OC_CAREPRESCR_PRESCRIBERUID,OC_CAREPRESCR_CAREUID,OC_CAREPRESCR_BEGIN,OC_CAREPRESCR_END,OC_CAREPRESCR_TIMEUNIT,"+
@@ -276,7 +276,7 @@ public class CarePrescription extends OC_Object{
             }
             else{
                 //***** UPDATE *****
-                Debug.println("@@@ CAREPRECRIPTION update @@@");
+                Debug.println("@@@ CAREPRESCRIPTION update @@@");
 
                 sSelect = "UPDATE OC_CAREPRESCRIPTIONS SET OC_CAREPRESCR_PATIENTUID=?, OC_CAREPRESCR_PRESCRIBERUID=?,"+
                           "  OC_CAREPRESCR_CAREUID=?, OC_CAREPRESCR_BEGIN=?, OC_CAREPRESCR_END=?, OC_CAREPRESCR_TIMEUNIT=?,"+
