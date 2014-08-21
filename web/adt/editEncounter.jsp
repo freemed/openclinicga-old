@@ -85,27 +85,26 @@
     }
 
     if (Debug.enabled) {
-        Debug.println("\n####################### EDIT PARAMS ###########################" +
-                "\nEditEncounterUID     : " + sEditEncounterUID +
-                "\nEncounterType        : " + sEditEncounterType +
-                "\nEncounterBegin       : " + sEditEncounterBegin +
-                "\nEncounterBeginHour   : " + sEditEncounterBeginHour +
-                "\nEncounterEnd         : " + sEditEncounterEnd +
-                "\nEncounterEndHour     : " + sEditEncounterEndHour +
-                "\nEncounterPatient     : " + sEditEncounterPatient +
-                "\nEncounterPatientName : " + sEditEncounterPatientName +
-                "\nEncounterManager     : " + sEditEncounterManager +
-                "\nEncounterManagerName : " + sEditEncounterManagerName +
-                "\nEncounterService     : " + sEditEncounterService +
-                "\nEncounterServiceName : " + sEditEncounterServiceName +
-                "\nEncounterDestination     : " + sEditEncounterDestination +
-                "\nEncounterDestinationName : " + sEditEncounterDestinationName +
-                "\nEncounterBed         : " + sEditEncounterBed +
-                "\nEncounterBedName     : " + sEditEncounterBedName +
-                "\nAccountAccomodationDays     : " + sAccountAccomodationDays +
-                "\n###############################################################"
-        );
+        Debug.println("\n************************ EDIT ENCOUNTER ************************");
+        Debug.println("EditEncounterUID         : " + sEditEncounterUID);
+        Debug.println("EncounterType            : " + sEditEncounterType);
+        Debug.println("EncounterBegin           : " + sEditEncounterBegin);
+        Debug.println("EncounterBeginHour       : " + sEditEncounterBeginHour);
+        Debug.println("EncounterEnd             : " + sEditEncounterEnd);
+        Debug.println("EncounterEndHour         : " + sEditEncounterEndHour);
+        Debug.println("EncounterPatient         : " + sEditEncounterPatient);
+        Debug.println("EncounterPatientName     : " + sEditEncounterPatientName);
+        Debug.println("EncounterManager         : " + sEditEncounterManager);
+        Debug.println("EncounterManagerName     : " + sEditEncounterManagerName);
+        Debug.println("EncounterService         : " + sEditEncounterService);
+        Debug.println("EncounterServiceName     : " + sEditEncounterServiceName);
+        Debug.println("EncounterDestination     : " + sEditEncounterDestination);
+        Debug.println("EncounterDestinationName : " + sEditEncounterDestinationName);
+        Debug.println("EncounterBed             : " + sEditEncounterBed);
+        Debug.println("EncounterBedName         : " + sEditEncounterBedName);
+        Debug.println("AccountAccomodationDays  : " + sAccountAccomodationDays+"\n");
     }
+    
     if (sAction.equals("SAVE")) {
 
         String sCloseActiveEncounter = checkString(request.getParameter("CloseActiveEncounter"));
@@ -560,11 +559,11 @@
         <tr id="Destination" style="visibility: visible;">
             <td class="admin"><%=getTran("Web","category",sWebLanguage)%></td>
             <td class='admin2'>
-                <input type='radio' onchange='setcategoryfields()' name='EditEncounterCategories' value='A' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("A")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.natural",sWebLanguage) %>&nbsp;
-                <input type='radio' onchange='setcategoryfields()' name='EditEncounterCategories' value='B' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("B")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.professional",sWebLanguage) %>&nbsp;
-                <input type='radio' onchange='setcategoryfields()' id='EditEncounterCategoriesC' name='EditEncounterCategories' value='C' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("C")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.work",sWebLanguage) %>&nbsp;
-                <input type='radio' onchange='setcategoryfields()' id='EditEncounterCategoriesD' name='EditEncounterCategories' value='D' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("D")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.traffic",sWebLanguage) %>&nbsp;
-                <input type='radio' onchange='setcategoryfields()' name='EditEncounterCategories' value='E' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("E")>=0?"checked":"" %>/><%=getTran("web","mfp.disease.other",sWebLanguage) %>&nbsp;
+                <input type='radio' class="hand" onchange='setcategoryfields()' id='EditEncounterCategoriesA' name='EditEncounterCategories' value='A' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("A")>=0?"checked":"" %>/><%=getLabel("web","mfp.disease.natural",sWebLanguage,"EditEncounterCategoriesA")%>&nbsp;
+                <input type='radio' class="hand" onchange='setcategoryfields()' id='EditEncounterCategoriesB' name='EditEncounterCategories' value='B' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("B")>=0?"checked":"" %>/><%=getLabel("web","mfp.disease.professional",sWebLanguage,"EditEncounterCategoriesB")%>&nbsp;
+                <input type='radio' class="hand" onchange='setcategoryfields()' id='EditEncounterCategoriesC' name='EditEncounterCategories' value='C' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("C")>=0?"checked":"" %>/><%=getLabel("web","mfp.disease.work",sWebLanguage,"EditEncounterCategoriesC")%>&nbsp;
+                <input type='radio' class="hand" onchange='setcategoryfields()' id='EditEncounterCategoriesD' name='EditEncounterCategories' value='D' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("D")>=0?"checked":"" %>/><%=getLabel("web","mfp.disease.traffic",sWebLanguage,"EditEncounterCategoriesD")%>&nbsp;
+                <input type='radio' class="hand" onchange='setcategoryfields()' id='EditEncounterCategoriesE' name='EditEncounterCategories' value='E' ondblclick='this.checked=!this.checked' <%=sEditEncounterCategories.indexOf("E")>=0?"checked":"" %>/><%=getLabel("web","mfp.disease.other",sWebLanguage,"EditEncounterCategoriesE")%>&nbsp;
             </td>
         </tr>
         <tr id="accidentinformation" style="visibility: visible;">
@@ -772,65 +771,52 @@
 
     function doSave(){
 		if(EditEncounterForm.EditEncounterBegin.value == ""){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=no_encounter_begindate";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","no_encounter_begindate",sWebLanguage)%>");
+            alertDialog("web","no_encounter_begindate");
+            EditEncounterForm.EditEncounterBegin.focus();
         }else if(ParseDate(EditEncounterForm.EditEncounterBegin.value)>new Date()){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=no_future_begindate";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","no_future_begindate",sWebLanguage)%>");
+            alertDialog("web","no_future_begindate");
+            EditEncounterForm.EditEncounterBegin.focus();
         }else if(EditEncounterForm.EditEncounterBeginHour.value == ""){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=no_encounter_beginhour";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","no_encounter_beginhour",sWebLanguage)%>");
+            alertDialog("web","no_future_beginhour");
+            EditEncounterForm.EditEncounterBeginHour.focus();
 	    <%
 	      	if (sEditEncounterUID.length()>0){
 	    %>
         }else if(EditEncounterForm.EditEncounterEnd.value != "" && ParseDate(EditEncounterForm.EditEncounterEnd.value)<ParseDate('<%=sMaxTransferDate%>')){
-                var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=encounter_wrong_enddate";
-                var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","no_future_begindate",sWebLanguage)%>");
+           alertDialog("web","no_future_begindate");
+           EditEncounterForm.EditEncounterEnd.focus();
 	    <%
 	       	}
 	    %>        	        
         }else if(EditEncounterForm.EditEncounterEnd.value != "" && EditEncounterForm.EditEncounterEndHour.value == ""){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=no_encounter_endhour";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","no_encounter_endhour",sWebLanguage)%>");
+            alertDialog("web","no_encounter_endhour");
+            EditEncounterForm.EditEncounterEndHour.focus();            
         }else if(!checkDates()){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=encounter_invalid_enddate";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","encounter_invalid_enddate",sWebLanguage)%>");
+            alertDialog("web","encounter_invalid_enddate");
+            EditEncounterForm.EditEncounterEndHour.focus();
         }else if ((EditEncounterForm.EditEncounterOutcome.selectedIndex>0)&&(EditEncounterForm.EditEncounterEnd.value == "")){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=no_encounter_enddate";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","no_encounter_enddate",sWebLanguage)%>");
+            alertDialog("web","no_encounter_enddate");
+            EditEncounterForm.EditEncounterEnd.focus();
         }else if ((EditEncounterForm.EditEncounterType.value=='admission')&&(EditEncounterForm.EditEncounterOutcome.selectedIndex==0)&&(EditEncounterForm.EditEncounterEnd.value != "")){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=no_encounter_outcome";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","no_encounter_outcome",sWebLanguage)%>");
-        }else if (EditEncounterForm.EditEncounterServiceName.value==""){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=no_encounter_service";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","no_encounter_service",sWebLanguage)%>");
-        }else if (EditEncounterForm.EditEncounterTransferDate && !EditEncounterForm.EditEncounterTransferDate.value=="" && !EditEncounterForm.EditEncounterEnd.value=="" && ParseDate(EditEncounterForm.EditEncounterTransferDate.value)>ParseDate(EditEncounterForm.EditEncounterEnd.value)){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=encounter_invalid_transferdate";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","encounter_invalid_transferdate",sWebLanguage)%>");
+            alertDialog("web","no_encounter_outcome");
+            EditEncounterForm.EditEncounterOutcome.focus();
         }else if (EditEncounterForm.EditEncounterOrigin.value==""){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=encounter_invalid_origin";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","encounter_invalid_origin",sWebLanguage)%>");
+            alertDialog("web","encounter_invalid_origin");
+            EditEncounterForm.EditEncounterOrigin.focus();
+        }else if (EditEncounterForm.EditEncounterServiceName.value==""){
+            alertDialog("web","no_encounter_service");
+            EditEncounterForm.EditEncounterServiceName.focus();
+        }else if (EditEncounterForm.EditEncounterTransferDate && !EditEncounterForm.EditEncounterTransferDate.value=="" && !EditEncounterForm.EditEncounterEnd.value=="" && ParseDate(EditEncounterForm.EditEncounterTransferDate.value)>ParseDate(EditEncounterForm.EditEncounterEnd.value)){
+            alertDialog("web","encounter_invalid_transferdate");
+            EditEncounterForm.EditEncounterTransferDate.focus();
         }else if (!categoryCheck()){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=encounter_invalid_categories";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","encounter_invalid_categories",sWebLanguage)%>");
+            alertDialog("web","encounter_invalid_categories");
+            EditEncounterForm.EditEncounterCategories.focus();
         }else{
             EditEncounterForm.saveButton.disabled = true;
             EditEncounterForm.Action.value = "SAVE";
             EditEncounterForm.submit();
-        }
-        EditEncounterTransferDate
+        }	
     }
 	
     function categoryCheck(){
@@ -938,7 +924,12 @@
       // Parse the string in DD/MM/YYYY format
       re = /(\d{1,2})\/(\d{1,2})\/(\d{4})/
       var arr = re.exec( str1 );
-      return new Date( parseInt(arr[3]), parseInt(arr[2], 10) - 1, parseInt(arr[1], 10) );
+      if(dateFormat=="dd/MM/yyyy"){
+        return new Date( parseInt(arr[3]), parseInt(arr[2], 10) - 1, parseInt(arr[1], 10) ); // YYYY/mm/dd
+      }
+      else{
+        return new Date( parseInt(arr[3]), parseInt(arr[1], 10) - 1, parseInt(arr[2], 10) ); // YYYY/dd/mm
+      }
     }
 
     <%-- check type and display right inputfields --%>
