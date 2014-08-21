@@ -17,9 +17,18 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.Vector;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.HttpVersion;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.CoreProtocolPNames;
+import org.apache.http.util.EntityUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -1546,28 +1555,25 @@ public class OpenclinicSlaveExporter implements Runnable{
 				int messageid = MedwanQuery.getInstance().getOpenclinicCounter("messageId");
 				export.addAttribute("id", messageid+"");
 				export.addAttribute("command", "store");
-				HttpClient client = new HttpClient();
+				HttpClient client = new DefaultHttpClient();
 				String url = MedwanQuery.getInstance().getConfigString("masterServerURL","http://localhost:10080/openclinic/util/webservice.jsp");
-				PostMethod method = new PostMethod(url);
-				method.setRequestHeader("Content-type","text/xml; charset=windows-1252");
-				Vector<NameValuePair> vNvp = new Vector<NameValuePair>();
-	        	vNvp.add(new NameValuePair("xml",message.asXML()));
-	        	System.out.println(message.asXML());
-				NameValuePair[] nvp = new NameValuePair[vNvp.size()];
-				vNvp.copyInto(nvp);
-				method.setQueryString(nvp);
-				sessionMessage.setMessage("Sending batch "+counter+" to "+url);
-				int statusCode = client.executeMethod(method);
-				sessionMessage.setMessage("Done sending batch "+counter+" to "+url);
-				String resultstring=method.getResponseBodyAsString();
-				message = DocumentHelper.parseText(resultstring);
-				export = message.getRootElement();
-				if(export.attributeValue("id").equalsIgnoreCase(messageid+"")){
-					sessionMessage.setMessage("Received correct xml response for batch "+counter+", updating last export date");
-					setLastExport(new SimpleDateFormat("yyyyMMddHHmmssSSSS").parse(export.attributeValue("end")));
-					sessionMessage.setMessage("Done updating last export date");
-					records+=Integer.parseInt(export.attributeValue("patientrecords"));
-				}
+			    HttpPost httppost = new HttpPost(url);
+			    StringEntity entity = new StringEntity(message.asXML(),"text/xml; charset=windows-1252");
+	   	        httppost.addHeader("Accept" , "text/xml");
+			    httppost.setEntity(entity);
+			    ResponseHandler<String> responseHandler = new BasicResponseHandler();
+		        String resultstring = client.execute(httppost, responseHandler);
+			    if (resultstring != null) {
+			    	sessionMessage.setMessage("Done sending batch "+counter+" to "+url);
+			    	message = DocumentHelper.parseText(resultstring);
+			    	export = message.getRootElement();
+			    	if(export.attributeValue("id").equalsIgnoreCase(messageid+"")){
+						sessionMessage.setMessage("Received correct xml response for batch "+counter+", updating last export date");
+						setLastExport(new SimpleDateFormat("yyyyMMddHHmmssSSSS").parse(export.attributeValue("end")));
+						sessionMessage.setMessage("Done updating last export date");
+						records+=Integer.parseInt(export.attributeValue("patientrecords"));
+					}
+			    }
 				if(patientrecordblocks.size()<maxrecordblocks){
 					break;
 				}
@@ -1766,19 +1772,16 @@ public class OpenclinicSlaveExporter implements Runnable{
 			ps.close();
 			sessionMessage.setMessage("Done making list of updateids");
 			//Send the list to the master server and get the updated list from it
-			HttpClient client = new HttpClient();
+			HttpClient client = new DefaultHttpClient();
 			String url = MedwanQuery.getInstance().getConfigString("masterServerURL","http://localhost:10080/openclinic/util/webservice.jsp");
-			PostMethod method = new PostMethod(url);
-			method.setRequestHeader("Content-type","text/xml; charset=windows-1252");
-			Vector<NameValuePair> vNvp = new Vector<NameValuePair>();
-        	vNvp.add(new NameValuePair("xml",message.asXML()));
-			NameValuePair[] nvp = new NameValuePair[vNvp.size()];
-			vNvp.copyInto(nvp);
-			method.setQueryString(nvp);
-			sessionMessage.setMessage("Send id-list to "+url);
-			int statusCode = client.executeMethod(method);
-			if(statusCode==200){
-				String resultstring=method.getResponseBodyAsString();
+		    HttpPost httppost = new HttpPost(url);
+		    StringEntity entity = new StringEntity(message.asXML(),"text/xml; charset=windows-1252");
+   	        httppost.addHeader("Accept" , "text/xml");
+		    httppost.setEntity(entity);
+		    ResponseHandler<String> responseHandler = new BasicResponseHandler();
+	        String resultstring = client.execute(httppost, responseHandler);
+		    if (resultstring != null) {
+		    	sessionMessage.setMessage(resultstring);
 				sessionMessage.setMessage("Done sending list, analyzing response");
 				message = DocumentHelper.parseText(resultstring);
 				ids=message.getRootElement();
