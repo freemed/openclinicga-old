@@ -59,7 +59,7 @@ public class SaveLabAnalysesAction extends Action {
         Debug.println("index="+sLabAnalysesToSave.indexOf("$"));
         Debug.println("parsed transactionid="+Integer.parseInt(sTransactionId));
         
-        if(sLabAnalysesToSave.indexOf("$")>-1 && Integer.parseInt(sTransactionId) > -1){
+        if(sLabAnalysesToSave.indexOf("$")>-1 && (Integer.parseInt(sTransactionId) > -1 || MedwanQuery.getInstance().getConfigInt("enableSlaveServer",0)==1)){
             Debug.println("1");
             // compose query, to use many times later on
             String sLowerLabelType = ScreenHelper.getConfigParam("lowerCompare","l.OC_LABEL_TYPE");

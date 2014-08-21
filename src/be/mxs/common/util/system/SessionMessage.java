@@ -10,6 +10,11 @@ public class SessionMessage {
 		System.out.println(s);
 	}
 	
+	public void setErrorMessage(String s){
+		messages.add("<font color='red'><b>"+s+"</b></font>");
+		System.out.println(s);
+	}
+	
 	public Vector getMessages(){
 		return messages;
 	}
@@ -17,7 +22,7 @@ public class SessionMessage {
 	public String getLastMessages(){
 		StringBuffer s = new StringBuffer();
 		for(int n=0;n<messages.size();n++){
-			s.append((String)messages.elementAt(n)+"\r\n");
+			s.append((String)messages.elementAt(n)+"<br/>");
 		}
 		messages = new Vector();
 		return s.toString();

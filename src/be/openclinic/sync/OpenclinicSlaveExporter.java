@@ -145,8 +145,8 @@ public class OpenclinicSlaveExporter implements Runnable{
 			if(doInsert){
 				ps=conn.prepareStatement("insert into requestedlabanalyses(serverid,transactionid,labanalysiscode,comment,resultvalue,resultunit,resultmodifier,resultcomment,resultrefmax,"
 						+ "resultrefmin,resultdate,resultuserid,patientid,resultprovisional,technicalvalidator,technicalvalidationdatetime,finalvalidator,finalvalidationdatetime,"
-						+ "requestdatetime,samplereceptiondatetime,sampletakendatetime,sampler,worklisteddatetime,objectid) "
-						+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+						+ "requestdatetime,samplereceptiondatetime,sampletakendatetime,sampler,worklisteddatetime,objectid,updatetime) "
+						+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 				int serverid=0;
 				try{
 					serverid=Integer.parseInt(element.elementText("serverid"));
@@ -241,6 +241,12 @@ public class OpenclinicSlaveExporter implements Runnable{
 				}
 				catch(Exception e2){}
 				ps.setInt(24,objectid);
+				java.sql.Timestamp updatetime=null;
+				try{
+					updatetime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMdd").parse(element.elementText("updatetime")).getTime());
+				}
+				catch(Exception e2){}
+				ps.setTimestamp(25,updatetime);
 				ps.execute();
 				ps.close();
 			}
@@ -275,11 +281,11 @@ public class OpenclinicSlaveExporter implements Runnable{
 					//Received record is more recent
 					//Remove existingrecord
 					ps.close();
-					ps=conn.prepareStatement("insert into transactionshistory select * from transactions where transactionid=?");
+					ps=conn.prepareStatement("insert into transactionshistory(transactionid,creationdate,transactiontype,updatetime,status,healthrecordid,userid,serverid,version,versionserverid,ts) select transactionid,creationdate,transactiontype,updatetime,status,healthrecordid,userid,serverid,version,versionserverid,ts from transactions where transactionid=?");
 					ps.setInt(1, Integer.parseInt(element.elementText("transactionid")));
 					ps.execute();
 					ps.close();
-					ps=conn.prepareStatement("insert into itemshistory select * from items where transactionid=?");
+					ps=conn.prepareStatement("insert into itemshistory(itemid,type,value,date,transactionid,serverid,version,versionserverid,priority) select itemid,type,value,date,transactionid,serverid,version,versionserverid,priority from items where transactionid=?");
 					ps.setInt(1, Integer.parseInt(element.elementText("transactionid")));
 					ps.execute();
 					ps.close();
@@ -436,7 +442,9 @@ public class OpenclinicSlaveExporter implements Runnable{
 					//Received record is more recent
 					//Remove existingrecord
 					ps.close();
-					ps=conn.prepareStatement("insert into oc_problems_history select * from oc_problems where oc_problem_objectid=?");
+					ps=conn.prepareStatement("insert into oc_problems_history(oc_problem_patientuid,oc_problem_codetype,oc_problem_code,oc_problem_begin,oc_problem_end,oc_problem_serverid,"
+						+ "oc_problem_objectid,oc_problem_createtime,oc_problem_updatetime,oc_problem_updateuid,oc_problem_version,oc_problem_gravity,oc_problem_certainty,oc_problem_comment) select oc_problem_patientuid,oc_problem_codetype,oc_problem_code,oc_problem_begin,oc_problem_end,oc_problem_serverid,"
+						+ "oc_problem_objectid,oc_problem_createtime,oc_problem_updatetime,oc_problem_updateuid,oc_problem_version,oc_problem_gravity,oc_problem_certainty,oc_problem_comment from oc_problems where oc_problem_objectid=?");
 					ps.setInt(1, Integer.parseInt(element.elementText("objectid")));
 					ps.execute();
 					ps.close();
@@ -766,7 +774,13 @@ public class OpenclinicSlaveExporter implements Runnable{
 					//Received record is more recent
 					//Remove existingrecord
 					ps.close();
-					ps=conn.prepareStatement("insert into oc_patientinvoices_history select * from oc_patientinvoices where oc_patientinvoice_objectid=?");
+					ps=conn.prepareStatement("insert into oc_patientinvoices_history(oc_patientinvoice_createtime,oc_patientinvoice_updatetime,oc_patientinvoice_updateuid,oc_patientinvoice_version,"
+						+ "oc_patientinvoice_serverid,oc_patientinvoice_objectid,oc_patientinvoice_id,oc_patientinvoice_date,oc_patientinvoice_patientuid,oc_patientinvoice_status,"
+						+ "oc_patientinvoice_balance,oc_patientinvoice_number,oc_patientinvoice_insurarreference,oc_patientinvoice_acceptationuid,oc_patientinvoice_insurarreferencedate,"
+						+ "oc_patientinvoice_verifier,oc_patientinvoice_comment,oc_patientinvoice_modifiers) select oc_patientinvoice_createtime,oc_patientinvoice_updatetime,oc_patientinvoice_updateuid,oc_patientinvoice_version,"
+						+ "oc_patientinvoice_serverid,oc_patientinvoice_objectid,oc_patientinvoice_id,oc_patientinvoice_date,oc_patientinvoice_patientuid,oc_patientinvoice_status,"
+						+ "oc_patientinvoice_balance,oc_patientinvoice_number,oc_patientinvoice_insurarreference,oc_patientinvoice_acceptationuid,oc_patientinvoice_insurarreferencedate,"
+						+ "oc_patientinvoice_verifier,oc_patientinvoice_comment,oc_patientinvoice_modifiers from oc_patientinvoices where oc_patientinvoice_objectid=?");
 					ps.setInt(1, Integer.parseInt(element.elementText("objectid")));
 					ps.execute();
 					ps.close();
@@ -882,7 +896,15 @@ public class OpenclinicSlaveExporter implements Runnable{
 					//Received record is more recent
 					//Remove existingrecord
 					ps.close();
-					ps=conn.prepareStatement("insert into oc_debets_history select * from oc_debets where oc_debet_objectid=?");
+					ps=conn.prepareStatement("insert into oc_debets_history(oc_debet_serverid,oc_debet_objectid,oc_debet_amount,oc_debet_balanceuid,oc_debet_date,oc_debet_description,oc_debet_encounteruid,"
+						+ "oc_debet_prestationuid,oc_debet_suppliertype,oc_debet_supplieruid,oc_debet_reftype,oc_debet_refuid,oc_debet_createtime,oc_debet_updatetime,oc_debet_updateuid,"
+						+ "oc_debet_version,oc_debet_quantity,oc_debet_credited,oc_debet_insuranceuid,oc_debet_patientinvoiceuid,oc_debet_insurarinvoiceuid,oc_debet_comment,oc_debet_insuraramount,"
+						+ "oc_debet_extrainsuraruid,oc_debet_extrainsurarinvoiceuid,oc_debet_extrainsuraramount,oc_debet_renewalinterval,oc_debet_renewaldate,oc_debet_performeruid,oc_debet_extrainsuraruid2,"
+						+ "oc_debet_extrainsurarinvoiceuid2,oc_debet_extrainsuraramount2,oc_debet_serviceuid) select oc_debet_serverid,oc_debet_objectid,oc_debet_amount,oc_debet_balanceuid,oc_debet_date,oc_debet_description,oc_debet_encounteruid,"
+						+ "oc_debet_prestationuid,oc_debet_suppliertype,oc_debet_supplieruid,oc_debet_reftype,oc_debet_refuid,oc_debet_createtime,oc_debet_updatetime,oc_debet_updateuid,"
+						+ "oc_debet_version,oc_debet_quantity,oc_debet_credited,oc_debet_insuranceuid,oc_debet_patientinvoiceuid,oc_debet_insurarinvoiceuid,oc_debet_comment,oc_debet_insuraramount,"
+						+ "oc_debet_extrainsuraruid,oc_debet_extrainsurarinvoiceuid,oc_debet_extrainsuraramount,oc_debet_renewalinterval,oc_debet_renewaldate,oc_debet_performeruid,oc_debet_extrainsuraruid2,"
+						+ "oc_debet_extrainsurarinvoiceuid2,oc_debet_extrainsuraramount2,oc_debet_serviceuid from oc_debets where oc_debet_objectid=?");
 					ps.setInt(1, Integer.parseInt(element.elementText("objectid")));
 					ps.execute();
 					ps.close();
@@ -1044,7 +1066,11 @@ public class OpenclinicSlaveExporter implements Runnable{
 					//Received record is more recent
 					//Remove existingrecord
 					ps.close();
-					ps=conn.prepareStatement("insert into oc_encounters_history select * from oc_encounters where oc_encounter_objectid=?");
+					ps=conn.prepareStatement("insert into oc_encounters_history(oc_encounter_serverid,oc_encounter_objectid,oc_encounter_type,oc_encounter_begindate,oc_encounter_enddate,"
+						+ "oc_encounter_patientuid,oc_encounter_createtime,oc_encounter_updatetime,oc_encounter_updateuid,oc_encounter_version,oc_encounter_outcome,"
+						+ "oc_encounter_destinationuid,oc_encounter_origin,oc_encounter_situation,oc_encounter_processed,oc_encounter_categories,oc_encounter_newcase,oc_encounter_etiology) select oc_encounter_serverid,oc_encounter_objectid,oc_encounter_type,oc_encounter_begindate,oc_encounter_enddate,"
+						+ "oc_encounter_patientuid,oc_encounter_createtime,oc_encounter_updatetime,oc_encounter_updateuid,oc_encounter_version,oc_encounter_outcome,"
+						+ "oc_encounter_destinationuid,oc_encounter_origin,oc_encounter_situation,oc_encounter_processed,oc_encounter_categories,oc_encounter_newcase,oc_encounter_etiology from oc_encounters where oc_encounter_objectid=?");
 					ps.setInt(1, Integer.parseInt(element.elementText("objectid")));
 					ps.execute();
 					ps.close();
@@ -1370,7 +1396,13 @@ public class OpenclinicSlaveExporter implements Runnable{
 					//Copy existing record to history
 					rs.close();
 					ps.close();
-					ps=conn.prepareStatement("insert into adminhistory select * from admin where personid=?");
+					ps=conn.prepareStatement("insert into adminhistory(personid,immatold,immatnew,candidate,lastname,firstname,gender,dateofbirth,comment,sourceid,language,"
+						+ "engagement,pension,statute,claimant,searchname,updatetime,claimant_expiration,native_country,native_town,motive_end_of_service,startdate_inactivity,"
+						+ "enddate_inactivity,code_inactivity,update_status,person_type,situation_end_of_service,updateuserid,comment1,comment2,comment3,comment4,comment5,natreg,"
+						+ "middlename,begindate,enddate,updateserverid,archivefilecode) select personid,immatold,immatnew,candidate,lastname,firstname,gender,dateofbirth,comment,sourceid,language,"
+						+ "engagement,pension,statute,claimant,searchname,updatetime,claimant_expiration,native_country,native_town,motive_end_of_service,startdate_inactivity,"
+						+ "enddate_inactivity,code_inactivity,update_status,person_type,situation_end_of_service,updateuserid,comment1,comment2,comment3,comment4,comment5,natreg,"
+						+ "middlename,begindate,enddate,updateserverid,archivefilecode from admin where personid=?");
 					ps.setInt(1, personid);
 					ps.execute();
 					//Remove existingrecord
@@ -1520,6 +1552,7 @@ public class OpenclinicSlaveExporter implements Runnable{
 				method.setRequestHeader("Content-type","text/xml; charset=windows-1252");
 				Vector<NameValuePair> vNvp = new Vector<NameValuePair>();
 	        	vNvp.add(new NameValuePair("xml",message.asXML()));
+	        	System.out.println(message.asXML());
 				NameValuePair[] nvp = new NameValuePair[vNvp.size()];
 				vNvp.copyInto(nvp);
 				method.setQueryString(nvp);
@@ -1540,6 +1573,7 @@ public class OpenclinicSlaveExporter implements Runnable{
 				}
 			}
 		} catch (Exception e1) {
+			sessionMessage.setErrorMessage(e1.getMessage());
 			e1.printStackTrace();
 		}
 		sessionMessage.setMessage("Done with export batches");
@@ -1743,55 +1777,61 @@ public class OpenclinicSlaveExporter implements Runnable{
 			method.setQueryString(nvp);
 			sessionMessage.setMessage("Send id-list to "+url);
 			int statusCode = client.executeMethod(method);
-			String resultstring=method.getResponseBodyAsString();
-			sessionMessage.setMessage("Done sending list, analyzing response");
-			message = DocumentHelper.parseText(resultstring);
-			ids=message.getRootElement();
-			if(ids.attributeValue("command").equalsIgnoreCase("setIds") && ids.attributeValue("id").equalsIgnoreCase(messageid+"")){
-				sessionMessage.setMessage("Correct xml file received, updating ids on client side");
-				//We received a correct response to the message that was sent, now update the IDs
-				Iterator iElements = ids.elementIterator("id");
-				while(iElements.hasNext()){
-					Element id = (Element)iElements.next();
-					if(id.attributeValue("type").equalsIgnoreCase("admin")){
-						updateAdminId(id.attributeValue("newvalue"),id.attributeValue("value"));
+			if(statusCode==200){
+				String resultstring=method.getResponseBodyAsString();
+				sessionMessage.setMessage("Done sending list, analyzing response");
+				message = DocumentHelper.parseText(resultstring);
+				ids=message.getRootElement();
+				if(ids.attributeValue("command").equalsIgnoreCase("setIds") && ids.attributeValue("id").equalsIgnoreCase(messageid+"")){
+					sessionMessage.setMessage("Correct xml file received, updating ids on client side");
+					//We received a correct response to the message that was sent, now update the IDs
+					Iterator iElements = ids.elementIterator("id");
+					while(iElements.hasNext()){
+						Element id = (Element)iElements.next();
+						if(id.attributeValue("type").equalsIgnoreCase("admin")){
+							updateAdminId(id.attributeValue("newvalue"),id.attributeValue("value"));
+						}
+						else if(id.attributeValue("type").equalsIgnoreCase("private")){
+							updateAdminPrivateId(id.attributeValue("newvalue"),id.attributeValue("value"));
+						}
+						else if(id.attributeValue("type").equalsIgnoreCase("encounter")){
+							updateEncounterId(id.attributeValue("newvalue"),id.attributeValue("value"));
+						}
+						else if(id.attributeValue("type").equalsIgnoreCase("insurance")){
+							updateInsuranceId(id.attributeValue("newvalue"),id.attributeValue("value"));
+						}
+						else if(id.attributeValue("type").equalsIgnoreCase("debet")){
+							updateDebetId(id.attributeValue("newvalue"),id.attributeValue("value"));
+						}
+						else if(id.attributeValue("type").equalsIgnoreCase("invoice")){
+							updateInvoiceId(id.attributeValue("newvalue"),id.attributeValue("value"));
+						}
+						else if(id.attributeValue("type").equalsIgnoreCase("credit")){
+							updateCreditId(id.attributeValue("newvalue"),id.attributeValue("value"));
+						}
+						else if(id.attributeValue("type").equalsIgnoreCase("transaction")){
+							updateTransactionId(id.attributeValue("newvalue"),id.attributeValue("value"));
+						}
+						else if(id.attributeValue("type").equalsIgnoreCase("problem")){
+							updateProblemId(id.attributeValue("newvalue"),id.attributeValue("value"));
+						}
+						else if(id.attributeValue("type").equalsIgnoreCase("item")){
+							updateItemId(id.attributeValue("newvalue"),id.attributeValue("value"));
+						}
 					}
-					else if(id.attributeValue("type").equalsIgnoreCase("private")){
-						updateAdminPrivateId(id.attributeValue("newvalue"),id.attributeValue("value"));
-					}
-					else if(id.attributeValue("type").equalsIgnoreCase("encounter")){
-						updateEncounterId(id.attributeValue("newvalue"),id.attributeValue("value"));
-					}
-					else if(id.attributeValue("type").equalsIgnoreCase("insurance")){
-						updateInsuranceId(id.attributeValue("newvalue"),id.attributeValue("value"));
-					}
-					else if(id.attributeValue("type").equalsIgnoreCase("debet")){
-						updateDebetId(id.attributeValue("newvalue"),id.attributeValue("value"));
-					}
-					else if(id.attributeValue("type").equalsIgnoreCase("invoice")){
-						updateInvoiceId(id.attributeValue("newvalue"),id.attributeValue("value"));
-					}
-					else if(id.attributeValue("type").equalsIgnoreCase("credit")){
-						updateCreditId(id.attributeValue("newvalue"),id.attributeValue("value"));
-					}
-					else if(id.attributeValue("type").equalsIgnoreCase("transaction")){
-						updateTransactionId(id.attributeValue("newvalue"),id.attributeValue("value"));
-					}
-					else if(id.attributeValue("type").equalsIgnoreCase("problem")){
-						updateProblemId(id.attributeValue("newvalue"),id.attributeValue("value"));
-					}
-					else if(id.attributeValue("type").equalsIgnoreCase("item")){
-						updateItemId(id.attributeValue("newvalue"),id.attributeValue("value"));
-					}
+					sessionMessage.setMessage("Done updating ids on client side, initializing counters");
+					//All Ids have been updated, now we reinitialize the counters (set them to a negative value <= -1.000.000
+					initializeCounters();
+					updateIds=true;
+					sessionMessage.setMessage("Done initializing counters");
 				}
-				sessionMessage.setMessage("Done updating ids on client side, initializing counters");
-				//All Ids have been updated, now we reinitialize the counters (set them to a negative value <= -1.000.000
-				initializeCounters();
-				updateIds=true;
-				sessionMessage.setMessage("Done initializing counters");
+			}
+			else {
+				sessionMessage.setMessage("ERROR connection to "+url);
 			}
 		}
 		catch(Exception e){
+			sessionMessage.setErrorMessage(e.getMessage());
 			e.printStackTrace();
 		}
 		finally{
@@ -2555,15 +2595,15 @@ public class OpenclinicSlaveExporter implements Runnable{
 	public void addLab(){
 		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 		try {
-			PreparedStatement ps = conn.prepareStatement("select * from requestedlabanalyses where resultdate>=? order by resultdate asc");
+			PreparedStatement ps = conn.prepareStatement("select * from requestedlabanalyses where updatetime>=? order by updatetime asc");
 			ps.setTimestamp(1, new java.sql.Timestamp(begin.getTime()));
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				try{
 					int personid= Integer.parseInt(rs.getString("patientid"));
-					Timestamp updatetime = rs.getTimestamp("resultdate");
+					Timestamp updatetime = rs.getTimestamp("updatetime");
 			        Element element = DocumentHelper.createElement("lab");
-			        addTimestampElement(element, "resultdate", updatetime);
+			        addTimestampElement(element, "updatetime", updatetime);
 			        addStringElement(element, "serverid", rs.getString("serverid"));
 			        String objectid=rs.getString("oc_problem_objectid");
 			        addStringElement(element, "objectid", objectid);
@@ -2582,6 +2622,7 @@ public class OpenclinicSlaveExporter implements Runnable{
 			        addStringElement(element, "resultprovisional", rs.getString("resultprovisional"));
 			        addStringElement(element, "technicalvalidator", rs.getString("technicalvalidator"));
 			        addTimestampElement(element, "technicalvalidationdatetime", rs.getTimestamp("technicalvalidationdatetime"));
+			        addTimestampElement(element, "resultdate", rs.getTimestamp("resultdate"));
 			        addStringElement(element, "finalvalidator", rs.getString("finalvalidator"));
 			        addTimestampElement(element, "finalvalidationdatetime", rs.getTimestamp("finalvalidationdatetime"));
 			        addTimestampElement(element, "requestdatetime", rs.getTimestamp("requestdatetime"));
