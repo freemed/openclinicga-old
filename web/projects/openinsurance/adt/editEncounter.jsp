@@ -464,12 +464,16 @@
         }
     }
 
-
     function ParseDate( str1 ){
-        // Parse the string in DD/MM/YYYY format
-        re = /(\d{1,2})\/(\d{1,2})\/(\d{4})/
-        var arr = re.exec( str1 );
-        return new Date( parseInt(arr[3]), parseInt(arr[2], 10) - 1, parseInt(arr[1], 10) );
+      // Parse the string in DD/MM/YYYY format
+      re = /(\d{1,2})\/(\d{1,2})\/(\d{4})/
+      var arr = re.exec( str1 );
+      if(dateFormat=="dd/MM/yyyy"){
+        return new Date( parseInt(arr[3]), parseInt(arr[2], 10) - 1, parseInt(arr[1], 10) ); // YYYY/mm/dd
+      }
+      else{
+        return new Date( parseInt(arr[3]), parseInt(arr[1], 10) - 1, parseInt(arr[2], 10) ); // YYYY/dd/mm
+      }
     }
 
     <%-- check type and display right inputfields --%>
