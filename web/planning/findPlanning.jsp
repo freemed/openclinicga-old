@@ -204,5 +204,44 @@ ClientMsg.prototype = {
       }
     }
   }
+  
+  <%-- popup : search product --%>
+  function searchProduct(productUidField, productNameField) {
+	var url = "<%=sCONTEXTPATH%>/popup.jsp?Page=_common/search/searchProduct.jsp?ts=<%=getTs()%>"+
+	          "&ReturnProductUidField="+productUidField+
+	          "&ReturnProductNameField="+productNameField+
+	          "&DisplaySearchProductInStockLink=false"+
+	          "&DisplaySearchUserProductsLink=true";
+	window.open(url,"SearchProduct","toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=1,height=1,menubar=no");
+  }
+
+  <%-- popup : search userProduct --%>
+  function searchUserProduct(productUidField,productNameField,productUnitField,unitsPerTimeUnitField,unitsPerPackageField,productStockUidField){
+    var url = "<%=sCONTEXTPATH%>/popup.jsp?Page=_common/search/searchUserProduct.jsp&ts=<%=getTs()%>"+
+    		  "&ReturnProductUidField="+productUidField+
+    		  "&ReturnProductNameField="+productNameField+
+	          "&DisplaySearchProductInStockLink=true"+
+	          "&DisplaySearchUserProductsLink=false";
+
+    if(productUnitField!=undefined){
+      url+= "&ReturnProductUnitField="+productUnitField;
+    }
+
+    if(unitsPerTimeUnitField!=undefined){
+      url = url+"&ReturnUnitsPerTimeUnitField="+unitsPerTimeUnitField;
+    }
+
+    if(unitsPerPackageField!=undefined){
+      url = url+"&ReturnUnitsPerPackageField="+unitsPerPackageField;
+    }
+
+    if(productStockUidField!=undefined){
+      url = url+"&ReturnProductStockUidField="+productStockUidField;
+    }
+
+    window.open(url,"SearchUserProduct","toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=1,height=1,menubar=no");
+    //openPopup(url);
+  }
+
   activateTab("<%=sTab%>",true);
 </script>
