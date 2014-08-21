@@ -1557,6 +1557,7 @@ public class OpenclinicSlaveExporter implements Runnable{
 				export.addAttribute("command", "store");
 				HttpClient client = new DefaultHttpClient();
 				String url = MedwanQuery.getInstance().getConfigString("masterServerURL","http://localhost:10080/openclinic/util/webservice.jsp");
+		    	sessionMessage.setMessage("Sending batch "+counter+" to "+url);
 			    HttpPost httppost = new HttpPost(url);
 			    StringEntity entity = new StringEntity(message.asXML());
 	   	        httppost.addHeader("Accept" , "text/xml");
@@ -1772,21 +1773,16 @@ public class OpenclinicSlaveExporter implements Runnable{
 			ps.close();
 			sessionMessage.setMessage("Done making list of updateids");
 			//Send the list to the master server and get the updated list from it
+			sessionMessage.setMessage("Sending list of updateids to master server");
 			HttpClient client = new DefaultHttpClient();
-			sessionMessage.setMessage("Initialized client");
 			String url = MedwanQuery.getInstance().getConfigString("masterServerURL","http://localhost:10080/openclinic/util/webservice.jsp");
 		    HttpPost httppost = new HttpPost(url);
-			sessionMessage.setMessage("Initialized HttpPost");
 		    StringEntity entity = new StringEntity(message.asXML());
-			sessionMessage.setMessage("Created entity");
    	        httppost.addHeader("Accept" , "text/xml");
 		    httppost.setEntity(entity);
-			sessionMessage.setMessage("Set entity");
 		    ResponseHandler<String> responseHandler = new BasicResponseHandler();
 	        String resultstring = client.execute(httppost, responseHandler);
-			sessionMessage.setMessage("Executed client");
 		    if (resultstring != null) {
-		    	sessionMessage.setMessage(resultstring);
 				sessionMessage.setMessage("Done sending list, analyzing response");
 				message = DocumentHelper.parseText(resultstring);
 				ids=message.getRootElement();
