@@ -151,11 +151,5 @@
       <a href="<c:url value='/main.jsp'/>?Page=curative/index.jsp&ts=<%=getTs()%>"  onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.recruitment.view-recruitment-examinations-summary",sWebLanguage)%></a>
     </td>
   </tr>
-  <tr>
-    <td>
-      <img src='<c:url value="/_img/pijl.gif"/>'>
-      <a href="<c:url value='/healthrecord/showRiskProfile.do'/>?ts=<%=getTs()%>"  onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.occupational-medicine.manage-risk-profile",sWebLanguage)%></a>
-    </td>
-  </tr>
 </table>
 </form>
