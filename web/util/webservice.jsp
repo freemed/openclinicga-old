@@ -1,7 +1,8 @@
-<%@page import="be.mxs.common.util.system.SessionMessage,java.util.*,be.mxs.common.util.db.*,org.dom4j.*,java.io.ByteArrayOutputStream,java.io.PrintWriter,java.text.*"%><%@ page import="be.openclinic.sync.*" %>
+<%@page import="java.io.*,org.apache.commons.io.IOUtils,be.mxs.common.util.system.SessionMessage,java.util.*,be.mxs.common.util.db.*,org.dom4j.*,java.io.ByteArrayOutputStream,java.io.PrintWriter,java.text.*"%><%@ page import="be.openclinic.sync.*" %>
 <%
 	try{
-	String xml = request.getParameter("xml");
+	InputStream input = request.getInputStream();
+    String xml = IOUtils.toString(input);
 	if(xml!=null){
 		Document message = DocumentHelper.parseText(xml);
 		Element root = message.getRootElement();
