@@ -178,7 +178,7 @@ public class OpenclinicSlaveExporter implements Runnable{
 				ps.setString(10, element.elementText("resultrefmin"));
 				java.sql.Timestamp resultdate=null;
 				try{
-					resultdate=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMdd").parse(element.elementText("resultdate")).getTime());
+					resultdate=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(element.elementText("resultdate")).getTime());
 				}
 				catch(Exception e2){}
 				ps.setTimestamp(11,resultdate);
@@ -198,7 +198,7 @@ public class OpenclinicSlaveExporter implements Runnable{
 				ps.setInt(15,technicalvalidator);
 				java.sql.Timestamp technicalvalidationdatetime=null;
 				try{
-					technicalvalidationdatetime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMdd").parse(element.elementText("technicalvalidationdatetime")).getTime());
+					technicalvalidationdatetime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(element.elementText("technicalvalidationdatetime")).getTime());
 				}
 				catch(Exception e2){}
 				ps.setTimestamp(16,technicalvalidationdatetime);
@@ -210,25 +210,25 @@ public class OpenclinicSlaveExporter implements Runnable{
 				ps.setInt(17,finalvalidator);
 				java.sql.Timestamp finalvalidationdatetime=null;
 				try{
-					finalvalidationdatetime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMdd").parse(element.elementText("finalvalidationdatetime")).getTime());
+					finalvalidationdatetime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(element.elementText("finalvalidationdatetime")).getTime());
 				}
 				catch(Exception e2){}
 				ps.setTimestamp(18,finalvalidationdatetime);
 				java.sql.Timestamp requestdatetime=null;
 				try{
-					requestdatetime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMdd").parse(element.elementText("requestdatetime")).getTime());
+					requestdatetime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(element.elementText("requestdatetime")).getTime());
 				}
 				catch(Exception e2){}
 				ps.setTimestamp(19,requestdatetime);
 				java.sql.Timestamp samplereceptiondatetime=null;
 				try{
-					samplereceptiondatetime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMdd").parse(element.elementText("samplereceptiondatetime")).getTime());
+					samplereceptiondatetime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(element.elementText("samplereceptiondatetime")).getTime());
 				}
 				catch(Exception e2){}
 				ps.setTimestamp(20,samplereceptiondatetime);
 				java.sql.Timestamp sampletakendatetime=null;
 				try{
-					sampletakendatetime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMdd").parse(element.elementText("sampletakendatetime")).getTime());
+					sampletakendatetime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(element.elementText("sampletakendatetime")).getTime());
 				}
 				catch(Exception e2){}
 				ps.setTimestamp(21,sampletakendatetime);
@@ -240,7 +240,7 @@ public class OpenclinicSlaveExporter implements Runnable{
 				ps.setInt(22,sampler);
 				java.sql.Timestamp worklisteddatetime=null;
 				try{
-					worklisteddatetime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMdd").parse(element.elementText("worklisteddatetime")).getTime());
+					worklisteddatetime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(element.elementText("worklisteddatetime")).getTime());
 				}
 				catch(Exception e2){}
 				ps.setTimestamp(23,worklisteddatetime);
@@ -252,7 +252,7 @@ public class OpenclinicSlaveExporter implements Runnable{
 				ps.setInt(24,objectid);
 				java.sql.Timestamp updatetime=null;
 				try{
-					updatetime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMdd").parse(element.elementText("updatetime")).getTime());
+					updatetime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(element.elementText("updatetime")).getTime());
 				}
 				catch(Exception e2){}
 				ps.setTimestamp(25,updatetime);
@@ -1558,7 +1558,7 @@ public class OpenclinicSlaveExporter implements Runnable{
 				HttpClient client = new DefaultHttpClient();
 				String url = MedwanQuery.getInstance().getConfigString("masterServerURL","http://localhost:10080/openclinic/util/webservice.jsp");
 			    HttpPost httppost = new HttpPost(url);
-			    StringEntity entity = new StringEntity(message.asXML(),"text/xml; charset=windows-1252");
+			    StringEntity entity = new StringEntity(message.asXML());
 	   	        httppost.addHeader("Accept" , "text/xml");
 			    httppost.setEntity(entity);
 			    ResponseHandler<String> responseHandler = new BasicResponseHandler();
@@ -1773,13 +1773,18 @@ public class OpenclinicSlaveExporter implements Runnable{
 			sessionMessage.setMessage("Done making list of updateids");
 			//Send the list to the master server and get the updated list from it
 			HttpClient client = new DefaultHttpClient();
+			sessionMessage.setMessage("Initialized client");
 			String url = MedwanQuery.getInstance().getConfigString("masterServerURL","http://localhost:10080/openclinic/util/webservice.jsp");
 		    HttpPost httppost = new HttpPost(url);
-		    StringEntity entity = new StringEntity(message.asXML(),"text/xml; charset=windows-1252");
+			sessionMessage.setMessage("Initialized HttpPost");
+		    StringEntity entity = new StringEntity(message.asXML());
+			sessionMessage.setMessage("Created entity");
    	        httppost.addHeader("Accept" , "text/xml");
 		    httppost.setEntity(entity);
+			sessionMessage.setMessage("Set entity");
 		    ResponseHandler<String> responseHandler = new BasicResponseHandler();
 	        String resultstring = client.execute(httppost, responseHandler);
+			sessionMessage.setMessage("Executed client");
 		    if (resultstring != null) {
 		    	sessionMessage.setMessage(resultstring);
 				sessionMessage.setMessage("Done sending list, analyzing response");
