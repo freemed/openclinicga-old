@@ -1,30 +1,51 @@
+<%@page import="be.mxs.common.util.system.SessionMessage"%>
 <%@page import="java.io.ByteArrayOutputStream,java.io.PrintWriter,java.text.*"%><%@ page import="be.openclinic.sync.*" %>
+<%@include file="/includes/validateUser.jsp"%>
+<%@page errorPage="/includes/error.jsp"%>
 <%
-    try{
-        // XML generator
-        OpenclinicExporter exporter = new OpenclinicExporter();
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "Attachment;Filename=\"OpenClinicExport" + new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date()) + ".xml\"");
-        ServletOutputStream os = response.getOutputStream();
-        byte[] b = null;
-        try{
-        	b = exporter.run().getBytes();
-        }
-        catch(Exception e){
-        	e.printStackTrace();
-        }
-        for (int n=0;n<b.length;n++) {
-            os.write(b[n]);
-        }
-        os.flush();
-        os.close();
-    }
-    catch(Exception dex){
-        response.setContentType("text/html");
-        PrintWriter writer = response.getWriter();
-        writer.println(this.getClass().getName()+ " caught an exception: "+ dex.getClass().getName()+ "<br>");
-        writer.println("<pre>");
-        dex.printStackTrace(writer);
-        writer.println("</pre>");
-    }
+	if(request.getParameter("submit")!=null){
+		session.setAttribute("messages", new SessionMessage());
+		OpenclinicSlaveExporter exporter = new OpenclinicSlaveExporter((SessionMessage)session.getAttribute("messages"));
+		exporter.start();
+	}
+%>
+<form name='exportForm' method='post'>
+	<table>
+		<tr><td><input class='button' type='submit' name='submit' value='<%=getTran("web","export",sWebLanguage) %>'/></td></tr>
+		<tr><td><div id='divMessage'/></td></tr>
+		<tr><td><textarea readonly class='text' name='message' id='message' cols='120' rows='20'></textarea></td></tr>
+	</table>
+	
+</form>
+
+<%
+	if(request.getParameter("submit")!=null){
+%>
+<script>
+	function pollMessage(){
+	    var today = new Date();
+	    var url= '<c:url value="/util/pollMessage.jsp"/>?ts='+today;
+		new Ajax.Request(url,{
+		  method: "GET",
+	      parameters: '',
+	      onSuccess: function(resp){
+	    	  	$('message').value=resp.responseText+$('message').value;
+			    document.getElementById('divMessage').innerHTML = "";
+			    if(!resp.responseText.endsWith(".")){
+			    	window.setTimeout("pollMessage();",200);
+			    }
+			    else {
+				    document.getElementById('divMessage').innerHTML = "";
+			    }
+		      },
+	    onFailure: function(resp){
+	      }
+		});
+	}
+	document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+	window.setTimeout("pollMessage();",200);
+	
+</script>
+<%
+	}
 %>

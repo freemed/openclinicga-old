@@ -161,6 +161,7 @@
                     hMenu.put(getTran("web.manage","ManageServerId",sWebLanguage),"main.do?Page=system/manageServerId.jsp");
                     hMenu.put(getTran("web.manage","applications",sWebLanguage),"main.do?Page=system/manageApplications.jsp");
                     hMenu.put(getTran("web.manage","manageSiteLabels",sWebLanguage),"main.do?Page=system/manageSiteLabels.jsp");
+                    hMenu.put(getTran("web.manage","manageSlaveServer",sWebLanguage),"main.do?Page=system/manageSlaveServer.jsp");
                     hMenu.put(getTran("web.manage","manageGglobalhealthbarometerdata",sWebLanguage),"main.do?Page=system/manageGlobalHealthBarometerData.jsp");
                     hMenu.put(getTran("web.manage","manageDatacenterConfig",sWebLanguage),"main.do?Page=system/manageDatacenterConfig.jsp");
                     hMenu.put(getTran("web.manage","manageDateFormat",sWebLanguage),"main.do?Page=system/manageDateFormat.jsp");
@@ -199,6 +200,7 @@
                     hMenu.put(getTran("web.manage","ManageDefaultSalaryCodes",sWebLanguage),"main.do?Page=hr/management/manageDefaultSalaryCodes.jsp");
                     hMenu.put(getTran("web.manage","ManageSystemMessage",sWebLanguage),"main.do?Page=system/manageSystemMessage.jsp");
                     hMenu.put(getTran("web.manage","exporttowhonet",sWebLanguage),"main.do?Page=system/exportToWHONet.jsp");
+                    hMenu.put(getTran("web.manage","exporttomaster",sWebLanguage),"main.do?Page=util/createOpenclinicExport.jsp");
 	                    out.print(ScreenHelper.writeTblHeader(getTran("web.occup","medwan.common.other",sWebLanguage),sCONTEXTPATH)
 	                            + sortMenu(hMenu)
 	                            + (activePatient!=null?writeTblChildWithCode("javascript:printUserCard()",getTran("web.manage","createusercard",sWebLanguage)):"")

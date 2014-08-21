@@ -55,6 +55,7 @@
 %>
 
 <%	
+System.out.println("start checklogin....");
 	String ag = request.getHeader("User-Agent"), browser="", version="";
 	try{
 		int tmpPos; 
@@ -116,6 +117,7 @@
 	catch(Exception e3){
 		e3.printStackTrace();
 	}
+System.out.println("1");
 	
   if(request.getParameter("Dir")!=null){
       sAPPDIR = request.getParameter("Dir");
