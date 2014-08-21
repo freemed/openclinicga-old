@@ -169,10 +169,10 @@
 
             String msg;
             if(daysLeft==0){
-                msg = getTran("Web.Password","mustUpdatePasswordNow",sWebLanguage);
+                msg = getTranNoLink("Web.Password","mustUpdatePasswordNow",sWebLanguage);
             }
             else{
-                msg = getTran("Web.Password","mustUpdatePassword",sWebLanguage);
+                msg = getTranNoLink("Web.Password","mustUpdatePassword",sWebLanguage);
                 msg = msg.replaceFirst("#days#",daysLeft+"");
             }
             
@@ -353,14 +353,15 @@
                     conn.close();
                     
                     if(updatedRecords==0){                
-                    	sSql = "INSERT INTO UsedPasswords(usedPasswordId,encryptedPassword,userId,updatetime)"+
-                               " VALUES (?,?,?,?)";
+                    	sSql = "INSERT INTO UsedPasswords(usedPasswordId,encryptedPassword,userId,updatetime,serverid)"+
+                               " VALUES (?,?,?,?,?)";
                         conn = MedwanQuery.getInstance().getAdminConnection();
                         ps = conn.prepareStatement(sSql);
                         ps.setInt(1,MedwanQuery.getInstance().getOpenclinicCounter("UsedPasswords"));
                         ps.setBytes(2,activeUser.encrypt(sNewPassword1));
                         ps.setInt(3,Integer.parseInt(activeUser.userid));
                         ps.setTimestamp(4,getSQLTime()); // now
+                        ps.setInt(5,MedwanQuery.getInstance().getConfigInt("serverId"));
                         ps.executeUpdate();
                         ps.close();
                         conn.close();
@@ -393,7 +394,7 @@
         //--- append back button ---
         StringBuffer backButton = new StringBuffer();
         backButton.append("<input type='button' class='button'")
-                  .append(" value='").append(getTran("Web","back",sWebLanguage)).append("'")
+                  .append(" value='").append(getTranNoLink("Web","back",sWebLanguage)).append("'")
                   .append(" onclick='window.location.href=\"main.do?Page=userprofile/changepassword.jsp&popup=no\"'>");
 
         //--- display errors ---
