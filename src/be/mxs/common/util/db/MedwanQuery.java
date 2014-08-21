@@ -3268,6 +3268,41 @@ public class MedwanQuery {
         return healthRecordId;
     }
     
+    public int getHealthRecordIdFromPersonIdWithCreate(int personId){
+        int healthRecordId = 0;
+        Connection OccupdbConnection;
+        try{
+            OccupdbConnection = getOpenclinicConnection();
+            PreparedStatement Occupstatement = OccupdbConnection.prepareStatement("select * from Healthrecord where personId=?");
+            Occupstatement.setInt(1, personId);
+            ResultSet Occuprs = Occupstatement.executeQuery();
+            if(Occuprs.next()){
+            	healthRecordId = Occuprs.getInt("healthRecordId");
+                Occuprs.close();
+            }
+            else {
+            	healthRecordId=getOpenclinicCounter("HealthRecordId");
+            	Occuprs.close();
+            	Occupstatement.close();
+            	Occupstatement=OccupdbConnection.prepareStatement("insert into healthrecord(healthrecordid,datebegin,dateend,personid,serverid,version,versionserverid) values(?,?,?,?,?,?,?)");
+            	Occupstatement.setInt(1,healthRecordId);
+            	Occupstatement.setTimestamp(2,new java.sql.Timestamp(new java.util.Date().getTime()));
+            	Occupstatement.setTimestamp(3,null);
+            	Occupstatement.setInt(4,personId);
+            	Occupstatement.setInt(5,MedwanQuery.getInstance().getConfigInt("serverId"));
+            	Occupstatement.setInt(6,1);
+            	Occupstatement.setInt(7,MedwanQuery.getInstance().getConfigInt("serverId"));
+            	Occupstatement.execute();
+            }
+            Occupstatement.close();
+            OccupdbConnection.close();
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return healthRecordId;
+    }
+    
     public int getPersonIdFromHealthrecordId(int healthRecordId){
         int personId = 0;
         Connection OccupdbConnection;

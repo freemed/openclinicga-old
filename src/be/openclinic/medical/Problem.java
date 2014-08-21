@@ -238,7 +238,7 @@ public class Problem extends OC_Object {
                 }else{
                     ps.setTimestamp(11,new Timestamp(ScreenHelper.getSQLDate(ScreenHelper.getDate()).getTime()));
                 }
-                ps.setTimestamp(12,new Timestamp(this.getUpdateDateTime().getTime()));
+                ps.setTimestamp(12,new Timestamp(new java.util.Date().getTime()));
                 ps.setString(13,this.getUpdateUser());
                 ps.setInt(14,iVersion);
                 ps.executeUpdate();

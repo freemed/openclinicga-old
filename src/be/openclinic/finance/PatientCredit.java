@@ -332,7 +332,7 @@ public class PatientCredit extends OC_Object {
                 ps.setString(4,this.getType());
                 ps.setString(5,this.getEncounterUid());
                 ps.setString(6,this.getComment());
-                ps.setDate(7,new java.sql.Date(new Date().getTime())); // now
+                ps.setTimestamp(7,new java.sql.Timestamp(new Date().getTime())); // now
                 ps.setString(8,this.getUpdateUser());
                 ps.setInt(9,Integer.parseInt(ids[0]));
                 ps.setInt(10,Integer.parseInt(ids[1]));
@@ -368,8 +368,8 @@ public class PatientCredit extends OC_Object {
                 ps.setString(6,this.getType());
                 ps.setString(7,this.getEncounterUid());
                 ps.setString(8,this.getComment());
-                ps.setDate(9,new java.sql.Date(new Date().getTime())); // now
-                ps.setDate(10,new java.sql.Date(new Date().getTime())); // now
+                ps.setTimestamp(9,new java.sql.Timestamp(new Date().getTime())); // now
+                ps.setTimestamp(10,new java.sql.Timestamp(new Date().getTime())); // now
                 ps.setString(11,this.getUpdateUser());
                 ps.execute();
                 ps.close();

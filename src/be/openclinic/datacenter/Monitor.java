@@ -149,13 +149,6 @@ public class Monitor implements Runnable{
     				}
     			}
     			
-    			
-
-    			client = new HttpClient();
-    			getmethod = new GetMethod("http://sourceforge.net/projects/open-clinic/");
-    			method.setRequestHeader("Content-type","text/xml; charset=windows-1252");
-    			statusCode = client.executeMethod(getmethod);
-    			resultstring=getmethod.getResponseBodyAsString();
     		}
     		Date lastCouncilValidation = new SimpleDateFormat("yyyyMMdd").parse(MedwanQuery.getInstance().getConfigString("lastProfessionalCouncilValidation","19000101"));
     		if(new java.util.Date().getTime()-lastCouncilValidation.getTime()>=day){
