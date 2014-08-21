@@ -143,7 +143,7 @@ public class OpenclinicSlaveExporter implements Runnable{
 			}
 			ps.close();
 			if(doInsert){
-				ps=conn.prepareStatement("insert into requestedlabanalyses(serverid,transactionid,labanalysiscode,comment,resultvalue,resultunit,resultmodifier,resultcomment,resultrefmax,"
+				ps=conn.prepareStatement("insert into requestedlabanalyses(serverid,transactionid,analysiscode,comment,resultvalue,resultunit,resultmodifier,resultcomment,resultrefmax,"
 						+ "resultrefmin,resultdate,resultuserid,patientid,resultprovisional,technicalvalidator,technicalvalidationdatetime,finalvalidator,finalvalidationdatetime,"
 						+ "requestdatetime,samplereceptiondatetime,sampletakendatetime,sampler,worklisteddatetime,objectid,updatetime) "
 						+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -159,7 +159,7 @@ public class OpenclinicSlaveExporter implements Runnable{
 				}
 				catch(Exception e2){}
 				ps.setInt(2,transactionid);
-				ps.setString(3, element.elementText("labanalysiscode"));
+				ps.setString(3, element.elementText("analysiscode"));
 				ps.setString(4, element.elementText("comment"));
 				ps.setString(5, element.elementText("resultvalue"));
 				ps.setString(6, element.elementText("resultunit"));
@@ -2605,7 +2605,7 @@ public class OpenclinicSlaveExporter implements Runnable{
 			        Element element = DocumentHelper.createElement("lab");
 			        addTimestampElement(element, "updatetime", updatetime);
 			        addStringElement(element, "serverid", rs.getString("serverid"));
-			        String objectid=rs.getString("oc_problem_objectid");
+			        String objectid=rs.getString("objectid");
 			        addStringElement(element, "objectid", objectid);
 			        String transactionid= rs.getString("transactionid");
 			        addStringElement(element, "transactionid",transactionid);
