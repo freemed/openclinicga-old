@@ -4742,10 +4742,14 @@
     		<column name="sampletakendatetime" dbtype="datetime" javatype="date"/>
     		<column name="sampler" dbtype="int" javatype="integer"/>
     		<column name="worklisteddatetime" dbtype="datetime" javatype="date"/>
+    		<column name="updatetime" dbtype="datetime" javatype="date"/>
     	</columns>
 		<indexes>
 			<index name="transactionid">
 				<indexcolumn order="ASC" name="transactionid"/>
+			</index>
+			<index name="updatetime">
+				<indexcolumn order="ASC" name="updatetime"/>
 			</index>
 		</indexes>
     </table>

@@ -89,7 +89,7 @@
     int iTotal = 1;
 
     // get chosen labanalyses from existing transaction.
-    if (tran != null && tran.getTransactionId().intValue() > 0){
+    if (tran != null && (tran.getTransactionId().intValue() > 0 || MedwanQuery.getInstance().getConfigInt("enableSlaveServer",0)==1)){
         labAnalyses = RequestedLabAnalysis.getLabAnalysesForLabRequest(tran.getServerId(), tran.getTransactionId().intValue());
     }
 

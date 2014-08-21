@@ -1,3 +1,4 @@
+<%@page import="be.mxs.common.util.system.SessionMessage"%>
 <%@page import="be.mxs.common.util.db.MedwanQuery,
                 be.openclinic.system.Config,java.util.Hashtable,java.util.Enumeration" %>
 <%@ page import="be.openclinic.sync.*" %>
@@ -22,7 +23,8 @@
 			MedwanQuery.getInstance().setConfigString("lastOpenClinicExport", request.getParameter("lastOpenClinicExport"));
 		}
 		if(checkString(request.getParameter("isslaveserver")).equalsIgnoreCase("1")){
-			OpenclinicSlaveExporter.initializeCounters();
+			OpenclinicSlaveExporter openclinicSlaveExporter = new OpenclinicSlaveExporter(new SessionMessage());
+			openclinicSlaveExporter.initializeCounters();
 		}
 		MedwanQuery.getInstance().setConfigString("slaveExportMaxRecordBlocks", checkString(request.getParameter("slaveExportMaxRecordBlocks")));
 		MedwanQuery.getInstance().setConfigString("masterServerURL", checkString(request.getParameter("masterServerURL")));

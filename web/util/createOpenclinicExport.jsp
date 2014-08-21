@@ -13,7 +13,7 @@
 	<table>
 		<tr><td><input class='button' type='submit' name='submit' value='<%=getTran("web","export",sWebLanguage) %>'/></td></tr>
 		<tr><td><div id='divMessage'/></td></tr>
-		<tr><td><textarea readonly class='text' name='message' id='message' cols='120' rows='20'></textarea></td></tr>
+		<tr><td><div id='log'/></td></tr>
 	</table>
 	
 </form>
@@ -29,7 +29,7 @@
 		  method: "GET",
 	      parameters: '',
 	      onSuccess: function(resp){
-	    	  	$('message').value=resp.responseText+$('message').value;
+	    	  	$('log').innerHTML=$('log').innerHTML+resp.responseText;
 			    document.getElementById('divMessage').innerHTML = "";
 			    if(!resp.responseText.endsWith(".")){
 			    	window.setTimeout("pollMessage();",200);
