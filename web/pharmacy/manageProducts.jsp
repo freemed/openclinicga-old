@@ -140,23 +140,6 @@
     // afgeleide data
     String sEditSupplierName = checkString(request.getParameter("EditSupplierName"));
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
-    if (Debug.enabled) {
-        Debug.println("\n\n################## sAction : " + sAction + " ############################");
-        Debug.println("* sEditProductUid       : " + sEditProductUid);
-        Debug.println("* sEditProductName      : " + sEditProductName);
-        Debug.println("* sEditUnit             : " + sEditUnit);
-        Debug.println("* sEditUnitPrice        : " + sEditUnitPrice);
-        Debug.println("* sEditPackageUnits     : " + sEditPackageUnits);
-        Debug.println("* sEditMinOrderPackages : " + sEditMinOrderPackages);
-        Debug.println("* sEditSupplierUid      : " + sEditSupplierUid);
-        Debug.println("* sEditTimeUnit         : " + sEditTimeUnit);
-        Debug.println("* sEditTimeUnitCount    : " + sEditTimeUnitCount);
-        Debug.println("* sEditUnitsPerTimeUnit : " + sEditUnitsPerTimeUnit);
-        Debug.println("* sEditProductGroup     : " + sEditProductGroup + "\n");
-    }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
-
     String msg = "", sFindProductName, sFindUnit, sFindUnitPriceMin,
             sFindProductGroup, sFindUnitPriceMax, sFindPackageUnits, sFindMinOrderPackages = "",
             sFindSupplierUid, sSelectedProductName = "", sSelectedUnit = "", sSelectedUnitPrice = "",
@@ -176,6 +159,32 @@
     sFindSupplierName = checkString(request.getParameter("FindSupplierName"));
     sFindProductGroup = checkString(request.getParameter("FindProductGroup"));
 
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if (Debug.enabled) {
+    	Debug.println("\n********************** pharmacy/manageProducts.jsp *********************");
+        Debug.println("sAction               : " + sAction);
+        Debug.println("sEditProductUid       : " + sEditProductUid);
+        Debug.println("sEditProductName      : " + sEditProductName);
+        Debug.println("sEditUnit             : " + sEditUnit);
+        Debug.println("sEditUnitPrice        : " + sEditUnitPrice);
+        Debug.println("sEditPackageUnits     : " + sEditPackageUnits);
+        Debug.println("sEditMinOrderPackages : " + sEditMinOrderPackages);
+        Debug.println("sEditSupplierUid      : " + sEditSupplierUid);
+        Debug.println("sEditTimeUnit         : " + sEditTimeUnit);
+        Debug.println("sEditTimeUnitCount    : " + sEditTimeUnitCount);
+        Debug.println("sEditUnitsPerTimeUnit : " + sEditUnitsPerTimeUnit);
+        Debug.println("sEditProductGroup     : " + sEditProductGroup + "\n");
+        Debug.println("sFindProductName      : " + sFindProductName);
+        Debug.println("sFindUnit             : " + sFindUnit);
+        Debug.println("sFindUnitPriceMin     : " + sFindUnitPriceMin);
+        Debug.println("sFindUnitPriceMax     : " + sFindUnitPriceMax);
+        Debug.println("sFindPackageUnits     : " + sFindPackageUnits);
+        Debug.println("sFindMinOrderPackages : " + sFindMinOrderPackages);
+        Debug.println("sFindSupplierUid      : " + sFindSupplierUid);
+        Debug.println("sFindProductGroup     : " + sFindProductGroup + "\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
     int foundProductCount = 0;
     StringBuffer productsHtml = null;
 
@@ -185,7 +194,7 @@
     String sDisplaySearchFields = checkString(request.getParameter("DisplaySearchFields"));
     if (sDisplaySearchFields.length() == 0) sDisplaySearchFields = "true"; // default
     boolean displaySearchFields = sDisplaySearchFields.equalsIgnoreCase("true");
-    if (Debug.enabled) Debug.println("@@@ displaySearchFields : " + displaySearchFields);
+    Debug.println("@@@ displaySearchFields : " + displaySearchFields);
 
     // sortCol
     String sSortCol = checkString(request.getParameter("SortCol"));
@@ -333,9 +342,30 @@
         }
 
         Vector products = Product.find(sFindProductName, sFindUnit, sFindUnitPriceMin, sFindUnitPriceMax, sFindPackageUnits,
-               sFindMinOrderPackages, sFindSupplierUid, sFindProductGroup, sSortCol, sSortDir);
+                                       sFindMinOrderPackages, sFindSupplierUid, sFindProductGroup, sSortCol, sSortDir);
         productsHtml = objectsToHtml(products, sWebLanguage);
         foundProductCount = products.size();
+
+        // do not get data from DB, but show data that were allready in the search-form
+        sSelectedProductName = sFindProductName;
+        sSelectedUnit = sFindUnit;
+        sSelectedUnitPrice = "";
+        sSelectedPackageUnits = sFindPackageUnits;
+        sSelectedMinOrderPackages = sFindMinOrderPackages;
+        sSelectedSupplierUid = sFindSupplierUid;
+        sSelectedTimeUnit = "";
+        sSelectedTimeUnitCount = "";
+        sSelectedUnitsPerTimeUnit = "";
+        sSelectedBarcode = "";
+        sSelectedPrestationCode = "";
+        sSelectedPrestationQuantity = "0";
+        sSelectedMargin=MedwanQuery.getInstance().getConfigString("defaultProductsMargin","");
+        sSelectedApplyLowerPrices="0";
+        sSelectedAutomaticInvoicing="0";
+
+        sSelectedProductGroup = sFindProductGroup;
+        sSelectedProductSubGroup = "";
+        sSelectedSupplierName = sFindSupplierName;
     }
 
     //--- SHOW DETAILS ----------------------------------------------------------------------------

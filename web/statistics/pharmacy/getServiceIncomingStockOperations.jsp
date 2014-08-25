@@ -14,7 +14,7 @@
 					<%=getTran("web","to",sWebLanguage)%> <%=writeDateField("FindEndDate", "transactionForm", "31/12/"+(Integer.parseInt(new SimpleDateFormat("yyyy").format(new java.util.Date()))-1), sWebLanguage) %>
 				</td>
 				<td class='admin2'>
-					<input type='button' name='print' value='<%=getTranNoLink("web","print",sWebLanguage) %>' onclick='printReport();'/>
+					<input type='button' class="button" name='print' value='<%=getTranNoLink("web","print",sWebLanguage) %>' onclick='printReport();'/>
 				</td>
 			</tr>
 		</table>

@@ -263,34 +263,6 @@
     %>
   }
 
-  <%-- CHECK SAVE BUTTON --%>
-  function checkSaveButton(contextpath,sQuestion){
-    var bReturn = true;
-
-    if(myButton != null){
-      if(!bSaveHasNotChanged){
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelValue="+sQuestion;
-        var modalities = "dialogWidth:300px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm(sQuestion);
-
-        if(!answer==1){
-          bReturn = false;
-        }
-      }
-    }
-    else if(sFormBeginStatus!=myForm.innerHTML){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelValue="+sQuestion;
-      var modalities = "dialogWidth:300px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm(sQuestion);
-
-      if(!answer==1){
-        bReturn = false;
-      }
-    }
-
-    return bReturn;
-  }
-
   <%-- DO BACK --%>
   function doBack(){
     window.close();

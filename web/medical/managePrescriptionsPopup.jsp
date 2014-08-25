@@ -766,7 +766,12 @@ function calculatePrescriptionPeriod(){
         var month = beginDate.getMonth()+1;
         if(month < 10) month = "0"+month;
 
-        transactionForm.EditDateBegin.value = day+"/"+month+"/"+beginDate.getFullYear();
+        if(dateFormat=="dd/MM/yyyy"){
+          transactionForm.EditDateBegin.value = day+"/"+month+"/"+beginDate.getFullYear();
+        }
+        else{
+          transactionForm.EditDateBegin.value = month+"/"+day+"/"+beginDate.getFullYear();
+        }
       }
       <%-- calculate endDate : add days to beginDate --%>
       else{
@@ -782,7 +787,12 @@ function calculatePrescriptionPeriod(){
         var month = endDate.getMonth()+1;
         if(month < 10) month = "0"+month;
 
-        transactionForm.EditDateEnd.value = day+"/"+month+"/"+endDate.getFullYear();
+        if(dateFormat=="dd/MM/yyyy"){
+          transactionForm.EditDateEnd.value = day+"/"+month+"/"+endDate.getFullYear();
+        }
+        else{
+          transactionForm.EditDateEnd.value = month+"/"+day+"/"+endDate.getFullYear();
+        }
       }
     }
   }
@@ -1353,49 +1363,9 @@ if(msg.length() > 0){
 %>
 }
 
-<%-- CHECK SAVE BUTTON --%>
-function checkSaveButton(contextpath, sQuestion){
-  var bReturn = true;
-
-  if(false && myButton != null){
-    if(bSaveHasNotChanged == false){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelValue="+sQuestion;
-      var modalitiesIE = "dialogWidth:300px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-      if(window.showModalDialog){
-        answer = window.showModalDialog(popupUrl, '', modalitiesIE);
-      }
-      else {
-        answer = window.confirm(sQuestion);
-      }
-
-      if(!answer == 1){
-        bReturn = false;
-      }
-    }
-  }
-  else if(sFormBeginStatus != myForm.innerHTML){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelValue="+sQuestion;
-    var modalitiesIE = "dialogWidth:300px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-    if(window.showModalDialog){
-      answer = window.showModalDialog(popupUrl, '', modalitiesIE);
-    }
-    else {
-      answer = window.confirm(sQuestion);
-    }
-
-    if(!answer == 1){
-      bReturn = false;
-    }
-  }
-
-  return bReturn;
-}
-
 <%-- DO BACK TO OVERVIEW --%>
 function doBackToOverview(){
-  if(checkSaveButton('<%=sCONTEXTPATH%>', "<%=getTranNoLink("Web", "areyousuretodiscard",sWebLanguage)%>")){
+  if(checkSaveButton()){
     doBack();
   }
 }

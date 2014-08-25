@@ -324,10 +324,10 @@
 
                 // format dates
                 java.util.Date tmpDate = serviceStock.getBegin();
-                if(tmpDate!=null) sSelectedBegin = stdDateFormat.format(tmpDate);
+                if(tmpDate!=null) sSelectedBegin = ScreenHelper.formatDate(tmpDate);
 
                 tmpDate = serviceStock.getEnd();
-                if(tmpDate!=null) sSelectedEnd = stdDateFormat.format(tmpDate);
+                if(tmpDate!=null) sSelectedEnd = ScreenHelper.formatDate(tmpDate);
 
                 // authorized users
                 String authorizedUserIds = checkString(serviceStock.getAuthorizedUserIds());
@@ -1171,60 +1171,60 @@
   }
 
   function printInventory(serviceStockUid){
-		openPopup("statistics/pharmacy/getServiceStockInventory.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
-	  }
+	openPopup("statistics/pharmacy/getServiceStockInventory.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+  }
 
   function printInventorySummary(serviceStockUid){
-		openPopup("statistics/pharmacy/getServiceStockInventorySummary.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
-	  }
+	openPopup("statistics/pharmacy/getServiceStockInventorySummary.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+  }
 
   function printStockOperations(serviceStockUid){
-		openPopup("statistics/pharmacy/getServiceStockOperations.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
-	  }
+	openPopup("statistics/pharmacy/getServiceStockOperations.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+  }
 
   function printOutgoingStockOperations(serviceStockUid){
-		openPopup("statistics/pharmacy/getServiceOutgoingStockOperations.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
-	  }
+	openPopup("statistics/pharmacy/getServiceOutgoingStockOperations.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+  }
 
   function printIncomingStockOperations(serviceStockUid){
-		openPopup("statistics/pharmacy/getServiceIncomingStockOperations.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
-	  }
+	openPopup("statistics/pharmacy/getServiceIncomingStockOperations.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+  }
 
   function printIncomingStockOperationsPerOrder(serviceStockUid){
-		openPopup("statistics/pharmacy/getServiceIncomingStockOperationsPerOrder.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
-	  }
+	openPopup("statistics/pharmacy/getServiceIncomingStockOperationsPerOrder.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+  }
 
   function printIncomingStockOperationsPerItem(serviceStockUid){
-		openPopup("statistics/pharmacy/getServiceIncomingStockOperationsPerItem.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
-	  }
+	openPopup("statistics/pharmacy/getServiceIncomingStockOperationsPerItem.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+  }
 
   function printIncomingStockOperationsPerCategoryItem(serviceStockUid){
-		openPopup("statistics/pharmacy/getServiceIncomingStockOperationsPerCategoryItem.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
-	  }
+	openPopup("statistics/pharmacy/getServiceIncomingStockOperationsPerCategoryItem.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+  }
 
   function printIncomingStockOperationsPerProvider(serviceStockUid){
-		openPopup("statistics/pharmacy/getServiceIncomingStockOperationsPerProvider.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
-	  }
+	openPopup("statistics/pharmacy/getServiceIncomingStockOperationsPerProvider.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+  }
 
   function printOutgoingStockOperationsListing(serviceStockUid){
-		openPopup("statistics/pharmacy/getServiceOutgoingStockOperationsListing.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
-	  }
+	openPopup("statistics/pharmacy/getServiceOutgoingStockOperationsListing.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+  }
 
   function printOutgoingStockOperationsListingPerService(serviceStockUid){
-		openPopup("statistics/pharmacy/getServiceOutgoingStockOperationsListingPerService.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
-	  }
+	openPopup("statistics/pharmacy/getServiceOutgoingStockOperationsListingPerService.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+  }
 
   function printMonthlyConsumption(serviceStockUid){
-		openPopup("statistics/pharmacy/getMonthlyConsumption.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
-	  }
+	openPopup("statistics/pharmacy/getMonthlyConsumption.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+  }
 
   function printExpiration(serviceStockUid){
-		openPopup("statistics/pharmacy/getExpiration.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
-	  }
+	openPopup("statistics/pharmacy/getExpiration.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+  }
 
   function printStockOut(serviceStockUid){
-		window.open("pharmacy/printStockOut.jsp?ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid);
-	  }
+	window.open("pharmacy/printStockOut.jsp?ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid);
+  }
 
   <%-- DO BACK --%>
   function doBack(){
@@ -1232,13 +1232,12 @@
   }
 
   function bulkReceive(serviceStockUid){
-	    openPopup("pharmacy/popups/bulkReceive.jsp&ServiceStockUid="+serviceStockUid+"&ts=<%=getTs()%>",700,400);
+    openPopup("pharmacy/popups/bulkReceive.jsp&ServiceStockUid="+serviceStockUid+"&ts=<%=getTs()%>",700,400);
   }
 
   function printFiche(serviceStockUid,serviceStockName){
-		openPopup("pharmacy/viewServiceStockFiches.jsp&ts=<%=getTs()%>&Action=find&FindServiceStockUid="+serviceStockUid+"&GetYear=<%=new SimpleDateFormat("yyyy").format(new java.util.Date())%>&FindServiceStockName="+serviceStockName,800,500);
-	  }
-
+	openPopup("pharmacy/viewServiceStockFiches.jsp&ts=<%=getTs()%>&Action=find&FindServiceStockUid="+serviceStockUid+"&GetYear=<%=new SimpleDateFormat("yyyy").format(new java.util.Date())%>&FindServiceStockName="+serviceStockName,800,500);
+  }
 
   <%-- close "search in progress"-popup that might still be open --%>
   var popup = window.open("","Searching","width=1,height=1");

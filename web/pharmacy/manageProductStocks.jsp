@@ -564,6 +564,7 @@
 <form name="transactionForm" id="transactionForm" method="post" action='<c:url value="/main.do"/>?Page=pharmacy/manageProductStocks.jsp<%=sFormActionParams%>&ts=<%=getTs()%>' <%=sOnKeyDown%> <%=(displaySearchFields||sAction.equals("findShowOverview")?"onClick=\"clearMessage();\"":"onclick=\"setSaveButton(event);clearMessage();\" onkeyup=\"setSaveButton(event);\"")%>>
     <%-- page title --%>
     <%=writeTableHeader("Web.manage","ManageProductStocks",sWebLanguage,(sAction.equals("findShowOverview")?"":"doBack();"))%>
+    
     <%-- display servicename and servicestockname --%>
     <%
         String sServiceName = "", sServiceStockName = "";
@@ -1008,7 +1009,7 @@
     <input type="hidden" name="DisplayLowStocks" value="<%=displayLowStocks%>">
 </form>
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
-<script>
+<script>  
   <%
       // default focus field
       if(displayEditFields){

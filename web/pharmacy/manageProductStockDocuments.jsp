@@ -74,66 +74,65 @@
 		else if(sFindType.length()==0 && sFindSource.length()==0 && sFindDestination.length()==0 && sFindMinDate.length()==0 && sFindMaxDate.length()==0 && sFindReference.length()==0){
 			sFindMinDate=ScreenHelper.stdDateFormat.format(new java.util.Date().getTime()-7*24*3600*1000);			
 		}
+		
 		//First show search header
 		%>
-		<table>
-			<tr>
-				<td>
-					<form name="searchForm" method="post" action="<c:url value="/main.jsp"/>">
-						<input type="hidden" name="Page" value="pharmacy/manageProductStockDocuments.jsp"/>
-						<table width="100%">
-							<tr class="admin">
-								<td colspan="2"><%=getTran("web","findoperationdocuments",sWebLanguage) %></td>
-							</tr>
-							<tr>
-								<td class="admin" width="1%" nowrap><%=getTran("web","type",sWebLanguage) %></td>
-								<td class="admin2">
-									<select name="finddocumenttype" id="finddocumenttype" class="text">
-										<option value=""></option>
-										<%=ScreenHelper.writeSelect("operationdocumenttypes", sFindType, sWebLanguage) %>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td class="admin" width="1%" nowrap><%=getTran("web","source",sWebLanguage) %></td>
-								<td class="admin2">
-					                <input class='text' TYPE="text" NAME="finddocumentsourcetext" id="finddocumentsourcetext" readonly size="50" TITLE="" VALUE="<%=sFindSourceText %>" onchange="">
-					                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir' onclick='findsearchsource("finddocumentsource","finddocumentsourcetext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('finddocumentsource')[0].value='';document.getElementsByName('finddocumentsourcetext')[0].value='';">
-					                <input TYPE="hidden" NAME="finddocumentsource" id="finddocumentsource" VALUE="">
-								</td>
-							</tr>
-							<tr>
-								<td class="admin" width="1%" nowrap><%=getTran("web","destination",sWebLanguage) %></td>
-								<td class="admin2">
-					                <input class='text' TYPE="text" NAME="finddocumentdestinationtext" id="finddocumentdestinationtext" readonly size="50" TITLE="" VALUE="<%=sFindDestinationText %>" onchange="">
-					                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=finddocumentdestination&ReturnServiceStockNameField=finddocumentdestinationtext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('finddocumentdestination')[0].value='';document.getElementsByName('finddocumentdestinationtext')[0].value='';">
-					                <input TYPE="hidden" NAME="finddocumentdestination" id="finddocumentdestination" VALUE="">
-								</td>
-							</tr>
-							<tr>
-								<td class="admin" width="1%" nowrap><%=getTran("web","period",sWebLanguage) %></td>
-								<td class="admin2"><%=getTran("web", "from", sWebLanguage) %> <%=writeDateField("finddocumentmindate","searchForm",sFindMinDate,sWebLanguage) %> <%=getTran("web", "to", sWebLanguage) %> <%=writeDateField("finddocumentmaxdate","searchForm",sFindMaxDate,sWebLanguage) %></td>
-							</tr>
-							<tr>
-								<td class="admin" width="1%" nowrap><%=getTran("web","documentreference",sWebLanguage) %></td>
-								<td class="admin2"><input type="text" class="text" name="finddocumentreference" id="finddocumentreference" value="<%=sFindReference%>" size="50"/></td>
-							</tr>
-							<tr>
-								<td colspan="2">
-									<input type="submit" name="submitfind" value="<%=getTran("web","find",sWebLanguage)%>"/>
-									<input type="button" name="submitnew" value="<%=getTran("web","new",sWebLanguage)%>" onclick="document.getElementById('formaction').value='new';searchForm.submit();"/>
-									<input type="button" name="clear" value="<%=getTran("web","clear",sWebLanguage)%>" onclick="clearFindFields();"/>
-								</td>
-							</tr>
-						</table>
-						<input type='hidden' name='formaction' id='formaction' value='find'/>
-					</form>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<table width="100%">
-					<%
+			<form name="searchForm" method="post" action="<c:url value="/main.jsp"/>">
+				<input type="hidden" name="Page" value="pharmacy/manageProductStockDocuments.jsp"/>
+				
+				<table width="100%" class="list" cellpadding="1" cellspacing="1" width="100%">
+					<tr class="admin">
+						<td colspan="2"><%=getTran("web","findoperationdocuments",sWebLanguage) %></td>
+					</tr>
+					<tr>
+						<td class="admin" width="1%" nowrap><%=getTran("web","type",sWebLanguage) %></td>
+						<td class="admin2">
+							<select name="finddocumenttype" id="finddocumenttype" class="text">
+								<option value=""></option>
+								<%=ScreenHelper.writeSelect("operationdocumenttypes", sFindType, sWebLanguage) %>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="admin" width="1%" nowrap><%=getTran("web","source",sWebLanguage) %></td>
+						<td class="admin2">
+			                <input class='text' TYPE="text" NAME="finddocumentsourcetext" id="finddocumentsourcetext" readonly size="50" TITLE="" VALUE="<%=sFindSourceText %>" onchange="">
+			                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir' onclick='findsearchsource("finddocumentsource","finddocumentsourcetext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('finddocumentsource')[0].value='';document.getElementsByName('finddocumentsourcetext')[0].value='';">
+			                <input TYPE="hidden" NAME="finddocumentsource" id="finddocumentsource" VALUE="">
+						</td>
+					</tr>
+					<tr>
+						<td class="admin" width="1%" nowrap><%=getTran("web","destination",sWebLanguage) %></td>
+						<td class="admin2">
+			                <input class='text' TYPE="text" NAME="finddocumentdestinationtext" id="finddocumentdestinationtext" readonly size="50" TITLE="" VALUE="<%=sFindDestinationText %>" onchange="">
+			                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=finddocumentdestination&ReturnServiceStockNameField=finddocumentdestinationtext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('finddocumentdestination')[0].value='';document.getElementsByName('finddocumentdestinationtext')[0].value='';">
+			                <input TYPE="hidden" NAME="finddocumentdestination" id="finddocumentdestination" VALUE="">
+						</td>
+					</tr>
+					<tr>
+						<td class="admin" width="1%" nowrap><%=getTran("web","period",sWebLanguage) %></td>
+						<td class="admin2"><%=getTran("web", "from", sWebLanguage) %> <%=writeDateField("finddocumentmindate","searchForm",sFindMinDate,sWebLanguage) %> <%=getTran("web", "to", sWebLanguage) %> <%=writeDateField("finddocumentmaxdate","searchForm",sFindMaxDate,sWebLanguage) %></td>
+					</tr>
+					<tr>
+						<td class="admin" width="1%" nowrap><%=getTran("web","documentreference",sWebLanguage) %></td>
+						<td class="admin2"><input type="text" class="text" name="finddocumentreference" id="finddocumentreference" value="<%=sFindReference%>" size="50"/></td>
+					</tr>
+					<%-- BUTTONS --%>
+					<tr>
+					    <td class="admin">&nbsp;</td>
+						<td class="admin2">
+							<input type="submit" class="button" name="submitfind" value="<%=getTran("web","find",sWebLanguage)%>"/>
+							<input type="button" class="button" name="submitnew" value="<%=getTran("web","new",sWebLanguage)%>" onclick="document.getElementById('formaction').value='new';searchForm.submit();"/>
+							<input type="button" class="button" name="clear" value="<%=getTran("web","clear",sWebLanguage)%>" onclick="clearFindFields();"/>
+						</td>
+					</tr>
+				</table>
+				
+				<input type='hidden' name='formaction' id='formaction' value='find'/>
+			</form>
+
+			<table width="100%">
+				<%
 					Vector documents = OperationDocument.find(sFindType,sFindSource,sFindDestination,sFindMinDate,sFindMaxDate,sFindReference,"OC_DOCUMENT_DATE DESC, OC_DOCUMENT_OBJECTID DESC");
 					if(documents.size()>0){
 						%>
@@ -147,6 +146,7 @@
 						</tr>
 						<%
 					}
+					
 					for(int n=0;n<documents.size();n++){
 						OperationDocument document = (OperationDocument)documents.elementAt(n);
 						sType=checkString(document.getType());
@@ -172,11 +172,8 @@
 						sReference=checkString(document.getReference());
 						out.println("<tr class='listText'><td>"+document.getUid()+"</td><td><a href='javascript:editDocument(\""+document.getUid()+"\");'>"+sDate+"</a></td><td>"+getTran("operationdocumenttypes",sType,sWebLanguage)+"</td><td>"+sSource+"</td><td>"+sDestination+"</td><td>"+sReference+"</td></tr>");
 					}
-					%>
-					</table>
-				</td>
-			</tr>
-		</table>
+				%>
+			</table>
 		<%		
 	}
 	else if(sAction.equalsIgnoreCase("new") || sAction.equalsIgnoreCase("edit")){ 
@@ -184,11 +181,12 @@
 			operationDocument = OperationDocument.get(sUid);
 		}
 		%>
-		<table><tr><td colspan="5">
+
 		<form name="editForm" method="post" action="<c:url value="/main.jsp"/>">
 			<input type="hidden" name="Page" value="pharmacy/manageProductStockDocuments.jsp"/>
 			<input type="hidden" name="documentuid" value="<%=sUid %>"/>
-			<table>
+			
+			<table width="100%" class="list" cellpadding="1" cellspacing="1" width="100%">
 				<tr class="admin">
 					<td colspan="2"><%=getTran("web","editoperationdocument",sWebLanguage) %></td>
 				</tr>
@@ -228,38 +226,42 @@
 					<td class="admin"><%=getTran("web","documentreference",sWebLanguage) %></td>
 					<td class="admin2"><input type="text" class="text" name="documentreference" id="documentreference" value="<%=operationDocument.getReference()%>" size="50"/></td>
 				</tr>
+				<%-- BUTTONS --%>
 				<tr>
-					<td colspan="2">
-						<input type="button" name="submitsave" value="<%=getTran("web","save",sWebLanguage)%>" onclick="saveForm();"/>
-						<input type="button" name="cancel" value="<%=getTran("web","cancel",sWebLanguage)%>" onclick="findDocument('<%=sUid%>')"/>
-						<input type="button" name="print" value="<%=getTran("web","print",sWebLanguage)%>" onclick="printDocument('<%=sUid%>')"/>
+					<td class="admin">&nbsp;</td>
+					<td class="admin2">
+						<input type="button" class="button" name="submitsave" value="<%=getTran("web","save",sWebLanguage)%>" onclick="saveForm();"/>
+						<input type="button" class="button" name="cancel" value="<%=getTran("web","cancel",sWebLanguage)%>" onclick="findDocument('<%=sUid%>')"/>
+						<input type="button" class="button" name="print" value="<%=getTran("web","print",sWebLanguage)%>" onclick="printDocument('<%=sUid%>')"/>
 					</td>
 				</tr>
 			</table>
+			
 			<input type='hidden' name='formaction' id='formaction' value=''/>
 		</form>		
-		</td></tr>
+
+        <table>
 		<%
-		//Now show the product stock operations that go with this document
-		Vector operations = operationDocument.getProductStockOperations();
-		if(operations.size()>0){
-			%>
-				<tr><td colspan="5"><hr/></td></tr>
-				<tr class='admin'>
-					<td><%=getTran("web","ID",sWebLanguage) %></td>
-					<td><%=getTran("web","date",sWebLanguage) %></td>
-					<td><%=getTran("web","description",sWebLanguage) %></td>
-					<td><%=getTran("web","product",sWebLanguage) %></td>
-					<td><%=getTran("web","quantity",sWebLanguage) %></td>
-				</tr>
-			<%
-		}
-		for(int n=0;n<operations.size();n++){
-			ProductStockOperation operation = (ProductStockOperation)operations.elementAt(n);
-			%>
-			<tr><td><img src='<c:url value="/"/>_img/icon_delete.gif' onclick='javascript:deleteOperation("<%=operation.getUid()%>");'/> <%=operation.getUid()%></td><td><%=ScreenHelper.stdDateFormat.format(operation.getDate())%></td><td><%=getTran("productstockoperation.medicationdelivery", operation.getDescription(), sWebLanguage)%></td><td><%=operation.getProductStock().getProduct().getName()%></td><td><%=operation.getUnitsChanged()+" ("+operation.getProductStock().getLevel()+")"%></td></tr>
-			<%
-		}
+			//Now show the product stock operations that go with this document
+			Vector operations = operationDocument.getProductStockOperations();
+			if(operations.size()>0){
+				%>
+					<tr><td colspan="5"><hr/></td></tr>
+					<tr class='admin'>
+						<td><%=getTran("web","ID",sWebLanguage) %></td>
+						<td><%=getTran("web","date",sWebLanguage) %></td>
+						<td><%=getTran("web","description",sWebLanguage) %></td>
+						<td><%=getTran("web","product",sWebLanguage) %></td>
+						<td><%=getTran("web","quantity",sWebLanguage) %></td>
+					</tr>
+				<%
+			}
+			for(int n=0;n<operations.size();n++){
+				ProductStockOperation operation = (ProductStockOperation)operations.elementAt(n);
+				%>
+				<tr><td><img src='<c:url value="/"/>_img/icon_delete.gif' onclick='javascript:deleteOperation("<%=operation.getUid()%>");'/> <%=operation.getUid()%></td><td><%=ScreenHelper.stdDateFormat.format(operation.getDate())%></td><td><%=getTran("productstockoperation.medicationdelivery", operation.getDescription(), sWebLanguage)%></td><td><%=operation.getProductStock().getProduct().getName()%></td><td><%=operation.getUnitsChanged()+" ("+operation.getProductStock().getLevel()+")"%></td></tr>
+				<%
+			}
 		%>
 		</table>
 		<%

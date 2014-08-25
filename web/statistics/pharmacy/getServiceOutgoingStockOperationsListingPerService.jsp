@@ -30,7 +30,7 @@
 			</tr>
 			<tr>
 				<td class='admin2'>
-					<input type='button' name='print' value='<%=getTranNoLink("web","print",sWebLanguage) %>' onclick='printReport();'/>
+					<input type='button' class="button" name='print' value='<%=getTranNoLink("web","print",sWebLanguage) %>' onclick='printReport();'/>
 				</td>
 			</tr>
 		</table>

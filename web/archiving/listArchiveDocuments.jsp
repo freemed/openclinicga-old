@@ -252,7 +252,7 @@
   
   <%-- OPEN DOC --%>
   function openDoc(filePathAndName){
-    var url = "<%=MedwanQuery.getInstance().getConfigString("archiveDocumentStorageRoot")%>/"+filePathAndName+"?ts=<%=getTs()%>";
+    var url = "<%=MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_url")+"/"+MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_dirTo")%>/"+filePathAndName+"?ts=<%=getTs()%>";
     var w = 900;
     var h = 600;
     var left = (screen.width/2)-(w/2);

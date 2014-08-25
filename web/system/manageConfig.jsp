@@ -153,13 +153,9 @@
     }
 
 %>
-<form name="transactionForm" method="post"
-    <%                    
-        // enter button only works when searching (not when the edit fields are visible)
-            %>onKeyDown='if(enterEvent(event,13)){doSearch();}'<%
-    %>
->
+<form name="transactionForm" method="post" onKeyDown="if(enterEvent(event,13)){doSearch();}">
     <input type="hidden" name="Action">
+    
     <%=writeTableHeader("Web.manage","ManageConfiguration",sWebLanguage,"main.do?Page=system/menu.jsp")%>
     <table border="0" width="100%" cellspacing="0" class="menu">
         <%-- search fields --%>
@@ -349,12 +345,10 @@
   }
 
   function doSearch(){
-    var today = new Date();
     var params = 'FindKey=' + document.getElementsByName('FindKey')[0].value+
                  "&FindValue="+ document.getElementsByName('FindValue')[0].value;
-    var url= '<c:url value="/system/manageConfigFind.jsp"/>?ts=' + today;
+    var url= '<c:url value="/system/manageConfigFind.jsp"/>?ts=' + new Date();
     new Ajax.Request(url,{
-      method: "GET",
       parameters: params,
       onSuccess: function(resp){
         $('divFindRecords').innerHTML = resp.responseText;
@@ -377,7 +371,7 @@
     window.location.href = '<c:url value='/main.do'/>?Page=system/menu.jsp';
   }
 
-  transactionForm.EditOc_key.focus();
+  transactionForm.FindKey.focus();
 </script>
 
 <%-- ALERT ---------------------------------------------------------------------------------------%>

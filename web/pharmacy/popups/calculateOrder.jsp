@@ -50,7 +50,7 @@
 	if(sServiceStockUid.length()>0){
 		ServiceStock serviceStock = ServiceStock.get(sServiceStockUid);
 		if(serviceStock!=null){
-			out.println("<table width='100%'><tr class='admin'><td colspan='6'>"+serviceStock.getUid()+" "+serviceStock.getName()+"</td></tr>");
+			out.println("<table width='100%' class='list'><tr class='admin'><td colspan='6'>"+serviceStock.getUid()+" "+serviceStock.getName()+"</td></tr>");
 			out.println("<tr><td class='admin'>"+getTran("web","productname",sWebLanguage)+"</td><td class='admin2'>"+getTran("web","level",sWebLanguage)+"</td><td class='admin2'>"+getTran("web","orderlevel",sWebLanguage)+"</td><td class='admin2'>"+getTran("web","maximumlevel",sWebLanguage)+"</td><td class='admin2'>"+getTran("web","openorders",sWebLanguage)+"</td><td class='admin2'>"+getTran("web","order",sWebLanguage)+"</td></tr>");
 			Vector productStocks = serviceStock.getProductStocks();
 			int quantity;
@@ -65,8 +65,8 @@
 					out.println("<tr><td class='admin'><input type='checkbox' name='productstock."+productStock.getUid()+"' checked/> "+productStock.getProduct().getName()+"</td><td class='admin2'>"+productStock.getLevel()+"</td><td class='admin2'>"+productStock.getOrderLevel()+"</td><td class='admin2'>"+productStock.getMaximumLevel()+"</td><td class='admin2'>"+ProductOrder.getOpenOrderedQuantity(productStock.getUid())+"</td><td class='admin2'><input size='4' type='text' class='text' name='quantity."+productStock.getUid()+"' value='"+quantity+"'/></td></tr>");
 				}
 			}
-			out.println("</table>");
-			out.println("<input type='submit' name='orderbutton' value='"+getTran("web","order",sWebLanguage)+"'/>");
+			out.println("</table><br>");
+			out.println("<center><input type='submit' name='orderbutton' class='button' value='"+getTran("web","order",sWebLanguage)+"'/></center>");
 		}
 		else {
 			out.println("Service stock for service UID "+sServiceStockUid+" does not exist");

@@ -343,7 +343,9 @@
 	function setStatus(){
     	if(document.getElementById("EditInsuranceStatus").value=="affiliate"){
         	document.getElementById("EditInsuranceMember").value="<%=activePatient.firstname+" "+activePatient.lastname.toUpperCase()%>";
-        	document.getElementById("EditInsuranceMemberImmat").value="<%=activePatient.getID(MedwanQuery.getInstance().getConfigString("EditInsuranceMemberImmatField","immatnew"))%>";
+        	if(document.getElementById("EditInsuranceMemberImmat")!=null){
+        	    document.getElementById("EditInsuranceMemberImmat").value="<%=activePatient.getID(MedwanQuery.getInstance().getConfigString("EditInsuranceMemberImmatField","immatnew"))%>";
+        	}
     	}
 	}
 	

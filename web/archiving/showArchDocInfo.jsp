@@ -81,7 +81,8 @@
 	        }
 	        else{
 	            // show link to open document, when server is configured
-	         	String sServer = MedwanQuery.getInstance().getConfigString("archiveDocumentStorageRoot");
+               	String sServer = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_url")+"/"+
+               	                 MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_dirTo");
 	         	if(sServer.length() > 0){
 	                %><a href="<%=sServer+"/"+doc.storageName%>" target="_new"><%=doc.storageName%></a><%
 	            }
@@ -100,13 +101,13 @@
 <%=ScreenHelper.alignButtonsStop()%>
 
 <script>
-  <%-- PRINT BARCODE --%>
-  function printBarcode(udi){
-    var url = "<%=sCONTEXTPATH%>/archiving/printBarcode.jsp?barcodeValue="+udi+"&numberOfPrints=2";
-	var w = 550;
-    var h = 760;
-    var left = (screen.width/2)-(w/2);
-    var topp = (screen.height/2)-(h/2);
-    window.open(url,"PrintBarcode<%=new java.util.Date().getTime()%>","toolbar=no,status=no,scrollbars=yes,resizable=yes,menubar=no,width="+w+",height="+h+",top="+topp+",left="+left);
-  }
+<%-- PRINT BARCODE --%>
+function printBarcode(udi){
+  var url = "<%=sCONTEXTPATH%>/archiving/printBarcode.jsp?barcodeValue="+udi+"&numberOfPrints=1";
+  var w = 430;
+  var h = 200;
+  var left = (screen.width/2)-(w/2);
+  var topp = (screen.height/2)-(h/2);
+  window.open(url,"PrintBarcode<%=new java.util.Date().getTime()%>","toolbar=no,status=no,scrollbars=yes,resizable=yes,menubar=yes,width="+w+",height="+h+",top="+topp+",left="+left);
+}
 </script>

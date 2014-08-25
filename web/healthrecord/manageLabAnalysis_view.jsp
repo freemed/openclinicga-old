@@ -687,7 +687,7 @@
 
   <%-- link to labprofiles --%>
   <img src='<c:url value="/_img/pijl.gif"/>'>
-  <a  href="<c:url value='/main.do'/>&Page=healthrecord/manageLabProfiles_view.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labProfiles",sWebLanguage)%></a>&nbsp;
+  <a  href="<c:url value='/main.do'/>?Page=healthrecord/manageLabProfiles_view.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labProfiles",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
 
 <script>

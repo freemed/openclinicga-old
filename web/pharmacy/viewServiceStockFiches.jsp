@@ -19,10 +19,10 @@
 	}
 %>
 <form name='transactionForm' method='post'>
-<table>
+<table cellspadding="1" cellspacing="0" class="list" width="100%">
 	<tr>
-		<td class='admin'><%=getTran("web","year",sWebLanguage) %></td>
-		<td class='admin2'>
+		<td class='admin' width="50"><%=getTran("web","year",sWebLanguage) %>&nbsp;</td>
+		<td class='admin2' width="70">
 			<select name='year' id='year'>
 				<%
 					for (int n=0;n<20;n++){
@@ -32,8 +32,8 @@
 				%>
 			</select>
 		</td>
-		<td class='admin'><%=getTran("web","month",sWebLanguage) %></td>
-		<td class='admin2'>
+		<td class='admin' width="50"><%=getTran("web","month",sWebLanguage) %>&nbsp;</td>
+		<td class='admin2' width="70">
 			<select name='month' id='month'>
 				<%
 					for (int n=1;n<13;n++){
@@ -42,7 +42,7 @@
 				%>
 			</select>
 		</td>
-		<td><input type='submit' name='submit' value='<%=getTran("web","find",sWebLanguage) %>'/></td>
+		<td class='admin2' width="*"><input type='submit' name='submit' class="button" value='<%=getTran("web","find",sWebLanguage) %>'/></td>
 	</tr>
 </table>
 </form>

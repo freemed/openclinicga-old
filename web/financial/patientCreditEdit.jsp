@@ -623,7 +623,7 @@ if (sScreenType.equals("")){
     EditForm.EditCreditType.value = type;
     EditForm.EditCreditEncounterUid.value = encUid;
     EditForm.EditCreditEncounterName.value = encName;
-    EditForm.EditCreditDescription.value = descr;
+    EditForm.EditCreditDescription.value = replaceAll(descr,"<br>","\r\n");
     EditForm.EditCreditInvoiceUid.value = invoiceUid;
     if(<%=(activeUser.getAccessRight("financial.patientcreditedit.edit")?"true":"false")%> && EditForm.EditCreditWicketUid.value==wicketuid){
         document.getElementById("buttonSave").style.visibility='visible';
@@ -687,12 +687,12 @@ if (sScreenType.equals("")){
     window.location.href = "<c:url value='/main.do'/>?Page=financial/historyBalance.jsp&ts=<%=getTs()%>";
   }
 
-    function clearFindFields(){
-        EditForm.FindDateBegin.value = "";
-        EditForm.FindDateEnd.value = "";
-        EditForm.FindAmountMin.value = "";
-        EditForm.FindAmountMax.value = "";
-    }
+  function clearFindFields(){
+    EditForm.FindDateBegin.value = "";
+    EditForm.FindDateEnd.value = "";
+    EditForm.FindAmountMin.value = "";
+    EditForm.FindAmountMax.value = "";
+  }
 
   EditForm.EditCreditDate.focus();
   if(document.getElementById('EditCreditUid').value.length>0){
@@ -701,11 +701,8 @@ if (sScreenType.equals("")){
       document.getElementById('PrintLanguage').style.visibility='visible';
   }
 <%
-if (sScreenType.equals("")){
-%>
-  loadUnassignedCredits();
-<%
+if(sScreenType.equals("")){
+    %>loadUnassignedCredits();<%
 }
 %>
-
 </script>
