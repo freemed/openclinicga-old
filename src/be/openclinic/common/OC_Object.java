@@ -19,12 +19,10 @@ public class OC_Object {
     }
 
     public String getUid() {
-    	System.out.println(" <-- OC_Object.getUid : "+uid); ////////////
         return uid;
     }
 
     public void setUid(String uid) {
-    	System.out.println(" --> OC_Object.setUid : "+uid); ////////////
         this.uid = uid;
     }
 
