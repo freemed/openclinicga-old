@@ -4,26 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Types;
-import java.text.DecimalFormat;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.hnrw.report.Report_Transaction.TRAN;
-
 import be.dpms.medwan.common.model.vo.authentication.UserVO;
-import be.mxs.common.model.vo.IdentifierFactory;
-import be.mxs.common.model.vo.healthrecord.IConstants;
-import be.mxs.common.model.vo.healthrecord.ItemVO;
 import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.mxs.common.util.db.MedwanQuery;
-import be.mxs.common.util.io.MessageReader.User;
 import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.common.OC_Object;
-import be.openclinic.finance.Debet;
-import be.openclinic.system.Healthrecord;
-import be.openclinic.system.Screen;
 
 public class ArchiveDocument extends OC_Object implements Comparable {
 
@@ -256,9 +245,13 @@ public class ArchiveDocument extends OC_Object implements Comparable {
 		
 		return archDoc;		
 	}
-	
+
 	//--- GET -------------------------------------------------------------------------------------
 	public static ArchiveDocument get(String sUDI){
+        return get(sUDI,false);		
+	}
+	
+	public static ArchiveDocument get(String sUDI, boolean mustHaveStorageName){
 		ArchiveDocument archDoc = null;
 
 		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
@@ -266,9 +259,14 @@ public class ArchiveDocument extends OC_Object implements Comparable {
 		ResultSet rs = null;
 		
 		String sSql = "SELECT * FROM arch_documents"+
-		              " WHERE ARCH_DOCUMENT_UDI = ?";		
+		              " WHERE ARCH_DOCUMENT_UDI = ?";
+		if(mustHaveStorageName){
+	        sSql+= " AND "+MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(ARCH_DOCUMENT_STORAGENAME) > 0";
+		}
+		
 		try{
 			ps = conn.prepareStatement(sSql);
+			ps.setString(1,sUDI);
 			rs = ps.executeQuery();
 			
 			if(rs.next()){
@@ -309,6 +307,67 @@ public class ArchiveDocument extends OC_Object implements Comparable {
 		return archDoc;		
 	}
 	
+	//--- GET BASIC -------------------------------------------------------------------------------
+	// for environments without MedwanQuery
+	public static ArchiveDocument getBasic(String sUDI, Connection conn){
+        return getBasic(sUDI,false,conn);		
+	}
+	
+	public static ArchiveDocument getBasic(String sUDI, boolean mustHaveStorageName, Connection conn){
+		ArchiveDocument archDoc = null;
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sSql = "SELECT * FROM arch_documents"+
+		              " WHERE ARCH_DOCUMENT_UDI = ?";
+		if(mustHaveStorageName){
+	        sSql+= " AND len(ARCH_DOCUMENT_STORAGENAME) > 0";
+		}
+		
+		try{
+			ps = conn.prepareStatement(sSql);
+			ps.setString(1,sUDI);
+			rs = ps.executeQuery();
+			
+			if(rs.next()){
+				archDoc = new ArchiveDocument();
+				archDoc.setUid(rs.getInt("ARCH_DOCUMENT_SERVERID")+"."+rs.getInt("ARCH_DOCUMENT_OBJECTID"));
+				
+				archDoc.udi = ScreenHelper.checkString(rs.getString("ARCH_DOCUMENT_UDI"));
+				archDoc.title = ScreenHelper.checkString(rs.getString("ARCH_DOCUMENT_TITLE"));
+				archDoc.description = ScreenHelper.checkString(rs.getString("ARCH_DOCUMENT_DESCRIPTION"));
+				archDoc.category = ScreenHelper.checkString(rs.getString("ARCH_DOCUMENT_CATEGORY"));
+				archDoc.author = ScreenHelper.checkString(rs.getString("ARCH_DOCUMENT_AUTHOR"));
+				archDoc.date = rs.getDate("ARCH_DOCUMENT_DATE");
+				archDoc.destination = ScreenHelper.checkString(rs.getString("ARCH_DOCUMENT_DESTINATION"));
+				archDoc.reference = ScreenHelper.checkString(rs.getString("ARCH_DOCUMENT_REFERENCE"));
+				archDoc.personId = rs.getInt("ARCH_DOCUMENT_PERSONID");
+				archDoc.storageName = ScreenHelper.checkString(rs.getString("ARCH_DOCUMENT_STORAGENAME"));
+				archDoc.deleteDate = rs.getDate("ARCH_DOCUMENT_DELETEDATE");
+
+	            // link with transaction
+				archDoc.tranServerId = rs.getInt("ARCH_DOCUMENT_TRAN_SERVERID");
+				archDoc.tranTranId = rs.getInt("ARCH_DOCUMENT_TRAN_TRANSACTIONID");
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			try{
+				if(rs!=null) rs.close();
+				if(ps!=null) ps.close();
+				if(conn!=null) conn.close();
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return archDoc;		
+	}
+    	
 	//--- FIND -------------------------------------------------------------------------------------
 	public static Vector find(int personId, String sFindTitle, String sFindCategory, String sFindBegin, String sFindEnd){
 	    return find(personId,sFindTitle,sFindCategory,sFindBegin,sFindEnd,false); // only not-deleted documents	
@@ -533,66 +592,73 @@ public class ArchiveDocument extends OC_Object implements Comparable {
 			ps = conn.prepareStatement(sSql);
 			ps.setString(1,sStorageName);
 			ps.setString(2,sUDI);
-			ps.executeUpdate();
+			int recsUpdated = ps.executeUpdate();
 			ps.close();
 			conn.close();
 			
-			Debug.println("--> Storagename set for archive-document with UDI '"+sUDI+"' : "+sStorageName);
-			
-			//*** 2 - get link with transaction ***
-			int serverId = -1, tranId = -1;
-			sSql = "SELECT ARCH_DOCUMENT_TRAN_SERVERID, ARCH_DOCUMENT_TRAN_TRANSACTIONID"+
-			       " FROM arch_documents"+
-	               "  WHERE ARCH_DOCUMENT_UDI = ?";	
-			ps = conn.prepareStatement(sSql);
-			ps.setString(1,sUDI);
-			rs = ps.executeQuery();
-			if(rs.next()){
-				serverId = rs.getInt(1);
-				tranId   = rs.getInt(2);
-			}
-			rs.close();
-			ps.close();
-			conn.close();			
-			
-			//*** 3 - update linked transaction ***
-			if(serverId > -1 && tranId > -1){
-				sSql = "UPDATE items SET value = ?"+
-				       " WHERE serverid = ? AND transactionid = ?"+
-					   "  AND type = ?";
-				ps = conn.prepareStatement(sSql);
-				ps.setString(1,sStorageName);
-				ps.setInt(2,serverId);
-				ps.setInt(3,tranId);
-				ps.setString(4,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_DOC_STORAGENAME");
-				int updatedRecs = ps.executeUpdate();
-				ps.close();
-				conn.close();
-			
-				if(updatedRecs==0){
-					// insert item when not found during update
-                    sSql = "INSERT INTO Items(itemId,type,"+MedwanQuery.getInstance().getConfigString("valueColumn")+","+
-                    		MedwanQuery.getInstance().getConfigString("dateColumn")+","+
-                    		"transactionId,serverid,version,versionserverid,valuehash)"+
-                            " VALUES(?,?,?,?,?,?,?,?,?)";
-                    ps = conn.prepareStatement(sSql);
-                    ps.setInt(1,new Integer(MedwanQuery.getInstance().getOpenclinicCounter("ItemID")));
-                    ps.setString(2,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_DOC_STORAGENAME");
-                    ps.setString(3,sStorageName);
-                    ps.setDate(4,new java.sql.Date(new java.util.Date().getTime()));
-                    ps.setInt(5,tranId);
-                    ps.setInt(6,serverId);
-                    ps.setInt(7,1);
-                    ps.setInt(8,Integer.parseInt(MedwanQuery.getInstance().getConfigString("serverId")));
-                    ps.setInt(9,(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_DOC_STORAGENAME"+sStorageName).hashCode());
-                    ps.execute();
-                    ps.close();	
-				}
+			if(recsUpdated > 0){
+				Debug.println("--> Storagename set for archive-document with UDI '"+sUDI+"' : "+sStorageName);
 				
-				Debug.println("--> Storagename set in linked transaction too '"+serverId+"."+tranId+"' : "+sStorageName);
+				//*** 2 - get link with transaction ***
+				int serverId = -1, tranId = -1;
+				sSql = "SELECT ARCH_DOCUMENT_TRAN_SERVERID, ARCH_DOCUMENT_TRAN_TRANSACTIONID"+
+				       " FROM arch_documents"+
+		               "  WHERE ARCH_DOCUMENT_UDI = ?";	
+				ps = conn.prepareStatement(sSql);
+				ps.setString(1,sUDI);
+				rs = ps.executeQuery();
+				if(rs.next()){
+					serverId = rs.getInt(1);
+					tranId   = rs.getInt(2);
+				}
+				rs.close();
+				ps.close();
+				conn.close();			
+				
+				//*** 3 - update linked transaction ***
+				if(serverId > -1 && tranId > -1){
+					sSql = "UPDATE items SET value = ?, version = version+1, versionserver = ?"+
+					       " WHERE serverid = ? AND transactionid = ?"+
+						   "  AND type = ?";
+					ps = conn.prepareStatement(sSql);
+					ps.setString(1,sStorageName);
+					ps.setInt(2,serverId); // versionserver
+					ps.setInt(3,serverId);
+					ps.setInt(4,tranId);
+					ps.setString(5,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_DOC_STORAGENAME");
+					int updatedRecs = ps.executeUpdate();
+					ps.close();
+					conn.close();
+				
+					if(updatedRecs==0){
+						// insert item when not found during update
+	                    sSql = "INSERT INTO Items(itemId,type,"+MedwanQuery.getInstance().getConfigString("valueColumn")+","+
+	                    		MedwanQuery.getInstance().getConfigString("dateColumn")+","+
+	                    		"transactionId,serverid,version,versionserverid,valuehash)"+
+	                            " VALUES(?,?,?,?,?,?,?,?,?)";
+	                    ps = conn.prepareStatement(sSql);
+	                    ps.setInt(1,new Integer(MedwanQuery.getInstance().getOpenclinicCounter("ItemID")));
+	                    ps.setString(2,ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_DOC_STORAGENAME");
+	                    ps.setString(3,sStorageName);
+	                    ps.setDate(4,new java.sql.Date(new java.util.Date().getTime()));
+	                    ps.setInt(5,tranId);
+	                    ps.setInt(6,serverId);
+	                    ps.setInt(7,1); // version
+	                    ps.setInt(8,Integer.parseInt(MedwanQuery.getInstance().getConfigString("serverId"))); // versionserverid
+	                    ps.setInt(9,(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_DOC_STORAGENAME"+sStorageName).hashCode());
+	                    ps.execute();
+	                    ps.close();	
+					}
+					
+					Debug.println("--> Storagename set in linked transaction '"+serverId+"."+tranId+"' too : "+sStorageName);
+				}
+				else{			
+					Debug.println("--> WARNING : Storagename NOT set in linked transaction, because no link found for archive-document with UDI '"+sUDI+"'");
+				}
 			}
-			else{			
-				Debug.println("--> WARNING : Storagename NOT set in linked transaction, because no link found for archDoc with UDI '"+sUDI+"'");
+			else{
+				// recsUpdated == 0
+				Debug.println("--> Storagename NOT SET, because no archive-document found with UDI '"+sUDI+"'.");
 			}
 		}
 		catch(Exception e){
@@ -610,20 +676,79 @@ public class ArchiveDocument extends OC_Object implements Comparable {
 		}
     }
     
+    //--- GET STORAGE NAME ------------------------------------------------------------------------
+    public static String getStorageName(String sUDI){
+    	if(Debug.enabled){
+	    	Debug.println("\n****************** getStorageName ********************");
+	    	Debug.println("sUDI : "+sUDI);
+    	}
+    	
+    	String sStorageName = "";
+		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+			
+		try{
+			String sSql = "SELECT ARCH_DOCUMENT_STORAGENAME"+
+			              " FROM arch_documents"+
+		                  "  WHERE ARCH_DOCUMENT_UDI = ?";	
+			ps = conn.prepareStatement(sSql);
+			ps.setString(1,sUDI);
+			ps.executeQuery();
+			rs = ps.executeQuery();
+			if(rs.next()){
+				sStorageName = ScreenHelper.checkString(rs.getString(1));
+			}
+			
+			Debug.println("--> storagename : "+sStorageName);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			try{
+				if(rs!=null) rs.close();
+				if(ps!=null) ps.close();
+				if(conn!=null) conn.close();
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return sStorageName;
+    }
+    
     //--- GENERATE UDI ----------------------------------------------------------------------------
-    // = 97 - (eerste 9 cijfers MOD 97)
+    // checkDigits = 97 - (eerste 9 cijfers MOD 97)
     // 000000001/96
     // 000000002/95
     // 000000003/94 ...
+    // --> 96 = 97 - (1/97)
+    // --> 96 = 97 - 1
+    //
+    // '000123472/xx'
+    //  --> xx = 97 - (123472%97)
+    //  --> xx = 97 - 88
+    //  --> xx = 09
+    //   --> 000123472/09
+    //
+    // '000123480/01'
+    //  --> 1 = 97 - (123480%97)
+    //  --> 1 = 97 - 96
+    //  --> 1 = 1
     public static String generateUDI(final int objectId){
-    	String sModulo = Integer.toString(objectId%97);
-    	while(sModulo.length() < 2) sModulo = "0"+sModulo;    	
+    	String sUDI = Integer.toString(objectId);
     	
-    	String sNumber = Integer.toString(objectId/97);
-    	while(sNumber.length() < 9) sNumber = "0"+sNumber;    	
+    	int xx = 97 - (objectId%97);
+    	String sXX = Integer.toString(xx);
+    	while(sXX.length()<2) sXX = "0"+sXX;
+    	sUDI+= sXX;
     	
-    	String sUDI = sNumber+sModulo;
-    	Debug.println("GENERATED UDI from OBJECTID "+objectId+" : "+sUDI);
+    	while(sUDI.length()<11) sUDI = "0"+sUDI;
+
+        Debug.println("GENERATED UDI from OBJECTID "+objectId+" : "+sUDI);
+    	
     	return sUDI;
     }
     
@@ -632,22 +757,4 @@ public class ArchiveDocument extends OC_Object implements Comparable {
     	return MedwanQuery.getInstance().loadTransaction(this.tranServerId,this.tranTranId);
     }
     
-    /*
-    TODO
-    //--- GENERATE STORAGEPATH --------------------------------------------------------------------
-    // A/A/A/A contains 1024 documents
-    // A/A/A/B contains 1024 documents
-    // ... (26*1024 documents stored)
-    // A/A/B/A contains 1024 documents
-    public static String generateStoragePath(final int objectId){
-    	int filesPerDirectory = MedwanQuery.getInstance().getConfigInt("filesPerDirectory",1024);    	
-    	String sStorageName = Integer.toString(final int objectId);
-    			
-    			//...
-    			
-    	Debug.println("GENERATED STORAGENAME : "+sStorageName);
-    	return sStorageName;
-    }
-    */
-	
 }
