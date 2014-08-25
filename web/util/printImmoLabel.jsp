@@ -1,33 +1,39 @@
-<%@include file="/includes/validateUser.jsp"%><%@page errorPage="/includes/error.jsp"%><%@page import="java.io.ByteArrayOutputStream,
+<%@include file="/includes/validateUser.jsp"%>
+<%@page errorPage="/includes/error.jsp"%>
+<%@page import="java.io.ByteArrayOutputStream,
                 com.itextpdf.text.DocumentException,
-                java.io.PrintWriter
-                ,be.mxs.common.util.pdf.general.PDFLabSampleLabelGenerator
-                ,java.util.*,
-                be.openclinic.medical.LabRequest,be.openclinic.medical.LabSample" %><%@ page import="be.chuk.Article" %><%@ page import="be.mxs.common.util.pdf.general.PDFImmoLabelGenerator" %><%
+                java.io.PrintWriter,
+                be.mxs.common.util.pdf.general.PDFLabSampleLabelGenerator,
+                be.openclinic.medical.LabRequest,be.openclinic.medical.LabSample,
+                be.mxs.common.util.pdf.general.PDFImmoLabelGenerator,
+                be.chuk.Article,
+                java.util.*"%>
+<%
     ByteArrayOutputStream baosPDF = null;
-    Vector articles=new Vector();
+    Vector articles = new Vector();
     Hashtable articlesh = new Hashtable();
     TreeSet an = new TreeSet();
-    Enumeration parameters=request.getParameterNames();
+    Enumeration parameters = request.getParameterNames();
+    Article article;
+    
     while(parameters.hasMoreElements()){
         String parameterName = (String)parameters.nextElement();
+        
         if(parameterName.startsWith("article")){
-            Article article = new Article();
-            article.id=parameterName.replaceAll("article","");
-            article.name=request.getParameter(parameterName);
-            try{
-                articlesh.put(article.id,article);
-                an.add(article.id);
-            }
-            catch(Exception e){
-                
-            }
+            article = new Article();
+            article.id = parameterName.replaceAll("article",""); // contains UID
+            article.name = request.getParameter(parameterName);
+            
+            articlesh.put(article.id,article);
+            an.add(article.id);
         }
     }
-    Iterator i=an.iterator();
-    while(i.hasNext()){
-        articles.add(articlesh.get(i.next()));
+    
+    Iterator iter = an.iterator();
+    while(iter.hasNext()){
+        articles.add(articlesh.get(iter.next()));
     }
+    
     try {
         // PDF generator
         PDFImmoLabelGenerator pdfImmoLabelGenerator = new PDFImmoLabelGenerator(activeUser, sProject);
