@@ -432,7 +432,7 @@
         <column name="OC_MAINTENANCEPLAN_NAME" dbtype="varchar" javatype="string" size="255"/>
         <column name="OC_MAINTENANCEPLAN_ASSETUID" dbtype="varchar" javatype="string" size="50"/> 
     	<column name="OC_MAINTENANCEPLAN_STARTDATE" dbtype="datetime" javatype="date"/> 
- 	    <column name="OC_MAINTENANCEPLAN_FREQUENCY" dbtype="int" javatype="integer" />
+ 	    <column name="OC_MAINTENANCEPLAN_FREQUENCY" dbtype="int" javatype="integer"/>
  	    <column name="OC_MAINTENANCEPLAN_OPERATOR" dbtype="varchar" javatype="string" size="255"/> 
     	<column name="OC_MAINTENANCEPLAN_PLANMANAGER" dbtype="varchar" javatype="string" size="255"/> 
     	<column name="OC_MAINTENANCEPLAN_INSTRUCTIONS" dbtype="text" javatype="string"/>     
@@ -527,8 +527,8 @@
     <!-- ####################################### VARIA TABLES ##################################### --> 
     <table name="arch_documents" db="openclinic" sync="NONE">
     	<columns>
-			<column name="ARCH_DOCUMENT_SERVERID" dbtype="int" javatype="integer" />
-			<column name="ARCH_DOCUMENT_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="ARCH_DOCUMENT_SERVERID" dbtype="int" javatype="integer"/>
+			<column name="ARCH_DOCUMENT_OBJECTID" dbtype="int" javatype="integer"/>
 			<column name="ARCH_DOCUMENT_UDI" dbtype="varchar" javatype="string" size="50"/>  
 			<column name="ARCH_DOCUMENT_TITLE" dbtype="varchar" javatype="string" size="255"/>
 			<column name="ARCH_DOCUMENT_DESCRIPTION" dbtype="text" javatype="string"/>
@@ -626,7 +626,7 @@
     </table>
 	<table name="OC_NOTIFIER" db="openclinic" sync="NONE">
 		<columns>
-			<column name="OC_NOTIFIER_TRANSACTIONID" dbtype="int" javatype="integer" />
+			<column name="OC_NOTIFIER_TRANSACTIONID" dbtype="int" javatype="integer"/>
 			<column name="OC_NOTIFIER_TRANSPORT" dbtype="varchar" javatype="string" size="50"/>
 			<column name="OC_NOTIFIER_RESULTS" dbtype="text" javatype="string"/>
 			<column name="OC_NOTIFIER_CREATEDATETIME" dbtype="datetime" javatype="date"/>
@@ -641,8 +641,8 @@
 	</table>
 	<table name="DC_FINANCIALVALUES" db="stats" sync="NONE">
 		<columns>
-			<column name="DC_FINANCIALVALUE_SERVERID" dbtype="int" javatype="integer" />
-			<column name="DC_FINANCIALVALUE_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="DC_FINANCIALVALUE_SERVERID" dbtype="int" javatype="integer"/>
+			<column name="DC_FINANCIALVALUE_OBJECTID" dbtype="int" javatype="integer"/>
 			<column name="DC_FINANCIALVALUE_PARAMETERID" dbtype="varchar" javatype="string" size="50"/>
 			<column name="DC_FINANCIALVALUE_CLASS" dbtype="varchar" javatype="string" size="50"/>
 			<column name="DC_FINANCIALVALUE_YEAR" dbtype="int" javatype="integer"/>
@@ -674,8 +674,8 @@
 	</table>
 	<table name="DC_BEDOCCUPANCYVALUES" db="stats" sync="NONE">
 		<columns>
-			<column name="DC_BEDOCCUPANCYVALUE_SERVERID" dbtype="int" javatype="integer" />
-			<column name="DC_BEDOCCUPANCYVALUE_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="DC_BEDOCCUPANCYVALUE_SERVERID" dbtype="int" javatype="integer"/>
+			<column name="DC_BEDOCCUPANCYVALUE_OBJECTID" dbtype="int" javatype="integer"/>
 			<column name="DC_BEDOCCUPANCYVALUE_SERVICEUID" dbtype="varchar" javatype="string" size="50"/>
 			<column name="DC_BEDOCCUPANCYVALUE_DATE" dbtype="datetime" javatype="date"/>
 			<column name="DC_BEDOCCUPANCYVALUE_TOTALBEDS" dbtype="int" javatype="integer"/>
@@ -695,8 +695,8 @@
 	</table>
 	<table name="DC_ENCOUNTERDIAGNOSISVALUES" db="stats" sync="NONE">
 		<columns>
-			<column name="DC_DIAGNOSISVALUE_SERVERID" dbtype="int" javatype="integer" />
-			<column name="DC_DIAGNOSISVALUE_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="DC_DIAGNOSISVALUE_SERVERID" dbtype="int" javatype="integer"/>
+			<column name="DC_DIAGNOSISVALUE_OBJECTID" dbtype="int" javatype="integer"/>
 			<column name="DC_DIAGNOSISVALUE_CODETYPE" dbtype="varchar" javatype="string" size="50"/>
 			<column name="DC_DIAGNOSISVALUE_CODE" dbtype="varchar" javatype="string" size="50"/>
 			<column name="DC_DIAGNOSISVALUE_YEAR" dbtype="int" javatype="integer"/>
@@ -719,8 +719,8 @@
 	</table>
 	<table name="DC_DIAGNOSISVALUES" db="stats" sync="NONE">
 		<columns>
-			<column name="DC_DIAGNOSISVALUE_SERVERID" dbtype="int" javatype="integer" />
-			<column name="DC_DIAGNOSISVALUE_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="DC_DIAGNOSISVALUE_SERVERID" dbtype="int" javatype="integer"/>
+			<column name="DC_DIAGNOSISVALUE_OBJECTID" dbtype="int" javatype="integer"/>
 			<column name="DC_DIAGNOSISVALUE_CODETYPE" dbtype="varchar" javatype="string" size="50"/>
 			<column name="DC_DIAGNOSISVALUE_CODE" dbtype="varchar" javatype="string" size="50"/>
 			<column name="DC_DIAGNOSISVALUE_YEAR" dbtype="int" javatype="integer"/>
@@ -742,8 +742,8 @@
 	</table>
 	<table name="DC_MORTALITYVALUES" db="stats" sync="NONE">
 		<columns>
-			<column name="DC_MORTALITYVALUE_SERVERID" dbtype="int" javatype="integer" />
-			<column name="DC_MORTALITYVALUE_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="DC_MORTALITYVALUE_SERVERID" dbtype="int" javatype="integer"/>
+			<column name="DC_MORTALITYVALUE_OBJECTID" dbtype="int" javatype="integer"/>
 			<column name="DC_MORTALITYVALUE_CODETYPE" dbtype="varchar" javatype="string" size="50"/>
 			<column name="DC_MORTALITYVALUE_CODE" dbtype="varchar" javatype="string" size="50"/>
 			<column name="DC_MORTALITYVALUE_YEAR" dbtype="int" javatype="integer"/>
@@ -766,8 +766,8 @@
 	</table>
 	<table name="DC_HRVALUES" db="stats" sync="NONE">
 		<columns>
-			<column name="DC_HR_SERVERID" dbtype="int" javatype="integer" />
-			<column name="DC_HR_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="DC_HR_SERVERID" dbtype="int" javatype="integer"/>
+			<column name="DC_HR_OBJECTID" dbtype="int" javatype="integer"/>
 			<column name="DC_HR_GROUP" dbtype="varchar" size="255" javatype="string"/>
 			<column name="DC_HR_YEAR" dbtype="int" javatype="integer"/>
 			<column name="DC_HR_MONTH" dbtype="int" javatype="integer"/>
@@ -788,8 +788,8 @@
 	</table>
 	<table name="DC_ACTIVITYVALUES" db="stats" sync="NONE">
 		<columns>
-			<column name="DC_ACTIVITYVALUE_SERVERID" dbtype="int" javatype="integer" />
-			<column name="DC_ACTIVITYVALUE_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="DC_ACTIVITYVALUE_SERVERID" dbtype="int" javatype="integer"/>
+			<column name="DC_ACTIVITYVALUE_OBJECTID" dbtype="int" javatype="integer"/>
 			<column name="DC_ACTIVITYVALUE_TYPE" dbtype="varchar" javatype="string" size="50"/>
 			<column name="DC_ACTIVITYVALUE_YEAR" dbtype="int" javatype="integer"/>
 			<column name="DC_ACTIVITYVALUE_MONTH" dbtype="int" javatype="integer"/>
@@ -813,12 +813,12 @@
 	</table>
 	<table name="OC_QUESTIONNAIRES" db="openclinic" sync="NONE">
 		<columns>
-			<column name="OC_QUESTIONNAIRE_ID" dbtype="int" javatype="integer" />
-			<column name="OC_QUESTIONNAIRE_TITLE_NL" dbtype="varchar" javatype="string" size="255" />
-			<column name="OC_QUESTIONNAIRE_TITLE_FR" dbtype="varchar" javatype="string" size="255" />
-			<column name="OC_QUESTIONNAIRE_TITLE_DE" dbtype="varchar" javatype="string" size="255" />
-			<column name="OC_QUESTIONNAIRE_TITLE_EN" dbtype="varchar" javatype="string" size="255" />
-			<column name="OC_QUESTIONNAIRE_TITLE_ES" dbtype="varchar" javatype="string" size="255" />
+			<column name="OC_QUESTIONNAIRE_ID" dbtype="int" javatype="integer"/>
+			<column name="OC_QUESTIONNAIRE_TITLE_NL" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_QUESTIONNAIRE_TITLE_FR" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_QUESTIONNAIRE_TITLE_DE" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_QUESTIONNAIRE_TITLE_EN" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_QUESTIONNAIRE_TITLE_ES" dbtype="varchar" javatype="string" size="255"/>
 	    </columns>
 	    <indexes>
 	    	<index name="OC_QUESTIONNAIRE_ID">
@@ -828,16 +828,16 @@
 	</table>
 	<table name="OC_QUESTIONS" db="openclinic" sync="NONE">
 		<columns>
-			<column name="OC_QUESTION_ID" dbtype="int" javatype="integer" />
-			<column name="OC_QUESTION_QUESTIONNAIREID" dbtype="int" javatype="integer" />
-			<column name="OC_QUESTION_NL" dbtype="varchar" javatype="string" size="255" />
-			<column name="OC_QUESTION_FR" dbtype="varchar" javatype="string" size="255" />
-			<column name="OC_QUESTION_DE" dbtype="varchar" javatype="string" size="255" />
-			<column name="OC_QUESTION_EN" dbtype="varchar" javatype="string" size="255" />
-			<column name="OC_QUESTION_ES" dbtype="varchar" javatype="string" size="255" />
-			<column name="OC_QUESTION_ANSWERTYPE" dbtype="varchar" javatype="string" size="50" />
-			<column name="OC_QUESTION_ANSWERVALUES" dbtype="varchar" javatype="string" size="255" />
-			<column name="OC_QUESTION_ANSWERMANDATORY" dbtype="int" javatype="integer" />
+			<column name="OC_QUESTION_ID" dbtype="int" javatype="integer"/>
+			<column name="OC_QUESTION_QUESTIONNAIREID" dbtype="int" javatype="integer"/>
+			<column name="OC_QUESTION_NL" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_QUESTION_FR" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_QUESTION_DE" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_QUESTION_EN" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_QUESTION_ES" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_QUESTION_ANSWERTYPE" dbtype="varchar" javatype="string" size="50"/>
+			<column name="OC_QUESTION_ANSWERVALUES" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_QUESTION_ANSWERMANDATORY" dbtype="int" javatype="integer"/>
 	    </columns>
 	    <indexes>
 	    	<index name="OC_QUESTION_ID">
@@ -847,10 +847,10 @@
 	</table>
 	<table name="OC_ANSWERS" db="openclinic" sync="NONE">
 		<columns>
-			<column name="OC_ANSWER_ID" dbtype="int" javatype="integer" />
-			<column name="OC_ANSWER_QUESTIONID" dbtype="int" javatype="integer" />
-			<column name="OC_ANSWER_VALUE" dbtype="varchar" javatype="string" size="255" />
-			<column name="OC_ANSWER_SESSIONID" dbtype="varchar" javatype="string" size="255" />
+			<column name="OC_ANSWER_ID" dbtype="int" javatype="integer"/>
+			<column name="OC_ANSWER_QUESTIONID" dbtype="int" javatype="integer"/>
+			<column name="OC_ANSWER_VALUE" dbtype="varchar" javatype="string" size="255"/>
+			<column name="OC_ANSWER_SESSIONID" dbtype="varchar" javatype="string" size="255"/>
 		</columns>
 	    <indexes>
 	    	<index name="OC_ANSWER_ID">
@@ -890,13 +890,13 @@
 		<columns>
 			<column name="DC_MONITORVALUE_SERVERID" dbtype="int" javatype="integer"/>
 			<column name="DC_MONITORVALUE_DATE" dbtype="datetime" javatype="date"/>
-			<column name="DC_MONITORVALUE_PATIENTCOUNT" dbtype="int" javatype="integer" />
-			<column name="DC_MONITORVALUE_VISITCOUNT" dbtype="int" javatype="integer" />
-			<column name="DC_MONITORVALUE_ADMISSIONCOUNT" dbtype="int" javatype="integer" />
-			<column name="DC_MONITORVALUE_TRANSACTIONCOUNT" dbtype="int" javatype="integer" />
-			<column name="DC_MONITORVALUE_LABANALYSESCOUNT" dbtype="int" javatype="integer" />
-			<column name="DC_MONITORVALUE_PATIENTINVOICECOUNT" dbtype="int" javatype="integer" />
-			<column name="DC_MONITORVALUE_DEBETCOUNT" dbtype="int" javatype="integer" />
+			<column name="DC_MONITORVALUE_PATIENTCOUNT" dbtype="int" javatype="integer"/>
+			<column name="DC_MONITORVALUE_VISITCOUNT" dbtype="int" javatype="integer"/>
+			<column name="DC_MONITORVALUE_ADMISSIONCOUNT" dbtype="int" javatype="integer"/>
+			<column name="DC_MONITORVALUE_TRANSACTIONCOUNT" dbtype="int" javatype="integer"/>
+			<column name="DC_MONITORVALUE_LABANALYSESCOUNT" dbtype="int" javatype="integer"/>
+			<column name="DC_MONITORVALUE_PATIENTINVOICECOUNT" dbtype="int" javatype="integer"/>
+			<column name="DC_MONITORVALUE_DEBETCOUNT" dbtype="int" javatype="integer"/>
 			<column name="DC_MONITORVALUE_UPDATETIME" dbtype="datetime" javatype="date"/>
 	    </columns>
 	    <indexes>
@@ -908,8 +908,8 @@
 	</table>
 	<table name="DC_SIMPLEVALUES" db="stats" sync="NONE">
 		<columns>
-			<column name="DC_SIMPLEVALUE_SERVERID" dbtype="int" javatype="integer" />
-			<column name="DC_SIMPLEVALUE_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="DC_SIMPLEVALUE_SERVERID" dbtype="int" javatype="integer"/>
+			<column name="DC_SIMPLEVALUE_OBJECTID" dbtype="int" javatype="integer"/>
 			<column name="DC_SIMPLEVALUE_PARAMETERID" dbtype="varchar" javatype="string" size="50"/>
 			<column name="DC_SIMPLEVALUE_CREATEDATETIME" dbtype="datetime" javatype="date"/>
 			<column name="DC_SIMPLEVALUE_SENTDATETIME" dbtype="datetime" javatype="date"/>
@@ -931,8 +931,8 @@
 	</table>
 	<table name="DC_PATIENTRECORDS" db="stats" sync="NONE">
 		<columns>
-			<column name="DC_PATIENTRECORD_SERVERID" dbtype="int" javatype="integer" />
-			<column name="DC_PATIENTRECORD_PERSONID" dbtype="int" javatype="integer" />
+			<column name="DC_PATIENTRECORD_SERVERID" dbtype="int" javatype="integer"/>
+			<column name="DC_PATIENTRECORD_PERSONID" dbtype="int" javatype="integer"/>
 			<column name="DC_PATIENTRECORD_FIRSTNAME" dbtype="varchar" javatype="string" size="255"/>
 			<column name="DC_PATIENTRECORD_LASTNAME" dbtype="varchar" javatype="string" size="255"/>
 			<column name="DC_PATIENTRECORD_GENDER" dbtype="varchar" javatype="string" size="50"/>
@@ -959,7 +959,7 @@
 	</table>
 	<table name="OC_EXPORTS" db="openclinic" sync="NONE">
 		<columns>
-			<column name="OC_EXPORT_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="OC_EXPORT_OBJECTID" dbtype="int" javatype="integer"/>
 			<column name="OC_EXPORT_ID" dbtype="varchar" javatype="string" size="50"/>
 			<column name="OC_EXPORT_CREATEDATETIME" dbtype="datetime" javatype="date"/>
 			<column name="OC_EXPORT_SENTDATETIME" dbtype="datetime" javatype="date"/>
@@ -967,7 +967,7 @@
 			<column name="OC_EXPORT_IMPORTDATETIME" dbtype="datetime" javatype="date"/>
 			<column name="OC_EXPORT_IMPORTACKDATETIME" dbtype="datetime" javatype="date"/>
 	        <column name="OC_EXPORT_DATA" dbtype="text" javatype="string"/>
-			<column name="OC_EXPORT_ERRORCODE" dbtype="int" javatype="integer" />
+			<column name="OC_EXPORT_ERRORCODE" dbtype="int" javatype="integer"/>
 	    </columns>
 	    <indexes>
 	    	<index name="OC_EXPORT_OBJECTID">
@@ -980,7 +980,7 @@
 	</table>
 	<table name="OC_EXPORTREQUESTS" db="openclinic" sync="NONE">
 		<columns>
-			<column name="OC_EXPORTREQUEST_TYPE" dbtype="varchar" size="50" javatype="string" />
+			<column name="OC_EXPORTREQUEST_TYPE" dbtype="varchar" size="50" javatype="string"/>
 			<column name="OC_EXPORTREQUEST_ID" dbtype="varchar" javatype="string" size="50"/>
 			<column name="OC_EXPORTREQUEST_PROCESSED" dbtype="int" javatype="integer"/>
 			<column name="OC_EXPORTREQUEST_UPDATETIME" dbtype="datetime" javatype="date"/>
@@ -988,9 +988,9 @@
 	</table>
 	<table name="OC_IMPORTS" db="openclinic" sync="NONE">
 		<columns>
-			<column name="OC_IMPORT_UID" dbtype="int" javatype="integer" />
-			<column name="OC_IMPORT_SERVERID" dbtype="int" javatype="integer" />
-			<column name="OC_IMPORT_OBJECTID" dbtype="int" javatype="integer" />
+			<column name="OC_IMPORT_UID" dbtype="int" javatype="integer"/>
+			<column name="OC_IMPORT_SERVERID" dbtype="int" javatype="integer"/>
+			<column name="OC_IMPORT_OBJECTID" dbtype="int" javatype="integer"/>
 			<column name="OC_IMPORT_ID" dbtype="varchar" javatype="string" size="50"/>
 			<column name="OC_IMPORT_CREATEDATETIME" dbtype="datetime" javatype="date"/>
 			<column name="OC_IMPORT_SENTDATETIME" dbtype="datetime" javatype="date"/>
@@ -999,7 +999,7 @@
 			<column name="OC_IMPORT_IMPORTDATETIME" dbtype="datetime" javatype="date"/>
 			<column name="OC_IMPORT_IMPORTACKDATETIME" dbtype="datetime" javatype="date"/>
 	        <column name="OC_IMPORT_DATA" dbtype="text" javatype="string"/>
-			<column name="OC_IMPORT_ERRORCODE" dbtype="int" javatype="integer" />
+			<column name="OC_IMPORT_ERRORCODE" dbtype="int" javatype="integer"/>
 	        <column name="OC_IMPORT_REF" dbtype="varchar" javatype="string" size="255"/>
 	    </columns>
 	    <indexes>
@@ -1073,7 +1073,8 @@
 	</table>
 	<table name="OC_IMMO" db="openclinic" sync="NONE">
 		<columns>
-			<column name="OC_IMMO_ID" dbtype="int" javatype="integer"/>
+			<column name="OC_IMMO_SERVERID" dbtype="int" javatype="integer"/>
+			<column name="OC_IMMO_OBJECTID" dbtype="int" javatype="integer"/>
 			<column name="OC_IMMO_SERVICEUID" dbtype="varchar" javatype="string" size="50"/>
 			<column name="OC_IMMO_LOCATION" dbtype="varchar" javatype="string" size="50"/>
 			<column name="OC_IMMO_CODE" dbtype="varchar" javatype="string" size="50"/>
@@ -1081,8 +1082,8 @@
 			<column name="OC_IMMO_COMMENT" dbtype="varchar" javatype="string" size="255"/>
 		</columns>
 		<indexes>
-			<index name="OC_IMMO_ID">
-				<indexcolumn order="ASC" name="OC_IMMO_ID"/>
+			<index name="OC_IMMO_OBJECTID">
+				<indexcolumn order="ASC" name="OC_IMMO_OBJECTID"/>
 			</index>
 		</indexes>
 	</table>
@@ -2724,17 +2725,17 @@
             <column name="OC_ENCOUNTER_BEGINDATE" dbtype="datetime" javatype="date"/>
             <column name="OC_ENCOUNTER_ENDDATE" dbtype="datetime" javatype="date"/>
             <column name="OC_ENCOUNTER_PATIENTUID" dbtype="varchar" javatype="string" size="20"/>
-			<column name="OC_ENCOUNTER_CREATETIME" dbtype="datetime" javatype="date" />
-            <column name="OC_ENCOUNTER_UPDATETIME" dbtype="datetime" javatype="date" />
-			<column name="OC_ENCOUNTER_UPDATEUID" dbtype="varchar" javatype="string" size="20" />
-			<column name="OC_ENCOUNTER_VERSION" dbtype="int" javatype="integer" />
-            <column name="OC_ENCOUNTER_OUTCOME" dbtype="varchar" javatype="string" size="255" />
-            <column name="OC_ENCOUNTER_DESTINATIONUID" dbtype="varchar" javatype="string" size="255" />
-            <column name="OC_ENCOUNTER_ORIGIN" dbtype="varchar" javatype="string" size="255" />
-            <column name="OC_ENCOUNTER_SITUATION" dbtype="varchar" javatype="string" size="50" />
+			<column name="OC_ENCOUNTER_CREATETIME" dbtype="datetime" javatype="date"/>
+            <column name="OC_ENCOUNTER_UPDATETIME" dbtype="datetime" javatype="date"/>
+			<column name="OC_ENCOUNTER_UPDATEUID" dbtype="varchar" javatype="string" size="20"/>
+			<column name="OC_ENCOUNTER_VERSION" dbtype="int" javatype="integer"/>
+            <column name="OC_ENCOUNTER_OUTCOME" dbtype="varchar" javatype="string" size="255"/>
+            <column name="OC_ENCOUNTER_DESTINATIONUID" dbtype="varchar" javatype="string" size="255"/>
+            <column name="OC_ENCOUNTER_ORIGIN" dbtype="varchar" javatype="string" size="255"/>
+            <column name="OC_ENCOUNTER_SITUATION" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_ENCOUNTER_PROCESSED" dbtype="datetime" javatype="date"/>
             <column name="OC_ENCOUNTER_CATEGORIES" dbtype="varchar" javatype="string" size="50"/>
-            <column name="OC_ENCOUNTER_NEWCASE" dbtype="int" javatype="integer" />
+            <column name="OC_ENCOUNTER_NEWCASE" dbtype="int" javatype="integer"/>
             <column name="OC_ENCOUNTER_ETIOLOGY" dbtype="varchar" javatype="string" size="255"/>
         </columns>
 		<indexes>
@@ -2777,7 +2778,7 @@
             <column name="OC_ENCOUNTER_SITUATION" dbtype="varchar" javatype="string" size="50" nulls="0"/>
             <column name="OC_ENCOUNTER_PROCESSED" dbtype="datetime" javatype="date"/>
             <column name="OC_ENCOUNTER_CATEGORIES" dbtype="varchar" javatype="string" size="50"/>
-            <column name="OC_ENCOUNTER_NEWCASE" dbtype="int" javatype="integer" />
+            <column name="OC_ENCOUNTER_NEWCASE" dbtype="int" javatype="integer"/>
             <column name="OC_ENCOUNTER_ETIOLOGY" dbtype="varchar" javatype="string" size="255"/>
         </columns>
     </table>
@@ -3042,8 +3043,8 @@
 	</table>
 	<table name="AccessLogs" db="ocadmin" sync="NONE">
 		<columns>
-			<column name="userid" dbtype="int" javatype="integer" />
-			<column name="accesstime" dbtype="datetime" javatype="date" />
+			<column name="userid" dbtype="int" javatype="integer"/>
+			<column name="accesstime" dbtype="datetime" javatype="date"/>
 			<column name="accessid" dbtype="int" javatype="integer" primary="1"/>
 			<column name="accesscode" dbtype="varchar" javatype="string" size="255"/>
 		</columns>
@@ -3458,9 +3459,9 @@
             <column name="contactemail" dbtype="varchar" javatype="string" size="255"/>
             <column name="defaultcontext" dbtype="varchar" javatype="string" size="255"/>
             <column name="defaultservicestockuid" dbtype="varchar" javatype="string" size="255"/>
-            <column name="inactive" dbtype="int" javatype="integer" />
+            <column name="inactive" dbtype="int" javatype="integer"/>
             <column name="costcenter" dbtype="varchar" javatype="string" size="50"/>
-            <column name="acceptsVisits" dbtype="int" javatype="integer" />
+            <column name="acceptsVisits" dbtype="int" javatype="integer"/>
             <column name="performeruid" dbtype="varchar" javatype="string" size="50"/>
             <column name="stayprestationuid" dbtype="varchar" javatype="string" size="50"/>
         </columns>
@@ -3968,7 +3969,7 @@
 	</table>
     <table name="DiagnosisHistory" db="openclinic" sync="MERGE">
         <columns>
-            <column name="itemId" dbtype="int" javatype="integer" primary="1" />
+            <column name="itemId" dbtype="int" javatype="integer" primary="1"/>
             <column name="serverid" dbtype="int" javatype="integer" primary="1"/>
             <column name="inactiveDate" dbtype="datetime" javatype="date" version="1"/>
         </columns>
@@ -4021,7 +4022,7 @@
             <column name="updateTime" dbtype="datetime" javatype="date"/>
             <column name="creationDate" dbtype="datetime" javatype="date"/>
             <column name="ts" dbtype="datetime" javatype="date" version="1"/>
-            <column name="serverid" dbtype="int" javatype="integer" primary="1" />
+            <column name="serverid" dbtype="int" javatype="integer" primary="1"/>
         </columns>
         <indexes>
             <index name="visitId">
