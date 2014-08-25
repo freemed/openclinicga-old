@@ -1,0 +1,1 @@
+java -classpath ../WEB-INF/classes/;../WEB-INF/lib/log4j.jar;../WEB-INF/lib/jtds-0.9.jar;../WEB-INF/lib/mysql-connector-java-5.1.10-bin.jar;../WEB-INF/lib/CacheDB.jar;../WEB-INF/lib/dom4j-full.jar;../WEB-INF/lib/mail.jar;../WEB-INF/lib/activation.jar be.openclinic.archiving.ScanDirectoryMonitorMain
