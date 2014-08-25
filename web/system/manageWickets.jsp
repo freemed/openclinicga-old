@@ -1,4 +1,6 @@
-<%@ page import="be.openclinic.finance.Wicket,java.util.Vector,java.util.StringTokenizer" %>
+<%@page import="be.openclinic.finance.Wicket,
+                java.util.Vector,
+                java.util.StringTokenizer"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("financial.wicket","all",activeUser)%>
 <%=sJSSORTTABLE%>
@@ -9,54 +11,73 @@
         StringBuffer html = new StringBuffer();
 
         html.append("<tr id='rowAuthorizedUsers"+userIdx+"'>")
-            .append(" <td width='16'>")
-            .append("  <a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+userIdx+")'>")
-            .append("   <img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web","delete",sWebLanguage)+"' class='link'>")
-            .append("  </a>")
-            .append(" </td>")
-            .append(" <td>"+userName+"</td>")
+             .append("<td width='16'>")
+              .append("<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+userIdx+")'>")
+               .append("<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web","delete",sWebLanguage)+"' class='link'>")
+              .append("</a>")
+             .append("</td>")
+             .append("<td>"+userName+"</td>")
             .append("</tr>");
 
         return html.toString();
     }
 %>
 
-<%
-    //GENERAL
-    StringBuffer authorizedUsersHTML = new StringBuffer(),
-            authorizedUsersJS = new StringBuffer(),
-            authorizedUsersDB = new StringBuffer();
-    int authorisedUsersIdx = 1;
-    String sDefaultSortDir = "DESC";
-    String sSortDir = checkString(request.getParameter("SortDir"));
-    if (sSortDir.length() == 0) sSortDir = sDefaultSortDir;
-
+<%    
     String sAction = checkString(request.getParameter("Action"));
 
-    String sEditWicketUID = checkString(request.getParameter("EditWicketUID"));
-    String sEditWicketService = checkString(request.getParameter("EditWicketService"));
-    String sEditWicketServiceName = checkString(request.getParameter("EditWicketServiceName"));
-    String sEditWicketBalance = checkString(request.getParameter("EditWicketBalance"));
-    String sEditWicketAuthorizedUsers = checkString(request.getParameter("EditAuthorizedUsers"));
-    String sFindWicketBegin = checkString(request.getParameter("FindWicketBegin"));
-    String sFindWicketEnd = checkString(request.getParameter("FindWicketEnd"));
-    String sFindWicketService = checkString(request.getParameter("FindWicketService"));
-    String sFindWicketServiceName = checkString(request.getParameter("FindWicketServiceName"));
-    String sFindSortColumn = checkString(request.getParameter("FindSortColumn"));
-    if (sAction.equals("DELETE")) {
+    String sEditWicketUID         = checkString(request.getParameter("EditWicketUID")),
+	       sEditWicketService     = checkString(request.getParameter("EditWicketService")),
+	       sEditWicketServiceName = checkString(request.getParameter("EditWicketServiceName")),
+	       sEditWicketBalance     = checkString(request.getParameter("EditWicketBalance")),
+	       sEditWicketAuthorizedUsers = checkString(request.getParameter("EditAuthorizedUsers"));
+	      
+    String sFindWicketBegin   = checkString(request.getParameter("FindWicketBegin")),
+	       sFindWicketEnd     = checkString(request.getParameter("FindWicketEnd")),
+	       sFindWicketService = checkString(request.getParameter("FindWicketService")),
+	       sFindWicketServiceName = checkString(request.getParameter("FindWicketServiceName"));
+    
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n********************** system/manageWickets.jsp ***********************");
+    	Debug.println("sAction                : "+sAction);
+    	Debug.println("sEditWicketUID         : "+sEditWicketUID);
+    	Debug.println("sEditWicketService     : "+sEditWicketService);
+    	Debug.println("sEditWicketServiceName : "+sEditWicketServiceName);
+    	Debug.println("sEditWicketBalance     : "+sEditWicketBalance);
+    	Debug.println("sEditWicketAuthorizedUsers : "+sEditWicketAuthorizedUsers);
+    	Debug.println("sFindWicketBegin       : "+sFindWicketBegin);
+    	Debug.println("sFindWicketEnd         : "+sFindWicketEnd);
+    	Debug.println("sFindWicketService     : "+sFindWicketService);
+    	Debug.println("sFindWicketServiceName : "+sFindWicketServiceName+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    
+    StringBuffer authorizedUsersHTML = new StringBuffer(),
+                 authorizedUsersJS = new StringBuffer(),
+                 authorizedUsersDB = new StringBuffer();
+    int authorisedUsersIdx = 1;
+    String sMsg = "";
+    
+    //*** DELETE **********************************************
+    if(sAction.equals("DELETE")){
         Wicket wicket = Wicket.get(sEditWicketUID);
         wicket.delete();
         sEditWicketUID = "";
+        
+        sMsg = getTran("web","dataIsDeleted",sWebLanguage);
         sAction = "SEARCH";
     }
 
-    if (sAction.equals("SAVE")) {
+    //*** SAVE *************************************************
+    if(sAction.equals("SAVE")){
         Wicket wicket = new Wicket();
         Service service;
 
-        if (sEditWicketUID.length() > 0) {
+        if(sEditWicketUID.length() > 0){
             wicket = Wicket.get(sEditWicketUID);
-        } else {
+        } 
+        else{
             wicket.setCreateDateTime(ScreenHelper.getSQLDate(getDate()));
             wicket.setBalance(0);
         }
@@ -69,10 +90,12 @@
         wicket.setUpdateDateTime(ScreenHelper.getSQLDate(getDate()));
         wicket.setUpdateUser(activeUser.userid);
         wicket.store();
+        
         sEditWicketUID = wicket.getUid();
+        sMsg = getTran("web","dataSaved",sWebLanguage);
     }
 
-    if (sEditWicketUID.length() > 0) {
+    if(sEditWicketUID.length() > 0){
         Wicket wicket = Wicket.get(sEditWicketUID);
 
         sEditWicketService = wicket.getServiceUID();
@@ -80,104 +103,108 @@
         sEditWicketBalance = Double.toString(wicket.getBalance());
         sEditWicketAuthorizedUsers = wicket.getAuthorizedUsersId();
     }
-%>
-<!-- FIND BLOCK -->
-<%
-    if(sAction.equals("SEARCH") || sAction.equals("")){
-%>
-<form name="FindWicketForm" method="POST" action="<c:url value='/main.do'/>?Page=system/manageWickets.jsp&ts=<%=getTs()%>">
-    <%=writeTableHeader("Web.manage","manageWickets",sWebLanguage," doBack();")%>
-    <table class='list' border='0' width='100%' cellspacing='1'>
-        <%-- service --%>
-        <tr>
-            <td class="admin2"><%=getTran("Web","wicket",sWebLanguage)%></td>
-            <td class='admin2'>
-                <input type="hidden" name="FindWicketService" value="<%=sEditWicketService%>">
-                <input class="text" type="text" name="FindWicketServiceName" readonly size="<%=sTextWidth%>" value="<%=sFindWicketServiceName%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('FindWicketService','FindWicketServiceName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="FindWicketForm.FindWicketServiceName.value='';FindWicketForm.FindWicketService.value='';">
-                <input class='button' type='button' name='buttonfind' value='<%=getTran("Web","search",sWebLanguage)%>' onclick='doFind();'>
-                <input class='button' type='button' name='buttonclear' value='<%=getTran("Web","Clear",sWebLanguage)%>' onclick='doClear();'>
-                <input class='button' type='button' name='buttonnew' value='<%=getTran("Web.Occup","medwan.common.create-new",sWebLanguage)%>' onclick='doNew();'>
-                <input class='button' type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doBack();">
-            </td>
-        </tr>
-        <%-- action,sortcolumn --%>
-        <input type='hidden' name='Action' value=''>
-        <input type='hidden' name='FindSortColumn' value='<%=sFindSortColumn%>'>
-    </table>
-</form>
-<!-- END FIND BLOCK -->
-<%
-    }
-%>
-<!-- RESULTS BLOCK -->
-<%
-    if (sAction.equals("SEARCH")) {
-        //RESULTS
 
+    //*** FIND-FORM *******************************************************************************
+    if(sAction.equals("SEARCH") || sAction.equals("")){
+    	if(sEditWicketService.length() > 0){
+    		sFindWicketServiceName = ScreenHelper.checkString(checkString(getTranNoLink("Service",sEditWicketService,sWebLanguage)));
+    	}
+    	
+		%>
+			<form name="FindWicketForm" method="POST" action="<c:url value='/main.do'/>?Page=system/manageWickets.jsp&ts=<%=getTs()%>">
+			    <%=writeTableHeader("Web.manage","manageWickets",sWebLanguage," doBack();")%>
+			    
+			    <table class='list' border='0' width='100%' cellspacing='1'>
+			        <%-- service --%>
+			        <tr>
+			            <td class="admin2"><%=getTran("Web","wicket",sWebLanguage)%></td>
+			            <td class='admin2'>
+			                <input type="hidden" name="FindWicketService" value="<%=sEditWicketService%>">
+			                <input class="text" type="text" name="FindWicketServiceName" readonly size="<%=sTextWidth%>" value="<%=sFindWicketServiceName%>">
+			                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('FindWicketService','FindWicketServiceName');">
+			                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="FindWicketForm.FindWicketServiceName.value='';FindWicketForm.FindWicketService.value='';">
+			              
+			                <input class='button' type='button' name='buttonfind' value='<%=getTran("Web","search",sWebLanguage)%>' onclick='doFind();'>
+			                <input class='button' type='button' name='buttonclear' value='<%=getTran("Web","Clear",sWebLanguage)%>' onclick='doClear();'>
+			                <input class='button' type='button' name='buttonnew' value='<%=getTran("Web.Occup","medwan.common.create-new",sWebLanguage)%>' onclick='doNew();'>
+			                <input class='button' type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doBack();">
+			            </td>
+			        </tr>
+			        
+			        <input type='hidden' name='Action' value=''>
+			    </table>
+			</form>
+		<%
+    }
+
+    //*** SHOW RESULTS ****************************************************************************
+    if(sAction.equals("SEARCH")){
         Vector vWickets = Wicket.selectWicketsInService(sFindWicketService);
         StringBuffer sbResults = new StringBuffer();
         String sClass = "";
-
         Wicket wicket;
 
         Iterator iter = vWickets.iterator();
-
-        while (iter.hasNext()) {
-            if (sClass.equals("")) {
-                sClass = "1";
-            } else {
-                sClass = "";
-            }
-            wicket = (Wicket) iter.next();
+        while(iter.hasNext()){
+        	// alternate row-style
+            if(sClass.equals("")) sClass = "1";
+            else                  sClass = "";
+            
+            wicket = (Wicket)iter.next();
             String sDate = "";
-            if (wicket.getCreateDateTime() != null) {
+            if(wicket.getCreateDateTime()!=null){
                 sDate = checkString(ScreenHelper.stdDateFormat.format(wicket.getCreateDateTime()));
             }
-            sbResults.append("<tr class=\"list" + sClass + "\"" +
-                    " onmouseover=\"this.style.cursor='hand';\"" +
-                    " onmouseout=\"this.style.cursor='default';\">" +
-                    "   <td><a href='#' onclick='deleteWicket(\"" + wicket.getUid() + "\")'>" +
-                    "       <img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web", "delete", sWebLanguage) + "' class='link'>" +
-                    "       </a>" +
-                    "   </td>" +
-                    "   <td onclick=\"doSelect('" + wicket.getUid() + "');\">" + sDate + "</td>" +
-                    "   <td onclick=\"doSelect('" + wicket.getUid() + "');\">" + wicket.getUid() + "&nbsp;" + checkString(getTran("Service", wicket.getServiceUID(), sWebLanguage)) + "</td>" +
-                    "   <td onclick=\"doSelect('" + wicket.getUid() + "');\">" + wicket.getBalance() + "</td>" +
-                    "</tr>");
+            
+            sbResults.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\">" +
+		                      "<td width='25'>"+
+            		           "<a href='#' onclick='deleteWicket(\""+wicket.getUid()+"\")'>" +
+		                        "<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web", "delete", sWebLanguage)+"' class='link'>" +
+		                       "</a>" +
+		                      "</td>" +
+		                      "<td onclick=\"doSelect('"+wicket.getUid()+"');\">"+sDate+"</td>" +
+		                      "<td onclick=\"doSelect('"+wicket.getUid()+"');\">"+wicket.getUid()+"&nbsp;"+checkString(getTran("Service", wicket.getServiceUID(), sWebLanguage))+"</td>" +
+		                      "<td onclick=\"doSelect('"+wicket.getUid()+"');\">"+wicket.getBalance()+"</td>" +
+		                     "</tr>");
 
         }
-        String sortTran = getTran("web", "clicktosort", sWebLanguage);
+        
         if (vWickets.size() > 0) {
-%>
-    <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
-        <tr class="admin">
-            <td/>
-            <td width="15%"><a href="#" title="<%=sortTran%>" class="underlined"><<%=sSortDir%>><%=getTranNoLink("Web","created",sWebLanguage)%></<%=sSortDir%>></a></td>
-            <td width="30%"><%=getTranNoLink("web","name",sWebLanguage)%></td>
-            <td width="*"><%=getTranNoLink("financial","balance",sWebLanguage)%></td>
-        </tr>
-        <%=sbResults%>
-    </table>
-    <%
-    }else{
-    %>
-        <%=getTran("web","norecordsfound",sWebLanguage)%>
-        <br><br>
-    <%
+			%>
+			    <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
+			        <tr class="admin">
+			            <td/>
+			            <td width="90"><%=getTranNoLink("Web","created",sWebLanguage)%></td>
+			            <td width="250"><%=getTranNoLink("web","name",sWebLanguage)%></td>
+			            <td width="*"><%=getTranNoLink("balance","balance",sWebLanguage)%></td>
+			        </tr>
+			        <%=sbResults%>
+			    </table>
+               
+                <%
+				    if(sMsg.length() > 0){
+				    	%><%=sMsg%><br><%
+				    }
+			    %>
+			    
+		        <%=ScreenHelper.alignButtonsStart()%>
+		            <input class='button' type="button" name="Backbutton" value='<%=getTran("web","Back",sWebLanguage)%>' onclick="doBack();">
+                <%=ScreenHelper.alignButtonsStop()%>
+		    <%
+    	}
+        else{
+		    %>
+		        <%=getTran("web","norecordsfound",sWebLanguage)%>
+		        <br><br>
+		    <%
+    	}
     }
-    %>
-<!-- END RESULTS BLOCK -->
-<%
-    }
-%>
-<%-- EDIT BLOCK --%>
-<%
-    if (sAction.equals("NEW") || sAction.equals("SELECT") || sAction.equals("SAVE")) {
 
+    //*** EDIT ************************************************************************************
+    if (sAction.equals("NEW") || sAction.equals("SELECT") || sAction.equals("SAVE")) {
         String authorizedUserId = "";
         String authorizedUserName = "";
+        
         // authorized users
         //String authorizedUserIds = checkString(serviceStock.getAuthorizedUserIds());
         if (sEditWicketAuthorizedUsers.length() > 0) {
@@ -190,46 +217,45 @@
                 ad_conn.close();
                 authorisedUsersIdx++;
 
-                authorizedUsersJS.append("rowAuthorizedUsers" + authorisedUsersIdx + "=" + authorizedUserId + "£" + authorizedUserName + "$");
+                authorizedUsersJS.append("rowAuthorizedUsers"+authorisedUsersIdx+"="+authorizedUserId+"£"+authorizedUserName+"$");
                 authorizedUsersHTML.append(addAuthorizedUser(authorisedUsersIdx, authorizedUserName, sWebLanguage));
-                authorizedUsersDB.append(authorizedUserId + "$");
+                authorizedUsersDB.append(authorizedUserId+"$");
             }
         }
-
 
 %>
 <form name="EditWicketForm" method="POST" action="<c:url value='/main.do'/>?Page=system/manageWickets.jsp&ts=<%=getTs()%>">
     <%=writeTableHeader("Web.manage","manageWickets",sWebLanguage," doSearchBack();")%>
+   
     <table class='list' border='0' width='100%' cellspacing='1'>
-        <%-- service --%>
+        <%-- wicket service --%>
         <tr>
-            <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","wicket",sWebLanguage)%></td>
+            <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","wicket",sWebLanguage)%></td>            
             <td class='admin2'>
                 <select class="text" name="EditWicketService">
                     <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
-        <%
-            Vector vServices = Service.getWickets();
-
-            Iterator iter = vServices.iterator();
-
-            String sServiceId = "";
-            String sSelected = "";
-            while(iter.hasNext()){
-                sServiceId = (String)iter.next();
-                if(sEditWicketService.equals(sServiceId)){
-                    sSelected = " selected";
-                }else{
-                    sSelected = "";
-                }
-                %>
-                    <option value="<%=sServiceId%>" <%=sSelected%>><%=getTran("service",sServiceId,sWebLanguage)%></option>
-                <%
-
-            }
-        %>
+			        <%
+			            Vector vServices = Service.getWickets();
+			            Iterator iter = vServices.iterator();
+			            String sServiceId = "";
+			            String sSelected = "";
+			            while(iter.hasNext()){
+			                sServiceId = (String)iter.next();
+			                if(sEditWicketService.equals(sServiceId)){
+			                    sSelected = " selected";
+			                }
+			                else{
+			                    sSelected = "";
+			                }
+			                
+			                %><option value="<%=sServiceId%>" <%=sSelected%>><%=getTran("service",sServiceId,sWebLanguage)%></option><%
+			            }
+			        %>
                 </select>
             </td>
         </tr>
+        
+        <%-- authorized users --%>
         <tr>
             <td class="admin" nowrap><%=getTran("Web","Authorizedusers",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
@@ -248,15 +274,23 @@
                 <input type="hidden" name="EditAuthorizedUsers" value="<%=authorizedUsersDB%>">
             </td>
         </tr>
-<%=ScreenHelper.setFormButtonsStart()%>
-    <input class='button' type="button" name="EditSaveButton" value='<%=getTran("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
-    <input class='button' type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doSearchBack();">
-<%=ScreenHelper.setFormButtonsStop()%>
+        
+        <%-- BUTTONS --%>
+		<%=ScreenHelper.setFormButtonsStart()%>
+		    <input class='button' type="button" name="SaveButton" value='<%=getTran("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
+		    <input class='button' type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doSearchBack();">
+		<%=ScreenHelper.setFormButtonsStop()%>
     </table>
+           
+    <%
+	    if(sMsg.length() > 0){
+	    	%><%=sMsg%><br><%
+	    }
+    %>
+    
     <input type="hidden" name="Action" value=""/>
     <input type="hidden" name="EditWicketUID" value="<%=sEditWicketUID%>"/>
 </form>
-<!-- END EDIT BLOCK -->
 <%
     }
 %>
@@ -277,7 +311,9 @@
 
       var td = tr.insertCell(0);
       td.width = 16;
-      td.innerHTML = "<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+iAuthorizedUsersIdx+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+iAuthorizedUsersIdx+")'>"+
+                      "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'>"+
+                     "</a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -290,14 +326,7 @@
       clearAuthorizedUserFields();
     }
     else{
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=firstselectaperson";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      if(window.showModalDialog){
-        window.showModalDialog(popupUrl,'',modalities);
-      }else{
-        window.confirm("<%=getTranNoLink("web","firstselectaperson",sWebLanguage)%>");
-      }
-
+      alertDialog("web","firstselectaperson");
       EditWicketForm.AuthorizedUserNameAdd.focus();
     }
   }
@@ -330,17 +359,6 @@
     return array.join("$");
   }
 
-  <%-- DELETE ROW FROM ARRAY STRING --%>
-  function deleteRowFromArrayString(sArray,rowid){
-    var array = sArray.split("$");
-    for(var i=0;i<array.length;i++){
-      if (array[i].indexOf(rowid)>-1){
-        array.splice(i,1);
-      }
-    }
-    return array.join("$");
-  }
-
   function doClear(){
     FindWicketForm.FindWicketService.value = "";
     FindWicketForm.FindWicketServiceName.value = "";
@@ -351,6 +369,9 @@
       FindWicketForm.Action.value = "SEARCH";
       FindWicketForm.buttonfind.disabled = true;
       FindWicketForm.submit();
+    }
+    else{
+      FindWicketForm.FindWicketServiceName.focus();
     }
   }
 
@@ -363,7 +384,10 @@
   }
 
   function doSearchBack(){
-    window.location.href="<c:url value='/main.do'/>?Page=system/manageWickets.jsp&ts=<%=getTs()%>";
+    EditWicketForm.Action.value = "SEARCH";
+    EditWicketForm.SaveButton.disabled = true;
+    EditWicketForm.Backbutton.disabled = true;
+    EditWicketForm.submit();
   }
 
   <%-- search service --%>
@@ -371,27 +395,22 @@
     openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
   }
 
+  <%-- save --%>
   function doSave(){
     if(EditWicketForm.EditWicketService.value == ""){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=wicket&labelID=no_service";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      var answer;
-      if(window.showModalDialog){
-        window.showModalDialog(popupUrl,'',modalities);
-      }
-      else{
-        window.confirm("<%=getTranNoLink("wicket","no_service",sWebLanguage)%>");
-      }
+      alertDialog("wicket","no_service");
+      EditWicketForm.EditWicketService.focus();
     }
     else{
-      EditWicketForm.EditSaveButton.disabled = true;
+      EditWicketForm.SaveButton.disabled = true;
       EditWicketForm.Action.value = "SAVE";
       EditWicketForm.submit();
     }
   }
 
+  <%-- select --%>
   function doSelect(id){
-    window.location.href="<c:url value='/main.do'/>?Page=system/manageWickets.jsp&EditWicketUID=" + id + "&Action=SELECT&ts=<%=getTs()%>";
+    window.location.href="<c:url value='/main.do'/>?Page=system/manageWickets.jsp&EditWicketUID="+id+"&Action=SELECT&ts=<%=getTs()%>";
   }
 
   <%-- popup : search authorized user --%>
@@ -399,7 +418,10 @@
     openPopup("/_common/search/searchUser.jsp&ts=<%=getTs()%>&ReturnUserID="+userUidField+"&ReturnName="+userNameField+"&displayImmatNew=no");
   }
 
+  <%-- delete --%>
   function deleteWicket(id){
-    window.location.href="<c:url value='/main.do'/>?Page=system/manageWickets.jsp&EditWicketUID=" + id + "&Action=DELETE&ts=<%=getTs()%>";
+	if(yesnoDialog("web","areYouSureToDelete")){
+      window.location.href="<c:url value='/main.do'/>?Page=system/manageWickets.jsp&EditWicketUID="+id+"&Action=DELETE&ts=<%=getTs()%>";
+	}
   }
 </script>
