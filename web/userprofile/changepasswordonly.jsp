@@ -353,7 +353,7 @@
 
         //--- back button ---
         StringBuffer backButton = new StringBuffer();
-        backButton.append("<input type='button' class='button' value='").append(getTran("Web","back",sWebLanguage)).append("'")
+        backButton.append("<input type='button' class='button' value='").append(getTranNoLink("Web","back",sWebLanguage)).append("'")
                   .append(" onclick='window.location.href=\""+sCONTEXTPATH+"/main.do\"'");
 
         //--- display errors ---
