@@ -6,6 +6,7 @@ import be.mxs.common.util.db.MedwanQuery;
 import be.openclinic.adt.Encounter;
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.*;
+
 import net.admin.User;
 import net.admin.AdminPerson;
 
@@ -67,9 +68,14 @@ public class PDFArchiveDocumentBarcodeGenerator extends PDFOfficialBasic {
             doc.addProducer();
             doc.addAuthor(user.person.firstname+" "+user.person.lastname);
 			doc.addCreationDate();
-			doc.addCreator("OpenClinic Software");           
-			doc.setMargins(10,10,10,10);
-            doc.setJavaScript_onLoad("print();\r");
+			doc.addCreator("OpenClinic Software");  
+			
+			Rectangle rectangle = new Rectangle(0,0,new Float(MedwanQuery.getInstance().getConfigInt("archiveDocumentBarcodeWidth",600)*72/254).floatValue(),
+					                                new Float(MedwanQuery.getInstance().getConfigInt("archiveDocumentBarcodeHeight",numberOfPrints*100)*72/254).floatValue());
+            doc.setPageSize(rectangle);
+            doc.setMargins(10,10,10,10);
+         
+            doc.setJavaScript_onLoad(MedwanQuery.getInstance().getConfigString("cardJavaScriptOnLoad","document.print();"));
             doc.open();
 
             // add content to document            
@@ -98,21 +104,21 @@ public class PDFArchiveDocumentBarcodeGenerator extends PDFOfficialBasic {
     protected void printBarcode(String sCode){
         try {
             table = new PdfPTable(1);
-            table.setWidthPercentage(50);
+            table.setWidthPercentage(100);
 
             PdfContentByte cb = docWriter.getDirectContent();
             Barcode39 barcode39 = new Barcode39();
             barcode39.setCode(sCode);
-            Image image = barcode39.createImageWithBarcode(cb, null, null);
+            Image image = barcode39.createImageWithBarcode(cb,null,null);
             cell = new PdfPCell(image);
             cell.setBorder(PdfPCell.NO_BORDER);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setPadding(30);
+            cell.setPaddingTop(15);
+            cell.setPaddingBottom(15);
 
             table.addCell(cell);
 
             doc.add(table);
-            doc.setJavaScript_onLoad(MedwanQuery.getInstance().getConfigString("cardJavaScriptOnLoad","document.print();"));
         }
         catch(Exception e){
             e.printStackTrace();

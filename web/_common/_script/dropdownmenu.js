@@ -178,12 +178,9 @@ var setWaitMsg = function(div_id){
   $(div_id).style.display = "block";
 }
 
-var gk = window.Event ? 1 : 0;
-function enterEvent(e,desKey){
-  var key = gk ? e.which : window.event.keyCode;
-  // for compatibility FF IE
-  if(key==desKey) return true;
-  else            return false;
+function enterEvent(e,targetKey){
+  var eventKey = e.which?e.which:window.event.keyCode;
+  return (eventKey==targetKey);
 }
 
 function centerPopup(element){

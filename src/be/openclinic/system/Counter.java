@@ -9,13 +9,6 @@ import java.util.Vector;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.ScreenHelper;
 
-/**
- * Created by IntelliJ IDEA.
- * User: mxs_david
- * Date: 9-jan-2007
- * Time: 10:22:56
- * To change this template use Options | File Templates.
- */
 public class Counter {
     private String name;
     private int counter;
@@ -37,6 +30,7 @@ public class Counter {
     }
 
     /*
+    // --------> USE MWQ.setOpenclinicCounter(), which is synchronised <--------------
     public static void saveCounter(Counter objCounter, String sDB){
         PreparedStatement ps = null;
         Connection conn;

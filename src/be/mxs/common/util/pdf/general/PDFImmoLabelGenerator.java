@@ -15,22 +15,17 @@ import java.util.Vector;
 import java.util.Hashtable;
 import java.util.Enumeration;
 
-/**
- * User: stijn smets
- * Date: 21-nov-2006
- */
 public class PDFImmoLabelGenerator extends PDFOfficialBasic {
 
     // declarations
     private final int pageWidth = 100;
     private String type;
     PdfWriter docWriter=null;
+    
     public void addHeader(){
     }
     public void addContent(){
     }
-
-
 
     //--- CONSTRUCTOR -----------------------------------------------------------------------------
     public PDFImmoLabelGenerator(User user, String sProject){
@@ -64,12 +59,14 @@ public class PDFImmoLabelGenerator extends PDFOfficialBasic {
             doc.addAuthor(user.person.firstname+" "+user.person.lastname);
 			doc.addCreationDate();
 			doc.addCreator("OpenClinic Software");
-            Rectangle rectangle=new Rectangle(0,0,new Float(MedwanQuery.getInstance().getConfigInt("immoLabelWidth",450)*72/254).floatValue(),new Float(MedwanQuery.getInstance().getConfigInt("immoLabelHeight",220)*72/254).floatValue());
+            
+			Rectangle rectangle = new Rectangle(0,0,new Float(MedwanQuery.getInstance().getConfigInt("immoLabelWidth",450)*72/254).floatValue(),new Float(MedwanQuery.getInstance().getConfigInt("immoLabelHeight",220)*72/254).floatValue());
             doc.setPageSize(rectangle);
             doc.setMargins(2,2,2,2);
             doc.setJavaScript_onLoad("print();\r");
             doc.open();
-            printImageLabel(articles);
+            
+            printImmoLabels(articles);
 		}
 		catch(Exception e){
 			baosPDF.reset();
@@ -91,15 +88,19 @@ public class PDFImmoLabelGenerator extends PDFOfficialBasic {
     private void addPageHeader() throws Exception {
     }
 
-    protected void printImageLabel(Vector articles){
-        try {
-            for(int n=0;n<articles.size();n++){
-            	Article article=(Article)articles.elementAt(n);
+    //--- PRINT IMMO LABELS -----------------------------------------------------------------------
+    protected void printImmoLabels(Vector articles){
+        try{
+        	Article article;
+            for(int n=0; n<articles.size(); n++){
+            	article = (Article)articles.elementAt(n);
+            	
+            	// barcode
                 PdfContentByte cb = docWriter.getDirectContent();
                 Barcode39 barcode39 = new Barcode39();
                 String id = article.id;
                 barcode39.setCode(id);
-                barcode39.setFont(null);
+                barcode39.setFont(null);                
                 Image image = barcode39.createImageWithBarcode(cb, null, null);
                 image.scaleAbsoluteHeight((new Float(MedwanQuery.getInstance().getConfigInt("immoLabelHeigth",220)*72/254).floatValue()-doc.topMargin()-doc.bottomMargin())*1/2);
                 image.scaleAbsoluteWidth((new Float(MedwanQuery.getInstance().getConfigInt("immoLabelWidth",450)*72/254).floatValue()-doc.leftMargin()-doc.rightMargin())*4/5);
@@ -111,6 +112,8 @@ public class PDFImmoLabelGenerator extends PDFOfficialBasic {
                 cell.setColspan(1);
                 cell.setPadding(0);
                 table.addCell(cell);
+                
+                // part 1 : service/location
                 cell = new PdfPCell(new Paragraph(article.name.split("_")[0],FontFactory.getFont(FontFactory.COURIER,MedwanQuery.getInstance().getConfigInt("immofontsize",8),Font.BOLD)));
                 cell.setColspan(1);
                 cell.setBorder(PdfPCell.NO_BORDER);
@@ -118,6 +121,8 @@ public class PDFImmoLabelGenerator extends PDFOfficialBasic {
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 cell.setPadding(0);
                 table.addCell(cell);
+                
+                // part 2 : code/buyer
                 cell = new PdfPCell(new Paragraph(article.name.split("_")[1],FontFactory.getFont(FontFactory.COURIER,MedwanQuery.getInstance().getConfigInt("immofontsize",8),Font.BOLD)));
                 cell.setColspan(1);
                 cell.setBorder(PdfPCell.NO_BORDER);
@@ -125,6 +130,7 @@ public class PDFImmoLabelGenerator extends PDFOfficialBasic {
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
                 cell.setPadding(0);
                 table.addCell(cell);
+                
                 doc.add(table);
                 doc.newPage();
             }
@@ -132,115 +138,6 @@ public class PDFImmoLabelGenerator extends PDFOfficialBasic {
         catch(Exception e){
             e.printStackTrace();
         }
-    }
-
-    //################################### UTILITY FUNCTIONS #######################################
-
-    //--- CREATE UNDERLINED CELL ------------------------------------------------------------------
-    protected PdfPCell createUnderlinedCell(String value, int colspan){
-        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.UNDERLINE))); // underlined
-        cell.setColspan(colspan);
-        cell.setBorder(PdfPCell.NO_BORDER);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-
-        return cell;
-    }
-
-    //--- PRINT VECTOR ----------------------------------------------------------------------------
-    protected String printVector(Vector vector){
-        StringBuffer buf = new StringBuffer();
-        for(int i=0; i<vector.size(); i++){
-            buf.append(vector.get(i)).append(", ");
-        }
-
-        // remove last comma
-        if(buf.length() > 0) buf.deleteCharAt(buf.length()-2);
-
-        return buf.toString();
-    }
-
-    //--- CREATE TITLE ----------------------------------------------------------------------------
-    protected PdfPCell createTitle(String msg, int colspan){
-        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,10,Font.UNDERLINE)));
-        cell.setColspan(colspan);
-        cell.setBorder(PdfPCell.NO_BORDER);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-
-        return cell;
-    }
-
-    //--- CREATE TITLE ----------------------------------------------------------------------------
-    protected PdfPCell createLabel(String msg, int fontsize, int colspan,int style){
-        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,fontsize,style)));
-        cell.setColspan(colspan);
-        cell.setBorder(PdfPCell.NO_BORDER);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-
-        return cell;
-    }
-
-    //--- CREATE BORDERLESS CELL ------------------------------------------------------------------
-    protected PdfPCell createBorderlessCell(String value, int height, int colspan){
-        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-        cell.setPaddingTop(height); //
-        cell.setColspan(colspan);
-        cell.setBorder(PdfPCell.NO_BORDER);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-
-        return cell;
-    }
-
-    protected PdfPCell createBorderlessCell(String value, int colspan){
-        return createBorderlessCell(value,3,colspan);
-    }
-
-    protected PdfPCell createBorderlessCell(int colspan){
-        cell = new PdfPCell();
-        cell.setColspan(colspan);
-        cell.setBorder(PdfPCell.NO_BORDER);
-
-        return cell;
-    }
-
-    //--- CREATE ITEMNAME CELL --------------------------------------------------------------------
-    protected PdfPCell createItemNameCell(String itemName, int colspan){
-        cell = new PdfPCell(new Paragraph(itemName,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL))); // no uppercase
-        cell.setColspan(colspan);
-        cell.setBorder(PdfPCell.BOX);
-        cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-
-        return cell;
-    }
-
-    //--- CREATE PADDED VALUE CELL ----------------------------------------------------------------
-    protected PdfPCell createPaddedValueCell(String value, int colspan){
-        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-        cell.setColspan(colspan);
-        cell.setBorder(PdfPCell.BOX);
-        cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-        cell.setPaddingRight(5); // difference
-
-        return cell;
-    }
-
-    //--- CREATE NUMBER VALUE CELL ----------------------------------------------------------------
-    protected PdfPCell createNumberCell(String value, int colspan){
-        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
-        cell.setColspan(colspan);
-        cell.setBorder(PdfPCell.BOX);
-        cell.setBorderColor(innerBorderColor);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
-        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-
-        return cell;
     }
 
 }

@@ -171,7 +171,7 @@
             %>
             </td>
             <td align="right">
-                <input class='button' type="button" name="findSearchPatient" id="findSearchPatient" onclick='doSPatient();' value='<%=getTran("Web","Find",sWebLanguage)%>'>&nbsp;
+                <input class='button' type="button" name="findSearchPatient" id="findSearchPatient" onclick='doSPatient();' value='<%=getTranNoLink("Web","Find",sWebLanguage)%>'>&nbsp;
                 <button accesskey="<%=ScreenHelper.getAccessKey(getTran("AccessKey","Clear",sWebLanguage))%>" class='button' name="clearButton" onClick='clearPatient();return false;'><%=getTran("AccessKey", "Clear", sWebLanguage)%></button>
             </td>
         </tr>

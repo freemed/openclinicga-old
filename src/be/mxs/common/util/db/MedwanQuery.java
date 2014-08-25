@@ -268,7 +268,6 @@ public class MedwanQuery {
         if(monitor==null || !monitor.isActive()){
         	monitor=new Monitor();
         }
-
         if(brokerScheduler==null){
         	brokerScheduler=new BrokerScheduler();
         }
@@ -656,7 +655,7 @@ public class MedwanQuery {
     		scheduler.setStopped(true);
     	}
     }
-    
+
     public void stopMonitor(){
     	if(monitor!=null){
     		monitor.setStopped(true);

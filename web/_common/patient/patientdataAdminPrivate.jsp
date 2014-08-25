@@ -3,17 +3,18 @@
 <%
     if(activePatient!=null && activePatient.personid.length()>0){
         AdminPrivateContact apc = ScreenHelper.getActivePrivate(activePatient);
-        String sCountry = "&nbsp;";
-        if (checkString(apc.country).trim().length()>0) {
-            sCountry = getTran("Country",apc.country,sWebLanguage);
-        }
 
-        String sProvince = "&nbsp;";
-        if (checkString(apc.province).trim().length()>0) {
-            sProvince = getTran("province",apc.province,sWebLanguage);
-        }
+        if(apc!=null){
+            String sCountry = "&nbsp;";
+            if (checkString(apc.country).trim().length()>0) {
+                sCountry = getTran("Country",apc.country,sWebLanguage);
+            }
 
-        if (apc!=null){
+            String sProvince = "&nbsp;";
+            if (checkString(apc.province).trim().length()>0) {
+                sProvince = getTran("province",apc.province,sWebLanguage);
+            }
+            
             %>
                 <table width="100%" cellspacing="1" class="list">
                     <%=		setRow("Web.admin","addresschangesince",apc.begin,sWebLanguage)+
@@ -35,6 +36,9 @@
                     <tr height='1'><td width='<%=sTDAdminWidth%>'/></tr>
                 </table>
             <%
+        }
+        else{
+        	%><%=getTran("web","noRecordsFound",sWebLanguage)%><%
         }
     }
 %>
