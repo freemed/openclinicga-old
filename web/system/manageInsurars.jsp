@@ -65,18 +65,18 @@
     	   sEditInsurarRequiresValidation       = checkString(request.getParameter("EditInsurarRequiresValidation")),
            sEditInsurarType       = checkString(request.getParameter("EditInsurarType"));
 
-    // DEBUG //////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        System.out.println("\n### mngInsurars ###################################");
-        System.out.println("# sAction             : "+sAction);
-        System.out.println("# sEditInsurarId      : "+sEditInsurarId+"\n");
-        System.out.println("# sFindInsurarId      : "+sFindInsurarId);
-        System.out.println("# sFindInsurarName    : "+sFindInsurarName);
-        System.out.println("# FindInsurarLanguage : "+sFindInsurarLanguage);
-        System.out.println("# FindInsurarContact  : "+sFindInsurarContact+"\n");
-        System.out.println("# EditInsurarType     : "+sEditInsurarType+"\n");
+        Debug.println("\n********************** system/manageInsurars.jsp **********************");
+        Debug.println("sAction              : "+sAction);
+        Debug.println("sEditInsurarId       : "+sEditInsurarId);
+        Debug.println("EditInsurarType      : "+sEditInsurarType+"\n");
+        Debug.println("sFindInsurarId       : "+sFindInsurarId);
+        Debug.println("sFindInsurarName     : "+sFindInsurarName);
+        Debug.println("sFindInsurarLanguage : "+sFindInsurarLanguage);
+        Debug.println("sFindInsurarContact  : "+sFindInsurarContact+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     //--- SAVE ------------------------------------------------------------------------------------
     // delete all categories for the specified insurar,
@@ -138,7 +138,7 @@
 			nNoSupplements=Integer.parseInt(sEditNoSupplements);
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		insurar.setNoSupplements(nNoSupplements);
 		int nCoverSupplements=0;
@@ -146,14 +146,14 @@
 			nCoverSupplements=Integer.parseInt(sEditCoverSupplements);
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		int nInactive=0;
 		try{
 			nInactive=Integer.parseInt(sEditInactive);
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		insurar.setInactive(nInactive);
 		int nRequireAffiliateID=0;
@@ -161,7 +161,7 @@
 			nRequireAffiliateID=Integer.parseInt(sEditInsurarRequiresAffiliateID);
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		insurar.setRequireAffiliateID(nRequireAffiliateID);
 		int nRequireValidation=0;
@@ -169,7 +169,7 @@
 			nRequireValidation=Integer.parseInt(sEditInsurarRequiresValidation);
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		insurar.setRequireValidation(nRequireValidation);
         //*** save categories ***
@@ -426,12 +426,10 @@
                     </tr>
                     <%-- INSURAR LANGUAGE --%>
                     <tr>
-                        <td class="admin"><%=getTran("system.manage","insurarLanguage",sWebLanguage)%></td>
+                        <td class="admin"><%=getTran("system.manage","insurarLanguage",sWebLanguage)%>&nbsp;*&nbsp;</td>
                         <td class="admin2">
                             <%
                                 String sEditInsurarLanguage = checkString(insurar.getLanguage());
-
-
                                 String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","en,fr");
                             %>
                             <select class="text" name="EditInsurarLanguage">
@@ -444,17 +442,13 @@
 
                                         %><option value="<%=tmpLang%>" <%=(tmpLang.equalsIgnoreCase(sEditInsurarLanguage)?"selected":"")%>><%=getTran("web.language",tmpLang,sWebLanguage)%></option><%
                                     }
-
                                 %>
-
                             </select>
                         </td>
                     </tr>
                     <%-- type --%>
                     <tr>
-                        <td class="admin">
-                            <%=getTran("web","tariff",sWebLanguage)%>
-                        </td>
+                        <td class="admin"><%=getTran("web","tariff",sWebLanguage)%></td>
                         <td class="admin2">
                             <select class="text" name="EditInsurarType">
                                 <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
@@ -538,37 +532,37 @@
                     <tr>
                         <td class="admin"><%=getTran("web","nosupplements",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="checkbox" class="text" name="EditNoSupplements" <%=insurar.getNoSupplements()==1?"checked":"" %> value="1"/>
+                            <input type="checkbox" class="text" name="EditNoSupplements" <%=insurar.getNoSupplements()==1?"checked":""%> value="1"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="admin"><%=getTran("web","coversupplements",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="checkbox" class="text" name="EditCoverSupplements" <%=insurar.getCoverSupplements()==1?"checked":"" %> value="1"/>
+                            <input type="checkbox" class="text" name="EditCoverSupplements" <%=insurar.getCoverSupplements()==1?"checked":""%> value="1"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="admin"><%=getTran("web","requireaffiliateid",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="checkbox" class="text" name="EditInsurarRequiresAffiliateID" <%=insurar.getRequireAffiliateID()==1?"checked":"" %> value="1"/>
+                            <input type="checkbox" class="text" name="EditInsurarRequiresAffiliateID" <%=insurar.getRequireAffiliateID()==1?"checked":""%> value="1"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="admin"><%=getTran("web","authorizationneeded",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="checkbox" class="text" name="EditAuthorizationNeeded" <%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","").indexOf("*"+insurar.getUid()+"*")>-1?"checked":"" %> value="1"/>
+                            <input type="checkbox" class="text" name="EditAuthorizationNeeded" <%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","").indexOf("*"+insurar.getUid()+"*")>-1?"checked":""%> value="1"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="admin"><%=getTran("web","acceptationneeded",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="checkbox" class="text" name="EditAcceptationNeeded" <%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+insurar.getUid()+"*")>-1?"checked":"" %> value="1"/>
+                            <input type="checkbox" class="text" name="EditAcceptationNeeded" <%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+insurar.getUid()+"*")>-1?"checked":""%> value="1"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="admin"><%=getTran("web","requirevalidation",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="checkbox" class="text" name="EditInsurarRequiresValidation" <%=insurar.getRequireValidation()==1?"checked":"" %> value="1"/>
+                            <input type="checkbox" class="text" name="EditInsurarRequiresValidation" <%=insurar.getRequireValidation()==1?"checked":""%> value="1"/>
                         </td>
                     </tr>
                     <%-- SELECTED CATEGORIES --%>
@@ -647,13 +641,14 @@
                     <tr>
                         <td class="admin"><%=getTran("web","inactive",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="checkbox" class="text" name="EditInactive" <%=insurar.getInactive()==1?"checked":"" %> value="1"/>
+                            <input type="checkbox" class="text" name="EditInactive" <%=insurar.getInactive()==1?"checked":""%> value="1"/>
                         </td>
                     </tr>
+                    
+                    <%-- BUTTONS --%>
                     <tr>
                         <td class="admin"/>
                         <td class="admin2">
-                            <%-- BUTTONS --%>
                             <button accesskey="<%=ScreenHelper.getAccessKey(getTranNoLink("accesskey","save",sWebLanguage))%>" class="buttoninvisible" onclick="saveInsurar();"></button>
                             <button class="button" name="saveButton" onclick="saveInsurar();"><%=getTranNoLink("accesskey","save",sWebLanguage)%></button>&nbsp;
 
@@ -1098,7 +1093,7 @@
 
   <%-- SAVE INSURAR --%>
   function saveInsurar(){
-    if(transactionForm.EditInsurarName.value.length > 0 && transactionForm.EditInsurarOfficialName.value.length > 0){
+    if(transactionForm.EditInsurarName.value.length > 0 && transactionForm.EditInsurarOfficialName.value.length > 0 && transactionForm.EditInsurarLanguage.selectedIndex > 1){
       if(transactionForm.EditInsurarId.value.length==0){
         transactionForm.EditInsurarId.value = "-1";
       }
@@ -1125,6 +1120,9 @@
       }
       else if(transactionForm.EditInsurarOfficialName.value.length==0){
         transactionForm.EditInsurarOfficialName.focus();
+      }
+      else if(transactionForm.EditInsurarLanguage.selectedIndex<1){
+        transactionForm.EditInsurarLanguage.focus();
       }
 
       var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=<%=getTs()%>&labelType=web.manage&labelID=dataMissing";
