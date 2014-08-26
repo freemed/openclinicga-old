@@ -1,27 +1,38 @@
-<%@page import="be.openclinic.adt.Encounter" %>
-<%@ page import="java.util.*" %>
+<%@page import="be.openclinic.adt.Encounter"%>
+<%@page import="java.util.*"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%
-    //------------  DELETE ENCOUNTER BY EditEncounterUID ----------//
-    String sEditEncounterUID = checkString(request.getParameter("EditEncounterUID"));
-    if(!sEditEncounterUID.equals("")){
-        if ("1".equalsIgnoreCase(request.getParameter("forced")) || Encounter.checkExistance(sEditEncounterUID)){
 
+<%
+    String sEditEncounterUID = checkString(request.getParameter("EditEncounterUID"));
+    boolean forced = (checkString(request.getParameter("forced")).equals("1"));
+    
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n**************** adt/ajax/deleteEncounter.jsp ****************");
+    	Debug.println("sEditEncounterUID : "+sEditEncounterUID);
+    	Debug.println("forced            : "+forced+"\n");
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    if(sEditEncounterUID.length() > 0){
+        if(forced || Encounter.checkExistance(sEditEncounterUID)){
             try{
                 Encounter.deleteById(sEditEncounterUID);
-            }catch(Exception e){
-                out.write("Sql error "+e.getMessage());
+            }
+            catch(Exception e){
+                Debug.printStackTrace(e);
             }
         }
-        else {
+        else{
             %>
 {
 "Message":"exists"
 }
             <%
         }
-    }else{
-        out.write("EditEncounterUID not valid !!");
+    }
+    else{
+        out.println("Parameter 'EditEncounterUID' missing");
     }
 %>
 
