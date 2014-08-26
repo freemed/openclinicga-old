@@ -4,13 +4,14 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("financial.debet","select",activeUser)%>
 <script src='<%=sCONTEXTPATH%>/_common/_script/prototype.js'></script>
-<%
 
+<%
 	String sEditDebetUID = checkString(request.getParameter("EditDebetUID"));
-    String sFindDateBegin        = checkString(request.getParameter("FindDateBegin")),
-           sFindDateEnd        = checkString(request.getParameter("FindDateEnd")),
-           sFindAmountMin        = checkString(request.getParameter("FindAmountMin")),
-           sFindAmountMax        = checkString(request.getParameter("FindAmountMax"));
+
+    String sFindDateBegin = checkString(request.getParameter("FindDateBegin")),
+           sFindDateEnd   = checkString(request.getParameter("FindDateEnd")),
+           sFindAmountMin = checkString(request.getParameter("FindAmountMin")),
+           sFindAmountMax = checkString(request.getParameter("FindAmountMax"));
 
     String sEditEncounterName = "",sEditDebetServiceUid="",sEditDebetServiceName="",sDefaultServiceUid="",sDefaultServiceName="";
     Debet debet;
@@ -30,7 +31,7 @@
     	}
     }
 
-    if (sEditDebetUID.length() > 0) {
+    if(sEditDebetUID.length() > 0){
     	MedwanQuery.getInstance().getObjectCache().removeObject("debet", sEditDebetUID);
         debet = Debet.get(sEditDebetUID);
         if(debet!=null){
@@ -47,7 +48,8 @@
 	            sEditEncounterName = encounter.getEncounterDisplayName(sWebLanguage);
 	        }
         }
-    } else {
+    }
+    else {
         sEditDebetUID = "-1";
 
         debet = new Debet();
@@ -65,6 +67,7 @@
 %>
 <form name='EditForm' id="EditForm" method='POST'>
     <%=writeTableHeader("web","debetEdit",sWebLanguage,"")%>
+  
     <table class="menu" width="100%" cellspacing="0">
         <tr>
             <td width="<%=sTDAdminWidth%>"><%=getTran("web.occup","medwan.common.date",sWebLanguage)%></td>
@@ -93,6 +96,7 @@
         </tr>
     </table>
     <br>
+    
     <div id="divUnassignedDebets" class="searchResults" style="height:120px;"><img src="<c:url value="/_img/ajax-loader.gif"/>"/><br/>Loading</div>
     <input class='text' readonly type='hidden' id='EditAmount' name='EditAmount' value='<%=debet.getAmount()+debet.getExtraInsurarAmount()%>' size='20'>
     <input class='text' readonly type='hidden' id='EditInsurarAmount' name='EditInsurarAmount' value='<%=debet.getInsurarAmount()%>' size='20'> 
@@ -183,7 +187,7 @@
 					%>
                     <%=ScreenHelper.writeSelect("patientsharecoverageinsurance",extrainsurar,sWebLanguage)%>
                 </select>
-              </td>
+            </td>
         </tr>
         <%
         	if(MedwanQuery.getInstance().getConfigInt("enableComplementaryInsurance2",0)==1){
@@ -289,7 +293,6 @@
                 prestationcontent+="</table>";
        			out.print(prestationcontent);
         	}
-
         %>
         </td></tr>
         <tr>
@@ -397,24 +400,16 @@
             		}
             	}
             	if(canSave1 && canSave2 && canSave3 && canSave4){
-            	%>
-                	<input class='button' type="button" name="buttonSave" id="buttonSave" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
-            	<%
+            	%><input class='button' type="button" name="buttonSave" id="buttonSave" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;<%
             	}
     			else if(!canSave1){
-    			%>
-		            <%=getTran("Web","caredeliverylinkedtoclosedinvoice",sWebLanguage)%><br/>
-	   			<%
+    			%><%=getTran("Web","caredeliverylinkedtoclosedinvoice",sWebLanguage)%><br/><%
     			}
     			else if(!canSave2){
-    			%>
-		            <%=getTran("Web","caredeliverylinkedtoclosedinsurarinvoice",sWebLanguage)%><br/>
-	   			<%
+    			%><%=getTran("Web","caredeliverylinkedtoclosedinsurarinvoice",sWebLanguage)%><br/><%
     			}
     			else if(!canSave3){
-    			%>
-		            <%=getTran("Web","caredeliverylinkedtoclosedextrainsurarinvoice",sWebLanguage)%><br/>
-	   			<%
+    			%><%=getTran("Web","caredeliverylinkedtoclosedextrainsurarinvoice",sWebLanguage)%><br/><%
     			}
             	%>
                 <input class='button' type="button" name="buttonInvoice" value='<%=getTranNoLink("Web","patientInvoiceEdit",sWebLanguage)%>' onclick="doInvoice();">
@@ -429,16 +424,16 @@
 </form>
 <script>
 	function checkSaveButtonRights(){
-		if(document.getElementById('buttonSave')){
+		if(EditForm.buttonSave!=null){
 			var bInvisible=(document.getElementById('EditDebetUID').value=='' || document.getElementById('EditDebetUID').value=='-1') && <%=activeUser.getAccessRight("financial.debet.add")?"false":"true"%>;
 			if(!bInvisible){
 				bInvisible=(document.getElementById('EditDebetUID').value!='' && document.getElementById('EditDebetUID').value!='-1') && <%=activeUser.getAccessRight("financial.debet.edit")?"false":"true"%>;
 			}
 			if(bInvisible){
-				document.getElementById('buttonSave').hide();
+				EditForm.buttonSave.style.display = "none";
 			}
 			else {
-				document.getElementById('buttonSave').show();
+				EditForm.buttonSave.style.display = "block";
 			}
 		}
 	}
