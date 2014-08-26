@@ -8,176 +8,194 @@
 <%
     String sFindSortColumn = checkString(request.getParameter("SortColumn"));
 
+	/// DEBUG ///////////////////////////////////////////////////////////////////////////
+	if(Debug.enabled){
+		Debug.println("\n***************** adt/historyEncounters.jsp *****************");
+		Debug.println("sFindSortColumn : "+sFindSortColumn+"\n");
+	}
+	/////////////////////////////////////////////////////////////////////////////////////
+
     StringBuffer sbResults = new StringBuffer();
 
-    if (sFindSortColumn.length() > 0) {
-        sFindSortColumn += " DESC";
-    } else {
+    if(sFindSortColumn.length() > 0){
+        sFindSortColumn+= " DESC";
+    } 
+    else {
         sFindSortColumn = " OC_ENCOUNTER_BEGINDATE DESC,OC_ENCOUNTER_OBJECTID DESC";
     }
 
-    Vector vEncounters = Encounter.selectEncountersUnique("", "", "", "", "", "", "", "", activePatient.personid, sFindSortColumn);
-
-    Iterator iter = vEncounters.iterator();
-    Encounter eTmp = new Encounter();
+    Vector vEncounters = Encounter.selectEncountersUnique("","","","","","","","",activePatient.personid,sFindSortColumn);
 
     boolean bFinished = true;
-    String sClass = "";
-    String sInactive = "";
-    String sInactiveSelect = "";
-    String sUpdateUser = "";
-
+    String sClass = "", sInactive = "", sInactiveSelect = "", sUpdateUser = "";
     String sBegin = "", sEnd = "", sManagerName = "", sBedName = "", sServiceUID = "";
-    //Timestamp ts1,ts2;
-    //ts1 = new Timestamp(getSQLTime().getTime());
-    while (iter.hasNext()) {
-        eTmp = (Encounter) iter.next();
 
-        if (bFinished && eTmp.getEnd() == null || eTmp.getEnd().after(ScreenHelper.getSQLDate(getDate()))) {
+    Iterator encIter = vEncounters.iterator();
+    Encounter tmpEnc = new Encounter();
+    
+    while(encIter.hasNext()){
+    	tmpEnc = (Encounter)encIter.next();
+
+        if(bFinished && tmpEnc.getEnd() == null || tmpEnc.getEnd().after(ScreenHelper.getSQLDate(getDate()))){
             bFinished = false;
         } else {
             bFinished = true;
         }
 		
-        if (eTmp.getBegin() != null) {
-            sBegin = ScreenHelper.stdDateFormat.format(eTmp.getBegin());
+        if(tmpEnc.getBegin() != null){
+            sBegin = ScreenHelper.stdDateFormat.format(tmpEnc.getBegin());
         } else {
             sBegin = "";
         }
 
-        if (eTmp.getEnd() != null) {
-            sEnd = ScreenHelper.stdDateFormat.format(eTmp.getEnd());
+        if(tmpEnc.getEnd() != null){
+            sEnd = ScreenHelper.stdDateFormat.format(tmpEnc.getEnd());
         } else {
             sEnd = "";
         }
 
-        if (checkString(eTmp.getManagerUID()).length() > 0) {
-        	sManagerName = ScreenHelper.getFullUserName(eTmp.getManagerUID());
+        if(checkString(tmpEnc.getManagerUID()).length() > 0){
+        	sManagerName = ScreenHelper.getFullUserName(tmpEnc.getManagerUID());
         } else {
             sManagerName = "";
         }
 
-        if (checkString(eTmp.getBedUID()).length() > 0) {
-            sBedName = checkString(eTmp.getBed().getName());
-        } else {
-            sBedName = "";
+        if(checkString(tmpEnc.getBedUID()).length() > 0){
+            sBedName = checkString(tmpEnc.getBed().getName());
         }
 
-        String sServices = "",sBeds="",sManagers="";
-        Vector th = eTmp.getFullTransferHistory();
-        for(int n=0;n<th.size();n++){
-        	EncounterService es = (EncounterService)th.elementAt(n);
-            if (checkString(es.serviceUID).length() > 0) {
-                sServices+=(sServices.length()>0?"<BR/>":"")+(n+1)+": "+getTran("service",es.serviceUID,sWebLanguage)+" ("+ScreenHelper.stdDateFormat.format(es.begin)+")";
+        //*** list transfer history ***
+        String sServices = "", sBeds = "", sManagers = "";
+        Vector tranHist = tmpEnc.getFullTransferHistory();
+        for(int n=0; n<tranHist.size(); n++){
+        	// services
+        	EncounterService encServ = (EncounterService)tranHist.elementAt(n);
+            if(checkString(encServ.serviceUID).length() > 0){
+                sServices+=(sServices.length()>0?"<BR/>":"")+(n+1)+": "+getTran("service",encServ.serviceUID,sWebLanguage)+" ("+ScreenHelper.stdDateFormat.format(encServ.begin)+")";
             }
             else{
                 sServices+=(sServices.length()>0?"<BR/>":"")+(n+1)+": "+"-";
             }
-            if (checkString(es.bedUID).length() > 0) {
-            	Bed bed = Bed.get(es.bedUID);
+            
+            // beds
+            if(checkString(encServ.bedUID).length() > 0){
+            	Bed bed = Bed.get(encServ.bedUID);
             	if(bed!=null){
-            		sBeds+=(sBeds.length()>0?"<BR/>":"")+(n+1)+": "+bed.getName();
+            		sBeds+= (sBeds.length()>0?"<BR/>":"")+(n+1)+": "+bed.getName();
             	}
                 else{
-                    sBeds+=(sBeds.length()>0?"<BR/>":"")+(n+1)+": "+"-";
+                    sBeds+= (sBeds.length()>0?"<BR/>":"")+(n+1)+": "+"-";
                 }
             }
             else{
-                sBeds+=(sBeds.length()>0?"<BR/>":"")+(n+1)+": "+"-";
+                sBeds+= (sBeds.length()>0?"<BR/>":"")+(n+1)+": "+"-";
             }
-            if (checkString(es.managerUID).length() > 0) {
-                sManagers+=(sManagers.length()>0?"<BR/>":"")+(n+1)+": "+MedwanQuery.getInstance().getUserName(Integer.parseInt(es.managerUID));
+            
+            // managers
+            if(checkString(encServ.managerUID).length() > 0){
+                sManagers+= (sManagers.length()>0?"<BR/>":"")+(n+1)+": "+MedwanQuery.getInstance().getUserName(Integer.parseInt(encServ.managerUID));
             }
             else{
-                sManagers+=(sManagers.length()>0?"<BR/>":"")+(n+1)+": "+"-";
+                sManagers+= (sManagers.length()>0?"<BR/>":"")+(n+1)+": "+"-";
             }
         	
         }
 		
-        if (eTmp.getUpdateUser()!=null){
-        	sUpdateUser = MedwanQuery.getInstance().getUserName(Integer.parseInt(eTmp.getUpdateUser()));
+        if(tmpEnc.getUpdateUser()!=null){
+        	sUpdateUser = MedwanQuery.getInstance().getUserName(Integer.parseInt(tmpEnc.getUpdateUser()));
         }
-        if (bFinished) {
+        
+        // active ?
+        if(bFinished){
             sInactive = "Text";
             sInactiveSelect = "";
-        } else {
+        }
+        else{
             sInactive = "bold";
             sInactiveSelect = "bold";
         }
 
-        if (sClass.equals("")) {
-            sClass = "1";
-        } else {
-            sClass = "";
-        }
-        sbResults.append("<tr id='"+(bFinished?"finished":"")+"' class='list" + sInactive + sClass + "' " +
-                " onmouseover=\"this.style.cursor='pointer';\" " +
-                " onmouseout=\"this.style.cursor='default';\" >" +
-                "<td id='"+eTmp.getUid()+"' width='20x'  onclick=\"delRow('" + eTmp.getUid() + "');\" ><img class='hand' src='/openclinic/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border=\"0\"></td>" +
-                "<td height='20' onclick=\"doSelect('" + eTmp.getUid() + "');\" >" + getTran("web", checkString(eTmp.getType()), sWebLanguage) + "</td>" +
-                "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + eTmp.getUid() + "</td>" +
-                "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sBegin + "</td>" +
-                "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sEnd + "</td>" +
-                "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sManagers + "</td>" +
-                "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sServices + "</td>" +
-                "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sBeds + "</td>"+
-		        "<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + sUpdateUser + "</td>");
+        // alternate row-style
+        if(sClass.length()==0) sClass = "1";
+        else                   sClass = "";
+        
+        sbResults.append("<tr id='"+(bFinished?"finished":"")+"' class='list"+sInactive+sClass+"'")
+                 .append(" onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">")
+                  .append("<td id='"+tmpEnc.getUid()+"' width='20px' onclick=\"deleteEncounter('"+tmpEnc.getUid()+"');\"><img class='hand' src='/openclinic/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></td>")
+                  .append("<td height='20' onclick=\"doSelect('"+tmpEnc.getUid()+"');\" >"+getTran("web",checkString(tmpEnc.getType()),sWebLanguage)+"</td>")
+                  .append("<td onclick=\"doSelect('"+tmpEnc.getUid()+"');\">"+tmpEnc.getUid()+"</td>")
+                  .append("<td onclick=\"doSelect('"+tmpEnc.getUid()+"');\">"+sBegin+"</td>")
+                  .append("<td onclick=\"doSelect('"+tmpEnc.getUid()+"');\">"+sEnd+"</td>")
+                  .append("<td onclick=\"doSelect('"+tmpEnc.getUid()+"');\">"+sManagers+"</td>")
+                  .append("<td onclick=\"doSelect('"+tmpEnc.getUid()+"');\">"+sServices+"</td>")
+                  .append("<td onclick=\"doSelect('"+tmpEnc.getUid()+"');\">"+sBeds+"</td>")
+                  .append("<td onclick=\"doSelect('"+tmpEnc.getUid()+"');\">"+sUpdateUser+"</td>");
+        
         if(activeUser.getAccessRight("problemlist.select")){
-            sbResults.append("<td onclick=\"doSelect('" + eTmp.getUid() + "');\">" + ReasonForEncounter.getReasonsForEncounterAsHtml(eTmp.getUid(),sWebLanguage) + "</td>");
+            sbResults.append("<td onclick=\"doSelect('"+tmpEnc.getUid()+"');\">"+ReasonForEncounter.getReasonsForEncounterAsHtml(tmpEnc.getUid(),sWebLanguage)+"</td>");
         }
         sbResults.append("</tr>");
     }
-    //ts2 = new Timestamp(getSQLTime().getTime());
-    String sTitle1 = getTran("Web", "begindate", sWebLanguage);
-    String sTitle2 = getTran("Web", "enddate", sWebLanguage);
 
-    if (sFindSortColumn.length() > 0) {
-        sTitle1 = "<i>" + sTitle1 + "</i>";
-    } else {
-        sTitle2 = "<i>" + sTitle2 + "</i>";
+    String sTitle1 = getTran("web","begindate",sWebLanguage),
+           sTitle2 = getTran("web","enddate",sWebLanguage);
+
+    if(sFindSortColumn.length() > 0){
+        sTitle1 = "<i>"+sTitle1+"</i>";
+    } 
+    else {
+        sTitle2 = "<i>"+sTitle2+"</i>";
     }
 %>
 
-<form name='HistoryEncounterForm' method='post' action="<c:url value='/main.do'/>?Page=adt/historyEncounter.jsp&ts<%=getTs()%>">
+<form name="HistoryEncounterForm" method="post">
 
-<%=writeTableHeader("web","historyencounters",sWebLanguage," doBack();")%>
+<%=writeTableHeader("web","historyEncounters",sWebLanguage," doBack();")%>
 
-<table width='100%' cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
-    <tr class="gray">
-        <td width="20px"></td>
-        <td><%=getTran("Web","type",sWebLanguage)%></td>
-        <td><%=getTran("Web","id",sWebLanguage)%></td>
-        <td><%=sTitle1%></td>
-        <td><%=sTitle2%></td>
-        <td><%=getTran("Web","manager",sWebLanguage)%></td>
-        <td><%=getTran("Web","service",sWebLanguage)%></td>
-        <td><%=getTran("Web","bed",sWebLanguage)%></td>
-        <td><%=getTran("Web","updatedby",sWebLanguage)%></td>
-        <%
-            if(activeUser.getAccessRight("problemlist.select")){
+<%
+    if(sbResults.length() > 0){
         %>
-        <td><%=getTran("openclinic.chuk","rfe",sWebLanguage)%></td>
+			<table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
+			    <%-- HEADER --%>
+			    <tr class="gray">
+			        <td width="20px"></td>
+			        <td><%=getTran("web","type",sWebLanguage)%>&nbsp;</td>
+			        <td><%=getTran("web","id",sWebLanguage)%>&nbsp;</td>
+			        <td><%=sTitle1%>&nbsp;</td>
+			        <td><%=sTitle2%>&nbsp;</td>
+			        <td><%=getTran("web","manager",sWebLanguage)%>&nbsp;</td>
+			        <td><%=getTran("web","service",sWebLanguage)%>&nbsp;</td>
+			        <td><%=getTran("web","bed",sWebLanguage)%>&nbsp;</td>
+			        <td><%=getTran("web","updatedby",sWebLanguage)%>&nbsp;</td>
+			        <%
+			            if(activeUser.getAccessRight("problemlist.select")){
+					        %><td><%=getTran("openclinic.chuk","rfe",sWebLanguage)%>&nbsp;</td><%
+			            }
+			        %>
+			    </tr>
+			    
+			    <%=sbResults%>
+		    </table>
         <%
-            }
-        %>
-    </tr>
-    <%=sbResults%>
-</table>
+    }
+    else{
+    	%><div style="padding:3px;"><%=getTran("web","noRecordsFound",sWebLanguage)%></div><%
+    }
+%>
 
-<input type='hidden' name='SortColumn' value=''>
+<%-- BUTTONS --%>
 <%=ScreenHelper.alignButtonsStart()%>
-    <%-- Buttons --%>
-    <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
+    <input class="button" type="button" name="Backbutton" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="doBack();">
 <%=ScreenHelper.alignButtonsStop()%>
 </form>
 
 <script>
   function doSelect(id){
-    window.location.href="<c:url value='/main.do'/>?Page=adt/editEncounter.jsp&EditEncounterUID=" + id + "&ts=<%=getTs()%>";
+    window.location.href = "<c:url value='/main.do'/>?Page=adt/editEncounter.jsp&EditEncounterUID="+id+"&ts=<%=getTs()%>";
   }
 
   function doBack(){
-    window.location.href="<c:url value='/main.do'/>?Page=curative/index.jsp&ts=<%=getTs()%>";
+    window.location.href = "<c:url value='/main.do'/>?Page=curative/index.jsp&ts=<%=getTs()%>";
   }
 
   <%-- UPDATE ROW STYLES --%>
@@ -224,21 +242,26 @@
       }
     }
   }
-  
-  function delRow(id){
+
+  <%-- DELETE ENCOUNTER --%>
+  function deleteEncounter(id){
     if(yesnoDialog("Web","areYouSureToDelete")){
-      new Ajax.Request('<c:url value="/adt/ajaxActions/deleteEncounter.jsp"/>?EditEncounterUID=' + id,{
-       onSuccess: function(resp){
-         if(resp.responseText.blank() && $(id)){
-           $(id).parentNode.style.display = "none";
-         }
-         else{
-           var label = eval('('+resp.responseText+')');
-           if(label.Message=="exists"){
-             alertDialog("web.errors","error.encounter.exists.in.other.data");
-           }
-         }
-       }
+      var url = "<c:url value='/adt/ajaxActions/deleteEncounter.jsp'/>?EditEncounterUID="+id+"&ts="+new Date().getTime();
+      new Ajax.Request(url,{
+        onSuccess: function(resp){
+          if(resp.responseText.blank() && $(id)){
+            $(id).parentNode.style.display = "none";
+          }
+          else{
+            var label = eval("("+resp.responseText+")");
+            if(label.Message=="exists"){
+              alertDialog("web.errors","error.encounter.exists.in.other.data");
+            }
+          }
+        },
+        onError: function(resp){
+          alert(resp.responseText);
+        }
       });
     } 
   }
