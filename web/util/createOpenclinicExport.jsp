@@ -1,19 +1,25 @@
+<%@page import="be.mxs.common.util.system.Base64Coder"%>
 <%@page import="be.mxs.common.util.system.SessionMessage"%>
 <%@page import="java.io.ByteArrayOutputStream,java.io.PrintWriter,java.text.*"%><%@ page import="be.openclinic.sync.*" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%
-	if(request.getParameter("submit")!=null){
+	if(request.getParameter("submit")!=null && checkString(request.getParameter("remotelogin")).length()>0 && checkString(request.getParameter("remotepassword")).length()>0){
 		session.setAttribute("messages", new SessionMessage());
-		OpenclinicSlaveExporter exporter = new OpenclinicSlaveExporter((SessionMessage)session.getAttribute("messages"));
+		String remotepassword=checkString(request.getParameter("remotepassword"));
+		byte[] encryptedpassword = User.encrypt(remotepassword);
+		OpenclinicSlaveExporter exporter = new OpenclinicSlaveExporter(checkString(request.getParameter("remotelogin")),new String(Base64Coder.encode(encryptedpassword)),(SessionMessage)session.getAttribute("messages"),sWebLanguage);
 		exporter.start();
 	}
 %>
 <form name='exportForm' method='post'>
 	<table>
+		<tr><td><%=getTran("web","remote.login",sWebLanguage) %></td><td><input type='text' class='text' name='remotelogin'/></td></tr>
+		<tr><td><%=getTran("web","remote.password",sWebLanguage) %></td><td><input type='password' class='text' name='remotepassword'/></td></tr>
+		<tr><td colspan='2'><div id='divMessage'/></td></tr>
 		<tr><td><input class='button' type='submit' name='submit' value='<%=getTran("web","export",sWebLanguage) %>'/></td></tr>
-		<tr><td><div id='divMessage'/></td></tr>
-		<tr><td><div id='log'/></td></tr>
+		<tr><td colspan='2'><div id='divMessage'/></td></tr>
+		<tr><td colspan='2'><div id='log'/></td></tr>
 	</table>
 	
 </form>

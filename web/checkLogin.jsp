@@ -55,7 +55,6 @@
 %>
 
 <%	
-System.out.println("start checklogin....");
 	String ag = request.getHeader("User-Agent"), browser="", version="";
 	try{
 		int tmpPos; 
@@ -117,7 +116,6 @@ System.out.println("start checklogin....");
 	catch(Exception e3){
 		e3.printStackTrace();
 	}
-System.out.println("1");
 	
   if(request.getParameter("Dir")!=null){
       sAPPDIR = request.getParameter("Dir");
@@ -145,7 +143,7 @@ System.out.println("1");
           Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
           if(ad_conn != null){
               User user = new User();
-              byte[] aUserPassword = user.encrypt(sUserPassword);
+              byte[] aUserPassword = User.encrypt(sUserPassword);
               if((sAuto!=null && sAuto.equalsIgnoreCase("true") && user.initializeAuto(ad_conn, sUserLogin, sUserPassword)) || user.initialize(ad_conn, sUserLogin, aUserPassword)){
                   GregorianCalendar myDate = new GregorianCalendar();
                   String sDay, sMonth, sYear, sDate;

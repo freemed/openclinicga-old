@@ -1,3 +1,4 @@
+== VERSION 4 ==
 4.89.9 - Updated pharmacy stock operation document management
 4.89.10 - Removal of unnecessary debugging messages from 64 code modules
 4.89.11 - Added module for resetting Average Weighed Unit Price in product management screen (Pharmacy)
@@ -31,5 +32,15 @@
 4.89.39	- some minor javascript errors and layout corrections
 4.89.40 - pharmaceutical product orders were not shown in pharmacy/manageProductOrders.jsp as long as nothing was delivered
 4.89.41 - updating batchnumber in pharmacy product stock operation now also reflects the transfered quantity in the product stock batches
+4.89.42 - changed non existing accessright 'medical' to 'curative' in /curative/index.jsp (caused medical user profiles not to have access to clinical content anymore)
+4.89.43 - removed link to unused 'risk profiles'
+4.89.44 - assets management functionality extended
+4.90.01 - some minor visual and functional improvements
+4.90.02 - fixed bug when saving a label when one of the languages has no value
+== VERSION 5 ==
+5.00.00 - added functionality for setting up master-slave server configurations
+5.01.00 - paper document archiving functionality added (archiving server integrated into OpenClinic)
+
+
 
 
