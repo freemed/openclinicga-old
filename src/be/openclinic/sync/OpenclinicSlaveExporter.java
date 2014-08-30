@@ -44,6 +44,10 @@ public class OpenclinicSlaveExporter implements Runnable{
 	public Hashtable patientrecords = new Hashtable();
 	public Date begin,end;
 	public int maxrecordblocks=MedwanQuery.getInstance().getConfigInt("slaveExportMaxRecordBlocks",10000);
+	private String remotelogin;
+	private String remotepassword;
+	private String language;
+	private SessionMessage sessionMessage;
 
 	public void run(){
 		if(updateIds()){
@@ -61,24 +65,46 @@ public class OpenclinicSlaveExporter implements Runnable{
 		this.sessionMessage = sessionMessage;
 	}
 
-	private SessionMessage sessionMessage;
+	public OpenclinicSlaveExporter(String remotelogin, String remotepassword, SessionMessage sessionMessage) {
+		super();
+		this.remotelogin=remotelogin;
+		this.remotepassword=remotepassword;
+		this.sessionMessage = sessionMessage;
+	}
+
+	public OpenclinicSlaveExporter(String remotelogin, String remotepassword, SessionMessage sessionMessage,String language) {
+		super();
+		this.remotelogin=remotelogin;
+		this.remotepassword=remotepassword;
+		this.sessionMessage = sessionMessage;
+		this.language=language;
+	}
+
+	private String translate(String s){
+		if(language!=null){
+			return ScreenHelper.getTran("web", s, language);
+		}
+		else {
+			return s;
+		}
+	}
 	
 	public Document store(Document message){
-		sessionMessage.setMessage("Start storage of document");
+		sessionMessage.setMessage(translate("start.document.storage"));
 		Element records = message.getRootElement();
 		Iterator iRecords = records.elementIterator("record");
 		while(iRecords.hasNext()){
 			Element record = (Element)iRecords.next();
-			sessionMessage.setMessage("Storing patient record "+record.attributeValue("personid"));
+			sessionMessage.setMessage(translate("storing.patient.record")+" "+record.attributeValue("personid"));
 			storePatientRecord(record);
-			sessionMessage.setMessage("Done storing patient record "+record.attributeValue("personid"));
+			sessionMessage.setMessage(translate("done.storing.patientrecord")+" "+record.attributeValue("personid"));
 		}
 		Document response = DocumentHelper.createDocument();
 		Element root=response.addElement("response");
 		root.addAttribute("id", message.getRootElement().attributeValue("id"));
 		root.addAttribute("end", message.getRootElement().attributeValue("end"));
 		root.addAttribute("patientrecords", message.getRootElement().attributeValue("patientrecords"));
-		sessionMessage.setMessage("Done with storage of document");
+		sessionMessage.setMessage(translate("done.storing.document"));
 		return message;
 	}
 	
@@ -119,6 +145,12 @@ public class OpenclinicSlaveExporter implements Runnable{
 			}
 			else if(block.getName().equalsIgnoreCase("lab")){
 				storeLabRecord(personid,block);
+			}
+			else if(block.getName().equalsIgnoreCase("rfe")){
+				storeRfeRecord(personid,block);
+			}
+			else if(block.getName().equalsIgnoreCase("diagnosis")){
+				storeDiagnosisRecord(personid,block);
 			}
 		}
 	}
@@ -421,6 +453,239 @@ public class OpenclinicSlaveExporter implements Runnable{
 			ps.setInt(9,priority);
 			ps.execute();
 			ps.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void storeDiagnosisRecord(int personid,Element element){
+		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+		try{
+			boolean doInsert=true;
+			PreparedStatement ps = conn.prepareStatement("select * from oc_diagnoses where oc_diagnosis_objectid=?");
+			ps.setInt(1, Integer.parseInt(element.elementText("objectid")));
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				if(!rs.getTimestamp("oc_diagnosis_updatetime").before(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(element.elementText("updatetime")))){
+					//Existing record is more recent. Do nothing
+					doInsert=false;
+					rs.close();
+				}
+				else {
+					//Received record is more recent
+					//Remove existingrecord
+					ps.close();
+					ps=conn.prepareStatement("insert into oc_diagnosis_history(oc_diagnosis_serverid,oc_diagnosis_objectid,oc_diagnosis_date,oc_diagnosis_encounteruid,oc_diagnosis_authoruid,"
+							+ "oc_diagnosis_code,oc_diagnosis_certainty,oc_diagnosis_gravity,oc_diagnosis_createtime,oc_diagnosis_updatetime,oc_diagnosis_updateuid,oc_diagnosis_version,"
+							+ "oc_diagnosis_lateralisation,oc_diagnosis_codetype,oc_diagnosis_enddate,oc_diagnosis_referencetype,oc_diagnosis_referenceuid,oc_diagnosis_poa,oc_diagnosis_encounterobjectid,"
+							+ "oc_diagnosis_nc,oc_diagnosis_serviceuid,oc_diagnosis_flags) select oc_diagnosis_serverid,oc_diagnosis_objectid,oc_diagnosis_date,oc_diagnosis_encounteruid,"
+							+ "oc_diagnosis_authoruid,oc_diagnosis_code,oc_diagnosis_certainty,oc_diagnosis_gravity,oc_diagnosis_createtime,oc_diagnosis_updatetime,oc_diagnosis_updateuid,"
+							+ "oc_diagnosis_version,oc_diagnosis_lateralisation,oc_diagnosis_codetype,oc_diagnosis_enddate,oc_diagnosis_referencetype,oc_diagnosis_referenceuid,oc_diagnosis_poa,"
+							+ "oc_diagnosis_encounterobjectid,oc_diagnosis_nc,oc_diagnosis_serviceuid,oc_diagnosis_flags from oc_diagnoses where oc_diagnosis_objectid=?");
+					ps.setInt(1, Integer.parseInt(element.elementText("objectid")));
+					ps.execute();
+					ps.close();
+					ps=conn.prepareStatement("delete from oc_diagnoses where oc_diagnosis_objectid=?");
+					ps.setInt(1, Integer.parseInt(element.elementText("objectid")));
+					ps.execute();
+				}
+			}
+			else {
+				rs.close();
+			}
+			ps.close();
+			if(doInsert){
+				ps=conn.prepareStatement("insert into oc_diagnoses(oc_diagnosis_serverid,oc_diagnosis_objectid,oc_diagnosis_date,oc_diagnosis_encounteruid,oc_diagnosis_authoruid,"
+							+ "oc_diagnosis_code,oc_diagnosis_certainty,oc_diagnosis_gravity,oc_diagnosis_createtime,oc_diagnosis_updatetime,oc_diagnosis_updateuid,oc_diagnosis_version,"
+							+ "oc_diagnosis_lateralisation,oc_diagnosis_codetype,oc_diagnosis_enddate,oc_diagnosis_referencetype,oc_diagnosis_referenceuid,oc_diagnosis_poa,oc_diagnosis_encounterobjectid,"
+							+ "oc_diagnosis_nc,oc_diagnosis_serviceuid,oc_diagnosis_flags) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+				int serverid=0;
+				try{
+					serverid=Integer.parseInt(element.elementText("serverid"));
+				}
+				catch(Exception e2){}
+				ps.setInt(1,serverid);
+				int objectid=0;
+				try{
+					objectid=Integer.parseInt(element.elementText("objectid"));
+				}
+				catch(Exception e2){}
+				ps.setInt(2,objectid);
+				java.sql.Timestamp date=null;
+				try{
+					begin=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(element.elementText("date")).getTime());
+				}
+				catch(Exception e2){}
+				ps.setTimestamp(3,date);
+				ps.setString(4, element.elementText("encounteruid"));
+				ps.setString(5, element.elementText("authoruid"));
+				ps.setString(6, element.elementText("code"));
+				int certainty=0;
+				try{
+					certainty=Integer.parseInt(element.elementText("certainty"));
+				}
+				catch(Exception e2){}
+				ps.setInt(7,certainty);
+				int gravity=0;
+				try{
+					gravity=Integer.parseInt(element.elementText("gravity"));
+				}
+				catch(Exception e2){}
+				ps.setInt(8,gravity);
+				java.sql.Timestamp createtime=null;
+				try{
+					createtime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(element.elementText("createtime")).getTime());
+				}
+				catch(Exception e2){}
+				ps.setTimestamp(9,createtime);
+				java.sql.Timestamp updatetime=null;
+				try{
+					updatetime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(element.elementText("updatetime")).getTime());
+				}
+				catch(Exception e2){}
+				ps.setTimestamp(10,updatetime);
+				int updateuid=0;
+				try{
+					updateuid=Integer.parseInt(element.elementText("updateuid"));
+				}
+				catch(Exception e2){}
+				ps.setInt(11,updateuid);
+				int version=0;
+				try{
+					version=Integer.parseInt(element.elementText("version"));
+				}
+				catch(Exception e2){}
+				ps.setInt(12,version);
+				ps.setString(13, element.elementText("lateralisation"));
+				ps.setString(14, element.elementText("codetype"));
+				java.sql.Timestamp enddate=null;
+				try{
+					enddate=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(element.elementText("enddate")).getTime());
+				}
+				catch(Exception e2){}
+				ps.setTimestamp(15,enddate);
+				ps.setString(16, element.elementText("referencetype"));
+				ps.setString(17, element.elementText("referenceuid"));
+				ps.setString(18, element.elementText("poa"));
+				int encounterobjectid=0;
+				try{
+					encounterobjectid=Integer.parseInt(element.elementText("encounterobjectid"));
+				}
+				catch(Exception e2){}
+				ps.setInt(19,encounterobjectid);
+				ps.setString(20, element.elementText("nc"));
+				ps.setString(21, element.elementText("serviceuid"));
+				ps.setString(22, element.elementText("flags"));
+				ps.execute();
+				ps.close();
+			}
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void storeRfeRecord(int personid,Element element){
+		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+		try{
+			boolean doInsert=true;
+			PreparedStatement ps = conn.prepareStatement("select * from oc_rfe where oc_rfe_objectid=?");
+			ps.setInt(1, Integer.parseInt(element.elementText("objectid")));
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				if(!rs.getTimestamp("oc_rfe_updatetime").before(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(element.elementText("updatetime")))){
+					//Existing record is more recent. Do nothing
+					doInsert=false;
+					rs.close();
+				}
+				else {
+					//Received record is more recent
+					//Remove existingrecord
+					ps.close();
+					ps=conn.prepareStatement("insert into oc_rfe_history(oc_rfe_serverid,oc_rfe_objectid,oc_rfe_encounteruid,oc_rfe_codetype,oc_rfe_code,oc_rfe_date,oc_rfe_flags,oc_rfe_version,"
+							+ "oc_rfe_createtime,oc_rfe_updatetime,oc_rfe_updateuid) select oc_rfe_serverid,oc_rfe_objectid,oc_rfe_encounteruid,oc_rfe_codetype,oc_rfe_code,oc_rfe_date,oc_rfe_flags,"
+							+ "oc_rfe_version,oc_rfe_createtime,oc_rfe_updatetime,oc_rfe_updateuid from oc_rfe where oc_rfe_objectid=?");
+					ps.setInt(1, Integer.parseInt(element.elementText("objectid")));
+					ps.execute();
+					ps.close();
+					ps=conn.prepareStatement("delete from oc_rfe where oc_rfe_objectid=?");
+					ps.setInt(1, Integer.parseInt(element.elementText("objectid")));
+					ps.execute();
+				}
+			}
+			else {
+				rs.close();
+			}
+			ps.close();
+			if(doInsert){
+				ps=conn.prepareStatement("insert into oc_rfe(oc_rfe_serverid,oc_rfe_objectid,oc_rfe_encounteruid,oc_rfe_codetype,oc_rfe_code,oc_rfe_date,oc_rfe_flags,oc_rfe_version,"
+							+ "oc_rfe_createtime,oc_rfe_updatetime,oc_rfe_updateuid) values(?,?,?,?,?,?,?,?,?,?,?)");
+				int serverid=0;
+				try{
+					serverid=Integer.parseInt(element.elementText("serverid"));
+				}
+				catch(Exception e2){}
+				ps.setInt(1,serverid);
+				int objectid=0;
+				try{
+					objectid=Integer.parseInt(element.elementText("objectid"));
+				}
+				catch(Exception e2){}
+				ps.setInt(2,objectid);
+				ps.setString(3, element.elementText("encounteruid"));
+				ps.setString(4, element.elementText("codetype"));
+				ps.setString(5, element.elementText("code"));
+				java.sql.Timestamp date=null;
+				try{
+					begin=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(element.elementText("date")).getTime());
+				}
+				catch(Exception e2){}
+				ps.setTimestamp(6,date);
+				ps.setString(7, element.elementText("flags"));
+				int version=0;
+				try{
+					version=Integer.parseInt(element.elementText("version"));
+				}
+				catch(Exception e2){}
+				ps.setInt(8,version);
+				java.sql.Timestamp createtime=null;
+				try{
+					createtime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(element.elementText("createtime")).getTime());
+				}
+				catch(Exception e2){}
+				ps.setTimestamp(9,createtime);
+				java.sql.Timestamp updatetime=null;
+				try{
+					updatetime=new java.sql.Timestamp(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(element.elementText("updatetime")).getTime());
+				}
+				catch(Exception e2){}
+				ps.setTimestamp(10,updatetime);
+				int updateuid=0;
+				try{
+					updateuid=Integer.parseInt(element.elementText("updateuid"));
+				}
+				catch(Exception e2){}
+				ps.setInt(11,updateuid);
+				ps.execute();
+				ps.close();
+			}
+			
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -1542,22 +1807,24 @@ public class OpenclinicSlaveExporter implements Runnable{
 	}
 	
 	public int exportBatch(){
-		sessionMessage.setMessage("Start export batches");
+		sessionMessage.setMessage(translate("start.export.batch"));
 		int records=0;
 		int counter=0;
 		try {
 			while(true){
 				counter++;
-				sessionMessage.setMessage("Creating batch "+counter+" for export");
+				sessionMessage.setMessage(translate("creating.batch")+counter+translate("for.export"));
 				Document message = exportToXML();
 				Element export = message.getRootElement();
-				sessionMessage.setMessage("Created batch "+counter+" with "+export.attributeValue("patientrecords")+" patient records");
+				sessionMessage.setMessage(translate("created.batch")+" <b>"+counter+"</b> "+translate("with")+" <b>"+export.attributeValue("patientrecords")+"</b> "+translate("patient.records"));
 				int messageid = MedwanQuery.getInstance().getOpenclinicCounter("messageId");
 				export.addAttribute("id", messageid+"");
 				export.addAttribute("command", "store");
+				export.addAttribute("login", remotelogin);
+				export.addAttribute("password", remotepassword);
 				HttpClient client = new DefaultHttpClient();
 				String url = MedwanQuery.getInstance().getConfigString("masterServerURL","http://localhost:10080/openclinic/util/webservice.jsp");
-		    	sessionMessage.setMessage("Sending batch "+counter+" to "+url);
+		    	sessionMessage.setMessage(translate("sending.batch")+" "+counter+" "+translate("to")+" "+url);
 			    HttpPost httppost = new HttpPost(url);
 			    StringEntity entity = new StringEntity(message.asXML());
 	   	        httppost.addHeader("Accept" , "text/xml");
@@ -1565,13 +1832,19 @@ public class OpenclinicSlaveExporter implements Runnable{
 			    ResponseHandler<String> responseHandler = new BasicResponseHandler();
 		        String resultstring = client.execute(httppost, responseHandler);
 			    if (resultstring != null) {
-			    	sessionMessage.setMessage("Done sending batch "+counter+" to "+url);
+			    	sessionMessage.setMessage(translate("done.sending.batch")+" "+counter+" "+translate("to")+" "+url);
 			    	message = DocumentHelper.parseText(resultstring);
 			    	export = message.getRootElement();
-			    	if(export.attributeValue("id").equalsIgnoreCase(messageid+"")){
-						sessionMessage.setMessage("Received correct xml response for batch "+counter+", updating last export date");
-						setLastExport(new SimpleDateFormat("yyyyMMddHHmmssSSSS").parse(export.attributeValue("end")));
-						sessionMessage.setMessage("Done updating last export date");
+			    	if(ScreenHelper.checkString(export.attributeValue("error")).length()>0){
+						sessionMessage.setErrorMessage(translate(export.attributeValue("error")));
+			    	}
+			    	else if(export.attributeValue("id").equalsIgnoreCase(messageid+"")){
+						sessionMessage.setMessage(translate("received.correct.xml.message.for.batch")+" "+counter+", "+translate("updating.last.export.date.to")+" "+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss SSS").format(new SimpleDateFormat("yyyyMMddHHmmssSSS").parse(export.attributeValue("end"))));
+						try{
+							setLastExport(new SimpleDateFormat("yyyyMMddHHmmssSSSS").parse(export.attributeValue("end")));
+						}
+						catch(Exception ee){}
+						sessionMessage.setMessage(translate("done.updating.last.export.date"));
 						records+=Integer.parseInt(export.attributeValue("patientrecords"));
 					}
 			    }
@@ -1583,7 +1856,7 @@ public class OpenclinicSlaveExporter implements Runnable{
 			sessionMessage.setErrorMessage(e1.getMessage());
 			e1.printStackTrace();
 		}
-		sessionMessage.setMessage("Done with export batches");
+		sessionMessage.setMessage(translate("done.with.export.batches"));
 		sessionMessage.setMessage(".");
 		return records;
 	}
@@ -1603,6 +1876,8 @@ public class OpenclinicSlaveExporter implements Runnable{
 		addTransactions();
 		addProblems();
 		addLab();
+		addRFEs();
+		addDiagnoses();
 		//Now we move the recordblocks to patientrecords
 		Iterator i = patientrecordblocks.keySet().iterator();
 		while(i.hasNext()){
@@ -1621,14 +1896,16 @@ public class OpenclinicSlaveExporter implements Runnable{
 			int personid = (Integer)e.nextElement();
 			export.add((Element)patientrecords.get(personid));
 		}
-		export.addAttribute("end", ((String)patientrecordblocks.lastKey()).split("\\.")[0]);
+		if(patientrecordblocks.size()>0){
+			export.addAttribute("end", ((String)patientrecordblocks.lastKey()).split("\\.")[0]);
+		}
 		export.addAttribute("patientrecords", patientrecords.size()+"");
 		
 		return document;
 	}
 	
 	public Document getNewIds(Document message){
-		sessionMessage.setMessage("Start getting new ids");
+		sessionMessage.setMessage(translate("start.getting.new.ids"));
 		Element ids=message.getRootElement();
 		Iterator iElements = ids.elementIterator("id");
 		while(iElements.hasNext()){
@@ -1660,27 +1937,35 @@ public class OpenclinicSlaveExporter implements Runnable{
 			else if(id.attributeValue("type").equalsIgnoreCase("problem")){
 				id.addAttribute("newvalue", MedwanQuery.getInstance().getOpenclinicCounter("OC_PROBLEMS")+"");
 			}
+			else if(id.attributeValue("type").equalsIgnoreCase("rfe")){
+				id.addAttribute("newvalue", MedwanQuery.getInstance().getOpenclinicCounter("OC_RFE")+"");
+			}
+			else if(id.attributeValue("type").equalsIgnoreCase("diagnosis")){
+				id.addAttribute("newvalue", MedwanQuery.getInstance().getOpenclinicCounter("OC_DIAGNOSES")+"");
+			}
 			else if(id.attributeValue("type").equalsIgnoreCase("item")){
 				id.addAttribute("newvalue", MedwanQuery.getInstance().getOpenclinicCounter("ItemID")+"");
 			}
 		}
-		sessionMessage.setMessage("Done getting new ids");
+		sessionMessage.setMessage(translate("done.getting.new.ids"));
 		return message;
 	}
 	
 	public boolean updateIds(){
-		sessionMessage.setMessage("Start requesting updateids");
+		sessionMessage.setMessage(translate("start.requesting.updateids"));
 		boolean updateIds=false;
 		Connection adminconn = MedwanQuery.getInstance().getAdminConnection();
 		Connection occonn = MedwanQuery.getInstance().getOpenclinicConnection();
 		try{
-			sessionMessage.setMessage("Make a list of updateids");
+			sessionMessage.setMessage(translate("make.list.of.updateids"));
 			//First make a list of all negative IDs
 			Document message = DocumentHelper.createDocument();
 			int messageid = MedwanQuery.getInstance().getOpenclinicCounter("messageId");
 			Element ids = message.addElement("ids");
 			ids.addAttribute("command", "getIds");
 			ids.addAttribute("id", messageid+"");
+			ids.addAttribute("login", remotelogin);
+			ids.addAttribute("password", remotepassword);
 			PreparedStatement ps = adminconn.prepareStatement("select personid from admin where personid<0");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
@@ -1771,11 +2056,29 @@ public class OpenclinicSlaveExporter implements Runnable{
 			}
 			rs.close();
 			ps.close();
-			sessionMessage.setMessage("Done making list of updateids");
+			ps = occonn.prepareStatement("select oc_rfe_objectid from oc_rfe where oc_rfe_objectid<0");
+			rs = ps.executeQuery();
+			while(rs.next()){
+				Element id=ids.addElement("id");
+				id.addAttribute("type", "rfe");
+				id.addAttribute("value", rs.getString("oc_rfe_objectid"));
+			}
+			rs.close();
+			ps.close();
+			ps = occonn.prepareStatement("select oc_diagnosis_objectid from oc_diagnoses where oc_diagnosis_objectid<0");
+			rs = ps.executeQuery();
+			while(rs.next()){
+				Element id=ids.addElement("id");
+				id.addAttribute("type", "diagnosis");
+				id.addAttribute("value", rs.getString("oc_diagnosis_objectid"));
+			}
+			rs.close();
+			ps.close();
+			sessionMessage.setMessage(translate("done.making.list.of.uodateids"));
 			//Send the list to the master server and get the updated list from it
-			sessionMessage.setMessage("Sending list of updateids to master server");
 			HttpClient client = new DefaultHttpClient();
 			String url = MedwanQuery.getInstance().getConfigString("masterServerURL","http://localhost:10080/openclinic/util/webservice.jsp");
+			sessionMessage.setMessage(translate("sending.uodateids.to.server")+" "+url);
 		    HttpPost httppost = new HttpPost(url);
 		    StringEntity entity = new StringEntity(message.asXML());
    	        httppost.addHeader("Accept" , "text/xml");
@@ -1783,11 +2086,14 @@ public class OpenclinicSlaveExporter implements Runnable{
 		    ResponseHandler<String> responseHandler = new BasicResponseHandler();
 	        String resultstring = client.execute(httppost, responseHandler);
 		    if (resultstring != null) {
-				sessionMessage.setMessage("Done sending list, analyzing response");
+				sessionMessage.setMessage(translate("done.sending.list.analyzing.response"));
 				message = DocumentHelper.parseText(resultstring);
 				ids=message.getRootElement();
-				if(ids.attributeValue("command").equalsIgnoreCase("setIds") && ids.attributeValue("id").equalsIgnoreCase(messageid+"")){
-					sessionMessage.setMessage("Correct xml file received, updating ids on client side");
+		    	if(ScreenHelper.checkString(ids.attributeValue("error")).length()>0){
+					sessionMessage.setErrorMessage(translate(ids.attributeValue("error")));
+		    	}
+		    	else if(ids.attributeValue("command").equalsIgnoreCase("setIds") && ids.attributeValue("id").equalsIgnoreCase(messageid+"")){
+					sessionMessage.setMessage(translate("correct.xml.received.updating.client.ids"));
 					//We received a correct response to the message that was sent, now update the IDs
 					Iterator iElements = ids.elementIterator("id");
 					while(iElements.hasNext()){
@@ -1819,19 +2125,25 @@ public class OpenclinicSlaveExporter implements Runnable{
 						else if(id.attributeValue("type").equalsIgnoreCase("problem")){
 							updateProblemId(id.attributeValue("newvalue"),id.attributeValue("value"));
 						}
+						else if(id.attributeValue("type").equalsIgnoreCase("rfe")){
+							updateRfeId(id.attributeValue("newvalue"),id.attributeValue("value"));
+						}
+						else if(id.attributeValue("type").equalsIgnoreCase("diagnosis")){
+							updateDiagnosisId(id.attributeValue("newvalue"),id.attributeValue("value"));
+						}
 						else if(id.attributeValue("type").equalsIgnoreCase("item")){
 							updateItemId(id.attributeValue("newvalue"),id.attributeValue("value"));
 						}
 					}
-					sessionMessage.setMessage("Done updating ids on client side, initializing counters");
+					sessionMessage.setMessage(translate("done.updating.client.ids.initializing.counters"));
 					//All Ids have been updated, now we reinitialize the counters (set them to a negative value <= -1.000.000
 					initializeCounters();
 					updateIds=true;
-					sessionMessage.setMessage("Done initializing counters");
+					sessionMessage.setMessage(translate("done.initializing.counters"));
 				}
 			}
 			else {
-				sessionMessage.setMessage("ERROR connection to "+url);
+				sessionMessage.setErrorMessage(translate("error.connecting.to")+url);
 			}
 		}
 		catch(Exception e){
@@ -1993,6 +2305,34 @@ public class OpenclinicSlaveExporter implements Runnable{
 			}
 			rs.close();
 			ps.close();
+			ps = occonn.prepareStatement("select min(oc_rfe_objectid) counter from oc_rfe");
+			rs = ps.executeQuery();
+			if(rs.next()){
+				int counter = rs.getInt("counter");
+				if(counter<0){
+					counter=counter-1000000;
+				}
+				else {
+					counter=-1000000;
+				}
+				MedwanQuery.getInstance().setOpenclinicCounter("OC_RFE", counter);
+			}
+			rs.close();
+			ps.close();
+			ps = occonn.prepareStatement("select min(oc_diagnosis_objectid) counter from oc_diagnoses");
+			rs = ps.executeQuery();
+			if(rs.next()){
+				int counter = rs.getInt("counter");
+				if(counter<0){
+					counter=counter-1000000;
+				}
+				else {
+					counter=-1000000;
+				}
+				MedwanQuery.getInstance().setOpenclinicCounter("OC_DIAGNOSES", counter);
+			}
+			rs.close();
+			ps.close();
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -2083,6 +2423,11 @@ public class OpenclinicSlaveExporter implements Runnable{
 			ps = occonn.prepareStatement("update requestedlabanalyses set transactionid=? where transactionid=?");
 			ps.setInt(1, Integer.parseInt(newid));
 			ps.setInt(2, Integer.parseInt(oldid));
+			ps.execute();
+			ps.close();
+			ps = occonn.prepareStatement("update oc_diagnoses set oc_diagnosis_referenceuid=? where oc_diagnosis_referencetype='Transaction' and oc_diagnosis_referenceuid=?");
+			ps.setString(1, MedwanQuery.getInstance().getConfigInt("serverId")+"."+newid);
+			ps.setString(2, MedwanQuery.getInstance().getConfigInt("serverId")+"."+oldid);
 			ps.execute();
 			ps.close();
 
@@ -2193,6 +2538,60 @@ public class OpenclinicSlaveExporter implements Runnable{
 		return success;
 	}
 
+	public boolean updateDiagnosisId(String newid, String oldid){
+		boolean success = false;
+		Connection adminconn = MedwanQuery.getInstance().getAdminConnection();
+		Connection occonn = MedwanQuery.getInstance().getOpenclinicConnection();
+		try{
+			PreparedStatement ps = occonn.prepareStatement("update oc_diagnoses set oc_diagnosis_objectid=? where oc_diagnosis_objectid=?");
+			ps.setInt(1, Integer.parseInt(newid));
+			ps.setInt(2, Integer.parseInt(oldid));
+			ps.execute();
+			ps.close();
+
+			success=true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				adminconn.close();
+				occonn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return success;
+	}
+
+	public boolean updateRfeId(String newid, String oldid){
+		boolean success = false;
+		Connection adminconn = MedwanQuery.getInstance().getAdminConnection();
+		Connection occonn = MedwanQuery.getInstance().getOpenclinicConnection();
+		try{
+			PreparedStatement ps = occonn.prepareStatement("update oc_rfe set oc_rfe_objectid=? where oc_rfe_objectid=?");
+			ps.setInt(1, Integer.parseInt(newid));
+			ps.setInt(2, Integer.parseInt(oldid));
+			ps.execute();
+			ps.close();
+
+			success=true;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				adminconn.close();
+				occonn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return success;
+	}
+
 	public boolean updateInsuranceId(String newid, String oldid){
 		boolean success = false;
 		Connection adminconn = MedwanQuery.getInstance().getAdminConnection();
@@ -2275,6 +2674,11 @@ public class OpenclinicSlaveExporter implements Runnable{
 			ps = occonn.prepareStatement("update oc_diagnoses set oc_diagnosis_encounteruid=? where oc_diagnosis_encounteruid=?");
 			ps.setString(1, MedwanQuery.getInstance().getConfigInt("serverId")+"."+newid);
 			ps.setString(2, MedwanQuery.getInstance().getConfigInt("serverId")+"."+oldid);
+			ps.execute();
+			ps.close();
+			ps = occonn.prepareStatement("update oc_diagnoses set oc_diagnosis_encounterobjectid=? where oc_diagnosis_encounterobjectid=?");
+			ps.setInt(1, Integer.parseInt(newid));
+			ps.setInt(2, Integer.parseInt(oldid));
 			ps.execute();
 			ps.close();
 			ps = occonn.prepareStatement("update oc_patientcredits set oc_patientcredit_encounteruid=? where oc_patientcredit_encounteruid=?");
@@ -2575,6 +2979,107 @@ public class OpenclinicSlaveExporter implements Runnable{
 			        addStringElement(element, "certainty", rs.getString("oc_problem_certainty"));
 			        addStringElement(element, "comment", rs.getString("oc_problem_comment"));
 			        if(!addRecordBlock(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(updatetime)+"."+personid+".O."+objectid, element)){
+			        	break;
+			        }
+				}
+				catch(Exception e2){
+					e2.printStackTrace();
+				}
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void addDiagnoses(){
+		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+		try {
+			PreparedStatement ps = conn.prepareStatement("select * from oc_diagnoses where oc_diagnosis_updatetime>=? order by oc_diagnosis_updatetime asc");
+			ps.setTimestamp(1, new java.sql.Timestamp(begin.getTime()));
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				try{
+					int encounteruid= Integer.parseInt(rs.getString("oc_diagnosis_encounteruid"));
+					Timestamp updatetime = rs.getTimestamp("oc_diagnosis_updatetime");
+			        Element element = DocumentHelper.createElement("diagnosis");
+			        addStringElement(element, "serverid", rs.getString("oc_diagnosis_serverid"));
+			        String objectid=rs.getString("oc_diagnosis_objectid");
+			        addStringElement(element, "objectid", objectid);
+			        addTimestampElement(element, "date", rs.getTimestamp("oc_diagnosis_date"));
+			        addStringElement(element, "encounteruid", encounteruid+"");
+			        addStringElement(element, "authoruid", rs.getString("oc_diagnosis_authoruid"));
+			        addStringElement(element, "code", rs.getString("oc_diagnosis_code"));
+			        addStringElement(element, "certainty", rs.getString("oc_diagnosis_certainty"));
+			        addStringElement(element, "gravity", rs.getString("oc_diagnosis_gravity"));
+			        addTimestampElement(element, "createtime", rs.getTimestamp("oc_diagnosis_createtime"));
+			        addTimestampElement(element, "updatetime", updatetime);
+			        addStringElement(element, "updateuid", rs.getString("oc_diagnosis_updateuid"));
+			        addStringElement(element, "version", rs.getString("oc_diagnosis_version"));
+			        addStringElement(element, "lateralisation", rs.getString("oc_diagnosis_lateralisation"));
+			        addStringElement(element, "codetype", rs.getString("oc_diagnosis_codetype"));
+			        addTimestampElement(element, "enddate", rs.getTimestamp("oc_diagnosis_enddate"));
+			        addStringElement(element, "referencetype", rs.getString("oc_diagnosis_referencetype"));
+			        addStringElement(element, "referenceuid", rs.getString("oc_diagnosis_referenceuid"));
+			        addStringElement(element, "poa", rs.getString("oc_diagnosis_poa"));
+			        addStringElement(element, "encounterobjectid", rs.getString("oc_diagnosis_encounterobjectid"));
+			        addStringElement(element, "nc", rs.getString("oc_diagnosis_nc"));
+			        addStringElement(element, "serviceuid", rs.getString("oc_diagnosis_serviceuid"));
+			        addStringElement(element, "flags", rs.getString("oc_diagnosis_flags"));
+			        if(!addRecordBlock(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(updatetime)+"."+encounteruid+".G."+objectid, element)){
+			        	break;
+			        }
+				}
+				catch(Exception e2){
+					e2.printStackTrace();
+				}
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void addRFEs(){
+		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+		try {
+			PreparedStatement ps = conn.prepareStatement("select * from oc_RFE where oc_rfe_updatetime>=? order by oc_rfe_updatetime asc");
+			ps.setTimestamp(1, new java.sql.Timestamp(begin.getTime()));
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				try{
+					int encounteruid= Integer.parseInt(rs.getString("oc_rfe_encounteruid"));
+					Timestamp updatetime = rs.getTimestamp("oc_rfe_updatetime");
+			        Element element = DocumentHelper.createElement("rfe");
+			        addStringElement(element, "serverid", rs.getString("oc_rfe_serverid"));
+			        String objectid=rs.getString("oc_rfe_objectid");
+			        addStringElement(element, "objectid", objectid);
+			        addStringElement(element, "encounteruid", encounteruid+"");
+			        addStringElement(element, "codetype", rs.getString("oc_rfe_codetype"));
+			        addStringElement(element, "code", rs.getString("oc_rfe_code"));
+			        addTimestampElement(element, "date", rs.getTimestamp("oc_rfe_date"));
+			        addStringElement(element, "flags", rs.getString("oc_rfe_flags"));
+			        addStringElement(element, "version", rs.getString("oc_rfe_version"));
+			        addTimestampElement(element, "createtime", rs.getTimestamp("oc_rfe_createtime"));
+			        addTimestampElement(element, "updatetime", updatetime);
+			        addStringElement(element, "updateuid", rs.getString("oc_rfe_updateuid"));
+			        if(!addRecordBlock(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(updatetime)+"."+encounteruid+".R."+objectid, element)){
 			        	break;
 			        }
 				}

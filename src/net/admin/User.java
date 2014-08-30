@@ -340,70 +340,145 @@ public class User extends OC_Object {
     }
     
     public boolean initializeAuto (Connection connection, String sLogin, String aPassword) {
-         boolean bReturn = false;
+        boolean bReturn = false;
 
-         if ((sLogin!=null)&&(sLogin.trim().length()>0)&&(aPassword!=null)&&(aPassword.length()>0)) {
-             try  {
-                 String sSelect = "SELECT userid,personid, encryptedpassword, start, stop, project FROM Users WHERE userid = ? ";
-                 PreparedStatement ps = connection.prepareStatement(sSelect);
-                 ps.setInt(1,Integer.parseInt(sLogin));
-                 ResultSet rs = ps.executeQuery();
-                 if (rs.next()) {
-                     this.userid = rs.getString("userid");
-                     this.personid = rs.getString("personid");
-                     this.password = rs.getBytes("encryptedpassword");
-                     this.start = ScreenHelper.getSQLDate(rs.getDate("start"));
-                     this.stop = ScreenHelper.getSQLDate(rs.getDate("stop"));
-                     this.project = ScreenHelper.checkString(rs.getString("project"));
-                     if (hashPassword(this.password)==Integer.parseInt(aPassword))  {
-                         sSelect = "SELECT * FROM UserParameters WHERE userid = ? AND active = 1 ";
-                         rs.close();
-                         ps.close();
-                         ps = connection.prepareStatement(sSelect);
-                         ps.setInt(1,Integer.parseInt(this.userid));
-                         rs = ps.executeQuery();
-                         String sParameter, sValue;
-                         String sUserProfileID = "";
-                         while (rs.next()) {
-                             sParameter = rs.getString("parameter");
-                             sValue = ScreenHelper.checkString(rs.getString("value"));
+        if ((sLogin!=null)&&(sLogin.trim().length()>0)&&(aPassword!=null)&&(aPassword.length()>0)) {
+            try  {
+                String sSelect = "SELECT userid,personid, encryptedpassword, start, stop, project FROM Users WHERE userid = ? ";
+                PreparedStatement ps = connection.prepareStatement(sSelect);
+                ps.setInt(1,Integer.parseInt(sLogin));
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    this.userid = rs.getString("userid");
+                    this.personid = rs.getString("personid");
+                    this.password = rs.getBytes("encryptedpassword");
+                    this.start = ScreenHelper.getSQLDate(rs.getDate("start"));
+                    this.stop = ScreenHelper.getSQLDate(rs.getDate("stop"));
+                    this.project = ScreenHelper.checkString(rs.getString("project"));
+                    if (hashPassword(this.password)==Integer.parseInt(aPassword))  {
+                        sSelect = "SELECT * FROM UserParameters WHERE userid = ? AND active = 1 ";
+                        rs.close();
+                        ps.close();
+                        ps = connection.prepareStatement(sSelect);
+                        ps.setInt(1,Integer.parseInt(this.userid));
+                        rs = ps.executeQuery();
+                        String sParameter, sValue;
+                        String sUserProfileID = "";
+                        while (rs.next()) {
+                            sParameter = rs.getString("parameter");
+                            sValue = ScreenHelper.checkString(rs.getString("value"));
 
-                             parameters.add(new Parameter(sParameter,sValue));
+                            parameters.add(new Parameter(sParameter,sValue));
 
-                             if (sParameter.equalsIgnoreCase("userprofileid")){
-                                sUserProfileID = sValue;
-                             }
-                             else if (sParameter.equalsIgnoreCase("sa")){
-                                 accessRights.put("sa","true");
-                             }
-                         }
-                         rs.close();
-                         ps.close();
-
-
-                         if (this.person.initialize(connection,personid)) {
-                             bReturn = true;
-                         }
-
-                         loadAccessRights(sUserProfileID,connection);
-                         initializeService();
-                     }
-                 }
-                 else {
-                     rs.close();
-                     ps.close();
-                 }
-             }
-             catch(SQLException e) {
-                 Debug.println("User initialize error: "+e.getMessage());
-             }
+                            if (sParameter.equalsIgnoreCase("userprofileid")){
+                               sUserProfileID = sValue;
+                            }
+                            else if (sParameter.equalsIgnoreCase("sa")){
+                                accessRights.put("sa","true");
+                            }
+                        }
+                        rs.close();
+                        ps.close();
 
 
-         }
+                        if (this.person.initialize(connection,personid)) {
+                            bReturn = true;
+                        }
 
-         return bReturn;
-     }
+                        loadAccessRights(sUserProfileID,connection);
+                        initializeService();
+                    }
+                }
+                else {
+                    rs.close();
+                    ps.close();
+                }
+            }
+            catch(SQLException e) {
+                Debug.println("User initialize error: "+e.getMessage());
+            }
+
+
+        }
+
+        return bReturn;
+    }
     
+    public static boolean hasAccessRight(String sLogin,String sScreen,String sPermission){
+        boolean bReturn = false;
+        Connection conn=MedwanQuery.getInstance().getAdminConnection();
+        try  {
+            String sSelect = "SELECT * FROM UserParameters a,UserProfilePermissions b WHERE userid = ? and parameter='userprofileid' and value=b.userprofileid and screenid=? and permission=? and a.active=1 and b.active=1";
+            PreparedStatement ps = conn.prepareStatement(sSelect);
+            ps.setInt(1,Integer.parseInt(sLogin));
+            ps.setString(2, sScreen);
+            ps.setString(3,sPermission);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                bReturn = true;
+            }
+            else {
+                rs.close();
+                ps.close();
+                sSelect = "SELECT * FROM UserParameters WHERE userid = ? and parameter='sa' and value='on' and active=1";
+                ps = conn.prepareStatement(sSelect);
+                ps.setInt(1,Integer.parseInt(sLogin));
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    bReturn = true;
+                }
+            }
+            rs.close();
+            ps.close();
+        }
+        catch(SQLException e) {
+            Debug.println("User validation error: "+e.getMessage());
+        }
+        finally{
+	        try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+        return bReturn;
+    }
+   
+    public static boolean validate (String sLogin, byte[] aEncryptedPassword) {
+        boolean bReturn = false;
+        Connection conn=MedwanQuery.getInstance().getAdminConnection();
+        if ((sLogin!=null)&&(sLogin.trim().length()>0)&&(aEncryptedPassword!=null)&&(aEncryptedPassword.length>0)) {
+            try  {
+                String sSelect = "SELECT userid,personid, encryptedpassword FROM Users WHERE userid = ? and stop is null";
+                PreparedStatement ps = conn.prepareStatement(sSelect);
+                ps.setInt(1,Integer.parseInt(sLogin));
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    byte[] dEncryptedbPassword = rs.getBytes("encryptedpassword");
+                    if (checkPassword(dEncryptedbPassword, aEncryptedPassword))  {
+                        bReturn = true;
+                    }
+                }
+                else {
+                    rs.close();
+                    ps.close();
+                }
+            }
+            catch(SQLException e) {
+                Debug.println("User validation error: "+e.getMessage());
+            }
+        }
+        try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        return bReturn;
+    }
+   
     public static User get(int userid){
     	User user = new User();
     	user.initialize(userid);
@@ -662,7 +737,7 @@ public class User extends OC_Object {
         }
     }
 
-    public byte[] encrypt(String sValue) {
+    public static byte[] encrypt(String sValue) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
             return md.digest(sValue.getBytes());
@@ -681,6 +756,18 @@ public class User extends OC_Object {
         }
         catch (Exception e) {
 	        Debug.println("User checkPassword error: "+e.getMessage());
+        }
+        return false;
+    }
+
+    public static boolean checkPassword(byte[] aPassword1,byte[] aPassword2)  {
+        try {
+            if (MessageDigest.isEqual(aPassword1,aPassword2)) {
+                return true;
+            }
+        }
+        catch (Exception e) {
+	        Debug.println("checkPassword error: "+e.getMessage());
         }
         return false;
     }
@@ -1424,7 +1511,7 @@ public class User extends OC_Object {
             int i = 0;
 
             while(rs.next() && i<oldPwdCount){
-                if(MessageDigest.isEqual(rs.getBytes("encryptedPassword"),user.encrypt(sPassword))){
+                if(MessageDigest.isEqual(rs.getBytes("encryptedPassword"),User.encrypt(sPassword))){
                     passwordIsUsedBefore = true;
                     break;
                 }
