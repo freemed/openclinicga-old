@@ -103,7 +103,7 @@
 <div style="height:2px;"></div>
 
 <%-- MEDICAL DATA --%>
-<% if(activeUser.getAccessRight("medical.select")){%>
+<% if(activeUser.getAccessRight("curative.select")){%>
     <table width="100%" class="list">
         <tr><td colspan="6" class="titleadmin"><%=getTran("web","medical.data",sWebLanguage)%></td></tr>
         <tr>

@@ -35,8 +35,12 @@
 4.89.42 - changed non existing accessright 'medical' to 'curative' in /curative/index.jsp (caused medical user profiles not to have access to clinical content anymore)
 4.89.43 - removed link to unused 'risk profiles'
 4.89.44 - assets management functionality extended
+4.90.00 - added client for paper document archiving
 4.90.01 - some minor visual and functional improvements
 4.90.02 - fixed bug when saving a label when one of the languages has no value
+4.90.03 - fixed bug in SQL query for displaying health care deliveries provided to patient in last 24 hours
+4.90.04 - corrected SQL query for viewing 'My out-patients' (shortcut icon)
+4.90.05 - corrected SQL query for viewing 'My in-patients' (shortcut icon)
 == VERSION 5 ==
 5.00.00 - added functionality for setting up master-slave server configurations
 5.01.00 - paper document archiving functionality added (archiving server integrated into OpenClinic)
