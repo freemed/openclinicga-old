@@ -1416,11 +1416,14 @@ public class AdminPerson extends OC_Object{
                                         " gender," +
                                         " dateofbirth," +
                                         " pension" +
-                        " FROM AdminView a,OC_ENCOUNTERS_VIEW o" +
-                        " WHERE(o.OC_ENCOUNTER_ENDDATE IS NULL OR o.OC_ENCOUNTER_ENDDATE > ?)" +
-                        " AND o.OC_ENCOUNTER_TYPE = 'admission'" +
-                        " AND o.OC_ENCOUNTER_MANAGERUID = ?" +
-                        " AND o.OC_ENCOUNTER_PATIENTUID = " + MedwanQuery.getInstance().convert("varchar(255)","personid");
+                                        " FROM AdminView a,OC_ENCOUNTER_SERVICES o,OC_ENCOUNTERS o2" +
+                                        " WHERE"
+                                        + " o2.OC_ENCOUNTER_OBJECTID=o.OC_ENCOUNTER_OBJECTID and"
+                                        + " o2.OC_ENCOUNTER_SERVERID=o.OC_ENCOUNTER_SERVERID and"
+                                        + " (o2.OC_ENCOUNTER_ENDDATE IS NULL OR o2.OC_ENCOUNTER_ENDDATE > ?)" +
+                                        " AND o2.OC_ENCOUNTER_TYPE = 'admission'" +
+                                        " AND o.OC_ENCOUNTER_MANAGERUID = ?" +
+                                        " AND o2.OC_ENCOUNTER_PATIENTUID = " + MedwanQuery.getInstance().convert("varchar(255)","personid");
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = oc_conn.prepareStatement(sSelect.trim());
@@ -1490,15 +1493,18 @@ public class AdminPerson extends OC_Object{
                                         " gender," +
                                         " dateofbirth," +
                                         " pension" +
-                        " FROM AdminView a,OC_ENCOUNTERS_VIEW o" +
-                        " WHERE(o.OC_ENCOUNTER_ENDDATE IS NULL OR o.OC_ENCOUNTER_ENDDATE > ?)" +
-                        " AND o.OC_ENCOUNTER_TYPE = 'visit'" +
+                        " FROM AdminView a,OC_ENCOUNTER_SERVICES o,OC_ENCOUNTERS o2" +
+                        " WHERE"
+                        + " o2.OC_ENCOUNTER_OBJECTID=o.OC_ENCOUNTER_OBJECTID and"
+                        + " o2.OC_ENCOUNTER_SERVERID=o.OC_ENCOUNTER_SERVERID and"
+                        + " (o2.OC_ENCOUNTER_ENDDATE IS NULL OR o2.OC_ENCOUNTER_ENDDATE > ?)" +
+                        " AND o2.OC_ENCOUNTER_TYPE = 'visit'" +
                         " AND o.OC_ENCOUNTER_MANAGERUID = ?" +
-                        " AND o.OC_ENCOUNTER_PATIENTUID = " + MedwanQuery.getInstance().convert("varchar(255)","personid");
+                        " AND o2.OC_ENCOUNTER_PATIENTUID = " + MedwanQuery.getInstance().convert("varchar(255)","personid");
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = oc_conn.prepareStatement(sSelect.trim());
-            ps.setTimestamp(1,new Timestamp(ScreenHelper.getSQLTime().getTime()));
+            ps.setTimestamp(1, new java.sql.Timestamp(new java.util.Date().getTime()));
             ps.setString(2,sUserID);
 
             rs = ps.executeQuery();

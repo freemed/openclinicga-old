@@ -37,6 +37,7 @@ import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.HTMLEntities;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.SessionMessage;
+import be.openclinic.adt.Encounter;
 
 public class OpenclinicSlaveExporter implements Runnable{
 	Thread thread;
@@ -326,7 +327,7 @@ public class OpenclinicSlaveExporter implements Runnable{
 					ps.setInt(1, Integer.parseInt(element.elementText("transactionid")));
 					ps.execute();
 					ps.close();
-					ps=conn.prepareStatement("insert into itemshistory(itemid,type,value,date,transactionid,serverid,version,versionserverid,priority) select itemid,type,value,date,transactionid,serverid,version,versionserverid,priority from items where transactionid=?");
+					ps=conn.prepareStatement("insert into itemshistory(itemid,type,value,date,transactionid,serverid,version,versionserverid) select itemid,type,value,date,transactionid,serverid,version,versionserverid from items where transactionid=?");
 					ps.setInt(1, Integer.parseInt(element.elementText("transactionid")));
 					ps.execute();
 					ps.close();
@@ -1337,6 +1338,7 @@ public class OpenclinicSlaveExporter implements Runnable{
 					rs.close();
 				}
 				else {
+					MedwanQuery.getInstance().getObjectCache().removeObject("encounter",MedwanQuery.getInstance().getConfigInt("serverId")+"."+element.elementText("objectid"));
 					//Received record is more recent
 					//Remove existingrecord
 					ps.close();
@@ -2661,7 +2663,14 @@ public class OpenclinicSlaveExporter implements Runnable{
 		Connection adminconn = MedwanQuery.getInstance().getAdminConnection();
 		Connection occonn = MedwanQuery.getInstance().getOpenclinicConnection();
 		try{
+			MedwanQuery.getInstance().getObjectCache().removeObject("encounter",MedwanQuery.getInstance().getConfigInt("serverId")+"."+newid);
+			MedwanQuery.getInstance().getObjectCache().removeObject("encounter",MedwanQuery.getInstance().getConfigInt("serverId")+"."+oldid);
 			PreparedStatement ps = occonn.prepareStatement("update oc_encounters set oc_encounter_objectid=? where oc_encounter_objectid=?");
+			ps.setInt(1, Integer.parseInt(newid));
+			ps.setInt(2, Integer.parseInt(oldid));
+			ps.execute();
+			ps.close();
+			ps = occonn.prepareStatement("update oc_encounter_services set oc_encounter_objectid=? where oc_encounter_objectid=?");
 			ps.setInt(1, Integer.parseInt(newid));
 			ps.setInt(2, Integer.parseInt(oldid));
 			ps.execute();
@@ -3008,14 +3017,13 @@ public class OpenclinicSlaveExporter implements Runnable{
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				try{
-					int encounteruid= Integer.parseInt(rs.getString("oc_diagnosis_encounteruid"));
 					Timestamp updatetime = rs.getTimestamp("oc_diagnosis_updatetime");
 			        Element element = DocumentHelper.createElement("diagnosis");
 			        addStringElement(element, "serverid", rs.getString("oc_diagnosis_serverid"));
 			        String objectid=rs.getString("oc_diagnosis_objectid");
 			        addStringElement(element, "objectid", objectid);
 			        addTimestampElement(element, "date", rs.getTimestamp("oc_diagnosis_date"));
-			        addStringElement(element, "encounteruid", encounteruid+"");
+			        addStringElement(element, "encounteruid", rs.getString("oc_diagnosis_encounteruid"));
 			        addStringElement(element, "authoruid", rs.getString("oc_diagnosis_authoruid"));
 			        addStringElement(element, "code", rs.getString("oc_diagnosis_code"));
 			        addStringElement(element, "certainty", rs.getString("oc_diagnosis_certainty"));
@@ -3034,7 +3042,7 @@ public class OpenclinicSlaveExporter implements Runnable{
 			        addStringElement(element, "nc", rs.getString("oc_diagnosis_nc"));
 			        addStringElement(element, "serviceuid", rs.getString("oc_diagnosis_serviceuid"));
 			        addStringElement(element, "flags", rs.getString("oc_diagnosis_flags"));
-			        if(!addRecordBlock(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(updatetime)+"."+encounteruid+".G."+objectid, element)){
+			        if(!addRecordBlock(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(updatetime)+"."+objectid+".G.", element)){
 			        	break;
 			        }
 				}
@@ -3064,13 +3072,12 @@ public class OpenclinicSlaveExporter implements Runnable{
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				try{
-					int encounteruid= Integer.parseInt(rs.getString("oc_rfe_encounteruid"));
 					Timestamp updatetime = rs.getTimestamp("oc_rfe_updatetime");
 			        Element element = DocumentHelper.createElement("rfe");
 			        addStringElement(element, "serverid", rs.getString("oc_rfe_serverid"));
 			        String objectid=rs.getString("oc_rfe_objectid");
 			        addStringElement(element, "objectid", objectid);
-			        addStringElement(element, "encounteruid", encounteruid+"");
+			        addStringElement(element, "encounteruid", rs.getString("oc_rfe_encounteruid"));
 			        addStringElement(element, "codetype", rs.getString("oc_rfe_codetype"));
 			        addStringElement(element, "code", rs.getString("oc_rfe_code"));
 			        addTimestampElement(element, "date", rs.getTimestamp("oc_rfe_date"));
@@ -3079,7 +3086,7 @@ public class OpenclinicSlaveExporter implements Runnable{
 			        addTimestampElement(element, "createtime", rs.getTimestamp("oc_rfe_createtime"));
 			        addTimestampElement(element, "updatetime", updatetime);
 			        addStringElement(element, "updateuid", rs.getString("oc_rfe_updateuid"));
-			        if(!addRecordBlock(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(updatetime)+"."+encounteruid+".R."+objectid, element)){
+			        if(!addRecordBlock(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(updatetime)+"."+objectid+".R.", element)){
 			        	break;
 			        }
 				}
