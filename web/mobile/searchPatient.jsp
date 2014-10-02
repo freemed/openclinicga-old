@@ -104,8 +104,8 @@
 			
 			<%-- BUTTONS --%>
 			<%=alignButtonsStart()%>
-			    <input type="submit" class="button" name="searchButton" onClick="doSearch();" value="<%=getTran("web","search",activeUser)%>">&nbsp;
-			    <input type="button" class="button" name="clearButton" onclick="clearSearchFields();" value="<%=getTran("web","clear",activeUser)%>">
+			    <input type="submit" class="button" name="searchButton" onClick="doSearch();" value="<%=getTranNoLink("web","search",activeUser)%>">&nbsp;
+			    <input type="button" class="button" name="clearButton" onclick="clearSearchFields();" value="<%=getTranNoLink("web","clear",activeUser)%>">
 			<%=alignButtonsStop()%>
 		
 		<script>

@@ -5,7 +5,7 @@
     <tr>
         <td colspan="3" style="text-align:center;padding:10px">
 			<%-- BARCODE --%>
-			<img class="link" onclick="initBarcode2();" src="<%=sCONTEXTPATH%>/_img/androidbarcode.png" alt="<%=getTran("web","barcode",activeUser)%>">
+			<img class="link" onclick="initBarcode2();" src="<%=sCONTEXTPATH%>/_img/icons/icon_barcode.png" alt="<%=getTranNoLink("web","barcode",activeUser)%>">
         </td>
     </tr>
     <tr>
@@ -41,8 +41,8 @@
     <tr>
         <td colspan="3">
 			<div style="text-align:center;padding:10px">
-			    <input type="button" class="button" name="searchButton" value="<%=getTran("mobile","searchPatient",activeUser)%>" onClick="doNewSearch();"%><div style="padding-top:5px;"/>
-			    <input type="button" class="button" name="exitButton" value="<%=getTran("web","logOut",activeUser)%>" onClick="logOut();"%>
+			    <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("mobile","searchPatient",activeUser)%>" onClick="doNewSearch();"%><div style="padding-top:5px;"/>
+			    <input type="button" class="button" name="exitButton" value="<%=getTranNoLink("web","logOut",activeUser)%>" onClick="logOut();"%>
 		    </div>
         </td>
     </tr>
