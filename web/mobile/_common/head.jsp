@@ -36,7 +36,7 @@
                <tr class="admintitle">
  		            <td width="50">&nbsp;</td>
  		            <td width="*"><%=sAPPNAME%></td>
- 		            <td width="50" style="text-align:right"><img src="../_img/icon_logout.png" class="link" title="<%=getTranNoLink("web","logout",activeUser)%>" onClick="logOut();"></td>
+ 		            <td width="50" style="text-align:right"><img src="../_img/icons/icon_logout.png" class="link" title="<%=getTranNoLink("web","logout",activeUser)%>" onClick="logOut();"></td>
  		        </tr>
  		    </table>
 		</td>
@@ -44,7 +44,7 @@
 	<tr>
 		<%-- BARCODE --%>
 		<td style="padding:5px;width:50px;padding-top:5px;">
-			<img class="link" onclick="initBarcode2();" src="<%=sCONTEXTPATH%>/_img/androidbarcode.png" alt="<%=getTranNoLink("web","barcode",activeUser)%>">
+			<img class="link" onclick="initBarcode2();" src="<%=sCONTEXTPATH%>/_img/icons/icon_barcode.png" alt="<%=getTranNoLink("web","barcode",activeUser)%>">
 		</td>
 
 		<%-- BUTTONS --%>
