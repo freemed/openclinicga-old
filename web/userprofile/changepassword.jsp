@@ -89,17 +89,11 @@
                   UserProfile.NewPassword2.focus();
                 }
                 else if(UserProfile.NewPassword1.value.length > 250){
-                  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.Password&labelID=PasswordTooLong";
-                  var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                  (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.Password","PasswordTooLong",sWebLanguage)%>");
-
+                  alertDialog("Web.Password","PasswordTooLong");
                   UserProfile.NewPassword1.focus();
                 }
                 else if(UserProfile.NewPassword2.value.length > 250){
-                  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.Password&labelID=PasswordTooLong";
-                  var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                  (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.Password","PasswordTooLong",sWebLanguage)%>");
-
+                  alertDialog("Web.Password","PasswordTooLong");
                   UserProfile.NewPassword2.focus();
                 }
                 else{
@@ -117,39 +111,39 @@
 
         // reuse of old password allowed ?
         if(noReuseOfOldPwd){
-            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
+            out.print("<img src='"+sCONTEXTPATH+"/_img/icons/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
             out.print(getTran("web.userProfile","PasswordNoReuseOfOldPwdAllowed",sWebLanguage).replaceAll("#numberOfPasswords#",Integer.toString(notReusablePasswords))+"<br>");
         }
         
         if(minimumChars > -1){
             String msg = getTran("Web.UserProfile","PasswordMinimumCharactersObliged",sWebLanguage);
             msg = msg.replaceFirst("#minChars#",minimumChars+"");
-            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
+            out.print("<img src='"+sCONTEXTPATH+"/_img/icons/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
             out.print(msg+"<br>");
         }
 
         if(numbersObliged){
-            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
+            out.print("<img src='"+sCONTEXTPATH+"/_img/icons/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
             out.print(getTran("Web.UserProfile","PasswordNumbersObliged",sWebLanguage)+"<br>");
         }
         
         if(lettersObliged){
-            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
+            out.print("<img src='"+sCONTEXTPATH+"/_img/icons/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
             out.print(getTran("Web.UserProfile","PasswordLettersObliged",sWebLanguage)+"<br>");
         }
 
         if(uppercaseObliged){
-            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
+            out.print("<img src='"+sCONTEXTPATH+"/_img/icons/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
             out.print(getTran("Web.UserProfile","PasswordUppercaseObliged",sWebLanguage)+"<br>");
         }
         
         if(lowercaseObliged){
-            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
+            out.print("<img src='"+sCONTEXTPATH+"/_img/icons/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
             out.print(getTran("Web.UserProfile","PasswordLowercaseObliged",sWebLanguage)+"<br>");
         }
         
         if(alfanumericsObliged){
-            out.print("<img src='"+sCONTEXTPATH+"/_img/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
+            out.print("<img src='"+sCONTEXTPATH+"/_img/icons/icon_info.gif' style='vertical-align:-2px;'/>&nbsp;");
             out.print(getTran("Web.UserProfile","PasswordAlfanumericsObliged",sWebLanguage)+"<br>");
         }
 
@@ -178,10 +172,7 @@
             
             %>
                 <script>
-                  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=999999999&labelValue=<%=msg%>";
-                  var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                  (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=msg%>");
-
+                  alertDialogDirectText("<%=msg%>");
                   UserProfile.OldPassword.focus();
                 </script>
             <%
@@ -197,10 +188,10 @@
 
         // start table
         allErrors.append("<p align='center'>")
-                 .append(" <table>")
-                 .append("  <tr>")
-                 .append("   <td>")
-                 .append("    <font color='red'>");
+                 .append("<table>")
+                 .append("<tr>")
+                 .append("<td>")
+                 .append("<font color='red'>");
 
         //--- retrieve passwords ---
         String sOldPassword  = checkString(request.getParameter("OldPassword")),
@@ -219,7 +210,7 @@
             if(passwordIsUsedBefore || sNewPassword1.equals(sOldPassword)){
                 rulesObeyed = false;
                 String msg = getTran("web.userProfile","PasswordNoReuseOfOldPwdAllowed",sWebLanguage).replaceAll("#numberOfPasswords#",Integer.toString(notReusablePasswords));
-                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
+                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif' style='vertical-align:-3px'/>&nbsp;");
                 ruleErrors.append(msg).append("<br>");
             }
         }
@@ -231,7 +222,7 @@
                 rulesObeyed = false;
                 String msg = getTran("Web.UserProfile","PasswordMinimumCharactersObliged",sWebLanguage);
                 msg = msg.replaceFirst("#minChars#",minimumChars+"");
-                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
+                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif' style='vertical-align:-3px'/>&nbsp;");
                 ruleErrors.append(msg).append("<br>");
             }
         }
@@ -240,13 +231,13 @@
         if(numbersObliged && lettersObliged){
             if(!ScreenHelper.containsNumber(sNewPassword1)){
                 rulesObeyed = false;
-                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
+                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif' style='vertical-align:-3px'/>&nbsp;");
                 ruleErrors.append(getTran("Web.UserProfile","PasswordNumbersObliged",sWebLanguage)).append("<br>");
             }
 
             if(!ScreenHelper.containsLetter(sNewPassword1)){
                 rulesObeyed = false;
-                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
+                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif' style='vertical-align:-3px'/>&nbsp;");
                 ruleErrors.append(getTran("Web.UserProfile","PasswordLettersObliged",sWebLanguage)).append("<br>");
             }
         }
@@ -255,7 +246,7 @@
             if(numbersObliged){
                 if(!ScreenHelper.containsNumber(sNewPassword1)){
                     rulesObeyed = false;
-                    ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
+                    ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif' style='vertical-align:-3px'/>&nbsp;");
                     ruleErrors.append(getTran("Web.UserProfile","PasswordNumbersObliged",sWebLanguage)).append("<br>");
                 }
             }
@@ -264,7 +255,7 @@
             if(lettersObliged){
                 if(!ScreenHelper.containsLetter(sNewPassword1)){
                     rulesObeyed = false;
-                    ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
+                    ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif' style='vertical-align:-3px'/>&nbsp;");
                     ruleErrors.append(getTran("Web.UserProfile","PasswordLettersObliged",sWebLanguage)).append("<br>");
                 }
             }
@@ -274,13 +265,13 @@
         if(uppercaseObliged && lowercaseObliged){
             if(!ScreenHelper.containsUppercase(sNewPassword1)){
                 rulesObeyed = false;
-                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
+                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif' style='vertical-align:-3px'/>&nbsp;");
                 ruleErrors.append(getTran("Web.UserProfile","PasswordUppercaseObliged",sWebLanguage)).append("<br>");
             }
 
             if(!ScreenHelper.containsLowercase(sNewPassword1)){
                 rulesObeyed = false;
-                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
+                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif' style='vertical-align:-3px'/>&nbsp;");
                 ruleErrors.append(getTran("Web.UserProfile","PasswordLowercaseObliged",sWebLanguage)).append("<br>");
             }
         }
@@ -289,7 +280,7 @@
             if(uppercaseObliged){
                 if(!ScreenHelper.containsUppercase(sNewPassword1)){
                     rulesObeyed = false;
-                    ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
+                    ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif' style='vertical-align:-3px'/>&nbsp;");
                     ruleErrors.append(getTran("Web.UserProfile","PasswordUppercaseObliged",sWebLanguage)).append("<br>");
                 }
             }
@@ -298,7 +289,7 @@
             if(lowercaseObliged){
                 if(!ScreenHelper.containsLowercase(sNewPassword1)){
                     rulesObeyed = false;
-                    ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
+                    ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif' style='vertical-align:-3px'/>&nbsp;");
                     ruleErrors.append(getTran("Web.UserProfile","PasswordLowercaseObliged",sWebLanguage)).append("<br>");
                 }
             }
@@ -308,7 +299,7 @@
         if(alfanumericsObliged){
             if(!ScreenHelper.containsAlfanumerics(sNewPassword1)){
                 rulesObeyed = false;
-                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
+                ruleErrors.append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif' style='vertical-align:-3px'/>&nbsp;");
                 ruleErrors.append(getTran("Web.UserProfile","PasswordAlfanumericsObliged",sWebLanguage)).append("<br>");
             }
         }
@@ -316,7 +307,7 @@
         //--- compare passwords ---
         if(!sNewPassword1.equals(sNewPassword2)){
             errorNewPassword = true;
-            allErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
+            allErrors.append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif' style='vertical-align:-3px'/>&nbsp;");
             allErrors.append("<b>").append(getTran("Web.UserProfile","ErrorNewPassword",sWebLanguage)).append("</b><br>");
         }
         else{
@@ -324,7 +315,7 @@
 
             if(!activeUser.checkPassword(aOldPassword)){
                 errorOldPassword = true;
-                allErrors.append("<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px'/>&nbsp;");
+                allErrors.append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif' style='vertical-align:-3px'/>&nbsp;");
                 allErrors.append("<b>").append(getTran("Web.UserProfile","ErrorOldPassword",sWebLanguage)).append("</b><br>");
             }
             else{
@@ -394,18 +385,18 @@
         //--- append back button ---
         StringBuffer backButton = new StringBuffer();
         backButton.append("<input type='button' class='button'")
-                  .append(" value='").append(getTranNoLink("Web","back",sWebLanguage)).append("'")
-                  .append(" onclick='window.location.href=\"main.do?Page=userprofile/changepassword.jsp&popup=no\"'>");
+                  .append("value='").append(getTranNoLink("Web","back",sWebLanguage)).append("' ")
+                  .append("onclick='window.location.href=\"main.do?Page=userprofile/changepassword.jsp&popup=no\"'>");
 
         //--- display errors ---
         // end table
         allErrors.append(ruleErrors)
-                 .append("     <br>")
-                 .append("    </font>")
-                 .append("   </td>")
-                 .append("  </tr>")
-                 .append("  <tr><td align='center'>"+backButton+"</td></tr>")
-                 .append(" </table>")
+                 .append("<br>")
+                 .append("</font>")
+                 .append("</td>")
+                 .append("</tr>")
+                 .append("<tr><td align='center'>"+backButton+"</td></tr>")
+                 .append("</table>")
                  .append("</p>");
 
         out.print(allErrors);

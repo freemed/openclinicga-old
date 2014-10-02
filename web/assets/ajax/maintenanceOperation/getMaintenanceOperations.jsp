@@ -1,5 +1,5 @@
-<%@page import="be.openclinic.assets.MaintenancePlan"%>
-<%@page import="be.openclinic.assets.MaintenanceOperation,
+<%@page import="be.openclinic.assets.MaintenancePlan,
+                be.openclinic.assets.MaintenanceOperation,
                 be.mxs.common.util.system.HTMLEntities,
                 java.util.*"%>
 <%@page errorPage="/includes/error.jsp"%>
@@ -46,9 +46,9 @@
            sPeriodPerformedEnd   = ScreenHelper.checkString(request.getParameter("periodPerformedEnd"));
 
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n*********** getMaintenanceOperations.jsp **********");
+        Debug.println("\n*********** assets/ajax/getMaintenanceOperations.jsp **********");
         Debug.println("sPlanUID  : "+sPlanUID);
         Debug.println("sOperator : "+sOperator);
         Debug.println("sResult   : "+sResult+"\n");
@@ -57,7 +57,7 @@
         Debug.println("sPeriodPerformedBegin : "+sPeriodPerformedBegin);
         Debug.println("sPeriodPerformedEnd   : "+sPeriodPerformedEnd+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
 
     // compose object to pass search criteria with
     MaintenanceOperation findObject = new MaintenanceOperation();
@@ -90,7 +90,7 @@
         Vector keys = new Vector(hSort.keySet());
         Collections.sort(keys);
         Iterator iter = keys.iterator();
-        String sClass = "";
+        String sClass = "1";
         
         while(iter.hasNext()){
             // alternate row-style
@@ -108,9 +108,9 @@
 <%
     if(operations.size() > 0){
         %>
-<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
+<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border:none;">
     <%-- header --%>
-    <tr class="admin" style="padding-left: 1px;">    
+    <tr class="admin" style="padding-left:1px;">    
         <td width="25%" nowrap><%=HTMLEntities.htmlentities(getTran("web.assets","maintenancePlan",sWebLanguage))%></td>
         <td width="7%" nowrap><asc><%=HTMLEntities.htmlentities(getTran("web.assets","date",sWebLanguage))%></asc></td>
         <td width="25%" nowrap><%=HTMLEntities.htmlentities(getTran("web.assets","operator",sWebLanguage))%></td>

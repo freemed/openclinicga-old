@@ -75,11 +75,11 @@
 
                 //*** display operation in one row ***
                 html.append("<tr class='list" + sClass + "' onclick=\"doShowDetailsReceipt('" + sOperationUid + "');\"  title='" + detailsTran + "'>")
-                        .append(" <td>" + sDescription + "</td>")
-                        .append(" <td>" + (operation.getDate() == null ? "" : stdDateFormat.format(operation.getDate())) + "</td>")
-                        .append(" <td>" + sProductName + "</td>")
-                        .append(" <td>" + Math.abs(operation.getUnitsChanged()) + "</td>")
-                        .append(" <td>" + sUserName + "</td>")
+                        .append("<td>" + sDescription + "</td>")
+                        .append("<td>" + (operation.getDate() == null ? "" : stdDateFormat.format(operation.getDate())) + "</td>")
+                        .append("<td>" + sProductName + "</td>")
+                        .append("<td>" + Math.abs(operation.getUnitsChanged()) + "</td>")
+                        .append("<td>" + sUserName + "</td>")
                         .append("</tr>");
             }
         }
@@ -199,7 +199,7 @@
         else {
         %>
         <script>
-            alertDialogMessage('<%=getTranNoLink("web",sResult,sWebLanguage)%>');
+            alertDialogDirectText('<%=getTranNoLink("web",sResult,sWebLanguage)%>');
         </script>
         <%
         sAction = "showDetailsNew";
@@ -313,7 +313,7 @@
                         <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","description",sWebLanguage)%> *</td>
                         <td class="admin2">
                             <select class="text" name="EditOperationDescr" onChange="displaySrcDestSelector();" style="vertical-align:-2px;">
-                                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                                <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                                 <%=ScreenHelper.writeSelectUnsorted("productstockoperation.patientmedicationreceipt",sSelectedOperationDescr,sWebLanguage)%>
                             </select>
                         </td>
@@ -323,7 +323,7 @@
                         <td class="admin"><%=getTran("web","receivedfrom",sWebLanguage)%>&nbsp;*</td>
                         <td class="admin2">
                             <select class="text" name="EditSrcDestType" onChange="displaySrcDestSelector();" style="vertical-align:-2px;">
-                                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                                <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                                 <%=ScreenHelper.writeSelectUnsorted("productstockoperation.patientsourcedestinationtype","patient",sWebLanguage)%>
                             </select>
                             <%-- SOURCE DESTINATION SELECTOR --%>
@@ -348,8 +348,8 @@
 
                           <%-- medic --%>
                           if(srcDestType.indexOf('medic') > -1){
-                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchDoctor('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
-                                                                                         +"<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
+                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchDoctor('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
+                                                                                         +"<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
                             if(prevSrcDestType!=srcDestType){
                               transactionForm.EditSrcDestUid.value = "<%=activeUser.userid%>";
                               transactionForm.EditSrcDestName.value = "<%=activeUser.person.firstname+" "+activeUser.person.lastname%>";
@@ -363,8 +363,8 @@
                           }
                           <%-- patient --%>
                           else if(srcDestType.indexOf('patient') > -1){
-                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchPatient('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
-                                                                                         +"<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
+                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchPatient('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
+                                                                                         +"<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
                             if(prevSrcDestType!=srcDestType){
                               transactionForm.EditSrcDestUid.value = "<%=activePatient.personid%>";
                               transactionForm.EditSrcDestName.value = "<%=activePatient.firstname+" "+activePatient.lastname%>";
@@ -378,8 +378,8 @@
                           }
                           <%-- service --%>
                           else if(srcDestType.indexOf('service') > -1){
-                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchService('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
-                                                                                         +"<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
+                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchService('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
+                                                                                         +"<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
                             if(prevSrcDestType!=srcDestType){
                               if("<%=centralPharmacyCode%>".length > 0){
                                 transactionForm.EditSrcDestUid.value = "<%=centralPharmacyCode%>";
@@ -423,8 +423,8 @@
                         <td class="admin2">
                             <input type="hidden" name="EditProductStockUid" value="<%=sSelectedProductStockUid%>">
                             <input class="text" type="text" name="EditProductStockName" readonly size="<%=sTextWidth%>" value="<%=sSelectedProductName%>">
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchProductStock('EditProductStockUid','EditProductStockName','ProductStockLevel');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditProductStockUid.value='';transactionForm.EditProductStockName.value='';document.getElementById('displayDeliveriesButton').style.visibility='hidden';">&nbsp;
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchProductStock('EditProductStockUid','EditProductStockName','ProductStockLevel');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditProductStockUid.value='';transactionForm.EditProductStockName.value='';document.getElementById('displayDeliveriesButton').style.visibility='hidden';">&nbsp;
                             <%-- button to display deliveries in popup --%>
                             <span id="displayDeliveriesButton" style="visibility:hidden;">
                                 <%

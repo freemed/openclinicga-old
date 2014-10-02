@@ -95,7 +95,7 @@ if (activePatient!=null){
 
                         %>
                             <tr class="list<%=sClass%>" >
-                                <td><a href="#" onClick="actualAppointmentId='<%=planning.getUid()%>';deleteAppointment2('missedappointements');"><img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","delete",sWebLanguage)%>"></a></td>
+                                <td><a href="#" onClick="actualAppointmentId='<%=planning.getUid()%>';deleteAppointment2('missedappointements');"><img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","delete",sWebLanguage)%>"></a></td>
                                 <td><a href="#" onclick="openAppointment('<%=planning.getUid()%>','missedappointments');"><%=ScreenHelper.getSQLDate(planning.getPlannedDate())%></a></td>
                                 <td><a href="#" onclick="openAppointment('<%=planning.getUid()%>','missedappointments');"><%=hhmmDateFormat.format(planning.getPlannedDate())%></a></td>
                                 <td><a href="#" onclick="openAppointment('<%=planning.getUid()%>','missedappointments');"><%=hhmmDateFormat.format(calPlanningStop.getTime())%></a></td>
@@ -116,12 +116,12 @@ if (activePatient!=null){
                                             if(orContact.getObjectType().equalsIgnoreCase("examination")){
                                                 examination = MedwanQuery.getInstance().getExamination(orContact.getObjectUid(), sWebLanguage);
                                                 if(checkString(planning.getTransactionUID()).length()==0){
-                                                    out.print("<img src='_img/icon_add.gif' onclick='doExamination(\""+planning.getUid()+"\",\"" + planning.getPatientUID() + "\",\"" + examination.getTransactionType() + "\")' alt='" + sTextAdd + "' class='link'/> "
+                                                    out.print("<img src='_img/icons/icon_add.gif' onclick='doExamination(\""+planning.getUid()+"\",\"" + planning.getPatientUID() + "\",\"" + examination.getTransactionType() + "\")' alt='" + sTextAdd + "' class='link'/> "
                                                         + getTran("examination", examination.getId().toString(), sWebLanguage));
                                                 }
                                                 else{
                                                     String sTextFind = getTran("web", "find", sWebLanguage);
-                                                    out.print("<img src='_img/icon_search.gif' onclick='openExamination(\""+planning.getTransactionUID().split("\\.")[0]+"\",\""+planning.getTransactionUID().split("\\.")[1]+"\",\"" + planning.getPatientUID() + "\",\"" + examination.getTransactionType() + "\")' alt='" + sTextFind + "' class='link'/> "
+                                                    out.print("<img src='_img/icons/icon_search.gif' onclick='openExamination(\""+planning.getTransactionUID().split("\\.")[0]+"\",\""+planning.getTransactionUID().split("\\.")[1]+"\",\"" + planning.getPatientUID() + "\",\"" + examination.getTransactionType() + "\")' alt='" + sTextFind + "' class='link'/> "
                                                         + getTran("examination", examination.getId().toString(), sWebLanguage));
                                                 }
                                             }
@@ -141,7 +141,7 @@ if (activePatient!=null){
 %>
 <br/>
 
-<input type="button" name="buttonback" class="button" value="<%=getTran("web","back",sWebLanguage)%>" onclick="doBack();"/>   
+<input type="button" name="buttonback" class="button" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="doBack();"/>   
 </form>
 <%
 }

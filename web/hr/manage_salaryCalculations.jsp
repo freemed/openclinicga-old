@@ -52,15 +52,15 @@
       if(!time) time = 5000;
       if(option){
         if(option=="before"){
-          this.div.update("<span class='error'><img src='<%=sCONTEXTPATH%>/_img/warning.gif' style='vertical-align:-3px;'>&nbsp;<blink>"+msg+"</blink></span>" +
+          this.div.update("<span class='error'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_warning.gif' style='vertical-align:-3px;'>&nbsp;<blink>"+msg+"</blink></span>" +
                           "<br>"+this.div.innerHTML);
         }
         else if(option=="after"){
-          this.div.update(this.div.innerHTML+"<br><span class='error'><img src='<%=sCONTEXTPATH%>/_img/warning.gif' style='vertical-align:-3px;'>&nbsp;<blink>"+msg+"</blink></span>");
+          this.div.update(this.div.innerHTML+"<br><span class='error'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_warning.gif' style='vertical-align:-3px;'>&nbsp;<blink>"+msg+"</blink></span>");
         }
       }
       else{
-        this.div.update("<span class='error'><img src='<%=sCONTEXTPATH%>/_img/warning.gif' style='vertical-align:-3px;'>&nbsp;<blink>"+msg+"</blink></span>");
+        this.div.update("<span class='error'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_warning.gif' style='vertical-align:-3px;'>&nbsp;<blink>"+msg+"</blink></span>");
       }
       
       this.div.style.display = "block";      
@@ -130,7 +130,7 @@
                 <input type="button" class="button" name="buttonNext" value=" > " onclick="showNextMonth();"/>                        
                                
                 <%-- only past dates --%>
-                <script>writeMyDate("DisplayedMonth","<c:url value='/_img/icon_agenda.gif'/>","<%=getTran("web","putToday",sWebLanguage)%>",true,false);</script>
+                <script>writeMyDate("DisplayedMonth","<c:url value='/_img/icons/icon_agenda.gif'/>","<%=getTran("web","putToday",sWebLanguage)%>",true,false);</script>
             </td>
             
             <%-- BUTTONS --%>
@@ -191,7 +191,7 @@
       }
     </script>
         
-    <div id="monthScheduler_container">
+    <div id="monthScheduler_container" style="border:1px solid #eee;">
         <div id="monthScheduler_msgBox">&nbsp;</div>
 
         <div id="monthScheduler_top">  
@@ -200,7 +200,7 @@
                       
             <%-- days header (7 days) --%>
             <div class="dayHeaders" id="monthScheduler_dayHeaders">
-                <div id="dayHeader_0" style="border-left: 1px solid #E1E1E1;"><%=getTran("web","saturday",sWebLanguage)%></div>
+                <div id="dayHeader_0" style="border-left: 1px solid #eee;"><%=getTran("web","saturday",sWebLanguage)%></div>
                 <div id="dayHeader_1"><%=getTran("web","sunday",sWebLanguage)%></div>
                 <div id="dayHeader_2"><%=getTran("web","monday",sWebLanguage)%></div>
                 <div id="dayHeader_3"><%=getTran("web","tuesday",sWebLanguage)%></div>
@@ -707,10 +707,10 @@
     
       var td = tr.insertCell(0);
       td.innerHTML = "<a href='javascript:deleteCC(rowCC"+iCCIndex+")'>"+
-                      "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
+                      "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
                      "</a>"+
                      "<a href='javascript:editCC(rowCC"+iCCIndex+")'>"+
-                      "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
+                      "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
                      "</a>";
       tr.appendChild(td);
 
@@ -778,10 +778,10 @@
 
     var td = tr.insertCell(0);
     td.innerHTML = "<a href='javascript:deleteCC(rowCC"+iCCIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
                    "</a>"+
                    "<a href='javascript:editCC(rowCC"+iCCIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
                    "</a>";
     tr.appendChild(td);
 
@@ -823,10 +823,10 @@
       var tblCC = document.getElementById("tblCC"); // FF
       var row = tblCC.rows[editCCRowid.rowIndex];
       row.cells[0].innerHTML = "<a href='javascript:deleteCC("+editCCRowid.id+")'>"+
-                                "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
+                                "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
                                "</a>"+
                                "<a href='javascript:editCC("+editCCRowid.id+")'>"+
-                                "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
+                                "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
                                "</a>";
 
       var duration = document.getElementById("addDuration").value;

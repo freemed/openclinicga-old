@@ -22,9 +22,9 @@
            //sComment        = checkString(request.getParameter("comment"));
 
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n***************** getSuppliers.jsp ****************");
+        Debug.println("\n**************** seests/ajax/getSuppliers.jsp ***************");
         Debug.println("sCode           : "+sCode);
         Debug.println("sName           : "+sName);
         //Debug.println("sAddress        : "+sAddress);
@@ -39,7 +39,7 @@
         //Debug.println("sAccountingCode : "+sAccountingCode);
         //Debug.println("sComment        : "+sComment+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
 
     // compose object to pass search criteria with
     Supplier findObject = new Supplier();
@@ -70,7 +70,7 @@
         Vector keys = new Vector(hSort.keySet());
         Collections.sort(keys);
         Iterator iter = keys.iterator();
-        String sClass = "";
+        String sClass = "1";
         
         while(iter.hasNext()){
             // alternate row-style
@@ -88,9 +88,9 @@
 <%
     if(suppliers.size() > 0){
         %>
-<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
+<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border:none;">
     <%-- header --%>
-    <tr class="admin" style="padding-left: 1px;">    
+    <tr class="admin" style="padding-left:1px;">    
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web","code",sWebLanguage))%></td>
         <td width="25%" nowrap><asc><%=HTMLEntities.htmlentities(getTran("web","name",sWebLanguage))%></asc></td>
         <td width="15%" nowrap><%=HTMLEntities.htmlentities(getTran("web","vatNumber",sWebLanguage))%></td>

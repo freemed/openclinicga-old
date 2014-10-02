@@ -1,53 +1,64 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
-<table width="100%" border="0">
+<table width="100%" border="0" cellpadding="1" cellspacing="1">
     <tr>
+        <%-- COLUMN 1 ---------------------------------------------------------------------------%>
         <td width="50%">
-            <table width="100%" border="0">
+            <table width="100%" border="0" cellpadding="1" cellspacing="1">
+                <%-- FIND --%>
                 <tr>
                     <td nowrap>
                         <input type="text" class="text" name="findproduct" id="findproduct" size="40" onKeyDown="if(event.keyCode==13){document.getElementById('findproductbutton').onclick();}">
-                        <input align="right" type="button" class="button" name="findproductbutton" id="findproductbutton" value="<%=getTran("web","find",sWebLanguage)%>" onclick="findproduct();">
+                        <input align="right" type="button" class="button" name="findproductbutton" id="findproductbutton" value="<%=getTranNoLink("web","find",sWebLanguage)%>" onclick="findProduct();">
                     </td>
                 </tr>
+                
+                <%-- FOUND --%>
                 <tr>
                     <td width="1%">
                         <div class="searchResults" id="foundproducts" style="width:340;height:100;border-style: solid;border-width: 1px;border-color: lightgray;">&nbsp;</div>
                     </td>
                 </tr>
+                
+                <%-- A - CHRONIC --%>
                 <tr>
                     <td width="1%">
-                        <%=getTran("web","chronicmedication",sWebLanguage)%>
+                        <b><%=getTran("web","chronicmedication",sWebLanguage)%></b>
                         <div class="searchResults" id="chronicproducts" style="width:340;height:50;border-style: solid;border-width: 1px;border-color: lightgray;">&nbsp;</div>
                     </td>
                 </tr>
+                
+                <%-- B - ACTIVE --%>
                 <tr>
                     <td width="1%">
-                        <%=getTran("web","activeprescriptions",sWebLanguage)%>
-                        <div id="todaysproducts" style="width:340;height:50;border-style: solid;border-width: 1px;border-color: lightgray;">&nbsp;</div>
+                        <b><%=getTran("web","activeprescriptions",sWebLanguage)%></b>
+                        <div class="searchResults" id="todaysproducts" style="width:340;height:50;border-style: solid;border-width: 1px;border-color: lightgray;">&nbsp;</div>
                     </td>
                 </tr>
+                
+                <%-- INFO --%>
                 <tr>
                     <td>
                         <textarea class="text" name="prescriptioninfo" id="prescriptioninfo" rows="5" cols="60"></textarea>
                         <input type="hidden" name="productuid" id="productuid"/>
                     </td>
                     <td style="vertical-align:top;">
-                        <img src="<c:url value='/_img/arrow_right.gif'/>" border="0" onClick="copyfoundproduct();" alt="<%=getTran("web","right",sWebLanguage)%>"/>
+                        <img src="<c:url value='/_img/themes/default/next.gif'/>" class="link" border="0" onClick="copyfoundproduct();" alt="<%=getTranNoLink("web","copy",sWebLanguage)%>"/>
                     </td>
                 </tr>
             </table>
         </td>
         
+        <%-- COLUMN 2 ---------------------------------------------------------------------------%>
         <td width="50%" style="vertical-align:top;">
-            <table width="100%" border="0">
+            <table width="100%" border="0" cellpadding="1" cellspacing="1">
                 <tr>
                     <td>
                         <form name="printPrescriptionForm" method="post" action="<c:url value='/'/>medical/createPrescriptionPdf.jsp">
                             <textarea class="text" name="prescription" id="prescription" rows="22" cols="40"></textarea><br/>
                             <%=getTran("web","date",sWebLanguage)%>
-                            <input type="text" class="text" size="12" maxLength="10" name="prescriptiondate" value="<%=ScreenHelper.stdDateFormat.format(new java.util.Date())%>" id="prescriptiondate" OnBlur='checkDate(this)'>
+                            <input type="text" class="text" size="10" maxLength="10" name="prescriptiondate" value="<%=ScreenHelper.stdDateFormat.format(new java.util.Date())%>" id="prescriptiondate" OnBlur='checkDate(this)'>
                             <script>writeMyDate("prescriptiondate");</script>
                             <input type="hidden" name="personid" id="personid" value="<%=activePatient.personid%>"/>
                         </form>
@@ -57,6 +68,7 @@
         </td>
     </tr>
     
+    <%-- BUTTONS --%>
     <tr>
         <td>
             &nbsp;<input type="button" class="button" name="updateprescriptioninfo" value="<%=getTranNoLink("web","update",sWebLanguage)%>" onclick="updatecontent();"/>
@@ -71,7 +83,7 @@
 
 <script>
   function copytochronic(){
-    var url = "<c:url value="/"/>medical/ajax/addChronicPrescription.jsp";
+    var url = "<c:url value=''/>medical/ajax/addChronicPrescription.jsp";
     new Ajax.Request(url,{
       method: "POST",
       postBody: "productuid="+document.getElementById("productuid").value,
@@ -81,8 +93,8 @@
     });
   }
   
-  function findproduct(){
-    var url = "<c:url value="/"/>medical/ajax/findPrescriptionProduct.jsp";
+  function findProduct(){
+    var url = "<c:url value=''/>medical/ajax/findPrescriptionProduct.jsp";
     var params = "productname="+document.getElementById("findproduct").value;
 
     new Ajax.Request(url,{
@@ -92,26 +104,26 @@
         $('foundproducts').innerHTML = resp.responseText;
       },
       onFailure: function(){
-        $('foundproducts').innerHTML = "Problem with ajax request !!";
+        $('foundproducts').innerHTML = "Problem with ajax request";
       }
     });
   }
 
   function findtodaysproducts(){
-    var url = "<c:url value="/"/>medical/ajax/findPrescriptionTodayProducts.jsp";
+    var url = "<c:url value=''/>medical/ajax/findPrescriptionTodayProducts.jsp";
     new Ajax.Request(url,{
       method: "POST",
       onSuccess: function(resp){
         $('todaysproducts').innerHTML = resp.responseText;
       },
       onFailure: function(){
-        $('todaysproducts').innerHTML = "Problem with ajax request !!";
+        $('todaysproducts').innerHTML = "Problem with ajax request";
       }
     });
   }
 
   function findchronicproducts(){
-    var url = "<c:url value="/"/>medical/ajax/findPrescriptionChronicProducts.jsp";
+    var url = "<c:url value=''/>medical/ajax/findPrescriptionChronicProducts.jsp";
 
     new Ajax.Request(url,{
       method: "POST",
@@ -119,7 +131,7 @@
         $('chronicproducts').innerHTML = resp.responseText;
       },
       onFailure: function(){
-        $('chronicproducts').innerHTML = "Problem with ajax request !!";
+        $('chronicproducts').innerHTML = "Problem with ajax request";
       }
     });
   }
@@ -129,7 +141,7 @@
   }
 
   function copyproduct(productuid){
-    var url = "<c:url value="/"/>medical/ajax/findPrescriptionProductContent.jsp";
+    var url = "<c:url value=''/>medical/ajax/findPrescriptionProductContent.jsp";
     var params = "productuid="+productuid;
     document.getElementById("productuid").value=productuid;
 
@@ -149,7 +161,7 @@
   }
 
   function copycontent(productuid){
-    var url = "<c:url value="/"/>medical/ajax/findPrescriptionProductContent.jsp";
+    var url = "<c:url value=''/>medical/ajax/findPrescriptionProductContent.jsp";
     var params = "productuid="+productuid;
     document.getElementById("productuid").value=productuid;
 
@@ -169,21 +181,19 @@
   }
 
   function updatecontent(){
-    var url = "<c:url value="/"/>medical/ajax/updatePrescriptionProductContent.jsp";
+    var url = "<c:url value=''/>medical/ajax/updatePrescriptionProductContent.jsp";
       new Ajax.Request(url,{
         method: "POST",
-        postBody: "productuid="+document.getElementById("productuid").value+"&prescriptioninfo="+document.getElementById("prescriptioninfo").value,
+        postBody: "productuid="+document.getElementById("productuid").value+
+                  "&prescriptioninfo="+document.getElementById("prescriptioninfo").value,
         onSuccess: function(resp){
       }
     });
   }
 
   function addcontent(){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousuretoaddtoproducts";
-    var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","areyousuretoaddtoproducts",sWebLanguage)%>");
-    if(answer==1){
-      var url = "<c:url value="/"/>medical/ajax/addPrescriptionProductContent.jsp";
+	if(yesnoDialog("Web","areyousuretoaddtoproducts")){
+      var url = "<c:url value=''/>medical/ajax/addPrescriptionProductContent.jsp";
       new Ajax.Request(url,{
         method: "POST",
         postBody: "findproduct="+document.getElementById("findproduct").value+"&prescriptioninfo="+document.getElementById("prescriptioninfo").value,

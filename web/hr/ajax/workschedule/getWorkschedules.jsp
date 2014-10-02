@@ -11,16 +11,16 @@
 
     // search-criteria
     String sBegin = checkString(request.getParameter("begin")),
-            sEnd   = checkString(request.getParameter("end"));
+            sEnd  = checkString(request.getParameter("end"));
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n*************** getWorkschedules.jsp **************");
+        Debug.println("\n**************** hr/ajax/getWorkschedules.jsp ***************");
         Debug.println("sPatientId : "+sPatientId);
         Debug.println("sBegin     : "+sBegin);
         Debug.println("sEnd       : "+sEnd+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
 
     // compose object to pass search criteria with
     Workschedule findObject = new Workschedule();
@@ -112,9 +112,9 @@
 <%
     if(workschedules.size() > 0){
         %>
-<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
+<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border:none;">
     <%-- header --%>
-    <tr class="admin" style="padding-left: 1px;">
+    <tr class="admin" style="padding-left:1px;">
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","begin",sWebLanguage))%></td>
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","end",sWebLanguage))%></td>
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","fte",sWebLanguage))%></td>

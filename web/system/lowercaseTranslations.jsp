@@ -111,7 +111,7 @@
                         while (tokenizer.hasMoreTokens()) {
                             tmpLang = tokenizer.nextToken();
                     %>
-                                <option value="<%=tmpLang%>" <%=(findLabelLang.equals(tmpLang)?"selected":"")%>><%=getTran("Web.language",tmpLang,sWebLanguage)%></option>
+                                <option value="<%=tmpLang%>" <%=(findLabelLang.equals(tmpLang)?"selected":"")%>><%=getTranNoLink("Web.language",tmpLang,sWebLanguage)%></option>
                             <%
                         }
                     %>
@@ -134,8 +134,8 @@
     %>
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>
-        <input class="button" type="button" name="perform" onClick="submitForm();" value='<%=getTran("Web","perform",sWebLanguage)%>'>&nbsp;
-        <input class="button" type="button" value="<%=getTran("web","back",sWebLanguage)%>" onClick='doBack();'>
+        <input class="button" type="button" name="perform" onClick="submitForm();" value='<%=getTranNoLink("Web","perform",sWebLanguage)%>'>&nbsp;
+        <input class="button" type="button" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onClick='doBack();'>
     <%=ScreenHelper.alignButtonsStop()%>
 </form>
 <script>

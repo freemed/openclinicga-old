@@ -115,11 +115,11 @@
 
             //*** display prescription in one row ***
             prescriptions.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
-                    .append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + sPrescriptionUid + "');\">")
-                    .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sProductName + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateBeginFormatted + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateEndFormatted + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sPrescrRule.toLowerCase() + "</td>")
+                    .append("<td align='center'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + sPrescriptionUid + "');\">")
+                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sProductName + "</td>")
+                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateBeginFormatted + "</td>")
+                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateEndFormatted + "</td>")
+                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sPrescrRule.toLowerCase() + "</td>")
                     .append("</tr>");
         }
         return idsVector;
@@ -183,7 +183,7 @@
     <tr>
         <%-- LAST GENERAL CLINICAL EXAMINATION --%>
         <td style="vertical-align:top;" height="100%">
-            <table  class="list" width="100%" border="0" cellspacing="1" cellpadding="1" height="100%">
+            <table class="list" width="100%" border="0" cellspacing="1" cellpadding="1" height="100%">
                 <logic:present name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="lastTransactionTypeGeneralClinicalExamination">
                     <bean:define id="lastTransaction_generalClinicalExamination" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="lastTransactionTypeGeneralClinicalExamination"/>
                 </logic:present>
@@ -546,7 +546,7 @@
                                 l="";
                             }
                             PaperPrescription paperPrescription = (PaperPrescription)paperprescriptions.elementAt(n);
-                            out.println("<tr class='list"+l+"' id='pp"+paperPrescription.getUid()+"'><td valign='top' width='90px'><img src='_img/icon_delete.gif' onclick='deletepaperprescription(\""+paperPrescription.getUid()+"\");'/> <b>"+ScreenHelper.stdDateFormat.format(paperPrescription.getBegin())+"</b></td><td><i>");
+                            out.println("<tr class='list"+l+"' id='pp"+paperPrescription.getUid()+"'><td valign='top' width='90px'><img src='_img/icons/icon_delete.gif' onclick='deletepaperprescription(\""+paperPrescription.getUid()+"\");'/> <b>"+ScreenHelper.stdDateFormat.format(paperPrescription.getBegin())+"</b></td><td><i>");
                             Vector products =paperPrescription.getProducts();
                             for(int i=0;i<products.size();i++){
                                 out.print(products.elementAt(i)+"<br/>");
@@ -566,32 +566,26 @@
 
 <script>
   function setBP(oObject,sbp,dbp){
-      if (oObject.value.length>0){
-        if (!isNumberLimited(oObject,40,300)){
-          var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.occup&labelID=out-of-bounds-value";
-          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.occup","out-of-bounds-value",sWebLanguage)%>");
-        }
-        else if ((sbp.length>0)&&(dbp.length>0)){
-          isbp = document.getElementsByName(sbp)[0].value*1;
-          idbp = document.getElementsByName(dbp)[0].value*1;
-          if (idbp>isbp){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.occup&labelID=error.dbp_greather_than_sbp";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.occup","error.dbp_greather_than_sbp",sWebLanguage)%>");
-          }
+    if(oObject.value.length>0){
+      if(!isNumberLimited(oObject,40,300)){
+        alertDialog("Web.occup","out-of-bounds-value");
+      }
+      else if((sbp.length>0)&&(dbp.length>0)){
+        isbp = document.getElementsByName(sbp)[0].value*1;
+        idbp = document.getElementsByName(dbp)[0].value*1;
+        if(idbp>isbp){
+          alertDialog("Web.occup","error.dbp_greather_than_sbp");
         }
       }
+    }
   }
 
   function setHF(oObject){
-      if (oObject.value.length>0){
-        if(!isNumberLimited(oObject,30,300)){
-          var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.occup&labelID=out-of-bounds-value";
-          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.occup","out-of-bounds-value",sWebLanguage)%>");
-        }
+    if(oObject.value.length>0){
+      if(!isNumberLimited(oObject,30,300)){
+        alertDialog("Web.occup","out-of-bounds-value");
       }
+    }
   }
 
   function deleteDiagnose(rowid){
@@ -607,23 +601,24 @@
   }
 
   iAlcohol = "<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_ALCOHOL_USAGE" property="value"/>";
-  for (var n=0;n<transactionForm.EditAlcohol.length;n++){
-    if (transactionForm.EditAlcohol.options[n].text==iAlcohol){
+  for(var n=0;n<transactionForm.EditAlcohol.length;n++){
+    if(transactionForm.EditAlcohol.options[n].text==iAlcohol){
       transactionForm.EditAlcohol.selectedIndex=n;
       break;
     }
   }
 
   iSmoking = "<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_TOBACCO_USAGE" property="value"/>";
-  for (var n=0;n<transactionForm.EditSmoking.length;n++){
-    if (transactionForm.EditSmoking.options[n].value==iSmoking){
+  for(var n=0;n<transactionForm.EditSmoking.length;n++){
+    if(transactionForm.EditSmoking.options[n].value==iSmoking){
       transactionForm.EditSmoking.selectedIndex=n;
       break;
     }
   }
+  
   iSports = "<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CE_ANAMNESE_SPORT" property="value"/>";
-  for (var n=0;n<transactionForm.EditSports.length;n++){
-    if (transactionForm.EditSports.options[n].value==iSports){
+  for(var n=0;n<transactionForm.EditSports.length;n++){
+    if(transactionForm.EditSports.options[n].value==iSports){
       transactionForm.EditSports.selectedIndex=n;
       break;
     }

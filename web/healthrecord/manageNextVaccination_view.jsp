@@ -66,7 +66,7 @@
             <td class='admin2'>
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE" property="value" formatType="date"/>" id="nextdate" onBlur='if(checkDate(this)){ checkBefore("trandate",this); }'/>
                 <script>writeMyDate("nextdate","<c:url value="/_img/calbtn.gif"/>","<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
-                <input type="button" class="button" name="calculate" value="<%=getTran("Web.Occup","Calculate",sWebLanguage)%>" onclick="calculateNextDate();">
+                <input type="button" class="button" name="calculate" value="<%=getTranNoLink("Web.Occup","Calculate",sWebLanguage)%>" onclick="calculateNextDate();">
             </td>
         </tr>
         <%-- REMARK --%>
@@ -89,8 +89,8 @@
     </table>
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>
-        <INPUT class="button" type="button" name="saveButton" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
-        <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="window.location.href='<c:url value="/healthrecord/showVaccinationSummary.do"/>?ts=<%=getTs()%>'">
+        <INPUT class="button" type="button" name="saveButton" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+        <INPUT class="button" type="button" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="window.location.href='<c:url value="/healthrecord/showVaccinationSummary.do"/>?ts=<%=getTs()%>'">
     <%=ScreenHelper.alignButtonsStop()%>
     <script>
       if (document.getElementsByName('vaccination-type')[0].value=='be.mxs.healthrecord.vaccination.Other'){

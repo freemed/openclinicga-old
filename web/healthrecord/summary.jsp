@@ -114,11 +114,11 @@
 
             //*** display prescription in one row ***
             prescriptions.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
-                    .append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + sPrescriptionUid + "');\">")
-                    .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sProductName + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateBeginFormatted + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateEndFormatted + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sPrescrRule.toLowerCase() + "</td>")
+                    .append("<td align='center'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + sPrescriptionUid + "');\">")
+                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sProductName + "</td>")
+                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateBeginFormatted + "</td>")
+                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateEndFormatted + "</td>")
+                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sPrescrRule.toLowerCase() + "</td>")
                     .append("</tr>");
         }
         return idsVector;
@@ -182,7 +182,7 @@
     <tr>
         <%-- LAST GENERAL CLINICAL EXAMINATION --%>
         <td style="vertical-align:top;" colspan="2" height="100%">
-            <table  class="list" width="100%" border="0" cellspacing="0" cellpadding="1" height="100%">
+            <table class="list" width="100%" border="0" cellspacing="0" cellpadding="1" height="100%">
                 <logic:present name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="lastTransactionTypeGeneralClinicalExamination">
                     <bean:define id="lastTransaction_generalClinicalExamination" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="lastTransactionTypeGeneralClinicalExamination"/>
                 </logic:present>
@@ -399,7 +399,7 @@
             <table class="list" width="100%" cellspacing="1">
                 <tr>
                     <td class="admin2">
-                        <img src='<c:url value="/_img/pijl.gif"/>'>
+                        <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
                         <a  href="javascript:document.getElementsByName('sum_r2a')[0].checked=true;document.getElementsByName('sum_r2b')[0].checked=false;subScreen('/main.do?Page=healthrecord/ausculatie.jsp&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>');"><%=getTran("Web.Occup","Ausculatie_hart_longen",sWebLanguage)%></a>
                     </td>
                     <td align="right" class="admin2"> <%=getTran("Web.Occup","medwan.healthrecord.anamnese.general.complaints",sWebLanguage)%>
@@ -409,7 +409,7 @@
                 </tr>
                 <tr>
                     <td class="admin2">
-                        <img src='<c:url value="/_img/pijl.gif"/>'>
+                        <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
                         <a  href="javascript:document.getElementsByName('sum_r3a')[0].checked=true;document.getElementsByName('sum_r3b')[0].checked=false;subScreen('/main.do?Page=healthrecord/orl_endocrino.jsp&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>');"><%=getTran("Web.Occup","medwan.healthrecord.ORL",sWebLanguage)%> - Endocrino</a>
                     </td>
                     <td align="right" class="admin2" width="10%" nowrap> <%=getTran("Web.Occup","medwan.healthrecord.anamnese.general.complaints",sWebLanguage)%>
@@ -419,7 +419,7 @@
                 </tr>
                 <tr>
                     <td class="admin2">
-                        <img src='<c:url value="/_img/pijl.gif"/>'>
+                        <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
                         <a  href="javascript:document.getElementsByName('sum_r4a')[0].checked=true;document.getElementsByName('sum_r4b')[0].checked=false;subScreen('/main.do?Page=healthrecord/abdominaal.jsp&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>');"><%=getTran("Web.Occup","Abdominaal_onderzoek",sWebLanguage)%></a>
                     </td>
                     <td align="right" class="admin2"> <%=getTran("Web.Occup","medwan.healthrecord.anamnese.general.complaints",sWebLanguage)%>
@@ -429,7 +429,7 @@
                 </tr>
                 <tr>
                     <td class="admin2">
-                        <img src='<c:url value="/_img/pijl.gif"/>'>
+                        <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
                         <a  href="javascript:document.getElementsByName('sum_r5a')[0].checked=true;document.getElementsByName('sum_r5b')[0].checked=false;subScreen('/main.do?Page=healthrecord/locomotorisch_stelsel.jsp&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>');"><%=getTran("Web.Occup","Locomotorisch_stelsel",sWebLanguage)%></a>
                     </td>
                     <td align="right" class="admin2"> <%=getTran("Web.Occup","medwan.healthrecord.anamnese.general.complaints",sWebLanguage)%>
@@ -439,7 +439,7 @@
                 </tr>
                 <tr>
                     <td class="admin2">
-                        <img src='<c:url value="/_img/pijl.gif"/>'>
+                        <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
                         <a  href="javascript:document.getElementsByName('sum_r6a')[0].checked=true;document.getElementsByName('sum_r6b')[0].checked=false;subScreen('/main.do?Page=healthrecord/neuro.jsp&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>');"><%=getTran("Web.Occup","Neuropsychiatrie",sWebLanguage)%></a>
                     </td>
                     <td align="right" class="admin2"> <%=getTran("Web.Occup","medwan.healthrecord.anamnese.general.complaints",sWebLanguage)%>
@@ -479,7 +479,7 @@
                                     sCertainty = "";
                                 }
                     %><span id="ICPCCode<%=item.getItemId()%>">
-                                        <img src="<c:url value='/_img/icon_delete.gif'/>" onclick="document.getElementById('ICPCCode<%=item.getItemId()%>').innerHTML='';"/><input type='hidden' name='ICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=item.getValue().trim()%>"/><input type='hidden' name='GravityICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sCertainty%>"/>
+                                        <img src="<c:url value='/_img/icons/icon_delete.gif'/>" onclick="document.getElementById('ICPCCode<%=item.getItemId()%>').innerHTML='';"/><input type='hidden' name='ICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=item.getValue().trim()%>"/><input type='hidden' name='GravityICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sCertainty%>"/>
                                         <%=item.getType().replaceAll("ICPCCode","")%>&nbsp;<%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%>
                                         <br/>
                                   </span>
@@ -496,7 +496,7 @@
                                     sCertainty = "";
                                 }
                                 %><span id='ICD10Code<%=item.getItemId()%>'>
-                                        <img src='<c:url value="/_img/icon_delete.gif"/>' onclick="document.getElementById('ICD10Code<%=item.getItemId()%>').innerHTML='';"/><input type='hidden' name='ICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value='<%=item.getValue().trim()%>'/><input type='hidden' name='GravityICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sCertainty%>"/>
+                                        <img src='<c:url value="/_img/icons/icon_delete.gif"/>' onclick="document.getElementById('ICD10Code<%=item.getItemId()%>').innerHTML='';"/><input type='hidden' name='ICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value='<%=item.getValue().trim()%>'/><input type='hidden' name='GravityICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sCertainty%>"/>
                                         <%=item.getType().replaceAll("ICD10Code","")%>&nbsp;<%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%>
                                         <br/>
                                   </span>

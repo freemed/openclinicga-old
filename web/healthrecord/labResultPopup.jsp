@@ -238,10 +238,10 @@
 <p align="center">
     <%
         if(editable){
-            %><input class="button" type="button" name="saveButton" id="saveButton" value="<%=getTran("Web","save",sWebLanguage)%>" onClick="doSave();"/><%
+            %><input class="button" type="button" name="saveButton" id="saveButton" value="<%=getTranNoLink("Web","save",sWebLanguage)%>" onClick="doSave();"/><%
         }
     %>
-    <input class="button" type="button" value="<%=getTran("Web","close",sWebLanguage)%>" onclick="window.close();">
+    <input class="button" type="button" value="<%=getTranNoLink("Web","close",sWebLanguage)%>" onclick="window.close();">
 </p>
 <script>
   window.resizeTo(670,430);

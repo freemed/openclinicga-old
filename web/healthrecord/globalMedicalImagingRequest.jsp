@@ -62,7 +62,7 @@
         <tr>
             <td class="admin"/>
             <td class="admin2" colspan="3">
-                <input class="button" type="button" name="printLabelsButton" value="<%=getTran("Web","printlabels",sWebLanguage)%>" onclick="printLabels();"/>&nbsp;
+                <input class="button" type="button" name="printLabelsButton" value="<%=getTranNoLink("Web","printlabels",sWebLanguage)%>" onclick="printLabels();"/>&nbsp;
                 <button accesskey="<%=ScreenHelper.getAccessKey(getTranNoLink("accesskey","save",sWebLanguage))%>" class="buttoninvisible" onclick="doSave();"></button>
 
                 <input type="button" class="button" value="<%=getTranNoLink("web.occup","add_new_demand",sWebLanguage)%>" name="buttonAddDemand" onclick="addDemand();"/>

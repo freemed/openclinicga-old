@@ -41,7 +41,7 @@
       var max = <%=maxWeight%>;
 
       if (isNaN(weightInput.value) || weightInput.value < min || weightInput.value > max){
-        alert("<%=weightMsg%>");
+        alertDialogDirectText("<%=weightMsg%>");
         //weightInput.value = "";
         weightInput.focus();
       }
@@ -64,7 +64,7 @@
       var max = <%=maxHeight%>;
 
       if (isNaN(heightInput.value) || heightInput.value < min || heightInput.value > max){
-        alert("<%=heightMsg%>");
+        alertDialogDirectText("<%=heightMsg%>");
         heightInput.focus();
       }
     }
@@ -271,11 +271,11 @@
 <%
     if(activeUser.getAccessRight("occup.other.add") || activeUser.getAccessRight("occup.other.edit")) {
 %>
-        <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onClick="submitForm();">
+        <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onClick="submitForm();">
 <%
     }
 %>
-    <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/healthrecord/showPeriodicExaminations.do"/>?ts=<%=getTs()%>'}">
+    <INPUT class="button" type="button" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/healthrecord/showPeriodicExaminations.do"/>?ts=<%=getTs()%>'}">
 <%=ScreenHelper.alignButtonsStop()%>
 <script>
   calculateBMI();

@@ -46,7 +46,7 @@
         }
     %>
     </table>
-    <input class="button" type="button" name="printlabels" value="<%=getTran("web","printlabels",sWebLanguage)%>" onclick="printLabels();"/>
+    <input class="button" type="button" name="printlabels" value="<%=getTranNoLink("web","printlabels",sWebLanguage)%>" onclick="printLabels();"/>
 </form>
 <%
     }

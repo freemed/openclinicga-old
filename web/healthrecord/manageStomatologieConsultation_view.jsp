@@ -12,8 +12,8 @@
         sTmp.append(
                     "<tr id='rowTooth"+iTotal+"'>" +
                         "<td class=\"admin2\">" +
-                        "   <a href='#' onclick='deleteTooth(rowTooth"+iTotal+");'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> "+
-                        "   <a href='#' onclick='editTooth(rowTooth"+iTotal+");'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>" +
+                        "   <a href='#' onclick='deleteTooth(rowTooth"+iTotal+");'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> "+
+                        "   <a href='#' onclick='editTooth(rowTooth"+iTotal+");'><img src='" + sCONTEXTPATH + "/_img/icons/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>" +
                         "</td>" +
                         "<td class=\"admin2\">&nbsp;" + sToothNr + "</td>" +
                         "<td class=\"admin2\">&nbsp;" + sDescription + "</td>" +
@@ -176,8 +176,8 @@
                             </select>
                         </td>
                         <td class="admin2">
-                            <input type="button" class="button" name="ButtonAddTooth" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addTooth();">
-                            <input type="button" class="button" name="ButtonUpdateTooth" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateTooth();">
+                            <input type="button" class="button" name="ButtonAddTooth" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addTooth();">
+                            <input type="button" class="button" name="ButtonUpdateTooth" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateTooth();">
                         </td>
                     </tr>
 
@@ -207,11 +207,11 @@
                 <%
                   if (activeUser.getAccessRight("occup.kinesitherapy.consultation.treatment.add") || activeUser.getAccessRight("occup.kinesitherapy.consultation.treatment.edit")){
                 %>
-                    <INPUT class="button" type="button" name="saveButton" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+                    <INPUT class="button" type="button" name="saveButton" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
                 <%
                   }
                 %>
-                <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>'}">
+                <INPUT class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>'}">
             </td>
         </tr>
     </table>
@@ -244,8 +244,8 @@ function addTooth(){
       tr.id = "rowTooth"+iTeethIndex;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='#' onclick='deleteTooth(rowTooth"+iTeethIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='#' onclick='editTooth(rowTooth"+iTeethIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='#' onclick='deleteTooth(rowTooth"+iTeethIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='#' onclick='editTooth(rowTooth"+iTeethIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -290,8 +290,8 @@ function updateTooth(){
     sTeeth = replaceRowInArrayString(sTeeth,newRow,editTeethRowid.id);
     <%-- update table object --%>
     row = tblTeeth.rows[editTeethRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='#' onclick='deleteTooth("+editTeethRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='#' onclick='editTooth("+editTeethRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='#' onclick='deleteTooth("+editTeethRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='#' onclick='editTooth("+editTeethRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
     row.cells[1].innerHTML = "&nbsp;"+ transactionForm.toothNr.value;
     row.cells[2].innerHTML = "&nbsp;"+ transactionForm.toothDescription.value;

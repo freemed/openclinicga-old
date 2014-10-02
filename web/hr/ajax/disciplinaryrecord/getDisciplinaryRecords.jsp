@@ -15,9 +15,9 @@
            sDecisionBy  = checkString(request.getParameter("decisionBy")),
            sFollowUp    = checkString(request.getParameter("followUp"));
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n************ getDisciplinaryRecords.jsp ***********");
+        Debug.println("\n************* hr/ajax/getDisciplinaryRecords.jsp ************");
         Debug.println("sPatientId   : "+sPatientId);
         Debug.println("sTitle       : "+sTitle);
         Debug.println("sDescription : "+sDescription);
@@ -26,7 +26,7 @@
         Debug.println("sDecisionBy  : "+sDecisionBy);
         Debug.println("sFollowUp    : "+sFollowUp+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
 
     // compose object to pass search criteria with
     DisciplinaryRecord findObject = new DisciplinaryRecord();
@@ -83,9 +83,9 @@
 <%
     if(disRecs.size() > 0){
         %>
-<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
+<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border:none;">
     <%-- header --%>
-    <tr class="admin" style="padding-left: 1px;">
+    <tr class="admin" style="padding-left:1px;">
         <td width="10%" nowrap><asc><%=HTMLEntities.htmlentities(getTran("web.hr","date",sWebLanguage))%></asc></td>
         <td width="30%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","title",sWebLanguage))%></td>
         <td width="60%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","decision",sWebLanguage))%></td>

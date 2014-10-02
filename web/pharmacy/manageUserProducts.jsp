@@ -11,7 +11,7 @@
 
 <%!
     //--- OBJECTS TO HTML -------------------------------------------------------------------------
-    private StringBuffer objectsToHtml(Vector objects, String sWebLanguage) {
+    private StringBuffer objectsToHtml(Vector objects, String sWebLanguage){
         StringBuffer html = new StringBuffer();
         String sClass = "1", sUnit = "", sUnitPrice = "", sSupplierUid, sSupplierName = "",
                sProductGroup = "", sProductStockUid, sProductName;
@@ -21,26 +21,26 @@
         double dUnitPrice;
 
         // frequently used translations
-        String deleteTran = getTranNoLink("Web", "delete", sWebLanguage);
+        String deleteTran = getTranNoLink("Web","delete",sWebLanguage);
         String sCurrency = MedwanQuery.getInstance().getConfigParam("currency", "€");
 
         // run thru objects
-        for (int i = 0; i < objects.size(); i++) {
+        for(int i=0; i<objects.size(); i++){
             userProduct = (UserProduct) objects.get(i);
             product = userProduct.getProduct();
 
-            if (product != null) {
+            if(product!=null){
                 sProductName = product.getName();
 
                 // translate unit
                 sUnit = checkString(product.getUnit());
-                if (sUnit.length() > 0) {
-                    sUnit = getTran("product.unit", sUnit, sWebLanguage);
+                if(sUnit.length() > 0){
+                    sUnit = getTran("product.unit",sUnit,sWebLanguage);
                 }
 
                 // line unit price out
-                sUnitPrice = product.getUnitPrice() + "";
-                if (sUnitPrice.length() > 0) {
+                sUnitPrice = product.getUnitPrice()+"";
+                if(sUnitPrice.length() > 0){
                     dUnitPrice = Double.parseDouble(sUnitPrice);
                     sUnitPrice = deci.format(dUnitPrice);
                 }
@@ -48,62 +48,62 @@
                 //*** supplier ***
                 sProductStockUid = checkString(userProduct.getProductStockUid());
 
-                if (sProductStockUid.length() > 0) {
+                if(sProductStockUid.length() > 0){
                     // processing product from product-catalog, productStock available
                     sSupplierUid = checkString(product.getSupplierUid());
-                    if (sSupplierUid.length() > 0) {
-                        sSupplierName = getTran("service", sSupplierUid, sWebLanguage);
+                    if(sSupplierUid.length() > 0){
+                        sSupplierName = getTran("service",sSupplierUid,sWebLanguage);
                     }
-                    else {
+                    else{
                         sSupplierUid = checkString(product.getSupplierUid());
-                        if (sSupplierUid.length() > 0) {
-                            sSupplierName = getTran("service", sSupplierUid, sWebLanguage);
+                        if(sSupplierUid.length() > 0){
+                            sSupplierName = getTran("service",sSupplierUid,sWebLanguage);
                         }
-                        else {
+                        else{
                             sSupplierUid = checkString(userProduct.getProductStock().getServiceStock().getDefaultSupplierUid());
-                            if (sSupplierUid.length() > 0) {
-                                sSupplierName = getTran("service", sSupplierUid, sWebLanguage);
+                            if(sSupplierUid.length() > 0){
+                                sSupplierName = getTran("service",sSupplierUid,sWebLanguage);
                             }
-                            else {
+                            else{
                                 sSupplierName = "";
                             }
                         }
                     }
                 }
-                else {
+                else{
                     // processing product from product-catalog, NO productStock available
                     sSupplierUid = checkString(product.getSupplierUid());
-                    if (sSupplierUid.length() > 0) {
-                        sSupplierName = getTran("service", sSupplierUid, sWebLanguage);
+                    if(sSupplierUid.length() > 0){
+                        sSupplierName = getTran("service",sSupplierUid,sWebLanguage);
                     }
-                    else {
+                    else{
                         sSupplierName = "";
                     }
                 }
 
                 // product group
                 sProductGroup = checkString(product.getProductGroup());
-                if (sProductGroup.length() > 0) {
-                    sProductGroup = getTran("product.productgroup", sProductGroup, sWebLanguage);
+                if(sProductGroup.length() > 0){
+                    sProductGroup = getTran("product.productgroup",sProductGroup,sWebLanguage);
                 }
             }
             else {
-                sProductName = "<font color='red'>" + getTran("web.manage", "unexistingproduct", sWebLanguage) + "</font>";
+                sProductName = "<font color='red'>"+getTran("web.manage","unexistingproduct",sWebLanguage)+"</font>";
             }
 
             // alternate row-style
-            if (sClass.equals("")) sClass = "1";
-            else                   sClass = "";
+            if(sClass.equals("")) sClass = "1";
+            else                  sClass = "";
 
             //*** display product in one row ***
-            html.append("<tr class='list" + sClass + "' >")
-                 .append("<td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' title='" + deleteTran + "' onclick=\"doDeleteProduct('" + userProduct.getProductUid() + "');\">")
-                 .append("<td>" + sProductName + "</td>")
-                 .append("<td>" + sUnit + "</td>")
-                 .append("<td style='text-align:right;'>" + sUnitPrice + "&nbsp;" + sCurrency + "&nbsp;</td>")
-                 .append("<td>" + sSupplierName + "</td>")
-                 .append("<td>" + (userProduct.getProductStock() == null ? "" : userProduct.getProductStock().getServiceStock().getName()) + "</td>")
-                 .append("<td>" + sProductGroup + "</td>")
+            html.append("<tr class='list"+sClass+"' >")
+                 .append("<td><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link' title='"+deleteTran+"' onclick=\"doDeleteProduct('"+userProduct.getProductUid()+"');\">&nbsp;</td>")
+                 .append("<td>"+sProductName+"</td>")
+                 .append("<td>"+sUnit+"</td>")
+                 .append("<td style='text-align:right;'>"+sUnitPrice+"&nbsp;"+sCurrency+"&nbsp;</td>")
+                 .append("<td>"+sSupplierName+"</td>")
+                 .append("<td>"+(userProduct.getProductStock()==null?"":userProduct.getProductStock().getServiceStock().getName())+"</td>")
+                 .append("<td>"+sProductGroup+"</td>")
                 .append("</tr>");
         }
 
@@ -118,11 +118,11 @@
     if(sAction.length()==0) sAction = "find"; // display all userproducts by default
 
     // retreive form data
-    String sEditProductUid = checkString(request.getParameter("EditProductUid")),
-           sEditProductName = checkString(request.getParameter("EditProductName")),
+    String sEditProductUid      = checkString(request.getParameter("EditProductUid")),
+           sEditProductName     = checkString(request.getParameter("EditProductName")),
            sEditProductStockUid = checkString(request.getParameter("EditProductStockUid"));
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
         Debug.println("\n#################### pharmacy/manageUserProducts.jsp ##################");
         Debug.println("sAction              : "+sAction);
@@ -130,23 +130,23 @@
         Debug.println("sEditProductName     : "+sEditProductName);
         Debug.println("sEditProductStockUid : "+sEditProductStockUid+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     String saveMsg = "", searchMsg = "", sSelectedProductName = "", sSelectedProductUid = "",
-            sSelectedProductStockUid = "";
+           sSelectedProductStockUid = "";
     int foundProductCount = 0;
     StringBuffer userProductsHtml = null;
 
     // sortDir
     String sSortDir = checkString(request.getParameter("SortDir"));
-    if (sSortDir.length() == 0) sSortDir = sDefaultSortDir;
+    if(sSortDir.length() == 0) sSortDir = sDefaultSortDir;
 
     //*********************************************************************************************
     //*** process actions *************************************************************************
     //*********************************************************************************************
 
     //--- SAVE ------------------------------------------------------------------------------------
-    if (sAction.equals("save") && sEditProductUid.length() > 0) {
+    if(sAction.equals("save") && sEditProductUid.length() > 0){
         // create new userProduct
         UserProduct userProduct = new UserProduct();
         userProduct.setUserId(activeUser.userid);
@@ -158,12 +158,12 @@
         boolean userProductExists = existingUserProductUid.length() > 0;
 
         //***** update existing product *****
-        if (!userProductExists) {
+        if(!userProductExists){
             userProduct.store(false);
 
             // show saved data
             sAction = "findShowOverview";
-            saveMsg = getTran("web", "dataissaved", sWebLanguage);
+            saveMsg = getTran("web","dataissaved",sWebLanguage);
         }
         else {
             // store anyway, to update productStockUid that might not be saved yet.
@@ -171,7 +171,7 @@
 
             // display product exists-message
             sAction = "findShowOverview";
-            saveMsg = getTran("web.manage", "productexists", sWebLanguage);
+            saveMsg = getTran("web.manage","productexists",sWebLanguage);
 
             sSelectedProductUid = sEditProductUid;
             sSelectedProductName = sEditProductName;
@@ -179,31 +179,32 @@
         }
     }
     //--- DELETE ----------------------------------------------------------------------------------
-    else if (sAction.equals("delete") && sEditProductUid.length() > 0) {
-        UserProduct.delete(activeUser.userid, sEditProductUid);
+    else if(sAction.equals("delete") && sEditProductUid.length() > 0){
+        UserProduct.delete(activeUser.userid,sEditProductUid);
 
-        saveMsg = getTran("web", "dataisdeleted", sWebLanguage);
+        saveMsg = getTran("web","dataisdeleted",sWebLanguage);
         sAction = "findShowOverview"; // display overview even if only one record remains
     }
 
     //--- SORT ------------------------------------------------------------------------------------
-    if (sAction.equals("sort")) {
+    if(sAction.equals("sort")){
         sAction = "find";
     }
 
     //-- FIND -------------------------------------------------------------------------------------
-    if (sAction.startsWith("find")) {
+    if(sAction.startsWith("find")){
         Vector userProducts = UserProduct.find(activeUser.userid);
         Collections.sort(userProducts);
-        if (sSortDir.equals("ASC")) Collections.reverse(userProducts);
-        userProductsHtml = objectsToHtml(userProducts, sWebLanguage);
+        if(sSortDir.equals("ASC")) Collections.reverse(userProducts);
+        userProductsHtml = objectsToHtml(userProducts,sWebLanguage);
         foundProductCount = userProducts.size();
     }
 %>
 
 <form name="transactionForm" method="post" onKeyDown="if(enterEvent(event,13)){doAddProduct();return false;}" onClick="clearMessage();">
-    <%-- page title --%>
-    <%=writeTableHeader("Web.manage","ManageUserProducts",sWebLanguage,"")%>
+    <%-- title --%>
+    <%=writeTableHeader("web.manage","manageUserProducts",sWebLanguage,"")%>
+    
     <%
         //*****************************************************************************************
         //*** process display options *************************************************************
@@ -217,7 +218,7 @@
                 <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
                     <%-- clickable header --%>
                     <tr class="admin">
-                        <td width="22"/>
+                        <td width="30"/>
                         <td width="25%"><%=getTran("Web","productName",sWebLanguage)%></td>
                         <td width="10%"><%=getTran("Web","Unit",sWebLanguage)%></td>
                         <td width="10%" style="text-align:right;"><%=getTran("Web","unitprice",sWebLanguage)%>&nbsp;</td>
@@ -227,10 +228,12 @@
                     </tr>
                     <%=userProductsHtml%>
                 </table>
+                
                 <%-- number of records found --%>
                 <span style="width:49%;text-align:left;">
                     <%=foundProductCount%> <%=getTran("web","recordsfound",sWebLanguage)%>
                 </span>
+                
                 <%
                     if(foundProductCount > 20){
                         // link to top of page
@@ -253,12 +256,14 @@
             <%
         }
     %>
+    
     <%-- ADD PRODUCT FIELD ----------------------------------------------------------------------%>
     <table class="list" width="100%" cellspacing="1">
         <%-- sub-title --%>
         <tr class="admin">
             <td colspan="2">&nbsp;&nbsp;<%=getTran("web.manage","AddUserProducts",sWebLanguage)%></td>
         </tr>
+        
         <%-- product --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","product",sWebLanguage)%>&nbsp;</td>
@@ -268,17 +273,20 @@
                 <input class="text" type="text" name="EditProductName" readonly size="<%=sTextWidth%>" value="<%=sSelectedProductName%>">
 
                 <%-- buttons --%>
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchProductInServiceStock('EditProductUid','EditProductName','','','','EditProductStockUid');">
-                <img src="<c:url value="/_img/icon_add.gif"/>" class="link" alt="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="doAddProduct();">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchProductInServiceStock('EditProductUid','EditProductName','','','','EditProductStockUid');">
+                <img src="<c:url value="/_img/icons/icon_add.gif"/>" class="link" alt="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="doAddProduct();">
             </td>
         </tr>
     </table>
+    
     <%-- display message --%>
     <span id="saveMsgArea"><%=saveMsg%></span>
+    
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
     <input type="hidden" name="SortDir" value="<%=sSortDir%>">
 </form>
+
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>
   <%-- DO ADD PRODUCT --%>
@@ -358,19 +366,19 @@
               "&DisplayProductsOfPatientService=false";
 
     if(productUnitField!=undefined){
-      url = url+"&ReturnProductUnitField="+productUnitField;
+      url+= "&ReturnProductUnitField="+productUnitField;
     }
 
     if(unitsPerTimeUnitField!=undefined){
-      url = url+"&ReturnUnitsPerTimeUnitField="+unitsPerTimeUnitField;
+      url+= "&ReturnUnitsPerTimeUnitField="+unitsPerTimeUnitField;
     }
 
     if(unitsPerPackageField!=undefined){
-      url = url+"&ReturnUnitsPerPackageField="+unitsPerPackageField;
+      url+= "&ReturnUnitsPerPackageField="+unitsPerPackageField;
     }
 
     if(productStockUidField!=undefined){
-      url = url+"&ReturnProductStockUidField="+productStockUidField;
+      url+= "&ReturnProductStockUidField="+productStockUidField;
     }
 
     openPopup(url);

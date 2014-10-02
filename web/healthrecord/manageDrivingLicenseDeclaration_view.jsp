@@ -106,14 +106,14 @@
                 <%-- HEADER --%>
                 <tr>
                     <td width="1%">
-                        <img id="candidate-questionnaire-plus" border="0" src='<c:url value="/_img/plus.png"/>' onclick="hide('candidate-questionnaire-plus'); show('candidate-questionnaire-minus'); show('candidate-questionnaire-details');">
-                        <img id="candidate-questionnaire-minus" style="display:none" border="0" src='<c:url value="/_img/minus.png"/>' onclick="show('candidate-questionnaire-plus'); hide('candidate-questionnaire-minus'); hide('candidate-questionnaire-details');">
+                        <img id="candidate-questionnaire-plus" border="0" src='<c:url value="/_img/icons/icon_plus.png"/>' onclick="hide('candidate-questionnaire-plus'); show('candidate-questionnaire-minus'); show('candidate-questionnaire-details');">
+                        <img id="candidate-questionnaire-minus" style="display:none" border="0" src='<c:url value="/_img/icons/icon_minus.png"/>' onclick="show('candidate-questionnaire-plus'); hide('candidate-questionnaire-minus'); hide('candidate-questionnaire-details');">
                     </td>
                     <td width="*">
                         <%=getTran("Web.Occup","medwan.common.driving-license-declaration.candidate-questionnaire",sWebLanguage)%>
                     </td>
                     <td width="25%" align="right">
-                        &nbsp;<input type="button" class="button" name="ButtonSetAllNegative" value="<%=getTran("Web.Occup","medwan.common.driving-license-declaration.candidate-questionnaire.everything-negative",sWebLanguage)%>" onclick="hide('candidate-questionnaire-plus'); show('candidate-questionnaire-minus'); show('candidate-questionnaire-details');setAllNegative(true);">
+                        &nbsp;<input type="button" class="button" name="ButtonSetAllNegative" value="<%=getTranNoLink("Web.Occup","medwan.common.driving-license-declaration.candidate-questionnaire.everything-negative",sWebLanguage)%>" onclick="hide('candidate-questionnaire-plus'); show('candidate-questionnaire-minus'); show('candidate-questionnaire-details');setAllNegative(true);">
                     </td>
                 </tr>
 
@@ -273,11 +273,11 @@
     <%
         if (activeUser.getAccessRight("occupdrivinglicensedeclaration.add") || activeUser.getAccessRight("occupdrivinglicensedeclaration.edit")){
             %>
-                <INPUT class="button" type="button" name="saveButton" id="save" onClick="doSubmit();" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>">
+                <INPUT class="button" type="button" name="saveButton" id="save" onClick="doSubmit();" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>">
             <%
         }
     %>
-    <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/healthrecord/showPeriodicExaminations.do"/>?ts=<%=getTs()%>'}">
+    <INPUT class="button" type="button" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/healthrecord/showPeriodicExaminations.do"/>?ts=<%=getTs()%>'}">
 <%=ScreenHelper.alignButtonsStop()%>
 <script>
   function doSubmit(){

@@ -96,8 +96,8 @@
 
             <%-- buttons --%>
             &nbsp;&nbsp;
-            <input class="button" type="button" name="findButton" value="<%=getTran("Web","find",sWebLanguage)%>" onclick="submit();">&nbsp;
-            <input class="button" type="button" name="clearButton" value="<%=getTran("Web","clear",sWebLanguage)%>" onclick="clearSearchFields();">&nbsp;
+            <input class="button" type="button" name="findButton" value="<%=getTranNoLink("Web","find",sWebLanguage)%>" onclick="submit();">&nbsp;
+            <input class="button" type="button" name="clearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="clearSearchFields();">&nbsp;
         </td>
     </tr>
 </table>

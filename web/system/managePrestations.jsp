@@ -10,7 +10,7 @@
         StringBuffer sTmp = new StringBuffer();
         sTmp.append("<tr id='rowCategory"+iTotal+"'>")
              .append("<td class=\"admin2\">")
-             .append("<a href='javascript:deleteCategory(rowCategory"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> ")
+             .append("<a href='javascript:deleteCategory(rowCategory"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> ")
              .append("</td>")
              .append("<td class='admin2'>&nbsp;" + getTranNoLink("insurance.types",sCategoryName,sWebLanguage) + "</td>")
              .append("<td class='admin2'>&nbsp;" + sPrice + "</td>")
@@ -459,8 +459,8 @@
 			           <td class='admin2'>
 			               <input type="hidden" name="EditPrestationServiceUid" id="EditPrestationServiceUid" value="<%=sEditPrestationServiceUid%>">
 			               <input class="text" type="text" name="EditPrestationServiceName" id="EditPrestationServiceName" readonly size="<%=sTextWidth%>" value="<%=sEditPrestationServiceName%>" >
-			               <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditPrestationServiceUid','EditPrestationServiceName');">
-			               <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditPrestationServiceUid').value='';document.getElementById('EditPrestationServiceName').value='';">
+			               <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('EditPrestationServiceUid','EditPrestationServiceName');">
+			               <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditPrestationServiceUid').value='';document.getElementById('EditPrestationServiceName').value='';">
 			           </td>
 			       </tr>
                     
@@ -553,7 +553,7 @@
     }
   }
   function searchPrestation(){
-    document.getElementById('divFindRecords').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+    document.getElementById('divFindRecords').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading";
     var today = new Date();
     var desc=transactionForm.FindPrestationDescr.value;
     var params = 'FindPrestationCode=' + transactionForm.FindPrestationCode.value
@@ -653,7 +653,7 @@
       tr.id = "rowCategory"+iCategoryIndex;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteCategory(rowCategory"+iCategoryIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteCategory(rowCategory"+iCategoryIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);

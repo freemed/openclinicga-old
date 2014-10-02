@@ -87,10 +87,10 @@
     <td class="menu" colspan="2">
       &nbsp;<%=getTran("Web.manage","labanalysis.cols.code_name",sWebLanguage)%>&nbsp;
       <input class="text" type="text" name="FindLabCode" size="18" value="<%=(action.equals("details")?"":sFindLabCode)%>" onblur="limitLength(this);">
-      <input class="button" type="submit" name="findButton" value="<%=getTran("Web","find",sWebLanguage)%>" onclick="searchForm.Action.value='find';"/>&nbsp;
-      <input class="button" type="button" name="clearButton" value="<%=getTran("Web","clear",sWebLanguage)%>" onclick="doClear();">&nbsp;
-      <input class="button" type="submit" name="createButton" value="<%=getTran("Web","new",sWebLanguage)%>" onclick="doNew();">&nbsp;
-      <input class="button" type="button" name="backButton" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+      <input class="button" type="submit" name="findButton" value="<%=getTranNoLink("Web","find",sWebLanguage)%>" onclick="searchForm.Action.value='find';"/>&nbsp;
+      <input class="button" type="button" name="clearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="doClear();">&nbsp;
+      <input class="button" type="submit" name="createButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">&nbsp;
+      <input class="button" type="button" name="backButton" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
     </td>
   </tr>
 </table>
@@ -408,7 +408,7 @@
               <tr height="30">
                   <td><%=iTotal%> <%=getTran("Web","recordsFound",sWebLanguage)%></td>
                   <td align="right">
-                      <img src='<c:url value="/_img/pijl.gif"/>'>
+                      <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
                       <a  href="<c:url value='/main.do'/>?Page=healthrecord/manageLabProfiles_view.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labProfiles",sWebLanguage)%></a>&nbsp;
                   </td>
               </tr>
@@ -636,7 +636,7 @@
     //if((String)activeUser.accessRights.get("occupmanagelabanalysis.add")!=null ||
     //   (String)activeUser.accessRights.get("occupmanagelabanalysis.edit")!=null){
     %>
-      <input class="button" type="button" name="SaveButton" value="<%=getTran("web","record",sWebLanguage)%>" onClick="checkSave();"/>&nbsp;
+      <input class="button" type="button" name="SaveButton" value="<%=getTranNoLink("web","record",sWebLanguage)%>" onClick="checkSave();"/>&nbsp;
       <script>
         function checkSave(){
           if(editForm.EditLabCode.value.length == 0 || editForm.LabType.selectedIndex == 0 ||
@@ -660,7 +660,7 @@
 <%
     if(!action.equals("new")){
         %>
-          <input class="button" type="button" value="<%=getTran("web","delete",sWebLanguage)%>" onClick="checkDelete();"/>&nbsp;
+          <input class="button" type="button" value="<%=getTranNoLink("web","delete",sWebLanguage)%>" onClick="checkDelete();"/>&nbsp;
           <script>
             function checkDelete(){
               if(editForm.EditLabCode.value.length == 0){
@@ -680,13 +680,13 @@
         <%
     }
 %>
-  <input class="button" type="button" value="<%=getTran("web","reset",sWebLanguage)%>" onclick="reset();">&nbsp;
-  <input class="button" type="button" value="<%=getTran("web","back",sWebLanguage)%>" onclick="showOverview();">&nbsp;
+  <input class="button" type="button" value="<%=getTranNoLink("web","reset",sWebLanguage)%>" onclick="reset();">&nbsp;
+  <input class="button" type="button" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="showOverview();">&nbsp;
 
   <br><br>
 
   <%-- link to labprofiles --%>
-  <img src='<c:url value="/_img/pijl.gif"/>'>
+  <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
   <a  href="<c:url value='/main.do'/>?Page=healthrecord/manageLabProfiles_view.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labProfiles",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
 

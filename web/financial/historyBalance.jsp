@@ -1,6 +1,6 @@
-<%@ page import="be.openclinic.finance.Balance,be.openclinic.finance.DebetTransaction,
-be.openclinic.finance.CreditTransaction,java.util.Vector,java.util.Collections,
-be.openclinic.pharmacy.ProductStockOperation" %>
+<%@page import="be.openclinic.finance.Balance,be.openclinic.finance.DebetTransaction,
+                be.openclinic.finance.CreditTransaction,java.util.Vector,java.util.Collections,
+                be.openclinic.pharmacy.ProductStockOperation" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("financial.balancehistory","select",activeUser)%>
 <%=sJSSORTTABLE%>
@@ -36,6 +36,7 @@ be.openclinic.pharmacy.ProductStockOperation" %>
         }
     }
 %>
+
 <%
     String sEditBalanceUID = checkString(request.getParameter("EditBalanceUID"));
     Balance balance;
@@ -78,24 +79,26 @@ be.openclinic.pharmacy.ProductStockOperation" %>
         <%-- remarks --%>
         <tr>
             <td class="admin"><%=getTran("web","comment",sWebLanguage)%></td>
-            <td class="admin2"><%=checkString(balance.getRemarks())%></td>
+            <td class="admin2"><%=checkString(balance.getRemarks().replaceAll("\n","<br>"))%></td>
         </tr>
+        
+        <%-- BUTTONS --%>
         <tr>
             <td class="admin"/>
             <td class="admin2">
-                <input class='button' type='button' name='buttonEditBalance' value='<%=getTran("balance","editbalance",sWebLanguage)%>' onclick='editBalance();'>&nbsp;
+                <input class='button' type='button' name='buttonEditBalance' value='<%=getTranNoLink("balance","editbalance",sWebLanguage)%>' onclick='editBalance();'>&nbsp;
             </td>
         </tr>
     </table>
     <br>
 
 <script>
-    function doBack(){
-        history.go(-1);
-        return false;
-    }
+  function doBack(){
+    history.go(-1);
+    return false;
+  }
 
-    function editBalance(){
-        window.location.href="<c:url value='/main.do'/>?Page=financial/editBalance.jsp&ts=<%=getTs()%>";
-    }
+  function editBalance(){
+    window.location.href = "<c:url value='/main.do'/>?Page=financial/editBalance.jsp&ts=<%=getTs()%>";
+  }
 </script>

@@ -42,7 +42,7 @@
                 <tr>
                     <td class="admin2" colspan="3"><input <%=setRightClick("ITEM_TYPE_VASCULAR_ANAMNESIS_PAIN_WHEN_WALKING")%> type="checkbox" id="vasc-c2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VASCULAR_ANAMNESIS_PAIN_WHEN_WALKING" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VASCULAR_ANAMNESIS_PAIN_WHEN_WALKING;value=medwan.common.true" property="value" outputString="checked"/> value="medwan.common.true"/><%=getLabel("Web.Occup","medwan.healthrecord.vascular.pain-when-walking",sWebLanguage,"vasc-c2")%></td>
                 </tr>
-                <tr  class="admin">
+                <tr class="admin">
                     <td colspan="3"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%></td>
                 </tr>
                 <tr>
@@ -84,8 +84,8 @@
 
 <%-- BUTTONS --%>
 <%=ScreenHelper.alignButtonsStart()%>
-    <INPUT class="button" type="button" name="saveButton" onClick="doSubmit();" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>">
-    <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value='/healthrecord/editTransaction.do'/>?be.mxs.healthrecord.createTransaction.transactionType=<bean:write name="transaction" scope="page" property="transactionType"/>&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>'}">
+    <INPUT class="button" type="button" name="saveButton" onClick="doSubmit();" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>">
+    <INPUT class="button" type="button" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value='/healthrecord/editTransaction.do'/>?be.mxs.healthrecord.createTransaction.transactionType=<bean:write name="transaction" scope="page" property="transactionType"/>&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>'}">
     <%=writeResetButton("transactionForm",sWebLanguage)%>
 <%=ScreenHelper.alignButtonsStop()%>
 

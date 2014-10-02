@@ -34,9 +34,9 @@
       alert(labelId); // FF          
     }
   }
-  
-  <%-- ALERT DIALOG MESSAGE --%>
-  function alertDialogMessage(sMsg){
+
+  <%-- ALERT DIALOG DIRECT TEXT --%>
+  function alertDialogDirectText(sMsg){
     if(window.showModalDialog){
       var popupUrl = "<c:url value='/_common/search/okPopup.jsp'/>?ts=<%=ScreenHelper.getTs()%>&labelValue="+sMsg;
       var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
@@ -127,33 +127,25 @@
   }
 
   <%-- ENTER EVENT --%>
-  var desKey = 13;
-  function enterEvent(e){
-    var key = e.which?e.which:window.event.keyCode;
-    if(key==desKey){
-      return true;
-    }
-    else{
-      return false;
-    }
+  function enterEvent(e,targetKey){
+	var eventKey = e.which?e.which:window.event.keyCode;
+	return (eventKey==targetKey);
   }
 
   <%-- AJAX CHANGE SEARCH RESULTS --%>
   function ajaxChangeSearchResults(urlForm,SearchForm,moreParams){
-    document.getElementById('divFindRecords').innerHTML = "<div style='text-align:center'><img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading</div>";
+    document.getElementById('divFindRecords').innerHTML = "<div style='text-align:center;padding-top:2px;'><img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading</div>";
     var url = urlForm;
     var params = Form.serialize(SearchForm)+moreParams;
     var myAjax = new Ajax.Updater("divFindRecords",url,{
       evalScripts:true,
       method: "post",
       parameters: params,
-      onload: function(){
-      },
       onSuccess: function(resp){
         document.getElementById("divFindRecords").innerHTML = trim(resp.responseText);
       },
       onFailure:function(){
-        $("divFindRecords").innerHTML = "Problem with ajax request !";
+        $("divFindRecords").innerHTML = "Problem with ajax request";
       }
     });
   }
@@ -167,7 +159,7 @@
     <table width="100%" cellspacing="0" cellpadding="5" style="border:1px solid #aaa">
         <tr>
             <td bgcolor="#dddddd" style="text-align:center">
-                <%=getTran("web","searchInProgress",sWebLanguage)%>
+                <%=getTranNoLink("web","searchInProgress",sWebLanguage)%>
             </td>
         </tr>
     </table>

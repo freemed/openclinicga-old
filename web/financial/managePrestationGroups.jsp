@@ -80,9 +80,9 @@
         <tr>
             <td/>
             <td>
-                <input class='button' type='button' name='buttonfind' value='<%=getTran("Web","search",sWebLanguage)%>' onclick='doFind();'>
-                <input class='button' type='button' name='buttonclear' value='<%=getTran("Web","Clear",sWebLanguage)%>' onclick='doClear();'>
-                <input class='button' type='button' name='buttonnew' value='<%=getTran("Web.Occup","medwan.common.create-new",sWebLanguage)%>' onclick='doNew();'>&nbsp;
+                <input class='button' type='button' name='buttonfind' value='<%=getTranNoLink("Web","search",sWebLanguage)%>' onclick='doFind();'>
+                <input class='button' type='button' name='buttonclear' value='<%=getTranNoLink("Web","Clear",sWebLanguage)%>' onclick='doClear();'>
+                <input class='button' type='button' name='buttonnew' value='<%=getTranNoLink("Web.Occup","medwan.common.create-new",sWebLanguage)%>' onclick='doNew();'>&nbsp;
             </td>
         </tr>
         <%-- action --%>
@@ -199,7 +199,7 @@
                             sKey = (String) enum.nextElement();
                             pPrestation = (Prestation) hPrestationsInGroup.get(sKey);
                             out.print("<tr class='list" + sClass + "' >" +
-                                    "<td align='center' onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" onclick=\"deletePrestation('" + pPrestation.getUid() + "');\"><img src='" + request.getContextPath() + "/_img/icon_delete.gif' alt='delete'></td>" +
+                                    "<td align='center' onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" onclick=\"deletePrestation('" + pPrestation.getUid() + "');\"><img src='" + request.getContextPath() + "/_img/icons/icon_delete.gif' alt='delete'></td>" +
                                     "<td>" + pPrestation.getDescription() + "</td>" +
                                     "<td>" + pPrestation.getPrice() + "</td>" +
                                     "</tr>");
@@ -224,11 +224,11 @@
     <%
         if(sAction.equals("NEW") || sAction.equals("SELECT") || sAction.equals("SAVE") || sAction.equals("ADD") || sAction.equals("DELETE")){
     %>
-        <input class='button' type="button" name="saveButton" value='<%=getTran("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
+        <input class='button' type="button" name="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
     <%
         }
     %>
-    <input class='button' type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doBack();">
+    <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
 <%=ScreenHelper.alignButtonsStop()%>
 <%-- End Edit Block --%>
 <script>

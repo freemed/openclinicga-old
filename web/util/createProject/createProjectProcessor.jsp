@@ -286,7 +286,7 @@
     <%-- BUTTONS --%>
     <tr>
         <td colspan="2" align="right">
-            <input type="button" class="button" name="backButton" onClick="doBack();" value="<%=getTran("web","back",sWebLanguage)%>">
+            <input type="button" class="button" name="backButton" onClick="doBack();" value="<%=getTranNoLink("web","back",sWebLanguage)%>">
         </td>
     </tr>
 </table>

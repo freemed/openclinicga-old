@@ -49,7 +49,7 @@
                 </table>
 
                 <%=ScreenHelper.alignButtonsStart()%>
-                    <input type="button" value="<%=getTran("Web.Occup","medwan.common.print",sWebLanguage)%>" class="button" onclick="doPrint();">&nbsp;
+                    <input type="button" value="<%=getTranNoLink("Web.Occup","medwan.common.print",sWebLanguage)%>" class="button" onclick="doPrint();">&nbsp;
                 <%=ScreenHelper.alignButtonsStop()%>
             <%
         }

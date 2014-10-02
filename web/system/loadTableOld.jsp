@@ -49,7 +49,7 @@
 				</select>
 			</td>
 			<td class='admin2'><input class="text" type="checkbox" name="erase" value="1"/> <%=getTran("web","delete.table.before.load",sWebLanguage)%></td>
-			<td class='admin2'><input class="text" type="file" name="filename"/> <input class="button" type="submit" name="ButtonReadfile" value="<%=getTran("web","load",sWebLanguage)%>"/></td>
+			<td class='admin2'><input class="text" type="file" name="filename"/> <input class="button" type="submit" name="ButtonReadfile" value="<%=getTranNoLink("web","load",sWebLanguage)%>"/></td>
 		</tr>
 		<tr>
 			<td colspan="2"><div id="structure"/></td>

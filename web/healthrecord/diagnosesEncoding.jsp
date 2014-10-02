@@ -27,10 +27,10 @@
     }
     
     if(activeEncounterUid.length()>0){
-        sRfe = ReasonForEncounter.getReasonsForEncounterAsHtml(activeEncounterUid,sWebLanguage,sCONTEXTPATH+"/_img/icon_delete.gif","deleteRFE($serverid,$objectid)");
+        sRfe = ReasonForEncounter.getReasonsForEncounterAsHtml(activeEncounterUid,sWebLanguage,sCONTEXTPATH+"/_img/icons/icon_delete.gif","deleteRFE($serverid,$objectid)");
 		
 		%>
-			<table class="list" width="100%" cellspacing="1">
+			<table class="list" width="100%" cellspacing="0" cellpadding="2">
 		      <tr class="admin">
 			    <td align="center"><a href="javascript:openPopup('healthrecord/findRFE.jsp&field=rfe&encounterUid=<%=activeEncounterUid%>&ts=<%=getTs()%>',700,400)"><%=getTran("openclinic.chuk","rfe",sWebLanguage)%> <%=getTran("Web.Occup","ICPC-2",sWebLanguage)%>/<%=getTran("Web.Occup","ICD-10",sWebLanguage)%></a></td>
 			  </tr>
@@ -43,13 +43,13 @@
     }
 %>
 
-<table class="list" width="100%" cellspacing="1">
+<table class="list" width="100%" cellspacing="0" cellpadding="2">
   <tr class="admin">
     <td align="center"><a href="javascript:openPopup('healthrecord/findICPC.jsp&PopupWidth=700&PopupHeight=400&ts=<%=getTs()%>&patientuid=<%=activePatient.personid %>')"><%=getTran("openclinic.chuk","diagnostic.document",sWebLanguage)%> <%=getTran("Web.Occup","ICPC-2",sWebLanguage)%>/<%=getTran("Web.Occup","ICD-10",sWebLanguage)%></a></td>
   </tr>
   <tr>
     <td id='icpccodes'>
-	  <table width='100%' id="icpccodesTable">
+	  <table width='100%' id="icpccodesTable" cellspacing="0" cellpadding="2">
 	    <%
 		    Iterator items = curTran.getItems().iterator();
 		    ItemVO item;
@@ -91,7 +91,7 @@
 			         
 			     	  %>
 			     	  <tr id="ICPCCode<%=item.getItemId()%>" class="list<%=sClass%>">
-			     		<td width="16" nowrap><img src="<%=sCONTEXTPATH%>/_img/icon_delete.gif" class="link" onclick="deleteDiagnosis(ICPCCode<%=item.getItemId()%>);"/></td>
+			     		<td width="16" nowrap><img src="<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif" class="link" onclick="deleteDiagnosis(ICPCCode<%=item.getItemId()%>);"/></td>
 			            <td width="1%">ICPC</td>
 			            <td width="1%"><b><%=item.getType().replaceAll("ICPCCode","")%></b></td>
 			            <td><b><%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%>&nbsp;<i>G:<%=sGravity%>/C:<%=sCertainty%><%=POA.length()>0?" POA":""%><%=NC.length()>0?" N":""%><%=flags.length()==0?"":" ("+flags+")"%></i></b>
@@ -133,7 +133,7 @@
 			                 
 			          %>
 			          <tr id='ICD10Code<%=item.getItemId()%>' class="list<%=sClass%>">
-			            <td width="16" nowrap><img src="<%=sCONTEXTPATH%>/_img/icon_delete.gif" class="link" onclick="deleteDiagnosis(ICD10Code<%=item.getItemId()%>);"/></td>
+			            <td width="16" nowrap><img src="<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif" class="link" onclick="deleteDiagnosis(ICD10Code<%=item.getItemId()%>);"/></td>
 		                <td width="1%">ICD10</td>
 		                <td width="1%"><b><%=item.getType().replaceAll("ICD10Code","")%></b></td>
 		                <td><b><%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%>&nbsp;<i>G:<%=sGravity%>/C:<%=sCertainty%><%=POA.length()>0?" POA":""%><%=NC.length()>0?" N":""%><%=flags.length()==0?"":" ("+flags+")"%></i></b>
@@ -156,7 +156,7 @@
 </table>
 <div style="padding-top:3px;"></div>
 
-<table class="list" width="100%" cellspacing="1">
+<table class="list" width="100%" cellspacing="0" cellpadding="2">
   <tr class="admin">
     <td align="center"><%=getTran("openclinic.chuk","contact.diagnoses",sWebLanguage)%> <%=getTran("Web.Occup","ICPC-2",sWebLanguage)%>/<%=getTran("Web.Occup","ICD-10",sWebLanguage)%></td>
   </tr>
@@ -201,7 +201,7 @@
 </table>
 <div style="padding-top:3px;"></div>
 
-<table class="list" width="100%" cellspacing="1">
+<table class="list" width="100%" cellspacing="0" cellpadding="2">
     <tr class="admin">
         <td align="center">SNOMED-CT</td>
     </tr>

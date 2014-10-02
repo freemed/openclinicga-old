@@ -447,7 +447,7 @@
     <%-- graph header --%>
     <tr onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" id="header_glycemyGraph">
         <td class="admin" width="20" align="center" onClick="toggleGraph('glycemyGraph');">
-            <img id="img_glycemyGraph" src="<%=sCONTEXTPATH%>/_img/plus.png" class="link">
+            <img id="img_glycemyGraph" src="<%=sCONTEXTPATH%>/_img/icons/icon_plus.png" class="link">
         </td>
         <td class="admin" width="99%" onClick="toggleGraph('glycemyGraph');"><%=getTran("web.occup","glycemy",sWebLanguage)%></td>
         <td class="admin" align="right" width ="1%" style="vertical-align:bottom;">
@@ -598,7 +598,7 @@
     <%-- graph header --%>
     <tr onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" id="header_insulineRapidGraph">
         <td class="admin" width="20" align="center" onClick="toggleGraph('insulineRapidGraph');">
-            <img id="img_insulineRapidGraph" src="<%=sCONTEXTPATH%>/_img/plus.png" class="link">
+            <img id="img_insulineRapidGraph" src="<%=sCONTEXTPATH%>/_img/icons/icon_plus.png" class="link">
         </td>
         <td class="admin" width="99%" onClick="toggleGraph('insulineRapidGraph');"><%=getTran("web.occup","insuline",sWebLanguage)%>&nbsp;<%=getTran("web","rapid",sWebLanguage)%></td>
         <td class="admin" align="right" width ="1%" style="vertical-align:bottom;">
@@ -748,7 +748,7 @@
     <%-- graph header --%>
     <tr onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" id="header_insulineSemiRapidGraph">
         <td class="admin" width="20" align="center" onClick="toggleGraph('insulineSemiRapidGraph');">
-            <img id="img_insulineSemiRapidGraph" src="<%=sCONTEXTPATH%>/_img/plus.png" class="link">
+            <img id="img_insulineSemiRapidGraph" src="<%=sCONTEXTPATH%>/_img/icons/icon_plus.png" class="link">
         </td>
         <td class="admin" width="99%" onClick="toggleGraph('insulineSemiRapidGraph');"><%=getTran("web.occup","insuline",sWebLanguage)%>&nbsp;<%=getTran("web","semirapid",sWebLanguage)%></td>
         <td class="admin" align="right" width ="1%" style="vertical-align:bottom;">
@@ -898,7 +898,7 @@
     <%-- graph header --%>
     <tr onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" id="header_insulineSlowGraph">
         <td class="admin" width="20" align="center" onClick="toggleGraph('insulineSlowGraph');">
-            <img id="img_insulineSlowGraph" src="<%=sCONTEXTPATH%>/_img/plus.png" class="link">
+            <img id="img_insulineSlowGraph" src="<%=sCONTEXTPATH%>/_img/icons/icon_plus.png" class="link">
         </td>
         <td class="admin" width="99%" onClick="toggleGraph('insulineSlowGraph');"><%=getTran("web.occup","insuline",sWebLanguage)%>&nbsp;<%=getTran("web","slow",sWebLanguage)%></td>
         <td class="admin" align="right" width ="1%" style="vertical-align:bottom;">
@@ -1026,10 +1026,10 @@
 <%=ScreenHelper.alignButtonsStart()%>
     <%
         if(activeUser.getAccessRight("occup.diabetesfollowup.add") || activeUser.getAccessRight("occup.diabetesfollowup.edit")){
-            %><INPUT class="button" type="button" name="saveButton" id="saveButton" value="<%=getTran("Web","save",sWebLanguage)%>" onclick="submitForm();"/><%
+            %><INPUT class="button" type="button" name="saveButton" id="saveButton" value="<%=getTranNoLink("Web","save",sWebLanguage)%>" onclick="submitForm();"/><%
         }
     %>
-    <INPUT class="button" type="button" name="backButton" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="doBack();">
+    <INPUT class="button" type="button" name="backButton" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="doBack();">
 <%=ScreenHelper.alignButtonsStop()%>
 
 <script>
@@ -1053,12 +1053,12 @@
     if(divObj.style.display == 'none'){
       divObj.style.display = 'block';
       headerObj.title = "<%=hideGraphTran%>";
-      imgObj.src = "<%=sCONTEXTPATH%>/_img/minus.png";
+      imgObj.src = "<%=sCONTEXTPATH%>/_img/icons/icon_minus.png";
     }
     else{
       divObj.style.display = 'none';
       headerObj.title = "<%=showGraphTran%>";
-      imgObj.src = "<%=sCONTEXTPATH%>/_img/plus.png";
+      imgObj.src = "<%=sCONTEXTPATH%>/_img/icons/icon_plus.png";
     }
   }
 </script>

@@ -229,11 +229,11 @@
     <%-- page title --%>
     <table width="100%" cellspacing="0">
         <tr class="admin">
-            <td>&nbsp;&nbsp;<%=getTran("Web.manage","ManagePatientCarePrescriptions",sWebLanguage)%>&nbsp;<%=activePatient.lastname+" "+activePatient.firstname%></td>
+            <td><%=getTran("Web.manage","ManagePatientCarePrescriptions",sWebLanguage)%>&nbsp;<%=activePatient.lastname+" "+activePatient.firstname%></td>
             <td align="right">
                <%
                    if(sAction.startsWith("showDetails")){
-                       %><img onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" onClick="doBack();" style='vertical-align:middle;' border='0' src='<%=sCONTEXTPATH%>/_img/arrow.jpg' alt='<%=getTranNoLink("Web","Back",sWebLanguage)%>'><%
+                       %><img onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" onClick="doBack();" style='vertical-align:middle;' border='0' src='<%=sCONTEXTPATH%>/_img/themes/default/arrow_left.gif' alt='<%=getTranNoLink("Web","Back",sWebLanguage)%>'><%
                    }
                %>
             </td>
@@ -274,11 +274,11 @@
 
                         <%-- Time Unit (dropdown : Hour|Day|Week|Month) --%>
                         <select class="text" name="EditTimeUnit" onChange="setEditTimeUnitCount();">
-                            <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                            <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                             <%=ScreenHelper.writeSelectUnsorted("prescription.timeunit",sSelectedTimeUnit,sWebLanguage)%>
                         </select>
 
-                        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="clearDescriptionRule();">
+                        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="clearDescriptionRule();">
                     </td>
                 </tr>
                 <%-- date begin --%>
@@ -286,9 +286,9 @@
                     <td class="admin"><%=getTran("Web","begindate",sWebLanguage)%>&nbsp;*&nbsp;</td>
                     <td class="admin2">
                         <input type="text" maxlength="10" class="text" id="EditDateBegin" name="EditDateBegin" value="<%=sSelectedDateBegin%>" size="12" onblur="if(!checkDate(this)){alert('Web.Occup','date.error');this.value='';}">
-                        <img name="popcal" class="link" src="<%=sCONTEXTPATH%>/_img/icon_agenda.gif" alt="<%=getTran("Web","Select",sWebLanguage)%>" onclick="gfPop1.fPopCalendar(document.getElementById('EditDateBegin'));return false;">
-                        <img class="link" src="<%=sCONTEXTPATH%>/_img/icon_compose.gif" alt="<%=getTran("Web","PutToday",sWebLanguage)%>" onclick="getToday(document.getElementById('EditDateBegin'));">
-                        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditDateBegin.value='';">
+                        <img name="popcal" class="link" src="<%=sCONTEXTPATH%>/_img/icons/icon_agenda.gif" alt="<%=getTranNoLink("Web","Select",sWebLanguage)%>" onclick="gfPop1.fPopCalendar(document.getElementById('EditDateBegin'));return false;">
+                        <img class="link" src="<%=sCONTEXTPATH%>/_img/icons/icon_compose.gif" alt="<%=getTranNoLink("Web","PutToday",sWebLanguage)%>" onclick="getToday(document.getElementById('EditDateBegin'));">
+                        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditDateBegin.value='';">
                     </td>
                 </tr>
                 <%-- date end --%>
@@ -296,9 +296,9 @@
                     <td class="admin"><%=getTran("Web","enddate",sWebLanguage)%>&nbsp;*&nbsp;</td>
                     <td class="admin2">
                         <input type="text" maxlength="10" class="text" id="EditDateEnd" name="EditDateEnd" value="<%=sSelectedDateEnd%>" size="12" onblur="if(!checkDate(this)){alert('Web.Occup','date.error');this.value='';}">
-                        <img name="popcal" class="link" src="<%=sCONTEXTPATH%>/_img/icon_agenda.gif" alt="<%=getTran("Web","Select",sWebLanguage)%>" onclick="gfPop1.fPopCalendar(document.getElementById('EditDateEnd'));return false;">
-                        <img class="link" src="<%=sCONTEXTPATH%>/_img/icon_compose.gif" alt="<%=getTran("Web","PutToday",sWebLanguage)%>" onclick="getToday(document.getElementById('EditDateEnd'));">
-                        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditDateEnd.value='';">
+                        <img name="popcal" class="link" src="<%=sCONTEXTPATH%>/_img/icons/icon_agenda.gif" alt="<%=getTranNoLink("Web","Select",sWebLanguage)%>" onclick="gfPop1.fPopCalendar(document.getElementById('EditDateEnd'));return false;">
+                        <img class="link" src="<%=sCONTEXTPATH%>/_img/icons/icon_compose.gif" alt="<%=getTranNoLink("Web","PutToday",sWebLanguage)%>" onclick="getToday(document.getElementById('EditDateEnd'));">
+                        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditDateEnd.value='';">
                     </td>
                 </tr>
                 <%-- prescriber --%>
@@ -308,8 +308,8 @@
                         <input type="hidden" name="EditPrescriberUid" value="<%=sSelectedPrescriberUid%>">
                         <input class="text" type="text" name="EditPrescriberFullName" readonly size="<%=sTextWidth%>" value="<%=sSelectedPrescriberFullName%>">
 
-                        <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchPrescriber('EditPrescriberUid','EditPrescriberFullName');">
-                        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditPrescriberUid.value='';transactionForm.EditPrescriberFullName.value='';">
+                        <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchPrescriber('EditPrescriberUid','EditPrescriberFullName');">
+                        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditPrescriberUid.value='';transactionForm.EditPrescriberFullName.value='';">
                     </td>
                 </tr>
                 <%-- schema --%>
@@ -408,9 +408,7 @@
   <%--DISPLAY ALERT --%>
   function displayAlert(){
     if(transactionForm.EditDateEnd.value.length>0){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.Occup&labelID=endMustComeAfterBegin";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,'Popup',modalities):window.confirm("<%=getTranNoLink("web.Occup","endMustComeAfterBegin",sWebLanguage)%>");
+      alertDiaog("web.Occup","endMustComeAfterBegin");
       transactionForm.EditDateEnd.focus();
     }
   }
@@ -510,9 +508,7 @@
            maySubmit = true;
          }
          else{
-           var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.Occup&labelID=endMustComeAfterBegin";
-           var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-           (window.showModalDialog)?window.showModalDialog(popupUrl,'Popup',modalities):window.confirm("<%=getTranNoLink("web.Occup","endMustComeAfterBegin",sWebLanguage)%>");
+           alertDialog("web.Occup","endMustComeAfterBegin");
            transactionForm.EditDateEnd.focus();
          }
        }
@@ -553,11 +549,11 @@
               "&ReturnProductNameField="+productNameField;
 
     if(productUnitField!=undefined){
-      url = url+"&ReturnProductUnitField="+productUnitField;
+      url+= "&ReturnProductUnitField="+productUnitField;
     }
 
     if(unitsPerTimeUnitField!=undefined){
-      url = url+"&ReturnUnitsPerTimeUnitField="+unitsPerTimeUnitField;
+      url+= "&ReturnUnitsPerTimeUnitField="+unitsPerTimeUnitField;
     }
 
     openPopup(url);

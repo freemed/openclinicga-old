@@ -22,7 +22,7 @@
     </tr>
     <tr>
         <td class="title" colspan="2">
-            <img src='<c:url value="/_img/pijl.gif"/>'>
+            <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
             <a href="#" onclick="toggle_id('medwan.healthrecord.endocrino-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
         </td>
     </tr>
@@ -92,7 +92,7 @@
     </tr>
     <tr>
         <td class="title" colspan="2">
-            <img src='<c:url value="/_img/pijl.gif"/>'>
+            <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
             <a href="#" onclick="toggle_id('medwan.healthrecord.uro-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
         </td>
     </tr>
@@ -175,7 +175,7 @@
     </tr>
     <tr>
         <td class="title" colspan="2">
-            <img src='<c:url value="/_img/pijl.gif"/>'>
+            <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
             <a href="#" onclick="toggle_id('medwan.healthrecord.genital-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
         </td>
     </tr>
@@ -261,7 +261,7 @@
     </tr>
     <tr>
         <td class="title" colspan="2">
-            <img src='<c:url value="/_img/pijl.gif"/>'>
+            <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
             <a href="#" onclick="toggle_id('medwan.healthrecord.neuro-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
         </td>
     </tr>
@@ -367,7 +367,7 @@
     </tr>
     <tr>
         <td class="title" colspan="2">
-            <img src='<c:url value="/_img/pijl.gif"/>'>
+            <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
             <a href="#" onclick="toggle_id('medwan.healthrecord.psycho-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
         </td>
     </tr>

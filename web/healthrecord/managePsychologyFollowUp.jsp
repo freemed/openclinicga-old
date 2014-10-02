@@ -5,8 +5,8 @@
 	private String addPsychology(int iTotal, String sTmpPsychologyDate, String sTmpPsychologyTime, String sTmpPsychologyObservation, String sTmpPsychologyConclusion, String sWebLanguage) {
 	    return "<tr id='rowPsychology" + iTotal + "'>"
 	            + "<td width='36'>"
-	            + " <a href='javascript:deletePsychology(rowPsychology" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup", "medwan.common.delete", sWebLanguage) + "' border='0'></a> "
-	            + " <a href='javascript:editPsychology(rowPsychology" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup", "medwan.common.edit", sWebLanguage) + "' border='0'></a>"
+	            + " <a href='javascript:deletePsychology(rowPsychology" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web.Occup", "medwan.common.delete", sWebLanguage) + "' border='0'></a> "
+	            + " <a href='javascript:editPsychology(rowPsychology" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_edit.gif' alt='" + getTran("Web.Occup", "medwan.common.edit", sWebLanguage) + "' border='0'></a>"
 	            + "</td>"
 	            + "<td>&nbsp;" + sTmpPsychologyDate + "</td>"
 	            + "<td>&nbsp;" + sTmpPsychologyTime + "</td>"
@@ -122,7 +122,7 @@
         </td>
     </tr>
 
-    <tr  class="admin" >
+    <tr class="admin" >
         <td colspan="2" > <%=getTran("web","followup.chart",sWebLanguage)%></td>
     </tr>
     <tr>
@@ -143,8 +143,8 @@
 	                <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" name="PsychologyObservation" cols="80" onblur="limitLength(this);"></textarea></td>
 	                <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" name="PsychologyConclusion" cols="80" onblur="limitLength(this);"></textarea></td>
 	                <td class="admin2">
-	                    <input type="button" class="button" name="ButtonAddPsychology" onclick="addPsychology()" value="<%=getTran("Web","add",sWebLanguage)%>">
-	                    <input type="button" class="button" name="ButtonUpdatePsychology" onclick="updatePsychology()" value="<%=getTran("Web","edit",sWebLanguage)%>">
+	                    <input type="button" class="button" name="ButtonAddPsychology" onclick="addPsychology()" value="<%=getTranNoLink("Web","add",sWebLanguage)%>">
+	                    <input type="button" class="button" name="ButtonUpdatePsychology" onclick="updatePsychology()" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>">
 	                </td>
 		     	</tr>
 	            <%=sDivPsychology%>
@@ -198,8 +198,8 @@
       tr.id = "rowPsychology"+iIndexPersoonlijk;
 	
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deletePsychology(rowPsychology"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editPsychology(rowPsychology"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deletePsychology(rowPsychology"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editPsychology(rowPsychology"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 	
       td = tr.insertCell(1);
@@ -266,8 +266,8 @@ function updatePsychology(){
 
     // update table object
     var row = tblPsychology.rows[editPsychologyRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deletePsychology("+editPsychologyRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editPsychology("+editPsychologyRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deletePsychology("+editPsychologyRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editPsychology("+editPsychologyRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells[1].innerHTML = "&nbsp;"+document.getElementById("transactionForm").PsychologyDate.value;
     row.cells[2].innerHTML = "&nbsp;"+document.getElementById("transactionForm").PsychologyTime.value;
     row.cells[3].innerHTML = document.getElementById("transactionForm").PsychologyObservation.value.replace(new RegExp("\n", "g"),"<br/>").replace(new RegExp("\r", "g"),"");

@@ -49,7 +49,7 @@
       }
       else{
           %>
-    	    window.opener.document.getElementById('divDocuments').innerHTML += "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' class='link' onClick='deleteDoc(\"<%=sDocumentId%>\");'>&nbsp;"+
+    	    window.opener.document.getElementById('divDocuments').innerHTML += "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' onClick='deleteDoc(\"<%=sDocumentId%>\");'>&nbsp;"+
     	                                                                       "<a href='#' onclick='openDocument(\"<%=sDocumentId%>\");'><%=sFileName%></a><br>";
     	    window.opener.document.getElementById('EditDocument').value += "<%=sDocumentId%>;";
     	    window.opener.addDocName("<%=sFileName%>");

@@ -74,10 +74,10 @@
 
             // label row
             sOut.append("<tr>")
-                    .append(" <td colspan='2' class='admin2'>")
-                    .append("  <input type='checkbox' id='cf_c" + label.id + "' name='" + label.id + "'" + sChecked + ">")
-                    .append("  <label for='cf_c" + label.id + "'>").append(label.value).append(" (" + label.id + ")</label>")
-                    .append(" </td>")
+                    .append("<td colspan='2' class='admin2'>")
+                    .append("<input type='checkbox' id='cf_c" + label.id + "' name='" + label.id + "'" + sChecked + ">")
+                    .append("<label for='cf_c" + label.id + "'>").append(label.value).append("(" + label.id + ")</label>")
+                    .append("</td>")
                     .append("</tr>");
         }
     }
@@ -103,8 +103,8 @@
 
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>
-        <input type="button" class="button" name="saveButton" value='<%=getTran("Web","save",sWebLanguage)%>' onClick="doSave();">
-        <input type="button" class="button" name="backButton" value='<%=getTran("Web","back",sWebLanguage)%>' onClick='doBack();'>
+        <input type="button" class="button" name="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onClick="doSave();">
+        <input type="button" class="button" name="backButton" value='<%=getTranNoLink("Web","back",sWebLanguage)%>' onClick='doBack();'>
     <%=ScreenHelper.alignButtonsStop()%>
 </form>
 

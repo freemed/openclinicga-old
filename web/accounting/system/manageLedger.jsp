@@ -163,7 +163,7 @@
 	
     <%-- LOAD ACCOUNTS --%>
     function loadAccounts(){
-      document.getElementById("divAccounts").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";            
+      document.getElementById("divAccounts").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
       var url= "<c:url value='/accountancy/ajax/getAccounts.jsp'/>?ts="+new Date().getTime();
       new Ajax.Request(url,
         {

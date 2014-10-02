@@ -58,7 +58,7 @@
 	                        if(checkString(aDocuments[i]).length()>0){
 	                        	String sDocName = be.openclinic.healthrecord.Document.getName(aDocuments[i]);
 	                        	
-	                            %><img src="<%=sCONTEXTPATH%>/_img/icon_delete.gif" class="link" onClick="deleteDocument('<%=aDocuments[i]%>');" title="<%=getTranNoLink("web","delete",sWebLanguage)%>">
+	                            %><img src="<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif" class="link" onClick="deleteDocument('<%=aDocuments[i]%>');" title="<%=getTranNoLink("web","delete",sWebLanguage)%>">
 	                              <a href="#" onclick="openDocument('<%=aDocuments[i]%>')"><%=sDocName%></a><br>
 	                              <script>docNames[docNames.length] = "<%=sDocName%>";</script><%
 	                        }
@@ -74,10 +74,10 @@
             <td class="admin2">
                 <%
                     if((activeUser.getAccessRight("occup.documents.add") || activeUser.getAccessRight("occup.documents.edit"))){
-                        %><input class="button" type="button" name="buttonSave" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/><%
+                        %><input class="button" type="button" name="buttonSave" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/><%
                     }
                 %>
-                <input class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){doBack();}">
+                <input class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){doBack();}">
             </td>
         </tr>
     </table>
@@ -181,7 +181,7 @@
           <%-- delete-icon --%>
           <%
               if(activeUser.getAccessRight("occup.documents.delete")){
-	              %>document.getElementById("divDocuments").innerHTML+= "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' class='link' onClick='deleteDocument(\""+docIds[i]+"\");' title='<%=getTranNoLink("web","delete",sWebLanguage)%>'>&nbsp;";<%
+	              %>document.getElementById("divDocuments").innerHTML+= "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' onClick='deleteDocument(\""+docIds[i]+"\");' title='<%=getTranNoLink("web","delete",sWebLanguage)%>'>&nbsp;";<%
               }
           %>
 	      

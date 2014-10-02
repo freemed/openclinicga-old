@@ -201,7 +201,7 @@
                         <span id="beginDateSelector"></span>
                         
                         <%-- date selector (only past) --%>
-                        <script>document.getElementById("beginDateSelector").innerHTML = getMyDate("Begin","<c:url value='/_img/icon_agenda.gif'/>","<%=getTran("web","putToday",sWebLanguage)%>",true,false);</script>
+                        <script>document.getElementById("beginDateSelector").innerHTML = getMyDate("Begin","<c:url value='/_img/icons/icon_agenda.gif'/>","<%=getTran("web","putToday",sWebLanguage)%>",true,false);</script>
                     </td>
                 </tr>
                 
@@ -213,7 +213,7 @@
                         <span id="endDateSelector"></span>
                         
                         <%-- date selector (only past) --%>
-                        <script>document.getElementById("endDateSelector").innerHTML = getMyDate("End","<c:url value='/_img/icon_agenda.gif'/>","<%=getTran("web","putToday",sWebLanguage)%>",true,false);</script>
+                        <script>document.getElementById("endDateSelector").innerHTML = getMyDate("End","<c:url value='/_img/icons/icon_agenda.gif'/>","<%=getTran("web","putToday",sWebLanguage)%>",true,false);</script>
                     </td>
                 </tr>
                 
@@ -252,7 +252,7 @@
                                     <input type="text" class="text" id="codeAndLabel" name="codeAndLabel" size="30" readonly></input>
                                     
                                     <%-- code icon --%> 
-                                    <img src="<c:url value='_img/icon_questionmark.gif'/>" class="link" style="border:1px solid #aaa;background:#eee;" alt="<%=getTranNoLink("hr.salarycalculations","searchCodes",sWebLanguage)%>" onclick="searchCalculationCodes();">
+                                    <img src="<c:url value='_img/icons/icon_questionmark.gif'/>" class="link" style="border:1px solid #aaa;background:#eee;" alt="<%=getTranNoLink("hr.salarycalculations","searchCodes",sWebLanguage)%>" onclick="searchCalculationCodes();">
                                     
                                     <%-- add/edit buttons --%>
                                     <%

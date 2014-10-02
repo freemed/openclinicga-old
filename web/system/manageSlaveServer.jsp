@@ -67,5 +67,5 @@
   		<td class='admin2'><input type='text' size='80' name='masterServerURL' value='<%=MedwanQuery.getInstance().getConfigString("masterServerURL","http://localhost:10080/openclinic/util/webservice.jsp")%>'/></td>
   	</tr>
   </table>
-  <input type='submit' name='submit' value='<%=getTran("web","save",sWebLanguage) %>'/>
+  <input type='submit' name='submit' value='<%=getTranNoLink("web","save",sWebLanguage) %>'/>
 </form>

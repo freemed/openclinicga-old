@@ -34,7 +34,7 @@
                 <%=writeDateField("begin","diagnosisList",sBegin,sWebLanguage)%>&nbsp;
                 <%=getTran("web","end",sWebLanguage)%>&nbsp;
                 <%=writeDateField("end","diagnosisList",sEnd,sWebLanguage)%>&nbsp;
-                <input class="button" type="submit" name="submit" value="<%=getTran("web","find",sWebLanguage)%>"/>
+                <input class="button" type="submit" name="submit" value="<%=getTranNoLink("web","find",sWebLanguage)%>"/>
             </td>
         </tr>
     </table>
@@ -75,7 +75,7 @@
                             " -> "+
                             (encounter.getEnd()==null?"":ScreenHelper.stdDateFormat.format(encounter.getEnd()));
                     if(encounter.getDurationInDays()>90){
-                        servicename+=" <img src='_img/warning.gif'/>";
+                        servicename+=" <img src='_img/icons/icon_warning.gif'/>";
                     }
                 }
                 if(!activename.equalsIgnoreCase(patient.personid+" "+patient.firstname+" "+patient.lastname+" "+patient.gender+" °"+patient.dateOfBirth)){

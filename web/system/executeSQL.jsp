@@ -256,9 +256,9 @@
         <%-- BUTTONS ROW --%>
         <%=ScreenHelper.setFormButtonsStart()%>
             <%-- buttons --%>
-            <input type="button" class="button" name="executeButton" value="<%=getTran("Web.Occup","medwan.common.execute",sWebLanguage)%>" onClick="executeQuery();"/>
-            <input type="button" class="button" name="clearButton" value="<%=getTran("Web","clear",sWebLanguage)%>" onClick="clearTAs();"/>
-            <input type="button" class="button" name="backButton" value='<%=getTran("Web","Back",sWebLanguage)%>' onClick="doBack();">
+            <input type="button" class="button" name="executeButton" value="<%=getTranNoLink("Web.Occup","medwan.common.execute",sWebLanguage)%>" onClick="executeQuery();"/>
+            <input type="button" class="button" name="clearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onClick="clearTAs();"/>
+            <input type="button" class="button" name="backButton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onClick="doBack();">
         <%=ScreenHelper.setFormButtonsStop()%>
     </table>
 </form>

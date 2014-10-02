@@ -84,7 +84,7 @@
 			                        <td style="text-align:left;">
 			                            <%=getTran("web.occup","medwan.common.right",sWebLanguage)%>
 			                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;   
-			                            <input type="button" class="button" name="buttonClear" value="<%=getTran("web","clear",sWebLanguage)%>" onclick="doClear()"/>
+			                            <input type="button" class="button" name="buttonClear" value="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="doClear()"/>
 			                        </td>
 			                    </tr>
 			

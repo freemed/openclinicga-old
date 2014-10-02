@@ -51,7 +51,7 @@
 
                 <%-- select a macro as reason --%>
                 <a style="vertical-align:top;" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="selectMacro('absent','absent_reason');">
-                    <img src="<c:url value="/_img/icon_help.gif"/>">
+                    <img src="<c:url value="/_img/icons/icon_help.gif"/>">
                 </a>
             </td>
         </tr>
@@ -74,11 +74,11 @@
         <%
             if ((activeUser.getAccessRight("occup.absent.add")) || (activeUser.getAccessRight("occupabsent.edit"))){
                 %>
-                    <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+                    <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
                 <%
             }
         %>
-        <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="doBack();">
+        <INPUT class="button" type="button" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="doBack();">
     <%=ScreenHelper.alignButtonsStop()%>
     <script>
       function selectMacro(sCategory,sTarget){

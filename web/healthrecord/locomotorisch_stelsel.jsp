@@ -442,15 +442,15 @@
     </tr>
     <tr>
         <td class="admin"><%=getTran("Web.Occup","medwan.common.remark",sWebLanguage)%></td>
-        <td  class="admin2" colspan="3">
+        <td class="admin2" colspan="3">
             <textarea onKeyup="resizeTextarea(this,10);" <%=setRightClick("ITEM_TYPE_ORTHO_DIAGNOSIS_REMARK")%> class="text" rows="2" cols="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHO_DIAGNOSIS_REMARK" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORTHO_DIAGNOSIS_REMARK" property="value"/></textarea>
         </td>
     </tr>
     <tr>
         <td class="admin"/>
         <td class="admin2" colspan="3">
-            <INPUT class="button" type="button" name="saveButton" id="save" onClick="doSubmit();" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>">
-            <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value='/healthrecord/editTransaction.do'/>?be.mxs.healthrecord.createTransaction.transactionType=<bean:write name="transaction" scope="page" property="transactionType"/>&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>'}">
+            <INPUT class="button" type="button" name="saveButton" id="save" onClick="doSubmit();" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>">
+            <INPUT class="button" type="button" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value='/healthrecord/editTransaction.do'/>?be.mxs.healthrecord.createTransaction.transactionType=<bean:write name="transaction" scope="page" property="transactionType"/>&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>'}">
         </td>
     </tr>
 </table>

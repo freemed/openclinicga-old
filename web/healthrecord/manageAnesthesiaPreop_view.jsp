@@ -276,30 +276,31 @@
     <%
       if (activeUser.getAccessRight("occup.anesthesiapreop.add") || activeUser.getAccessRight("occup.anesthesiapreop.edit")){
     %>
-            <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+            <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
     <%
       }
     %>
-                <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>'}">
+                <INPUT class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>'}">
             </td>
         </tr>
     </table>
 <%=ScreenHelper.contextFooter(request)%>
 </form>
 <%=writeJSButtons("transactionForm","saveButton")%>
+
 <script>
-    function setBP(oObject,sbp,dbp){
-      if(oObject.value.length>0){
-          if(!isNumberLimited(oObject,40,300)){
-            alert('<%=getTran("Web.Occup","out-of-bounds-value",sWebLanguage)%>');
-          }
-          else if ((sbp.length>0)&&(dbp.length>0)){
-            isbp = document.getElementsByName(sbp)[0].value*1;
-            idbp = document.getElementsByName(dbp)[0].value*1;
-            if (idbp>isbp){
-              alert('<%=getTran("Web.Occup","error.dbp_greather_than_sbp",sWebLanguage)%>');
-            }
-          }
+  function setBP(oObject,sbp,dbp){
+    if(oObject.value.length>0){
+      if(!isNumberLimited(oObject,40,300)){
+      	alertDialog("Web.Occup","out-of-bounds-value");
+      }
+      else if((sbp.length>0)&&(dbp.length>0)){
+        isbp = document.getElementsByName(sbp)[0].value*1;
+        idbp = document.getElementsByName(dbp)[0].value*1;
+        if(idbp>isbp){
+          alertDialog("Web.Occup","error.dbp_greather_than_sbp");
+        }
       }
     }
+  }
 </script>

@@ -64,7 +64,7 @@
 
   <%-- SEARCH SUPPLIERS --%>
   function searchSuppliers(){
-    document.getElementById("divSuppliers").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Searching";            
+    document.getElementById("divSuppliers").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Searching";            
     var url = "<c:url value='/assets/ajax/supplier/getSuppliers.jsp'/>?ts="+new Date().getTime();
     new Ajax.Request(url,
       {
@@ -148,8 +148,8 @@
                 <input type="text" class="text" id="country" name="country" size="40" value="" readonly>
                 
                 <%-- BUTTONS --%>
-                <img src="<%=sCONTEXTPATH%>/_img/icon_search.gif" class="link" alt="<%=getTran("web","select",sWebLanguage)%>" onclick="openPopup('_common/search/searchScreen.jsp&LabelType=country&VarCode=countryCode&VarText=country&ShowID=false');">&nbsp;
-                <img src="<%=sCONTEXTPATH%>/_img/icon_delete.gif" class="link" alt="<%=getTran("web","clear",sWebLanguage)%>" onclick="country.value='';countryCode.value='';">
+                <img src="<%=sCONTEXTPATH%>/_img/icons/icon_search.gif" class="link" alt="<%=getTranNoLink("web","select",sWebLanguage)%>" onclick="openPopup('_common/search/searchScreen.jsp&LabelType=country&VarCode=countryCode&VarText=country&ShowID=false');">&nbsp;
+                <img src="<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif" class="link" alt="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="country.value='';countryCode.value='';">
             </td>
         </tr>  
        
@@ -236,18 +236,14 @@
         if(EditForm.email.value.length > 0){
           if(!validEmailAddress(EditForm.email.value)){
             okToSubmit = false;
-            
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web&labelID=invalidemailaddress";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","invalidEmailAddress",sWebLanguage)%>");
-
+            alertDialog("Web","invalidemailaddress");
             EditForm.email.focus();
           }
         }
       }
     
       if(okToSubmit==true){
-        document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
+        document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Saving";  
         disableButtons();
         
         var sParams = "EditSupplierUID="+EditForm.EditSupplierUID.value+
@@ -301,7 +297,7 @@
   
   <%-- LOAD SUPPLIERS --%>
   function loadSuppliers(){
-    document.getElementById("divSuppliers").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";            
+    document.getElementById("divSuppliers").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
     var url = "<c:url value='/assets/ajax/supplier/getSuppliers.jsp'/>?ts="+new Date().getTime();
     new Ajax.Request(url,
       {

@@ -96,9 +96,9 @@
 %>
     <%-- BUTTONS --%>
     <%=ScreenHelper.setFormButtonsStart()%>
-        <input type="button" name="SaveButton"  class="button" value="<%=getTran("Web","save",sWebLanguage)%>" onClick="doSave();">&nbsp;
-        <input type="button" name="ClearButton" class="button" value="<%=getTran("Web.Work","ShutOff",sWebLanguage)%>" onClick="doClear();">&nbsp;
-        <Input type="button" name="BackButton"  class="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onClick="doBack();">
+        <input type="button" name="SaveButton" class="button" value="<%=getTranNoLink("Web","save",sWebLanguage)%>" onClick="doSave();">&nbsp;
+        <input type="button" name="ClearButton" class="button" value="<%=getTranNoLink("Web.Work","ShutOff",sWebLanguage)%>" onClick="doClear();">&nbsp;
+        <Input type="button" name="BackButton" class="button" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onClick="doBack();">
     <%=ScreenHelper.setFormButtonsStop()%>
 </table>
 <script>

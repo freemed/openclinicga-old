@@ -54,9 +54,9 @@
         <tr>
             <td/>
             <td>
-                <input type="button" class="button" name="ButtonFind" value="<%=getTran("Web","Find",sWebLanguage)%>" onclick="transactionForm.submit()">&nbsp;
-                <input type="button" class="button" name="ButtonClear" value="<%=getTran("Web","Clear",sWebLanguage)%>" onclick="clearFields()">&nbsp;
-                <input type="button" class="button" name="ButtonCancel" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="window.location.href='<c:url value='/main.do?Page=system/menu.jsp'/>'">
+                <input type="button" class="button" name="ButtonFind" value="<%=getTranNoLink("Web","Find",sWebLanguage)%>" onclick="transactionForm.submit()">&nbsp;
+                <input type="button" class="button" name="ButtonClear" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearFields()">&nbsp;
+                <input type="button" class="button" name="ButtonCancel" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="window.location.href='<c:url value='/main.do?Page=system/menu.jsp'/>'">
             </td>
         </tr>
     </table>

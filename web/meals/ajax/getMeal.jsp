@@ -29,7 +29,7 @@
                     <%Iterator it = item.mealItems.iterator();
                         while (it.hasNext()) {
                             MealItem mealitem = (MealItem) it.next();
-                            out.write("<li id='mealmealsitem_" + mealitem.getUid() + "'><div style='width:190px'>" + mealitem.name + "</div><div style='width:150px'><input type='text' size='7' id='mealmealsitemqt_" + mealitem.getUid() + "' value='" + mealitem.quantity + "'/> " + HTMLEntities.htmlentities(mealitem.unit) + "</div><div style='width:20px'><img src='" + sCONTEXTPATH + "/_img/icon_delete.png' class='link' title='" + (getTranNoLink("web", "delete", sWebLanguage)) + "' onclick='removeMealItem(\"" + mealitem.getUid() + "\");'></div></li>");
+                            out.write("<li id='mealmealsitem_" + mealitem.getUid() + "'><div style='width:190px'>" + mealitem.name + "</div><div style='width:150px'><input type='text' size='7' id='mealmealsitemqt_" + mealitem.getUid() + "' value='" + mealitem.quantity + "'/> " + HTMLEntities.htmlentities(mealitem.unit) + "</div><div style='width:20px'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.png' class='link' title='" + (getTranNoLink("web", "delete", sWebLanguage)) + "' onclick='removeMealItem(\"" + mealitem.getUid() + "\");'></div></li>");
                         }%>
                 </ul>
             </td>

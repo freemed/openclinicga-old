@@ -97,7 +97,7 @@
     
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>   
-        <input class="button" type="button" name="printLabelsButton" value="<%=getTran("Web","printlabels",sWebLanguage)%>" onclick="printLabels()"/><br>&nbsp;
+        <input class="button" type="button" name="printLabelsButton" value="<%=getTranNoLink("Web","printlabels",sWebLanguage)%>" onclick="printLabels()"/><br>&nbsp;
         <%=getButtonsHtml(request,activeUser,activePatient,"occup.anatomopathology",sWebLanguage)%>
     <%=ScreenHelper.alignButtonsStop()%>
 

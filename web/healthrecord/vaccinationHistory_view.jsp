@@ -96,7 +96,7 @@
     <%-- PAGE TITLE --%>
     <tr class="admin">
         <td colspan="3"><%=getTran("Web.Occup","history",sWebLanguage)%></td>
-        <td align="right"><a href="javascript:history.go(-1);return false;"><img border="0" src='<c:url value="/_img/previous.jpg"/>'></a></td>
+        <td align="right"><a href="javascript:history.go(-1);return false;"><img border="0" src='<c:url value="/_img/themes/default/arrow_left.gif"/>'></a></td>
     </tr>
 
     <%-- HEADER --%>
@@ -148,6 +148,6 @@
 
 <%-- BUTTONS --%>
 <p align="right">
-    <input class="button" type="button" value="<%=getTran("Web.Occup","medwan.common.back",sWebLanguage)%>" onclick="history.go(-1);return false;">
+    <input class="button" type="button" value="<%=getTranNoLink("Web.Occup","medwan.common.back",sWebLanguage)%>" onclick="history.go(-1);return false;">
 </p>
 

@@ -78,7 +78,7 @@
                 
                 if(key.startsWith("Attr_")){
                     Debug.println("row attributes ("+r+") key : "+key+" = "+ScreenHelper.checkString((String)row.get(key)));
-                    sHtml.append(" "+key.substring(key.indexOf("_")+1)+"='"+(String)row.get(key)+"'");
+                    sHtml.append(""+key.substring(key.indexOf("_")+1)+"='"+(String)row.get(key)+"'");
                 }
             }
             
@@ -107,7 +107,7 @@
                     key = (String)cellAttrEnum.nextElement();
                     
                     if(key.startsWith("Attr_")){
-                        sHtml.append(" "+key.substring(key.indexOf("_")+1)+"='"+ScreenHelper.checkString((String)cell.get(key))+"'");                                
+                        sHtml.append(""+key.substring(key.indexOf("_")+1)+"='"+ScreenHelper.checkString((String)cell.get(key))+"'");                                
                     }
                 }
                 
@@ -149,35 +149,35 @@
 			                            /*
 			                            // add hidden item to comply labels with the logic of items
 			                            sHtml.append("<input type='hidden' id='item_"+screenItem.getItemTypeId()+"'")
-			                                 .append(" name='currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value'")
-			                                 .append(" value='"+checkString(itemVO.getValue())+"'>");
+			                                 .append("name='currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value'")
+			                                 .append("value='"+checkString(itemVO.getValue())+"'>");
 			                            */
 			                        }
 			                        //*** text ********************************
 			                        else if(screenItem.getHtmlElement().equals("text")){
 			                            sHtml.append("<input type='text' class='text' "+setRightClick(sShortTranType))
-			                            	 .append(" id='item_"+screenItem.getItemTypeId()+"'")
-			                                 .append(" name='currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value'")
-			                                 .append(" value='"+sValue+"'")
-			                                 .append(" size='"+screenItem.getAttribute("Attr_size","20")+"' maxLength='255'>");
+			                            	 .append("id='item_"+screenItem.getItemTypeId()+"'")
+			                                 .append("name='currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value'")
+			                                 .append("value='"+sValue+"'")
+			                                 .append("size='"+screenItem.getAttribute("Attr_size","20")+"' maxLength='255'>");
 			                        }
 			                        //*** text:only-integer *******************
 			                        else if(screenItem.getHtmlElement().equals("integer")){		                        	
 			                            sHtml.append("<input type='text' class='text'")
-			                                 .append(" id='item_"+screenItem.getItemTypeId()+"'")
-			                                 .append(" name='currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value'")
-			                                 .append(" value='"+sValue+"'")
-			                                 .append(" size='"+screenItem.getAttribute("Attr_size","20")+"' maxLength='255'")
-			                                 .append(" onBlur='checkIntegerField(this);'>");
+			                                 .append("id='item_"+screenItem.getItemTypeId()+"'")
+			                                 .append("name='currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value'")
+			                                 .append("value='"+sValue+"'")
+			                                 .append("size='"+screenItem.getAttribute("Attr_size","20")+"' maxLength='255'")
+			                                 .append("onBlur='checkIntegerField(this);'>");
 			                        }
 			                        //*** date ********************************
 			                        else if(screenItem.getHtmlElement().equals("date")){
 			                            sHtml.append("<input type='text' class='text' "+setRightClick(sShortTranType))
-			                            	 .append(" id='item_"+screenItem.getItemTypeId()+"'")
-			                                 .append(" name='currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value'")
-			                                 .append(" value='"+sValue+"'")
-			                                 .append(" size='11' maxLength='10'")
-			                                 .append(" onblur='checkDate(this);'")
+			                            	 .append("id='item_"+screenItem.getItemTypeId()+"'")
+			                                 .append("name='currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value'")
+			                                 .append("value='"+sValue+"'")
+			                                 .append("size='11' maxLength='10'")
+			                                 .append("onblur='checkDate(this);'")
 			                                 .append(">");
 			                            
 			                            sHtml.append("<script>writeMyDate('item_"+screenItem.getItemTypeId()+"');</script>");
@@ -185,7 +185,7 @@
 			                        //*** select ******************************
 			                        else if(screenItem.getHtmlElement().equals("select")){	
 			                            sHtml.append("<select class='text' id='item_"+screenItem.getItemTypeId()+"'")	
-	    	                                  .append(" name='currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value'>")	                           
+	    	                                  .append("name='currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value'>")	                           
 			                                  .append("<option value='noChoiseMade'>").append(ScreenHelper.getTranNoLink("web","choose",sWebLanguage)).append("</option>")
 			                                  .append(ScreenHelper.writeSelect("CUSTOMEXAMINATION"+screen.getExamId()+"."+screenItem.getItemTypeId(),sValue,sWebLanguage,false,false))
 			                                 .append("</select>");
@@ -196,13 +196,13 @@
 	
 			                            String sSize = screenItem.getAttribute("Attr_size");
 			                            if(sSize.length() > 0){
-			                                sHtml.append(" cols='"+sSize+"'");
+			                                sHtml.append("cols='"+sSize+"'");
 			                            }
 	     	                            
-			                            sHtml.append(" class='text'")
-			                                 .append(" id='item_"+screenItem.getItemTypeId()+"'")
-			                                 .append(" name='currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value'")
-			                                 .append(" onKeyup='resizeTextarea(this,10);limitChars(this,255)'")
+			                            sHtml.append("class='text'")
+			                                 .append("id='item_"+screenItem.getItemTypeId()+"'")
+			                                 .append("name='currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value'")
+			                                 .append("onKeyup='resizeTextarea(this,10);limitChars(this,255)'")
 			                                 .append(">")
 			                                 .append(sValue)
 			                                 .append("</textArea>");
@@ -211,8 +211,8 @@
 			                        else if(screenItem.getHtmlElement().equals("radio")){
 			                        	// visible-item : yes
 			                            sHtml.append("<input type='radio' name='r_"+screenItem.getItemTypeId()+"' onBlur=\"this.style.border = 'none'\" style='vertical-align:-2px'")
-			                                 .append(" id='radio_"+screenItem.getItemTypeId()+"_yes'")
-			                                 .append(" value='yes' "+(sValue.equalsIgnoreCase("yes")?"checked":""))
+			                                 .append("id='radio_"+screenItem.getItemTypeId()+"_yes'")
+			                                 .append("value='yes' "+(sValue.equalsIgnoreCase("yes")?"checked":""))
 			                                 .append(" onClick=\"document.getElementById('radio_"+screenItem.getItemTypeId()+"').value = this.value;this.style.border = 'none';document.getElementById('radio_"+screenItem.getItemTypeId()+"_no').style.border = 'none'\"")
 			                                 .append(" onDblClick=\"this.checked=false;document.getElementById('radio_"+screenItem.getItemTypeId()+"').value = 'none';\"")
 			                                 .append(">")
@@ -228,8 +228,8 @@
 				                        
 			                            // visible-item : no
 			                            sHtml.append("<input type='radio' name='r_"+screenItem.getItemTypeId()+"' onBlur=\"this.style.border = 'none'\" style='vertical-align:-2px'")
-			                                 .append(" id='radio_"+screenItem.getItemTypeId()+"_no'")
-			                                 .append(" value='no' "+(sValue.equalsIgnoreCase("no")?"checked":""))
+			                                 .append("id='radio_"+screenItem.getItemTypeId()+"_no'")
+			                                 .append("value='no' "+(sValue.equalsIgnoreCase("no")?"checked":""))
 			                                 .append(" onClick=\"document.getElementById('radio_"+screenItem.getItemTypeId()+"').value = this.value;this.style.border = 'none';document.getElementById('radio_"+screenItem.getItemTypeId()+"_yes').style.border = 'none'\"")
 			                                 .append(" onDblClick=\"this.checked=false;document.getElementById('radio_"+screenItem.getItemTypeId()+"').value = 'none';\"")
 			                                 .append(">")
@@ -237,15 +237,15 @@
 				                        
 			                            // hidden-item
 			                            sHtml.append("<input type='hidden' id='radio_"+screenItem.getItemTypeId()+"'")
-			                                 .append(" name='currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value'")
-			                                 .append(" value='"+sValue+"'>");
+			                                 .append("name='currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value'")
+			                                 .append("value='"+sValue+"'>");
 			                        }
 			                        //*** checkBox ****************************
 			                        else if(screenItem.getHtmlElement().equals("checkBox")){
 			                            sHtml.append("<input type='checkbox' style='vertical-align:-2px'")
-		                                     .append(" name='currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value'")
-			                                 .append(" id='cb_"+screenItem.getItemTypeId()+"'")
-			                                 .append(" value='"+screenItem.getItemTypeId()+"' "+(sValue.equalsIgnoreCase(screenItem.getItemTypeId())?"checked":"")+">")
+		                                     .append("name='currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value'")
+			                                 .append("id='cb_"+screenItem.getItemTypeId()+"'")
+			                                 .append("value='"+screenItem.getItemTypeId()+"' "+(sValue.equalsIgnoreCase(screenItem.getItemTypeId())?"checked":"")+">")
 			                                 .append("<label for='cb_"+screenItem.getItemTypeId()+"'>"+getTran("CUSTOMEXAMINATION"+screen.getExamId(),screenItem.getItemTypeId(),sWebLanguage)+"</label>");	                            
 			                        }
 	

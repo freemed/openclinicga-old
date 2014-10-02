@@ -44,8 +44,8 @@
             if (!activeTransactionId.equalsIgnoreCase(tranId)) {
                 activeTransactionId = tranId;
                 html.append("<tr class='gray' title='" + detailsTran + "'>")
-                        .append(" <td colspan='4'>" + (labResult.getRequestDate() != null ? ScreenHelper.stdDateFormat.format(labResult.getRequestDate()) : "") + "</td>")
-                        .append(" <td colspan='4'>" + personFullName + "</td>")
+                        .append("<td colspan='4'>" + (labResult.getRequestDate() != null ? ScreenHelper.stdDateFormat.format(labResult.getRequestDate()) : "") + "</td>")
+                        .append("<td colspan='4'>" + personFullName + "</td>")
                         .append("</tr>");
             }
 
@@ -68,13 +68,13 @@
 
             //*** display product in one row ***
             html.append("<tr class='" + sClass + "' onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\" title='" + detailsTran + "'>")
-                    .append(" <td>&nbsp;</td><td><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' title='" + deleteTran + "' onclick=\"doDelete('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">")
-                    .append(" <td><img src='" + sCONTEXTPATH + "/_img/icon_view.gif' class='link' title='" + labrequestTran + "' onclick=\"showLabRequest('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "');\">")
-                    .append(" <td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + labResult.getAnalysisCode() + "</td>")
-                    .append(" <td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + getTran("labanalysis", labResult.getAnalysisCode(), sWebLanguage) + "</td>")
-                    .append(" <td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + labResult.getResultValue() + " " + labResult.getResultUnit() + "</td>")
-                    .append(" <td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + (labResult.getResultValue() != null && labResult.getResultValue().length() > 0 ? resultDate : "") + "</td>")
-                    .append(" <td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + (labResult.getResultModifier().length() > 0 ? getTran("labanalysis.resultmodifier", labResult.getResultModifier(), sWebLanguage) : "") + "</td>")
+                    .append("<td>&nbsp;</td><td><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' class='link' title='" + deleteTran + "' onclick=\"doDelete('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">")
+                    .append("<td><img src='" + sCONTEXTPATH + "/_img/icons/icon_view.gif' class='link' title='" + labrequestTran + "' onclick=\"showLabRequest('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "');\">")
+                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + labResult.getAnalysisCode() + "</td>")
+                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + getTran("labanalysis", labResult.getAnalysisCode(), sWebLanguage) + "</td>")
+                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + labResult.getResultValue() + " " + labResult.getResultUnit() + "</td>")
+                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + (labResult.getResultValue() != null && labResult.getResultValue().length() > 0 ? resultDate : "") + "</td>")
+                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + (labResult.getResultModifier().length() > 0 ? getTran("labanalysis.resultmodifier", labResult.getResultModifier(), sWebLanguage) : "") + "</td>")
                     .append("</tr>");
         }
 
@@ -108,9 +108,9 @@
             if (!activeTransactionId.equalsIgnoreCase(tranId)) {
                 activeTransactionId = tranId;
                 html.append("<tr class='gray' title='" + detailsTran + "'>")
-                        .append(" <td colspan='4'>" + (labResult.getRequestDate() != null ? ScreenHelper.stdDateFormat.format(labResult.getRequestDate()) : "") + "</td>")
-                        .append(" <td>" + patientFullName + "</td>")
-                        .append(" <td colspan='5'>" + userFullName + "</td>")
+                        .append("<td colspan='4'>" + (labResult.getRequestDate() != null ? ScreenHelper.stdDateFormat.format(labResult.getRequestDate()) : "") + "</td>")
+                        .append("<td>" + patientFullName + "</td>")
+                        .append("<td colspan='5'>" + userFullName + "</td>")
                         .append("</tr>");
             }
 
@@ -133,13 +133,13 @@
 
             //*** display product in one row ***
             html.append("<tr class='" + sClass + "' onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\" title='" + detailsTran + "'>")
-                    .append(" <td>&nbsp;</td><td><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' title='" + deleteTran + "' onclick=\"doDelete('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">")
-                    .append(" <td><img src='" + sCONTEXTPATH + "/_img/icon_view.gif' class='link' title='" + labrequestTran + "' onclick=\"showLabRequest('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "');\">")
-                    .append(" <td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + labResult.getAnalysisCode() + "</td>")
-                    .append(" <td colspan='3' onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + getTran("labanalysis", labResult.getAnalysisCode(), sWebLanguage) + "</td>")
-                    .append(" <td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + labResult.getResultValue() + " " + labResult.getResultUnit() + "</td>")
-                    .append(" <td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + resultDate + "</td>")
-                    .append(" <td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + (labResult.getResultModifier().length() > 0 ? getTran("labanalysis.resultmodifier", labResult.getResultModifier(), sWebLanguage) : "") + "</td>")
+                    .append("<td>&nbsp;</td><td><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' class='link' title='" + deleteTran + "' onclick=\"doDelete('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">")
+                    .append("<td><img src='" + sCONTEXTPATH + "/_img/icons/icon_view.gif' class='link' title='" + labrequestTran + "' onclick=\"showLabRequest('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "');\">")
+                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + labResult.getAnalysisCode() + "</td>")
+                    .append("<td colspan='3' onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + getTran("labanalysis", labResult.getAnalysisCode(), sWebLanguage) + "</td>")
+                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + labResult.getResultValue() + " " + labResult.getResultUnit() + "</td>")
+                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + resultDate + "</td>")
+                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + (labResult.getResultModifier().length() > 0 ? getTran("labanalysis.resultmodifier", labResult.getResultModifier(), sWebLanguage) : "") + "</td>")
                     .append("</tr>");
         }
 
@@ -237,7 +237,7 @@
     %>
     <table width="100%" cellspacing="0">
         <tr class="Admin">
-            <td>&nbsp;&nbsp;<%=getTran("Web.manage",titleType,sWebLanguage)%>&nbsp;<%=personName%></td>
+            <td><%=getTran("Web.manage",titleType,sWebLanguage)%>&nbsp;<%=personName%></td>
         </tr>
     </table>
 
@@ -255,8 +255,8 @@
 
                 <%-- buttons --%>
                 &nbsp;&nbsp;
-                <input class="button" type="button" name="findButton" value="<%=getTran("Web","find",sWebLanguage)%>" onclick="doFind();">&nbsp;
-                <input class="button" type="button" name="clearButton" value="<%=getTran("Web","clear",sWebLanguage)%>" onclick="clearSearchFields();">&nbsp;
+                <input class="button" type="button" name="findButton" value="<%=getTranNoLink("Web","find",sWebLanguage)%>" onclick="doFind();">&nbsp;
+                <input class="button" type="button" name="clearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="clearSearchFields();">&nbsp;
             </td>
         </tr>
     </table>

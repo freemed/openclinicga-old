@@ -106,8 +106,8 @@
     <tr>
         <td class="admin2"/>
         <td class="admin2">
-            <input type="button" class="button" name="ButtonSearch" value="<%=getTran("web","find",sWebLanguage)%>" onclick="doFind()"/>
-            <input type="button" class="button" name="ButtonBack" value="<%=getTran("web","back",sWebLanguage)%>" onclick="doBack()"/>
+            <input type="button" class="button" name="ButtonSearch" value="<%=getTranNoLink("web","find",sWebLanguage)%>" onclick="doFind()"/>
+            <input type="button" class="button" name="ButtonBack" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="doBack()"/>
         </td>
     </tr>
 </table>
@@ -127,7 +127,7 @@
 
         if (iFrom>0){
         %>
-        <img class="link" src="<c:url value='/_img/arrow.jpg'/>" onclick="showResult('Previous')" alt="<%=getTran("web","previous",sWebLanguage)%>">
+        <img class="link" src="<c:url value='/_img/themes/default/arrow_left.gif'/>" onclick="showResult('Previous')" alt="<%=getTranNoLink("web","previous",sWebLanguage)%>">
         <%
             }
             out.print("<table cellspacing='1' cellpadding='0' width='100%' class='list'>"
@@ -198,14 +198,14 @@
 
             if (iIndex == iRANGE) {
         %>
-        <img class="link" src="<c:url value='/_img/next.jpg'/>" onclick="showResult('Next')" alt="<%=getTran("web","next",sWebLanguage)%>">
+        <img class="link" src="<c:url value='/_img/themes/default/arrow-right.gif'/>" onclick="showResult('Next')" alt="<%=getTranNoLink("web","next",sWebLanguage)%>">
         <%
         }
         %>
         <input type="hidden" name="ActionField"/>
         <input type="hidden" name="FindNextValue" value="<%=iUntil%>"/>
 
-        <input type="button" class="button" name="ButtonSave" value="<%=getTran("web","save",sWebLanguage)%>" onclick="doSave()"/>
+        <input type="button" class="button" name="ButtonSave" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="doSave()"/>
         <%
     }
 %>

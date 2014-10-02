@@ -21,10 +21,10 @@
 
             //*** display product in one row ***
             html.append("<tr class='list" + sClass + "'>")
-                .append(" <td>" + getTran("productstockoperation.medicationdelivery", delivery.getDescription(), sWebLanguage) + "</td>")
-                .append(" <td>" + delivery.getUnitsChanged() + "</td>")
-                .append(" <td>" + stdDateFormat.format(delivery.getDate()) + "&nbsp;</td>")
-                .append(" <td>" + delivery.getProductStock().getServiceStock().getName() + "</td>")
+                .append("<td>" + getTran("productstockoperation.medicationdelivery", delivery.getDescription(), sWebLanguage) + "</td>")
+                .append("<td>" + delivery.getUnitsChanged() + "</td>")
+                .append("<td>" + stdDateFormat.format(delivery.getDate()) + "&nbsp;</td>")
+                .append("<td>" + delivery.getProductStock().getServiceStock().getName() + "</td>")
                 .append("</tr>");
         }
 
@@ -107,6 +107,6 @@
     </div>
     <%-- close button --%>
     <%=ScreenHelper.alignButtonsStart()%>
-        <input type="button" class="button" name="closeButton" value="<%=getTran("Web","close",sWebLanguage)%>" onclick="window.close();">
+        <input type="button" class="button" name="closeButton" value="<%=getTranNoLink("Web","close",sWebLanguage)%>" onclick="window.close();">
     <%=ScreenHelper.alignButtonsStop()%>
 </form>

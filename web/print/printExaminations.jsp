@@ -578,7 +578,7 @@
                                     <td class="admin2">
                                         <select name="selectedTranCtxt" class="text">
                                             <option value="allContexts" SELECTED><%=getTranNoLink("web.occup","allContexts",sWebLanguage)%></option>
-                                            <option value="withoutContext" <%=(sSelectedTranCtxt.equals("withoutContext")?"SELECTED":"")%>><%=getTran("web.occup","withoutContext",sWebLanguage)%></option>
+                                            <option value="withoutContext" <%=(sSelectedTranCtxt.equals("withoutContext")?"SELECTED":"")%>><%=getTranNoLink("web.occup","withoutContext",sWebLanguage)%></option>
                                             <%
                                                 String sContextsDoc = MedwanQuery.getInstance().getConfigString("templateSource")+"contexts.xml";
 
@@ -686,7 +686,7 @@
                                             <a href="#" onclick="checkAll(false);"><%=getTran("web.manage","UncheckAll",sWebLanguage)%></a>
                                         </td>
                                         <td align="right">
-                                            <a href="#bottom"><img src="<c:url value='/_img'/>/bottom.jpg" class="link"></a>
+                                            <a href="#bottom"><img src="<c:url value='/_img'/>/themes/default/bottom.gif" class="link"></a>
                                         </td>
                                     </tr>
                                 </table>
@@ -704,7 +704,7 @@
                                             <a href="#" onclick="checkAll(false);"><%=getTran("web.manage","UncheckAll",sWebLanguage)%></a>
                                         </td>
                                         <td align="right">
-                                            <a href="#top"><img src="<c:url value='/_img'/>/top.jpg" class="link"></a>
+                                            <a href="#top"><img src="<c:url value='/_img'/>/themes/default/top.gif" class="link"></a>
                                         </td>
                                     </tr>
                                 </table>

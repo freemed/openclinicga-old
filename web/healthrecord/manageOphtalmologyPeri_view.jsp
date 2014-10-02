@@ -56,7 +56,7 @@
         <td align="right" width="20%">
             <%=getLabel("web.occup","medwan.common.not-executed",sWebLanguage,"mop_c1")%>&nbsp;<input name="visus-ras" type="checkbox" id="mop_c1" value="medwan.common.true" onclick="if(this.checked == true){hide('visus-details');setTrue('<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VISUS_PERI_RAS" property="itemId"/>'); } else{show('visus-details');setFalse('<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VISUS_PERI_RAS" property="itemId"/>'); }">
         </td>
-        <td align="right" width ="1%"><a href="#top"><img class="link" src='<c:url value="/_img/top.jpg"/>'></a></td>
+        <td align="right" width ="1%"><a href="#top"><img class="link" src='<c:url value="/_img/themes/default/top.gif"/>'></a></td>
     </tr>
 
     <tr id="visus-details" style="display:none" width="100%">

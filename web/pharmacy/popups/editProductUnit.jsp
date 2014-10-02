@@ -75,7 +75,7 @@
             <td class="admin" nowrap><%=getTran("Web","unit",sWebLanguage)%> *</td>
             <td class="admin2">
                 <select class="text" name="EditUnit">
-                    <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                    <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                     <%=ScreenHelper.writeSelectUnsorted("product.unit",checkString(product.getUnit()),sWebLanguage)%>
                 </select>
             </td>

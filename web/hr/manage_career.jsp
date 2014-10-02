@@ -43,8 +43,8 @@
                 <input type="text" class="text" name="contractName" id="contractName" readonly size="20" value="">
                    
                 <%-- buttons --%>
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("web","select",sWebLanguage)%>" onclick="searchContract('contract','contractName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("web","clear",sWebLanguage)%>" onclick="document.getElementById('contract').value='';document.getElementById('contractName').value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("web","select",sWebLanguage)%>" onclick="searchContract('contract','contractName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="document.getElementById('contract').value='';document.getElementById('contractName').value='';">
             </td>
         </tr>
         
@@ -64,8 +64,8 @@
                 <input type="text" class="text" name="serviceName" id="serviceName" readonly size="<%=sTextWidth%>" value="">
                    
                 <%-- buttons --%>
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("web","select",sWebLanguage)%>" onclick="searchService('service','serviceName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("web","clear",sWebLanguage)%>" onclick="document.getElementById('service').value='';document.getElementById('serviceName').value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("web","select",sWebLanguage)%>" onclick="searchService('service','serviceName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="document.getElementById('service').value='';document.getElementById('serviceName').value='';">
             </td>
         </tr>
         
@@ -137,7 +137,7 @@
       }
       
       if(okToSubmit){
-        document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
+        document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Saving";  
         var url = "<c:url value='/hr/ajax/career/saveCareer.jsp'/>?ts="+new Date().getTime();
 
         document.getElementById("buttonSave").disabled = true;
@@ -189,7 +189,7 @@
     
   <%-- LOAD CAREERS --%>
   function loadCareers(){
-    document.getElementById("divCareers").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";            
+    document.getElementById("divCareers").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
     var url = "<c:url value='/hr/ajax/career/getCareers.jsp'/>?ts="+new Date().getTime();
     new Ajax.Request(url,
       {

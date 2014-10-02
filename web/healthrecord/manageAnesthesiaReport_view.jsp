@@ -230,8 +230,8 @@
             <td class="admin2">
                 <input type="hidden" id="EditAnesthesistID" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIA_REPORT_ANESTHESIST" property="itemId"/>]>.value" value="<%=sAnesthesistID%>">
                 <input class="text" type="text" name="EditAnesthesistName" readonly size="<%=sTextWidth%>" value="<%=sAnesthesisitName%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchUser('EditAnesthesistID','EditAnesthesistName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditAnesthesistID').value='';transactionForm.EditAnesthesistName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchUser('EditAnesthesistID','EditAnesthesistName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditAnesthesistID').value='';transactionForm.EditAnesthesistName.value='';">
             </td>
         </tr>
         <tr>
@@ -239,8 +239,8 @@
             <td class="admin2">
                 <input type="hidden" id="EditSurgeonID" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIA_REPORT_SURGEON" property="itemId"/>]>.value" value="<%=sSurgeonID%>">
                 <input class="text" type="text" name="EditSurgeonName" readonly size="<%=sTextWidth%>" value="<%=sSurgeonName%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchUser('EditSurgeonID','EditSurgeonName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditSurgeonID').value='';transactionForm.EditSurgeonName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchUser('EditSurgeonID','EditSurgeonName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditSurgeonID').value='';transactionForm.EditSurgeonName.value='';">
             </td>
         </tr>
         <tr>
@@ -248,8 +248,8 @@
             <td class="admin2">
                 <input type="hidden" id="EditNurseID" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANESTHESIA_REPORT_NURSE" property="itemId"/>]>.value" value="<%=sNurseID%>">
                 <input class="text" type="text" name="EditNurseName" readonly size="<%=sTextWidth%>" value="<%=sNurseName%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchUser('EditNurseID','EditNurseName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditNurseID').value='';transactionForm.EditAnesthesistName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchUser('EditNurseID','EditNurseName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditNurseID').value='';transactionForm.EditAnesthesistName.value='';">
             </td>
         </tr>
         <%-- DESCRIPTION --%>
@@ -397,11 +397,11 @@
     <%
       if (activeUser.getAccessRight("occup.anesthesiaperop.add") || activeUser.getAccessRight("occup.anesthesiaperop.edit")){
     %>
-            <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+            <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
     <%
       }
     %>
-                <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>'}">
+                <INPUT class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>'}">
             </td>
         </tr>
     </table>

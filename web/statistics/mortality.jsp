@@ -15,7 +15,7 @@
             }
         %>
     </select>
-    <input class="text" type="submit" name="submit" value="<%=getTran("web","find",sWebLanguage)%>"/>
+    <input class="text" type="submit" name="submit" value="<%=getTranNoLink("web","find",sWebLanguage)%>"/>
 </form>
 <table width="100%" border="0">
 <%

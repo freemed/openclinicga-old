@@ -777,8 +777,8 @@
                             <td class="admin" width="125">
                                 <NOSORT>
                                     <%=getTran("web","newOrder",sWebLanguage)%><br>
-                                    <img src="<c:url value='/_img/icon_delete.gif'/>" class="link" alt="<%=getTranNoLink("web","clear",sWebLanguage)%>" onClick="clearOrder();">
-                                    <img src="<c:url value='/_img/icon_default.gif'/>" class="link" alt="<%=getTranNoLink("web","setDefaultValues",sWebLanguage)%>" onClick="setDefaultOrder();">
+                                    <img src="<c:url value='/_img/icons/icon_delete.gif'/>" class="link" alt="<%=getTranNoLink("web","clear",sWebLanguage)%>" onClick="clearOrder();">
+                                    <img src="<c:url value='/_img/icons/icon_default.gif'/>" class="link" alt="<%=getTranNoLink("web","setDefaultValues",sWebLanguage)%>" onClick="setDefaultOrder();">
                                 </NOSORT>
                             </td>
                             <td class="admin" width="200"><%=getTran("web","label",sWebLanguage)%></td>
@@ -879,7 +879,7 @@
                                 if(itemCount > 10){
                                     %>
                                         <td align="right">
-                                            <a href="#top"><img src="<c:url value='/_img/top.jpg'/>" class="link"></a>
+                                            <a href="#top"><img src="<c:url value='/_img/themes/default/top.gif'/>" class="link"></a>
                                         </td>
                                     <%
                                 }

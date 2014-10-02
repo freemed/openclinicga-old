@@ -23,10 +23,10 @@
 
         if (patientinvoice!=null){
             hSort.put(patientinvoice.getDate().getTime()+"="+patientinvoice.getUid()," onclick=\"setPatientInvoice('"+patientinvoice.getInvoiceUid()+"');\">"
-                 +"<td class='hand'>"+ScreenHelper.getSQLDate(patientinvoice.getDate())+"</td>"
-                 +"<td class='hand'>"+patientinvoice.getInvoiceUid()+"</td>"
+                 +"<td class='hand'>&nbsp;"+ScreenHelper.getSQLDate(patientinvoice.getDate())+"</td>"
+                 +"<td class='hand'>&nbsp;"+patientinvoice.getInvoiceUid()+"</td>"
                  +"<td class='hand' style='text-align:right;'>"+patientinvoice.getBalance()+"&nbsp;</td>"
-                 +"<td class='hand' >"+getTran("finance.patientinvoice.status",patientinvoice.getStatus(),sWebLanguage)+"</td></tr>");
+                 +"<td class='hand'>&nbsp;"+getTran("finance.patientinvoice.status",patientinvoice.getStatus(),sWebLanguage)+"</td></tr>");
         }
     }
 
@@ -44,10 +44,10 @@
 %>
 <table id="searchresults" width="100%" cellspacing="0">
     <tr class="admin">
-        <td class="hand" width="100" nowrap><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
-        <td class="hand" width="120" nowrap><%=HTMLEntities.htmlentities(getTran("web", "invoicenumber", sWebLanguage))%></td>
-        <td class="hand" width="150" nowrap style="text-align:right;"><%=HTMLEntities.htmlentities(getTran("web","balance",sWebLanguage))%>&nbsp;<%=sCurrency%></td>
-        <td class="hand" > <%=HTMLEntities.htmlentities(getTran("Web.finance","patientinvoice.status",sWebLanguage))%></td>
+        <td width="100" nowrap><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
+        <td width="120" nowrap><%=HTMLEntities.htmlentities(getTran("web", "invoicenumber", sWebLanguage))%></td>
+        <td width="150" nowrap style="text-align:right;"><%=HTMLEntities.htmlentities(getTran("web","balance",sWebLanguage))%>&nbsp;<%=sCurrency%></td>
+        <td><%=HTMLEntities.htmlentities(getTran("Web.finance","patientinvoice.status",sWebLanguage))%></td>
     </tr>
     <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
         <%=sReturn%>

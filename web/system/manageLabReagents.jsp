@@ -110,8 +110,8 @@
                 <input type="text" class="greytext" readonly size="8" name="EditLabReagentProductUid" id="EditLabReagentProductUid" value="<%=checkString(reagent.getProductUid())%>">
                 <input type="text" class="greytext" name="productName" id="productName" readonly size="80" value="<%=reagent.getProduct()!=null?reagent.getProduct().getName():""%>">
                 <%-- buttons --%>
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("web","select",sWebLanguage)%>" onclick="searchProduct('EditLabReagentProductUid','productName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("web","clear",sWebLanguage)%>" onclick="document.getElementById('EditLabReagentProductUid').value='';document.getElementById('productName').value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("web","select",sWebLanguage)%>" onclick="searchProduct('EditLabReagentProductUid','productName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="document.getElementById('EditLabReagentProductUid').value='';document.getElementById('productName').value='';">
             </td>
         </tr>
         <tr>
@@ -142,7 +142,7 @@
 	}
 
     function ajaxChangeSearchResults(urlForm, SearchForm, moreParams) {
-        document.getElementById('divFindRecords').innerHTML = "<div style='text-align:center'><img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading</div>";
+        document.getElementById('divFindRecords').innerHTML = "<div style='text-align:center'><img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading</div>";
         var url = urlForm;
         var params = Form.serialize(SearchForm)+moreParams;
         var myAjax = new Ajax.Updater(

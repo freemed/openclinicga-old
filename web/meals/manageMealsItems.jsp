@@ -113,7 +113,7 @@
     insertNutricientItem = function(id, name, unit) {
         var li = document.createElement('LI');
         li.id = "mealitemnutricient_" + id;
-        li.innerHTML = "<div style='width:190px'>" + name + "<%="</div><div style='width:150px'><input type='text' size='7' id='mealitemnutricientqt_"%>" + id + "' value='0.0'/> " + unit + "<%="</div><div style='width:20px'><img src='" + sCONTEXTPATH + "/_img/icon_delete.png' class='link' title='" + (getTranNoLink("web","delete",sWebLanguage)) + "' "%>onclick=\"removeNutricientItem('" + id + "');\"></div>";
+        li.innerHTML = "<div style='width:190px'>" + name + "<%="</div><div style='width:150px'><input type='text' size='7' id='mealitemnutricientqt_"%>" + id + "' value='0.0'/> " + unit + "<%="</div><div style='width:20px'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.png' class='link' title='" + (getTranNoLink("web","delete",sWebLanguage)) + "' "%>onclick=\"removeNutricientItem('" + id + "');\"></div>";
         $("mealItemNutricients").insert(li, { position: top });
         openBackMealItem();
     }

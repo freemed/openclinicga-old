@@ -9,6 +9,16 @@
     String sProductStockUid = checkString(request.getParameter("ProductStockUid")),
            sFicheYear       = checkString(request.getParameter("FicheYear")),
            sPrintLanguage   = activeUser.person.language;
+
+	/// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+	if(Debug.enabled){
+		Debug.println("\n**************** pharmacy/createProductStockFichePdf.jsp **************");
+		Debug.println("sProductStockUid : "+sProductStockUid);
+		Debug.println("sFicheYear       : "+sFicheYear);
+		Debug.println("sPrintLanguage   : "+sPrintLanguage+"\n");
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
     ByteArrayOutputStream baosPDF = null;
 
     try{
@@ -37,13 +47,14 @@
     catch(DocumentException dex){
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
-        writer.println(this.getClass().getName()+ " caught an exception: "+ dex.getClass().getName()+ "<br>");
+        writer.println(this.getClass().getName()+ " caught an exception: "+dex.getClass().getName()+"<br>");
+        
         writer.println("<pre>");
         dex.printStackTrace(writer);
         writer.println("</pre>");
     }
     finally{
-        if(baosPDF != null) {
+        if(baosPDF!=null){
             baosPDF.reset();
         }
     }

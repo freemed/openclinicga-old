@@ -37,8 +37,8 @@
                 <input type="text" class="text" name="contractName" id="contractName" readonly size="20" value="">
                    
                 <%-- buttons --%>
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("web","select",sWebLanguage)%>" onclick="searchContract('contract','contractName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("web","clear",sWebLanguage)%>" onclick="document.getElementById('contract').value='';document.getElementById('contractName').value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("web","select",sWebLanguage)%>" onclick="searchContract('contract','contractName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="document.getElementById('contract').value='';document.getElementById('contractName').value='';">
             </td>
         </tr>
         
@@ -160,8 +160,8 @@
                         </td>
                         <%-- 6 - buttons --%>
                         <td class="admin" nowrap>
-                            <input type="button" class="button" name="ButtonAddBE" value="<%=getTran("web","add",sWebLanguage)%>" onclick="addBE();">
-                            <input type="button" class="button" name="ButtonUpdateBE" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateBE();" disabled>&nbsp;
+                            <input type="button" class="button" name="ButtonAddBE" value="<%=getTranNoLink("web","add",sWebLanguage)%>" onclick="addBE();">
+                            <input type="button" class="button" name="ButtonUpdateBE" value="<%=getTranNoLink("web","edit",sWebLanguage)%>" onclick="updateBE();" disabled>&nbsp;
                         </td>    
                     </tr>
                 </table>                    
@@ -245,8 +245,8 @@
                         </td>
                         <%-- 6 - buttons --%>
                         <td class="admin" nowrap>
-                            <input type="button" class="button" name="ButtonAddBO" value="<%=getTran("web","add",sWebLanguage)%>" onclick="addBO();">
-                            <input type="button" class="button" name="ButtonUpdateBO" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateBO();" disabled>&nbsp;
+                            <input type="button" class="button" name="ButtonAddBO" value="<%=getTranNoLink("web","add",sWebLanguage)%>" onclick="addBO();">
+                            <input type="button" class="button" name="ButtonUpdateBO" value="<%=getTranNoLink("web","edit",sWebLanguage)%>" onclick="updateBO();" disabled>&nbsp;
                         </td>    
                     </tr>
                 </table>                    
@@ -322,8 +322,8 @@
                         </td>
                         <%-- 6 - buttons --%>
                         <td class="admin" nowrap>
-                            <input type="button" class="button" name="ButtonAddOI" value="<%=getTran("web","add",sWebLanguage)%>" onclick="addOI();">
-                            <input type="button" class="button" name="ButtonUpdateOI" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateOI();" disabled>&nbsp;
+                            <input type="button" class="button" name="ButtonAddOI" value="<%=getTranNoLink("web","add",sWebLanguage)%>" onclick="addOI();">
+                            <input type="button" class="button" name="ButtonUpdateOI" value="<%=getTranNoLink("web","edit",sWebLanguage)%>" onclick="updateOI();" disabled>&nbsp;
                         </td>    
                     </tr>
                 </table>                    
@@ -399,8 +399,8 @@
                         </td>
                         <%-- 6 - buttons --%>
                         <td class="admin" nowrap>
-                            <input type="button" class="button" name="ButtonAddDE" value="<%=getTran("web","add",sWebLanguage)%>" onclick="addDE();">
-                            <input type="button" class="button" name="ButtonUpdateDE" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateDE();" disabled>&nbsp;
+                            <input type="button" class="button" name="ButtonAddDE" value="<%=getTranNoLink("web","add",sWebLanguage)%>" onclick="addDE();">
+                            <input type="button" class="button" name="ButtonUpdateDE" value="<%=getTranNoLink("web","edit",sWebLanguage)%>" onclick="updateDE();" disabled>&nbsp;
                         </td>    
                     </tr>
                 </table>                    
@@ -520,7 +520,7 @@
       }
       
       if(okToSubmit){
-        document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
+        document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Saving";  
         var url = "<c:url value='/hr/ajax/salary/saveSalary.jsp'/>?ts="+new Date().getTime();
 
         document.getElementById("buttonSave").disabled = true;
@@ -582,7 +582,7 @@
     
   <%-- LOAD SALARIES --%>
   function loadSalaries(){
-    document.getElementById("divSalaries").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";            
+    document.getElementById("divSalaries").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
     var url = "<c:url value='/hr/ajax/salary/getSalaries.jsp'/>?ts="+new Date().getTime();
     new Ajax.Updater("divSalaries",url,
       { 
@@ -770,7 +770,7 @@
   
   <%-- CALCULATE BONUS --%>
   function calculateBonus(){
-    document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Calculating";
+    document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Calculating";
     
     var url = "<c:url value='/hr/ajax/salary/calculateBonus.jsp'/>?ts="+new Date().getTime();
     new Ajax.Request(url,
@@ -797,7 +797,7 @@
   
   <%-- CALCULATE OTHER INCOME --%>
   function calculateOtherIncome(){
-    document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Calculating";
+    document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Calculating";
     
     var url = "<c:url value='/hr/ajax/salary/calculateOtherIncome.jsp'/>?ts="+new Date().getTime();
     var parameters = "SalaryUid="+EditForm.EditSalaryUid.value+
@@ -824,7 +824,7 @@
   
   <%-- CALCULATE DEDUCTION --%>
   function calculateDeduction(){
-    document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Calculating";
+    document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Calculating";
     
     var url = "<c:url value='/hr/ajax/salary/calculateDeduction.jsp'/>?ts="+new Date().getTime();
     new Ajax.Request(url,
@@ -921,10 +921,10 @@
 
     var td = tr.insertCell(0);
     td.innerHTML = "<a href='javascript:deleteBE(rowBE"+iBEIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
                    "</a> "+
                    "<a href='javascript:editBE(rowBE"+iBEIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
                    "</a>";
     tr.appendChild(td);
 
@@ -996,10 +996,10 @@
 
         var td = tr.insertCell(0);
         td.innerHTML = "<a href='javascript:deleteBE(rowBE"+iBEIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
                        "</a> "+
                        "<a href='javascript:editBE(rowBE"+iBEIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
                        "</a>";
         tr.appendChild(td);
 
@@ -1089,10 +1089,10 @@
         var tblBE = document.getElementById("tblBE"); // FF
         var row = tblBE.rows[editBERowid.rowIndex];
         row.cells[0].innerHTML = "<a href='javascript:deleteBE("+editBERowid.id+")'>"+
-                                  "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
                                  "</a> "+
                                  "<a href='javascript:editBE("+editBERowid.id+")'>"+
-                                  "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
                                  "</a>";
 
         row.cells[1].innerHTML = "&nbsp;"+EditForm.beBegin.value;
@@ -1261,10 +1261,10 @@
 
     var td = tr.insertCell(0);
     td.innerHTML = "<a href='javascript:deleteBO(rowBO"+iBOIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
                    "</a> "+
                    "<a href='javascript:editBO(rowBO"+iBOIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
                    "</a>";
     tr.appendChild(td);
 
@@ -1342,10 +1342,10 @@
 
         var td = tr.insertCell(0);
         td.innerHTML = "<a href='javascript:deleteBO(rowBO"+iBOIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
                        "</a> "+
                        "<a href='javascript:editBO(rowBO"+iBOIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
                        "</a>";
         tr.appendChild(td);
 
@@ -1442,10 +1442,10 @@
         var tblBO = document.getElementById("tblBO"); // FF
         var row = tblBO.rows[editBORowid.rowIndex];
         row.cells[0].innerHTML = "<a href='javascript:deleteBO("+editBORowid.id+")'>"+
-                                  "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
                                  "</a> "+
                                  "<a href='javascript:editBO("+editBORowid.id+")'>"+
-                                  "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
                                  "</a>";
 
         row.cells[1].innerHTML = "&nbsp;"+EditForm.boBegin.value;
@@ -1612,10 +1612,10 @@
 
     var td = tr.insertCell(0);
     td.innerHTML = "<a href='javascript:deleteOI(rowOI"+iOIIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
                    "</a> "+
                    "<a href='javascript:editOI(rowOI"+iOIIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
                    "</a>";
     tr.appendChild(td);
 
@@ -1687,10 +1687,10 @@
 
         var td = tr.insertCell(0);
         td.innerHTML = "<a href='javascript:deleteOI(rowOI"+iOIIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
                        "</a> "+
                        "<a href='javascript:editOI(rowOI"+iOIIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
                        "</a>";
         tr.appendChild(td);
 
@@ -1780,10 +1780,10 @@
         var tblOI = document.getElementById("tblOI"); // FF
         var row = tblOI.rows[editOIRowid.rowIndex];
         row.cells[0].innerHTML = "<a href='javascript:deleteOI("+editOIRowid.id+")'>"+
-                                  "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
                                  "</a> "+
                                  "<a href='javascript:editOI("+editOIRowid.id+")'>"+
-                                  "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
                                  "</a>";
 
         row.cells[1].innerHTML = "&nbsp;"+EditForm.oiBegin.value;
@@ -1945,10 +1945,10 @@
 
     var td = tr.insertCell(0);
     td.innerHTML = "<a href='javascript:deleteDE(rowDE"+iDEIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
                    "</a> "+
                    "<a href='javascript:editDE(rowDE"+iDEIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
                    "</a>";
     tr.appendChild(td);
 
@@ -2020,10 +2020,10 @@
 
         var td = tr.insertCell(0);
         td.innerHTML = "<a href='javascript:deleteDE(rowDE"+iDEIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
                        "</a> "+
                        "<a href='javascript:editDE(rowDE"+iDEIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
                        "</a>";
         tr.appendChild(td);
 
@@ -2113,10 +2113,10 @@
         var tblDE = document.getElementById("tblDE"); // FF
         var row = tblDE.rows[editDERowid.rowIndex];
         row.cells[0].innerHTML = "<a href='javascript:deleteDE("+editDERowid.id+")'>"+
-                                  "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
                                  "</a> "+
                                  "<a href='javascript:editDE("+editDERowid.id+")'>"+
-                                  "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
                                  "</a>";
 
         row.cells[1].innerHTML = "&nbsp;"+EditForm.deBegin.value;

@@ -18,7 +18,7 @@
 						reagents+="$";
 					}
 					reagents+=reagent.getReagentuid()+"|"+reagent.getQuantity()+"|"+reagent.getReagent().getName()+"|"+reagent.getReagent().getUnit()+"|"+reagent.getConsumptionType();
-					reagentstable+="<tr><td width='10%'><img src='_img/icon_delete.gif' onclick='removeReagent(\\\""+reagent.getReagentuid()+"\\\")'/>"+reagent.getReagentuid()+"</td><td width='60%'>"+reagent.getReagent().getName()+"</td><td width='30%'>"+reagent.getQuantity()+" "+reagent.getReagent().getUnit()+" "+getTranNoLink("labprocedure.consumptiontype",checkString(reagent.getConsumptionType()),sWebLanguage)+"</td></tr>";
+					reagentstable+="<tr><td width='10%'><img src='_img/icons/icon_delete.gif' onclick='removeReagent(\\\""+reagent.getReagentuid()+"\\\")'/>"+reagent.getReagentuid()+"</td><td width='60%'>"+reagent.getReagent().getName()+"</td><td width='30%'>"+reagent.getQuantity()+" "+reagent.getReagent().getUnit()+" "+getTranNoLink("labprocedure.consumptiontype",checkString(reagent.getConsumptionType()),sWebLanguage)+"</td></tr>";
 				}
 			}
 		}

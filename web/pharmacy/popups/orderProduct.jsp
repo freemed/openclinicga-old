@@ -160,7 +160,7 @@
     <%-- title --%>
     <table width='100%' cellspacing='0'>
         <tr class='admin'>
-            <td>&nbsp;&nbsp;<%=getTran("Web.manage","orderproduct",sWebLanguage)%></td>
+            <td><%=getTran("Web.manage","orderproduct",sWebLanguage)%></td>
         </tr>
     </table>
     <%
@@ -221,7 +221,7 @@
                         <td class="admin"><%=getTran("Web","Importance",sWebLanguage)%> *</td>
                         <td class="admin2">
                             <select class="text" name="EditImportance">
-                                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                                <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                                 <%=ScreenHelper.writeSelectUnsorted("productorder.importance",sSelectedImportance,sWebLanguage)%>
                             </select>
                         </td>
@@ -242,14 +242,14 @@
                         }
                     %>
 
-                    <input type="button" class="button" name="closeButton" value='<%=getTran("Web","close",sWebLanguage)%>' onclick='window.close();'>
+                    <input type="button" class="button" name="closeButton" value='<%=getTranNoLink("Web","close",sWebLanguage)%>' onclick='window.close();'>
                 <%=ScreenHelper.alignButtonsStop()%>
             <%
         }
         else{
             %>
                 <%=ScreenHelper.alignButtonsStart()%>
-                    <input type="button" class="button" name="closeButton" value='<%=getTran("Web","close",sWebLanguage)%>' onclick='window.close();'>
+                    <input type="button" class="button" name="closeButton" value='<%=getTranNoLink("Web","close",sWebLanguage)%>' onclick='window.close();'>
                 <%=ScreenHelper.alignButtonsStop()%>
             <%
         }
@@ -323,10 +323,7 @@
             maySubmit = true;
           }
           else{
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=DateDeliveryDueMustComeAfterDateOrdered";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","DateDeliveryDueMustComeAfterDateOrdered",sWebLanguage)%>");
-
+        	alertDialog("web","DateDeliveryDueMustComeAfterDateOrdered");
             maySubmit = false;
             transactionForm.EditDateDeliveryDue.focus();
           }

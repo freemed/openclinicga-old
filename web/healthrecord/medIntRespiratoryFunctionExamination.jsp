@@ -423,7 +423,7 @@
 	<%=ScreenHelper.alignButtonsStart()%>
         <%
             if(MedwanQuery.getInstance().getConfigInt("spiroBankEnabled")==1){
-                %><input class="button" type="button" name="spirobank" value="<%=getTran("Web.Occup","medwan.common.spirobank",sWebLanguage)%>" onclick="loadSpirobank();"/><%
+                %><input class="button" type="button" name="spirobank" value="<%=getTranNoLink("Web.Occup","medwan.common.spirobank",sWebLanguage)%>" onclick="loadSpirobank();"/><%
             }
         %>
 	    <%=getButtonsHtml(request,activeUser,activePatient,"occup.respiratoryfunction",sWebLanguage)%>
@@ -441,7 +441,7 @@
         msg = msg.replace('#min#',min);
         msg = msg.replace('#max#',max);
         if(focus) inputField.focus();
-        alertDialogMessage(msg);
+        alertDialogDirectText(msg);
       }
     }
   }

@@ -24,6 +24,6 @@
   }
   
   function showImageHub(){
-	  showModalDialog("<c:url value='/xrays/ih_getstudies.jsp'/>","","dialogTop:"+((screen.height-400)/2)+"; dialogLeft:"+((screen.width-600)/2)+";dialogWidth:600px;dialogHeight:400px");
+	showModalDialog("<c:url value='/xrays/ih_getstudies.jsp'/>","","dialogTop:"+((screen.height-400)/2)+"; dialogLeft:"+((screen.width-600)/2)+";dialogWidth:600px;dialogHeight:400px");
   }
 </script>

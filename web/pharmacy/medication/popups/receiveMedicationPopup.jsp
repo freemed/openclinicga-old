@@ -276,7 +276,7 @@
 
   function validateMaxFocus(o){
     if(o.value*1>setMaxQuantity){
-      alertDialogMessage('<%=getTran("web","maxvalueis",sWebLanguage)%> '+setMaxQuantity);
+      alertDialogDirectText('<%=getTran("web","maxvalueis",sWebLanguage)%> '+setMaxQuantity);
       o.focus();
       return false;
     }
@@ -285,7 +285,7 @@
 
   function validateMax(o){
     if(o.value*1>setMaxQuantity){
-      alertDialogMessage('<%=getTran("web","maxvalueis",sWebLanguage)%> '+setMaxQuantity);
+      alertDialogDirectText('<%=getTran("web","maxvalueis",sWebLanguage)%> '+setMaxQuantity);
       return false;
     }
     return true;
@@ -308,7 +308,7 @@
 	    }
 	    else{
 	        document.getElementById("batch").innerHTML = "<table>"+
-	        "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img src='<c:url value="/_img/icon_search.gif"/>' onclick='findbatch();'/></td></tr>"+
+	        "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img src='<c:url value="/_img/icons/icon_search.gif"/>' onclick='findbatch();'/></td></tr>"+
 	        "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
 	        "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
 	       "</table>";
@@ -317,7 +317,7 @@
 	  }
 	  else if(document.getElementById("EditSrcDestType")[document.getElementById("EditSrcDestType").selectedIndex].value=="supplier"){
 	    document.getElementById("batch").innerHTML = "<table>"+
-	                                                  "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
+	                                                  "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icons/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
 	                                                  "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
 	                                                  "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
 	                                                 "</table>";
@@ -325,13 +325,13 @@
 	}		
 	else if(document.getElementById("EditSrcDestType")[document.getElementById("EditSrcDestType").selectedIndex].value=="patient"){
 	  document.getElementById("batch").innerHTML = "<table>"+
-	                                                "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
+	                                                "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icons/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
 	                                               "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
 	                                               "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
 	                                               "<tr><td><%=getTran("web","origin",sWebLanguage)%></td>"+
 	                                                "<td>"+
 	                					                "<input class='text' TYPE='text' NAME='EditReceiveComment' id='EditReceiveComment' readonly size='50' TITLE='' VALUE='' onchange=''>"+
-	                					                "<img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir' onclick='findsearchsource(\"EditReceiveCommentID\",\"EditReceiveComment\");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick=\"document.getElementsByName('EditReceiveComment')[0].value='';\">"+
+	                					                "<img src='/openclinic/_img/icons/icon_search.gif' id='buttonUnit' class='link' alt='Choisir' onclick='findsearchsource(\"EditReceiveCommentID\",\"EditReceiveComment\");'>&nbsp;<img src='/openclinic/_img/icons/icon_delete.gif' class='link' alt='Vider' onclick=\"document.getElementsByName('EditReceiveComment')[0].value='';\">"+
 	                					                "<input TYPE='hidden' NAME='EditReceiveCommentID' id='EditReceiveCommentID' VALUE=''>"+
 	                                                "</td></tr>"+
 	                                               "</table>";
@@ -339,7 +339,7 @@
 	}	
 	else{
 	    document.getElementById("batch").innerHTML = "<table>"+
-	    "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
+	    "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icons/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
 	   "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
 	   "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
 	   "</table>";
@@ -350,7 +350,7 @@
   function setMaxQuantityValue(mq){
     setMaxQuantity = mq;
     if(document.getElementById("EditUnitsChanged").value*1>setMaxQuantity*1){
-      document.getElementById("maxquantity").innerHTML = " <img src='<c:url value="/_img/warning.gif"/>'/> <font color='red'><b> &gt;"+setMaxQuantity+"</b></font>";
+      document.getElementById("maxquantity").innerHTML = " <img src='<c:url value="/_img/icons/icon_warning.gif"/>'/> <font color='red'><b> &gt;"+setMaxQuantity+"</b></font>";
     }
     else{
       document.getElementById("maxquantity").innerHTML = "";
@@ -440,7 +440,7 @@
                         		else {
                         	%>
 	                            <select class="text" name="EditOperationDescr" id="EditOperationDescr"  onChange="displaySrcDestSelector();" style="vertical-align:-2px;">
-	                                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+	                                <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
 	                                <%=ScreenHelper.writeSelectUnsorted("productstockoperation.medicationreceipt",sSelectedOperationDescr,sWebLanguage)%>
 	                            </select>
                             <%
@@ -470,7 +470,7 @@
                         		else{
 							%>
 	                            <select class="text" name="EditSrcDestType" id="EditSrcDestType" onchange="displaySrcDestSelector();" style="vertical-align:-2px;" >
-	                                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+	                                <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
 	                                <%=ScreenHelper.writeSelectUnsorted("productstockoperation.sourcedestinationtype",sSelectedSrcDestType,sWebLanguage)%>
 	                            </select>
 	                            
@@ -489,8 +489,8 @@
                         <td class="admin"><%=getTran("Web","productstockoperationdocument",sWebLanguage)%></td>
 	                    <td class="admin2">
 	                    	<input type='text' class='text' name='EditProductStockDocumentUid' id='EditProductStockDocumentUid' size='10' value="<%=sEditProductStockDocumentUid %>" readonly/>
-	                    	<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick="searchDocument('EditProductStockDocumentUid','EditProductStockDocumentUidText');">&nbsp;
-	                    	<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick="transactionForm.EditProductStockDocumentUid.value='';document.getElementById('EditProductStockDocumentUidText').innerHTML='';">
+	                    	<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick="searchDocument('EditProductStockDocumentUid','EditProductStockDocumentUidText');">&nbsp;
+	                    	<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick="transactionForm.EditProductStockDocumentUid.value='';document.getElementById('EditProductStockDocumentUidText').innerHTML='';">
 	                    	<label class='text' name='EditProductStockDocumentUidText' id='EditProductStockDocumentUidText'><%=sEditProductStockDocumentUidText %></label>
 	                    </td>
                     </tr>
@@ -572,8 +572,8 @@
     							<%
 									if(MedwanQuery.getInstance().getConfigInt("productstockoperationdocumentmandatory",1)!=1){
 										%>
-			                            	document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchService('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
-			                                                                                             +"<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';document.getElementById('batch').innerHTML='';setMaxQuantityValue(999999);\">";
+			                            	document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchService('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
+			                                                                                             +"<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';document.getElementById('batch').innerHTML='';setMaxQuantityValue(999999);\">";
 			   	                            document.getElementById('EditSrcDestName').readOnly=true;
 			   	                        <%
 									}
@@ -593,7 +593,7 @@
 								document.getElementById('documentline').style.visibility="visible";
     							<%
 	    							if(MedwanQuery.getInstance().getConfigInt("productstockoperationdocumentmandatory",1)!=1){
-										%>document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">";<%
+										%>document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">";<%
 									}
 	   	                        %>
 
@@ -609,8 +609,8 @@
 	                        }
 	                        else if(srcDestType.indexOf('patient') > -1){
 								document.getElementById('documentline').style.visibility="hidden";
-                            	document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchPatient('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
-                                                                                             +"<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';document.getElementById('batch').innerHTML='';setMaxQuantityValue(999999);\">";
+                            	document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchPatient('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
+                                                                                             +"<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';document.getElementById('batch').innerHTML='';setMaxQuantityValue(999999);\">";
 								document.getElementById('EditSrcDestName').readOnly=true;
 								
 								if('<%=sPrevUsedSrcDestUid%>'.length > 0 && '<%=sPrevUsedSrcDestType%>'.indexOf('patient') > -1){
@@ -655,7 +655,7 @@
                             %><input class="button" type="button" name="saveButton" value='<%=getTranNoLink("Web","receive",sWebLanguage)%>' onclick="doReceive();"><%
                         }
                     %>
-                    <input type="button" class="button" name="closeButton" value='<%=getTran("Web","close",sWebLanguage)%>' onclick='window.close();'>
+                    <input type="button" class="button" name="closeButton" value='<%=getTranNoLink("Web","close",sWebLanguage)%>' onclick='window.close();'>
                 <%=ScreenHelper.alignButtonsStop()%>
                 
 			    <%-- hidden fields --%>

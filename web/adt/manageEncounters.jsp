@@ -185,7 +185,7 @@
             <td>
                 <input type="hidden" name="FindEncounterPatient" value="<%=sFindEncounterPatient%>">
                 <input class="text" type="text" name="FindEncounterPatientName" readonly size="<%=sTextWidth%>" value="<%=sFindEncounterPatientName%>">
-                <input class="button" type="button" name="SearchPatientButton" value="<%=getTran("Web","Select",sWebLanguage)%>" onclick="searchPatient('FindEncounterPatient','FindEncounterPatientName');">
+                <input class="button" type="button" name="SearchPatientButton" value="<%=getTranNoLink("Web","Select",sWebLanguage)%>" onclick="searchPatient('FindEncounterPatient','FindEncounterPatientName');">
             </td>
         </tr>
         <%-- manager --%>
@@ -194,7 +194,7 @@
             <td>
                 <input type="hidden" name="FindEncounterManager" value="<%=sFindEncounterManager%>">
                 <input class="text" type="text" name="FindEncounterManagerName" readonly size="<%=sTextWidth%>" value="<%=sFindEncounterManagerName%>">
-                <input class="button" type="button" name="SearchManagerButton" value="<%=getTran("Web","Select",sWebLanguage)%>" onclick="searchManager('FindEncounterManager','FindEncounterManagerName');">
+                <input class="button" type="button" name="SearchManagerButton" value="<%=getTranNoLink("Web","Select",sWebLanguage)%>" onclick="searchManager('FindEncounterManager','FindEncounterManagerName');">
             </td>
         </tr>
         <%-- bed --%>
@@ -203,7 +203,7 @@
             <td>
                 <input type="hidden" name="FindEncounterBed" value="<%=sFindEncounterBed%>">
                 <input class="text" type="text" name="FindEncounterBedName" readonly size="<%=sTextWidth%>" value="<%=sFindEncounterBedName%>">
-                <input class="button" type="button" name="SearchBedButton" value="<%=getTran("Web","Select",sWebLanguage)%>" onclick="searchBed('FindEncounterBed','FindEncounterBedName');">
+                <input class="button" type="button" name="SearchBedButton" value="<%=getTranNoLink("Web","Select",sWebLanguage)%>" onclick="searchBed('FindEncounterBed','FindEncounterBedName');">
             </td>
         </tr>
         <%-- service --%>
@@ -212,17 +212,17 @@
             <td>
                 <input type="hidden" name="FindEncounterService" value="<%=sFindEncounterService%>">
                 <input class="text" type="text" name="FindEncounterServiceName" readonly size="<%=sTextWidth%>" value="<%=sFindEncounterServiceName%>">
-                <input class="button" type="button" name="SearchServiceButton" value="<%=getTran("Web","Select",sWebLanguage)%>" onclick="searchService('FindEncounterService','FindEncounterServiceName');">
+                <input class="button" type="button" name="SearchServiceButton" value="<%=getTranNoLink("Web","Select",sWebLanguage)%>" onclick="searchService('FindEncounterService','FindEncounterServiceName');">
             </td>
         </tr>
         <%-- buttons --%>
         <tr>
             <td/>
             <td>
-                <input class='button' type='button' name='buttonfind' value='<%=getTran("Web","search",sWebLanguage)%>' onclick='doFind();'>
-                <input class='button' type='button' name='buttonclear' value='<%=getTran("Web","Clear",sWebLanguage)%>' onclick='doClear();'>
-                <input class='button' type='button' name='buttonnew' value='<%=getTran("Web.Occup","medwan.common.create-new",sWebLanguage)%>' onclick='doNew();'>&nbsp;
-                <input class='button' type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doBack();">
+                <input class='button' type='button' name='buttonfind' value='<%=getTranNoLink("Web","search",sWebLanguage)%>' onclick='doFind();'>
+                <input class='button' type='button' name='buttonclear' value='<%=getTranNoLink("Web","Clear",sWebLanguage)%>' onclick='doClear();'>
+                <input class='button' type='button' name='buttonnew' value='<%=getTranNoLink("Web.Occup","medwan.common.create-new",sWebLanguage)%>' onclick='doNew();'>&nbsp;
+                <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
             </td>
         </tr>
         <%-- action,sortcolumn --%>
@@ -395,8 +395,8 @@
             </td>
         </tr>
         <%=ScreenHelper.setFormButtonsStart()%>
-            <input class='button' type="button" name="saveButton" value='<%=getTran("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
-            <input class='button' type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doBack();">
+            <input class='button' type="button" name="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
+            <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
         <%=ScreenHelper.setFormButtonsStop()%>
         <%-- action, uid --%>
         <input type='hidden' name='Action' value=''>
@@ -496,27 +496,25 @@
         openPopup("/_common/search/searchBed.jsp&ts=<%=getTs()%>&VarCode="+bedUidField+"&VarText="+bedNameField);
     }
 
-    function doSave(){
-        if(<%=bActiveEncounterStatus%>){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=close_active_enc_before_new_one";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","close_active_enc_before_new_one",sWebLanguage)%>");
-        }else{
-            saveButton.disabled = true;
-            EditEncounterForm.Action.value = "SAVE";
-            EditEncounterForm.submit();
-        }
+  function doSave(){
+    if(<%=bActiveEncounterStatus%>){
+      alertDialog("web","close_active_enc_before_new_one");
     }
-
-    <%-- DO SEARCH --%>
-  function doSearch(sortCol){
-       FindEncounterForm.buttonfind.disabled = true;
-       FindEncounterForm.buttonclear.disabled = true;
-       FindEncounterForm.buttonnew.disabled = true;
-
-       FindEncounterForm.Action.value = "SEARCH";
-       FindEncounterForm.FindSortColumn.value = sortCol;
-       FindEncounterForm.submit();
+    else{
+      saveButton.disabled = true;
+      EditEncounterForm.Action.value = "SAVE";
+      EditEncounterForm.submit();
+    }
   }
-<%-- End Edit Block --%>
+
+  <%-- DO SEARCH --%>
+  function doSearch(sortCol){
+    FindEncounterForm.buttonfind.disabled = true;
+    FindEncounterForm.buttonclear.disabled = true;
+    FindEncounterForm.buttonnew.disabled = true;
+
+    FindEncounterForm.Action.value = "SEARCH";
+    FindEncounterForm.FindSortColumn.value = sortCol;
+    FindEncounterForm.submit();
+  }
 </script>

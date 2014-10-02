@@ -4,7 +4,6 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
-
 <%!
     ////////////////////////////////////////////////////////////////////////////////////////////////
     public String writeRow(String sScreenID, String sPermission, String sValue, Connection dbConnection, String sMyProfile) {
@@ -66,11 +65,11 @@
         String sValue = " value='" + thisUser.getParameter(sName.substring(4)).trim() + "'";
 
         return "<tr>" +
-                " <td class='admin'>" + sLabel + "</td>" +
-                " <td class='admin2'>" +
-                "  <input type='text' class='text' name='" + sName + "'" + sValue + ">" +
-                " </td>" +
-                "</tr>";
+                "<td class='admin'>" + sLabel + "</td>" +
+                "<td class='admin2'>" +
+                 "<input type='text' class='text' name='" + sName + "'" + sValue + ">" +
+                "</td>" +
+               "</tr>";
     }
 %>
 
@@ -351,7 +350,7 @@
                             <tr>
                                 <td><%=(getTran("Web.Permissions","PermissionsFor",sWebLanguage)+" "+activePatient.lastname+" "+activePatient.firstname+" &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Login: "+thisUser.userid+" "+sPasswordString)%></td>
                                 <td align="right">
-                                    <img onmouseover="this.style.cursor='hand'" onmouseout="this.style.cursor='default'" onClick="doBack();" style="vertical-align:-2px;" border="0" src="<%=sCONTEXTPATH%>/_img/arrow.jpg" alt="<%=getTran("Web","Back",sWebLanguage)%>">
+                                    <img onmouseover="this.style.cursor='hand'" onmouseout="this.style.cursor='default'" onClick="doBack();" style="vertical-align:-2px;" border="0" src="<%=sCONTEXTPATH%>/_img/themes/default/arrow_left.gif" alt="<%=getTranNoLink("Web","Back",sWebLanguage)%>">
                                 </td>
                             </tr>
                         </table>
@@ -462,7 +461,7 @@
                     <td class="admin2">
                     	<%
                    			out.println("<select name='EditAutomaticOrganizationIdValidation' id='council' onchange='showRegistrationStatus();'><option value=''/>"+ScreenHelper.writeSelect("professional.councils",thisUser.getParameter("automaticorganizationidvalidation"),sWebLanguage)+"</select>");
-	            			out.println(" &nbsp;<a href='javascript:councilLookup("+thisUser.userid+");'><img id='councillookup' src='"+sCONTEXTPATH+"/_img/icon_search.gif' title='"+getTran("web","verify",sWebLanguage)+"'/></a> &nbsp;&nbsp;&nbsp;<label id='registrationstatus'></label>");
+	            			out.println(" &nbsp;<a href='javascript:councilLookup("+thisUser.userid+");'><img id='councillookup' src='"+sCONTEXTPATH+"/_img/icons/icon_search.gif' title='"+getTranNoLink("web","verify",sWebLanguage)+"'/></a> &nbsp;&nbsp;&nbsp;<label id='registrationstatus'></label>");
                     	%>
                     </td>
                 </tr>
@@ -490,7 +489,7 @@
                         <%
                             if(thisUser.getParameter("defaultserviceid").length()>0){
                                 %>
-                                    <img src="<c:url value='/_img/icon_info.gif'/>" class="link" alt="<%=getTran("Web","Information",sWebLanguage)%>" onclick='searchInfoService(transactionForm.EditDefaultServiceid)'/>
+                                    <img src="<c:url value='/_img/icons/icon_info.gif'/>" class="link" alt="<%=getTranNoLink("Web","Information",sWebLanguage)%>" onclick='searchInfoService(transactionForm.EditDefaultServiceid)'/>
                                 <%
                             }
                         %>
@@ -511,8 +510,8 @@
                         %>
                         <input TYPE="hidden" NAME="EditInsuranceAgent" id="EditInsuranceAgent" VALUE="<%=thisUser.getParameter("insuranceagent")%>">
                         <input class='text' TYPE="text" NAME="insuranceagenttext" id="insuranceagenttext" readonly size="49" TITLE="<%=insuranceagenttext%>" VALUE="<%=insuranceagenttext%>" onkeydown="window.event.keyCode = '';return true;">
-			            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchInsurar();">
-			            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditInsuranceAgent').value='';document.getElementById('insuranceagenttext').value='';">
+			            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchInsurar();">
+			            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditInsuranceAgent').value='';document.getElementById('insuranceagenttext').value='';">
                     </td>
                 </tr>
                  <tr>
@@ -529,7 +528,7 @@
                                  while (tokenizer.hasMoreTokens()) {
                                      tmpLang = tokenizer.nextToken();
 
-                             %><option value="<%=tmpLang%>" <%=(activePatient.language.equals(tmpLang)?"selected":"")%>><%=getTran("Web.language",tmpLang,sWebLanguage)%></option><%
+                             %><option value="<%=tmpLang%>" <%=(activePatient.language.equals(tmpLang)?"selected":"")%>><%=getTranNoLink("Web.language",tmpLang,sWebLanguage)%></option><%
                                  }
                              %>
                          </select>
@@ -542,8 +541,8 @@
 
             <%-- BUTTONS --%>
             <%=ScreenHelper.alignButtonsStart()%>
-                <input type="button" class="button" name="saveButton" id="saveButton" value="<%=getTran("Web","Save",sWebLanguage)%>" onClick="doSave();">&nbsp;
-                <input type="button" class="button" value='<%=getTran("Web","Back",sWebLanguage)%>' onClick='doBack();'>
+                <input type="button" class="button" name="saveButton" id="saveButton" value="<%=getTranNoLink("Web","Save",sWebLanguage)%>" onClick="doSave();">&nbsp;
+                <input type="button" class="button" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onClick='doBack();'>
             <%=ScreenHelper.alignButtonsStop()%>
         </form>
 
@@ -579,12 +578,13 @@
 
 		  function councilLookup(userid){
 			  if(!userid){
-				  alert('<%=getTranNoLink("web","save.user.record.first",sWebLanguage)%>');
+				  alertDialog("web","save.user.record.first");
 			  }
 			  else {
 				  openPopup("/_common/search/councilLookup.jsp&council="+document.getElementById("council").value+"&regnr="+document.getElementById("Editorganisationid").value+"&language=<%=sWebLanguage%>&userid="+userid,600,400,document.getElementById("council").value);
 			  }
 		  }
+		  
           <%-- CHECK MEDICAL CENTER LENGTH --%>
           function checkMedicalCenterLength(){
             if(transactionForm.Editmedicalcentercode.value.length > 0){
@@ -619,11 +619,11 @@
 				document.getElementById('councillookup').style.visibility='hidden';
 			}
 			else if('<%=thisUser.getParameter("automaticorganizationidvalidation")%>'!=document.getElementById('council').value){
-				document.getElementById('registrationstatus').innerHTML='<b><img src=\"<%=sCONTEXTPATH+"/_img/icon_error.jpg\""%>/> <%=getTranNoLink("lookup","unverified",sWebLanguage)%></b>';
+				document.getElementById('registrationstatus').innerHTML='<b><img src=\"<%=sCONTEXTPATH+"/_img/icons/icon_error.jpg\""%>/> <%=getTranNoLink("lookup","unverified",sWebLanguage)%></b>';
 				document.getElementById('councillookup').style.visibility='visible';
 			}
 			else {
-				document.getElementById('registrationstatus').innerHTML='<b><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("0")?"<img src=\""+sCONTEXTPATH+"/_img/checked.png\"/>":"<img src=\""+sCONTEXTPATH+"/_img/icon_error.jpg\"/>"%><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("")?" "+getTranNoLink("lookup","unverified",sWebLanguage):" "+getTranNoLink("lookup","status."+thisUser.getParameter("registrationstatus"),sWebLanguage)+" ("+thisUser.getParameter("registrationstatusupdatetime")+")"%></b>';
+				document.getElementById('registrationstatus').innerHTML='<b><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("0")?"<img src=\""+sCONTEXTPATH+"/_img/checked.png\"/>":"<img src=\""+sCONTEXTPATH+"/_img/icons/icon_error.jpg\"/>"%><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("")?" "+getTranNoLink("lookup","unverified",sWebLanguage):" "+getTranNoLink("lookup","status."+thisUser.getParameter("registrationstatus"),sWebLanguage)+" ("+thisUser.getParameter("registrationstatusupdatetime")+")"%></b>';
 				document.getElementById('councillookup').style.visibility='visible';
 			}
 		}

@@ -15,7 +15,7 @@
 	}
 %>
 </table>
-<input type='button' class='button' name='print' value='<%=getTran("web","print",sWebLanguage) %>' onclick='printSummary()'/>
+<input type='button' class='button' name='print' value='<%=getTranNoLink("web","print",sWebLanguage) %>' onclick='printSummary()'/>
 </form>
 
 <script>

@@ -21,7 +21,7 @@
         <td align="right" width="20%">
             <%=getLabel("web.occup","medwan.common.not-executed",sWebLanguage,"mos_c1")%>&nbsp;<input name="visus-ras" type="checkbox" id="mos_c1" value="medwan.common.true" onclick="if(this.checked == true){hide('visus-details');setTrue('<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VISUS_STEREO_RAS" property="itemId"/>'); } else{show('visus-details');setFalse('<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VISUS_STEREO_RAS" property="itemId"/>'); }">
         </td>
-        <td align="right" width ="1%"><a href="#top"><img class="link" src='<c:url value="/_img/top.jpg"/>'></a></td>
+        <td align="right" width ="1%"><a href="#top"><img class="link" src='<c:url value="/_img/themes/default/top.gif"/>'></a></td>
     </tr>
 
     <tr id="visus-details" style="display:none" width="100%">
@@ -51,7 +51,7 @@
                                                <%=getTran("web.occup","medwan.healthrecord.ophtalmology.plus-pres",sWebLanguage)%>
                                             </td>
                                             <td>
-                                                <img class="link" src='<c:url value="/_img/top.jpg"/>'>
+                                                <img class="link" src='<c:url value="/_img/themes/default/top.gif"/>'>
                                             </td>
                                         </tr>
                                         <tr>
@@ -68,7 +68,7 @@
                                                 <%=getTran("web.occup","medwan.healthrecord.ophtalmology.plus-loin",sWebLanguage)%>
                                             </td>
                                             <td>
-                                                <img class="link" src='<c:url value="/_img/bottom.jpg"/>'>
+                                                <img class="link" src='<c:url value="/_img/themes/default/bottom.gif"/>'>
                                             </td>
                                         </tr>
                                     </table>

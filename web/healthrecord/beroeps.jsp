@@ -9,8 +9,8 @@
         StringBuffer sOut = new StringBuffer();
         sOut.append("<tr id='rowBeroeps"+iTotal+"'>")
             .append("<td width='36'>")
-             .append("<a href='#' onclick='deleteBeroep(rowBeroeps"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> ")
-             .append("<a href='#' onclick='editBeroep(rowBeroeps"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>")
+             .append("<a href='#' onclick='deleteBeroep(rowBeroeps"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> ")
+             .append("<a href='#' onclick='editBeroep(rowBeroeps"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>")
             .append("</td>")
             .append("<td>&nbsp;"+sTmpBeroepDateBegin+"</td>")
             .append("<td>&nbsp;"+sTmpBeroepDateEnd+"</td>")
@@ -33,8 +33,8 @@
     private String addAO(int iTotal, String sTmpAODate, String sTmpAODescr, String sTmpAOBI, String sWebLanguage){
         return "<tr id='rowAO"+iTotal+"'>"
                +"<td width='36'>"
-                +"<a href='#' onclick='deleteArbeidsOngeval(rowAO"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> "
-                +"<a href='#' onclick='editArbeidsOngeval(rowAO"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>"
+                +"<a href='#' onclick='deleteArbeidsOngeval(rowAO"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> "
+                +"<a href='#' onclick='editArbeidsOngeval(rowAO"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>"
                 +"</td>"
                 +"<td>&nbsp;"+sTmpAODate+"</td>"
                 +"<td>&nbsp;"+sTmpAODescr+"</td>"
@@ -46,8 +46,8 @@
         StringBuffer sOut = new StringBuffer();
         sOut.append("<tr id='rowBZ"+iTotal+"'>")
             .append("<td width='36'>")
-             .append("<a href='#' onclick='deleteBZ(rowBZ"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> ")
-             .append("<a href='#' onclick='editBZ(rowBZ"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>")
+             .append("<a href='#' onclick='deleteBZ(rowBZ"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> ")
+             .append("<a href='#' onclick='editBZ(rowBZ"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>")
             .append("</td>")
             .append("<td>&nbsp;"+sTmpBZDate+"</td>")
             .append("<td>&nbsp;"+sTmpBZDescr+"</td>")
@@ -337,8 +337,8 @@
                         </select>
                     </td>
                     <td class="admin2">
-                        <input type="button" class="button" name="ButtonAddBeroep" onclick="addBeroep()" value="<%=getTran("Web","add",sWebLanguage)%>">
-                        <input type="button" class="button" name="ButtonUpdateBeroep" onclick="updateBeroep()" value="<%=getTran("Web","edit",sWebLanguage)%>">
+                        <input type="button" class="button" name="ButtonAddBeroep" onclick="addBeroep()" value="<%=getTranNoLink("Web","add",sWebLanguage)%>">
+                        <input type="button" class="button" name="ButtonUpdateBeroep" onclick="updateBeroep()" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>">
                     </td>
                 </tr>
 
@@ -371,10 +371,10 @@
                     <td class="admin2"></td>
                     <td class="admin2"><%=writeDateField("ArbeidsOngevallenDate", "transactionForm","",sWebLanguage)%></td>
                     <td class="admin2"><input type="text" class="text" name="ArbeidsOngevallenDescription" size="40" onblur="limitLength(this);"></td>
-                    <td class="admin2"><input type="text" name="ArbeidsOngevallenBI" class="text" size="5" onblur="if(!isNumberLimited(this,0,100)){alert('<%=getTran("Web.Occup","out-of-bounds-value",sWebLanguage)%>');}"></td>
+                    <td class="admin2"><input type="text" name="ArbeidsOngevallenBI" class="text" size="5" onblur="if(!isNumberLimited(this,0,100)){alertDialog('Web.Occup','out-of-bounds-value');}"></td>
                     <td class="admin2">
-                        <input type="button" class="button" name="ButtonAddArbeidsOngeval" onclick="addArbeidsOngeval()" value="<%=getTran("Web","add",sWebLanguage)%>">
-                        <input type="button" class="button" name="ButtonUpdateArbeidsOngeval" onclick="updateArbeidsOngeval()" value="<%=getTran("Web","edit",sWebLanguage)%>">
+                        <input type="button" class="button" name="ButtonAddArbeidsOngeval" onclick="addArbeidsOngeval()" value="<%=getTranNoLink("Web","add",sWebLanguage)%>">
+                        <input type="button" class="button" name="ButtonUpdateArbeidsOngeval" onclick="updateArbeidsOngeval()" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>">
                     </td>
                 </tr>
                 <%=sDivAO%>
@@ -407,7 +407,7 @@
                     <td class="admin2"></td>
                     <td class="admin2"><%=writeDateField("BeroepsziektenDate", "transactionForm","",sWebLanguage)%></td>
                     <td class="admin2"><input type="text" class="text" name="BeroepsziektenDescription" size="40" onblur="limitLength(this);"></td>
-                    <td class="admin2"><input type="text" name="BeroepsziektenBI" class="text" size="5" onblur="if(!isNumberLimited(this,0,100)){alert('<%=getTran("Web.Occup","out-of-bounds-value",sWebLanguage)%>');}"></td>
+                    <td class="admin2"><input type="text" name="BeroepsziektenBI" class="text" size="5" onblur="if(!isNumberLimited(this,0,100)){alertDialog('Web.Occup','out-of-bounds-value');"></td>
                     <td class="admin2">
                         <select name="BeroepsziektenErkenning" class="text">
                             <option/>
@@ -416,8 +416,8 @@
                         </select>
                     </td>
                     <td class="admin2">
-                      <input type="button" class="button" name="ButtonAddBeroepsZiekten" onclick="addBZ()" value="<%=getTran("Web","add",sWebLanguage)%>">
-                      <input type="button" class="button" name="ButtonUpdateBeroepsziekten" onclick="updateBZ()" value="<%=getTran("Web","edit",sWebLanguage)%>">
+                      <input type="button" class="button" name="ButtonAddBeroepsZiekten" onclick="addBZ()" value="<%=getTranNoLink("Web","add",sWebLanguage)%>">
+                      <input type="button" class="button" name="ButtonUpdateBeroepsziekten" onclick="updateBZ()" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>">
                     </td>
                 </tr>
                 <%=sDivBZ%>
@@ -472,8 +472,8 @@ function addBeroep(){
       row.insertCell();
       row.insertCell();
 
-      row.cells(0).innerHTML = "<a href='#' onclick='deleteBeroep(rowBeroeps"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                              +"<a href='#' onclick='editBeroep(rowBeroeps"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      row.cells(0).innerHTML = "<a href='#' onclick='deleteBeroep(rowBeroeps"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                              +"<a href='#' onclick='editBeroep(rowBeroeps"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       row.cells(1).innerHTML = "&nbsp;"+transactionForm.BeroepsDateBegin.value;
       row.cells(2).innerHTML = "&nbsp;"+transactionForm.BeroepsDateEnd.value;
       row.cells(3).innerHTML = "&nbsp;"+transactionForm.BeroepsDescription.value;
@@ -533,8 +533,8 @@ function updateBeroep(){
 
     // update table object
     row = tblBeroeps.rows[editBeroepRowid.rowIndex];
-    row.cells(0).innerHTML = "<a href='#' onclick='deleteBeroep("+editBeroepRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-	                        +"<a href='#' onclick='editBeroep("+editBeroepRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells(0).innerHTML = "<a href='#' onclick='deleteBeroep("+editBeroepRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+	                        +"<a href='#' onclick='editBeroep("+editBeroepRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells(1).innerHTML = "&nbsp;"+transactionForm.BeroepsDateBegin.value;
     row.cells(2).innerHTML = "&nbsp;"+transactionForm.BeroepsDateEnd.value;
     row.cells(3).innerHTML = "&nbsp;"+transactionForm.BeroepsDescription.value;
@@ -569,8 +569,8 @@ function addArbeidsOngeval(){
 
     sBI = formatBI(transactionForm.ArbeidsOngevallenBI.value);
 
-	row.cells(0).innerHTML = "<a href='#' onclick='deleteArbeidsOngeval(rowAO"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='#' onclick='editArbeidsOngeval(rowAO"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+	row.cells(0).innerHTML = "<a href='#' onclick='deleteArbeidsOngeval(rowAO"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='#' onclick='editArbeidsOngeval(rowAO"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells(1).innerHTML = "&nbsp;"+transactionForm.ArbeidsOngevallenDate.value;
     row.cells(2).innerHTML = "&nbsp;"+transactionForm.ArbeidsOngevallenDescription.value;
     row.cells(3).innerHTML = "&nbsp;"+sBI;
@@ -621,8 +621,8 @@ function updateArbeidsOngeval(){
     sBI = formatBI(transactionForm.ArbeidsOngevallenBI.value);
 
     row = tblAO.rows[editAORowid.rowIndex];
-    row.cells(0).innerHTML = "<a href='#' onclick='deleteArbeidsOngeval("+editAORowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='#' onclick='editArbeidsOngeval("+editAORowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells(0).innerHTML = "<a href='#' onclick='deleteArbeidsOngeval("+editAORowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='#' onclick='editArbeidsOngeval("+editAORowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells(1).innerHTML = "&nbsp;"+transactionForm.ArbeidsOngevallenDate.value;
     row.cells(2).innerHTML = "&nbsp;"+transactionForm.ArbeidsOngevallenDescription.value;
     row.cells(3).innerHTML = "&nbsp;"+sBI;
@@ -657,8 +657,8 @@ function addBZ(){
 
     sBI = formatBI(transactionForm.BeroepsziektenBI.value);
 
-    row.cells(0).innerHTML = "<a href='#' onclick='deleteBZ(rowBZ"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-	                        +"<a href='#' onclick='editBZ(rowBZ"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells(0).innerHTML = "<a href='#' onclick='deleteBZ(rowBZ"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+	                        +"<a href='#' onclick='editBZ(rowBZ"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells(1).innerHTML = "&nbsp;"+transactionForm.BeroepsziektenDate.value;
     row.cells(2).innerHTML = "&nbsp;"+transactionForm.BeroepsziektenDescription.value;
     row.cells(3).innerHTML = "&nbsp;"+sBI;
@@ -719,8 +719,8 @@ function updateBZ(){
     sBI = formatBI(transactionForm.BeroepsziektenBI.value);
 
     row = tblBZ.rows[editBZRowid.rowIndex];
-    row.cells(0).innerHTML = "<a href='#' onclick='deleteBZ("+editBZRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-	                        +"<a href='#' onclick='editBZ("+editBZRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells(0).innerHTML = "<a href='#' onclick='deleteBZ("+editBZRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+	                        +"<a href='#' onclick='editBZ("+editBZRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells(1).innerHTML = "&nbsp;"+transactionForm.BeroepsziektenDate.value;
     row.cells(2).innerHTML = "&nbsp;"+transactionForm.BeroepsziektenDescription.value;
     row.cells(3).innerHTML = "&nbsp;"+sBI;

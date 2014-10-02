@@ -63,9 +63,9 @@
             <td width="<%=sTDAdminWidth%>">&nbsp;<%=getTran("Web","Unit",sWebLanguage)%></td>
             <td>
                 <input class="text" type="text" name="FindServiceText" READONLY size="<%=sTextWidth%>" title="<%=sFindServiceText%>" value="<%=sFindServiceText%>">                
-                <img src='<%=sCONTEXTPATH%>/_img/icon_search.gif' id='buttonService' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>'
+                <img src='<%=sCONTEXTPATH%>/_img/icons/icon_search.gif' id='buttonService' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>'
                  onclick="hideServicesTable();openPopup('_common/search/searchService.jsp&VarCode=FindServiceCode&VarText=FindServiceText&onlySelectContractWithDivision=false');">
-                 &nbsp;<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick="clearServiceSelection();">
+                 &nbsp;<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick="clearServiceSelection();">
               
                 <input type="hidden" name="FindServiceCode" value="<%=sFindServiceCode%>">&nbsp;
 

@@ -435,14 +435,14 @@
                         <table>
                             <tr>
                                 <td><%=getTran("Web.Occup","medwan.healthrecord.ophtalmology.plus-pres",sWebLanguage)%></td>
-                                <td><img class="link" src='<c:url value="/_img/top.jpg"/>'></td>
+                                <td><img class="link" src='<c:url value="/_img/themes/default/top.gif"/>'></td>
                             </tr>
                             <tr><td>&nbsp;</td></tr>
                             <tr><td>&nbsp;</td></tr>
                             <tr><td>&nbsp;</td></tr>
                             <tr>
                                 <td><%=getTran("Web.Occup","medwan.healthrecord.ophtalmology.plus-loin",sWebLanguage)%></td>
-                                <td><img class="link" src='<c:url value="/_img/bottom.jpg"/>'></td>
+                                <td><img class="link" src='<c:url value="/_img/themes/default/bottom.gif"/>'></td>
                             </tr>
                         </table>
                     </td>

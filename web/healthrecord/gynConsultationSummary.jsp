@@ -115,11 +115,11 @@
 
             //*** display prescription in one row ***
             prescriptions.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
-                    .append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + sPrescriptionUid + "');\">")
-                    .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sProductName + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateBeginFormatted + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateEndFormatted + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sPrescrRule.toLowerCase() + "</td>")
+                    .append("<td align='center'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + sPrescriptionUid + "');\">")
+                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sProductName + "</td>")
+                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateBeginFormatted + "</td>")
+                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateEndFormatted + "</td>")
+                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sPrescrRule.toLowerCase() + "</td>")
                     .append("</tr>");
         }
         return idsVector;
@@ -183,7 +183,7 @@
     <tr>_
         <%-- LAST GENERAL CLINICAL EXAMINATION --%>
         <td style="vertical-align:top;" height="100%">
-            <table  class="list" width="100%" border="0" cellspacing="1" cellpadding="1" height="100%">
+            <table class="list" width="100%" border="0" cellspacing="1" cellpadding="1" height="100%">
                 <logic:present name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="lastTransactionTypeGeneralClinicalExamination">
                     <bean:define id="lastTransaction_generalClinicalExamination" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="lastTransactionTypeGeneralClinicalExamination"/>
                 </logic:present>
@@ -365,8 +365,8 @@
                 <tr>
                     <td class="admin">
                         <%=getTran("web","breast-examination",sWebLanguage)%>
-                        <img id="trBreastsS" name="trBreastsS" src="<c:url value='/_img/plus.png'/>" onclick="showD('divBreasts','trBreastsS','trBreastsH');">
-                        <img id="trBreastsH" name="trBreastsH" src="<c:url value='/_img/minus.png'/>" onclick="hideD('divBreasts','trBreastsS','trBreastsH');" style="display:none">
+                        <img id="trBreastsS" name="trBreastsS" src="<c:url value='/_img/icons/icon_plus.png'/>" onclick="showD('divBreasts','trBreastsS','trBreastsH');">
+                        <img id="trBreastsH" name="trBreastsH" src="<c:url value='/_img/icons/icon_minus.png'/>" onclick="hideD('divBreasts','trBreastsS','trBreastsH');" style="display:none">
                     </td>
                     <td colspan="3" class="admin2">
                         <textarea rows="1" onKeyup="resizeTextarea(this,10);" <%=setRightClick("ITEM_TYPE_BREAST_EXAMINATION")%> class="text" cols="75" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION1" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION2" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION3" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION4" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION5" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION6" property="value"/><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_BREAST_EXAMINATION7" property="value"/></textarea>
@@ -532,7 +532,7 @@
                     <td class="admin"><%=getTran("gynaeco", "date.dr", sWebLanguage)%></td>
                     <td class="admin2">
                         <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_DR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_DR" property="value" formatType="date"/>" id="drdate" onblur='checkDate(this);calculateGestAge();clearDr()' onchange='calculateGestAge();' onfocus='calculateGestAge();' onkeyup='calculateGestAge();'/>
-                        <script>writeMyDate("drdate", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                        <script>writeMyDate("drdate", "<c:url value="/_img/icons/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
                         <input id="agedatedrshow" type="text" class="text" size="5"> <%=getTran("web", "weeks.abr", sWebLanguage)%> <%=getTran("web", "delivery.date", sWebLanguage)%>:
                         <input id="agedatedr" <%=setRightClick("ITEM_TYPE_DELIVERY_AGE_DATE_DR")%> type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_DATE_DR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_DATE_DR" property="value"/>" > 
                         <input id="drdeldate" <%=setRightClick("ITEM_TYPE_DELIVERY_DATE_DR")%> type="text" class="text" size="12" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_DR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_DR" property="value"/>" onblur="checkDate(this);">
@@ -542,7 +542,7 @@
                     <td class="admin"><%=getTran("gynaeco", "date.echography", sWebLanguage)%></td>
                     <td class="admin2">
                         <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_ECHO" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_ECHO" property="value" formatType="date"/>" id="echodate" onBlur='checkDate(this);calculateGestAge();' onchange='calculateGestAge();' onkeyup='calculateGestAge();'/>
-                        <script>writeMyDate("echodate", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                        <script>writeMyDate("echodate", "<c:url value="/_img/icons/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
                         <input type="text" class="text" size="5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ECHOGRAPHY" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ECHOGRAPHY" property="value"/>" id="agedateechomanual" onblur="isGestAge(this);calculateGestAge();" onchange='isGestAge(this);calculateGestAge();' onkeyup="isGestAge(this);calculateGestAge();"> <%=getTran("web", "weeks.abr", sWebLanguage)%> <%=getTran("web", "delivery.date", sWebLanguage)%>:
                         <input id='agedateecho' type='hidden'/>
                         <input id="echodeldate" <%=setRightClick("ITEM_TYPE_DELIVERY_DATE_ECHOGRAPHY")%> type="text" class="text" size="12" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_ECHOGRAPHY" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_ECHOGRAPHY" property="value"/>" onblur="checkDate(this);">
@@ -570,6 +570,7 @@
                 </tr>
             </table>
             <br>
+            
         	<%ScreenHelper.setIncludePage(customerInclude("healthrecord/diagnosesEncoding.jsp"),pageContext);%>
             <br/>
             <table width="100%" class="list" cellspacing="1">
@@ -605,6 +606,7 @@
                 </tr>
             </table>
             <br/>
+            
             <table width="100%" class="list" cellspacing="1">
                 <tr class="admin">
                     <td align="center"><a href="javascript:openPopup('medical/managePrescriptionsPopup.jsp&amp;skipEmpty=1',900,400,'medication');"><%=getTran("Web.Occup","medwan.healthrecord.medication",sWebLanguage)%></a></td>
@@ -621,7 +623,7 @@
                     int foundPrescrCount = idsVector.size();
 
                     if (foundPrescrCount > 0) {
-                %>
+                        %>
                             <table width="100%" cellspacing="0" cellpadding="0" class="list">
                                 <%-- clickable header (current sort-col in italic) --%>
                                 <tr class="admin">
@@ -664,7 +666,7 @@
                                 l="";
                             }
                             PaperPrescription paperPrescription = (PaperPrescription)paperprescriptions.elementAt(n);
-                            out.println("<tr class='list"+l+"' id='pp"+paperPrescription.getUid()+"'><td valign='top' width='90px'><img src='_img/icon_delete.gif' onclick='deletepaperprescription(\""+paperPrescription.getUid()+"\");'/> <b>"+ScreenHelper.stdDateFormat.format(paperPrescription.getBegin())+"</b></td><td><i>");
+                            out.println("<tr class='list"+l+"' id='pp"+paperPrescription.getUid()+"'><td valign='top' width='90px'><img src='_img/icons/icon_delete.gif' onclick='deletepaperprescription(\""+paperPrescription.getUid()+"\");'/> <b>"+ScreenHelper.stdDateFormat.format(paperPrescription.getBegin())+"</b></td><td><i>");
                             Vector products =paperPrescription.getProducts();
                             for(int i=0;i<products.size();i++){
                                 out.print(products.elementAt(i)+"<br/>");
@@ -684,32 +686,26 @@
 
 <script>
   function setBP(oObject,sbp,dbp){
-      if (oObject.value.length>0){
-        if (!isNumberLimited(oObject,40,300)){
-          var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.occup&labelID=out-of-bounds-value";
-          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.occup","out-of-bounds-value",sWebLanguage)%>");
-        }
-        else if ((sbp.length>0)&&(dbp.length>0)){
-          isbp = document.getElementsByName(sbp)[0].value*1;
-          idbp = document.getElementsByName(dbp)[0].value*1;
-          if (idbp>isbp){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.occup&labelID=error.dbp_greather_than_sbp";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.occup","error.dbp_greather_than_sbp",sWebLanguage)%>");
-          }
+    if(oObject.value.length>0){
+      if(!isNumberLimited(oObject,40,300)){
+        alertDialog("Web.occup","out-of-bounds-value");
+      }
+      else if((sbp.length>0)&&(dbp.length>0)){
+        isbp = document.getElementsByName(sbp)[0].value*1;
+        idbp = document.getElementsByName(dbp)[0].value*1;
+        if(idbp>isbp){
+          alertDialog("Web.occup","error.dbp_greather_than_sbp");
         }
       }
+    }
   }
 
   function setHF(oObject){
-      if (oObject.value.length>0){
-        if(!isNumberLimited(oObject,30,300)){
-          var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.occup&labelID=out-of-bounds-value";
-          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.occup","out-of-bounds-value",sWebLanguage)%>");
-        }
+    if(oObject.value.length>0){
+      if(!isNumberLimited(oObject,30,300)){
+        alertDialog("Web.occup","out-of-bounds-value");
       }
+    }
   }
 
   function deleteDiagnose(rowid){
@@ -724,189 +720,191 @@
     openPopup("medical/managePrescriptionsPopup.jsp&Action=showDetails&EditPrescrUid="+uid);
   }
 
-    function clearDr(){
-        if (document.getElementById("drdate").value.length==0){
-            document.getElementById("agedatedr").value = "";
-            document.getElementById("agedatedrshow").value = "";
-            document.getElementById("drdeldate").value = "";
-        }
+  function clearDr(){
+    if(document.getElementById("drdate").value.length==0){
+      document.getElementById("agedatedr").value = "";
+      document.getElementById("agedatedrshow").value = "";
+      document.getElementById("drdeldate").value = "";
     }
+  }
 
-    function calculateGestAge() {
-        var trandate = new Date();
-        var d1 = document.getElementById('trandate').value.split("/");
+  function calculateGestAge(){
+    var trandate = new Date();
+    var d1 = document.getElementById('trandate').value.split("/");
 
-        if (d1.length == 3) {
-        	//whe have an actual transaction date
-            trandate.setDate(d1[0]);
-            trandate.setMonth(d1[1] - 1);
-            trandate.setFullYear(d1[2]);
-            var lmdate = new Date();
-            d1 = document.getElementById('drdate').value.split("/");
-            //first calculate delivery date based on last menstruation date
-            if (d1.length == 3) {
-                //we have a last menstruation date
-                lmdate.setDate(d1[0]);
-                lmdate.setMonth(d1[1] - 1);
-                lmdate.setFullYear(d1[2]);
-                //Calculate number of weeks elapsed between last menstruation date and actual transaction date 
-                var timeElapsed = trandate.getTime() - lmdate.getTime();
-                timeElapsed = timeElapsed / (1000 * 3600 * 24 * 7);
-			
-                if (!isNaN(timeElapsed) && timeElapsed > 0 && timeElapsed < 60) {
-                    var age = Math.round(timeElapsed * 10) / 10;
-                    age = age+"";
+    if(d1.length == 3){
+      // actual transaction date
+      trandate.setDate(d1[0]);
+      trandate.setMonth(d1[1] - 1);
+      trandate.setFullYear(d1[2]);
+      var lmdate = new Date();
+      d1 = document.getElementById('drdate').value.split("/");
+      // calculate delivery date based on last menstruation date
+      if (d1.length == 3) {
+        // last menstruation date
+        lmdate.setDate(d1[0]);
+        lmdate.setMonth(d1[1] - 1);
+        lmdate.setFullYear(d1[2]);
+        
+        //Calculate number of weeks elapsed between last menstruation date and actual transaction date 
+        var timeElapsed = trandate.getTime() - lmdate.getTime();
+        timeElapsed = timeElapsed / (1000 * 3600 * 24 * 7);
+        
+		if (!isNaN(timeElapsed) && timeElapsed > 0 && timeElapsed < 60) {
+          var age = Math.round(timeElapsed * 10) / 10;
+          age = age+"";
 
-                    if (age.indexOf(".")>-1){
-                        var aAge = age.split(".");
-                        aAge[1] = Math.round(aAge[1]*1);
-
-                        age = aAge[0]+"."+aAge[1];
-                    }
-                    document.getElementById("agedatedr").value = age;
-                    document.getElementById("agedatedrshow").value = Math.floor(age*1)+" "+Math.round((age*1-Math.floor(age*1))*7);
-                    var drdeldate = lmdate;
-                    drdeldate.setTime(drdeldate.getTime() + 1000 * 3600 * 24 * 280);
-                    document.getElementById("drdeldate").value = drdeldate.getDate() + "/" + (drdeldate.getMonth() + 1) + "/" + drdeldate.getFullYear();
-                    checkDate(document.getElementById("drdeldate"));
-                    if (timeElapsed < 12) {
-                        document.getElementById('trimestre_r1').checked = true;
-                    }
-                    else if (timeElapsed < 24) {
-                        document.getElementById('trimestre_r2').checked = true;
-                    }
-                    else {
-                        document.getElementById('trimestre_r3').checked = true;
-                    }
-                }
-                else {
-                    document.getElementById("drdeldate").value = '';
-                }
-            }
-            //recalculate actual age based on echography estimation
-            var ledate = new Date();
-            d1 = document.getElementById('echodate').value.split("/");
-            echoage = document.getElementById('agedateecho').value.trim();
-            if(echoage.replace(' ','').length!=echoage.length){
-            	echoage = echoage.split(' ')[0]+"."+Math.floor(echoage.split(' ')[1]*10/7);
-            }
-            else {
-            	echoage=echoage.replace(',','.');
-            }
-            if (d1.length == 3 && echoage.length >0) {
-            	//we have a last echography date
-                ledate.setDate(d1[0]);
-                ledate.setMonth(d1[1] - 1);
-                ledate.setFullYear(d1[2]);
-                //Calculate number of weeks elapsed between last echography date and actual transaction date 
-                var te = trandate.getTime() - ledate.getTime();
-                var timeElapsed = te / (1000 * 3600 * 24 * 7);
-                if (!isNaN(timeElapsed) && (timeElapsed*1+echoage*1)<43) {
-                    if (timeElapsed*1+echoage*1 < 12) {
-                        document.getElementById('trimestre_r1').checked = true;
-                    }
-                    else if (timeElapsed*1+echoage*1 < 24) {
-                        document.getElementById('trimestre_r2').checked = true;
-                    }
-                    else {
-                        document.getElementById('trimestre_r3').checked = true;
-                    }
-                    var age="";
-                    document.getElementById("ageactualecho").value = Math.floor(timeElapsed*1+echoage*1)+" "+Math.round((timeElapsed*1+echoage*1-Math.floor(timeElapsed*1+echoage*1))*7);
-                    echodeldate=new Date();
-                    echodeldate.setTime(trandate.getTime()+(38-(timeElapsed*1+echoage*1))*(1000 * 3600 * 24 * 7));
-                    document.getElementById("echodeldate").value = echodeldate.getDate() + "/" + (echodeldate.getMonth() + 1) + "/" + echodeldate.getFullYear();
-                }
-            }
+          if (age.indexOf(".")>-1){
+            var aAge = age.split(".");
+            aAge[1] = Math.round(aAge[1]*1);
+            age = aAge[0]+"."+aAge[1];
+          }
+          document.getElementById("agedatedr").value = age;
+          document.getElementById("agedatedrshow").value = Math.floor(age*1)+" "+Math.round((age*1-Math.floor(age*1))*7);
+          var drdeldate = lmdate;
+          drdeldate.setTime(drdeldate.getTime() + 1000 * 3600 * 24 * 280);
+          document.getElementById("drdeldate").value = drdeldate.getDate() + "/" + (drdeldate.getMonth() + 1) + "/" + drdeldate.getFullYear();
+          checkDate(document.getElementById("drdeldate"));
+          if (timeElapsed < 12) {
+            document.getElementById('trimestre_r1').checked = true;
+          }
+          else if (timeElapsed < 24) {
+            document.getElementById('trimestre_r2').checked = true;
+          }
+          else {
+            document.getElementById('trimestre_r3').checked = true;
+          }
         }
+        else {
+          document.getElementById("drdeldate").value = '';
+        }
+      }
+      //recalculate actual age based on echography estimation
+      var ledate = new Date();
+      d1 = document.getElementById('echodate').value.split("/");
+      echoage = document.getElementById('agedateecho').value.trim();
+      if(echoage.replace(' ','').length!=echoage.length){
+       	echoage = echoage.split(' ')[0]+"."+Math.floor(echoage.split(' ')[1]*10/7);
+      }
+      else {
+      	echoage=echoage.replace(',','.');
+      }
+      if (d1.length == 3 && echoage.length >0) {
+       	//we have a last echography date
+        ledate.setDate(d1[0]);
+        ledate.setMonth(d1[1] - 1);
+        ledate.setFullYear(d1[2]);
+        
+        //Calculate number of weeks elapsed between last echography date and actual transaction date 
+        var te = trandate.getTime() - ledate.getTime();
+        var timeElapsed = te / (1000 * 3600 * 24 * 7);
+        if (!isNaN(timeElapsed) && (timeElapsed*1+echoage*1)<43) {
+          if (timeElapsed*1+echoage*1 < 12) {
+            document.getElementById('trimestre_r1').checked = true;
+          }
+          else if (timeElapsed*1+echoage*1 < 24) {
+            document.getElementById('trimestre_r2').checked = true;
+          }
+          else {
+            document.getElementById('trimestre_r3').checked = true;
+          }
+          var age="";
+          document.getElementById("ageactualecho").value = Math.floor(timeElapsed*1+echoage*1)+" "+Math.round((timeElapsed*1+echoage*1-Math.floor(timeElapsed*1+echoage*1))*7);
+          echodeldate=new Date();
+          echodeldate.setTime(trandate.getTime()+(38-(timeElapsed*1+echoage*1))*(1000 * 3600 * 24 * 7));
+          document.getElementById("echodeldate").value = echodeldate.getDate() + "/" + (echodeldate.getMonth() + 1) + "/" + echodeldate.getFullYear();
+        }
+      }
     }
+  }
 
-    if (document.getElementById("transactionId").value.startsWith("-")){
-    	//new transaction, base calculation on today's date
-        <%
-            String sAgeDateDr = "";
-            ItemVO itemDelAgeDateDr = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_DR");
+  if (document.getElementById("transactionId").value.startsWith("-")){
+  	//new transaction, base calculation on today's date
+    <%
+        String sAgeDateDr = "";
+        ItemVO itemDelAgeDateDr = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_DR");
 
-            if (itemDelAgeDateDr!=null){
-                sAgeDateDr = itemDelAgeDateDr.getValue();
-                %>document.getElementById("drdate").value = "<%=sAgeDateDr%>";<%
-            }
+        if (itemDelAgeDateDr!=null){
+            sAgeDateDr = itemDelAgeDateDr.getValue();
+            %>document.getElementById("drdate").value = "<%=sAgeDateDr%>";<%
+        }
 
-            ItemVO itemAgeDateEcho = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ECHOGRAPHY");
-            ItemVO itemEcho = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_ECHO");
-            if (itemAgeDateEcho!=null && itemEcho!=null){
-            	//How many weeks was the patient at the moment of the last echo?
-                double lEcho = Double.parseDouble(itemAgeDateEcho.getValue().replaceAll(",","."));
-            	//How many weeks between the last echo date and now?
-            	try{
-	            	java.util.Date dNow = ScreenHelper.getSQLDate(ScreenHelper.getDate());
-	            	java.util.Date dLastEcho=ScreenHelper.parseDate(itemEcho.getValue());
-	            	long timeElapsed= dNow.getTime()-dLastEcho.getTime();
-	            	timeElapsed=timeElapsed/1000/3600/24/7;
+        ItemVO itemAgeDateEcho = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ECHOGRAPHY");
+        ItemVO itemEcho = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_ECHO");
+        if (itemAgeDateEcho!=null && itemEcho!=null){
+           	//How many weeks was the patient at the moment of the last echo?
+            double lEcho = Double.parseDouble(itemAgeDateEcho.getValue().replaceAll(",","."));
+           	//How many weeks between the last echo date and now?
+           	try{
+            	java.util.Date dNow = ScreenHelper.getSQLDate(ScreenHelper.getDate());
+            	java.util.Date dLastEcho=ScreenHelper.parseDate(itemEcho.getValue());
+            	long timeElapsed= dNow.getTime()-dLastEcho.getTime();
+	            timeElapsed=timeElapsed/1000/3600/24/7;
 	
-	                if (timeElapsed+lEcho < 43){
-	                    %>document.getElementById("agedateecho").value = "<%=new DecimalFormat("#0.0").format(lEcho)%>";<%
+	            if (timeElapsed+lEcho < 43){
+	                %>document.getElementById("agedateecho").value = "<%=new DecimalFormat("#0.0").format(lEcho)%>";<%
 	
-	                    if (itemEcho!=null){
-	                        %>document.getElementById("echodate").value = "<%=itemEcho.getValue()%>";<%
-	                    }
-	
-	                    ItemVO itemDateEcho = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_ECHOGRAPHY");
-	                    if (itemDateEcho!=null){
-	                        %>document.getElementById("echodeldate").value = "<%=itemDateEcho.getValue()%>";<%
-	                    }
+	                if (itemEcho!=null){
+	                    %>document.getElementById("echodate").value = "<%=itemEcho.getValue()%>";<%
 	                }
-            	}
-            	catch(Exception e){}
-            }
-            %>
-            calculateGestAge();
+	
+	                ItemVO itemDateEcho = MedwanQuery.getInstance().getLastItemVO(Integer.parseInt(activePatient.personid), "be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_ECHOGRAPHY");
+	                if (itemDateEcho!=null){
+	                    %>document.getElementById("echodeldate").value = "<%=itemDateEcho.getValue()%>";<%
+	                }
+	            }
+           	}
+           	catch(Exception e){}
+        }
+    %>
+    calculateGestAge();
 
-            if (document.getElementById("agedatedr").value.length>0){
-                var aDate = document.getElementById("agedatedr").value.split(" ");
-                if (aDate[0].length>0){
-                    if (aDate[0]*1>43){
-                        document.getElementById("drdate").value = "";
-                        clearDr();
-                    }
-                }
-            }
+    if (document.getElementById("agedatedr").value.length>0){
+      var aDate = document.getElementById("agedatedr").value.split(" ");
+      if (aDate[0].length>0){
+        if (aDate[0]*1>43){
+          document.getElementById("drdate").value = "";
+          clearDr();
+        }
+      }
+    }
 
-            if (document.getElementById("ageactualecho").value.length>0){
-                var aDate = document.getElementById("ageactualecho").value.split(" ");
-                if (aDate[0].length>0){
-                    if (aDate[0]*1>43){
-                        document.getElementById("echodate").value = "";
-                        document.getElementById("agedateecho").value = "";
-                        document.getElementById("echodeldate").value = "";
-                        document.getElementById("ageactualecho").value = "";
-                    }
-                }
-            }
+    if (document.getElementById("ageactualecho").value.length>0){
+      var aDate = document.getElementById("ageactualecho").value.split(" ");
+      if (aDate[0].length>0){
+        if (aDate[0]*1>43){
+          document.getElementById("echodate").value = "";
+          document.getElementById("agedateecho").value = "";
+          document.getElementById("echodeldate").value = "";
+          document.getElementById("ageactualecho").value = "";
+        }
+      }
     }
-    else {
-        calculateGestAge();
-    }
+  }
+  else {
+    calculateGestAge();
+  }
     
-    function isGestAge(object){
-		var val = object.value.trim();
-    	if(val.length>0) {
-			if(isNaN(val*1) || val*1<=0 || val*1>45) {
-	    		if(val.length!=val.replace(' ','').length && !isNaN(val.split(' ')[1]*1) && val.split(' ')[1]*1>=0 && val.split(' ')[1]<7){
-	    			document.getElementById('agedateecho').value=val.split(' ')[0]*1+'.'+Math.floor(val.split(' ')[1]*10/7);
-	    		}
-	    		else {
-	                setTimeout('var txt = document.getElementById(\''+object.id+'\'); txt.focus(); txt.select();', 1);
-	        		return false;
-	    		}
-			}
-			else {
-    			document.getElementById('agedateecho').value=object.value;
-			}
-    	}
-    	return true;
-    }
-    isGestAge(document.getElementById('agedateechomanual'));
+  function isGestAge(object){
+	var val = object.value.trim();
+    if(val.length>0){
+	  if(isNaN(val*1) || val*1<=0 || val*1>45){
+	  	if(val.length!=val.replace(' ','').length && !isNaN(val.split(' ')[1]*1) && val.split(' ')[1]*1>=0 && val.split(' ')[1]<7){
+	  	  document.getElementById('agedateecho').value=val.split(' ')[0]*1+'.'+Math.floor(val.split(' ')[1]*10/7);
+	   	}
+	   	else{
+	      setTimeout('var txt = document.getElementById(\''+object.id+'\'); txt.focus(); txt.select();', 1);
+	      return false;
+	   	}
+	  }
+	  else{
+    	document.getElementById('agedateecho').value=object.value;
+	  }
+   	}
+  	return true;
+  }
+    
+  isGestAge(document.getElementById('agedateechomanual'));
 </script>
 
 </logic:present>

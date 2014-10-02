@@ -134,8 +134,8 @@
     <table width='100%' align='center' cellspacing="0" class="list">
         <tr class="admin">
           <td>
-            <input class='button' type="button" name="select_button" value="<%=getTran("web","selectall",sWebLanguage)%>" onclick="selectAll('MailLastSyncForm','checked');">&nbsp;
-            <input class='button' type="button" name="deselect_button" value="<%=getTran("web","deselectall",sWebLanguage)%>" onclick="deselectAll('MailLastSyncForm','');">
+            <input class='button' type="button" name="select_button" value="<%=getTranNoLink("web","selectall",sWebLanguage)%>" onclick="selectAll('MailLastSyncForm','checked');">&nbsp;
+            <input class='button' type="button" name="deselect_button" value="<%=getTranNoLink("web","deselectall",sWebLanguage)%>" onclick="deselectAll('MailLastSyncForm','');">
           </td>
           <td><%=getTran("Web.Manage.lastsync","ServerNumber",sWebLanguage)%></td>
           <td><%=getTran("Web.Manage.lastsync","ServerName",sWebLanguage)%></td>
@@ -233,8 +233,8 @@
     </table>
     <%-- BUTTONS -------------------------------------------------------------------------------------%>
     <%=ScreenHelper.alignButtonsStart()%>
-        <input class='button' type="button" name="Mailbutton" value='<%=getTran("Web","send_email",sWebLanguage)%>' onclick="doMail();">&nbsp;
-        <input class='button' type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doBack();">
+        <input class='button' type="button" name="Mailbutton" value='<%=getTranNoLink("Web","send_email",sWebLanguage)%>' onclick="doMail();">&nbsp;
+        <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
     <%=ScreenHelper.alignButtonsStop()%>
 </form>
 <script>

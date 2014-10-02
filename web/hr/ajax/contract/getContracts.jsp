@@ -19,9 +19,9 @@
            sRef4 = checkString(request.getParameter("ref4")),
            sRef5 = checkString(request.getParameter("ref5"));
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n***************** getContracts.jsp *****************");
+        Debug.println("\n****************** hr/ajax/getContracts.jsp ******************");
         Debug.println("sPatientId           : "+sPatientId);
         Debug.println("sFunctionCode        : "+sFunctionCode);
         Debug.println("sFunctionTitle       : "+sFunctionTitle);
@@ -32,7 +32,7 @@
         Debug.println("sRef4 : "+sRef4);
         Debug.println("sRef5 : "+sRef5+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
 
     // compose object to pass search criteria with
     Contract findObject = new Contract();
@@ -86,12 +86,10 @@
     else{
         sReturn = "<td colspan='6'>"+getTran("web","noRecordsFound",sWebLanguage)+"</td>";
     }
-%>
 
-<%
     if(contracts.size() > 0){
         %>
-<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
+<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border:none;">
     <%-- header --%>
     <tr class="admin" style="padding-left: 1px;">
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","contractId",sWebLanguage))%></td>

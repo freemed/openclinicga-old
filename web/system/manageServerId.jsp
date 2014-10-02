@@ -66,8 +66,8 @@
         </tr>
         
         <%=ScreenHelper.setFormButtonsStart()%>
-            <input class="button" type="button" name="SaveButton" value='<%=getTran("Web","Save",sWebLanguage)%>' onclick="transactionForm.submit();">&nbsp;
-            <input class="button" type="button" name="backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick='javascript:window.location.href="main.do?Page=system/menu.jsp"'>
+            <input class="button" type="button" name="SaveButton" value='<%=getTranNoLink("Web","Save",sWebLanguage)%>' onclick="transactionForm.submit();">&nbsp;
+            <input class="button" type="button" name="backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick='javascript:window.location.href="main.do?Page=system/menu.jsp"'>
         <%=ScreenHelper.setFormButtonsStop()%>
     </table>
 </form>

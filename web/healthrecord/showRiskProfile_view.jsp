@@ -18,7 +18,7 @@
                     <%
                 }
             %>
-            <a href='#' class="previousButton" onClick="doBack();"><img src='<c:url value="/_img/arrow.jpg"/>' style="vertical-align:middle" border="0"></a>
+            <a href='#' class="previousButton" onClick="doBack();"><img src='<c:url value="/_img/themes/default/arrow_left.gif"/>' style="vertical-align:middle" border="0"></a>
         </td>
     </tr>
     <%-- workplace & categories & groups --%>
@@ -102,7 +102,7 @@
                     <%
                 }
             %>
-            <a href='#' class="previousButton" onClick="doBack();"><img src='<c:url value="/_img/arrow.jpg"/>' style="vertical-align:middle" border="0"></a>
+            <a href='#' class="previousButton" onClick="doBack();"><img src='<c:url value="/_img/themes/default/arrow_left.gif"/>' style="vertical-align:middle" border="0"></a>
         </td>
     </tr>
     <tr>
@@ -142,7 +142,7 @@
                     <%
                 }
             %>
-            <a href='#' class="previousButton" onClick="doBack();"><img src='<c:url value="/_img/arrow.jpg"/>' style="vertical-align:middle" border="0"></a>
+            <a href='#' class="previousButton" onClick="doBack();"><img src='<c:url value="/_img/themes/default/arrow_left.gif"/>' style="vertical-align:middle" border="0"></a>
         </td>
     </tr>
     <tr>
@@ -185,13 +185,13 @@
     <tr>
         <td colspan="3">
             <br>
-            <img src='<c:url value="/_img/pijl.gif"/>'>
+            <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
             <a href="<c:url value='/managePeriodicExaminations.do?ts='/><%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.healthrecord.periodic-examinations",sWebLanguage)%></a>
         </td>
     </tr>
     <tr>
         <td colspan="3">
-            <img src='<c:url value="/_img/pijl.gif"/>'>
+            <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
             <a href="<c:url value='/main.jsp'/>?Page=curative/index.jsp&ts=<%=getTs()%>"  onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.recruitment.view-recruitment-examinations-summary",sWebLanguage)%></a>
         </td>
     </tr>
@@ -199,7 +199,7 @@
 
 <%-- BUTTONS -------------------------------------------------------------------------------------%>
 <%=ScreenHelper.alignButtonsStart()%>
-   <input class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+   <input class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
 <%=ScreenHelper.alignButtonsStop()%>
 
 <script>

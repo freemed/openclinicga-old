@@ -114,22 +114,22 @@
 
         sOutLogins.append("<input type='hidden' name='EditIntruderID_" + recCounter + "' value='" + sIntruderID + "'>");
         sOutLogins.append("<tr class='list" + sClass + "'>")
-                .append(" <td>")
-                .append("  <a href='#' onclick=\"doDelete('" + sIntruderID + "');\">")
-                .append("   <img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web", "delete", sWebLanguage) + "' border='0'>")
-                .append("   </a>")
-                .append(" </td>")
-                .append(" <td>" + sIntruderID + "</td>")
-                .append(" <td><input type='text' class='text' size='5' name='EditIntrusionCount_" + recCounter + "' value='" + objIA.getIntrusionCount() + "' onBlur='isNumber(this);'></td>")
-                .append(" <td><input type='checkbox' name='EditBlocked_" + recCounter + "' value='1' " + (objIA.getBlocked().equals("1") ? "checked" : "") + "></td>")
-                .append(" <td>" + (releaseTime == null ? "" : fullDateFormat.format(releaseTime)) + "</td>");
+                .append("<td>")
+                .append("<a href='#' onclick=\"doDelete('" + sIntruderID + "');\">")
+                .append("<img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web", "delete", sWebLanguage) + "' border='0'>")
+                .append("</a>")
+                .append("</td>")
+                .append("<td>" + sIntruderID + "</td>")
+                .append("<td><input type='text' class='text' size='5' name='EditIntrusionCount_" + recCounter + "' value='" + objIA.getIntrusionCount() + "' onBlur='isNumber(this);'></td>")
+                .append("<td><input type='checkbox' name='EditBlocked_" + recCounter + "' value='1' " + (objIA.getBlocked().equals("1") ? "checked" : "") + "></td>")
+                .append("<td>" + (releaseTime == null ? "" : fullDateFormat.format(releaseTime)) + "</td>");
 
         String remainingDuration = "";
         if (releaseTime != null) {
             remainingDuration = getRemainingDurationString(releaseTime);
         }
 
-        sOutLogins.append(" <td>&nbsp;" + remainingDuration + "</td>")
+        sOutLogins.append("<td>&nbsp;" + remainingDuration + "</td>")
                 .append("</tr>");
     }
 
@@ -170,22 +170,22 @@
 
         sOutIPs.append("<input type='hidden' name='EditIntruderID_" + recCounter + "' value='" + sIntruderID + "'>");
         sOutIPs.append("<tr class='list" + sClass + "'>")
-                .append(" <td>")
-                .append("  <a href='#' onclick=\"doDelete('" + sIntruderID + "');\">")
-                .append("   <img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web", "delete", sWebLanguage) + "' border='0'>")
-                .append("   </a>")
-                .append(" </td>")
-                .append(" <td>" + sIntruderID + "</td>")
-                .append(" <td><input type='text' class='text' size='5' name='EditIntrusionCount_" + recCounter + "' value='" + objIA2.getIntrusionCount() + "' onBlur='isNumber(this);'></td>")
-                .append(" <td><input type='checkbox' name='EditBlocked_" + recCounter + "' value='1' " + (objIA2.getBlocked().equals("1") ? "checked" : "") + "></td>")
-                .append(" <td>" + (releaseTime == null ? "" : ScreenHelper.fullDateFormatSS.format(releaseTime)) + "</td>");
+                .append("<td>")
+                .append("<a href='#' onclick=\"doDelete('" + sIntruderID + "');\">")
+                .append("<img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web", "delete", sWebLanguage) + "' border='0'>")
+                .append("</a>")
+                .append("</td>")
+                .append("<td>" + sIntruderID + "</td>")
+                .append("<td><input type='text' class='text' size='5' name='EditIntrusionCount_" + recCounter + "' value='" + objIA2.getIntrusionCount() + "' onBlur='isNumber(this);'></td>")
+                .append("<td><input type='checkbox' name='EditBlocked_" + recCounter + "' value='1' " + (objIA2.getBlocked().equals("1") ? "checked" : "") + "></td>")
+                .append("<td>" + (releaseTime == null ? "" : ScreenHelper.fullDateFormatSS.format(releaseTime)) + "</td>");
 
         String remainingDuration = "";
         if (releaseTime != null) {
             remainingDuration = getRemainingDurationString(releaseTime);
         }
 
-        sOutIPs.append(" <td>&nbsp;" + remainingDuration + "</td>")
+        sOutIPs.append("<td>&nbsp;" + remainingDuration + "</td>")
                 .append("</tr>");
     }
 %>
@@ -262,10 +262,10 @@
         </tr>
         <%-- BUTTONS ---------------------------------------------------------------------------------%>
         <%=ScreenHelper.setFormButtonsStart()%>
-            <input type='button' class="button" name="saveButton" value='<%=getTran("Web","save",sWebLanguage)%>' onClick="doSave();">
-            <input type='button' class="button" name="reloadButton" value='<%=getTran("Web","reload",sWebLanguage)%>' onClick="doReload();">
-            <input type='button' class="button" name='generateButton' value='<%=getTran("Web.manage","generate",sWebLanguage)%>' onClick="doGenerate();">
-            <input type='button' class="button" name='cancelButton' value='<%=getTran("Web","Back",sWebLanguage)%>' onClick="doBack();">
+            <input type='button' class="button" name="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onClick="doSave();">
+            <input type='button' class="button" name="reloadButton" value='<%=getTranNoLink("Web","reload",sWebLanguage)%>' onClick="doReload();">
+            <input type='button' class="button" name='generateButton' value='<%=getTranNoLink("Web.manage","generate",sWebLanguage)%>' onClick="doGenerate();">
+            <input type='button' class="button" name='cancelButton' value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onClick="doBack();">
         <%=ScreenHelper.setFormButtonsStop()%>
     </table>
     <script>

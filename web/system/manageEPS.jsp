@@ -82,7 +82,7 @@
             sPhysicianLastname = objEPS.getEPSPhysicianLastname();
             sPhysicianFirstname = objEPS.getEPSPhysicianFirstname();
 
-            sEPSOptions.append(" selected");
+            sEPSOptions.append("selected");
         }
 
         sEPSOptions.append(">" + sTmpName + "</option>");
@@ -152,20 +152,20 @@
                 // display saveButton with add-label + do not display delete button
                 if(sFindEPS.equals("-1") || sFindEPS.length()==0){
                     %>
-                        <input type='button' name='saveButton' class="button" value='<%=getTran("Web","add",sWebLanguage)%>' onclick="doSave();">
+                        <input type='button' name='saveButton' class="button" value='<%=getTranNoLink("Web","add",sWebLanguage)%>' onclick="doSave();">
                     <%
                 }
                 else{
                     // existing EPS
                     // display saveButton with save-label
                     %>
-                        <input type='button' name='saveButton' class="button" value='<%=getTran("Web","save",sWebLanguage)%>' onclick="doSave();">
+                        <input type='button' name='saveButton' class="button" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">
                         <%=writeResetButton("transactionForm",sWebLanguage)%>
-                        <input type="button" name='deleteButton' class="button" value="<%=getTran("Web","delete",sWebLanguage)%>" onclick="doDelete();"/>
+                        <input type="button" name='deleteButton' class="button" value="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="doDelete();"/>
                     <%
                 }
             %>
-            <input type='button' name='backButton' class="button" value='<%=getTran("Web","back",sWebLanguage)%>' onClick='doBack();'>
+            <input type='button' name='backButton' class="button" value='<%=getTranNoLink("Web","back",sWebLanguage)%>' onClick='doBack();'>
         <%=ScreenHelper.setFormButtonsStop()%>
     </table>
 

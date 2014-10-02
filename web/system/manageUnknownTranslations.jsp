@@ -122,7 +122,7 @@
                     %>
                         <tr class="list<%=sClass%>" >
                             <td width="8%">
-                                <input type="button" class="button" onclick="deleteLabel('<%=sTmpLabelType%>','<%=sTmpLabelID%>','<%=sTmpLabelLang%>');" value="<%=getTran("Web","Delete",sWebLanguage)%>">
+                                <input type="button" class="button" onclick="deleteLabel('<%=sTmpLabelType%>','<%=sTmpLabelID%>','<%=sTmpLabelLang%>');" value="<%=getTranNoLink("Web","Delete",sWebLanguage)%>">
                             </td>
                             <td width="30%">
                                 <a href="<c:url value="/main.do"/>?Page=system/manageTranslations.jsp&EditLabelType=<%=sTmpLabelType%>&EditLabelID=<%=sTmpLabelID%>&EditLabelLang=<%=sTmpLabelLang%>"><%=sTmpLabelType%></a>
@@ -150,8 +150,8 @@
 
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>
-        <input type="button" name="ButtonControl" class="button" value="<%=getTran("Web.Manage","ControlUnknownTranslations",sWebLanguage)%>" onclick="controlLabels();">
-        <input type="button" name="ButtonBack" class="button" value="<%=getTran("web","back",sWebLanguage)%>" onclick="doBack();">
+        <input type="button" name="ButtonControl" class="button" value="<%=getTranNoLink("Web.Manage","ControlUnknownTranslations",sWebLanguage)%>" onclick="controlLabels();">
+        <input type="button" name="ButtonBack" class="button" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="doBack();">
     <%=ScreenHelper.alignButtonsStop()%>
 
     <%-- hidden fields --%>

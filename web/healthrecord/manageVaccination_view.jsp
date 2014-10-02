@@ -29,7 +29,7 @@
    
     <%=writeTableHeader("web.occup","be.mxs.healthrecord.vaccination.Vaccination",sWebLanguage,"doBack();")%>
    
-    <table border="0" width="100%" class="list" cellspacing="1">
+    <table border="0" width="100%" class="list" cellspacing="1" cellpadding="0">
         <%-- VACCINATION TYPE --%>
         <tr>
             <td class="admin" width="*"><%=getTran("Web.Occup","medwan.common.type",sWebLanguage)%>&nbsp;</td>
@@ -122,7 +122,7 @@
                 </script>&nbsp;
                 
                 <%-- calculate button --%>
-                <input type="button" class="button" name="calculate" value="<%=getTran("Web.Occup","Calculate",sWebLanguage)%>" onclick="calculateNextDate();">
+                <input type="button" class="button" name="calculate" value="<%=getTranNoLink("Web.Occup","Calculate",sWebLanguage)%>" onclick="calculateNextDate();">
             </td>
         </tr>
         
@@ -174,10 +174,10 @@
             <td class="admin2">
 		        <%
 		            if((activeUser.getAccessRight("occup.vaccinations.add"))||(activeUser.getAccessRight("occup.vaccinations.edit"))){
-		                %><input class="button" type="button" name="saveButton" onClick="submitForm();" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>"/><%
+		                %><input class="button" type="button" name="saveButton" onClick="submitForm();" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>"/><%
 		            }
 		        %>
-                <input class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="doBack();">
+                <input class="button" type="button" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="doBack();">
             </td>
         </tr>
     </table>    

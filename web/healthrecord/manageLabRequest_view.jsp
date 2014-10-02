@@ -41,7 +41,7 @@
         buf.append("<tr id='rowLA"+iTotal+"' class='"+sClass+"' title='"+detailsTran+"' onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\">")
             .append("<td align='center'>")
              .append("<a href='#' onclick=\"deleteLA(rowLA"+iTotal+",'"+sMonster+"');\">")
-              .append("<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='").append(getTran("Web","delete",sWebLanguage)).append("' border='0'>")
+              .append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='").append(getTran("Web","delete",sWebLanguage)).append("' border='0'>")
              .append("</a>")
             .append("</td>")
             .append("<td onClick=\"showResultDetails('"+serverId+"','"+transactionId+"','"+sCode+"');\">&nbsp;"+sCode+"</td>")
@@ -162,8 +162,8 @@
         <td class="admin2">
             <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.updateTime" value="<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date"/>" id="trandate" onBlur='checkDate(this)'>
             <script>writeTranDate();</script>&nbsp;&nbsp;&nbsp;
-            <input type="button" class="button" name="ButtonSearchLA" value="<%=getTran("Web","add",sWebLanguage)%>" onclick='openSearchWindow();'/>
-            <input type="button" class="button" name="ButtonQuickList" value="<%=getTran("Web","quicklist",sWebLanguage)%>" onclick='openQuickListWindow();'/>
+            <input type="button" class="button" name="ButtonSearchLA" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick='openSearchWindow();'/>
+            <input type="button" class="button" name="ButtonQuickList" value="<%=getTranNoLink("Web","quicklist",sWebLanguage)%>" onclick='openQuickListWindow();'/>
         </td>
     </tr>
 </table>
@@ -212,7 +212,7 @@
         <td class="admin2">
             <input id="hour" size="5" type="text" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_HOUR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_HOUR" property="value"/>" onblur="limitLength(this);"/>
             <a href="javascript:setCurrentTime('hour');">
-                <img src="<c:url value="/_img/icon_compose.gif"/>" class="link" style='vertical-align:bottom' title="<%=getTranNoLink("web","currenttime",sWebLanguage)%>" border="0"/>
+                <img src="<c:url value="/_img/icons/icon_compose.gif"/>" class="link" style='vertical-align:bottom' title="<%=getTranNoLink("web","currenttime",sWebLanguage)%>" border="0"/>
             </a>
         </td>
     </tr>
@@ -243,7 +243,7 @@
         <td class="admin"><%=getTran("Web.Occup","urgency",sWebLanguage)%></td>
         <td class="admin2">
             <select class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_URGENCY" property="itemId"/>]>.value">
-                <option><%=getTran("web","choose",sWebLanguage)%></option>
+                <option><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                 <%=ScreenHelper.writeSelect("labrequest.urgency",sUrgency,sWebLanguage)%>
             </select>
         </td>
@@ -299,19 +299,19 @@
                     // only display print-button and language-selector if transaction is saved
                     if(((TransactionVO)transaction).getTransactionId().intValue() > 0){
                         %>
-                            <input class="button" type="button" name="showStatus" value="<%=getTran("Web","details",sWebLanguage)%>" onclick="showRequest(<bean:write name="transaction" scope="page" property="serverId"/>,<bean:write name="transaction" scope="page" property="transactionId"/>);">
-                            <input class="button" type="button" name="receive" value="<%=getTran("Web","receive",sWebLanguage)%>" onclick="receiveSamples();">&nbsp;
+                            <input class="button" type="button" name="showStatus" value="<%=getTranNoLink("Web","details",sWebLanguage)%>" onclick="showRequest(<bean:write name="transaction" scope="page" property="serverId"/>,<bean:write name="transaction" scope="page" property="transactionId"/>);">
+                            <input class="button" type="button" name="receive" value="<%=getTranNoLink("Web","receive",sWebLanguage)%>" onclick="receiveSamples();">&nbsp;
                         <%
                     }
 
                     %>
                         <button accesskey="<%=ScreenHelper.getAccessKey(getTranNoLink("accesskey","save",sWebLanguage))%>" class="buttoninvisible" onclick="doSave(false);"></button>
                         <button class="button" name="saveButton" id="saveButton" onclick="doSave(false);"><%=getTran("accesskey","save",sWebLanguage)%></button>
-                        <input class="button" type="button" name="printLabelsButton" value="<%=getTran("Web","saveandprintlabels",sWebLanguage)%>" onclick="doSave(true)"/>&nbsp;
+                        <input class="button" type="button" name="printLabelsButton" value="<%=getTranNoLink("Web","saveandprintlabels",sWebLanguage)%>" onclick="doSave(true)"/>&nbsp;
                     <%
                 }
             %>
-            <input class="button" type="button" name="backButton" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+            <input class="button" type="button" name="backButton" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
             <input type="hidden" name="monsterids"/>
         </td>
     </tr>
@@ -406,9 +406,7 @@
       doSubmit();
     }
     else{
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=selectAtLeastOneAnalysis";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.manage","selectAtLeastOneAnalysis",sWebLanguage)%>");
+      alertDialog("web.manage","selectAtLeastOneAnalysis");
     }
   }
 
@@ -606,9 +604,7 @@
     if(labAnalysisArray.length >= maxSelectedLabAnalyses){
       if(!maxSelectedLabAnalysesAlerted){
         maxSelectedLabAnalysesAlerted = true;
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelValue=<%=getTran("Web.Occup","maxselectedlabanalysisreached",sWebLanguage)%> ("+maxSelectedLabAnalyses+")";
-        var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.Occup","maxselectedlabanalysisreached",sWebLanguage)%>");
+        alertDialogDirectText("<%=getTranNoLink("Web.Occup","maxselectedlabanalysisreached",sWebLanguage)%> ("+maxSelectedLabAnalyses+")");
       }
     }
     else{
@@ -624,7 +620,7 @@
 
         <%-- insert cells in row --%>
         var td = tr.insertCell(0);
-        td.innerHTML = "<center><a href=\"#\" onclick=\"deleteLA(rowLA"+iIndexLA+",'"+monster+"');\"><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a></center>";
+        td.innerHTML = "<center><a href=\"#\" onclick=\"deleteLA(rowLA"+iIndexLA+",'"+monster+"');\"><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a></center>";
         tr.appendChild(td);
 
         <%-- default data --%>

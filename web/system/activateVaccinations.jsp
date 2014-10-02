@@ -60,7 +60,7 @@
 	<%-- BUTTONS --%>
     <div style="padding-top:3px;">     
         <input class="button" type="button" name="saveButton" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onClick="vaccForm.submit();"/>
-        <input class="button" type="button" name="backButton" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+        <input class="button" type="button" name="backButton" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
   	</div>    
 </form>
 

@@ -4,7 +4,7 @@
                 com.itextpdf.text.DocumentException,
                 java.io.PrintWriter,be.mxs.common.util.pdf.general.PDFLabResultGenerator,java.util.Vector,java.util.Enumeration" %>
 <%
-    java.util.Date startdate=ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new java.util.Date()));
+    java.util.Date startdate=ScreenHelper.parseDate(ScreenHelper.formatDate(new java.util.Date()));
     if(request.getParameter("startdate")!=null){
         startdate=ScreenHelper.parseDate(request.getParameter("startdate"));
     }

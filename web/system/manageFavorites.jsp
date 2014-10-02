@@ -160,7 +160,7 @@
             // add option
             sSavedFavorites.append("<option value='" + label.id + "'");
             if (label.id.equals(sEditFavoriteId)) {
-                sSavedFavorites.append(" selected ");
+                sSavedFavorites.append("selected ");
             }
             sSavedFavorites.append(">");
 
@@ -219,19 +219,19 @@
                 // display saveButton with add-label + do not display delete button
                 if(sEditFavoriteId.equals("-1") || sEditFavoriteId.length()==0){
                     %>
-                    <input type="button" class="button" name="saveButton" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="doSave();">
+                    <input type="button" class="button" name="saveButton" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="doSave();">
                     <%
                 }
                 else{
                     // existing favorite
                     // display saveButton with save-label
                     %>
-                    <input type="button" class="button" name="saveButton" value="<%=getTran("Web","save",sWebLanguage)%>" onclick="doSave();">
-                    <input type="button" class="button" name="deleteButton" value="<%=getTran("Web","delete",sWebLanguage)%>" onclick="doDelete();"/>
+                    <input type="button" class="button" name="saveButton" value="<%=getTranNoLink("Web","save",sWebLanguage)%>" onclick="doSave();">
+                    <input type="button" class="button" name="deleteButton" value="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="doDelete();"/>
                     <%
                 }
             %>
-            <input type="button" name="backButton" class="button" value="<%=getTran("Web","back",sWebLanguage)%>" OnClick="doBack();">
+            <input type="button" name="backButton" class="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" OnClick="doBack();">
         <%=ScreenHelper.setFormButtonsStop()%>
     </table>
     <%-- indication of obligated fields --%>

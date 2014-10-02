@@ -98,7 +98,7 @@
 		<tr class='admin'><td><%=getTran("web","total",sWebLanguage) %></td><td><%=total %></td><td>100%</td></tr>
 	</table>
 	<p/>
-	<center><input type='button' class='button' value='<%=getTran("web","close",sWebLanguage) %>' onclick='window.close();'/></center>
+	<center><input type='button' class='button' value='<%=getTranNoLink("web","close",sWebLanguage) %>' onclick='window.close();'/></center>
 <%
 	conn.close();
 %>

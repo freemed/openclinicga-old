@@ -326,15 +326,15 @@
                     <td class="menu">
                         &nbsp;<%=getTran("Web","Unit",sWebLanguage)%>
                         <input class="text" type="text" name="FindServiceText" READONLY size="<%=sTextWidth%>" title="<%=sFindServiceText%>" value="<%=sFindServiceText%>">
-                        <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('FindServiceCode','FindServiceText');">
-                        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindServiceCode.value='';transactionForm.FindServiceText.value='';">
+                        <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('FindServiceCode','FindServiceText');">
+                        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindServiceCode.value='';transactionForm.FindServiceText.value='';">
                         <input type="hidden" name="FindServiceCode" value="<%=sFindServiceCode%>">&nbsp;
                         <%-- BUTTONS --%>
-                        <input type="button" class="button" name="editButton" value="<%=getTran("Web","Edit",sWebLanguage)%>" onclick="doEdit(transactionForm.FindServiceCode.value);">
-                        <input type="button" class="button" name="clearButton" value="<%=getTran("Web","Clear",sWebLanguage)%>" onclick="clearFields();">
-                        <input type="button" class="button" name="newButton" value="<%=getTran("Web","new",sWebLanguage)%>" onclick="doNew();">
-                        <input type="button" class="button" name="deleteButton" value="<%=getTran("Web","delete",sWebLanguage)%>" onclick="doDelete(transactionForm.FindServiceCode.value);">
-                        <input type="button" class="button" name="backButton" value="<%=getTran("Web","Back",sWebLanguage)%>" OnClick="doBackToMenu();">
+                        <input type="button" class="button" name="editButton" value="<%=getTranNoLink("Web","Edit",sWebLanguage)%>" onclick="doEdit(transactionForm.FindServiceCode.value);">
+                        <input type="button" class="button" name="clearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearFields();">
+                        <input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">
+                        <input type="button" class="button" name="deleteButton" value="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="doDelete(transactionForm.FindServiceCode.value);">
+                        <input type="button" class="button" name="backButton" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" OnClick="doBackToMenu();">
                     </td>
                 </tr>
             </table>
@@ -686,8 +686,8 @@
                                     <input type="hidden" name="EditDefaultServiceStockUid" value="<%=service.defaultServiceStockUid%>">
                                     <input class="text" type="text" name="EditDefaultServiceStockName" readonly size="<%=sTextWidth%>" value="<%=serviceStockName%>">
 
-                                    <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchServiceStock('EditDefaultServiceStockUid','EditDefaultServiceStockName');">
-                                    <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditDefaultServiceStockUid.value='';transactionForm.EditDefaultServiceStockName.value='';">
+                                    <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchServiceStock('EditDefaultServiceStockUid','EditDefaultServiceStockName');">
+                                    <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditDefaultServiceStockUid.value='';transactionForm.EditDefaultServiceStockName.value='';">
                                 </td>
                             </tr>
                         <%
@@ -804,9 +804,9 @@
             <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
             <%-- EDIT BUTTONS --%>
             <%=ScreenHelper.alignButtonsStart()%>
-                <input class="button" type="button" name="saveButton" value='<%=getTran("Web","Save",sWebLanguage)%>' onclick="doSave();">
-                <input type="button" class="button" name="deleteButton" value="<%=getTran("Web","delete",sWebLanguage)%>" onclick="doDelete(transactionForm.EditServiceCode.value);">
-                <input class="button" type="button" name="backButton" value='<%=getTran("Web","Back",sWebLanguage)%>' OnClick='doBack();'>
+                <input class="button" type="button" name="saveButton" value='<%=getTranNoLink("Web","Save",sWebLanguage)%>' onclick="doSave();">
+                <input type="button" class="button" name="deleteButton" value="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="doDelete(transactionForm.EditServiceCode.value);">
+                <input class="button" type="button" name="backButton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' OnClick='doBack();'>
             <%=ScreenHelper.alignButtonsStop()%>
             <script>
               transactionForm.EditServiceCode.focus();

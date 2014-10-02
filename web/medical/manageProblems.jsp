@@ -167,10 +167,10 @@
             <td class="admin2">
                 <input class="text" type="text" id="fLabel" name="FindProblemCodeLabel"
                        value="<%=sFindProblemCodeLabel%>" size="<%=sTextWidth%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link"
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link"
                      alt="<%=getTranNoLink("Web","select",sWebLanguage)%>"
                      onclick="searchICPC('fCode','fLabel','fType');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link"
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link"
                      alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>"
                      onclick="FindProblemForm.FindProblemCode.value='';FindProblemForm.FindProblemCodeLabel.value='';FindProblemForm.FindProblemCodeType.value='';">
             </td>
@@ -274,7 +274,7 @@
                 sOutput = "<tr class=\"list"+sClass+"\"" +
                         " onmouseover=\"this.style.cursor='hand';\"" +
                         " onmouseout=\"this.style.cursor='default';\">" +
-                        "<td>&nbsp;<img src='http://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/_img/icon_delete.gif' alt='"+getTranNoLink("web", "delete", sWebLanguage)+"' border='0' onclick='doDelete(\""+tmpProblem.getUid()+"\");'>&nbsp;</td>" +
+                        "<td>&nbsp;<img src='http://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("web", "delete", sWebLanguage)+"' border='0' onclick='doDelete(\""+tmpProblem.getUid()+"\");'>&nbsp;</td>" +
 
                         "<td onclick=\"doSelect('"+tmpProblem.getUid()+"');\"><b>"+checkString(tmpProblem.getCode())+"</b></td>" +
                         "<td onclick=\"doSelect('"+tmpProblem.getUid()+"');\"><b>"+(tmpProblem.getCode() != null && tmpProblem.getCode().length() > 0 ? MedwanQuery.getInstance().getCodeTran(tmpProblem.getCodeType()+"code"+tmpProblem.getCode(), sWebLanguage) : "")+(tmpProblem.getCode() != null && tmpProblem.getCode().length() > 0 & tmpProblem.getComment().trim().length() > 0 ? ": " : "")+(tmpProblem.getComment().trim().length() > 0 ? "</b><i>"+tmpProblem.getComment()+"</i>" : "</b>")+"</td>" +
@@ -422,10 +422,10 @@
             <td class="admin2">
                 <input class="text" type="text" id="eLabel" name="EditProblemCodeLabel"
                        value="<%=sEditProblemCodeLabel%>" readonly size="<%=sTextWidth%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link"
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link"
                      alt="<%=getTranNoLink("Web","select",sWebLanguage)%>"
                      onclick="searchICPC('eCode','eLabel','eType');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link"
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link"
                      alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>"
                      onclick="EditProblemForm.EditProblemCode.value='';EditProblemForm.EditProblemCodeLabel.value='';EditProblemForm.EditProblemCodeType.value='';">
             </td>
@@ -551,14 +551,10 @@
 
   function doSave(){
     if(EditProblemForm.EditProblemBeginDate.value == ""){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=medical&labelID=no_date";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl, '', modalities):window.confirm("<%=getTranNoLink("medical","no_date",sWebLanguage)%>");
+  	  alertDialog("medical","no_date");
     }
     else if (EditProblemForm.EditProblemCode.value == "" && EditProblemForm.EditProblemComment.value == ""){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=medical&labelID=no_code";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-     (window.showModalDialog)?window.showModalDialog(popupUrl, '', modalities):window.confirm("<%=getTranNoLink("medical","no_code",sWebLanguage)%>");
+      alertDialog("medical","no_code");      
     }
     else{
       EditProblemForm.EditSaveButton.disabled = true;

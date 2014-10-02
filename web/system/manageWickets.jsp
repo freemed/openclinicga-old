@@ -13,7 +13,7 @@
         html.append("<tr id='rowAuthorizedUsers"+userIdx+"'>")
              .append("<td width='16'>")
               .append("<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+userIdx+")'>")
-               .append("<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web","delete",sWebLanguage)+"' class='link'>")
+               .append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web","delete",sWebLanguage)+"' class='link'>")
               .append("</a>")
              .append("</td>")
              .append("<td>"+userName+"</td>")
@@ -121,13 +121,13 @@
 			            <td class='admin2'>
 			                <input type="hidden" name="FindWicketService" value="<%=sEditWicketService%>">
 			                <input class="text" type="text" name="FindWicketServiceName" readonly size="<%=sTextWidth%>" value="<%=sFindWicketServiceName%>">
-			                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('FindWicketService','FindWicketServiceName');">
-			                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="FindWicketForm.FindWicketServiceName.value='';FindWicketForm.FindWicketService.value='';">
+			                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('FindWicketService','FindWicketServiceName');">
+			                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="FindWicketForm.FindWicketServiceName.value='';FindWicketForm.FindWicketService.value='';">
 			              
-			                <input class='button' type='button' name='buttonfind' value='<%=getTran("Web","search",sWebLanguage)%>' onclick='doFind();'>
-			                <input class='button' type='button' name='buttonclear' value='<%=getTran("Web","Clear",sWebLanguage)%>' onclick='doClear();'>
-			                <input class='button' type='button' name='buttonnew' value='<%=getTran("Web.Occup","medwan.common.create-new",sWebLanguage)%>' onclick='doNew();'>
-			                <input class='button' type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doBack();">
+			                <input class='button' type='button' name='buttonfind' value='<%=getTranNoLink("Web","search",sWebLanguage)%>' onclick='doFind();'>
+			                <input class='button' type='button' name='buttonclear' value='<%=getTranNoLink("Web","Clear",sWebLanguage)%>' onclick='doClear();'>
+			                <input class='button' type='button' name='buttonnew' value='<%=getTranNoLink("Web.Occup","medwan.common.create-new",sWebLanguage)%>' onclick='doNew();'>
+			                <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
 			            </td>
 			        </tr>
 			        
@@ -159,7 +159,7 @@
             sbResults.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\">" +
 		                      "<td width='25'>"+
             		           "<a href='#' onclick='deleteWicket(\""+wicket.getUid()+"\")'>" +
-		                        "<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web", "delete", sWebLanguage)+"' class='link'>" +
+		                        "<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web", "delete", sWebLanguage)+"' class='link'>" +
 		                       "</a>" +
 		                      "</td>" +
 		                      "<td onclick=\"doSelect('"+wicket.getUid()+"');\">"+sDate+"</td>" +
@@ -188,7 +188,7 @@
 			    %>
 			    
 		        <%=ScreenHelper.alignButtonsStart()%>
-		            <input class='button' type="button" name="Backbutton" value='<%=getTran("web","Back",sWebLanguage)%>' onclick="doBack();">
+		            <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("web","Back",sWebLanguage)%>' onclick="doBack();">
                 <%=ScreenHelper.alignButtonsStop()%>
 		    <%
     	}
@@ -233,7 +233,7 @@
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","wicket",sWebLanguage)%></td>            
             <td class='admin2'>
                 <select class="text" name="EditWicketService">
-                    <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                    <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
 			        <%
 			            Vector vServices = Service.getWickets();
 			            Iterator iter = vServices.iterator();
@@ -263,9 +263,9 @@
                 <input type="hidden" name="AuthorizedUserIdAdd" value="">
                 <input class="text" type="text" name="AuthorizedUserNameAdd" size="<%=sTextWidth%>" value="" readonly>
 
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchAuthorizedUser('AuthorizedUserIdAdd','AuthorizedUserNameAdd');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditWicketForm.AuthorizedUserIdAdd.value='';EditWicketForm.AuthorizedUserNameAdd.value='';">
-                <img src="<c:url value="/_img/icon_add.gif"/>" class="link" alt="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addAuthorizedUser();">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchAuthorizedUser('AuthorizedUserIdAdd','AuthorizedUserNameAdd');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditWicketForm.AuthorizedUserIdAdd.value='';EditWicketForm.AuthorizedUserNameAdd.value='';">
+                <img src="<c:url value="/_img/icons/icon_add.gif"/>" class="link" alt="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addAuthorizedUser();">
 
                 <table width="100%" cellspacing="1" id="tblAuthorizedUsers">
                     <%=authorizedUsersHTML%>
@@ -277,8 +277,8 @@
         
         <%-- BUTTONS --%>
 		<%=ScreenHelper.setFormButtonsStart()%>
-		    <input class='button' type="button" name="SaveButton" value='<%=getTran("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
-		    <input class='button' type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doSearchBack();">
+		    <input class='button' type="button" name="SaveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
+		    <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doSearchBack();">
 		<%=ScreenHelper.setFormButtonsStop()%>
     </table>
            
@@ -312,7 +312,7 @@
       var td = tr.insertCell(0);
       td.width = 16;
       td.innerHTML = "<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+iAuthorizedUsersIdx+")'>"+
-                      "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'>"+
+                      "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'>"+
                      "</a>";
       tr.appendChild(td);
 

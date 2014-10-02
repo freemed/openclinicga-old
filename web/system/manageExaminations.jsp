@@ -137,7 +137,7 @@
             <td width="<%=sTDAdminWidth%>">&nbsp;<%=getTran("Web.manage","examination",sWebLanguage)%></td>
             <td>
                 <select name="FindExamID" class="text" onChange="transactionForm.submit();">
-                    <option value="-1"><%=getTran("Web","choose",sWebLanguage)%></option>
+                    <option value="-1"><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                     <%
                         String sKey, sID, sSelected;
                         byte[] aData;
@@ -190,8 +190,8 @@
                     %>
                 </select>
                 <%-- BUTTONS --%>
-                <input class="button" type="button" name="newButton" value="<%=getTran("Web","new",sWebLanguage)%>" onclick="doNew();">
-                <input class="button" type="button" name="backButton" id="backButton" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+                <input class="button" type="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">
+                <input class="button" type="button" name="backButton" id="backButton" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
             </td>
         </tr>
     </table>
@@ -285,10 +285,10 @@
                             <%
                                 // ADD / SAVE
                                 if(activeUser.getAccessRight("system.manageexaminations.add") || activeUser.getAccessRight("system.manageexaminations.edit")){
-                                    %><input class="button" type="button" name="saveButton" onClick="doSave();" value="<%=getTran("Web",(sAction.equals("new")?"add":"save"),sWebLanguage)%>"/><%
+                                    %><input class="button" type="button" name="saveButton" onClick="doSave();" value="<%=getTranNoLink("Web",(sAction.equals("new")?"add":"save"),sWebLanguage)%>"/><%
                                 }
                             %>
-                            <input class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+                            <input class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
                         </td>
                     </tr>
                 </table>

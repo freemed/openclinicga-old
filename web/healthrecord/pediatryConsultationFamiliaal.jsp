@@ -10,8 +10,8 @@
     private String addFami(int iTotal, String sTmpFamiDate, String sTmpFamiDescr, String sTmpFamiVerwantschap, String sWebLanguage) {
         return "<tr id='rowFami" + iTotal + "'>"
                 + "<td width='36'>"
-                + " <a href='javascript:deleteFami(rowFami" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup", "medwan.common.delete", sWebLanguage) + "' border='0'></a> "
-                + " <a href='javascript:editFami(rowFami" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup", "medwan.common.edit", sWebLanguage) + "' border='0'></a>"
+                + " <a href='javascript:deleteFami(rowFami" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web.Occup", "medwan.common.delete", sWebLanguage) + "' border='0'></a> "
+                + " <a href='javascript:editFami(rowFami" + iTotal + ")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_edit.gif' alt='" + getTran("Web.Occup", "medwan.common.edit", sWebLanguage) + "' border='0'></a>"
                 + "</td>"
                 + "<td>&nbsp;" + sTmpFamiDate + "</td>"
                 + "<td>&nbsp;" + sTmpFamiDescr + "</td>"
@@ -124,8 +124,8 @@
                                     <input type="text" class="text" name="FamiVerwantschap" size="40" onblur="limitLength(this);">
                                 </td>
                                 <td class="admin2">
-                                    <input type="button" class="button" name="ButtonAddFami" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addFami()">
-                                    <input type="button" class="button" name="ButtonUpdateFami" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateFami()">
+                                    <input type="button" class="button" name="ButtonAddFami" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addFami()">
+                                    <input type="button" class="button" name="ButtonUpdateFami" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateFami()">
                                 </td>
                             </tr>
 
@@ -177,8 +177,8 @@ function addFami(){
     tr.id = "rowFami"+iIndex;
 
     var td = tr.insertCell(0);
-    td.innerHTML = "<a href='javascript:deleteFami(rowFami"+iIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                  +"<a href='javascript:editFami(rowFami"+iIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a> ";
+    td.innerHTML = "<a href='javascript:deleteFami(rowFami"+iIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                  +"<a href='javascript:editFami(rowFami"+iIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a> ";
     tr.appendChild(td);
 
     td = tr.insertCell(1);
@@ -244,8 +244,8 @@ function updateFami(){
     <%-- update table object --%>
     var row = tblFami.rows[editFamiRowid.rowIndex];
       
-    row.cells[0].innerHTML = "<a href='javascript:deleteFami("+editFamiRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editFami("+editFamiRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteFami("+editFamiRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editFami("+editFamiRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells[1].innerHTML = "&nbsp;"+document.getElementById("transactionForm").FamiDate.value;
     row.cells[2].innerHTML = "&nbsp;"+document.getElementById("transactionForm").FamiDescription.value;
     row.cells[3].innerHTML = "&nbsp;"+document.getElementById("transactionForm").FamiVerwantschap.value;

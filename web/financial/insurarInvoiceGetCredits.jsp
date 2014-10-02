@@ -2,6 +2,7 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%!
+    //--- ADD DEBET CREDITS -----------------------------------------------------------------------
     private String addDebetCredits(Vector vCredits, String sClass, boolean bChecked, String sWebLanguage) {
         String sReturn = "";
 
@@ -20,11 +21,9 @@
                     insurarcredit = InsurarCredit.get(sInsurarCreditUID);
 
                     if (insurarcredit != null) {
-                        if (sClass.equals((""))) {
-                            sClass = "1";
-                        } else {
-                            sClass = "";
-                        }
+                    	// alternate row-style
+                        if(sClass.equals((""))) sClass = "1";
+                        else                    sClass = "";
 
                         sReturn += "<tr class='list" + sClass + "'>"
                                 + "<td><img src='"+sImage+"' name='cbCredit" + insurarcredit.getUid() + "=" + insurarcredit.getAmount() + "' onclick='doBalance(this, false)'></td>"
@@ -36,18 +35,20 @@
                 }
             }
         }
+        
         return sReturn;
     }
 %>
- <table width="100%" cellspacing="1">
+<table width="100%" cellspacing="1" cellpadding="0">
     <tr class="gray">
-        <td width="50"/>
+        <td width="20"/>
         <td width="80"><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
         <td width="50%"><%=HTMLEntities.htmlentities(getTran("web","type",sWebLanguage))%></td>
         <td><%=HTMLEntities.htmlentities(getTran("web", "amount", sWebLanguage))%></td>
     </tr>
 <%
 	String sClass = "";
+    int recCount = 0; 
     
 	String sEditInsurarInvoiceUID = checkString(request.getParameter("EditInsurarInvoiceUID"));
 	InsurarInvoice insurarInvoice = null;
@@ -61,7 +62,10 @@
     if ((insurarInvoice == null) || (!(checkString(insurarInvoice.getStatus()).equalsIgnoreCase("closed")||checkString(insurarInvoice.getStatus()).equalsIgnoreCase("canceled")))) {
         String sInsurarUid = checkString(request.getParameter("InsurarUid"));
         Vector vUnassignedCredits = InsurarCredit.getUnassignedInsurarCredits(sInsurarUid);
+        recCount = vUnassignedCredits.size();
         out.print(addDebetCredits(vUnassignedCredits, sClass, false, sWebLanguage));
     }
+       	
+    out.print("<tr><td colspan='4'>"+recCount+" "+getTranNoLink("web","records.loaded",sWebLanguage)+"</td></tr>");
 %>
 </table>

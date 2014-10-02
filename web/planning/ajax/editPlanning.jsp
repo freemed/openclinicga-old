@@ -324,8 +324,8 @@
         <td class='admin2'>
             <input type="hidden" id="EditUserUID" name="EditUserUID" value="<%=planning.getUserUID()%>">
             <input class="text" type="text" id="EditUserName" name="EditUserName" readonly size="<%=sTextWidth%>" value="<%=HTMLEntities.htmlentities(ScreenHelper.getFullUserName(planning.getUserUID()))%>">
-            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchUser('EditUserUID','EditUserName');">
-            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="$('EditUserUID').clear();$('EditUserName').clear();">
+            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchUser('EditUserUID','EditUserName');">
+            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="$('EditUserUID').clear();$('EditUserName').clear();">
         </td>
     </tr>
     <tr>
@@ -333,8 +333,8 @@
         <td class='admin2'>
             <input type="hidden" id="EditPatientUID" name="EditPatientUID" value="<%=(planning.getPatientUID()==null)?"":planning.getPatientUID()%>">
             <input class="text" id="EditPatientName" type="text" name="EditPatientName" readonly size="<%=sTextWidth%>" value="<%=HTMLEntities.htmlentities(ScreenHelper.getFullPersonName(planning.getPatientUID()))%>">
-            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchMyPatient('EditPatientUID','EditPatientName');">
-            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="$('EditPatientUID').clear();$('EditPatientName').clear();">
+            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchMyPatient('EditPatientUID','EditPatientName');">
+            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="$('EditPatientUID').clear();$('EditPatientName').clear();">
         </td>
     </tr>
     <%
@@ -388,8 +388,8 @@
             <input type="hidden" id="EditCancelationDateTime" value="" />
             <input type="hidden" id="EditContactUID" name="EditContactUID" value="<%=orContact.getObjectUid()%>">
             <input class="text" type="text" id="EditContactName" name="EditContactName" readonly size="<%=sTextWidth%>" value="<%=sEditContactName%>">
-            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchPrestation('EditContactUID','EditContactName');">
-            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="$('EditContactUID').clear();$('EditContactName').clear();">
+            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchPrestation('EditContactUID','EditContactName');">
+            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="$('EditContactUID').clear();$('EditContactName').clear();">
         </td>
     </tr>
     <div id="trContext">
@@ -451,7 +451,7 @@
     <tr>
         <td class="admin"/>
         <td class="admin2">
-            <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>. <input type="hidden" name="Action"/>
+            <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%> <input type="hidden" name="Action"/>
         </td>
     </tr>
 </table>

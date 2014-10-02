@@ -52,8 +52,8 @@
         </script>
 
         <%=ScreenHelper.alignButtonsStart()%>
-            <input type="button" class="button" name="ButtonBack" value="<%=getTran("web","back",sWebLanguage)%>" onclick="<%=(historyBack.length() > 0?"history.go(-"+historyBack+");":"history.go(-1);")%>">
-            <input type="button" class="button" name="ButtonClose" value="<%=getTran("web","close",sWebLanguage)%>" onclick="window.close();">
+            <input type="button" class="button" name="ButtonBack" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="<%=(historyBack.length() > 0?"history.go(-"+historyBack+");":"history.go(-1);")%>">
+            <input type="button" class="button" name="ButtonClose" value="<%=getTranNoLink("web","close",sWebLanguage)%>" onclick="window.close();">
             <br><br>
         <%=ScreenHelper.alignButtonsStop()%>
     </body>

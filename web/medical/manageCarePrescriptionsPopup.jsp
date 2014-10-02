@@ -7,6 +7,7 @@
 <%=checkPermissionPopup("prescriptions.care","select",activeUser)%>
 <%=sJSSORTTABLE%>
 <%=sJSDROPDOWNMENU%>
+
 <%!
     //--- OBJECTS TO HTML -------------------------------------------------------------------------
     private StringBuffer objectsToHtml(Vector objects, String sWebLanguage) {
@@ -57,7 +58,7 @@
 
             //*** display prescription in one row ***
             html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
-                 .append("<td align='center'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+prescr.getUid()+"');\">")
+                 .append("<td align='center'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+prescr.getUid()+"');\">")
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sCareDescr+"</td>")
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sPrescriber+"</td>")
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sDateBeginFormatted+"</td>")
@@ -68,6 +69,7 @@
         return html;
     }
 %>
+
 <%
     String sDefaultSortCol = "OC_CAREPRESCR_BEGIN",
            sDefaultSortDir = "DESC",
@@ -109,13 +111,13 @@
     <%-- page title --%>
     <table width="100%" cellspacing="0">
         <tr class="admin">
-            <td>&nbsp;&nbsp;<%=getTran("Web.manage","ManagePatientCarePrescriptions",sWebLanguage)%>&nbsp;<%=activePatient.lastname+" "+activePatient.firstname%></td>
+            <td><%=getTran("Web.manage","ManagePatientCarePrescriptions",sWebLanguage)%>&nbsp;<%=activePatient.lastname+" "+activePatient.firstname%></td>
             <td align="right">
-               <%
-                   if(sAction.startsWith("showDetails")){
-                       %><img onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" onClick="doBack();" style='vertical-align:middle;' border='0' src='<%=sCONTEXTPATH%>/_img/arrow.jpg' alt='<%=getTranNoLink("Web","Back",sWebLanguage)%>'><%
-                   }
-               %>
+                <%
+                    if(sAction.startsWith("showDetails")){
+                        %><img onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" onClick="doBack();" style='vertical-align:middle;' border='0' src='<%=sCONTEXTPATH%>/_img/themes/default/arrow_left.gif' alt='<%=getTranNoLink("Web","Back",sWebLanguage)%>'><%
+                    }
+                %>
             </td>
         </tr>
     </table>
@@ -172,16 +174,15 @@
                 %>
                     <%-- display message --%>
                     <br><span id="msgArea">&nbsp;<%=msg%></span>
+                    
                     <%-- NEW BUTTON --%>
                     <%=ScreenHelper.alignButtonsStart()%>
                     <%
                         if (activeUser.getAccessRight("prescriptions.care.add")){
-                    %>
-                        <input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doShowDetails('');">
-                    <%
+                            %><input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doShowDetails('');"><%
                         }
                     %>
-                        <input type="button" class="button" name="closeButton" value="<%=getTranNoLink("Web","close",sWebLanguage)%>" onclick="window.close();">
+                    <input type="button" class="button" name="closeButton" value="<%=getTranNoLink("Web","close",sWebLanguage)%>" onclick="window.close();">
                     <%=ScreenHelper.alignButtonsStop()%>
                 <%
             }
@@ -244,11 +245,11 @@
               "&ReturnProductNameField="+productNameField;
 
     if(productUnitField!=undefined){
-      url = url+"&ReturnProductUnitField="+productUnitField;
+      url+= "&ReturnProductUnitField="+productUnitField;
     }
 
     if(unitsPerTimeUnitField!=undefined){
-      url = url+"&ReturnUnitsPerTimeUnitField="+unitsPerTimeUnitField;
+      url+= "&ReturnUnitsPerTimeUnitField="+unitsPerTimeUnitField;
     }
 
     openPopup(url);

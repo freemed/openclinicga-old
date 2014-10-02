@@ -41,7 +41,7 @@
 		<tr>
 			<td><%=getTran("web","messagessince",sWebLanguage) %></td>
 			<td><%=writeDateField("start","transactionForm",start,sWebLanguage)%></td>
-			<td><input type='submit' name='submit' value='<%=getTran("web","find",sWebLanguage) %>'/></td>
+			<td><input type='submit' name='submit' value='<%=getTranNoLink("web","find",sWebLanguage) %>'/></td>
 		</tr>
 	</table>
 </form>

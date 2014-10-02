@@ -18,18 +18,10 @@ function removeTRIndexes(sTableArrayString){
 //-- SET ROW STYLE --
 function setRowStyle(row,rowIdx){
   if(rowIdx%2==0){
-    for(var i=0; i<row.cells.length; i++){
-      row.cells[i].style.font = "10px arial #333333";
-      row.cells[i].style.padding = "5px 1px 1px 1px";
-      row.cells[i].style.backgroundColor = "#E0EBF2";
-    }
+    row.className = "list1";
   }
   else{
-    for(var i=0; i<row.cells.length; i++){
-      row.cells[i].style.font = "10px arial #333333";
-      row.cells[i].style.padding = "5px 1px 1px 1px";
-      row.cells[i].style.backgroundColor = "#E9EEFF";
-    }
+    row.className = "list";
   }
 }
 

@@ -28,10 +28,10 @@
             <td class="admin2"><%=writeDateField("FindEnd","transactionForm",sFindEnd,sWebLanguage)%></td>
         </tr>
         <%=ScreenHelper.setSearchFormButtonsStart()%>
-            <input type="button" class="button" name="ButtonFind" value="<%=getTran("Web","Find",sWebLanguage)%>" onclick="transactionForm.submit()">&nbsp;
-            <input type="button" class="button" name="ButtonClear" value="<%=getTran("Web","Clear",sWebLanguage)%>" onclick="clearFields()">&nbsp;
-            <input type="button" class="button" name="ButtonNew" value="<%=getTran("Web","New",sWebLanguage)%>" onclick="doNew()">&nbsp;
-            <input class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack()">
+            <input type="button" class="button" name="ButtonFind" value="<%=getTranNoLink("Web","Find",sWebLanguage)%>" onclick="transactionForm.submit()">&nbsp;
+            <input type="button" class="button" name="ButtonClear" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearFields()">&nbsp;
+            <input type="button" class="button" name="ButtonNew" value="<%=getTranNoLink("Web","New",sWebLanguage)%>" onclick="doNew()">&nbsp;
+            <input class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack()">
         <%=ScreenHelper.setSearchFormButtonsStop()%>
     </table>
     <script>
@@ -118,7 +118,7 @@
         %>
                 <tr class='list<%=sClass%>' >
                     <td>
-                        <img src="<c:url value='/_img/icon_edit.gif'/>" alt="<%=getTran("web","edit",sWebLanguage)%>" onclick="doOpen('<%=reference.getUid()+"','"+sPatientID%>')"/>
+                        <img src="<c:url value='/_img/icons/icon_edit.gif'/>" alt="<%=getTranNoLink("web","edit",sWebLanguage)%>" onclick="doOpen('<%=reference.getUid()+"','"+sPatientID%>')"/>
                     </td>
                     <td><%=sPatientName%></td><td><%=ScreenHelper.getSQLDate(reference.getRequestDate())%></td><td><%=sServiceName%></td>
                     <td><%=checkString(reference.getStatus())%></td><td><%=ScreenHelper.getSQLDate(reference.getExecutionDate())%></td><td><%=sCreatedByName%></td>
@@ -190,8 +190,8 @@
         %>
                 <tr class='list<%=sClass%>' >
                      <td>
-                        <img src="<c:url value='/_img/icon_edit.gif'/>" alt="<%=getTran("web","edit",sWebLanguage)%>" onclick="doOpen('<%=reference.getUid()+"','"+sPatientID%>')"/>
-                        <img src="<c:url value='/_img/icon_agenda.gif'/>" alt="<%=getTran("web","planning",sWebLanguage)%>" onclick="doAgenda('<%=ScreenHelper.getSQLDate(reference.getRequestDate())+"','"+sPatientID%>')"/>
+                        <img src="<c:url value='/_img/icons/icon_edit.gif'/>" alt="<%=getTranNoLink("web","edit",sWebLanguage)%>" onclick="doOpen('<%=reference.getUid()+"','"+sPatientID%>')"/>
+                        <img src="<c:url value='/_img/icons/icon_agenda.gif'/>" alt="<%=getTranNoLink("web","planning",sWebLanguage)%>" onclick="doAgenda('<%=ScreenHelper.getSQLDate(reference.getRequestDate())+"','"+sPatientID%>')"/>
                     </td>
                     <td><%=sPatientName%></td><td><%=ScreenHelper.getSQLDate(reference.getRequestDate())%></td><td><%=sServiceName%></td>
                     <td><%=checkString(reference.getStatus())%></td><td><%=ScreenHelper.getSQLDate(reference.getExecutionDate())%></td><td><%=sCreatedByName%></td>

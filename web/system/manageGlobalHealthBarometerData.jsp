@@ -109,6 +109,6 @@
 	
 %>
   </table>
-  <input type='submit' name='save' value='<%=getTran("web","save",sWebLanguage)%>'/>
+  <input type='submit' name='save' value='<%=getTranNoLink("web","save",sWebLanguage)%>'/>
 </form>
 

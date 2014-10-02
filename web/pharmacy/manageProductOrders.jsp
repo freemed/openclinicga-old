@@ -1,5 +1,5 @@
-<%@page import="java.util.*,be.mxs.common.util.system.*" %>
-<%@ page import="be.openclinic.pharmacy.*" %>
+<%@page import="java.util.*,be.mxs.common.util.system.*"%>
+<%@page import="be.openclinic.pharmacy.*"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 
@@ -8,7 +8,7 @@
 
 <%!
     //--- ORDERS TO HTML --------------------------------------------------------------------------
-    private StringBuffer ordersToHtml(Vector orders, String sWebLanguage) {
+    private StringBuffer ordersToHtml(Vector orders, String sWebLanguage){
         StringBuffer html = new StringBuffer();
         String sClass = "1", sProductStockUid = "", sPreviousProductStockUid = "", sImportance = "",
                 sDateOrdered = "", sDateDelivered = "", sProductName = "", sServiceStockName = "";
@@ -22,22 +22,22 @@
 
         // run thru found orders
         ProductOrder order;
-        for (int i = 0; i < orders.size(); i++) {
+        for (int i = 0; i < orders.size(); i++){
             order = (ProductOrder) orders.get(i);
 
             // Date Ordered
             tmpDate = order.getDateOrdered();
-            if (tmpDate != null) sDateOrdered = stdDateFormat.format(tmpDate);
+            if(tmpDate != null) sDateOrdered = stdDateFormat.format(tmpDate);
             else sDateOrdered = "";
 
             // Date Delivered
             tmpDate = order.getDateDelivered();
-            if (tmpDate != null) sDateDelivered = stdDateFormat.format(tmpDate);
+            if(tmpDate != null) sDateDelivered = stdDateFormat.format(tmpDate);
             else sDateDelivered = "";
 
             // only search product-name when different productstock-UID
             sProductStockUid = order.getProductStockUid();
-            if (!sProductStockUid.equals(sPreviousProductStockUid)) {
+            if(!sProductStockUid.equals(sPreviousProductStockUid)){
                 sPreviousProductStockUid = sProductStockUid;
                 productStock = ProductStock.get(sProductStockUid);
                 if(productStock!=null){
@@ -48,17 +48,17 @@
 
             // translate importance
             sImportance = checkString(order.getImportance());
-            if (sImportance.length() > 0) {
+            if(sImportance.length() > 0){
                 sImportance = getTran("productorder.importance", sImportance, sWebLanguage);
             }
 
             // alternate row-style
-            if (sClass.equals("")) sClass = "1";
+            if(sClass.equals("")) sClass = "1";
             else sClass = "";
 
             //*** display order in one row ***
             html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
-                 .append("<td align='center'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+order.getUid()+"');\">")
+                 .append("<td align='center'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+order.getUid()+"');\">")
                  .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+checkString(order.getDescription())+"</td>")
                  .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sServiceStockName+"</td>")
                  .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sProductName+"</td>")
@@ -74,7 +74,7 @@
     }
 
     //--- UNDELIVERED ORDERS TO HTML --------------------------------------------------------------
-    private StringBuffer undeliveredOrdersToHtml(Vector orders, String sWebLanguage) {
+    private StringBuffer undeliveredOrdersToHtml(Vector orders, String sWebLanguage){
         StringBuffer html = new StringBuffer();
         String sClass = "1", sProductStockUid = "", sPreviousProductStockUid = "", sImportance = "",
                 sDateOrdered = "", sDateDeliveryDue = "", sProductName = "", sServiceStockName = "";
@@ -90,29 +90,29 @@
 
         // run thru found orders
         ProductOrder order;
-        for (int i = 0; i < orders.size(); i++) {
+        for (int i = 0; i < orders.size(); i++){
             order = (ProductOrder) orders.get(i);
 
             // Date Ordered
             tmpDate = order.getDateOrdered();
-            if (tmpDate != null) sDateOrdered = stdDateFormat.format(tmpDate);
+            if(tmpDate != null) sDateOrdered = stdDateFormat.format(tmpDate);
             else sDateOrdered = "";
 
             // Date DeliveryDue
             tmpDate = order.getDateDeliveryDue();
-            if (tmpDate != null) sDateDeliveryDue = stdDateFormat.format(tmpDate);
+            if(tmpDate != null) sDateDeliveryDue = stdDateFormat.format(tmpDate);
             else sDateDeliveryDue = "";
 
             // only search product-name ans serviceStock-name when different productstock-UID
             sProductStockUid = order.getProductStockUid();
-            if (!sProductStockUid.equals(sPreviousProductStockUid)) {
+            if(!sProductStockUid.equals(sPreviousProductStockUid)){
                 sPreviousProductStockUid = sProductStockUid;
                 productStock = ProductStock.get(sProductStockUid);
 
-                if (productStock != null) {
+                if(productStock != null){
                     // product
                     product = productStock.getProduct();
-                    if (product != null) {
+                    if(product != null){
                         sProductName = product.getName();
                     } else {
                         sProductName = "<font color='red'>"+getTran("web.manage", "unexistingproduct", sWebLanguage)+"</font>";
@@ -120,7 +120,7 @@
 
                     // service stock
                     serviceStock = productStock.getServiceStock();
-                    if (serviceStock != null) {
+                    if(serviceStock != null){
                         sServiceStockName = serviceStock.getName();
                     } else {
                         sServiceStockName = "<font color='red'>"+getTran("web.manage", "unexistingservicestock", sWebLanguage)+"</font>";
@@ -133,25 +133,25 @@
 
             // translate importance
             sImportance = checkString(order.getImportance());
-            if (sImportance.length() > 0) {
+            if(sImportance.length() > 0){
                 sImportance = getTran("productorder.importance", sImportance, sWebLanguage);
             }
 
             // alternate row-style
-            if (sClass.equals("")) sClass = "1";
+            if(sClass.equals("")) sClass = "1";
             else sClass = "";
 
             //*** display order in one row ***
             html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
-                    .append(" <td align='center'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+order.getUid()+"');\">")
-                    .append(" <td onclick=\"doShowDetails('"+order.getUid()+"');\">"+checkString(order.getDescription())+"</td>")
-                    .append(" <td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sServiceStockName+"</td>")
-                    .append(" <td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sProductName+"</td>")
-                    .append(" <td onclick=\"doShowDetails('"+order.getUid()+"');\">"+order.getPackagesOrdered()+"</td>")
-                    .append(" <td onclick=\"doShowDetails('"+order.getUid()+"');\">"+order.getPackagesDelivered()+"</td>")
-                    .append(" <td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sDateOrdered+"</td>")
-                    .append(" <td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sDateDeliveryDue+"</td>")
-                    .append(" <td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sImportance+"</td>")
+                    .append("<td align='center'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+order.getUid()+"');\">")
+                    .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+checkString(order.getDescription())+"</td>")
+                    .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sServiceStockName+"</td>")
+                    .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sProductName+"</td>")
+                    .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+order.getPackagesOrdered()+"</td>")
+                    .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+order.getPackagesDelivered()+"</td>")
+                    .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sDateOrdered+"</td>")
+                    .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sDateDeliveryDue+"</td>")
+                    .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sImportance+"</td>")
                     .append("</tr>");
         }
 
@@ -192,7 +192,7 @@
     String sEditProductName = checkString(request.getParameter("EditProductName"));
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
-    if (Debug.enabled) {
+    if(Debug.enabled){
         Debug.println("\n******************** pharmacy/managePrductOrders.jsp *******************");
         Debug.println("sAction                : "+sAction);
         Debug.println("sEditOrderUid          : "+sEditOrderUid);
@@ -235,7 +235,7 @@
     sFindImportance = checkString(request.getParameter("FindImportance")); // (native|high|low)
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
-    if (Debug.enabled) {
+    if(Debug.enabled){
         Debug.println("sFindDescription        : "+sFindDescription);
         Debug.println("sFindSupplierUid        : "+sFindSupplierUid);
         Debug.println("sFindServiceUid         : "+sFindServiceUid);
@@ -260,33 +260,33 @@
     boolean displayEditFields = false;
 
     String sDisplaySearchFields = checkString(request.getParameter("DisplaySearchFields"));
-    if (sDisplaySearchFields.length() == 0) sDisplaySearchFields = "true"; // default
+    if(sDisplaySearchFields.length() == 0) sDisplaySearchFields = "true"; // default
     boolean displaySearchFields = sDisplaySearchFields.equalsIgnoreCase("true");
     Debug.println("displaySearchFields      : "+displaySearchFields);
     
     String sDisplayDeliveredOrders = checkString(request.getParameter("DisplayDeliveredOrders"));
-    if (sDisplayDeliveredOrders.length() == 0) sDisplayDeliveredOrders = "false"; // default
+    if(sDisplayDeliveredOrders.length() == 0) sDisplayDeliveredOrders = "false"; // default
     boolean displayDeliveredOrders = sDisplayDeliveredOrders.equalsIgnoreCase("true");
     Debug.println("displayDeliveredOrders   : "+displayDeliveredOrders);
 
     String sDisplayUndeliveredOrders = checkString(request.getParameter("DisplayUndeliveredOrders"));
-    if (sDisplayUndeliveredOrders.length() == 0) sDisplayUndeliveredOrders = "true"; // default
+    if(sDisplayUndeliveredOrders.length() == 0) sDisplayUndeliveredOrders = "true"; // default
     boolean displayUndeliveredOrders = sDisplayUndeliveredOrders.equalsIgnoreCase("true");
     Debug.println("sDisplayUndeliveredOrders : "+sDisplayUndeliveredOrders);
 
     // sortcol
     String sSortCol = checkString(request.getParameter("SortCol"));
-    if (sSortCol.length() == 0) sSortCol = sDefaultSortCol;
+    if(sSortCol.length() == 0) sSortCol = sDefaultSortCol;
 
     // sortDir
     String sSortDir = checkString(request.getParameter("SortDir"));
-    if (sSortDir.length() == 0) sSortDir = sDefaultSortDir;
+    if(sSortDir.length() == 0) sSortDir = sDefaultSortDir;
 
     // default since-date is one week ago
-    if (sFindDateDeliveredSince.length() == 0) {
+    if(sFindDateDeliveredSince.length() == 0){
         Calendar oneWeekAgo = new GregorianCalendar();
         String sShowDeliveriesSince = MedwanQuery.getInstance().getConfigString("ShowDeliveriesSinceInDays");
-        if (sShowDeliveriesSince.length() > 0) {
+        if(sShowDeliveriesSince.length() > 0){
             oneWeekAgo.add(Calendar.DATE, -(Integer.parseInt(sShowDeliveriesSince)));
         } else {
             oneWeekAgo.add(Calendar.DATE, -7); // default one week
@@ -295,16 +295,16 @@
     }
 
     // supplier name
-    if (sFindSupplierUid.length() > 0) {
+    if(sFindSupplierUid.length() > 0){
         sFindSupplierName = getTranNoLink("service", sFindSupplierUid, sWebLanguage);
     }
 
     //*** is order closed ? ***
     java.util.Date dPrevDateDelivered = null;
-    if (sEditOrderUid.length() > 0 && !sEditOrderUid.equals("-1")) {
+    if(sEditOrderUid.length() > 0 && !sEditOrderUid.equals("-1")){
         // get ordered-date (if one)
         ProductOrder existingOrder = ProductOrder.get(sEditOrderUid);
-        if (existingOrder != null) {
+        if(existingOrder != null){
             dPrevDateDelivered = existingOrder.getDateDelivered();
             orderIsClosed = checkString(existingOrder.getStatus()).equalsIgnoreCase("closed");
         }
@@ -313,7 +313,7 @@
         }
     }
 
-    if (sAction.length() == 0) sAction = "find"; // default action
+    if(sAction.length() == 0) sAction = "find"; // default action
 
     //*********************************************************************************************
     //*** process actions *************************************************************************
@@ -352,9 +352,9 @@
         sAction="showDetails";
      }
      
-   	 if (sAction.equals("save") && sEditOrderUid.length() > 0) {
+   	 if(sAction.equals("save") && sEditOrderUid.length() > 0){
         String sPrevUsedDocument = checkString((String) session.getAttribute("PrevUsedDocument"));
-        if (!sPrevUsedDocument.equals(sEditProductStockDocumentUid)) {
+        if(!sPrevUsedDocument.equals(sEditProductStockDocumentUid)){
             session.setAttribute("PrevUsedDocument", sEditProductStockDocumentUid);
         }
         
@@ -426,8 +426,8 @@
             order = ProductOrder.get(sEditOrderUid);
             order.setImportance(sEditImportance); // (native|high|low)
             order.setUpdateUser(activeUser.userid);
-            if (sEditDateDeliveryDue.length() > 0) order.setDateDeliveryDue(ScreenHelper.parseDate(sEditDateDeliveryDue));
-            if (sEditDateDelivered.length() > 0) order.setDateDelivered(ScreenHelper.parseDate(sEditDateDelivered));
+            if(sEditDateDeliveryDue.length() > 0) order.setDateDeliveryDue(ScreenHelper.parseDate(sEditDateDeliveryDue));
+            if(sEditDateDelivered.length() > 0) order.setDateDelivered(ScreenHelper.parseDate(sEditDateDelivered));
             order.setPackagesDelivered(order.getDeliveredQuantity());
             if(order.getPackagesDelivered()==order.getPackagesOrdered() || request.getParameter("closeOrder")!=null){
             	order.setStatus("closed");
@@ -440,44 +440,44 @@
             order.store();
         }
 
-        if (Debug.enabled) Debug.println("*** orderIsClosed : "+orderIsClosed);
+        Debug.println("*** orderIsClosed : "+orderIsClosed);
 
         sEditOrderUid = order.getUid();
         sAction="find";
     }
     //--- DELETE ----------------------------------------------------------------------------------
-    else if (sAction.equals("delete") && sEditOrderUid.length() > 0) {
+    else if(sAction.equals("delete") && sEditOrderUid.length() > 0){
         ProductOrder.delete(sEditOrderUid);
         msg = getTran("web", "dataisdeleted", sWebLanguage);
         sAction = "findShowOverview"; // display overview even if only one record remains
     }
 
     //--- SORT ------------------------------------------------------------------------------------
-    if (sAction.equals("sort")) {
+    if(sAction.equals("sort")){
         sAction = "find";
     }
 
     //--- FIND ------------------------------------------------------------------------------------
-    if (sAction.startsWith("find")) {
+    if(sAction.startsWith("find")){
         displaySearchFields = true;
-        if (sAction.equals("findShowOverview")) displayEditFields = false;
+        if(sAction.equals("findShowOverview")) displayEditFields = false;
 
         Vector orders = ProductOrder.find(displayDeliveredOrders, displayUndeliveredOrders,
 						                  sFindDescription, sFindServiceUid, sFindProductStockUid,
 						                  sFindPackagesOrdered, sFindDateDeliveryDue, sFindDateOrdered,
 						                  sFindSupplierUid, sFindServiceStockUid, sSortCol, sSortDir,sFindDateDeliveredSince);
 
-        if (displayDeliveredOrders) ordersHtml = ordersToHtml(orders, sWebLanguage);
-        if (displayUndeliveredOrders) ordersHtml = undeliveredOrdersToHtml(orders, sWebLanguage);
+        if(displayDeliveredOrders) ordersHtml = ordersToHtml(orders, sWebLanguage);
+        if(displayUndeliveredOrders) ordersHtml = undeliveredOrdersToHtml(orders, sWebLanguage);
         foundOrderCount = orders.size();
     }
 
     //--- SHOW DETAILS ----------------------------------------------------------------------------
-    if (sAction.startsWith("showDetails")) {
+    if(sAction.startsWith("showDetails")){
         displayEditFields = true;
         displaySearchFields = false;
         String sPrevUsedDocument = checkString((String) session.getAttribute("PrevUsedDocument"));
-        if(sEditProductStockDocumentUid.length() == 0 && sPrevUsedDocument.length() > 0) {
+        if(sEditProductStockDocumentUid.length() == 0 && sPrevUsedDocument.length() > 0){
         	sEditProductStockDocumentUid = sPrevUsedDocument;
         }
         if(sEditProductStockDocumentUid.length()>0){
@@ -485,7 +485,7 @@
         }
 
         // get specified record
-        if ((sAction.equals("showDetails") || sAction.equals("showDetailsAfterUpdateReject")) && sEditOrderUid.length()>0) {
+        if((sAction.equals("showDetails") || sAction.equals("showDetailsAfterUpdateReject")) && sEditOrderUid.length()>0){
             ProductOrder order = ProductOrder.get(sEditOrderUid);
 
             sSelectedProductStockUid = order.getProductStockUid();
@@ -496,15 +496,15 @@
 			
             // format date ordered
             java.util.Date tmpDate = order.getDateOrdered();
-            if (tmpDate != null) sSelectedDateOrdered = stdDateFormat.format(tmpDate);
+            if(tmpDate != null) sSelectedDateOrdered = stdDateFormat.format(tmpDate);
 
             // format date delivery due
             tmpDate = order.getDateDeliveryDue();
-            if (tmpDate != null) sSelectedDateDeliveryDue = stdDateFormat.format(tmpDate);
+            if(tmpDate != null) sSelectedDateDeliveryDue = stdDateFormat.format(tmpDate);
 
             // format date delivered
             tmpDate = order.getDateDelivered();
-            if (tmpDate != null) sSelectedDateDelivered = stdDateFormat.format(tmpDate);
+            if(tmpDate != null) sSelectedDateDelivered = stdDateFormat.format(tmpDate);
 
             // afgeleide data
             ProductStock productStock = ProductStock.get(sSelectedProductStockUid);
@@ -520,7 +520,7 @@
             
             nTotalPackagesDelivered=order.getPackagesDelivered();
         }
-        else if (sAction.equals("showDetailsAfterAddReject")) {
+        else if(sAction.equals("showDetailsAfterAddReject")){
             // do not get data from DB, but show data that were allready on form
             sSelectedProductStockUid = sEditProductStockUid;
             sSelectedDescription = sEditDescription;
@@ -535,7 +535,7 @@
             // afgeleide data
             sSelectedProductName = sEditProductName;
         }
-        else if (sAction.equals("showDetailsNew")) {
+        else if(sAction.equals("showDetailsNew")){
             sSelectedProductStockUid = sEditProductStockUid;
             displayDeliveredOrders = false;
             displayUndeliveredOrders = false;
@@ -546,8 +546,8 @@
     }
 
     // clear 0 if no delivered date
-    if (sSelectedDateDelivered.length() == 0) {
-        if (sSelectedPackagesDelivered.equals("0")) sSelectedPackagesDelivered = "";
+    if(sSelectedDateDelivered.length() == 0){
+        if(sSelectedPackagesDelivered.equals("0")) sSelectedPackagesDelivered = "";
     }
     
     // onclick : when editing, save, else search when pressing 'enter'
@@ -566,6 +566,7 @@
         // afgeleide data
         sFindServiceStockName = checkString(request.getParameter("FindServiceStockName"));
         sFindProductName      = checkString(request.getParameter("FindProductName"));
+        
         if(displaySearchFields){
             %>
                 <table width="100%" class="list" cellpadding="0" cellspacing="1" onKeyDown="if(enterEvent(event,13)){doSearch(<%=displayDeliveredOrders%>,'<%=sDefaultSortCol%>');}">
@@ -583,8 +584,8 @@
                             <input type="hidden" name="FindSupplierUid" value="<%=sFindSupplierUid%>">
                             <input class="text" type="text" name="FindSupplierName" readonly size="<%=sTextWidth%>" value="<%=sFindSupplierName%>">
 
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('FindSupplierUid','FindSupplierName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindSupplierUid.value='';transactionForm.FindSupplierName.value='';">
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('FindSupplierUid','FindSupplierName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindSupplierUid.value='';transactionForm.FindSupplierName.value='';">
                         </td>
                     </tr>
                     <%-- Service --%>
@@ -594,8 +595,8 @@
                             <input type="hidden" name="FindServiceUid" value="<%=sFindServiceUid%>">
                             <input class="text" type="text" name="FindServiceName" readonly size="<%=sTextWidth%>" value="<%=sFindServiceName%>">
 
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('FindServiceUid','FindServiceName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindServiceUid.value='';transactionForm.FindServiceName.value='';">
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('FindServiceUid','FindServiceName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindServiceUid.value='';transactionForm.FindServiceName.value='';">
                         </td>
                     </tr>
                     <%-- ServiceStock --%>
@@ -605,8 +606,8 @@
                             <input type="hidden" name="FindServiceStockUid" value="<%=sFindServiceStockUid%>">
                             <input class="text" type="text" name="FindServiceStockName" readonly size="<%=sTextWidth%>" value="<%=sFindServiceStockName%>">
 
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchServiceStock('FindServiceStockUid','FindServiceStockName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindServiceStockUid.value='';transactionForm.FindServiceStockName.value='';">
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchServiceStock('FindServiceStockUid','FindServiceStockName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindServiceStockUid.value='';transactionForm.FindServiceStockName.value='';">
                         </td>
                     </tr>
                     <%-- ProductStock --%>
@@ -616,8 +617,8 @@
                             <input type="hidden" name="FindProductStockUid" value="<%=sFindProductStockUid%>">
                             <input class="text" type="text" name="FindProductName" readonly size="<%=sTextWidth%>" value="<%=sFindProductName%>">
 
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchProductStock('FindProductStockUid','FindProductName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindProductStockUid.value='';transactionForm.FindProductName.value='';">
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchProductStock('FindProductStockUid','FindProductName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindProductStockUid.value='';transactionForm.FindProductName.value='';">
                         </td>
                     </tr>
                     <%-- PackagesOrdered --%>
@@ -659,8 +660,9 @@
                             </select>
                         </td>
                     </tr>
+                    
                     <%-- SEARCH BUTTONS --%>
-                    <tr>
+                    <tr height="25">
                         <td class="admin2">&nbsp;</td>
                         <td class="admin2">
                             <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearch(<%=displayDeliveredOrders%>,'<%=sDefaultSortCol%>');">
@@ -713,100 +715,114 @@
         if(!sAction.equals("showDetails")){
             //*** UNDELIVERED ORDERS ***
             if(displayUndeliveredOrders){
-                String sortTran = getTran("web","clicktosort",sWebLanguage);
-                %>
-                    <%-- sub title --%>
-                    <table width="100%" cellspacing="0">
-                        <tr>
-                            <td class="titleadmin">&nbsp;
-                                <%
-                                    if(sFindServiceUid.length() > 0){
-                                        %><%=getTran("Web.manage","UndeliveredOrdersFor"+(activePatient==null?"User":"Patient")+"Division",sWebLanguage)%>&nbsp;'<%=getTran("service",sFindServiceUid,sWebLanguage)%>'<%
-                                    }
-                                    else{
-                                        %><%=getTran("Web.manage","UndeliveredOrders",sWebLanguage)%><%
-                                    }
-                                %>
-                            </td>
-                        </tr>
-                    </table>
-                    <table width='100%' cellspacing="0" cellpadding="0"  id="searchresults">
-                        <%-- clickable header --%>
-                        <tr class="admin">
-                            <td nowrap>&nbsp;</td>
-                            <td><%=HTMLEntities.htmlentities(getTran("Web","description",sWebLanguage))%></td>
-                            <td><%=HTMLEntities.htmlentities(getTran("Web","servicestock",sWebLanguage))%></td>
-                            <td><%=HTMLEntities.htmlentities(getTran("Web","product",sWebLanguage))%></td>
-                            <td><%=HTMLEntities.htmlentities(getTran("Web","packagesordered",sWebLanguage))%></td>
-                            <td><%=HTMLEntities.htmlentities(getTran("Web","packagesdelivered",sWebLanguage))%></td>
-                            <td><%=HTMLEntities.htmlentities(getTran("Web","dateordered",sWebLanguage))%></td>
-                            <td><%=HTMLEntities.htmlentities(getTran("Web","datedeliverydue",sWebLanguage))%></td>
-                            <td><%=HTMLEntities.htmlentities(getTran("Web","importance",sWebLanguage))%></td>
-                        </tr>
-                        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
-                            <%=ordersHtml%>
-                        </tbody>
-                    </table>
-                    <%-- number of records found --%>
-                    <span style="width:49%;text-align:left;">
-                        <%=foundOrderCount%> <%=getTran("web","recordsfound",sWebLanguage)%>
-                    </span>
-                    <%
-                        if(foundOrderCount > 20){
-                            // link to top of page
-                            %>
-                                <span style="width:51%;text-align:right;">
-                                    <a href="#topp" class="topbutton">&nbsp;</a>
-                                </span>
-                                <br>
-                            <%
-                        }
+                if(foundOrderCount > 0){
+	                String sortTran = getTran("web","clicktosort",sWebLanguage);
+	                
+	                %>
+	                    <%-- sub title --%>
+	                    <table width="100%" cellspacing="0" cellpadding="0" class="list" style="border-bottom:none;">
+	                        <tr>
+	                            <td class="titleadmin">&nbsp;
+	                                <%
+	                                    if(sFindServiceUid.length() > 0){
+	                                        %><%=getTran("Web.manage","UndeliveredOrdersFor"+(activePatient==null?"User":"Patient")+"Division",sWebLanguage)%>&nbsp;'<%=getTran("service",sFindServiceUid,sWebLanguage)%>'<%
+	                                    }
+	                                    else{
+	                                        %><%=getTran("Web.manage","UndeliveredOrders",sWebLanguage)%><%
+	                                    }
+	                                %>
+	                            </td>
+	                        </tr>
+	                    </table>
+	                    
+	                    <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults" style="border-top:none;">
+	                        <%-- clickable header --%>
+	                        <tr class="admin">
+	                            <td nowrap>&nbsp;</td>
+	                            <td><%=HTMLEntities.htmlentities(getTran("Web","description",sWebLanguage))%></td>
+	                            <td><%=HTMLEntities.htmlentities(getTran("Web","servicestock",sWebLanguage))%></td>
+	                            <td><%=HTMLEntities.htmlentities(getTran("Web","product",sWebLanguage))%></td>
+	                            <td><%=HTMLEntities.htmlentities(getTran("Web","packagesordered",sWebLanguage))%></td>
+	                            <td><%=HTMLEntities.htmlentities(getTran("Web","packagesdelivered",sWebLanguage))%></td>
+	                            <td><%=HTMLEntities.htmlentities(getTran("Web","dateordered",sWebLanguage))%></td>
+	                            <td><%=HTMLEntities.htmlentities(getTran("Web","datedeliverydue",sWebLanguage))%></td>
+	                            <td><%=HTMLEntities.htmlentities(getTran("Web","importance",sWebLanguage))%></td>
+	                        </tr>
+	                        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+	                            <%=ordersHtml%>
+	                        </tbody>
+	                    </table>
+	                    
+	                    <%-- number of records found --%>
+	                    <span style="width:49%;text-align:left;">
+	                        <%=foundOrderCount%> <%=getTran("web","recordsfound",sWebLanguage)%>
+	                    </span>
+	                    <%
+	                        if(foundOrderCount > 20){
+	                            // link to top of page
+	                            %>
+	                                <span style="width:51%;text-align:right;">
+	                                    <a href="#topp" class="topbutton">&nbsp;</a>
+	                                </span>
+	                                <br>
+	                            <%
+	                        }
+	                    %>
+	                    <br><br>
+	                <%
+            	}
+                else{
+                    // no records found
                     %>
-                    <br><br>
-                <%
+                    <%=getTran("web","noUndeliveredOrdersFound",sWebLanguage)%>
+                    <br>
+                    <%
+                }
             }
 
             //*** DELIVERED ORDERS ***
             if(displayDeliveredOrders){
-                %>
-                    <%-- sub title --%>
-                    <table width="100%" cellspacing="0">
-                        <tr>
-                            <td class="titleadmin">&nbsp;
-                                <%
-                                    if(sFindServiceUid.length() > 0){
-                                        %><%=getTran("Web.manage","DeliveredOrdersFor"+(activePatient==null?"User":"Patient")+"Division",sWebLanguage)%>&nbsp;'<%=getTran("service",sFindServiceUid,sWebLanguage)%>' <%=getTran("web","since",sWebLanguage)%> <%=sFindDateDeliveredSince%><%
-                                    }
-                                    else{
-                                        %><%=getTran("Web.manage","DeliveredOrders",sWebLanguage)%><%
-                                    }
-                                %>
-                            </td>
-                        </tr>
-                    </table>
-                <%
-
-                // display found orders
                 if(foundOrderCount > 0){
+	                %>
+	                    <%-- sub title --%>
+	                    <table width="100%" cellspacing="0" cellpadding="0" class="list" style="border-bottom:none;">
+	                        <tr>
+	                            <td class="titleadmin">&nbsp;
+	                                <%
+	                                    if(sFindServiceUid.length() > 0){
+	                                        %><%=getTran("Web.manage","DeliveredOrdersFor"+(activePatient==null?"User":"Patient")+"Division",sWebLanguage)%>&nbsp;'<%=getTran("service",sFindServiceUid,sWebLanguage)%>' <%=getTran("web","since",sWebLanguage)%> <%=sFindDateDeliveredSince%><%
+	                                    }
+	                                    else{
+	                                        %><%=getTran("Web.manage","DeliveredOrders",sWebLanguage)%><%
+	                                    }
+	                                %>
+	                            </td>
+	                        </tr>
+	                    </table>
+	                <%
+                                
+                    // display found orders
                     String sortTran = getTran("web","clicktosort",sWebLanguage);
-                    %>
-                    <table width="100%" cellspacing="0" cellpadding="0"  id="searchresults">
-                        <%-- clickable header --%>
-                        <tr class="admin">
-                            <td nowrap>&nbsp;</td>
-                            <td><%=HTMLEntities.htmlentities(getTran("Web","description",sWebLanguage))%></td>
-                            <td><%=HTMLEntities.htmlentities(getTran("Web","servicestock",sWebLanguage))%></td>
-                            <td><%=HTMLEntities.htmlentities(getTran("Web","product",sWebLanguage))%></td>
-                            <td><%=HTMLEntities.htmlentities(getTran("Web","packagesordered",sWebLanguage))%></td>
-                            <td><%=HTMLEntities.htmlentities(getTran("Web","packagesdelivered",sWebLanguage))%></td>
-                            <td><%=HTMLEntities.htmlentities(getTran("Web","dateordered",sWebLanguage))%></td>
-                            <td><%=HTMLEntities.htmlentities(getTran("Web","datedelivered",sWebLanguage))%></td>
-                            <td><%=HTMLEntities.htmlentities(getTran("Web","importance",sWebLanguage))%></td>
-                        </tr>
-                        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
-                            <%=ordersHtml%>
-                        </tbody>
-                    </table>
+                    
+	                %>                    
+		            <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults" style="border-top:none;">
+		                <%-- clickable header --%>
+		                <tr class="admin">
+		                    <td nowrap>&nbsp;</td>
+		                    <td><%=HTMLEntities.htmlentities(getTran("Web","description",sWebLanguage))%></td>
+		                    <td><%=HTMLEntities.htmlentities(getTran("Web","servicestock",sWebLanguage))%></td>
+		                    <td><%=HTMLEntities.htmlentities(getTran("Web","product",sWebLanguage))%></td>
+		                    <td><%=HTMLEntities.htmlentities(getTran("Web","packagesordered",sWebLanguage))%></td>
+		                    <td><%=HTMLEntities.htmlentities(getTran("Web","packagesdelivered",sWebLanguage))%></td>
+		                    <td><%=HTMLEntities.htmlentities(getTran("Web","dateordered",sWebLanguage))%></td>
+		                    <td><%=HTMLEntities.htmlentities(getTran("Web","datedelivered",sWebLanguage))%></td>
+		                    <td><%=HTMLEntities.htmlentities(getTran("Web","importance",sWebLanguage))%></td>
+		                </tr>
+		                <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+		                    <%=ordersHtml%>
+		                </tbody>
+		            </table>
+                    
                     <%-- number of records found --%>
                     <%=foundOrderCount%> <%=getTran("web","deliveredOrdersFound",sWebLanguage)%>
                     <br>
@@ -827,6 +843,7 @@
             if(!orderIsClosed  || sEditProductStockOperationUid.length()>0){
                 %>
                 	<input type='hidden' name='EditProductStockOperationUid' id='EditProductStockOperationUid' value='<%=sEditProductStockOperationUid %>'/>
+                   
                     <table class="list" width="100%" cellspacing="1">
                         <%-- servicestock --%>
                         <tr>
@@ -887,8 +904,8 @@
                             <td class="admin2">
 				               <input type="hidden" name="EditSupplierID" id="EditSupplierID" value="" onchange="">
 				               <input class="text" type="text" name="EditSupplier" id="EditSupplier" readonly size="<%=sTextWidth%>" value="" >
-				               <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditSupplierID','EditSupplier');">
-				               <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="EditSupplier.value='';EditSupplierID.value='';">
+				               <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('EditSupplierID','EditSupplier');">
+				               <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditSupplier.value='';EditSupplierID.value='';">
                             </td>
                         </tr>
                         <%-- Prices --%>
@@ -896,14 +913,14 @@
                             <td class="admin"><%=getTran("Web","unitprice",sWebLanguage)%></td>
                             <td class="admin2">
                             <%
-                            	String sPrice="";
+                            	String sPrice = "";
 	                            if(operation.getProductStock()!=null){
-									sPrice=Pointer.getPointer("drugprice."+operation.getProductStock().getProductUid()+"."+operation.getUid());
+									sPrice = Pointer.getPointer("drugprice."+operation.getProductStock().getProductUid()+"."+operation.getUid());
 									if(sPrice.split(";").length>1){
-										sPrice=sPrice.split(";")[1];
+										sPrice = sPrice.split(";")[1];
 									}
 									else {
-										sPrice="";
+										sPrice = "";
 									}
 	                            }
                             %>
@@ -956,8 +973,8 @@
 	                        <td class="admin"><%=getTran("Web","productstockoperationdocument",sWebLanguage)%></td>
 		                    <td class="admin2">
 		                    	<input type='text' class='text' name='EditProductStockDocumentUid' id='EditProductStockDocumentUid' size='10' value="<%=sEditProductStockDocumentUid %>" readonly/>
-		                    	<img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick="searchDocument('EditProductStockDocumentUid','EditProductStockDocumentUidText');">&nbsp;
-		                    	<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick="transactionForm.EditProductStockDocumentUid.value='';document.getElementById('EditProductStockDocumentUidText').innerHTML='';">
+		                    	<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick="searchDocument('EditProductStockDocumentUid','EditProductStockDocumentUidText');">&nbsp;
+		                    	<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick="transactionForm.EditProductStockDocumentUid.value='';document.getElementById('EditProductStockDocumentUidText').innerHTML='';">
 		                    	<label class='text' name='EditProductStockDocumentUidText' id='EditProductStockDocumentUidText'><%=sEditProductStockDocumentUidText %></label>
 		                    </td>
 	                    </tr>
@@ -966,7 +983,7 @@
                             <td class="admin"><%=getTran("Web","Importance",sWebLanguage)%>&nbsp;*</td>
                             <td class="admin2">
                                 <select class="text" name="EditImportance">
-                                    <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                                    <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                                     <%=ScreenHelper.writeSelectUnsorted("productorder.importance",sSelectedImportance,sWebLanguage)%>
                                 </select>
                             </td>
@@ -978,6 +995,7 @@
                             	<input type='checkbox' name='closeOrder'/>
                             </td>
                         </tr>
+                        
                         <%-- EDIT BUTTONS --%>
                         <tr>
                             <td class="admin2">&nbsp;</td>
@@ -1004,6 +1022,7 @@
                             </td>
                         </tr>
                     </table>
+                    
                     <%-- indication of obligated fields --%>
                     <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
                     <br>
@@ -1062,13 +1081,14 @@
                                 <span id="msgArea"><%=getTran("web.manage","orderclosedanduneditable",sWebLanguage)%></span>
                             </td>
                         </tr>
+                        
                         <%-- EDIT BUTTONS --%>
                         <tr>
                             <td class="admin2"/>
                             <td class="admin2">
-                                <%-- BACK TO OVERVIEW --%>
                                 <input class="button" type="button" name="returnButton" value='<%=getTranNoLink("Web","backtooverview",sWebLanguage)%>' onclick="doBackToOverview();">
                                 <input class="button" type="button" name="editButton" value='<%=getTranNoLink("Web","edit",sWebLanguage)%>' onclick="doEditDetails('<%=sEditOrderUid%>');">
+                               
                                 <%-- display message --%>
                                 <span id="msgArea"><%=msg%></span>
                             </td>
@@ -1079,32 +1099,47 @@
             }
             
             //Also list all existing operations on this product order
-            Vector operations = ProductStockOperation.searchProductStockOperations("", "", "", "", "", sEditOrderUid,"");
+            Vector operations = ProductStockOperation.searchProductStockOperations("","","","","",sEditOrderUid,"");
             if(operations.size()>0){
-	            out.println("<table width='100%'>");
-	            out.println("<tr class='admin'>");
-	            out.println("<td/><td>"+HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))+"</td>");
-	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","description",sWebLanguage))+"</td>");
-	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","PackagesDelivered",sWebLanguage))+"</td>");
-	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","productstockoperationdocument",sWebLanguage))+"</td>");
-	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","batch",sWebLanguage))+"</td>");
-	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","batch.expiration",sWebLanguage))+"</td>");
-	            out.println("<td>"+HTMLEntities.htmlentities(getTran("web","supplier",sWebLanguage))+"</td>");
-	            out.println("</tr>");
-	            for(int n=0;n<operations.size();n++){
+	            out.print("<table width='100%'>");
+	            
+	            // header
+	            out.print("<tr class='admin'>");
+	             out.print("<td/><td>"+HTMLEntities.htmlentities(getTranNoLink("web","date",sWebLanguage))+"</td>");
+	             out.print("<td>"+HTMLEntities.htmlentities(getTranNoLink("web","description",sWebLanguage))+"</td>");
+	             out.print("<td>"+HTMLEntities.htmlentities(getTranNoLink("web","PackagesDelivered",sWebLanguage))+"</td>");
+	             out.print("<td>"+HTMLEntities.htmlentities(getTranNoLink("web","productstockoperationdocument",sWebLanguage))+"</td>");
+	             out.print("<td>"+HTMLEntities.htmlentities(getTranNoLink("web","batch",sWebLanguage))+"</td>");
+	             out.print("<td>"+HTMLEntities.htmlentities(getTranNoLink("web","batch.expiration",sWebLanguage))+"</td>");
+	             out.print("<td>"+HTMLEntities.htmlentities(getTranNoLink("web","supplier",sWebLanguage))+"</td>");
+	            out.print("</tr>");
+	            
+	            for(int n=0; n<operations.size(); n++){
 	            	operation = (ProductStockOperation)operations.elementAt(n);
+	            	
 	            	if(operation!=null){
-	            		out.println("<tr>");
+	            		out.print("<tr>");
+	            		
 	    	            %>
 	    	            <td class='admin'>
-	    	            	<img src='<c:url value="_img/icon_edit.gif"/>' onclick='doShowOperationDetails("<%=sEditOrderUid%>","<%=operation.getUid()%>");'/>
-	    	            	<img src='<c:url value="_img/icon_delete.gif"/>' onclick='doDeleteOperation("<%=sEditOrderUid%>","<%=operation.getUid()%>");'/>
+	    	            	<img src='<c:url value="_img/icons/icon_edit.gif"/>' onclick='doShowOperationDetails("<%=sEditOrderUid%>","<%=operation.getUid()%>");'/>
+	    	            	<img src='<c:url value="_img/icons/icon_delete.gif"/>' onclick='doDeleteOperation("<%=sEditOrderUid%>","<%=operation.getUid()%>");'/>
 	    	            </td>
 	    	            <%
-	    	            out.println("<td class='admin'>"+ScreenHelper.stdDateFormat.format(operation.getDate())+"</td><td class='admin2'>"+getTran("productstockoperation.medicationreceipt",operation.getDescription(),sWebLanguage)+"</td><td class='admin2'>"+operation.getUnitsChanged()+"</td><td class='admin2'>"+operation.getDocumentUID()+"</td><td class='admin2'>"+(operation.getBatchNumber()!=null?operation.getBatchNumber():"")+"</td><td class='admin2'>"+(operation.getBatchEnd()!=null?ScreenHelper.stdDateFormat.format(operation.getBatchEnd()):"")+"</td><td class='admin2'>"+(operation.getSourceDestination()!=null?operation.getSourceDestination().getObjectUid():"")+"</td></tr>");
+	    	            
+	    	            out.print("<td class='admin'>"+ScreenHelper.stdDateFormat.format(operation.getDate())+"</td>"+
+	    	                      "<td class='admin2'>"+getTran("productstockoperation.medicationreceipt",operation.getDescription(),sWebLanguage)+"</td>"+
+	    	                      "<td class='admin2'>"+operation.getUnitsChanged()+"</td>"+
+	    	                      "<td class='admin2'>"+operation.getDocumentUID()+"</td>"+
+	    	                      "<td class='admin2'>"+(operation.getBatchNumber()!=null?operation.getBatchNumber():"")+"</td>"+
+	    	                      "<td class='admin2'>"+(operation.getBatchEnd()!=null?ScreenHelper.stdDateFormat.format(operation.getBatchEnd()):"")+"</td>"+
+	    	                      "<td class='admin2'>"+(operation.getSourceDestination()!=null?operation.getSourceDestination().getObjectUid():"")+"</td>");
+
+	            		out.print("</tr>");
 	            	}
 	            }
-	            out.println("</table>");
+	            
+	            out.print("</table>");
 			}
         }
     %>
@@ -1178,8 +1213,8 @@
       <%-- check dates 1 and 2 --%>
       if(maySubmit){
         if(transactionForm.EditDateOrdered.value.length>0 && transactionForm.EditDateDeliveryDue.value.length>0){
-          var dateOrdered     = transactionForm.EditDateOrdered.value;
-          var dateDeliveryDue = transactionForm.EditDateDeliveryDue.value;
+          var dateOrdered     = transactionForm.EditDateOrdered.value,
+              dateDeliveryDue = transactionForm.EditDateDeliveryDue.value;
 
           if(!before(dateDeliveryDue,dateOrdered)){
             maySubmit = true;
@@ -1198,8 +1233,8 @@
       <%-- check dates 1 and 3 --%>
       if(maySubmit){
         if(transactionForm.EditDateOrdered.value.length>0 && transactionForm.EditDateDelivered.value.length>0){
-          var dateOrdered   = transactionForm.EditDateOrdered.value;
-          var dateDelivered = transactionForm.EditDateDelivered.value;
+          var dateOrdered   = transactionForm.EditDateOrdered.value,
+              dateDelivered = transactionForm.EditDateDelivered.value;
 
           if(!before(dateDelivered,dateOrdered)){
             maySubmit = true;
@@ -1268,14 +1303,14 @@
 
   <%-- DO SHOW DETAILS --%>
   function doShowDetails(orderUid){
-	    if(transactionForm.searchButton!=undefined) transactionForm.searchButton.disabled = true;
-	    if(transactionForm.clearButton!=undefined) transactionForm.clearButton.disabled = true;
-	    if(transactionForm.searchDeliveredOrdersButton!=undefined) transactionForm.searchDeliveredOrdersButton.disabled = true;
+    if(transactionForm.searchButton!=undefined) transactionForm.searchButton.disabled = true;
+    if(transactionForm.clearButton!=undefined) transactionForm.clearButton.disabled = true;
+    if(transactionForm.searchDeliveredOrdersButton!=undefined) transactionForm.searchDeliveredOrdersButton.disabled = true;
 
-	    transactionForm.EditOrderUid.value = orderUid;
-	    transactionForm.Action.value = "showDetails";
-	    transactionForm.submit();
-	  }
+    transactionForm.EditOrderUid.value = orderUid;
+    transactionForm.Action.value = "showDetails";
+    transactionForm.submit();
+  }
 
   function doShowOperationDetails(orderUid,operationUid){
 	if(transactionForm.searchButton!=undefined) transactionForm.searchButton.disabled = true;
@@ -1302,7 +1337,7 @@
     if(transactionForm.searchDeliveredOrdersButton!=undefined) transactionForm.searchDeliveredOrdersButton.disabled = true;
 
     transactionForm.EditOrderUid.value = orderUid;
-    transactionForm.forceedit.value="1";
+    transactionForm.forceedit.value = "1";
     transactionForm.Action.value = "showDetails";
     transactionForm.submit();
   }
@@ -1349,8 +1384,8 @@
     transactionForm.Action.value = "sort";
     transactionForm.SortCol.value = sortCol;
 
-    if(transactionForm.SortDir.value == "ASC") transactionForm.SortDir.value = "DESC";
-    else                                       transactionForm.SortDir.value = "ASC";
+    if(transactionForm.SortDir.value=="ASC") transactionForm.SortDir.value = "DESC";
+    else                                     transactionForm.SortDir.value = "ASC";
 
     transactionForm.submit();
   }
@@ -1422,7 +1457,7 @@
   function clearMessage(){
     <%
         if(msg.length() > 0){
-            %>document.getElementById('msgArea').innerHTML = "";<%
+            %>document.getElementById("msgArea").innerHTML = "";<%
         }
     %>
   }
@@ -1447,9 +1482,7 @@
   <%-- popup : search document --%>
   function searchDocument(documentUidField,documentUidTextField){
 	<%
-	String sDocumentSource="";
-	String sDocumentSourceText="";
-	String sFindMinDate="";
+	    String sDocumentSource = "", sDocumentSourceText = "", sFindMinDate = "";
 		ProductStock productStock = ProductStock.get(sEditProductStockUid);
 		if(productStock!=null && productStock.getServiceStockUid()!=null){
 			sDocumentSource=productStock.getServiceStockUid();

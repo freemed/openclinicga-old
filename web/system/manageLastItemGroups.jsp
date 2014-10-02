@@ -18,12 +18,12 @@
 
         // display one source item
         html.append("<tr class='list"+sClass+"' id='rowSourceItem"+itemTypeIdx+"'>")
-            .append(" <td width='18'>")
-            .append("  <a href='#' onclick='deleteSourceItem(rowSourceItem"+itemTypeIdx+")'>")
-            .append("   <img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web","delete",sWebLanguage)+"' class='link'>")
-            .append("  </a>")
-            .append(" </td>")
-            .append(" <td>"+itemTypeId+"</td>")
+            .append("<td width='18'>")
+            .append("<a href='#' onclick='deleteSourceItem(rowSourceItem"+itemTypeIdx+")'>")
+            .append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web","delete",sWebLanguage)+"' class='link'>")
+            .append("</a>")
+            .append("</td>")
+            .append("<td>"+itemTypeId+"</td>")
             .append("</tr>");
 
         return html.toString();
@@ -161,7 +161,7 @@
                         }
                     %>
                 </select>
-                <img src="<c:url value="/_img/icon_add.gif"/>" class="link" alt="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addSourceItem();">
+                <img src="<c:url value="/_img/icons/icon_add.gif"/>" class="link" alt="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addSourceItem();">
                 <br><br>
                 <%-- selection --%>
                 <table width="95%" cellspacing="0" cellpadding="0" class="sortable" id="tblSourceItems">
@@ -233,7 +233,7 @@
         var td1 = document.createElement('td');
         var td2 = document.createElement('td');
 
-        td1.innerHTML = "<a href='#' onclick='deleteSourceItem(rowSourceItem"+iSourceItemIdx+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>";
+        td1.innerHTML = "<a href='#' onclick='deleteSourceItem(rowSourceItem"+iSourceItemIdx+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>";
         td2.innerHTML = transactionForm.SourceItemTypeAdd.value;
         row.appendChild(td1);
         row.appendChild(td2);

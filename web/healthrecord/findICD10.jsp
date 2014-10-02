@@ -20,8 +20,8 @@
             <td nowrap><%=getTran("Web","Keyword",sWebLanguage)%>&nbsp;&nbsp;</td>
             <td>
                 <input type='text' class='text' name='keywords' size='40' value="<%=request.getParameter("keywords")!=null?request.getParameter("keywords"):""%>" onblur="limitLength(this);"/>
-                <input class='button' type='button' name='findButton' onClick='doFind();' value='<%=getTran("Web","Find",sWebLanguage)%>'/>
-                <input class='button' type='button' name='cancel' onclick='window.close()' value='<%=getTran("Web","Close",sWebLanguage)%>'/>
+                <input class='button' type='button' name='findButton' onClick='doFind();' value='<%=getTranNoLink("Web","Find",sWebLanguage)%>'/>
+                <input class='button' type='button' name='cancel' onclick='window.close()' value='<%=getTranNoLink("Web","Close",sWebLanguage)%>'/>
             </td>
         </tr>
 
@@ -79,7 +79,7 @@
   }
 
   function addICD10(code,label){
-    window.opener.icpccodes.innerHTML = window.opener.icpccodes.innerHTML+"<span id='"+code+"'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onclick='window."+code+".innerHTML=\"\";'/> <input type='hidden' name='ICD10Code"+code+"' value='medwan.common.true'/>"+code+"&nbsp;"+label+"<br/></span>";
+    window.opener.icpccodes.innerHTML = window.opener.icpccodes.innerHTML+"<span id='"+code+"'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' onclick='window."+code+".innerHTML=\"\";'/> <input type='hidden' name='ICD10Code"+code+"' value='medwan.common.true'/>"+code+"&nbsp;"+label+"<br/></span>";
   }
 
   document.getElementsByName('keywords')[0].focus();

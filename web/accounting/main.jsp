@@ -30,6 +30,7 @@
     <tr class="menu_navigation">
     	<td colspan="2">&nbsp;</td>
     </tr>
+    
     <%-- INCLUDE PAGE --%>
     <tr>
         <td colspan="2" height="100%" style="vertical-align:top;" class="white">
@@ -39,12 +40,12 @@
                         <td style="vertical-align:top;" class="white">
                             <%
                                 String sPage = checkString(request.getParameter("Page"));
-
+                            
                                 if(sPage.length() > 0 && !sPage.equalsIgnoreCase("null")){
-                                    ScreenHelper.setIncludePage(customerInclude("/" + sPage),pageContext);
+                                    ScreenHelper.setIncludePage(customerInclude("/"+sPage),pageContext);
                                 }
                                 else{
-                                    ScreenHelper.setIncludePage("/accountancy/index.jsp",pageContext);
+                                    ScreenHelper.setIncludePage("/accounting/index.jsp",pageContext);
                                 }
                             %>
                         </td>

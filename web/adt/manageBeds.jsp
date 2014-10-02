@@ -90,8 +90,8 @@
             <td class="admin2">
                 <input type="hidden" name="FindBedService" value="<%=sFindBedService%>">
                 <input class="text" type="text" name="FindBedServiceName" readonly size="<%=sTextWidth%>" value="<%=sFindBedServiceName%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('FindBedService','FindBedServiceName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="FindBedForm.FindBedService.value='';FindBedForm.FindBedServiceName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('FindBedService','FindBedServiceName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="FindBedForm.FindBedService.value='';FindBedForm.FindBedServiceName.value='';">
             </td>
         </tr>
         <%-- name --%>
@@ -103,9 +103,9 @@
         <tr>
             <td class="admin2"/>
             <td class="admin2">
-                <input class='button' type='button' name='buttonfind' value='<%=getTran("Web","search",sWebLanguage)%>' onclick='doFind();'>&nbsp;
-                <input class='button' type='button' name='buttonclear' value='<%=getTran("Web","Clear",sWebLanguage)%>' onclick='doClear();'>&nbsp;
-                <input class='button' type='button' name='buttonnew' value='<%=getTran("Web","new",sWebLanguage)%>' onclick='doNew();'>&nbsp;
+                <input class='button' type='button' name='buttonfind' value='<%=getTranNoLink("Web","search",sWebLanguage)%>' onclick='doFind();'>&nbsp;
+                <input class='button' type='button' name='buttonclear' value='<%=getTranNoLink("Web","Clear",sWebLanguage)%>' onclick='doClear();'>&nbsp;
+                <input class='button' type='button' name='buttonnew' value='<%=getTranNoLink("Web","new",sWebLanguage)%>' onclick='doNew();'>&nbsp;
                 <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
             </td>
         </tr>
@@ -194,8 +194,8 @@
             <td class="admin2">
                 <input type="hidden" name="EditBedService" value="<%=sEditBedService%>">
                 <input class="text" type="text" name="EditBedServiceName" readonly size="<%=sTextWidth%>" value="<%=sEditBedServiceName%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('EditBedService','EditBedServiceName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditBedForm.EditBedService.value='';EditBedForm.EditBedServiceName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('EditBedService','EditBedServiceName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditBedForm.EditBedService.value='';EditBedForm.EditBedServiceName.value='';">
             </td>
         </tr>
         <%-- name --%>
@@ -214,7 +214,7 @@
             <td class="admin"><%=getTran("Web","location",sWebLanguage)%></td>
             <td class="admin2">
                 <input class='text' type='text' name='EditLocation' value='<%=sEditLocation%>' size="<%=sTextWidth%>">
-                <img src="<c:url value="/_img/icon_view.gif"/>" class="link" alt="<%=getTran("Web","view",sWebLanguage)%>" onclick="openFile()">
+                <img src="<c:url value="/_img/icons/icon_view.gif"/>" class="link" alt="<%=getTranNoLink("Web","view",sWebLanguage)%>" onclick="openFile()">
                 <br>
                 <%
                     if ((sEditLocation.length()>0)&&(sEditLocation.indexOf(".")>-1)){

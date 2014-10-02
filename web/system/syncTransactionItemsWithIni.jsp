@@ -24,8 +24,8 @@
             <input type="radio" name="dataDirection" id="dataDirection2" onDblClick="uncheckRadio(this);" value="iniToDb" <%if(dataDirection.equals("iniToDb")){out.print(" checked");}%>>
             <label for="dataDirection2">In ini file, not in Db (INI to DB)</label>
             &nbsp;&nbsp;
-            <input type="button" class="button" name="FindButton" value="<%=getTran("Web","Find",sWebLanguage)%>" onclick="doSubmit('find')">&nbsp;
-            <input class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+            <input type="button" class="button" name="FindButton" value="<%=getTranNoLink("Web","Find",sWebLanguage)%>" onclick="doSubmit('find')">&nbsp;
+            <input class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
         </td>
     </tr>
 </table>
@@ -223,7 +223,7 @@
           <a href="#" onclick="checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
         </td>
         <td align="right">
-          <a href='#bottom'><img src='<c:url value='/_img/bottom.jpg'/>' class='link' border="0"></a>
+          <a href='#bottom'><img src='<c:url value='/_img/themes/default/bottom.gif'/>' class='link' border="0"></a>
         </td>
       </tr>
     </table>
@@ -332,13 +332,13 @@
           <a href="#" onclick="checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
         </td>
         <td align="right">
-          <a href='#top'><img src='<c:url value='/_img/top.jpg'/>' class='link' border="0"></a>
+          <a href='#top'><img src='<c:url value='/_img/themes/default/top.gif'/>' class='link' border="0"></a>
         </td>
       </tr>
       <tr>
         <td colspan="2">
-          <input type="button" class="button" name="InsertButton" value="<%=getTran("Web","Add",sWebLanguage)%>" onclick="doSubmit('insert')">
-          <input type="button" class="button" name="DeleteButton" value="<%=getTran("Web","Delete",sWebLanguage)%>" onclick="doSubmit('delete')">
+          <input type="button" class="button" name="InsertButton" value="<%=getTranNoLink("Web","Add",sWebLanguage)%>" onclick="doSubmit('insert')">
+          <input type="button" class="button" name="DeleteButton" value="<%=getTranNoLink("Web","Delete",sWebLanguage)%>" onclick="doSubmit('delete')">
         </td>
       </tr>
     </table>
@@ -353,7 +353,7 @@
 </form>
 <%-- link to manage transactionItems --%>
 <%=ScreenHelper.alignButtonsStart()%>
-  <img src='<c:url value="/_img/pijl.gif"/>'>
+  <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
   <a  href="<c:url value='/main.do'/>?Page=system/manageTransactionItems.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web","managetransactionitems",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
 <a name="bottom"/>

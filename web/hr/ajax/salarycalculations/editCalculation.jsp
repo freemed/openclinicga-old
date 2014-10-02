@@ -183,7 +183,7 @@
                                     <input type="text" class="text" id="codeAndLabel" name="codeAndLabel" size="30" readonly></input>
                                     
                                     <%-- code icon --%> 
-                                    <img src="<c:url value='_img/icon_questionmark.gif'/>" class="link" style="border:1px solid #aaa;background:#eee;" alt="<%=getTranNoLink("hr.salarycalculations","searchCodes",sWebLanguage)%>" onclick="searchCalculationCodes();">
+                                    <img src="<c:url value='_img/icons/icon_questionmark.gif'/>" class="link" style="border:1px solid #aaa;background:#eee;" alt="<%=getTranNoLink("hr.salarycalculations","searchCodes",sWebLanguage)%>" onclick="searchCalculationCodes();">
                                     
                                     <%-- add/edit buttons --%>
                                     <%

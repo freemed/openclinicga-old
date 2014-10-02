@@ -830,7 +830,7 @@
                                 if(itemCount > 10){
                                     %>
                                         <td align="right">
-                                            <a href="#top"><img src="<c:url value='/_img/top.jpg'/>" class="link"></a>
+                                            <a href="#top"><img src="<c:url value='/_img/themes/default/top.gif'/>" class="link"></a>
                                         </td>
                                     <%
                                 }

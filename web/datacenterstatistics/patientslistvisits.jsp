@@ -37,7 +37,7 @@
 	java.util.Date activedate=null;
 	StringBuffer sOut = new StringBuffer();
 	sOut.append("<tr class='admin'><td colspan='1'><b>").append(getTran("web","visits",sWebLanguage)).append("</b></td><td colspan='3'><b>")
-			.append(getTran("web","period",sWebLanguage)).append(": ").append(sBegin).append(" - ").append(sEnd).append("</b></td></tr>");
+			.append(getTran("web","period",sWebLanguage)).append(": ").append(sBegin).append("- ").append(sEnd).append("</b></td></tr>");
 	sOut.append("</table><table width='100%' border='0' class='sortable' id='searchresults'>");
 	sOut.append("<tr><th><a href='#' class='underlined'>"+getTran("web","encounterid",sWebLanguage)+"</a></th><th><a href='#' class='underlined'>"+getTran("web","name",sWebLanguage)+"</a></th><th><a href='#' class='underlined'>"+getTran("web","dateofbirth",sWebLanguage)+
 			"</a></th><th><a href='#' class='underlined'>"+getTran("web","date",sWebLanguage)+"</a></th><th><a href='#' class='underlined'>"+getTran("web","service",sWebLanguage)+"</a></th><th><a href='#' class='underlined'>"+getTran("web","assureur",sWebLanguage)+"</a></th></tr>");
@@ -56,7 +56,7 @@
 				//sOut.append("<tr><td colspan='4'><hr/></td></tr>");
 			}
 			String sInsurar=rs.getString("OC_INSURAR");
-			sOut.append("<tr  onClick='window.location.href=\"main.do?Page=curative/index.jsp&ts=").append(getTs()).append("&PersonID=").append(rs.getString("personid")).append("\";' class='list1' ><td>#"+i).append("</td><td>"+rs.getString("lastname")).append(" ").append(rs.getString("firstname")).append("</td><td>").append((d==null?"":ScreenHelper.stdDateFormat.format(d))).append("</td><td>")
+			sOut.append("<tr  onClick='window.location.href=\"main.do?Page=curative/index.jsp&ts=").append(getTs()).append("&PersonID=").append(rs.getString("personid")).append("\";' class='list1' ><td>#"+i).append("</td><td>"+rs.getString("lastname")).append("").append(rs.getString("firstname")).append("</td><td>").append((d==null?"":ScreenHelper.stdDateFormat.format(d))).append("</td><td>")
 			.append((d2==null?"":ScreenHelper.stdDateFormat.format(d2))).append("</td><td>"+getTranNoLink("service",s,sWebLanguage)).append("</td><td>"+sInsurar).append("</td></tr>");
 		}
 		service=s;

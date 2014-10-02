@@ -11,8 +11,8 @@
         sTmp.append(
             "<tr id='rowSignesVitaux"+iTotal+"' class='list'>" +
             "<td>" +
-            " <a href='javascript:deleteSignesVitaux(rowSignesVitaux"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> "+
-            " <a href='javascript:editSignesVitaux(rowSignesVitaux"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>" +
+            " <a href='javascript:deleteSignesVitaux(rowSignesVitaux"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> "+
+            " <a href='javascript:editSignesVitaux(rowSignesVitaux"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>" +
             "</td>" +
             "<td>"+sHeure+"</td>" +
             "<td>" +sSys +"</td>" +
@@ -35,8 +35,8 @@
         sTmp.append(
             "<tr id='rowSignesVitauxResp"+iTotal+"' class='list'>" +
             "<td>" +
-            " <a href='javascript:deleteSignesVitauxResp(rowSignesVitauxResp"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> "+
-            " <a href='javascript:editSignesVitauxResp(rowSignesVitauxResp"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>" +
+            " <a href='javascript:deleteSignesVitauxResp(rowSignesVitauxResp"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> "+
+            " <a href='javascript:editSignesVitauxResp(rowSignesVitauxResp"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>" +
             "</td>" +
             "<td>"+sHeure+"</td>" +
             "<td>" +sResp +"</td>" +
@@ -57,8 +57,8 @@
         sTmp.append(
             "<tr id='rowConscience"+iTotal+"' class='list'>" +
             "<td>" +
-            " <a href='javascript:deleteConscience(rowConscience"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> "+
-            " <a href='javascript:editConscience(rowConscience"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>" +
+            " <a href='javascript:deleteConscience(rowConscience"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> "+
+            " <a href='javascript:editConscience(rowConscience"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>" +
             "</td>" +
             "<td>&nbsp;"+sHeure+"</td>" +
             "<td>&nbsp;"+sYeux+"</td>" +
@@ -78,8 +78,8 @@
         sTmp.append(
             "<tr id='rowBiometrie"+iTotal+"' class='list'>" +
             "<td>" +
-            " <a href='javascript:deleteBiometrie(rowBiometrie"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> "+
-            " <a href='javascript:editBiometrie(rowBiometrie"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>" +
+            " <a href='javascript:deleteBiometrie(rowBiometrie"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> "+
+            " <a href='javascript:editBiometrie(rowBiometrie"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>" +
             "</td>" +
             "<td>&nbsp;"+sHeure+"</td>" +
             "<td>&nbsp;"+sPoids+"</td>" +
@@ -97,8 +97,8 @@
         sTmp.append(
             "<tr id='rowBilanEntree"+iTotal+"' class='list'>" +
             "<td>" +
-            "<a href='javascript:deleteBilanEntree(rowBilanEntree"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> "+
-            "<a href='javascript:editBilanEntree(rowBilanEntree"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>" +
+            "<a href='javascript:deleteBilanEntree(rowBilanEntree"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> "+
+            "<a href='javascript:editBilanEntree(rowBilanEntree"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>" +
             "</td>" +
             "<td>&nbsp;" +sHeure +"</td>" +
             "<td>&nbsp;" +sLactate +"</td>" +
@@ -119,8 +119,8 @@
         sTmp.append(
             "<tr id='rowSitNutri"+iTotal+"' class='list'>"+
             "<td width='40'>" +
-            "<a href='javascript:deleteSitNutri(rowSitNutri"+iTotal+");'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> "+
-            "<a href='javascript:editSitNutri(rowSitNutri"+iTotal+");'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>" +
+            "<a href='javascript:deleteSitNutri(rowSitNutri"+iTotal+");'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> "+
+            "<a href='javascript:editSitNutri(rowSitNutri"+iTotal+");'><img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>" +
             "</td>"+
             "<td width='100'>&nbsp;"+sHeure+"</td>"+
             "<td>&nbsp;"+sLait+"</td>"+
@@ -588,8 +588,8 @@
                 <input type="text" class="text" size="4" name="svtemp" onblur="isNumber(this);"> °C
             </td>
             <td class="admin2">
-                <input type="button" class="button" name="ButtonAddSignesVitaux" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addSignesVitaux();">
-                <input type="button" class="button" name="ButtonUpdateSignesVitaux" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateSignesVitaux();">
+                <input type="button" class="button" name="ButtonAddSignesVitaux" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addSignesVitaux();">
+                <input type="button" class="button" name="ButtonUpdateSignesVitaux" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateSignesVitaux();">
             </td>
         </tr>
         <%=sDivSignesVitaux%>
@@ -651,8 +651,8 @@
             </td>
 
             <td class="admin2">
-                <input type="button" class="button" name="ButtonAddSignesVitauxResp" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addSignesVitauxResp();">
-                <input type="button" class="button" name="ButtonUpdateSignesVitauxResp" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateSignesVitauxResp();">
+                <input type="button" class="button" name="ButtonAddSignesVitauxResp" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addSignesVitauxResp();">
+                <input type="button" class="button" name="ButtonUpdateSignesVitauxResp" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateSignesVitauxResp();">
             </td>
         </tr>
 
@@ -709,8 +709,8 @@
                 </select>
             </td>
             <td class="admin2">
-                <input type="button" class="button" name="ButtonAddConscience" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addConscience();">
-                <input type="button" class="button" name="ButtonUpdateConscience" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateConscience();">
+                <input type="button" class="button" name="ButtonAddConscience" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addConscience();">
+                <input type="button" class="button" name="ButtonUpdateConscience" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateConscience();">
             </td>
         </tr>
         <%=sDivConscience%> 
@@ -747,8 +747,8 @@
             <td class="admin2"><input type="text" class="text" size="4" name="biotaille" onblur="isNumber(this);calculateBMI();"> cm</td>
             <td class="admin2"><input type="text" class="text" size="4" name="biobmi" readonly></td>
             <td class="admin2">
-                <input type="button" class="button" name="ButtonAddBiometrie" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addBiometrie();">
-                <input type="button" class="button" name="ButtonUpdateBiometrie" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateBiometrie();">
+                <input type="button" class="button" name="ButtonAddBiometrie" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addBiometrie();">
+                <input type="button" class="button" name="ButtonUpdateBiometrie" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateBiometrie();">
             </td>
         </tr>
         <%=sDivBiometrie%>
@@ -808,8 +808,8 @@
                 <input type="text" class="text" size="4" name="bentreesang" onblur="isNumber(this);">
             </td>
             <td class="admin2">
-                <input type="button" class="button" name="ButtonAddBilanEntree" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addBilanEntree();">
-                <input type="button" class="button" name="ButtonUpdateBilanEntree" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateBilanEntree();">
+                <input type="button" class="button" name="ButtonAddBilanEntree" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addBilanEntree();">
+                <input type="button" class="button" name="ButtonUpdateBilanEntree" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateBilanEntree();">
             </td>
         </tr>
         <%=sDivBilanEntree%>
@@ -1090,8 +1090,8 @@
                         </td>
 
                         <td class="admin2">
-                            <input type="button" class="button" name="ButtonAddSitNutri" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addSitNutri();">
-                            <input type="button" class="button" name="ButtonUpdateSitNutri" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateSitNutri();">
+                            <input type="button" class="button" name="ButtonAddSitNutri" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addSitNutri();">
+                            <input type="button" class="button" name="ButtonUpdateSitNutri" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateSitNutri();">
                         </td>
                     </tr>
 
@@ -1175,8 +1175,8 @@ function addSignesVitaux(){
     tr.id = "rowSignesVitaux"+iSignesVitauxIndex;
 
     var td = tr.insertCell(0);
-    td.innerHTML = "<a href='javascript:deleteSignesVitaux(rowSignesVitaux"+iSignesVitauxIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                  +"<a href='javascript:editSignesVitaux(rowSignesVitaux"+iSignesVitauxIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    td.innerHTML = "<a href='javascript:deleteSignesVitaux(rowSignesVitaux"+iSignesVitauxIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                  +"<a href='javascript:editSignesVitaux(rowSignesVitaux"+iSignesVitauxIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     tr.appendChild(td);
 
     td = tr.insertCell(1);
@@ -1229,8 +1229,8 @@ function updateSignesVitaux(){
 
     <%-- update table object --%>
     row = tblSignesVitaux.rows[editSignesVitauxRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteSignesVitaux("+editSignesVitauxRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editSignesVitaux("+editSignesVitauxRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteSignesVitaux("+editSignesVitauxRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editSignesVitaux("+editSignesVitauxRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
     row.cells[1].innerHTML = "&nbsp;"+transactionForm.svheure.value;
     row.cells[2].innerHTML = "&nbsp;"+transactionForm.svsys.value;
@@ -1299,8 +1299,8 @@ function addSignesVitauxResp(){
     tr.id = "rowSignesVitauxResp"+iSignesVitauxRespIndex;
 
     var td = tr.insertCell(0);
-    td.innerHTML = "<a href='javascript:deleteSignesVitauxResp(rowSignesVitauxResp"+iSignesVitauxRespIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                  +"<a href='javascript:editSignesVitauxResp(rowSignesVitauxResp"+iSignesVitauxRespIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    td.innerHTML = "<a href='javascript:deleteSignesVitauxResp(rowSignesVitauxResp"+iSignesVitauxRespIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                  +"<a href='javascript:editSignesVitauxResp(rowSignesVitauxResp"+iSignesVitauxRespIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     tr.appendChild(td);
 
     td = tr.insertCell(1);
@@ -1363,8 +1363,8 @@ function updateSignesVitauxResp(){
 
     <%-- update table object --%>
     row = tblSignesVitauxResp.rows[editSignesVitauxRespRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteSignesVitauxResp("+editSignesVitauxRespRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editSignesVitauxResp("+editSignesVitauxRespRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteSignesVitauxResp("+editSignesVitauxRespRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editSignesVitauxResp("+editSignesVitauxRespRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
     row.cells[1].innerHTML = "&nbsp;"+transactionForm.svrheure.value;
     row.cells[2].innerHTML = "&nbsp;"+transactionForm.svrresp.value;
@@ -1453,8 +1453,8 @@ function addConscience(){
       tr.id = "rowConscience"+iConscienceIndex;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteConscience(rowConscience"+iConscienceIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editConscience(rowConscience"+iConscienceIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteConscience(rowConscience"+iConscienceIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editConscience(rowConscience"+iConscienceIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -1511,8 +1511,8 @@ function updateConscience(){
 
     <%-- update table object --%>
     row = tblConscience.rows[editConscienceRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteConscience("+editConscienceRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editConscience("+editConscienceRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteConscience("+editConscienceRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editConscience("+editConscienceRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
     row.cells[1].innerHTML = "&nbsp;"+transactionForm.consheure.value;
     row.cells[2].innerHTML = "&nbsp;"+transactionForm.consyeux.value;
@@ -1591,8 +1591,8 @@ function addBiometrie(){
       tr.id = "rowBiometrie"+iBiometrieIndex;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteBiometrie(rowBiometrie"+iBiometrieIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editBiometrie(rowBiometrie"+iBiometrieIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteBiometrie(rowBiometrie"+iBiometrieIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editBiometrie(rowBiometrie"+iBiometrieIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -1639,8 +1639,8 @@ function updateBiometrie(){
 
     <%-- update table object --%>
     row = tblBiometrie.rows[editBiometrieRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteBiometrie("+editBiometrieRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editBiometrie("+editBiometrieRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteBiometrie("+editBiometrieRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editBiometrie("+editBiometrieRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
     row.cells[1].innerHTML = "&nbsp;"+transactionForm.bioheure.value;
     row.cells[2].innerHTML = "&nbsp;"+transactionForm.biopoids.value;
@@ -1707,8 +1707,8 @@ function addBilanEntree(){
       tr.id = "rowBilanEntree"+iBilanEntreeIndex;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteBilanEntree(rowBilanEntree"+iBilanEntreeIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editBilanEntree(rowBilanEntree"+iBilanEntreeIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteBilanEntree(rowBilanEntree"+iBilanEntreeIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editBilanEntree(rowBilanEntree"+iBilanEntreeIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -1773,8 +1773,8 @@ function updateBilanEntree(){
 
     <%-- update table object --%>
     row = tblBilanEntree.rows[editBilanEntreeRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteBilanEntree("+editBilanEntreeRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editBilanEntree("+editBilanEntreeRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteBilanEntree("+editBilanEntreeRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editBilanEntree("+editBilanEntreeRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
     row.cells[1].innerHTML = "&nbsp;"+transactionForm.bentreeheure.value;
     row.cells[2].innerHTML = "&nbsp;"+transactionForm.bentreelactate.value;
@@ -1861,8 +1861,8 @@ function addSitNutri(){
       tr.id = "rowSitNutri"+iSitNutriIndex;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteSitNutri(rowSitNutri"+iSitNutriIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editSitNutri(rowSitNutri"+iSitNutriIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteSitNutri(rowSitNutri"+iSitNutriIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editSitNutri(rowSitNutri"+iSitNutriIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -1942,8 +1942,8 @@ function updateSitNutri(){
 
     <%-- update table object --%>
     row = tblSitNutri.rows[editSitNutriRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteSitNutri(rowSitNutri"+iSitNutriIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editSitNutri(rowSitNutri"+iSitNutriIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteSitNutri(rowSitNutri"+iSitNutriIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editSitNutri(rowSitNutri"+iSitNutriIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells[1].innerHTML  = "&nbsp;"+transactionForm.sitnutriheure.value;
     row.cells[2].innerHTML  = "&nbsp;"+transactionForm.sitnutrilait.value;
     row.cells[3].innerHTML  = "&nbsp;"+transactionForm.sitnutribouillie.value;

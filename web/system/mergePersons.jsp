@@ -76,7 +76,7 @@
                     <td>&nbsp;<%=getTran("web","searchon",sWebLanguage)%></td>
                     <td colspan="2">
                         <select class="text" name="selectedFields">
-                            <option><%=getTran("web","choose",sWebLanguage)%></option>
+                            <option><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                             <option value="1" <%=(selectedFields==1?"selected":"")%>><%=getTran("Web","immatnew",sWebLanguage)%></option>
                             <option value="2" <%=(selectedFields==2?"selected":"")%>><%=getTran("Web","name",sWebLanguage)%> + <%=getTran("Web","dateofbirth",sWebLanguage)%></option>
                         </select>
@@ -110,7 +110,7 @@
                     <td>&nbsp;<%=getTran("web","person",sWebLanguage)%> A</td>
                     <td colspan="2">
                         <input type="text" class="text" name="personA" size="40" READONLY>
-                        <input class="button" type="button" value="<%=getTran("Web","select",sWebLanguage)%>" onclick="showSearchPatientPopup('pid1','personA');">&nbsp;
+                        <input class="button" type="button" value="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="showSearchPatientPopup('pid1','personA');">&nbsp;
                     </td>
                 </tr>
 
@@ -119,13 +119,13 @@
                     <td width="80">&nbsp;<%=getTran("web","person",sWebLanguage)%> B</td>
                     <td width="300">
                         <input type="text" class="text" name="personB" size="40" READONLY>
-                        <input class="button" type="button" value="<%=getTran("Web","select",sWebLanguage)%>" onclick="showSearchPatientPopup('pid2','personB');">&nbsp;
+                        <input class="button" type="button" value="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="showSearchPatientPopup('pid2','personB');">&nbsp;
                     </td>
 
                     <%-- BUTTONS --%>
                     <td>
-                        <input type="button" class="button" value="<%=getTran("web.manage","merge",sWebLanguage)%>" onclick="checkSelectedPersons();">&nbsp;
-                        <input type="button" class="button" value="<%=getTran("web","clear",sWebLanguage)%>" onclick="clearFields();">
+                        <input type="button" class="button" value="<%=getTranNoLink("web.manage","merge",sWebLanguage)%>" onclick="checkSelectedPersons();">&nbsp;
+                        <input type="button" class="button" value="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="clearFields();">
                     </td>
                 </tr>
             </table>
@@ -149,7 +149,7 @@
               function checkSelectedPersons(){
                 if(mergeForm.personA.value != "" && mergeForm.personB.value != ""){
                   if(mergeForm.pid1.value == mergeForm.pid2.value){
-                    alert("<%=getTran("web.manage","selectdifferentpersons",sWebLanguage)%>");
+                    alertDialog("<%=getTran("web.manage","selectdifferentpersons",sWebLanguage)%>");
                     mergeForm.personA.focus();
                   }
                   else{
@@ -159,11 +159,11 @@
                 }
                 else{
                   if(mergeForm.personA.value == ""){
-                    alert("<%=getTran("web","somefieldsareempty",sWebLanguage)%>");
+                	alertDialog("<%=getTran("web","somefieldsareempty",sWebLanguage)%>");
                     mergeForm.personA.focus();
                   }
                   else if(mergeForm.personB.value == ""){
-                    alert("<%=getTran("web","somefieldsareempty",sWebLanguage)%>");
+                	alertDialog("<%=getTran("web","somefieldsareempty",sWebLanguage)%>");
                     mergeForm.personB.focus();
                   }
                 }
@@ -202,7 +202,7 @@
 
                 // compose query
                 sbQuery.append("SELECT a1.personid, a2.personid, a1.immatnew, a2.immatnew")
-                        .append(" FROM Admin a1, Admin a2 ");
+                        .append("FROM Admin a1, Admin a2 ");
 
                 // search on immatnew
                 if(selectedFields == 1){
@@ -211,11 +211,11 @@
                 // search on searchname AND dateOfBirth
                 else if(selectedFields == 2){
                     sbQuery.append("WHERE a1.searchname = a2.searchname")
-                            .append(" AND a1.dateofbirth = a2.dateofbirth");
+                            .append("AND a1.dateofbirth = a2.dateofbirth");
                 }
 
-                sbQuery.append(" AND a1.personid != a2.personid")
-                        .append(" ORDER BY a1.searchname, a1.immatnew, a2.immatnew");
+                sbQuery.append("AND a1.personid != a2.personid")
+                        .append("ORDER BY a1.searchname, a1.immatnew, a2.immatnew");
 
               	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
                 ps = ad_conn.prepareStatement(sbQuery.toString());
@@ -311,7 +311,7 @@
 
         // compose query
         sbQuery.append("SELECT a1.personid, a2.personid, a1.lastname, a1.firstname, a1.dateofbirth, a1.immatnew, a2.immatnew,a1.archiveFileCode,a2.archiveFileCode")
-               .append(" FROM Admin a1, Admin a2 ");
+               .append("FROM Admin a1, Admin a2 ");
 
         // search on immatnew
         if(selectedFields==1){
@@ -320,11 +320,11 @@
         // search on searchname AND dateOfBirth
         else if(selectedFields==2){
             sbQuery.append("WHERE a1.searchname = a2.searchname")
-                   .append(" AND a1.dateofbirth = a2.dateofbirth");
+                   .append("AND a1.dateofbirth = a2.dateofbirth");
         }
 
-        sbQuery.append(" AND a1.personid != a2.personid")
-               .append(" ORDER BY a1.searchname, a1.immatnew, a2.immatnew");
+        sbQuery.append("AND a1.personid != a2.personid")
+               .append("ORDER BY a1.searchname, a1.immatnew, a2.immatnew");
 
       	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         ps = ad_conn.prepareStatement(sbQuery.toString());
@@ -492,7 +492,7 @@
 
             <%-- BACK BUTTON --%>
             <p align="right">
-                <input class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+                <input class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
             </p>
 
             <%
@@ -606,13 +606,13 @@
             // prepare statement to get person details (every column except 'searchname')
             query = new StringBuffer();
             query.append("SELECT personid,natreg,immatold,immatnew,candidate,lastname,firstname,")
-                    .append("  gender,dateofbirth,comment,sourceid,Admin.language,engagement,pension,")
-                    .append("  statute,claimant,updatetime,claimant_expiration,native_country,native_town,")
-                    .append("  motive_end_of_service,startdate_inactivity,enddate_inactivity,")
-                    .append("  code_inactivity,update_status,person_type,situation_end_of_service,")
-                    .append("  updateuserid,comment1,comment2,comment3,comment4,comment5,native_country,")
-                    .append("  middlename,begindate,enddate,archivefilecode")
-                    .append(" FROM Admin WHERE personid = ?");
+                    .append("gender,dateofbirth,comment,sourceid,Admin.language,engagement,pension,")
+                    .append("statute,claimant,updatetime,claimant_expiration,native_country,native_town,")
+                    .append("motive_end_of_service,startdate_inactivity,enddate_inactivity,")
+                    .append("code_inactivity,update_status,person_type,situation_end_of_service,")
+                    .append("updateuserid,comment1,comment2,comment3,comment4,comment5,native_country,")
+                    .append("middlename,begindate,enddate,archivefilecode")
+                    .append("FROM Admin WHERE personid = ?");
 
             ps = ad_conn.prepareStatement(query.toString());
 
@@ -680,10 +680,10 @@
             // prepare statement to get adminprivate details
             query = new StringBuffer();
             query.append("SELECT privateid, start, stop, address, city, zipcode, country, telephone, fax,")
-                    .append("  mobile, email, comment, updatetime, type,district")
-                    .append(" FROM AdminPrivate")
-                    .append(" WHERE personid = ?")
-                    .append("  AND stop IS NULL AND type = 'Official'");
+                    .append("mobile, email, comment, updatetime, type,district")
+                    .append("FROM AdminPrivate")
+                    .append("WHERE personid = ?")
+                    .append("AND stop IS NULL AND type = 'Official'");
 
             ps = ad_conn.prepareStatement(query.toString());
 
@@ -750,9 +750,9 @@
             // prepare statement to get adminprivate details
             query = new StringBuffer();
             query.append("SELECT workid,start,stop,rankid,telephone,fax,email,comment,updatetime,")
-                    .append("  status,statussituation,category,companyBegin,companyEnd,companyEndReason")
-                    .append(" FROM AdminWork")
-                    .append(" WHERE personid = ? AND stop IS NULL");
+                    .append("status,statussituation,category,companyBegin,companyEnd,companyEndReason")
+                    .append("FROM AdminWork")
+                    .append("WHERE personid = ? AND stop IS NULL");
             ps = ad_conn.prepareStatement(query.toString());
 
             //--- current work of person 1 -------------------------------------------------------------
@@ -930,8 +930,8 @@
 
             <%-- BUTTONS AT BOTTOM --%>
             <p align="right">
-                <input class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">&nbsp;
-                <input class="button" type="button" value="<%=getTran("Web.manage","merge",sWebLanguage)%>" onClick="mergePersons('<%=pid1%>','<%=pid2%>');" >
+                <input class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">&nbsp;
+                <input class="button" type="button" value="<%=getTranNoLink("Web.manage","merge",sWebLanguage)%>" onClick="mergePersons('<%=pid1%>','<%=pid2%>');" >
             </p>
 
             <%-- SCRIPTS -----------------------------------------------------------------------------%>
@@ -991,7 +991,7 @@
                   }
                 }
                 else{
-                  alert("<%=getTran("Web.manage","selectPersonToKeep",sWebLanguage)%>");
+                  alertDialog("<%=getTran("Web.manage","selectPersonToKeep",sWebLanguage)%>");
                 }
               }
             </script>

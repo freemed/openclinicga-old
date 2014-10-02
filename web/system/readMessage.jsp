@@ -87,11 +87,11 @@
             <td class="admin"><%=getTran("Web.Result","message_file",sWebLanguage)%></td>
             <td class="admin2" colspan="2">
                 <input class="text" type="file" name="filename"/>
-                <input class="button" type="button" name="ButtonReadfile" value="<%=getTran("Web.Result","read_message",sWebLanguage)%>" onclick="doSubmit()"/>
+                <input class="button" type="button" name="ButtonReadfile" value="<%=getTranNoLink("Web.Result","read_message",sWebLanguage)%>" onclick="doSubmit()"/>
             </td>
         </tr>
         <%=ScreenHelper.setFormButtonsStart()%>
-            <input class="button" type="button" name="cancel" value='<%=getTran("Web","Back",sWebLanguage)%>' OnClick='javascript:window.location.href="main.do?Page=system/menu.jsp"'>
+            <input class="button" type="button" name="cancel" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' OnClick='javascript:window.location.href="main.do?Page=system/menu.jsp"'>
         <%=ScreenHelper.setFormButtonsStop()%>
     </table>
     <input type="hidden" name="readfile">
@@ -277,7 +277,7 @@
                 out.print("<tr id='idUser' class='red'><td class='menuItem'>"+getTran("Web.Result","user_id",sWebLanguage)+"</td><td>"+messageReader.user.firstname+" "+messageReader.user.lastname+"</td><td colspan='2'>"+messageReader.user.RIZIV+"</td>");
                 out.print("<td><input type='hidden' name='user' onchange='setGreen(\"idUser\",bUser);'/>");
                 %>
-                    <input class='button' type='button' name='bUser' value='<%=getTran("Web","Select",sWebLanguage)%>'
+                    <input class='button' type='button' name='bUser' value='<%=getTranNoLink("Web","Select",sWebLanguage)%>'
                     onclick='window.open("<c:url value="/popup.jsp"/>?Page=_common/search/searchPatient.jsp&ts=<%=getTs()%>&SetGreenField=idUser&ReturnPersonID=user&isUser=yes&FindFirstname=<%=messageReader.user.firstname%>&FindLastname=<%=messageReader.user.lastname%>"
                     ,"<%=getTran("Web","Find",sWebLanguage)%>","toolbar=no, status=no, scrollbars=yes, resizable=yes, menubar=no");'>
                 <%
@@ -308,7 +308,7 @@
                 for (int i=0;i<transaction.items.size();i++){
                     item = (MessageReader.Item)transaction.items.get(i);
                     if ((item.type.equals(MessageReader.TYPE_NUMERIC) || item.type.equals(MessageReader.TYPE_DAYS)||item.type.equals(MessageReader.TYPE_HOURS)||item.type.equals(MessageReader.TYPE_MINUTES)||item.type.equals(MessageReader.TYPE_SECONDS)) && !item.normal.equals(MessageReader.N)){
-                        warning="&nbsp;<img src='"+sCONTEXTPATH+"/_img/warning.gif'/>";
+                        warning="&nbsp;<img src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif'/>";
                         break;
                     }
                 }
@@ -319,7 +319,7 @@
                     out.print("<td><input type='hidden' name='patient"+n+"' onchange='setGreen(\"idPatient"+n+"\",bPatient"+n+");'/>");
 
                     %>
-                        <input class='button' type='button' name='bPatient<%=n%>' value='<%=getTran("Web","Select",sWebLanguage)%>'
+                        <input class='button' type='button' name='bPatient<%=n%>' value='<%=getTranNoLink("Web","Select",sWebLanguage)%>'
                         onclick='window.open("<c:url value="/popup.jsp"/>?Page=_common/search/searchPatient.jsp&ts=<%=getTs()%>&SetGreenField=idPatient<%=n%>&ReturnPersonID=patient<%=n%>&FindFirstname=<%=patient.firstname%>&FindLastname=<%=patient.lastname%>"
                         ,"<%=getTran("Web","Find",sWebLanguage)%>","toolbar=no, status=no, scrollbars=yes, resizable=yes, menubar=no");'>
                     <%
@@ -364,7 +364,7 @@
 <%=ScreenHelper.alignButtonsStart()%>
 <%
     if (sFileName.length()>0){%>
-        <input type="submit" class="button" name="integrate" value="<%=getTran("Web.Result","integrate_messages",sWebLanguage)%>"/>
+        <input type="submit" class="button" name="integrate" value="<%=getTranNoLink("Web.Result","integrate_messages",sWebLanguage)%>"/>
         <p align="right">
             <a href="#topp" class="topbutton">&nbsp;</a>
         </p>

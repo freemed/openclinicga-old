@@ -174,15 +174,15 @@
                     <td class="menu">
                         &nbsp;<%=getTran("admin","category",sWebLanguage)%>
                         <input class="text" type="text" name="FindCategoryText" READONLY size="<%=sTextWidth%>" title="<%=sFindCategoryText%>" value="<%=sFindCategoryText%>">
-                        <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchCategory('FindCategoryCode','FindCategoryText');">
-                        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindCategoryCode.value='';transactionForm.FindCategoryText.value='';">
+                        <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchCategory('FindCategoryCode','FindCategoryText');">
+                        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindCategoryCode.value='';transactionForm.FindCategoryText.value='';">
                         <input type="hidden" name="FindCategoryCode" value="<%=sFindCategoryCode%>">&nbsp;
                         <%-- BUTTONS --%>
-                        <input type="button" class="button" name="editButton" value="<%=getTran("Web","Edit",sWebLanguage)%>" onclick="doEdit(transactionForm.FindCategoryCode.value);">
-                        <input type="button" class="button" name="clearButton" value="<%=getTran("Web","Clear",sWebLanguage)%>" onclick="clearFields();">
-                        <input type="button" class="button" name="newButton" value="<%=getTran("Web","new",sWebLanguage)%>" onclick="doNew();">
-                        <input type="button" class="button" name="deleteButton" value="<%=getTran("Web","delete",sWebLanguage)%>" onclick="doDelete(transactionForm.FindCategoryCode.value);">
-                        <input type="button" class="button" name="backButton" value="<%=getTran("Web","Back",sWebLanguage)%>" OnClick="doBackToMenu();">
+                        <input type="button" class="button" name="editButton" value="<%=getTranNoLink("Web","Edit",sWebLanguage)%>" onclick="doEdit(transactionForm.FindCategoryCode.value);">
+                        <input type="button" class="button" name="clearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearFields();">
+                        <input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">
+                        <input type="button" class="button" name="deleteButton" value="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="doDelete(transactionForm.FindCategoryCode.value);">
+                        <input type="button" class="button" name="backButton" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" OnClick="doBackToMenu();">
                     </td>
                 </tr>
             </table>
@@ -286,8 +286,8 @@
                     <td class="admin"> <%=getTran("Web.Manage.Category","ParentID",sWebLanguage)%></td>
                     <td class="admin2">
                         <input type="text" readonly class="text" name="EditCategoryParentText" value="<%=sCategoryParentCodeText%>" size="<%=sTextWidth%>">
-                        <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchCategory('EditCategoryParentCode','EditCategoryParentText');">
-                        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditCategoryParentCode.value='';transactionForm.EditCategoryParentText.value='';">
+                        <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchCategory('EditCategoryParentCode','EditCategoryParentText');">
+                        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditCategoryParentCode.value='';transactionForm.EditCategoryParentText.value='';">
                         <input type="hidden" name="EditCategoryParentCode" value="<%=category.parentcode%>">
                     </td>
                 </tr>
@@ -314,9 +314,9 @@
             
             <%-- EDIT BUTTONS --%>
             <%=ScreenHelper.alignButtonsStart()%>
-                <input class="button" type="button" name="saveButton" value='<%=getTran("Web","Save",sWebLanguage)%>' onclick="doSave();">
-                <input type="button" class="button" name="deleteButton" value="<%=getTran("Web","delete",sWebLanguage)%>" onclick="doDelete(transactionForm.EditCategoryCode.value);">
-                <input class="button" type="button" name="backButton" value='<%=getTran("Web","Back",sWebLanguage)%>' OnClick='doBack();'>
+                <input class="button" type="button" name="saveButton" value='<%=getTranNoLink("Web","Save",sWebLanguage)%>' onclick="doSave();">
+                <input type="button" class="button" name="deleteButton" value="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="doDelete(transactionForm.EditCategoryCode.value);">
+                <input class="button" type="button" name="backButton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' OnClick='doBack();'>
             <%=ScreenHelper.alignButtonsStop()%>
             
             <script>

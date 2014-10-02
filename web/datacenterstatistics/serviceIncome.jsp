@@ -25,15 +25,15 @@
         <tr>
             <td valign='bottom'>
                 <%=getTran("web","from",sWebLanguage)%>&nbsp;</td><td  valign='bottom'><%=writeDateField("begin","serviceIncome",sBegin,sWebLanguage)%>&nbsp;<%=getTran("web","to",sWebLanguage)%>&nbsp;<%=writeDateField("end","serviceIncome",sEnd,sWebLanguage)%>&nbsp;
-                <input type="submit" class="button" name="find" value="<%=getTran("web","find",sWebLanguage)%>"/>
+                <input type="submit" class="button" name="find" value="<%=getTranNoLink("web","find",sWebLanguage)%>"/>
             </td>
         </tr>
         <tr>
         	<td valign='bottom'>
         		<%=getTran("Web","service",sWebLanguage) %></td><td colspan='2'  valign='bottom'><input type='hidden' name='statserviceid' id='statserviceid' value='<%=service %>'>
         		<input class='text' type='text' name='statservicename' id='statservicename' readonly size='40' value='<%=serviceName %>'>
-        		<img src='_img/icon_search.gif' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage) %>' onclick='searchService("statserviceid","statservicename");'>
-        		<img src='_img/icon_delete.gif' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage) %>' onclick='statserviceid.value="";statservicename.value="";'>
+        		<img src='_img/icons/icon_search.gif' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage) %>' onclick='searchService("statserviceid","statservicename");'>
+        		<img src='_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage) %>' onclick='statserviceid.value="";statservicename.value="";'>
 				<input type="checkbox" class="text" name="details" <%=request.getParameter("details")!=null?"checked":"" %>/><%= getTran("web","showdetails",sWebLanguage) %>
         	</td>
         </tr>

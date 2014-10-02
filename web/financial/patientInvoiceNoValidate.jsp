@@ -24,8 +24,8 @@
 			<td class='admin2'><textarea name='reason' id='reason' cols='60' rows='8' maxlength='240'></textarea></td>
 		</tr>
 		<tr>
-			<td><input class='button' type='submit' name='novalidate' value='<%=getTran("web","save",sWebLanguage) %>'/></td>
-			<td><input class='button' type='button' name='close' onclick='window.close();' value='<%=getTran("web","close",sWebLanguage) %>'/></td>
+			<td><input class='button' type='submit' name='novalidate' value='<%=getTranNoLink("web","save",sWebLanguage) %>'/></td>
+			<td><input class='button' type='button' name='close' onclick='window.close();' value='<%=getTranNoLink("web","close",sWebLanguage) %>'/></td>
 		</tr>
 	</table>
 </form>

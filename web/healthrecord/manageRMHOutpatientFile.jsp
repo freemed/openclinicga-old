@@ -148,9 +148,7 @@
   function setHF(oObject){
     if(oObject.value.length>0){
       if(!isNumberLimited(oObject,30,300)){
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.occup&labelID=out-of-bounds-value";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.occup","out-of-bounds-value",sWebLanguage)%>");
+        alertDialog("web.occup","out-of-bounds-value");
       }
     }
   }

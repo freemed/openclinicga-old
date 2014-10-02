@@ -84,8 +84,8 @@
                         <td class="admin2">
                             <input type="hidden" name="FindProductStockUid" value="<%=sFindProductStockUid%>">
                             <input class="text" type="text" name="FindProductStockName" readonly size="<%=sTextWidth%>" value="<%=sFindProductStockName%>">
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchProductStock('FindProductStockUid','FindProductStockName','FindServiceStockName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindProductStockUid.value='';transactionForm.FindProductStockName.value='';transactionForm.FindServiceStockName.value='';">
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchProductStock('FindProductStockUid','FindProductStockName','FindServiceStockName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindProductStockUid.value='';transactionForm.FindProductStockName.value='';transactionForm.FindServiceStockName.value='';">
                         </td>
                     </tr>
                     <%-- SERVICE STOCK (automatic) --%>
@@ -127,7 +127,7 @@
         //--- DISPLAY FICHE --------------------------------------------------------------------------------------------
         if(displayFiche){
             %>
-                <table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
+                <table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border:none;">
                     <%-- HEADER --%>
                     <tr class="admin">
                         <td width="100"/>
@@ -137,6 +137,7 @@
                         <td width="100" style="text-align:right;"><%=getTran("web","level",sWebLanguage)%></td>
                         <td width="*"/>
                     </tr>
+                    
                     <%-- DISPLAY MONTHS --%>
                     <tbody onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';">
                         <%
@@ -173,6 +174,7 @@
                         %>
                     </tbody>
                 </table>
+                
                 <%-- YEAR TOTAL --%>
                 <table width="100%" class="list" cellspacing="1">
                     <%
@@ -203,6 +205,7 @@
     <input type="hidden" name="Action">
     <input type="hidden" name="DisplaySearchFields" value="<%=displaySearchFields%>">
 </form>
+
 <%-- SCRIPTS ---------------------------------------------------------------------------------------------------------%>
 <script>
   <%
@@ -261,7 +264,7 @@
   <%-- DO PRINT --%>
   function doPrint(){
     var url = "<%=sCONTEXTPATH%>/pharmacy/createProductStockFichePdf.jsp?ProductStockUid=<%=sSelectedProductStockUid%>&FicheYear=<%=sCurrentYear%>&ts=<%=getTs()%>";
-    window.open(url,"OrderTicketsPDF<%=new java.util.Date().getTime()%>","height=600, width=845, toolbar=no, status=no, scrollbars=yes, resizable=yes, menubar=yes, left=50, top=30");
+    window.open(url,"OrderTicketsPDF<%=new java.util.Date().getTime()%>","height=600,width=845,toolbar=no,status=no,scrollbars=yes,resizable=yes,menubar=yes,left=50,top=30");
   }
 
   <%-- DO BACK --%>

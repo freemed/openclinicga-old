@@ -25,9 +25,9 @@
         StringBuffer out = new StringBuffer();
 
         out.append("<tr class='admin'>")
-           .append(" <td nowrap>"+getTran("web.manage.config","Key",sWebLanguage)+"</td>")
-           .append(" <td >"+getTran("web","value",sWebLanguage)+"</td>")
-           .append(" <td >"+getTran("web.manage.config","defaultvalue",sWebLanguage)+"</td>")
+           .append("<td nowrap>"+getTran("web.manage.config","Key",sWebLanguage)+"</td>")
+           .append("<td >"+getTran("web","value",sWebLanguage)+"</td>")
+           .append("<td >"+getTran("web.manage.config","defaultvalue",sWebLanguage)+"</td>")
            .append("</tr>");
 
         return out.toString();
@@ -39,11 +39,11 @@
         String values[] = getValueFromDB(keyName);
         if(values != null){
             out.append("<tr>")
-               .append(" <td class='admin'>"+keyName+"&nbsp;</td>")
-               .append(" <td class='admin2'>")
-               .append("  <input type='text' class='text' name='value_"+keyName+"' size='80' onKeyUp='limitChars(this,255);' value='"+values[0]+"'>")
-               .append(" </td>")
-               .append(" <td class='admin2'>").append(values[1]).append("</td>")
+               .append("<td class='admin'>"+keyName+"&nbsp;</td>")
+               .append("<td class='admin2'>")
+               .append("<input type='text' class='text' name='value_"+keyName+"' size='80' onKeyUp='limitChars(this,255);' value='"+values[0]+"'>")
+               .append("</td>")
+               .append("<td class='admin2'>").append(values[1]).append("</td>")
                .append("</tr>");
         }
         return out.toString();
@@ -59,11 +59,11 @@
         	values[1]=defaultValue;
         }
         out.append("<tr>")
-           .append(" <td class='admin'>"+keyName+"&nbsp;</td>")
-           .append(" <td class='admin2'>")
-           .append("  <input type='text' class='text' name='value_"+keyName+"' size='80' onKeyUp='limitChars(this,255);' value='"+values[0]+"'>")
-           .append(" </td>")
-           .append(" <td class='admin2'>").append(values[1]).append("</td>")
+           .append("<td class='admin'>"+keyName+"&nbsp;</td>")
+           .append("<td class='admin2'>")
+           .append("<input type='text' class='text' name='value_"+keyName+"' size='80' onKeyUp='limitChars(this,255);' value='"+values[0]+"'>")
+           .append("</td>")
+           .append("<td class='admin2'>").append(values[1]).append("</td>")
            .append("</tr>");
         return out.toString();
     }
@@ -74,12 +74,12 @@
         String values[] = getValueFromDB(keyName);
 
         out.append("<tr>")
-           //.append("  <td class='admin'><a href=\"javascript:showDetails('"+keyName+"');\">"+keyName+"</a></td>")
-           .append("  <td class='admin'>"+keyName+"&nbsp;</td>")
-           .append("  <td class='admin2'>")
-           .append("    <input type='text' class='text' name='value_"+keyName+"' size='5' maxLength='5' onBlur='isNumber(this);' value='"+values[0]+"'>")
-           .append("  </td>")
-           .append("  <td class='admin2'>").append(values[1]).append("</td>")
+           //.append("<td class='admin'><a href=\"javascript:showDetails('"+keyName+"');\">"+keyName+"</a></td>")
+           .append("<td class='admin'>"+keyName+"&nbsp;</td>")
+           .append("<td class='admin2'>")
+           .append("<input type='text' class='text' name='value_"+keyName+"' size='5' maxLength='5' onBlur='isNumber(this);' value='"+values[0]+"'>")
+           .append("</td>")
+           .append("<td class='admin2'>").append(values[1]).append("</td>")
            .append("</tr>");
 
         return out.toString();
@@ -91,13 +91,13 @@
 
         StringBuffer out = new StringBuffer();
         out.append("<tr>")
-           .append(" <td class='admin'>"+keyName+"&nbsp;</td>")
-           .append(" <td class='admin2'>")
-           .append("  <input type='radio' class='radio' name='value_"+keyName+"' id='"+keyName+"_on'  value='"+triggerValueOn+"' "+(values[0].equalsIgnoreCase(triggerValueOn)?"CHECKED":"")+">").append(getLabel("web","yes",sWebLanguage,keyName+"_on"))
-           .append("  <input type='radio' class='radio' name='value_"+keyName+"' id='"+keyName+"_off' value='"+triggerValueOff+"' "+(values[0].equalsIgnoreCase(triggerValueOn)?"":"CHECKED")+">").append(getLabel("web","no",sWebLanguage,keyName+"_off"))
-           .append("  &nbsp;("+values[0]+")")
-           .append(" </td>")
-           .append(" <td class='admin2'>").append(values[1]).append("</td>")
+           .append("<td class='admin'>"+keyName+"&nbsp;</td>")
+           .append("<td class='admin2'>")
+           .append("<input type='radio' class='radio' name='value_"+keyName+"' id='"+keyName+"_on'  value='"+triggerValueOn+"' "+(values[0].equalsIgnoreCase(triggerValueOn)?"CHECKED":"")+">").append(getLabel("web","yes",sWebLanguage,keyName+"_on"))
+           .append("<input type='radio' class='radio' name='value_"+keyName+"' id='"+keyName+"_off' value='"+triggerValueOff+"' "+(values[0].equalsIgnoreCase(triggerValueOn)?"":"CHECKED")+">").append(getLabel("web","no",sWebLanguage,keyName+"_off"))
+           .append("&nbsp;("+values[0]+")")
+           .append("</td>")
+           .append("<td class='admin2'>").append(values[1]).append("</td>")
            .append("</tr>");
 
         return out.toString();
@@ -414,13 +414,13 @@
 
     <%-- BUTTONS ---------------------------------------------------------------------------------%>
     <%=ScreenHelper.alignButtonsStart()%>
-        <input class='button' type="button" name="SaveButton" value='<%=getTran("Web","Save",sWebLanguage)%>' onclick="doSave();">&nbsp;
-        <input class='button' type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doBack();">
+        <input class='button' type="button" name="SaveButton" value='<%=getTranNoLink("Web","Save",sWebLanguage)%>' onclick="doSave();">&nbsp;
+        <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
     <%=ScreenHelper.alignButtonsStop()%>
 
     <%-- link to manageConfig --%>
     <%=ScreenHelper.alignButtonsStart()%>
-        <img src='<c:url value="/_img/pijl.gif"/>'>
+        <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
         <a  href="<c:url value='/main.do'/>?Page=system/manageConfig.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Manage","manageConfiguration",sWebLanguage)%></a>&nbsp;
     <%=ScreenHelper.alignButtonsStop()%>
 </form>

@@ -141,8 +141,8 @@
 	                    <%-- CLICKABLE RECORD HEADER (indent == 0) --%>
 		                <tr class="list<%=sClass%>">
 		                    <td>
-		                        <img id="tr<%=itemCount%>S" name="tr<%=itemCount%>S" src="<c:url value='/_img/plus.png'/>" onclick="showD('tr<%=itemCount%>','tr<%=itemCount%>S','tr<%=itemCount%>H');">
-		                        <img id="tr<%=itemCount%>H" name="tr<%=itemCount%>H" src="<c:url value='/_img/minus.png'/>" onclick="hideD('tr<%=itemCount%>','tr<%=itemCount%>S','tr<%=itemCount%>H');" style="display:none">
+		                        <img id="tr<%=itemCount%>S" name="tr<%=itemCount%>S" src="<c:url value='/_img/icons/icon_plus.png'/>" onclick="showD('tr<%=itemCount%>','tr<%=itemCount%>S','tr<%=itemCount%>H');">
+		                        <img id="tr<%=itemCount%>H" name="tr<%=itemCount%>H" src="<c:url value='/_img/icons/icon_minus.png'/>" onclick="hideD('tr<%=itemCount%>','tr<%=itemCount%>S','tr<%=itemCount%>H');" style="display:none">
 		                    </td>
 		                    <td><%=recordRow.getResult()%></td>
 		                    <td>

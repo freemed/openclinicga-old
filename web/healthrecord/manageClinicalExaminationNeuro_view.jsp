@@ -67,7 +67,7 @@
                 <tr class="admin">
                     <td colspan="4"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%></td>
                 </tr>
-                <tr  class="admin">
+                <tr class="admin">
                     <td colspan="4">&nbsp; - <%=getTran("Web.Occup","medwan.healthrecord.clinical-examination.conscience",sWebLanguage)%></td>
                 </tr>
                 <tr>
@@ -259,8 +259,8 @@
 
 <%-- BUTTONS --%>
 <%=ScreenHelper.alignButtonsStart()%>
-    <INPUT class="button" type="button" name="saveButton" onClick="doSubmit();" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>">
-    <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value='/healthrecord/editTransaction.do'/>?be.mxs.healthrecord.createTransaction.transactionType=<bean:write name="transaction" scope="page" property="transactionType"/>&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>'}">
+    <INPUT class="button" type="button" name="saveButton" onClick="doSubmit();" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>">
+    <INPUT class="button" type="button" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value='/healthrecord/editTransaction.do'/>?be.mxs.healthrecord.createTransaction.transactionType=<bean:write name="transaction" scope="page" property="transactionType"/>&be.mxs.healthrecord.transaction_id=currentTransaction&ts=<%=getTs()%>'}">
     <%=writeResetButton("transactionForm",sWebLanguage)%>
 <%=ScreenHelper.alignButtonsStop()%>
 

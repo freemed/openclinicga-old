@@ -27,6 +27,6 @@
 			<td class='admin2'><input name="config.accountancy.ledger.supplierprefix" type="text" class="text" size="10" value="<%=MedwanQuery.getInstance().getConfigString("accountancy.ledger.supplierprefix","2900")%>"/></td>
 		</tr>
 	</table>
-	<input type='submit' name='save' value='<%=getTran("web","save",sWebLanguage)%>'/>
+	<input type='submit' name='save' value='<%=getTranNoLink("web","save",sWebLanguage)%>'/>
 </form>
 

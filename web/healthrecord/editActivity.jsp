@@ -46,11 +46,7 @@
         %>
           <script>
             window.opener.location.reload();
-
-            var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=activityupdated";
-            var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.manage","activityupdated",sWebLanguage)%>");
-
+            alertDialog("web.manage","activityupdated");
             window.close();
           </script>
         <%
@@ -100,9 +96,7 @@
       function editActivity(){
         if(editForm.activityCode.value.length==0 || editForm.labelnl.value.length==0 ||
            editForm.labelfr.value.length==0 || editForm.labelen.value.length==0){
-          var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=somefieldsareempty";
-          var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web","somefieldsareempty",sWebLanguage)%>");
+          alertDialog("web","somefieldsareempty");
 
                if(editForm.activityCode.value == ''){ editForm.activityCode.focus(); }
           else if(editForm.labelnl.value == ''){ editForm.labelnl.focus(); }
@@ -129,9 +123,9 @@
 
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>
-        <input class="button" type="button" name="EditButton"  value="<%=getTran("Web","save",sWebLanguage)%>"  onClick="editActivity();">&nbsp;
-        <input class="button" type="button" name="ClearButton" value="<%=getTran("Web","clear",sWebLanguage)%>" onClick="clearForm();">&nbsp;
-        <input class="button" type="button" name="buttonclose" value='<%=getTran("Web","close",sWebLanguage)%>' onclick='window.close();'>
+        <input class="button" type="button" name="EditButton"  value="<%=getTranNoLink("Web","save",sWebLanguage)%>" onclick="editActivity();">&nbsp;
+        <input class="button" type="button" name="ClearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onClick="clearForm();">&nbsp;
+        <input class="button" type="button" name="buttonclose" value='<%=getTranNoLink("Web","close",sWebLanguage)%>' onclick='window.close();'>
     <%=ScreenHelper.alignButtonsStop()%>
 </form>
 </body>

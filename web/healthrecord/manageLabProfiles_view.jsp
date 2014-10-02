@@ -41,10 +41,10 @@
     </td>
 
     <td width="*">&nbsp;
-      <input class="button" type="submit" name="findButton" value="<%=getTran("Web","find",sWebLanguage)%>" onclick="searchForm.Action.value='find';"/>&nbsp;
-      <input class="button" type="button" name="clearButton" value="<%=getTran("Web","clear",sWebLanguage)%>" onclick="doClear();">&nbsp;
-      <input class="button" type="button" name="createButton" value="<%=getTran("Web","new",sWebLanguage)%>" onclick="doNew();">&nbsp;
-      <input class="button" type="button" name="backButton" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+      <input class="button" type="submit" name="findButton" value="<%=getTranNoLink("Web","find",sWebLanguage)%>" onclick="searchForm.Action.value='find';"/>&nbsp;
+      <input class="button" type="button" name="clearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="doClear();">&nbsp;
+      <input class="button" type="button" name="createButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">&nbsp;
+      <input class="button" type="button" name="backButton" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
     </td>
   </tr>
 </table>
@@ -398,7 +398,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 	        else              sClass = "";
 
             %>
-                <tr class="list<%=sClass%>"  onClick="showDetails('<%=sEditProfileCode%>','<%=sProfileID%>');">
+                <tr class="list<%=sClass%>" onclick="showDetails('<%=sEditProfileCode%>','<%=sProfileID%>');">
                   <td>&nbsp;<%=sEditProfileCode%></td>
                   <td>&nbsp;<%=getTran(sLabeltype,sProfileID,sWebLanguage)%></td>
                   <td>&nbsp;<%=sComment%></td>
@@ -419,7 +419,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
             <tr height="30">
               <td><%=iTotal%> <%=getTran("Web","recordsFound",sWebLanguage)%></td>
               <td align="right">
-                <img src='<c:url value="/_img/pijl.gif"/>'>
+                <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
                 <a  href="<c:url value='/main.do'/>?Page=healthrecord/manageLabAnalysis_view.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labAnalysis",sWebLanguage)%></a>&nbsp;
               </td>
             </tr>
@@ -550,8 +550,8 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
                       <input type="text" name="LabComment" class="text" size="20" onblur="limitLength(this);">
                     </td>
                     <td>
-                      <input type="button" class="button" tabindex="5" name="LabChooseButton" value="<%=getTran("Web","choose",sWebLanguage)%>" onclick='searchLabAnalysis();'>&nbsp;
-                      <input type="button" class="button" tabindex="6" name="LabAddButton"    value="<%=getTran("Web","add",sWebLanguage)%>" onClick="addLabAnalysis();">
+                      <input type="button" class="button" tabindex="5" name="LabChooseButton" value="<%=getTranNoLink("Web","choose",sWebLanguage)%>" onclick='searchLabAnalysis();'>&nbsp;
+                      <input type="button" class="button" tabindex="6" name="LabAddButton"    value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onClick="addLabAnalysis();">
                     </td>
                   </tr>
 
@@ -611,7 +611,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
                                     }
                                 %>
                                 <td>
-                                  <img src='<c:url value="/_img/icon_delete.gif"/>' border='0' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="removeLabAnalysis('<%=sLabID%>','<%=sLabComment%>','<%=sLabCodeOther%>','<%=sLabCode%>');" onMouseOver='this.style.cursor="hand"' onMouseOut='this.style.cursor="default"'>
+                                  <img src='<c:url value="/_img/icons/icon_delete.gif"/>' border='0' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="removeLabAnalysis('<%=sLabID%>','<%=sLabComment%>','<%=sLabCodeOther%>','<%=sLabCode%>');" onMouseOver='this.style.cursor="hand"' onMouseOut='this.style.cursor="default"'>
                                 </td>
                               </tr>
                           <%
@@ -700,7 +700,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 <%
     //if(activeUser.accessRights.get("occupmanagelabprofiles.add")!=null || activeUser.accessRights.get("occupmanagelabprofiles.edit")!=null){
     %>
-      <input class="button" type="button" name="SaveButton" value="<%=getTran("web","record",sWebLanguage)%>" onClick="checkSave();"/>&nbsp;
+      <input class="button" type="button" name="SaveButton" value="<%=getTranNoLink("web","record",sWebLanguage)%>" onClick="checkSave();"/>&nbsp;
       <script>
         function checkSave(){
           if(editForm.EditProfileCode.value.length == 0 || editForm.EditNL.value == "" || editForm.EditFR.value == ""){
@@ -722,7 +722,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 <%
     if(!action.equals("new")){
         %>
-          <input class="button" type="button" value="<%=getTran("web","delete",sWebLanguage)%>" onClick="checkDelete();"/>&nbsp;
+          <input class="button" type="button" value="<%=getTranNoLink("web","delete",sWebLanguage)%>" onClick="checkDelete();"/>&nbsp;
           <script>
             function checkDelete(){
               if(editForm.EditProfileCode.value.length > 0){
@@ -736,13 +736,13 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         <%
     }
 %>
-  <input class="button" type="button" value="<%=getTran("web","reset",sWebLanguage)%>" onclick="doReset();">&nbsp;
-  <input class="button" type="button" value="<%=getTran("web","back",sWebLanguage)%>" onclick="showOverview();">&nbsp;
+  <input class="button" type="button" value="<%=getTranNoLink("web","reset",sWebLanguage)%>" onclick="doReset();">&nbsp;
+  <input class="button" type="button" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="showOverview();">&nbsp;
 
   <br><br>
 
   <%-- link to labanalyses --%>
-  <img src='<c:url value="/_img/pijl.gif"/>'>
+  <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
   <a  href="<c:url value='/main.do'/>?Page=healthrecord/manageLabAnalysis_view.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labAnalysis",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
 

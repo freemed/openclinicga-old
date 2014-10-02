@@ -59,7 +59,7 @@
                     <%Iterator it = item.nutricientItems.iterator();
                         while (it.hasNext()) {
                             NutricientItem nutricientItem = (NutricientItem) it.next();
-                            out.write("<li id='mealitemnutricient_" + nutricientItem.getUid() + "'><div style='width:190px'>" + nutricientItem.name + "</div><div style='width:150px'><input type='text' size='7' id='mealitemnutricientqt_" + nutricientItem.getUid() + "' value='" + nutricientItem.quantity + "'/> " + HTMLEntities.htmlentities(nutricientItem.unit) + "</div><div style='width:20px'><img src='" + sCONTEXTPATH + "/_img/icon_delete.png' class='link' title='" + (getTranNoLink("web", "delete", sWebLanguage)) + "' onclick='removeNutricientItem(\"" + nutricientItem.getUid() + "\");'></div></li>");
+                            out.write("<li id='mealitemnutricient_" + nutricientItem.getUid() + "'><div style='width:190px'>" + nutricientItem.name + "</div><div style='width:150px'><input type='text' size='7' id='mealitemnutricientqt_" + nutricientItem.getUid() + "' value='" + nutricientItem.quantity + "'/> " + HTMLEntities.htmlentities(nutricientItem.unit) + "</div><div style='width:20px'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.png' class='link' title='" + (getTranNoLink("web", "delete", sWebLanguage)) + "' onclick='removeNutricientItem(\"" + nutricientItem.getUid() + "\");'></div></li>");
                         }%>
                 </ul>
             </td>

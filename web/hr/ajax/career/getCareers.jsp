@@ -16,9 +16,9 @@
            sStatus      = checkString(request.getParameter("status")),
            sComment     = checkString(request.getParameter("comment"));
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n****************** getCareers.jsp ******************");
+        Debug.println("\n******************* hr/ajax/getCareers.jsp *******************");
         Debug.println("sPatientId   : "+sPatientId);
         Debug.println("sContractUid : "+sContractUid);
         Debug.println("sPosition    : "+sPosition);
@@ -27,7 +27,7 @@
         Debug.println("sStatus      : "+sStatus);
         Debug.println("sComment     : "+sComment+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
 
     // compose object to pass search criteria with
     Career findObject = new Career();
@@ -88,9 +88,9 @@
 <%
     if(careers.size() > 0){
         %>
-<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
+<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border:none;">
     <%-- header --%>
-    <tr class="admin" style="padding-left: 1px;">
+    <tr class="admin" style="padding-left:1px;">
         <td width="10%" nowrap><asc><%=HTMLEntities.htmlentities(getTran("web.hr","begin",sWebLanguage))%></asc></td>
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","end",sWebLanguage))%></td>
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web","duration",sWebLanguage))%></td>

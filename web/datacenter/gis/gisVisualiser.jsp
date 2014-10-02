@@ -662,7 +662,7 @@
   function showInProgressIcon(){
 	document.getElementById("buttonsDiv").style.display = "none";
     document.getElementById("msgDiv").style.display = "block";
-    document.getElementById("msgDiv").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/ajax-loader.gif'>";
+    document.getElementById("msgDiv").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'>";
   }
   
   <%-- HIDE IN PROGRESS ICON --%>

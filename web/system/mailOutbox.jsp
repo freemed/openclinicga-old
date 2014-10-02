@@ -47,7 +47,7 @@
                 <%=setRow("Web.Mail","Answer",sFindReceiverMessage,sWebLanguage)%>
             </table>
             <%=ScreenHelper.alignButtonsStart()%>
-                <input type="button" value="<%=getTran("Web.Occup","medwan.common.print",sWebLanguage)%>" class="button" onclick="doPrint();">&nbsp;
+                <input type="button" value="<%=getTranNoLink("Web.Occup","medwan.common.print",sWebLanguage)%>" class="button" onclick="doPrint();">&nbsp;
             <%=ScreenHelper.alignButtonsStop()%>
             <%
         }
@@ -120,7 +120,7 @@
 </table>
 <input type="hidden" name="ActionField">
 <%=ScreenHelper.alignButtonsStart()%>
-    <input class="button" type="button" name="ButtonArchive" value="<%=getTran("Web.mail","ArchiveButton",sWebLanguage)%>" onclick="transactionForm.ActionField.value='Archive';transactionForm.submit()">
+    <input class="button" type="button" name="ButtonArchive" value="<%=getTranNoLink("Web.mail","ArchiveButton",sWebLanguage)%>" onclick="transactionForm.ActionField.value='Archive';transactionForm.submit()">
 <%=ScreenHelper.alignButtonsStop()%>
 <input type="hidden" name="FindEmailID">
 </form>

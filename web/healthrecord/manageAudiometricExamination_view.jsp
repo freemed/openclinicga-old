@@ -378,11 +378,11 @@
             <%
             if ((activeUser.getAccessRight("occup.audiometry.add")) ||(activeUser.getAccessRight("occup.audiometry.edit"))){
             %>
-                <INPUT class="button" name="save" id="save" type="button" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+                <INPUT class="button" name="save" id="save" type="button" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
             <%
             }
             %>
-                <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/main.do"/>?Page=curative/index.jsp&ts=<%=getTs()%>'}">
+                <INPUT class="button" type="button" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/main.do"/>?Page=curative/index.jsp&ts=<%=getTs()%>'}">
         </td>
     </tr>
 </table>

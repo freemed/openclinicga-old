@@ -66,14 +66,14 @@
                     for (int i=0; i<activeUser.vServices.size(); i++){
                         service = (Service)activeUser.vServices.elementAt(i);
                         if(service!=null && service.code.length()>0){
-                        	%><option value="<%=service.code%>"<%if(service.code.equals(activeUser.activeService.code)){out.print(" selected");}%>><%=service.code+": "+getTran("Service",service.code,sWebLanguage)%></option><%
+                        	%><option value="<%=service.code%>"<%if(service.code.equals(activeUser.activeService.code)){out.print(" selected");}%>><%=service.code+": "+getTranNoLink("Service",service.code,sWebLanguage)%></option><%
                         }
                     }
                 %>
                 </select>
                 <%-- BUTTONS --%>
-                <input type='button' name='ButtonSaveUserProfile' class="button" value='<%=getTran("Web","Select",sWebLanguage)%>' onclick="saveTransaction('update');">
-                <input type='button' name='ButtonDeleteUserProfile' class="button" value='<%=getTran("Web","Delete",sWebLanguage)%>' onclick="saveTransaction('delete');">
+                <input type='button' name='ButtonSaveUserProfile' class="button" value='<%=getTranNoLink("Web","Select",sWebLanguage)%>' onclick="saveTransaction('update');">
+                <input type='button' name='ButtonDeleteUserProfile' class="button" value='<%=getTranNoLink("Web","Delete",sWebLanguage)%>' onclick="saveTransaction('delete');">
             </td>
         </tr>
         <%-- ADD SERVICE --%>
@@ -84,12 +84,12 @@
                 <input class="text" type="text" name="AddServiceDescription" size="<%=sTextWidth%>" readonly>
                 <%-- BUTTONS --%>
                 <%=ScreenHelper.writeServiceButton("buttonService","AddServiceCode","AddServiceDescription",sWebLanguage,sCONTEXTPATH)%>
-                <img src="<c:url value="/_img/icon_add.gif"/>" class="link" alt="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="saveTransaction('add')">
+                <img src="<c:url value="/_img/icons/icon_add.gif"/>" class="link" alt="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="saveTransaction('add')">
             </td>
         </tr>
         <%-- BUTTONS --%>
         <%=ScreenHelper.setFormButtonsStart()%>
-            <input type='button' name='backButton' class="button" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doBack();">
+            <input type='button' name='backButton' class="button" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
         <%=ScreenHelper.setFormButtonsStop()%>
     </table>
     <script>

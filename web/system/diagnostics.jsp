@@ -132,7 +132,7 @@
     <div align="center">
         <input class="button" type="button" name="verifyButton" value="<%=getTranNoLink("web.occup","medwan.healthrecord.ophtalmology.verify",sWebLanguage)%>" onclick="verifyDiagnostics();"/>
         <input class="button" type="button" name="correctButton" value="<%=getTranNoLink("web.occup","medwan.healthrecord.ophtalmology.correction",sWebLanguage)%>" onclick="correctDiagnostics();"/>
-        <input class="button" type="button" name="backButton" value="<%=getTran("Web","Back",sWebLanguage)%>" OnClick="doBack();"/>
+        <input class="button" type="button" name="backButton" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" OnClick="doBack();"/>
     </div>
 </form>
 

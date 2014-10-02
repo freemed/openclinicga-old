@@ -100,10 +100,10 @@
     <td class="menu" colspan="2">
       &nbsp;<%=getTran("Web.manage","labanalysis.cols.code_name",sWebLanguage)%>&nbsp;
       <input class="text" type="text" name="FindLabCode" size="18" value="<%=(sAction.equals("details")?"":sFindLabCode)%>" onblur="limitLength(this);">
-      <input class="button" type="submit" name="findButton" value="<%=getTran("Web","find",sWebLanguage)%>" onclick="searchForm.Action.value='find';"/>&nbsp;
-      <input class="button" type="button" name="clearButton" value="<%=getTran("Web","clear",sWebLanguage)%>" onclick="doClear();">&nbsp;
-      <input class="button" type="submit" name="createButton" value="<%=getTran("Web","new",sWebLanguage)%>" onclick="doNew();">&nbsp;
-      <input class="button" type="button" name="backButton" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+      <input class="button" type="submit" name="findButton" value="<%=getTranNoLink("Web","find",sWebLanguage)%>" onclick="searchForm.Action.value='find';"/>&nbsp;
+      <input class="button" type="button" name="clearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="doClear();">&nbsp;
+      <input class="button" type="submit" name="createButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">&nbsp;
+      <input class="button" type="button" name="backButton" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
     </td>
   </tr>
 </table>
@@ -370,7 +370,7 @@
                   <td><%=iTotal%> <%=getTran("Web","recordsFound",sWebLanguage)%></td>
                   <%-- link --%>
                   <td align="right">
-                      <img src='<c:url value="/_img/pijl.gif"/>'>
+                      <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
                       <a href="<c:url value="/main.jsp"/>?Page=system/manageLabProfiles.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labProfiles",sWebLanguage)%></a>&nbsp;
                   </td>
               </tr>
@@ -466,7 +466,7 @@
   <tr>
     <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web.manage","labanalysis.cols.reference",sWebLanguage)%></td>
     <td class="admin2">
-        <input type="button" class="button" name="ageGenderControl" value="<%=getTran("web.occup","agegendercontrol",sWebLanguage)%>" onclick="showAgeGenderTable('<%=sLabID%>')">&nbsp;
+        <input type="button" class="button" name="ageGenderControl" value="<%=getTranNoLink("web.occup","agegendercontrol",sWebLanguage)%>" onclick="showAgeGenderTable('<%=sLabID%>')">&nbsp;
     </td>
   </tr>
   <%
@@ -640,8 +640,8 @@
     <td class="admin"><%=getTran("Web.manage","labanalysis.cols.prestationcode",sWebLanguage)%></td>
     <td class="admin2">
         <input class="text" type="text" name="EditPrestationCode" id="EditPrestationCode" size="10" maxLength="50" readonly value="<%=sPrestationCode%>" >
-        <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchPrestation();">
-        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt='Vider' onclick="document.getElementById('EditPrestationCode').value='';document.getElementById('EditPrestationName').value='';"> 
+        <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchPrestation();">
+        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt='Vider' onclick="document.getElementById('EditPrestationCode').value='';document.getElementById('EditPrestationName').value='';"> 
         <%
         	String sEditPrestationName="";
         	if(sPrestationCode.length()>0){
@@ -662,7 +662,7 @@
     <td class="admin"><%=getTran("Web.manage","labanalysis.cols.labgroup",sWebLanguage)%></td>
     <td class="admin2">
       <select type="text" class="text" name="EditLabGroup">
-        <option><%=getTran("web","choose",sWebLanguage)%></option>
+        <option><%=getTranNoLink("web","choose",sWebLanguage)%></option>
         <%=ScreenHelper.writeSelect("labanalysis.group",sLabGroup,sWebLanguage)%>
       </select>
     </td>
@@ -694,7 +694,7 @@
 </script>
 <%-- EDIT BUTTONS --%>
 <%=ScreenHelper.alignButtonsStart()%>
-  <input class="button" type="button" name="SaveButton" id="SaveButton" value="<%=getTran("web","record",sWebLanguage)%>" onClick="checkSave();"/>&nbsp;
+  <input class="button" type="button" name="SaveButton" id="SaveButton" value="<%=getTranNoLink("web","record",sWebLanguage)%>" onClick="checkSave();"/>&nbsp;
   <script>
   	function setEditorParameters(){
   		var content="";
@@ -802,7 +802,7 @@
   <%
       if(!sAction.equals("new")){
         %>
-          <input class="button" type="button" value="<%=getTran("web","delete",sWebLanguage)%>" onClick="checkDelete();"/>&nbsp;
+          <input class="button" type="button" value="<%=getTranNoLink("web","delete",sWebLanguage)%>" onClick="checkDelete();"/>&nbsp;
           <script>
             function checkDelete(){
               if(editForm.EditLabCode.value.length == 0){
@@ -819,11 +819,11 @@
         <%
       }
   %>
-  <input class="button" type="button" value="<%=getTran("web","back",sWebLanguage)%>" onclick="showOverview();">&nbsp;
+  <input class="button" type="button" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="showOverview();">&nbsp;
   <br><br>
   
   <%-- link to labprofiles --%>
-  <img src='<c:url value="/_img/pijl.gif"/>'>
+  <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
   <a  href="<c:url value="/main.jsp"/>?Page=system/manageLabProfiles.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labProfiles",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
 

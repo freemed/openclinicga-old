@@ -84,7 +84,7 @@
     }
 
     function ajaxChangeSearchResults(urlForm, SearchForm, moreParams) {
-        document.getElementById('allItemsTypes').innerHTML = "<div style='text-align:center'><img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading</div>";
+        document.getElementById('allItemsTypes').innerHTML = "<div style='text-align:center'><img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading</div>";
         var url = urlForm;
         var params = Form.serialize(SearchForm) + moreParams;
 

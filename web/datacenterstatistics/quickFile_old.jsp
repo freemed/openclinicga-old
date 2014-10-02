@@ -154,8 +154,8 @@
                     <option value="F" <%=sPatientGender.equalsIgnoreCase("F")?"selected":""%>>F</option>
                 </select>
             </td>
-            <td class="admin2"><input type="button" class="text" name="findButton" value="<%=getTran("web","find",sWebLanguage)%>" size="1" onclick="EditPatientForm.document.all['new'].value='';EditPatientForm.document.all['find'].value='1';EditPatientForm.submit();"/></td>
-            <td class="admin2"><input type="button" class="text" name="newButton" value="<%=getTran("web","new",sWebLanguage)%>" size="1" onclick="EditPatientForm.document.all['new'].value='1';EditPatientForm.document.all['find'].value='';EditPatientForm.submit();"/></td>
+            <td class="admin2"><input type="button" class="text" name="findButton" value="<%=getTranNoLink("web","find",sWebLanguage)%>" size="1" onclick="EditPatientForm.document.all['new'].value='';EditPatientForm.document.all['find'].value='1';EditPatientForm.submit();"/></td>
+            <td class="admin2"><input type="button" class="text" name="newButton" value="<%=getTranNoLink("web","new",sWebLanguage)%>" size="1" onclick="EditPatientForm.document.all['new'].value='1';EditPatientForm.document.all['find'].value='';EditPatientForm.submit();"/></td>
         </tr>
     </table>
     <input type='hidden' name='PatientUID' value='<%=sPatientUID%>'/>
@@ -266,8 +266,8 @@
                             <td class='admin2'>
                                 <input type="hidden" name="EditEncounterService" value="<%=sEditEncounterService%>">
                                 <input class="text" type="text" name="EditEncounterServiceName" readonly size="<%=sTextWidth%>" value="<%=sEditEncounterServiceName%>" >
-                                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditEncounterService','EditEncounterServiceName');">
-                                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="EditEncounterForm.EditEncounterService.value='';EditEncounterForm.EditEncounterServiceName.value='';">
+                                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('EditEncounterService','EditEncounterServiceName');">
+                                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditEncounterForm.EditEncounterService.value='';EditEncounterForm.EditEncounterServiceName.value='';">
                             </td>
                         </tr>
                         <%-- outcome --%>
@@ -275,7 +275,7 @@
                             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","outcome",sWebLanguage)%></td>
                             <td class="admin2">
                                 <select class="text" name="EditEncounterOutcome" style="vertical-align:-2px;">
-                                    <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                                    <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                                     <%=ScreenHelper.writeSelectUnsorted("encounter.outcome",sEditEncounterOutcome,sWebLanguage)%>
                                 </select>
                             </td>

@@ -72,7 +72,7 @@
 
             // display stock in one row
             html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
-                 .append("<td onclick=\"doShowDetails('"+sStockUid+"');\" align='center'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' class='link' alt='"+deleteTran+"' onclick=\"doDelete('"+sStockUid+"');\"></td>")
+                 .append("<td onclick=\"doShowDetails('"+sStockUid+"');\" align='center'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link' alt='"+deleteTran+"' onclick=\"doDelete('"+sStockUid+"');\"></td>")
                  .append("<td onclick=\"doShowDetails('"+sStockUid+"');\">"+sServiceStockName+"</td>")
                  .append("<td onclick=\"doShowDetails('"+sStockUid+"');\">"+sProductName+"</td>");
 
@@ -95,8 +95,8 @@
                 html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+stockLevel+"&nbsp;&nbsp;</td>");
             }
 
-            html.append(" <td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+sOrderLevel+"&nbsp;&nbsp;</td>")
-                .append(" <td onclick=\"doShowDetails('"+sStockUid+"');\">"+sStockBegin+"</td>")
+            html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+sOrderLevel+"&nbsp;&nbsp;</td>")
+                .append("<td onclick=\"doShowDetails('"+sStockUid+"');\">"+sStockBegin+"</td>")
                 .append("</tr>");
         }
 
@@ -151,8 +151,8 @@
             
             //*** display stock in one row ***
             html.append("<tr class='list"+sClass+"' >")
-                 .append("<td align='center'>"+(activeUser.getAccessRight("pharmacy.manageproductstocks.delete")?"<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' class='link' alt='"+deleteTran+"' onclick=\"doDelete('"+sStockUid+"');\" title='"+deleteTran+"'></td>":"<td/>"))
-		         .append("<td align='center'>"+(activeUser.getAccessRight("pharmacy.viewproductstockfiches.select")?"<img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' class='link' onclick=\"printFiche('"+sStockUid+"');\" title='"+ficheTran+"'></td>":"<td/>"));
+                 .append("<td align='center'>"+(activeUser.getAccessRight("pharmacy.manageproductstocks.delete")?"<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link' alt='"+deleteTran+"' onclick=\"doDelete('"+sStockUid+"');\" title='"+deleteTran+"'></td>":"<td/>"))
+		         .append("<td align='center'>"+(activeUser.getAccessRight("pharmacy.viewproductstockfiches.select")?"<img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' class='link' onclick=\"printFiche('"+sStockUid+"');\" title='"+ficheTran+"'></td>":"<td/>"));
             if(productStock.hasOpenDeliveries()){
                 html.append("<td>&nbsp;<img src='"+sCONTEXTPATH+"/_img/incoming.jpg' class='link' onclick='javascript:receiveProduct(\""+sStockUid+"\",\""+sProductName+"\");'/></td>");
             }
@@ -162,10 +162,10 @@
 
             // non-existing productname in red
             if(sProductName.length() == 0) {
-                html.append(" <td onclick=\"doShowDetails('"+sStockUid+"');\"><font color='red'>"+getTran("web", "nonexistingproduct", sWebLanguage)+"</font></td>");
+                html.append("<td onclick=\"doShowDetails('"+sStockUid+"');\"><font color='red'>"+getTran("web", "nonexistingproduct", sWebLanguage)+"</font></td>");
             } 
             else {
-                html.append(" <td onclick=\"doShowDetails('"+sStockUid+"');\">"+sProductName+"</td>");
+                html.append("<td onclick=\"doShowDetails('"+sStockUid+"');\">"+sProductName+"</td>");
             }
 
             // level
@@ -180,16 +180,16 @@
 
                 // indicate level in orange or red
                 if(stockLevel <= minimumLevel) {
-                    html.append(" <td align='right' onclick=\"doShowDetails('"+sStockUid+"');\"><font color='red'>"+stockLevel+"</font>&nbsp;&nbsp;</td>");
+                    html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\"><font color='red'>"+stockLevel+"</font>&nbsp;&nbsp;</td>");
                 } 
                 else if(stockLevel <= orderLevel) {
-                    html.append(" <td align='right' onclick=\"doShowDetails('"+sStockUid+"');\"><font color='orange'>"+stockLevel+"</font>&nbsp;&nbsp;</td>");
+                    html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\"><font color='orange'>"+stockLevel+"</font>&nbsp;&nbsp;</td>");
                 } 
                 else {
-                    html.append(" <td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+stockLevel+"&nbsp;&nbsp;</td>");
+                    html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+stockLevel+"&nbsp;&nbsp;</td>");
                 }
             } else {
-                html.append(" <td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+stockLevel+"&nbsp;&nbsp;</td>");
+                html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+stockLevel+"&nbsp;&nbsp;</td>");
             }
 
             html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+commandLevel+"&nbsp;&nbsp;</td>");
@@ -641,8 +641,8 @@
                             <input type="hidden" name="FindServiceStockUid" value="<%=sFindServiceStockUid%>">
                             <input class="text" type="text" name="FindServiceStockName" readonly size="<%=sTextWidth%>" value="<%=sFindServiceStockName%>">
 
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchServiceStock('FindServiceStockUid','FindServiceStockName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindServiceStockUid.value='';transactionForm.FindServiceStockName.value='';">
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchServiceStock('FindServiceStockUid','FindServiceStockName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindServiceStockUid.value='';transactionForm.FindServiceStockName.value='';">
                         </td>
                     </tr>
                     <%-- Product --%>
@@ -652,8 +652,8 @@
                             <input type="hidden" name="FindProductUid" value="<%=sFindProductUid%>">
                             <input class="text" type="text" name="FindProductName" readonly size="<%=sTextWidth%>" value="<%=sFindProductName%>">
                            
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchProduct('FindProductUid','FindProductName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindProductUid.value='';transactionForm.FindProductName.value='';">
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchProduct('FindProductUid','FindProductName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindProductUid.value='';transactionForm.FindProductName.value='';">
                         </td>
                     </tr>
                     <%-- Level --%>
@@ -711,8 +711,8 @@
                             <input type="hidden" name="FindSupplierUid" value="<%=sFindSupplierUid%>">
                             <input class="text" type="text" name="FindSupplierName" readonly size="<%=sTextWidth%>" value="<%=sFindSupplierName%>">
                            
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('FindSupplierUid','FindSupplierName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindSupplierUid.value='';transactionForm.FindSupplierName.value='';">
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('FindSupplierUid','FindSupplierName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindSupplierUid.value='';transactionForm.FindSupplierName.value='';">
                         </td>
                     </tr>
                     <%-- SEARCH BUTTONS --%>
@@ -872,8 +872,8 @@
                             <td class="admin2">
                                 <input class="text" type="text" name="EditServiceStockName" readonly size="<%=sTextWidth%>" value="<%=sSelectedServiceStockName%>">
 
-                                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchServiceStock('EditServiceStockUid','EditServiceStockName');">
-                                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditServiceStockUid.value='';transactionForm.EditServiceStockName.value='';">
+                                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchServiceStock('EditServiceStockUid','EditServiceStockName');">
+                                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditServiceStockUid.value='';transactionForm.EditServiceStockName.value='';">
                             </td>
                         </tr>
                         <%
@@ -892,8 +892,8 @@
                             <input type="hidden" name="EditProductUid" id="EditProductUid" value="<%=sSelectedProductUid%>">
                             <input class="text" type="text" name="EditProductName" id="EditProductName" readonly size="<%=sTextWidth%>" value="<%=sSelectedProductName%>">
 
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchProduct('EditProductUid','EditProductName','EditSupplierUid','EditSupplierName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditProductUid.value='';transactionForm.EditProductName.value='';">
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchProduct('EditProductUid','EditProductName','EditSupplierUid','EditSupplierName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditProductUid.value='';transactionForm.EditProductName.value='';">
                         </td>
                     </tr>
                     <%-- Level (required) --%>
@@ -946,7 +946,7 @@
                         <td class="admin" nowrap><%=getTran("Web","DefaultImportance",sWebLanguage)%> *</td>
                         <td class="admin2">
                             <select class="text" name="EditDefaultImportance">
-                                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                                <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                                 <%=ScreenHelper.writeSelectUnsorted("productstock.defaultimportance",sSelectedDefaultImportance,sWebLanguage)%>
                             </select>
                         </td>
@@ -958,8 +958,8 @@
                             <input type="hidden" name="EditSupplierUid" id="EditSupplierUid" value="<%=sSelectedSupplierUid%>">
                             <input class="text" type="text" name="EditSupplierName" id="EditSupplierName" readonly size="<%=sTextWidth%>" value="<%=sSelectedSupplierName%>">
                            
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('EditSupplierUid','EditSupplierName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditSupplierUid.value='';transactionForm.EditSupplierName.value='';">
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('EditSupplierUid','EditSupplierName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditSupplierUid.value='';transactionForm.EditSupplierName.value='';">
                         </td>
                     </tr>
                     <%-- EDIT BUTTONS --%>

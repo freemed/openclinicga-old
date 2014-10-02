@@ -2,11 +2,11 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%
 	// prevent caching
-    response.setHeader("Content-Type", "text/html; charset=ISO-8859-1");
-    response.setHeader("Expires", "Sat, 6 May 1995 12:00:00 GMT");
-    response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
-    response.addHeader("Cache-Control", "post-check=0, pre-check=0");
-    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Content-Type","text/html; charset=ISO-8859-1");
+    response.setHeader("Expires","Sat,6 May 1995 12:00:00 GMT");
+    response.setHeader("Cache-Control","no-store, no-cache, must-revalidate");
+    response.addHeader("Cache-Control","post-check=0, pre-check=0");
+    response.setHeader("Pragma","no-cache");
     
     // WorkTime-message
     String sWorkTimeMessage = "";
@@ -35,16 +35,16 @@
 %>
 <html>
 <head>
-    <%=sCSSNORMAL%>
-    <%=sCSSMODALBOX%>
-    <%//=sCSSOPERA%>
-    <%=sJSTOGGLE%>
-    <%=sJSFORM%>
-    <%=sJSPOPUPMENU%>
-    <%=sJSPROTOTYPE%>
-    <%=sJSSCRPTACULOUS%>
-    <%=sJSMODALBOX%>
-    <%=sIcon%>
+  <%=sCSSNORMAL%>
+  <%=sCSSMODALBOX%>
+  <%//=sCSSOPERA%>
+  <%=sJSTOGGLE%>
+  <%=sJSFORM%>
+  <%=sJSPOPUPMENU%>
+  <%=sJSPROTOTYPE%>
+  <%=sJSSCRPTACULOUS%>
+  <%=sJSMODALBOX%>
+  <%=sIcon%>
 </head>
 
 <%@include file="/includes/messageChecker.jsp"%>
@@ -70,27 +70,27 @@
         <td align="left" id="menu">
             <%ScreenHelper.setIncludePage("/_common/navigation.jsp", pageContext);%>
         </td>
-          <td align="right" >
-        <%ScreenHelper.setIncludePage("/_common/iconsRight.jsp", pageContext);%>
+        <td align="right" style="padding-top:3px;">
+            <%ScreenHelper.setIncludePage("/_common/iconsRight.jsp", pageContext);%>
         </td>
     </tr>
     <% }%>
     <%-- INCLUDE PAGE --%>
     <tr>
         <td colspan="2" height="100%" style="vertical-align:top;" class="white">
-            <div class="content" id="Juist" height="100%"><a name="topp">&nbsp;</a>
-                <table width="100%" border="0" id="mijn">
+            <div class="content" id="Juist" height="100%">
+                <a name="topp">&nbsp;</a>
+                <table width="100%" border="0" id="mijn" cellpadding="0" cellspacing="1" style="padding-left:1px;">
                     <tr>
                         <td style="vertical-align:top;" class="white">
                             <%
-                                String sPage = checkString(request.getParameter("Page"));
-
-                                if(sPage.length() > 0 && !sPage.equalsIgnoreCase("null")){
-                                    ScreenHelper.setIncludePage(customerInclude("/"+sPage), pageContext);
-                                } 
-                                else{
-                                    ScreenHelper.setIncludePage("/_common/start.jsp", pageContext);
-                                }
+String sPage = checkString(request.getParameter("Page"));
+if(sPage.length() > 0 && !sPage.equalsIgnoreCase("null")){
+    ScreenHelper.setIncludePage(customerInclude("/"+sPage),pageContext);
+} 
+else{
+    ScreenHelper.setIncludePage("/_common/start.jsp", pageContext);
+}
                             %>
                         </td>
                     </tr>
@@ -194,11 +194,7 @@
 
     String msg = checkString(request.getParameter("msg"));
     if(msg.length() > 0){
-		%>
-		  var popupUrla = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&tts=<%=getTs()%>&labelValue=<%=msg%>";
-		  var modalitiesa = "dialogWidth:400px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-		  (window.showModalDialog)?window.showModalDialog(popupUrla,"",modalitiesa):window.confirm("<%=msg%>");
-		<%
+		%>alertDialogDirectText("<%=msg%>");<%
     }
 %>
 </script>

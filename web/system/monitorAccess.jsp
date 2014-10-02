@@ -88,7 +88,7 @@
                         <td width="700"><%=getTran("Web","user",sWebLanguage)%></td>
                         <%-- link to bottom --%>
                         <td width="16" height="20" align="right">
-                            <a href="#bottom" class="top"><img src="<c:url value='/_img/bottom.jpg'/>" class="link" style="vertical-align:bottom;" border="0"></a>
+                            <a href="#bottom" class="top"><img src="<c:url value='/_img/themes/default/bottom.gif'/>" class="link" style="vertical-align:bottom;" border="0"></a>
                         </td>
                     </tr>
                     <%
@@ -110,7 +110,7 @@
 
                             %>
                                 <tr class="list<%=sClass%>">
-                                    <td class="hand"><img src="<c:url value='/_img/icon_delete.gif'/>" border="0" alt="<%=getTran("Web","delete",sWebLanguage)%>" onclick="deleteAccess('<%=objAL.getAccessid()%>');" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'/></td>
+                                    <td class="hand"><img src="<c:url value='/_img/icons/icon_delete.gif'/>" border="0" alt="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="deleteAccess('<%=objAL.getAccessid()%>');" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'/></td>
                                     <td><%=sAccessTime%></td>
                                     <td><%=sName%></td>
                                     <td>&nbsp;</td>
@@ -142,8 +142,8 @@
                         <td><%=getTran("Web","to",sWebLanguage)%></td>
                         <td>
                             <%=writeDateField("DelUntilDate","transactionForm",sDelUntilDate,sWebLanguage)%>&nbsp;&nbsp;
-                            <input type="button" class="button" name="deleteRangeButton" value="<%=getTran("web","delete",sWebLanguage)%>" onClick="deleteAccesses();">
-                            <input class="button" type="button" name="backButton" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="doBack();">
+                            <input type="button" class="button" name="deleteRangeButton" value="<%=getTranNoLink("web","delete",sWebLanguage)%>" onClick="deleteAccesses();">
+                            <input class="button" type="button" name="backButton" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="doBack();">
                             <%-- BACK BUTTON --%>
                         </td>
                         <td align="right">

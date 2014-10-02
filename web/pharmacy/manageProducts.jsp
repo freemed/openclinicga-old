@@ -1,8 +1,9 @@
-
 <%@page import="be.openclinic.pharmacy.Product,
                 java.text.DecimalFormat,
                 be.openclinic.pharmacy.ProductSchema,
-                be.openclinic.common.KeyValue,be.openclinic.finance.*,be.mxs.common.util.system.Pointer,
+                be.openclinic.common.KeyValue,
+                be.openclinic.finance.*,
+                be.mxs.common.util.system.Pointer,
                 java.util.*"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
@@ -12,7 +13,7 @@
 
 <%!
     //--- OBJECTS TO HTML -------------------------------------------------------------------------
-    private StringBuffer objectsToHtml(Vector objects, String sWebLanguage) {
+    private StringBuffer objectsToHtml(Vector objects, String sWebLanguage){
         StringBuffer html = new StringBuffer();
         String sClass = "1", sProductUid, sUnit, sUnitPrice, sSupplierUid, sSupplierName, sProductGroup, sProductSubGroup;
         DecimalFormat deci = new DecimalFormat("0.00");
@@ -24,7 +25,7 @@
 
         // run thru found products
         Product product;
-        for (int i = 0; i < objects.size(); i++) {
+        for (int i = 0; i < objects.size(); i++){
             product = (Product) objects.get(i);
             sProductUid = product.getUid();
 
@@ -36,39 +37,41 @@
 
             // supplier
             sSupplierUid = checkString(product.getSupplierUid());
-            if (sSupplierUid.length() > 0) sSupplierName = getTranNoLink("service", sSupplierUid, sWebLanguage);
+            if(sSupplierUid.length() > 0) sSupplierName = getTranNoLink("service", sSupplierUid, sWebLanguage);
             else sSupplierName = "";
 
             // productGroup
             sProductGroup = checkString(product.getProductGroup());
-            if (sProductGroup.length() > 0) {
+            if(sProductGroup.length() > 0){
                 sProductGroup = getTranNoLink("product.productgroup", sProductGroup, sWebLanguage);
             }
 
             // productSubGroup
             sProductSubGroup = checkString(product.getProductSubGroup());
-            if (sProductSubGroup.length() > 0) {
+            if(sProductSubGroup.length() > 0){
                 sProductSubGroup = getTranNoLink("product.productsubgroup", sProductSubGroup, sWebLanguage);
             }
 
             // alternate row-style
-            if (sClass.equals("")) sClass = "1";
+            if(sClass.equals("")) sClass = "1";
             else sClass = "";
 
             //*** display product in one row ***
-            html.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
-                    .append(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' class='link' title='" + deleteTran + "' onclick=\"doDeleteProduct('" + sProductUid + "');\">")
-                    .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + product.getName() + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sUnit + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sUnitPrice.replaceAll(",", ".") + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sCurrency + "</td>")
-                    .append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sSupplierName + "</td>");
+            html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
+                 .append("<td align='center'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link' title='"+deleteTran+"' onclick=\"doDeleteProduct('"+sProductUid+"');\">")
+                 .append("<td onclick=\"doShowDetails('"+sProductUid+"');\">"+product.getName()+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+sProductUid+"');\">"+sUnit+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+sProductUid+"');\">"+sUnitPrice.replaceAll(",", ".")+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+sProductUid+"');\">"+sCurrency+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+sProductUid+"');\">"+sSupplierName+"</td>");
+            
             if(MedwanQuery.getInstance().getConfigInt("showProductGroup",1)==1){
-                    html.append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sProductGroup + "</td>");
+                    html.append("<td onclick=\"doShowDetails('"+sProductUid+"');\">"+sProductGroup+"</td>");
             }
             if(MedwanQuery.getInstance().getConfigInt("showProductCategory",1)==1){
-                    html.append(" <td onclick=\"doShowDetails('" + sProductUid + "');\">" + sProductSubGroup + "</td>");
+                    html.append("<td onclick=\"doShowDetails('"+sProductUid+"');\">"+sProductSubGroup+"</td>");
             }
+            
             html.append("</tr>");
         }
 
@@ -118,22 +121,22 @@
             sQuantity6 = checkString(request.getParameter("quantity6"));
 
     ProductSchema productSchema = new ProductSchema();
-    if (sTime1.length() > 0) {
+    if(sTime1.length() > 0){
         productSchema.getTimequantities().add(new KeyValue(sTime1,sQuantity1));
     }
-    if (sTime2.length() > 0) {
+    if(sTime2.length() > 0){
         productSchema.getTimequantities().add(new KeyValue(sTime2,sQuantity2));
     }
-    if (sTime3.length() > 0) {
+    if(sTime3.length() > 0){
         productSchema.getTimequantities().add(new KeyValue(sTime3,sQuantity3));
     }
-    if (sTime4.length() > 0) {
+    if(sTime4.length() > 0){
         productSchema.getTimequantities().add(new KeyValue(sTime4,sQuantity4));
     }
-    if (sTime5.length() > 0) {
+    if(sTime5.length() > 0){
         productSchema.getTimequantities().add(new KeyValue(sTime5,sQuantity5));
     }
-    if (sTime6.length() > 0) {
+    if(sTime6.length() > 0){
         productSchema.getTimequantities().add(new KeyValue(sTime6,sQuantity6));
     }
 
@@ -160,28 +163,28 @@
     sFindProductGroup = checkString(request.getParameter("FindProductGroup"));
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
-    if (Debug.enabled) {
+    if(Debug.enabled){
     	Debug.println("\n********************** pharmacy/manageProducts.jsp *********************");
-        Debug.println("sAction               : " + sAction);
-        Debug.println("sEditProductUid       : " + sEditProductUid);
-        Debug.println("sEditProductName      : " + sEditProductName);
-        Debug.println("sEditUnit             : " + sEditUnit);
-        Debug.println("sEditUnitPrice        : " + sEditUnitPrice);
-        Debug.println("sEditPackageUnits     : " + sEditPackageUnits);
-        Debug.println("sEditMinOrderPackages : " + sEditMinOrderPackages);
-        Debug.println("sEditSupplierUid      : " + sEditSupplierUid);
-        Debug.println("sEditTimeUnit         : " + sEditTimeUnit);
-        Debug.println("sEditTimeUnitCount    : " + sEditTimeUnitCount);
-        Debug.println("sEditUnitsPerTimeUnit : " + sEditUnitsPerTimeUnit);
-        Debug.println("sEditProductGroup     : " + sEditProductGroup + "\n");
-        Debug.println("sFindProductName      : " + sFindProductName);
-        Debug.println("sFindUnit             : " + sFindUnit);
-        Debug.println("sFindUnitPriceMin     : " + sFindUnitPriceMin);
-        Debug.println("sFindUnitPriceMax     : " + sFindUnitPriceMax);
-        Debug.println("sFindPackageUnits     : " + sFindPackageUnits);
-        Debug.println("sFindMinOrderPackages : " + sFindMinOrderPackages);
-        Debug.println("sFindSupplierUid      : " + sFindSupplierUid);
-        Debug.println("sFindProductGroup     : " + sFindProductGroup + "\n");
+        Debug.println("sAction               : "+sAction);
+        Debug.println("sEditProductUid       : "+sEditProductUid);
+        Debug.println("sEditProductName      : "+sEditProductName);
+        Debug.println("sEditUnit             : "+sEditUnit);
+        Debug.println("sEditUnitPrice        : "+sEditUnitPrice);
+        Debug.println("sEditPackageUnits     : "+sEditPackageUnits);
+        Debug.println("sEditMinOrderPackages : "+sEditMinOrderPackages);
+        Debug.println("sEditSupplierUid      : "+sEditSupplierUid);
+        Debug.println("sEditTimeUnit         : "+sEditTimeUnit);
+        Debug.println("sEditTimeUnitCount    : "+sEditTimeUnitCount);
+        Debug.println("sEditUnitsPerTimeUnit : "+sEditUnitsPerTimeUnit);
+        Debug.println("sEditProductGroup     : "+sEditProductGroup+"\n");
+        Debug.println("sFindProductName      : "+sFindProductName);
+        Debug.println("sFindUnit             : "+sFindUnit);
+        Debug.println("sFindUnitPriceMin     : "+sFindUnitPriceMin);
+        Debug.println("sFindUnitPriceMax     : "+sFindUnitPriceMax);
+        Debug.println("sFindPackageUnits     : "+sFindPackageUnits);
+        Debug.println("sFindMinOrderPackages : "+sFindMinOrderPackages);
+        Debug.println("sFindSupplierUid      : "+sFindSupplierUid);
+        Debug.println("sFindProductGroup     : "+sFindProductGroup+"\n");
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -192,24 +195,24 @@
     boolean displayEditFields = false, displayFoundRecords = false;
 
     String sDisplaySearchFields = checkString(request.getParameter("DisplaySearchFields"));
-    if (sDisplaySearchFields.length() == 0) sDisplaySearchFields = "true"; // default
+    if(sDisplaySearchFields.length() == 0) sDisplaySearchFields = "true"; // default
     boolean displaySearchFields = sDisplaySearchFields.equalsIgnoreCase("true");
-    Debug.println("@@@ displaySearchFields : " + displaySearchFields);
+    Debug.println("@@@ displaySearchFields : "+displaySearchFields);
 
     // sortCol
     String sSortCol = checkString(request.getParameter("SortCol"));
-    if (sSortCol.length() == 0) sSortCol = sDefaultSortCol;
+    if(sSortCol.length() == 0) sSortCol = sDefaultSortCol;
 
     // sortDir
     String sSortDir = checkString(request.getParameter("SortDir"));
-    if (sSortDir.length() == 0) sSortDir = sDefaultSortDir;
+    if(sSortDir.length() == 0) sSortDir = sDefaultSortDir;
 
     //*********************************************************************************************
     //*** process actions *************************************************************************
     //*********************************************************************************************
 
     //--- SAVE ------------------------------------------------------------------------------------
-    if (sAction.equals("save") && sEditProductUid.length() > 0) {
+    if(sAction.equals("save") && sEditProductUid.length() > 0){
         // create product
         Product product = new Product();
         product.setUid(sEditProductUid);
@@ -222,22 +225,22 @@
         product.setProductSubGroup(sEditProductSubGroup);
         product.setBarcode(sEditBarcode);
         product.setPrestationcode(sEditPrestationCode);
-        if (sEditUnitPrice.length() > 0) product.setUnitPrice(Double.parseDouble(sEditUnitPrice));
-        if (sEditPackageUnits.length() > 0) product.setPackageUnits(Integer.parseInt(sEditPackageUnits));
-        if (sEditMinOrderPackages.length() > 0) product.setMinimumOrderPackages(Integer.parseInt(sEditMinOrderPackages));
-        if (sEditPrestationQuantity.length() > 0) product.setPrestationquantity(Integer.parseInt(sEditPrestationQuantity));
-        if (sEditTimeUnitCount.length() > 0) product.setTimeUnitCount(Integer.parseInt(sEditTimeUnitCount));
-        if (sEditUnitsPerTimeUnit.length() > 0) product.setUnitsPerTimeUnit(Double.parseDouble(sEditUnitsPerTimeUnit));
-        if (sEditMargin.length() > 0) product.setMargin(Double.parseDouble(sEditMargin));
-		if (sEditApplyLowerPrices.length()>0) product.setApplyLowerPrices(Integer.parseInt(sEditApplyLowerPrices)==1);
-		if (sEditAutomaticInvoicing.length()>0) product.setAutomaticInvoicing(Integer.parseInt(sEditAutomaticInvoicing)==1);
+        if(sEditUnitPrice.length() > 0) product.setUnitPrice(Double.parseDouble(sEditUnitPrice));
+        if(sEditPackageUnits.length() > 0) product.setPackageUnits(Integer.parseInt(sEditPackageUnits));
+        if(sEditMinOrderPackages.length() > 0) product.setMinimumOrderPackages(Integer.parseInt(sEditMinOrderPackages));
+        if(sEditPrestationQuantity.length() > 0) product.setPrestationquantity(Integer.parseInt(sEditPrestationQuantity));
+        if(sEditTimeUnitCount.length() > 0) product.setTimeUnitCount(Integer.parseInt(sEditTimeUnitCount));
+        if(sEditUnitsPerTimeUnit.length() > 0) product.setUnitsPerTimeUnit(Double.parseDouble(sEditUnitsPerTimeUnit));
+        if(sEditMargin.length() > 0) product.setMargin(Double.parseDouble(sEditMargin));
+		if(sEditApplyLowerPrices.length()>0) product.setApplyLowerPrices(Integer.parseInt(sEditApplyLowerPrices)==1);
+		if(sEditAutomaticInvoicing.length()>0) product.setAutomaticInvoicing(Integer.parseInt(sEditAutomaticInvoicing)==1);
         // does product exist ?
         String existingProductUid = product.exists();
         boolean productExists = existingProductUid.length() > 0;
 
-        if (sEditProductUid.equals("-1")) {
+        if(sEditProductUid.equals("-1")){
             //***** insert new product *****
-            if (!productExists) {
+            if(!productExists){
                 product.store();
 
                 // save schema
@@ -252,12 +255,12 @@
             else {
                 // show rejected data
                 sAction = "showDetailsAfterAddReject";
-                msg = "<font color='red'>" + getTran("web.manage", "productexists", sWebLanguage) + "</font>";
+                msg = "<font color='red'>"+getTran("web.manage", "productexists", sWebLanguage)+"</font>";
             }
         }
         else {
             //***** update existing product *****
-            if (!productExists) {
+            if(!productExists){
                 product.store(false);
 
                 // save schema
@@ -270,7 +273,7 @@
             }
             //***** reject double record thru update *****
             else {
-                if (sEditProductUid.equals(existingProductUid)) {
+                if(sEditProductUid.equals(existingProductUid)){
                     // save schema
                     productSchema.setProductuid(product.getUid());
                     productSchema.store();
@@ -284,7 +287,7 @@
                     // tried to update one product with exact the same data as an other product
                     // show rejected data
                     sAction = "showDetailsAfterUpdateReject";
-                    msg = "<font color='red'>" + getTran("web.manage", "productexists", sWebLanguage) + "</font>";
+                    msg = "<font color='red'>"+getTran("web.manage", "productexists", sWebLanguage)+"</font>";
                 }
             }
         }
@@ -308,7 +311,7 @@
         }
     }
     //--- DELETE ----------------------------------------------------------------------------------
-    else if (sAction.equals("delete") && sEditProductUid.length() > 0) {
+    else if(sAction.equals("delete") && sEditProductUid.length() > 0){
         Product.delete(sEditProductUid);
         ProductSchema productSchemaToDelete = ProductSchema.getSingleProductSchema(sEditProductUid);
         productSchemaToDelete.delete();
@@ -318,17 +321,17 @@
     }
 
     //--- SORT ------------------------------------------------------------------------------------
-    if (sAction.equals("sort")) {
+    if(sAction.equals("sort")){
         displayEditFields = false;
         sAction = "find";
     }
 
     //-- FIND -------------------------------------------------------------------------------------
-    if (sAction.startsWith("find")) {
+    if(sAction.startsWith("find")){
         displaySearchFields = true;
         displayFoundRecords = true;
 
-        if (sAction.equals("findShowOverview")) {
+        if(sAction.equals("findShowOverview")){
             displayEditFields = false;
 
             sFindProductName = "";
@@ -369,24 +372,24 @@
     }
 
     //--- SHOW DETAILS ----------------------------------------------------------------------------
-    if (sAction.startsWith("showDetails")) {
+    if(sAction.startsWith("showDetails")){
         displayEditFields = true;
         displaySearchFields = false;
 
         // get specified record
-        if (sAction.equals("showDetails") || sAction.equals("showDetailsAfterUpdateReject")) {
+        if(sAction.equals("showDetails") || sAction.equals("showDetailsAfterUpdateReject")){
             Product product = Product.get(sEditProductUid);
 
-            if (product != null) {
+            if(product!=null){
                 sSelectedProductName = checkString(product.getName());
                 sSelectedUnit = checkString(product.getUnit());
-                sSelectedUnitPrice = (product.getUnitPrice() < 0 ? "" : product.getUnitPrice() + "");
-                sSelectedPackageUnits = (product.getPackageUnits() <= 0 ? "" : product.getPackageUnits() + "");
-                sSelectedMinOrderPackages = (product.getMinimumOrderPackages() < 0 ? "" : product.getMinimumOrderPackages() + "");
+                sSelectedUnitPrice = (product.getUnitPrice() < 0 ? "" : product.getUnitPrice()+"");
+                sSelectedPackageUnits = (product.getPackageUnits() <= 0 ? "" : product.getPackageUnits()+"");
+                sSelectedMinOrderPackages = (product.getMinimumOrderPackages() < 0 ? "" : product.getMinimumOrderPackages()+"");
                 sSelectedSupplierUid = checkString(product.getSupplierUid());
                 sSelectedTimeUnit = checkString(product.getTimeUnit());
-                sSelectedTimeUnitCount = (product.getTimeUnitCount() < 0 ? "" : product.getTimeUnitCount() + "");
-                sSelectedUnitsPerTimeUnit = (product.getUnitsPerTimeUnit() < 0 ? "" : product.getUnitsPerTimeUnit() + "");
+                sSelectedTimeUnitCount = (product.getTimeUnitCount() < 0 ? "" : product.getTimeUnitCount()+"");
+                sSelectedUnitsPerTimeUnit = (product.getUnitsPerTimeUnit() < 0 ? "" : product.getUnitsPerTimeUnit()+"");
                 sSelectedProductGroup = checkString(product.getProductGroup());
                 sSelectedProductSubGroup = checkString(product.getProductSubGroup());
                 sSelectedSupplierName = getTranNoLink("Service", sSelectedSupplierUid, sWebLanguage);
@@ -402,7 +405,7 @@
 
             productSchema = ProductSchema.getSingleProductSchema(product.getUid());
         }
-        else if (sAction.equals("showDetailsAfterAddReject")) {
+        else if(sAction.equals("showDetailsAfterAddReject")){
             // do not get data from DB, but show data that were allready on form
             sSelectedProductName = sEditProductName;
             sSelectedUnit = sEditUnit;
@@ -419,11 +422,11 @@
             sSelectedBarcode = sEditBarcode;
             sSelectedPrestationCode = sEditPrestationCode;
             sSelectedPrestationQuantity = sEditPrestationQuantity;
-            sSelectedMargin =sEditMargin;
-            sSelectedApplyLowerPrices=sEditApplyLowerPrices;
-            sSelectedAutomaticInvoicing=sEditAutomaticInvoicing;
+            sSelectedMargin = sEditMargin;
+            sSelectedApplyLowerPrices = sEditApplyLowerPrices;
+            sSelectedAutomaticInvoicing = sEditAutomaticInvoicing;
         }
-        else {
+        else{
             // do not get data from DB, but show data that were allready in the search-form
             sSelectedProductName = sFindProductName;
             sSelectedUnit = sFindUnit;
@@ -438,8 +441,8 @@
             sSelectedPrestationCode = "";
             sSelectedPrestationQuantity = "0";
             sSelectedMargin=MedwanQuery.getInstance().getConfigString("defaultProductsMargin","");
-            sSelectedApplyLowerPrices="0";
-            sSelectedAutomaticInvoicing="0";
+            sSelectedApplyLowerPrices = "0";
+            sSelectedAutomaticInvoicing = "0";
 
             sSelectedProductGroup = sFindProductGroup;
             sSelectedProductSubGroup = "";
@@ -459,6 +462,7 @@
 <form name="transactionForm" id="transactionForm" method="post" <%=sOnKeyDown%> <%=(displaySearchFields?"onClick=\"clearMessage();\"":"onClick=\"setSaveButton();clearMessage();\" onKeyUp=\"setSaveButton();\"")%>>
     <%-- page title --%>
     <%=writeTableHeader("Web.manage","ManageProducts",sWebLanguage," doBack();")%>
+    
     <%
         //*****************************************************************************************
         //*** process display options *************************************************************
@@ -475,6 +479,7 @@
                             <input class="text" type="text" name="FindProductName" size="<%=sTextWidth%>" maxLength="255" value="<%=sFindProductName%>">
                         </td>
                     </tr>
+                    
                     <%-- unit --%>
                     <tr>
                         <td class="admin2" nowrap><%=getTran("Web","unit",sWebLanguage)%>&nbsp;</td>
@@ -485,6 +490,7 @@
                             </select>
                         </td>
                     </tr>
+                    
                     <%-- UnitPrice --%>
                     <tr>
                         <td class="admin2" nowrap><%=getTran("Web","UnitPrice",sWebLanguage)%>&nbsp;</td>
@@ -494,6 +500,7 @@
                             <%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
                         </td>
                     </tr>
+                    
                     <%-- PackageUnits --%>
                     <tr>
                         <td class="admin2" nowrap><%=getTran("Web","PackageUnits",sWebLanguage)%>&nbsp;</td>
@@ -501,6 +508,7 @@
                             <input class="text" type="text" name="FindPackageUnits" size="5" maxLength="5" value="<%=sFindPackageUnits%>" onKeyUp="isNumber(this);">
                         </td>
                     </tr>
+                    
                     <%-- MinOrderPackages (long translation, so force widths) --%>
                     <tr>
                         <td class="admin2" nowrap><%=getTran("Web","MinOrderPackages",sWebLanguage)%>&nbsp;</td>
@@ -516,10 +524,11 @@
                             <input type="hidden" name="FindSupplierUid" value="<%=sFindSupplierUid%>">
                             <input class="text" type="text" name="FindSupplierName" readonly size="<%=sTextWidth%>" value="<%=sFindSupplierName%>">
 
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('FindSupplierUid','FindSupplierName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindSupplierUid.value='';transactionForm.FindSupplierName.value='';">
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('FindSupplierUid','FindSupplierName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindSupplierUid.value='';transactionForm.FindSupplierName.value='';">
                         </td>
                     </tr>
+                    
                     <%-- productGroup --%>
                     <tr>
                         <td class="admin2" nowrap><%=getTran("Web","productgroup",sWebLanguage)%>&nbsp;</td>
@@ -530,6 +539,7 @@
                             </select>
                         </td>
                     </tr>
+                    
                     <%-- SEARCH BUTTONS --%>
                     <tr>
                         <td class="admin2">&nbsp;</td>
@@ -564,6 +574,7 @@
         if(displayFoundRecords){
             if(foundProductCount > 0){
                 String sortTran = getTran("web","clicktosort",sWebLanguage);
+                
                 %>
                     <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
                         <%-- clickable header --%>
@@ -576,14 +587,10 @@
                             <td><%=getTran("Web","supplier",sWebLanguage)%></td>
                             <%
                             	if(MedwanQuery.getInstance().getConfigInt("showProductGroup",1)==1){
-                            %>
-                            	<td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_PRODUCTGROUP');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTGROUP")?"<"+sSortDir+">":"")%><%=getTran("Web","productGroup",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTGROUP")?"</"+sSortDir+">":"")%></a></td>
-                            <%
+                                    %><td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_PRODUCTGROUP');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTGROUP")?"<"+sSortDir+">":"")%><%=getTran("Web","productGroup",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTGROUP")?"</"+sSortDir+">":"")%></a></td><%
                             	}
 	                            if(MedwanQuery.getInstance().getConfigInt("showProductCategory",1)==1){
-                            %>
-                            <td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_PRODUCTSUBGROUP');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTSUBGROUP")?"<"+sSortDir+">":"")%><%=getTran("Web","productSubGroup",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTSUBGROUP")?"</"+sSortDir+">":"")%></a></td>
-                            <%
+                                    %><td><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSort('OC_PRODUCT_PRODUCTSUBGROUP');"><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTSUBGROUP")?"<"+sSortDir+">":"")%><%=getTran("Web","productSubGroup",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_PRODUCT_PRODUCTSUBGROUP")?"</"+sSortDir+">":"")%></a></td><%
 	                            }
                             %>
                         </tr>
@@ -591,6 +598,7 @@
                             <%=productsHtml%>
                         </tbody>
                     </table>
+                    
                     <%-- number of records found --%>
                     <span style="width:49%;text-align:left;">
                         <%=foundProductCount%> <%=getTran("web","recordsfound",sWebLanguage)%>
@@ -610,15 +618,14 @@
             }
             else{
                 // no records found
-                %>
-                <%=getTran("web","norecordsfound",sWebLanguage)%>
-                <%
+                %><%=getTran("web","norecordsfound",sWebLanguage)%><%
             }
         }
 
         //--- EDIT FIELDS -------------------------------------------------------------------------
         if(displayEditFields){
             DecimalFormat doubleFormat = new DecimalFormat("#.#");
+            
             %>
                 <table class="list" width="100%" cellspacing="1">
                     <%-- UnitPrice --%>
@@ -628,6 +635,7 @@
                             <input disabled class="greytext" type="text" name="Code" size="15" maxLength="15" value="<%=sEditProductUid%>" />
                         </td>
                     </tr>
+                    
                     <%-- product name --%>
                     <tr>
                         <td class="admin" width="<%=sTDAdminWidth%>" nowrap><%=getTran("Web","productName",sWebLanguage)%> *</td>
@@ -635,16 +643,18 @@
                             <input class="text" type="text" name="EditProductName" size="<%=sTextWidth%>" maxLength="255" value="<%=sSelectedProductName%>">
                         </td>
                     </tr>
+                    
                     <%-- unit --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","unit",sWebLanguage)%> *</td>
                         <td class="admin2">
                             <select class="text" name="EditUnit" onChange="setEditUnitsPerTimeUnitLabel();">
-                                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                                <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                                 <%=ScreenHelper.writeSelect("product.unit",sSelectedUnit,sWebLanguage)%>
                             </select>
                         </td>
                     </tr>
+                    
                     <%-- UnitPrice --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","UnitPrice",sWebLanguage)%> *</td>
@@ -652,6 +662,7 @@
                             <input class="text" type="text" name="EditUnitPrice" size="15" maxLength="15" value="<%=sSelectedUnitPrice%>" onKeyUp="isNumber(this);">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
                         </td>
                     </tr>
+                    
                     <%-- UnitPrice --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","lastyearsaverageprice",sWebLanguage)%></td>
@@ -659,6 +670,7 @@
                             <input disabled class="greytext" type="text" name="AverageUnitPrice" size="15" maxLength="15" value="<%=ScreenHelper.getPriceFormat(Double.parseDouble(sAverageUnitPrice))%>" onKeyUp="isNumber(this);">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
                         </td>
                     </tr>
+                    
                     <%-- UnitPrice --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","reinitialize.lastyearsaverageprice",sWebLanguage)%></td>
@@ -667,6 +679,7 @@
                             &nbsp, <%=getTran("Web","quantity",sWebLanguage)%>: <input type="text" name="pump.quantity" size="15" maxLength="15" value="" onKeyUp="isNumber(this);">
                         </td>
                     </tr>
+                    
                     <%-- PackageUnits --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","PackageUnits",sWebLanguage)%> *</td>
@@ -674,6 +687,7 @@
                             <input class="text" type="text" name="EditPackageUnits" size="5" maxLength="5" value="<%=sSelectedPackageUnits%>" onKeyUp="isNumber(this);">
                         </td>
                     </tr>
+                    
                     <%-- MinOrderPackages (long translation, so force widths) --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","MinOrderPackages",sWebLanguage)%>&nbsp;</td>
@@ -681,6 +695,7 @@
                             <input class="text" type="text" name="EditMinOrderPackages" size="5" maxLength="5" value="<%=sSelectedMinOrderPackages%>" onKeyUp="isNumber(this);">
                         </td>
                     </tr>
+                    
                     <%-- supplier --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","supplier",sWebLanguage)%>&nbsp;</td>
@@ -688,10 +703,11 @@
                             <input type="hidden" name="EditSupplierUid" value="<%=sSelectedSupplierUid%>">
                             <input class="text" type="text" name="EditSupplierName" readonly size="<%=sTextWidth%>" value="<%=sSelectedSupplierName%>">
 
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('EditSupplierUid','EditSupplierName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditSupplierUid.value='';transactionForm.EditSupplierName.value='';">
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('EditSupplierUid','EditSupplierName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditSupplierUid.value='';transactionForm.EditSupplierName.value='';">
                         </td>
                     </tr>
+                    
                     <%
                     	if(MedwanQuery.getInstance().getConfigInt("showProductGroup",1)==1){
                     %>
@@ -700,20 +716,19 @@
                         <td class="admin" nowrap><%=getTran("Web","productGroup",sWebLanguage)%> *</td>
                         <td class="admin2">
                             <select class="text" name="EditProductGroup" id="EditProductGroup">
-                                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                                <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                                 <%=ScreenHelper.writeSelect("product.productgroup",sSelectedProductGroup,sWebLanguage)%>
                             </select>
                         </td>
                     </tr>
                     <%
                     	}
-                    %>
-                    <%
+                    
                     	if(MedwanQuery.getInstance().getConfigInt("showProductCategory",1)==1){
                     %>
                     <%-- productSubGroup --%>
                     <%
-	                    if (sEditProductSubGroup.length()>0) {
+	                    if(sEditProductSubGroup.length()>0){
 	                    	sEditProductSubGroupDescr = getTranNoLink("drug.category",sEditProductSubGroup,sWebLanguage);
 	                    }
                     %>
@@ -722,14 +737,16 @@
                         <td class="admin2">
 		                    <div name="drugcategorydiv" id="drugcategorydiv"></div>
 		                    <input type="text" readonly class="text" name="EditProductSubGroupText" value="<%=sEditProductSubGroup+" "+sEditProductSubGroupDescr%>" size="120">
-		                    <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchCategory('EditProductSubGroup','EditProductSubGroupText');">
-		                    <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditProductSubGroup.value='';EditProductSubGroupText.value='';">
+		                 
+		                    <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchCategory('EditProductSubGroup','EditProductSubGroupText');">
+		                    <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditProductSubGroup.value='';EditProductSubGroupText.value='';">
 		                    <input type="hidden" name="EditProductSubGroup" id="EditProductSubGroup" value="<%=sEditProductSubGroup%>" onchange="updateDrugCategoryParents(this.value)">
                         </td>
                     </tr>
                     <%
                     	}
                     %>
+                    
                     <%-- prescription-rule --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","prescriptionrule",sWebLanguage)%>&nbsp;</td>
@@ -742,12 +759,13 @@
                             <input type="text" class="text" style="vertical-align:-1px;" name="EditTimeUnitCount" value="<%=sSelectedTimeUnitCount%>" size="5" maxLength="5" onKeyUp="isInteger(this);"/>
                             <%-- Time Unit (dropdown : Hour|Day|Week|Month) --%>
                             <select class="text" name="EditTimeUnit" onChange="setEditUnitsPerTimeUnitLabel();setEditTimeUnitCount();" style="vertical-align:-3px;">
-                                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                                <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                                 <%=ScreenHelper.writeSelectUnsorted("prescription.timeunit",sSelectedTimeUnit,sWebLanguage)%>
                             </select>
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" style="vertical-align:-4px;" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="clearDescriptionRule();">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" style="vertical-align:-4px;" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="clearDescriptionRule();">
                         </td>
                     </tr>
+                    
                     <%-- schema --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","schema",sWebLanguage)%>&nbsp;</td>
@@ -772,6 +790,7 @@
                             </table>
                         </td>
                     </tr>
+                    
                     <%-- Barcode --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","barcode",sWebLanguage)%></td>
@@ -779,17 +798,18 @@
                             <input class="text" type="text" name="EditBarcode" size="50" maxLength="50" value="<%=sSelectedBarcode%>" >
                         </td>
                     </tr>
+                    
                     <%-- PrestationCode --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","prestation",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input class="text" type="text" name="EditPrestationCode" id="EditPrestationCode" size="10" maxLength="50" value="<%=sSelectedPrestationCode%>" ><img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchPrestation();"> x <input class="text" type="text" name="EditPrestationQuantity" size="3" maxLength="10" value="<%=sSelectedPrestationQuantity%>" >
+                            <input class="text" type="text" name="EditPrestationCode" id="EditPrestationCode" size="10" maxLength="50" value="<%=sSelectedPrestationCode%>" ><img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchPrestation();"> x <input class="text" type="text" name="EditPrestationQuantity" size="3" maxLength="10" value="<%=sSelectedPrestationQuantity%>" >
                             <%
-                            	String sEditPrestationName="";
-                            	if(sSelectedPrestationCode.length()>0){
+                            	String sEditPrestationName = "";
+                            	if(sSelectedPrestationCode.length() > 0){
                             		Prestation prestation = Prestation.get(sSelectedPrestationCode);
                             		if(prestation!=null){
-                            			sEditPrestationName=checkString(prestation.getDescription());
+                            			sEditPrestationName = checkString(prestation.getDescription());
                             		}
                             	}
                             %>
@@ -814,6 +834,7 @@
                             <input class="text" type="checkbox" name="EditApplyLowerPrices"  value="1" <%=sSelectedApplyLowerPrices.equalsIgnoreCase("1")?"checked":"" %>>
                         </td>
                     </tr>
+                    
                     <%-- EDIT BUTTONS --%>
                     <tr>
                         <td class="admin2"/>
@@ -840,6 +861,7 @@
                         </td>
                     </tr>
                 </table>
+                
                 <script>
                   setEditUnitsPerTimeUnitLabel();
 
@@ -848,12 +870,11 @@
                     var unitTran;
 
                     if(transactionForm.EditUnit.value.length==0){
-                      unitTran = '<%=getTran("web","units",sWebLanguage)%>';
+                      unitTran = '<%=getTranNoLink("web","units",sWebLanguage)%>';
                     }
                     else{
                       <%
                           Vector unitTypes = ScreenHelper.getProductUnitTypes(sWebLanguage);
-
                           for(int i=0; i<unitTypes.size(); i++){
                               %>
                                   var unitTran<%=(i+1)%> = "<%=getTran("product.units",(String)unitTypes.get(i),sWebLanguage).toLowerCase()%>"
@@ -868,7 +889,7 @@
                   <%-- set setEditTimeUnitCount --%>
                   function setEditTimeUnitCount(){
                     if(transactionForm.EditTimeUnit.selectedIndex > 0){
-                      if(transactionForm.EditTimeUnitCount.value.length == 0){
+                      if(transactionForm.EditTimeUnitCount.value.length==0){
                         transactionForm.EditTimeUnitCount.value = "1";
                       }
                     }
@@ -876,9 +897,9 @@
 
                   <%-- clear description rule --%>
                   function clearDescriptionRule(){
-                    transactionForm.EditUnitsPerTimeUnit.value = '';
-                    transactionForm.EditTimeUnitCount.value = '';
-                    transactionForm.EditTimeUnit.value = '';
+                    transactionForm.EditUnitsPerTimeUnit.value = "";
+                    transactionForm.EditTimeUnitCount.value = "";
+                    transactionForm.EditTimeUnit.value = "";
                   }
                 </script>
 
@@ -887,6 +908,7 @@
             <%
         }
     %>
+    
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
     <input type="hidden" name="SortCol" value="<%=sSortCol%>">
@@ -894,47 +916,51 @@
     <input type="hidden" name="EditProductUid" value="<%=sEditProductUid%>">
     <input type="hidden" name="DisplaySearchFields" value="<%=displaySearchFields%>">
 </form>
+
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>
-
-	function fillGroup(selectname,type,selectedvalue){
-		document.getElementById(selectname).options.length=0;
-		<%
-			Hashtable labelTypes = (Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase());
-			if(labelTypes!=null){
-				Hashtable labelIds = (Hashtable)labelTypes.get("product.productgroup");
-				if(labelIds!=null){
-					Enumeration e = labelIds.keys();
-					while (e.hasMoreElements()){
-						String type = (String)e.nextElement();
-						out.println("if(type=='"+type+"'){");
-						//Voor dit type gaan we nu de opties zetten
-						Hashtable options = (Hashtable)labelTypes.get("product.productsubgroup."+type.toLowerCase());
-						if(options!=null){
-							SortedMap treeset = new TreeMap();
-							Enumeration oe = options.elements();
-							while(oe.hasMoreElements()){
-								Label lbl = (Label)oe.nextElement();
-								treeset.put(lbl.value,lbl);
-							}
-							Iterator soe = treeset.keySet().iterator();
-							int counter=0;
-							while(soe.hasNext()){
-								Label lbl = (Label)treeset.get(soe.next());
-								String optionkey=lbl.id.replace("'", "´");
-								String optionvalue=lbl.value.replace("'", "´");
-								out.println("document.getElementById(selectname).options["+counter+"] = new Option('"+optionvalue+"','"+optionkey+"',false,selectedvalue=='"+optionkey+"');");
-								counter++;
-							}
+  <%-- FILL GROUP --%>
+  function fillGroup(selectname,type,selectedvalue){
+	document.getElementById(selectname).options.length = 0;
+	
+	<%
+		Hashtable labelTypes = (Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase());
+		if(labelTypes!=null){
+			Hashtable labelIds = (Hashtable)labelTypes.get("product.productgroup");
+			if(labelIds!=null){
+				Enumeration e = labelIds.keys();
+				while(e.hasMoreElements()){
+					String type = (String)e.nextElement();
+					out.print("if(type=='"+type+"'){");
+					
+					// Voor dit type gaan we nu de opties zetten
+					Hashtable options = (Hashtable)labelTypes.get("product.productsubgroup."+type.toLowerCase());
+					if(options!=null){
+						SortedMap treeset = new TreeMap();
+						Enumeration oe = options.elements();
+						while(oe.hasMoreElements()){
+							Label lbl = (Label)oe.nextElement();
+							treeset.put(lbl.value,lbl);
 						}
-						//out.println("Array.prototype.sort.call(document.getElementById(selectname).options,function(a,b){return a.text < b.text ? -1 : a.text > b.text ? 1 : 0;});");
-						out.println("document.getElementById(selectname).onchange();");
-						out.println("}");
+						
+						Iterator soe = treeset.keySet().iterator();
+						int counter = 0;
+						while(soe.hasNext()){
+							Label lbl = (Label)treeset.get(soe.next());
+							String optionkey=lbl.id.replace("'", "´");
+							String optionvalue=lbl.value.replace("'", "´");
+							out.println("document.getElementById(selectname).options["+counter+"] = new Option('"+optionvalue+"','"+optionkey+"',false,selectedvalue=='"+optionkey+"');");
+							counter++;
+						}
 					}
+					out.print("document.getElementById(selectname).onchange();");
+					out.print("}");
 				}
 			}
-		%>
-	}
+		}
+	%>
+  }
+
   <%
       // default focus field
       if(displayEditFields){
@@ -983,7 +1009,7 @@
     if(!transactionForm.EditProductName.value.length>0 ||
        !transactionForm.EditUnit.value.length>0 ||
        !transactionForm.EditUnitPrice.value.length>0 ||
-       !transactionForm.EditPackageUnits.value.length>0) {
+       !transactionForm.EditPackageUnits.value.length>0){
       maySubmit = false;
       alertDialog("web.manage","datamissing");
     }
@@ -1058,9 +1084,10 @@
     transactionForm.FindSupplierName.value = "";
   }
 
+  <%-- SEARCH PRESTATION --%>
   function searchPrestation(){
-	  transactionForm.EditPrestationCode.value = "";
-      openPopup("/_common/search/searchPrestation.jsp&ts=<%=getTs()%>&ReturnFieldUid=EditPrestationCode&ReturnFieldDescr=EditPrestationName");
+    transactionForm.EditPrestationCode.value = "";
+    openPopup("/_common/search/searchPrestation.jsp&ts=<%=getTs()%>&ReturnFieldUid=EditPrestationCode&ReturnFieldDescr=EditPrestationName");
   }
 
   <%-- CLEAR EDIT FIELDS --%>
@@ -1149,28 +1176,32 @@
     window.location.href = "<c:url value="/main.do"/>?Page=pharmacy/manageProducts.jsp&DisplaySearchFields=true&ts=<%=getTs()%>";
   }
   
+  <%-- SEARCH CATEGORY --%>
   function searchCategory(CategoryUidField,CategoryNameField){
-      openPopup("/_common/search/searchDrugCategory.jsp&ts=<%=getTs()%>&VarCode="+CategoryUidField+"&VarText="+CategoryNameField);
-    }
-
-  function updateDrugCategoryParents(code){
-      document.getElementById('drugcategorydiv').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
-      var params = 'code=' + code+'&language=<%=sWebLanguage%>';
-      var today = new Date();
-      var url= '<c:url value="/pharmacy/updateDrugCategoryParents.jsp"/>?ts='+today;
-		new Ajax.Request(url,{
-				method: "GET",
-              parameters: params,
-              onSuccess: function(resp){
-                  $('drugcategorydiv').innerHTML=resp.responseText;
-              },
-				onFailure: function(){
-				  $('drugcategorydiv').innerHTML="";
-              }
-			}
-		);
+    openPopup("/_common/search/searchDrugCategory.jsp&ts=<%=getTs()%>&VarCode="+CategoryUidField+"&VarText="+CategoryNameField);
   }
-  window.setTimeout("updateDrugCategoryParents(document.getElementById('EditProductSubGroup').value)",500);
+
+  <%-- UPDATE DRUG CATEGORY PARENTS --%>
+  function updateDrugCategoryParents(code){
+    document.getElementById('drugcategorydiv').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading";
+    
+    var params = 'code='+code+'&language=<%=sWebLanguage%>';
+    var url = '<c:url value="/pharmacy/updateDrugCategoryParents.jsp"/>?ts='+new Date();
+	new Ajax.Request(url,{
+      method: "GET",
+      parameters: params,
+      onSuccess: function(resp){
+        $('drugcategorydiv').innerHTML = resp.responseText;
+      },
+	  onFailure: function(resp){
+	    $('drugcategorydiv').innerHTML = "";
+      }
+	});
+  }
+
+  if(document.getElementById('EditProductSubGroup')!=null){
+    window.setTimeout("updateDrugCategoryParents(document.getElementById('EditProductSubGroup').value)",500);
+  }
 
   <%-- close "search in progress"-popup that might still be open --%>
   var popup = window.open("","Searching","width=1,height=1");

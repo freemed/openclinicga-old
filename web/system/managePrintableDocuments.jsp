@@ -291,10 +291,10 @@
     <%=ScreenHelper.alignButtonsStart()%>
         <%
             if(documentCount > 0){
-                %><input type="button" class="button" name="saveButton" value="<%=getTran("web","save",sWebLanguage)%>" onclick="doSave();"><%
+                %><input type="button" class="button" name="saveButton" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="doSave();"><%
             }
         %>
-        <input type="button" class="button" name="backButton" value="<%=getTran("Web","back",sWebLanguage)%>" OnClick="doBack();">
+        <input type="button" class="button" name="backButton" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" OnClick="doBack();">
     <%=ScreenHelper.alignButtonsStop()%>
 </form>
 

@@ -44,7 +44,7 @@
       var max = <%=maxWeight%>;
 
       if(isNaN(weightInput.value) || weightInput.value < min || weightInput.value > max){
-    	alertDialogMessage("<%=weightMsg%>");
+    	alertDialogDirectText("<%=weightMsg%>");
         //weightInput.value = "";
         weightInput.focus();
       }
@@ -67,7 +67,7 @@
       var max = <%=maxHeight%>;
 
       if(isNaN(heightInput.value) || heightInput.value < min || heightInput.value > max){
-        alertDialogMessage("<%=heightMsg%>");
+        alertDialogDirectText("<%=heightMsg%>");
         heightInput.focus();
       }
     }

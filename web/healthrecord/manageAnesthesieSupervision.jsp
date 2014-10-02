@@ -12,8 +12,8 @@
         sTmp.append(
                     "<tr id='rowSA"+iTotal+"'>" +
                         "<td class=\"admin2\">" +
-                        "   <a href='#' onclick='deleteSA(rowSA"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> "+
-                        "   <a href='#' onclick='editSA(rowSA"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>" +
+                        "   <a href='#' onclick='deleteSA(rowSA"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> "+
+                        "   <a href='#' onclick='editSA(rowSA"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>" +
                         "</td>" +
                         "<td class=\"admin2\">&nbsp;" + sHeure + "</td>" +
                         "<td class=\"admin2\">&nbsp;" +sSys + "</td>" +
@@ -190,8 +190,8 @@
                             <input type="text" class="text" size="50" name="svmedication" value="">
                         </td>
                         <td class="admin2">
-                            <input type="button" class="button" name="ButtonAddSA" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addSA();">
-                            <input type="button" class="button" name="ButtonUpdateSA" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateSA();">
+                            <input type="button" class="button" name="ButtonAddSA" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addSA();">
+                            <input type="button" class="button" name="ButtonUpdateSA" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateSA();">
                         </td>
                     </tr>
                     <%=sDivSA%>
@@ -215,11 +215,11 @@
     <%
       if (activeUser.getAccessRight("occup.surveillance_anesthesie.add") || activeUser.getAccessRight("occup.surveillance_anesthesie.edit")){
     %>
-                <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+                <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
     <%
       }
     %>
-                <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>'}">
+                <INPUT class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>'}">
             </td>
         </tr>
     </table>
@@ -253,8 +253,8 @@ function addSA(){
 
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='#' onclick='deleteSA(rowSA"+iSAIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='#' onclick='editSA(rowSA"+iSAIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='#' onclick='deleteSA(rowSA"+iSAIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='#' onclick='editSA(rowSA"+iSAIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -338,8 +338,8 @@ function updateSA(){
 
     <%-- update table object --%>
     row = tblSA.rows[editSARowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='#' onclick='deleteSA("+editSARowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='#' onclick='editSA("+editSARowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='#' onclick='deleteSA("+editSARowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='#' onclick='editSA("+editSARowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
     row.cells[1].innerHTML = "&nbsp;"+transactionForm.svheure.value;
     row.cells[2].innerHTML = "&nbsp;"+transactionForm.svsys.value;

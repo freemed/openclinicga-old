@@ -224,7 +224,7 @@
              <td class='admin'>New Dir or File to Delete</td>
              <td colspan='2' class='admin2'>
                 <input type='file' class='text' name='filename' size='80'>
-                <input type='button' class='button' name='addbutton' value='<%=getTran("web","add",sWebLanguage)%>' onclick="addToTextarea(document.EditForm.deletepaths.value,EditForm.filename.value)">
+                <input type='button' class='button' name='addbutton' value='<%=getTranNoLink("web","add",sWebLanguage)%>' onclick="addToTextarea(document.EditForm.deletepaths.value,EditForm.filename.value)">
              </td>
         </tr>
         <tr height='22'>
@@ -235,15 +235,15 @@
         </tr>
         <%-- BUTTONS --%>
         <%=ScreenHelper.setFormButtonsStart()%>
-            <input type='button' class='button' name='savebutton' value='<%=getTran("web","save",sWebLanguage)%>' onclick='doSave();'>
+            <input type='button' class='button' name='savebutton' value='<%=getTranNoLink("web","save",sWebLanguage)%>' onclick='doSave();'>
             <%
                 if(sNew.equals("no")){
                     %>
-                        <input type='button' class='button' name='deletebutton' value='<%=getTran("web","delete",sWebLanguage)%>' onclick='doDelete();'>
+                        <input type='button' class='button' name='deletebutton' value='<%=getTranNoLink("web","delete",sWebLanguage)%>' onclick='doDelete();'>
                     <%
                 }
             %>
-            <input type="button" class="button" name="backButton" onClick="doBack();" value="<%=getTran("web","back",sWebLanguage)%>">
+            <input type="button" class="button" name="backButton" onClick="doBack();" value="<%=getTranNoLink("web","back",sWebLanguage)%>">
         <%=ScreenHelper.setFormButtonsStop()%>
     </form>
 </table>

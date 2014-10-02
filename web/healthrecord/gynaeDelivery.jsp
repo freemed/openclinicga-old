@@ -18,7 +18,7 @@
         sTmp.append(
                 "<tr id='rowDilatation" + iTotal + "'>" +
                         "<td class='admin2'>" +
-                        " <a href='javascript:deleteDilatation(rowDilatation" + iTotal + "," + sHour + convertTimeToNbForGraph(sMinutes) + ")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup", "medwan.common.delete", sWebLanguage) + "' border='0'></a> " +
+                        " <a href='javascript:deleteDilatation(rowDilatation" + iTotal + "," + sHour + convertTimeToNbForGraph(sMinutes) + ")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web.Occup", "medwan.common.delete", sWebLanguage) + "' border='0'></a> " +
                         "</td>" +
                         "<td class='admin2'>&nbsp;" + sHour + ":" + sMinutes + "</td>" +
                         "<td class='admin2'>&nbsp;" + sOpening + "</td>" +
@@ -32,7 +32,7 @@
         sTmp.append(
                 "<tr id='rowEngagement" + iTotal + "'>" +
                         "<td class='admin2'>" +
-                        " <a href='javascript:deleteEngagement(rowEngagement" + iTotal + "," + sHour + convertTimeToNbForGraph(sMinutes) + ")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup", "medwan.common.delete", sWebLanguage) + "' border='0'></a> " +
+                        " <a href='javascript:deleteEngagement(rowEngagement" + iTotal + "," + sHour + convertTimeToNbForGraph(sMinutes) + ")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web.Occup", "medwan.common.delete", sWebLanguage) + "' border='0'></a> " +
                         "</td>" +
                         "<td class='admin2'>&nbsp;" + sHour + ":" + sMinutes + "</td>" +
                         "<td class='admin2'>&nbsp;" + sGrade + "</td>" +
@@ -46,7 +46,7 @@
         sTmp.append(
                 "<tr id='rowAction" + iTotal + "'>" +
                         "<td class='admin2'>" +
-                        " <a href='javascript:deleteAction(rowAction" + iTotal + ",\"" + sHour + sMinutes + sLetter + "\")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup", "medwan.common.delete", sWebLanguage) + "' border='0'></a> " +
+                        " <a href='javascript:deleteAction(rowAction" + iTotal + ",\"" + sHour + sMinutes + sLetter + "\")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web.Occup", "medwan.common.delete", sWebLanguage) + "' border='0'></a> " +
                         "</td>" +
                         "<td class='admin2'>&nbsp;" + sHour + ":" + sMinutes + "</td>" +
                         "<td class='admin2'>&nbsp;" + sLetter + "</td>" +
@@ -175,7 +175,7 @@
             <td rowspan="4" bgcolor="#EBF3F7">
                 <%=getTran("Web.Occup", "medwan.common.date", sWebLanguage)%>
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DELIVERYTYPE_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DELIVERYTYPE_DATE" property="value"/>" id="deliverytypedate" OnBlur='checkDate(this);'>
-                <script>writeMyDate("deliverytypedate", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("deliverytypedate", "<c:url value="/_img/icons/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
                 <%=getTran("openclinic.chuk", "delivery.hour", sWebLanguage)%>
                 <input <%=setRightClick("ITEM_TYPE_DELIVERY_DELIVERYTYPE_HOUR")%> type="text" class="text" size="5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DELIVERYTYPE_HOUR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DELIVERYTYPE_HOUR" property="value"/>" onblur="checkTime(this)" onkeypress="keypressTime(this)">
                 <table width="100%" cellspacing="1" bgcolor="white">
@@ -428,7 +428,7 @@
                         <td><%=getTran("gynaeco", "date.dr", sWebLanguage)%></td>
                         <td nowrap>
                             <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_DR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_DR" property="value" formatType="date"/>" id="drdate" onBlur='checkDate(this);calculateGestAge();clearDr()' onChange='calculateGestAge();' onKeyUp='calculateGestAge();'/>
-                            <script>writeMyDate("drdate", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                            <script>writeMyDate("drdate", "<c:url value="/_img/icons/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
                             <input id="agedatedr" <%=setRightClick("ITEM_TYPE_DELIVERY_AGE_DATE_DR")%> readonly type="text" class="text" size="5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_DATE_DR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_DATE_DR" property="value"/>" onblur="isNumber(this)"> <%=getTran("web", "weeks.abr", sWebLanguage)%> <%=getTran("web", "delivery.date", sWebLanguage)%>:
                             <input id="drdeldate" <%=setRightClick("ITEM_TYPE_DELIVERY_DATE_DR")%> type="text" class="text" size="12" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_DR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_DR" property="value"/>" onblur="checkDate(this);">
                         </td>
@@ -437,7 +437,7 @@
                         <td><%=getTran("gynaeco", "date.echography", sWebLanguage)%></td>
                         <td nowrap>
                             <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_ECHO" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DATE_ECHO" property="value" formatType="date"/>" id="echodate" onBlur='checkDate(this);calculateGestAge();' onchange='calculateGestAge();' onkeyup='calculateGestAge();'/>
-                            <script>writeMyDate("echodate", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                            <script>writeMyDate("echodate", "<c:url value="/_img/icons/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
                             <input <%=setRightClick("ITEM_TYPE_DELIVERY_AGE_ECHOGRAPHY")%> type="text" class="text" size="5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ECHOGRAPHY" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_AGE_ECHOGRAPHY" property="value"/>" id="agedateecho" onblur='isNumber(this);calculateGestAge();' onchange='calculateGestAge();' onkeyup="calculateGestAge();"> <%=getTran("web", "weeks.abr", sWebLanguage)%> <%=getTran("web", "delivery.date", sWebLanguage)%>:
                             <input id="echodeldate" <%=setRightClick("ITEM_TYPE_DELIVERY_DATE_ECHOGRAPHY")%> type="text" class="text" size="12" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_ECHOGRAPHY" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_DATE_ECHOGRAPHY" property="value"/>" onblur="checkDate(this);">
                         </td>
@@ -584,7 +584,7 @@
                             </select>
                         </td>
                         <td class="admin2">
-                            <input type="button" class="button" name="ButtonAddDilatation" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addDilatation();">
+                            <input type="button" class="button" name="ButtonAddDilatation" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addDilatation();">
                         </td>
                     </tr>
                     <%-- hidden fields --%>
@@ -686,7 +686,7 @@
                             </select>
                         </td>
                         <td class="admin2">
-                            <input type="button" class="button" name="ButtonAddEngagement" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addEngagement();">
+                            <input type="button" class="button" name="ButtonAddEngagement" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addEngagement();">
                         </td>
                     </tr>
                     <%-- hidden fields --%>
@@ -733,7 +733,7 @@
                             </select>
                         </td>
                         <td class="admin2">
-                            <input type="button" class="button" name="ButtonAddAction" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addAction();">
+                            <input type="button" class="button" name="ButtonAddAction" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addAction();">
                         </td>
                     </tr>
                     <%-- hidden fields --%>
@@ -873,7 +873,7 @@
             </td>
             <td class="admin2">
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_REANIMATION_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_REANIMATION_DATE" property="value"/>" id="reanimationdate" OnBlur='checkDate(this);'>
-                <script>writeMyDate("reanimationdate", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("reanimationdate", "<c:url value="/_img/icons/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
                 <%=getTran("openclinic.chuk", "delivery.hour", sWebLanguage)%>
                 <input <%=setRightClick("ITEM_TYPE_DELIVERY_REANIMATION_HOUR")%> type="text" class="text" size="5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_REANIMATION_HOUR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_REANIMATION_HOUR" property="value"/>" onblur="checkTime(this)" onkeypress="keypressTime(this)">
             </td>
@@ -882,7 +882,7 @@
             <td class="admin2">
                 <%=getTran("Web.Occup", "medwan.common.date", sWebLanguage)%>
                 <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_REANIMATION_INTUBATION_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_REANIMATION_INTUBATION_DATE" property="value"/>" id="reanimationintubationdate" OnBlur='checkDate(this);'>
-                <script>writeMyDate("reanimationintubationdate", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                <script>writeMyDate("reanimationintubationdate", "<c:url value="/_img/icons/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
                 <%=getTran("openclinic.chuk", "delivery.hour", sWebLanguage)%>
                 <input <%=setRightClick("ITEM_TYPE_DELIVERY_REANIMATION_INTUBATION_HOUR")%> type="text" class="text" size="5" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_REANIMATION_INTUBATION_HOUR" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_REANIMATION_INTUBATION_HOUR" property="value"/>" onblur="checkTime(this)" onkeypress="keypressTime(this)">
             </td>
@@ -1203,7 +1203,7 @@
                                     </td>
                                     <td class="admin2">
                                         <input id="polio_date" type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N  name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_CHILDPOLIO" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_CHILDPOLIO" property="value" formatType="date"/>">
-                                        <script>writeMyDate("polio_date", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                                        <script>writeMyDate("polio_date", "<c:url value="/_img/icons/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
                                     </td>
                                 </tr>
                                 <%-- bcg.date --%>
@@ -1212,7 +1212,7 @@
                                     </td>
                                     <td class="admin2">
                                         <input id="bcg_date" type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N  name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_CHILDBCG" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_CHILDBCG" property="value" formatType="date"/>">
-                                        <script>writeMyDate("bcg_date", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                                        <script>writeMyDate("bcg_date", "<c:url value="/_img/icons/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
                                     </td>
                                 </tr>
                                 <%-- lastname --%>
@@ -1237,7 +1237,7 @@
                                     </td>
                                     <td class="admin2">
                                         <input id="child_dob" type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N  name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_CHILD_DOB" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DELIVERY_CHILD_DOB" property="value" formatType="date"/>">
-                                        <script>writeMyDate("child_dob", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                                        <script>writeMyDate("child_dob", "<c:url value="/_img/icons/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
                                     </td>
                                 </tr>
                             </table>
@@ -1641,7 +1641,7 @@ if(itemAgeDateEcho!=null){
             tr = tblDilatation.insertRow(tblDilatation.rows.length);
             tr.id = "rowDilatation" + iDilatationIndex;
             var td = tr.insertCell(0);
-            td.innerHTML = "<a href='javascript:deleteDilatation(rowDilatation" + iDilatationIndex + "," + transactionForm.dilatationHour.value + convertTimeToNbForGraph(transactionForm.dilatationMinutes.value) + ")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a>";
+            td.innerHTML = "<a href='javascript:deleteDilatation(rowDilatation" + iDilatationIndex + "," + transactionForm.dilatationHour.value + convertTimeToNbForGraph(transactionForm.dilatationMinutes.value) + ")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a>";
             tr.appendChild(td);
             td = tr.insertCell(1);
             td.innerHTML = "&nbsp;" + transactionForm.dilatationHour.value + ":" + transactionForm.dilatationMinutes.value;
@@ -1698,7 +1698,7 @@ if(itemAgeDateEcho!=null){
             tr = tblEngagement.insertRow(tblEngagement.rows.length);
             tr.id = "rowEngagement" + iEngagementIndex;
             var td = tr.insertCell(0);
-            td.innerHTML = "<a href='javascript:deleteEngagement(rowEngagement" + iEngagementIndex + "," + transactionForm.engagementHour.value + convertTimeToNbForGraph(transactionForm.engagementMinutes.value) + ")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a>";
+            td.innerHTML = "<a href='javascript:deleteEngagement(rowEngagement" + iEngagementIndex + "," + transactionForm.engagementHour.value + convertTimeToNbForGraph(transactionForm.engagementMinutes.value) + ")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a>";
             tr.appendChild(td);
             td = tr.insertCell(1);
             td.innerHTML = "&nbsp;" + transactionForm.engagementHour.value + ":" + transactionForm.engagementMinutes.value;
@@ -1756,7 +1756,7 @@ if(itemAgeDateEcho!=null){
             tr = tblAction.insertRow(tblAction.rows.length);
             tr.id = "rowAction" + iActionIndex;
             var td = tr.insertCell(0);
-            td.innerHTML = "<a href='javascript:deleteAction(rowAction" + iActionIndex + ",\"" + transactionForm.actionHour.value + transactionForm.actionMinutes.value + transactionForm.actionLetter.value + "\");'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a>";
+            td.innerHTML = "<a href='javascript:deleteAction(rowAction" + iActionIndex + ",\"" + transactionForm.actionHour.value + transactionForm.actionMinutes.value + transactionForm.actionLetter.value + "\");'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a>";
             tr.appendChild(td);
             td = tr.insertCell(1);
             td.innerHTML = "&nbsp;" + transactionForm.actionHour.value + ":" + transactionForm.actionMinutes.value;

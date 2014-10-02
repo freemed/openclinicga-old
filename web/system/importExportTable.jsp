@@ -322,7 +322,7 @@
         <tr>
             <td class="admin"/>
             <td colspan="2" class="admin2">
-                <input class="button" type="button" name="cancel" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick='window.location.href="<c:url value='/main.do'/>?Page=system/menu.jsp";'>
+                <input class="button" type="button" name="cancel" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick='window.location.href="<c:url value='/main.do'/>?Page=system/menu.jsp";'>
             </td>
         </tr>
     </table>

@@ -16,8 +16,8 @@
         sTmp.append(
             "<tr id='rowBio"+iTotal+"'>"+
             "<td class='admin2'>"+
-             "<a href='javascript:deleteBio(rowBio"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a>"+
-             "<a href='javascript:editBio(rowBio"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>"+
+             "<a href='javascript:deleteBio(rowBio"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a>"+
+             "<a href='javascript:editBio(rowBio"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>"+
             "</td>"+
             "<td class='admin2'>&nbsp;"+sDate+"</td>"+
             "<td class='admin2'>&nbsp;"+sWeight+"</td>"+
@@ -182,8 +182,8 @@
 
                     <%-- ADD/EDIT BUTTONS --%>
                     <td class="admin2">
-                        <input type="button" class="button" name="ButtonAddBio" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addBio();">
-                        <input type="button" class="button" name="ButtonUpdateBio" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateBio();">
+                        <input type="button" class="button" name="ButtonAddBio" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addBio();">
+                        <input type="button" class="button" name="ButtonUpdateBio" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateBio();">
                     </td>
                 </tr>
 
@@ -342,7 +342,7 @@
       var max = <%=maxWeight%>;
 
       if(isNaN(weightInput.value) || weightInput.value < min || weightInput.value > max){
-        alertDialogMessage("<%=weightMsg%>");
+        alertDialogDirectText("<%=weightMsg%>");
         //weightInput.value = "";
         weightInput.focus();
       }
@@ -365,7 +365,7 @@
       var max = <%=maxHeight%>;
 
       if(isNaN(heightInput.value) || heightInput.value < min || heightInput.value > max){
-        alertDialogMessage("<%=heightMsg%>");
+        alertDialogDirectText("<%=heightMsg%>");
         //heightInput.value = "";
         heightInput.focus();
       }
@@ -393,8 +393,8 @@ function addBio(){
     var sDescrFood = checkFood();
 
     var td = tr.insertCell(0);
-    td.innerHTML = "<a href='javascript:deleteBio(rowBio"+iBioIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                  +"<a href='javascript:editBio(rowBio"+iBioIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    td.innerHTML = "<a href='javascript:deleteBio(rowBio"+iBioIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                  +"<a href='javascript:editBio(rowBio"+iBioIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     tr.appendChild(td);
 
     td = tr.insertCell(1);
@@ -473,8 +473,8 @@ function updateBio(){
 
     <%-- update table object --%>
     row = tblBio.rows[editBioRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteBio("+editBioRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editBio("+editBioRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteBio("+editBioRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editBio("+editBioRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
     row.cells[1].innerHTML = "&nbsp;"+transactionForm.EditDate.value;
     row.cells[2].innerHTML = "&nbsp;"+transactionForm.EditWeight.value;

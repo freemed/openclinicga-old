@@ -43,10 +43,10 @@
 <%-- BUTTONS --%>
     <%
         if(activeUser.getAccessRight("openit.test.add") || activeUser.getAccessRight("openit.test.edit")){
-            %><INPUT class="button" type="button" name="saveButton" id="saveButton" value="<%=getTran("Web","save",sWebLanguage)%>" onclick="submitForm();"/><%
+            %><INPUT class="button" type="button" name="saveButton" id="saveButton" value="<%=getTranNoLink("Web","save",sWebLanguage)%>" onclick="submitForm();"/><%
         }
     %>
-            <INPUT class="button" type="button" name="backButton" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="doBack();">
+            <INPUT class="button" type="button" name="backButton" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="doBack();">
         </td>
     </tr>
 </table>
@@ -63,7 +63,7 @@
     %>
 	  }
 	  else {
-		  alert("insufficient data");
+		  alertDialogDirectText("insufficient data");
 	  }
   }
 

@@ -8,20 +8,21 @@
     String sAction = checkString(request.getParameter("Action"));
 
     // Find Params
-    String sFindBedName        = checkString(request.getParameter("FindBedName"));
-    String sFindBedService     = checkString(request.getParameter("FindBedService"));
-    String sFindBedServiceName = checkString(request.getParameter("FindBedServiceName"));
+    String sFindBedName        = checkString(request.getParameter("FindBedName")),
+           sFindBedService     = checkString(request.getParameter("FindBedService")),
+           sFindBedServiceName = checkString(request.getParameter("FindBedServiceName"));
 
     // Edit Params
-    String sEditUID        = checkString(request.getParameter("EditUID"));
-    String sEditName       = checkString(request.getParameter("EditName"));
-    String sEditBedService = checkString(request.getParameter("EditBedService"));
-    String sEditPriority   = checkString(request.getParameter("EditPriority"));
-    String sEditLocation   = checkString(request.getParameter("EditLocation"));
-    String sEditComment    = checkString(request.getParameter("EditComment"));
+    String sEditUID        = checkString(request.getParameter("EditUID")),
+	       sEditName       = checkString(request.getParameter("EditName")),
+	       sEditBedService = checkString(request.getParameter("EditBedService")),
+	       sEditPriority   = checkString(request.getParameter("EditPriority")),
+	       sEditLocation   = checkString(request.getParameter("EditLocation")),
+	       sEditComment    = checkString(request.getParameter("EditComment"));
 
     String sEditBedServiceName = checkString(request.getParameter("EditBedServiceName"));
     
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
         Debug.println("\n ############ Find Params ############ " +
                       "\n FindBedName: "+sFindBedName +
@@ -39,12 +40,15 @@
                       "\n #####################################"
                      );
     }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
+    //*** SAVE ************************************************************************************
     if(sAction.equals("SAVE")){
         Bed tmpBed = new Bed();
         if(sEditUID.length() > 0 ){//update
             tmpBed = Bed.get(sEditUID);
-        }else{//insert
+        }
+        else{//insert
             tmpBed.setCreateDateTime(ScreenHelper.getSQLDate(getDate()));
         }
         tmpBed.setName(sEditName);
@@ -66,6 +70,7 @@
         tmpBed.store();
         sEditUID = tmpBed.getUid();
     }
+    //*** DELETE **********************************************************************************
     if(sAction.equals("DELETE")){
         if(sEditUID.length() > 0 ){//update
 			Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
@@ -78,6 +83,7 @@
         }
         sEditUID = "";
     }
+    
     if(sEditUID.length() > 0){
         Bed tmpBed          = Bed.get(sEditUID);
         sEditUID            = tmpBed.getUid();
@@ -92,32 +98,34 @@
     if(sAction.equals("SEARCH") || sAction.equals("") || sAction.equals("DELETE")){
 %>
 
-<%-- BEGIN FIND BLOCK--%>
+<%-- BEGIN FIND BLOCK --%>
 <form name='FindBedForm' method='POST' action='<c:url value="/main.do"/>?Page=system/manageBeds.jsp&ts=<%=getTs()%>'>
     <%=writeTableHeader("Web","manageBeds",sWebLanguage," doBack();")%>
+    
     <table class='menu' width='100%' cellspacing='1' onKeyDown='if(event.keyCode==13){doFind();return false;}else{return true;}'>
         <%-- service --%>
         <tr>
-            <td width="<%=sTDAdminWidth%>"><%=getTran("Web","service",sWebLanguage)%></td>
-            <td>
+            <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","service",sWebLanguage)%></td>
+            <td class="admin2">
                 <input type="hidden" name="FindBedService" value="<%=sFindBedService%>">
                 <input class="text" type="text" name="FindBedServiceName" readonly size="<%=sTextWidth%>" value="<%=sFindBedServiceName%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('FindBedService','FindBedServiceName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="FindBedForm.FindBedService.value='';FindBedForm.FindBedServiceName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('FindBedService','FindBedServiceName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="FindBedForm.FindBedService.value='';FindBedForm.FindBedServiceName.value='';">
             </td>
         </tr>
         <%-- name --%>
         <tr>
-            <td><%=getTran("Web","name",sWebLanguage)%></td>
-            <td><input class='text' name='FindBedName' value='<%=sFindBedName%>' size="<%=sTextWidth%>"></td>
+            <td class="admin"><%=getTran("Web","name",sWebLanguage)%></td>
+            <td class="admin2"><input class='text' name='FindBedName' value='<%=sFindBedName%>' size="<%=sTextWidth%>"></td>
         </tr>
+        
         <%-- buttons --%>
         <tr>
-            <td/>
-            <td>
-                <input class='button' type='button' name='buttonfind' value='<%=getTran("Web","search",sWebLanguage)%>' onclick='doFind();'>&nbsp;
-                <input class='button' type='button' name='buttonclear' value='<%=getTran("Web","Clear",sWebLanguage)%>' onclick='doClear();'>&nbsp;
-                <input class='button' type='button' name='buttonnew' value='<%=getTran("Web","new",sWebLanguage)%>' onclick='doNew();'>&nbsp;
+            <td class="admin">&nbsp;</td>
+            <td class="admin2">
+                <input class='button' type='button' name='buttonfind' value='<%=getTranNoLink("Web","search",sWebLanguage)%>' onclick='doFind();'>&nbsp;
+                <input class='button' type='button' name='buttonclear' value='<%=getTranNoLink("Web","Clear",sWebLanguage)%>' onclick='doClear();'>&nbsp;
+                <input class='button' type='button' name='buttonnew' value='<%=getTranNoLink("Web","new",sWebLanguage)%>' onclick='doNew();'>&nbsp;
                 <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
             </td>
         </tr>
@@ -203,8 +211,8 @@
             <td class="admin2">
                 <input type="hidden" name="EditBedService" value="<%=sEditBedService%>">
                 <input class="text" type="text" name="EditBedServiceName" readonly size="<%=sTextWidth%>" value="<%=sEditBedServiceName%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('EditBedService','EditBedServiceName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditBedForm.EditBedService.value='';EditBedForm.EditBedServiceName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('EditBedService','EditBedServiceName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditBedForm.EditBedService.value='';EditBedForm.EditBedServiceName.value='';">
             </td>
         </tr>
         <%-- name --%>
@@ -224,7 +232,7 @@
             <td class="admin"><%=getTran("Web","location",sWebLanguage)%></td>
             <td class="admin2">
                 <input class='text' type='text' name='EditLocation' value='<%=sEditLocation%>' size="<%=sTextWidth%>">
-                <img src="<c:url value="/_img/icon_view.gif"/>" class="link" alt="<%=getTran("Web","view",sWebLanguage)%>" onclick="openFile()">
+                <img src="<c:url value="/_img/icons/icon_view.gif"/>" class="link" alt="<%=getTranNoLink("Web","view",sWebLanguage)%>" onclick="openFile()">
                 <br>
                 <%
                     if((sEditLocation.length()>0)&&(sEditLocation.indexOf(".")>-1)){

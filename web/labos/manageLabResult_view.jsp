@@ -1,29 +1,32 @@
+<%@page import="be.openclinic.medical.RequestedLabAnalysis,
+                java.util.*,
+                be.openclinic.medical.LabRequest,
+                be.openclinic.medical.LabAnalysis,
+                java.text.DecimalFormat"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@ page import="be.openclinic.medical.RequestedLabAnalysis,java.util.*,be.openclinic.medical.LabRequest" %>
-<%@ page import="be.openclinic.medical.LabAnalysis" %>
-<%@ page import="java.text.DecimalFormat" %>
 <%=checkPermission("system.management","select",activeUser)%>
+
 <%!
     public class LabRow {
         int type;
         String tag;
 
-        public LabRow(int type, String tag) {
+        public LabRow(int type, String tag){
             this.type = type;
             this.tag = tag;
         }
     }
 %>
-<head>
-    <%=sCSSNORMAL%>
-</head>
+
+<head><%=sCSSNORMAL%></head>
 <%
     SortedMap requestList = new TreeMap();
     Enumeration parameters = request.getParameterNames();
-    while (parameters.hasMoreElements()) {
+    while(parameters.hasMoreElements()){
         String name = (String) parameters.nextElement();
         String[] items = name.split("\\.");
-        if (items[0].equalsIgnoreCase("show")) {
+        
+        if(items[0].equalsIgnoreCase("show")){
             LabRequest labRequest = new LabRequest(Integer.parseInt(items[1]),Integer.parseInt(items[2]));
             if(labRequest.getRequestdate()!=null){
                 requestList.put(new SimpleDateFormat("yyyyMMddHHmmss").format(labRequest.getRequestdate())+"."+items[1]+"."+items[2],labRequest);
@@ -34,7 +37,8 @@
     SortedMap groups = new TreeMap();
     Iterator iterator = requestList.keySet().iterator();
     while(iterator.hasNext()){
-        LabRequest labRequest=(LabRequest)requestList.get(iterator.next());
+        LabRequest labRequest = (LabRequest)requestList.get(iterator.next());
+        
         Enumeration enumeration = labRequest.getAnalyses().elements();
         while(enumeration.hasMoreElements()){
             RequestedLabAnalysis requestedLabAnalysis = (RequestedLabAnalysis)enumeration.nextElement();
@@ -47,78 +51,92 @@
 
 %>
 <%=writeTableHeader("Web","patientLaboResults",sWebLanguage," doBack();")%>
-<table class="list" width="100%">
+<table class="list" width="100%" cellpadding="0" cellspacing="1">
     <tr>
-        <td><%=getTran("web","analysis",sWebLanguage)%></td>
-    <%
-        LabRequest labRequest;
-        Iterator requestsIterator = requestList.keySet().iterator();
-        while(requestsIterator.hasNext()){
-            labRequest = (LabRequest)requestList.get(requestsIterator.next());
-            out.print("<td>"+ScreenHelper.fullDateFormat.format(labRequest.getRequestdate())+"<br/>"+labRequest.getTransactionid()+"<br/>"+
-                    "<a href='javascript:printRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>" + getTran("web","print",sWebLanguage) + "</b></a></td>");
-            out.print("<td>"+MedwanQuery.getInstance().getLabel("web","sampler",sWebLanguage)+"</td>");
-            out.print("<td>"+MedwanQuery.getInstance().getLabel("web","sampletakendatetime",sWebLanguage)+"</td>");
-            out.print("<td>"+MedwanQuery.getInstance().getLabel("web","samplereceptiondatetime",sWebLanguage)+"</td>");
-            out.print("<td>"+MedwanQuery.getInstance().getLabel("web","worklisteddatetime",sWebLanguage)+"</td>");
-            out.print("<td>"+MedwanQuery.getInstance().getLabel("web","technicalvalidator",sWebLanguage)+"</td>");
-            out.print("<td>"+MedwanQuery.getInstance().getLabel("web","technicalvalidationdatetime",sWebLanguage)+"</td>");
-            out.print("<td>"+MedwanQuery.getInstance().getLabel("web","finalvalidator",sWebLanguage)+"</td>");
-            out.print("<td>"+MedwanQuery.getInstance().getLabel("web","finalvalidationdatetime",sWebLanguage)+"</td>");
-        }
-    %>
+        <td class="admin2"><%=getTran("web","analysis",sWebLanguage)%></td>
+	    <%
+	        LabRequest labRequest;
+	        Iterator requestsIterator = requestList.keySet().iterator();
+	        while(requestsIterator.hasNext()){
+	            labRequest = (LabRequest)requestList.get(requestsIterator.next());
+	            out.print("<td>"+ScreenHelper.formatDate(labRequest.getRequestdate(),ScreenHelper.fullDateFormat)+"<br/>"+labRequest.getTransactionid()+"<br/>"+
+	                       "<a href='javascript:printRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>"+getTran("web","print",sWebLanguage)+"</b></a>"+
+	                      "</td>");
+	            out.print("<td>"+MedwanQuery.getInstance().getLabel("web","sampler",sWebLanguage)+"</td>");
+	            out.print("<td>"+MedwanQuery.getInstance().getLabel("web","sampletakendatetime",sWebLanguage)+"</td>");
+	            out.print("<td>"+MedwanQuery.getInstance().getLabel("web","samplereceptiondatetime",sWebLanguage)+"</td>");
+	            out.print("<td>"+MedwanQuery.getInstance().getLabel("web","worklisteddatetime",sWebLanguage)+"</td>");
+	            out.print("<td>"+MedwanQuery.getInstance().getLabel("web","technicalvalidator",sWebLanguage)+"</td>");
+	            out.print("<td>"+MedwanQuery.getInstance().getLabel("web","technicalvalidationdatetime",sWebLanguage)+"</td>");
+	            out.print("<td>"+MedwanQuery.getInstance().getLabel("web","finalvalidator",sWebLanguage)+"</td>");
+	            out.print("<td>"+MedwanQuery.getInstance().getLabel("web","finalvalidationdatetime",sWebLanguage)+"</td>");
+	        }
+	    %>
     </tr>
     <%
-        String abnormal=MedwanQuery.getInstance().getConfigString("abnormalModifiers","*+*++*+++*-*--*---*h*hh*hhh*l*ll*lll*");
+        String abnormal = MedwanQuery.getInstance().getConfigString("abnormalModifiers","*+*++*+++*-*--*---*h*hh*hhh*l*ll*lll*");
         Iterator groupsIterator = groups.keySet().iterator();
         while(groupsIterator.hasNext()){
-            String groupname=(String)groupsIterator.next();
+            String groupname = (String)groupsIterator.next();
             out.print("<tr class='admin'><td colspan='"+(requestList.size()+9)+"'><b>"+MedwanQuery.getInstance().getLabel("labanalysis.group",groupname,sWebLanguage)+"</b></td></tr>");
+            
             Hashtable analysisList = (Hashtable)groups.get(groupname);
             Enumeration analysisEnumeration = analysisList.keys();
-            while (analysisEnumeration.hasMoreElements()){
-                String analysisCode=(String)analysisEnumeration.nextElement();
+            while(analysisEnumeration.hasMoreElements()){
+                String analysisCode = (String)analysisEnumeration.nextElement();
                 String c = analysisCode;
                 String u = "";
-                String refs="";
+                String refs = "";
+                
                 LabAnalysis analysis = LabAnalysis.getLabAnalysisByLabcode(analysisCode);
                 if(analysis!=null){
-                    c=analysis.getLabId()+"";
-                    u=" ("+analysis.getUnit()+")";
-                    String min=analysis.getResultRefMin(activePatient.gender,activePatient.getAge());
+                    c = analysis.getLabId()+"";
+                    u = " ("+analysis.getUnit()+")";
+                    
+                    String min = analysis.getResultRefMin(activePatient.gender,activePatient.getAge());
                     try{
-                        float f=Float.parseFloat(min.replace(",","."));
-                        min=new DecimalFormat("#,###.###").format(f);
+                        float f = Float.parseFloat(min.replace(",","."));
+                        min = new DecimalFormat("#,###.###").format(f);
                     }
-                    catch (Exception e){}
-                    String max=analysis.getResultRefMax(activePatient.gender,activePatient.getAge());
+                    catch(Exception e){
+                    	// empty
+                    }
+                    
+                    String max = analysis.getResultRefMax(activePatient.gender,activePatient.getAge());
                     try{
-                        float f=Float.parseFloat(max.replace(",","."));
-                        max=new DecimalFormat("#,###.###").format(f);
+                        float f = Float.parseFloat(max.replace(",","."));
+                        max = new DecimalFormat("#,###.###").format(f);
                     }
-                    catch (Exception e){}
-                    refs=" ["+min+"-"+max+"]";
+                    catch(Exception e){
+                    	// empty
+                    }
+                    
+                    refs = " ["+min+"-"+max+"]";
                 }
+                
                 requestsIterator = requestList.keySet().iterator();
                 if(requestsIterator.hasNext()){
                     labRequest = (LabRequest)requestList.get(requestsIterator.next());
+                    
                     RequestedLabAnalysis requestedLabAnalysis=(RequestedLabAnalysis)labRequest.getAnalyses().get(analysisCode);
-                    String sEdit=" ";
+                    String sEdit = " ";
                     if(activeUser.getAccessRight("labos.worklists.select") && (requestedLabAnalysis.getTechnicalvalidation()>0 || requestedLabAnalysis.getFinalvalidation()>0)){
-                    	sEdit="<img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' onclick='reactivate("+labRequest.getServerid()+","+labRequest.getTransactionid()+",\""+requestedLabAnalysis.getAnalysisCode()+"\")'/>";
+                    	sEdit = "<img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' onclick='reactivate("+labRequest.getServerid()+","+labRequest.getTransactionid()+",\""+requestedLabAnalysis.getAnalysisCode()+"\")'/>";
                     }
                     out.print("<tr bgcolor='#FFFCD6'><td width='25%' nowrap>"+sEdit+" <b>"+MedwanQuery.getInstance().getLabel("labanalysis",c,sWebLanguage)+" "+u+refs+"</b></td>");
-                    String result=(requestedLabAnalysis!=null?requestedLabAnalysis.getFinalvalidation()>0 && requestedLabAnalysis.getResultValue().length()>0?analysis.getLimitedVisibility()>0 && !activeUser.getAccessRight("labos.limitedvisibility.select")?getTran("web","invisible",sWebLanguage):requestedLabAnalysis.getResultValue()+(checkString(requestedLabAnalysis.getResultComment()).length()>0?"<br/>"+requestedLabAnalysis.getResultComment():""):"?":"");
-                    boolean bAbnormal=(result.length()>0 && !result.equalsIgnoreCase("?") && abnormal.toLowerCase().indexOf("*"+checkString(requestedLabAnalysis.getResultModifier()).toLowerCase()+"*")>-1);
+                  
+                    String result = (requestedLabAnalysis!=null?requestedLabAnalysis.getFinalvalidation()>0 && requestedLabAnalysis.getResultValue().length()>0?analysis.getLimitedVisibility()>0 && !activeUser.getAccessRight("labos.limitedvisibility.select")?getTran("web","invisible",sWebLanguage):requestedLabAnalysis.getResultValue()+(checkString(requestedLabAnalysis.getResultComment()).length()>0?"<br/>"+requestedLabAnalysis.getResultComment():""):"?":"");
+                    boolean bAbnormal = (result.length()>0 && !result.equalsIgnoreCase("?") && abnormal.toLowerCase().indexOf("*"+checkString(requestedLabAnalysis.getResultModifier()).toLowerCase()+"*")>-1);
+                    
                     out.print("<td"+(bAbnormal?" bgcolor='#FF8C68'":"")+">"+result+(bAbnormal?" "+checkString(requestedLabAnalysis.getResultModifier().toUpperCase()):"")+"</td>");
                     out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getSampler()>0?MedwanQuery.getInstance().getUserName(requestedLabAnalysis.getSampler()):"")+"</td>");
-                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getSampletakendatetime()!=null?ScreenHelper.fullDateFormat.format(requestedLabAnalysis.getSampletakendatetime()):"")+"</td>");
-                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getSamplereceptiondatetime()!=null?ScreenHelper.fullDateFormat.format(requestedLabAnalysis.getSamplereceptiondatetime()):"")+"</td>");
-                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getWorklisteddatetime()!=null?ScreenHelper.fullDateFormat.format(requestedLabAnalysis.getWorklisteddatetime()):"")+"</td>");
-                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getTechnicalvalidation()>0?MedwanQuery.getInstance().getUserName(requestedLabAnalysis.getTechnicalvalidation()):"")+"</td>");
-                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getTechnicalvalidationdatetime()!=null?ScreenHelper.fullDateFormat.format(requestedLabAnalysis.getTechnicalvalidationdatetime()):"")+"</td>");
+                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getSampletakendatetime()!=null?ScreenHelper.formatDate(requestedLabAnalysis.getSampletakendatetime(),ScreenHelper.fullDateFormat):"")+"</td>");
+                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getSamplereceptiondatetime()!=null?ScreenHelper.formatDate(requestedLabAnalysis.getSamplereceptiondatetime(),ScreenHelper.fullDateFormat):"")+"</td>");
+                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getWorklisteddatetime()!=null?ScreenHelper.formatDate(requestedLabAnalysis.getWorklisteddatetime(),ScreenHelper.fullDateFormat):"")+"</td>");
+                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getTechnicalvalidation()>0?MedwanQuery.getInstance().getUserName(requestedLabAnalysis.getTechnicalvalidation(),ScreenHelper.fullDateFormat):"")+"</td>");
+                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getTechnicalvalidationdatetime()!=null?ScreenHelper.formatDate(requestedLabAnalysis.getTechnicalvalidationdatetime(),ScreenHelper.fullDateFormat):"")+"</td>");
                     out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getFinalvalidation()>0?MedwanQuery.getInstance().getUserName(requestedLabAnalysis.getFinalvalidation()):"")+"</td>");
-                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getFinalvalidationdatetime()!=null?ScreenHelper.fullDateFormat.format(requestedLabAnalysis.getFinalvalidationdatetime()):"")+"</td>");
+                    out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getFinalvalidationdatetime()!=null?ScreenHelper.formatDate(requestedLabAnalysis.getFinalvalidationdatetime(),ScreenHelper.fullDateFormat):"")+"</td>");
                     out.print("</tr>");
                 }
             }
@@ -127,14 +145,14 @@
 </table>
 
 <script>
-    function printRequest(serverid,transactionid){
-        window.open("<c:url value='/labos/createLabResultsPdf.jsp'/>?ts=<%=getTs()%>&print."+serverid+"."+transactionid+"=1","Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=800,height=600,menubar=no");
-    }
-    function doBack(){
-        window.location.href="<c:url value="/main.do"/>?Page=labos/showLabRequestList.jsp";
-    }
-
-    function reactivate(serverid,transactionid,labanalysiscode){
-		window.open("<c:url value="/"/>labos/reactivateAnalysis.jsp?serverid="+serverid+"&transactionid="+transactionid+"&labanalysiscode="+labanalysiscode);
-    }
+  function printRequest(serverid,transactionid){
+	var url = "<c:url value='/labos/createLabResultsPdf.jsp'/>?ts=<%=getTs()%>&print."+serverid+"."+transactionid+"=1";
+    window.open(url,"Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=800,height=600,menubar=no");
+  }
+  function doBack(){
+    window.location.href="<c:url value="/main.do"/>?Page=labos/showLabRequestList.jsp";
+  }
+  function reactivate(serverid,transactionid,labanalysiscode){
+    window.open("<c:url value="/"/>labos/reactivateAnalysis.jsp?serverid="+serverid+"&transactionid="+transactionid+"&labanalysiscode="+labanalysiscode);
+  }
 </script>

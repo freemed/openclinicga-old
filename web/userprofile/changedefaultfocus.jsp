@@ -46,8 +46,8 @@
                     </tr>
                     <%-- BUTTONS --%>
                     <%=ScreenHelper.setFormButtonsStart()%>
-                        <input type='button' name='saveButton' class="button" value='<%=getTran("Web","save",sWebLanguage)%>' onClick="doSave();">
-                        <input type='button' name='backButton' class="button" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick='doBack();'>
+                        <input type='button' name='saveButton' class="button" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onClick="doSave();">
+                        <input type='button' name='backButton' class="button" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick='doBack();'>
                     <%=ScreenHelper.setFormButtonsStop()%>
                 </table>
             </form>

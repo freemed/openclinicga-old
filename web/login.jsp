@@ -29,7 +29,7 @@
 <head>
     <link rel="shortcut icon" href="favourite.ico"/>
     <META HTTP-EQUIV="Refresh" CONTENT="300">
-    <%=sCSSNORMAL%><%=sJSCHAR%><%=sJSPROTOTYPE%><%=sJSCOOKIE%><%=sJSDROPDOWNMENU%>
+    <%=sCSSDEFAULT%><%=sJSCHAR%><%=sJSPROTOTYPE%><%=sJSCOOKIE%><%=sJSDROPDOWNMENU%>
     <%
     MedwanQuery.getInstance("http://" + request.getServerName() +":"+request.getServerPort()+ request.getRequestURI().replaceAll(request.getServletPath(), "") + "/" + sAPPDIR);
     reloadSingleton(request.getSession());
@@ -88,7 +88,8 @@
     boolean processUpdateQueries = (updateQueriesProcessedDate == null);
     if (processUpdateQueries) {
 		UpdateQueries.updateQueries(application);
-    } else {
+    }
+    else {
         // display last date of processing update queries
         if (updateQueriesProcessedDate != null && Debug.enabled) {
             SimpleDateFormat fullDateFormat = ScreenHelper.fullDateFormatSS;
@@ -102,10 +103,12 @@
     if (sTmpAPPTITLE.length() > 0) {
         session.setAttribute("activeProjectDir", sTmpAPPDIR);
         session.setAttribute("activeProjectTitle", sTmpAPPTITLE);
-    } else {
+    } 
+    else {
         sTmpAPPTITLE = checkString((String) session.getAttribute("activeProjectTitle"));
         sTmpAPPDIR = checkString((String) session.getAttribute("activeProjectDir"));
     }
+    
     if (sTmpAPPTITLE.equals("")) {%>
     <script>
         var activeProjectDir = GetCookie('activeProjectDir');
@@ -114,30 +117,27 @@
         }
             //window.location.href = activeProjectDir;
     </script>
-    <%} else {%>
+    <%}
+    else {%>
     <script>
         SetCookie('activeProjectDir', "<%=sTmpAPPDIR%>", exp);
         SetCookie('activeProjectTitle', "<%=sTmpAPPTITLE%>", exp);
     </script>
     <%}%>
     <script>
-        if (window.history.forward(1) != null) {
-            window.history.forward(1);
-        }
+      if(window.history.forward(1)!=null){
+        window.history.forward(1);
+      }
     </script>
     <title><%=sWEBTITLE + " " + sTmpAPPTITLE%></title>
 </head>
 <body class="Geenscroll login">
 <%
-	if("openinsurance".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))) {
-%>
-	<div id="loginopeninsurance">
-<%
+	if("openinsurance".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))){
+        %><div id="loginopeninsurance"><%
 	}
-	else {
-%>
-	<div id="login">
-<%
+	else{
+        %><div id="login"><%
 	}
 %>
     <div id="logo">
@@ -158,58 +158,57 @@
         <img src="<%=sTmpAPPDIR%>_img/logo.jpg" border="0">
         <% }%>
     </div>
-    <div id="version">
-        <%=version%>&nbsp;
-    </div>
+    <div id="version"><%=version%>&nbsp;</div>
     <div id="fields">
         <form name="entranceform" action="checkLogin.do?ts=<%=getTs()%>" method="post" id="entranceform">
-            <div id="login_field">
-                <input class="text" name="login" size="17" onblur='limitLength(this);'/></div>
-            <div id="pwd_field">
-                <input class="text" type="password" name="password" size="17" onblur='limitLength(this);'/>
-            </div>
-            <div id="submit_button"><input class="button" type="submit" name="Login" title="login" value="">
-                <div id="finger_button">
-                    <a href="javascript:void(0)" title="Logon using fingerprint" onclick="readFingerprint();" >&nbsp;</a>
-                </div>
-            </div>
+            <div id="login_field"><input class="text" name="login" size="17" onblur="limitLength(this);"/></div>
+            <div id="pwd_field"><input class="text" type="password" name="password" size="17" onblur="limitLength(this);"/></div>
+          
+            <div id="submit_button">
+                <input class="button" type="submit" name="Login" value="">
+                <span id="finger_button" title="Logon using fingerprint" onclick="readFingerprint();"></span>
+            </div>     
             <div id="error_msg">
             <%
                 String sMsg = checkString(request.getParameter("message"));
-                if (sMsg.length() > 0) {
+                if(sMsg.length() > 0){
                     out.write("<div>"+sMsg+"</div>");
                 }
             %>
-                 </div>
+            </div>
         </form>
     </div>
-    <div id="messages"><center>
+    
+    <div id="messages">
+        <center>
         <%
-            if (MedwanQuery.getInstance().getConfigInt("enableProductionWarning", 0) == 1) {
-        		out.print(ScreenHelper.getTranDb("web", "productionsystemwarning", "EN"));
+            if(MedwanQuery.getInstance().getConfigInt("enableProductionWarning",0)==1){
+        		out.print(ScreenHelper.getTranDb("web","productionsystemwarning","EN"));
 	    	}
-        	if(MedwanQuery.getInstance().getConfigInt("enableTestsystemRedirection", 0) == 1){
-            	out.print(ScreenHelper.getTranDb("web", "testsystemredirection", "EN"));
+        	if(MedwanQuery.getInstance().getConfigInt("enableTestsystemRedirection",0)==1){
+            	out.print(ScreenHelper.getTranDb("web","testsystemredirection","EN"));
         	}
         %>
-        </center><br/><center>GA Open Source Edition by:
-        <% if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("rw")) { %>
-        <img src="_img/rwandaflag.jpg" height="15px" width="30px" alt="Rwanda"/>
+        </center><br/>
+        
+        <center>GA Open Source Edition by:
+        <% if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("rw")){ %>
+        <img src="_img/flags/rwandaflag.jpg" height="15px" width="30px" alt="Rwanda"/>
         <a href="http://mxs.rwandamed.org" target="_new"><b>The Open-IT Group Ltd</b></a>
         <BR/> PO Box 3242 - Kigali Rwanda Tel +250 07884 32 435 -
         <a href="mailto:mxs@rwandamed.org">openit@rwandamed.org</a>
-        <% } else if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("bi")) { %>
-        <img src="_img/burundiflag.jpg" height="15px" width="30px" alt="Burundi"/>
+        <% } else if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("bi")){ %>
+        <img src="_img/flags/burundiflag.jpg" height="15px" width="30px" alt="Burundi"/>
         <a href="http://www.openit-burundi.net" target="_new"><b>Open-IT Burundi SPRL</b></a>
         <BR/> Avenue de l'ONU 6, BP 7205 - Bujumbura +257 78 837 342<br/>
         <a href="mailto:info@openit-burundi.net">info@openit-burundi.net</a>
-        <% } else if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("ml")) { %>
-        <img src="_img/maliflag.jpg" height="15px" width="30px" alt="Mali"/>
+        <% } else if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("ml")){ %>
+        <img src="_img/flags/maliflag.jpg" height="15px" width="30px" alt="Mali"/>
         <a href="http://www.sante.gov.ml/" target="_new"><b>ANTIM</b></a> et <a href="http://www.mxs.be" target="_new"><b>MXS</b></a>
         <BR/> Hamdalaye ACI 2000, Rue 340, Porte 541, Bamako - Mali<br/>
         <a href="mailto:info@openit-burundi.net">antim@sante.gov.ml</a>
         <% } else { %>
-        <img src="_img/belgiumflag.jpg" height="10px" width="20px" alt="Belgium"/>
+        <img src="_img/flags/belgiumflag.jpg" height="10px" width="20px" alt="Belgium"/>
         <a href="http://www.mxs.be" target="_new"><b>MXS SA/NV</b></a>
         <BR/> Pastoriestraat 58, 3370 Boutersem Belgium Tel: +32 16 721047 -
         <a href="mailto:mxs@rwandamed.org">info@mxs.be</a>
@@ -218,24 +217,25 @@
     </div>
 </div>
 <script>
-    Event.observe(window, 'load', function() {
-        changeInputColor();
-        $("entranceform").login.focus();
-       
-    });
-    function readFingerprint() {
+  Event.observe(window,"load",function(){
+    changeInputColor();
+    $("entranceform").login.focus();
+  });
+  
+  function readFingerprint(){
     <%
-    if(checkString(MedwanQuery.getInstance().getConfigString("referringServer")).length()==0){
-    %>openPopup("_common/readUserFingerPrint.jsp?ts=<%=getTs()%>&referringServer=<%="http://" + request.getServerName() +":"+request.getServerPort()+"/"+sCONTEXTPATH%>", 400, 300);<%
-    }
-    else{
-    %>openPopup("_common/readUserFingerPrint.jsp?ts=<%=getTs()%>&referringServer=<%=MedwanQuery.getInstance().getConfigString("referringServer")+sCONTEXTPATH%>", 400, 300);<%
-    }
+        if(checkString(MedwanQuery.getInstance().getConfigString("referringServer")).length()==0){
+            %>openPopup("_common/readUserFingerPrint.jsp?ts=<%=getTs()%>&referringServer=<%="http://"+request.getServerName()+":"+request.getServerPort()+"/"+sCONTEXTPATH%>",400,300);<%
+        }
+        else{
+            %>openPopup("_common/readUserFingerPrint.jsp?ts=<%=getTs()%>&referringServer=<%=MedwanQuery.getInstance().getConfigString("referringServer")+sCONTEXTPATH%>",400,300);<%
+        }
     %>
-    }
-    function openPopup(page, width, height){
-      window.open(page,"Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width="+width+",height="+ height+",menubar=no").moveTo((screen.width-width)/2,(screen.height-height)/2);
-    }
+  }
+  
+  function openPopup(page,width,height){
+    window.open(page,"Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width="+width+",height="+height+",menubar=no").moveTo((screen.width-width)/2,(screen.height-height)/2);
+  }
 </script>
 </body>
 </html>

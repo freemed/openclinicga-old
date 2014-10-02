@@ -19,14 +19,14 @@
                 if ((sParentID!=null)&&(!sParentID.equals("0000"))&&(sParentID.trim().length()>0)){
 
                     sReturn = getParent(sParentID,sWebLanguage)
-                        +"&nbsp;<img src='"+sCONTEXTPATH+"/_img/pijl.gif'>&nbsp;"
-                        +"<a href='#' onclick='populateService(\""+sCode+"\")' title='"+getTran("Web.Occup","medwan.common.open",sWebLanguage)+"'>"+sLabel+"</a>";
+                        +"&nbsp;<img src='"+sCONTEXTPATH+"/_img/themes/default/pijl.gif'>&nbsp;"
+                        +"<a href='#' onclick='populateService(\""+sCode+"\")' title='"+getTranNoLink("Web.Occup","medwan.common.open",sWebLanguage)+"'>"+sLabel+"</a>";
                 }
             }
 
             if (sReturn.trim().length()==0) {
-                sReturn = sReturn+"&nbsp;<img src='"+sCONTEXTPATH+"/_img/pijl.gif'>&nbsp;"
-                    +"<a href='#' onclick='populateService(\""+sCode+"\")' title='"+getTran("Web.Occup","medwan.common.open",sWebLanguage)+"'>"+sLabel+"</a>";
+                sReturn = sReturn+"&nbsp;<img src='"+sCONTEXTPATH+"/_img/themes/default/pijl.gif'>&nbsp;"
+                    +"<a href='#' onclick='populateService(\""+sCode+"\")' title='"+getTranNoLink("Web.Occup","medwan.common.open",sWebLanguage)+"'>"+sLabel+"</a>";
             }
         }
 
@@ -37,14 +37,14 @@
     private String writeMyRow(String sID, String sWebLanguage, String sIcon){
         String sLabel = getTran("Service",sID.trim(), sWebLanguage);
         if(sIcon.length()==0){
-            sIcon = "<img src='"+sCONTEXTPATH+"/_img/menu_tee_plus.gif' onclick='populateService(\""+sID+"\")'"
+            sIcon = "<img src='"+sCONTEXTPATH+"/_img/themes/default/menu_tee_plus.gif' onclick='populateService(\""+sID+"\")'"
                 +" alt='"+getTranNoLink("Web.Occup","medwan.common.open",sWebLanguage)+"'>";
         }
 
         return "<tr><td>"
-            +sIcon+"&nbsp;<img src='"+sCONTEXTPATH+"/_img/icon_view.gif' alt='"+getTranNoLink("Web","view",sWebLanguage)+"'"
+            +sIcon+"&nbsp;<img src='"+sCONTEXTPATH+"/_img/icons/icon_view.gif' alt='"+getTranNoLink("Web","view",sWebLanguage)+"'"
             +" onclick='viewService(\""+sID+"\")'></td><td>"+sID+"</td>"
-            +"<td><a href='#' onclick='selectParentService(\""+sID+"\",\""+sLabel+"\")' title='"+getTran("Web","select",sWebLanguage)+"'>"+sLabel+"</a></td></tr>";
+            +"<td><a href='#' onclick='selectParentService(\""+sID+"\",\""+sLabel+"\")' title='"+getTranNoLink("Web","select",sWebLanguage)+"'>"+sLabel+"</a></td></tr>";
     }
 %>
 
@@ -194,8 +194,8 @@
                     <input type="text" NAME='FindText' class="text" value="<%=sFindText%>" size="40">
 
                     <%-- buttons --%>
-                    <input class='button' type="button" name='FindButton' value="<%=getTran("Web","find",sWebLanguage)%>" onClick="doFind();">&nbsp;
-                    <input class='button' type="button" name="ClearButton" value='<%=getTran("Web","clear",sWebLanguage)%>' OnClick="SearchForm.all['FindText'].value='';SearchForm.all['FindText'].focus();">
+                    <input class='button' type="button" name='FindButton' value="<%=getTranNoLink("Web","find",sWebLanguage)%>" onClick="doFind();">&nbsp;
+                    <input class='button' type="button" name="ClearButton" value='<%=getTranNoLink("Web","clear",sWebLanguage)%>' OnClick="SearchForm.all['FindText'].value='';SearchForm.all['FindText'].focus();">
                 </td>
             </tr>
 
@@ -249,7 +249,7 @@
 
                                             <tr>
                                                 <td colspan="2" align="right">
-                                                    <input type="button" class="button" value="<%=getTran("Web","select",sWebLanguage)%>" onclick="selectParentService('<%=sViewCode%>','<%=sLabel%>')">
+                                                    <input type="button" class="button" value="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="selectParentService('<%=sViewCode%>','<%=sLabel%>')">
                                                 </td>
                                             </tr>
                                         <%
@@ -301,7 +301,7 @@
 
         <%-- CLOSE BUTTON --%>
         <center>
-            <input type="button" class="button" name="buttonclose" value='<%=getTran("Web","Close",sWebLanguage)%>' onclick='window.close()'>
+            <input type="button" class="button" name="buttonclose" value='<%=getTranNoLink("Web","Close",sWebLanguage)%>' onclick='window.close()'>
         </center>
     </form>
 

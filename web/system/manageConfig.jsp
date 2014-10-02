@@ -170,17 +170,18 @@
         <tr>
             <td/>
             <td>
-                <input type="button" class="button" name="SearchButton" value="<%=getTran("Web","search",sWebLanguage)%>" onClick="doSearch();">&nbsp;
-                <input type="button" class="button" name="ClearButton" value="<%=getTran("Web","clear",sWebLanguage)%>" onClick="clearFindFields();">&nbsp;
-                <input type="button" class="button" name="NewButton" value="<%=getTran("Web","New",sWebLanguage)%>" onClick="doNew();">&nbsp;
-                <input class='button' type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doBack();">
+                <input type="button" class="button" name="SearchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onClick="doSearch();">&nbsp;
+                <input type="button" class="button" name="ClearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onClick="clearFindFields();">&nbsp;
+                <input type="button" class="button" name="NewButton" value="<%=getTranNoLink("Web","New",sWebLanguage)%>" onClick="doNew();">&nbsp;
+                <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
                 &nbsp;
-                <img src='<c:url value="/_img/pijl.gif"/>'>
+                <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
                 <a  href="<c:url value='/main.do?Page=system/manageConfigTabbed.jsp?ts='/><%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Manage","manageConfigurationTabbed",sWebLanguage)%></a>&nbsp;
             </td>
         </tr>
     </table>
     <br>
+    
     <div style="height:150px;" class="searchResults" id="divFindRecords"></div>
     <%
       //  if(sAction.equals("Show") || sAction.equals("New")){
@@ -200,16 +201,17 @@
                     <%
                         if(sSelectedSQL_value.length() > 0 && sSelectedSQL_value.toLowerCase().startsWith("select")){
                             %><select class="text" name="EditOc_value"><%
-                        Hashtable hSQL = Config.executeConfigSQL_value(sSelectedSQL_value);
-                        Enumeration enum2 = hSQL.keys();
-                        String sSQLID, sSQLName;
-                        while (enum2.hasMoreElements()) {
-                            sSQLID = (String) enum2.nextElement();
-                            sSQLName = (String) hSQL.get(sSQLID);
-
-                            if (sSQLID.equalsIgnoreCase(sSelectedOc_value)) {
-                    %><option value="<%=sSQLID%>" SELECTED><%=(sSQLID+" "+sSQLName)%></option><%
-                                }
+	                        
+                            Hashtable hSQL = Config.executeConfigSQL_value(sSelectedSQL_value);
+	                        Enumeration enum2 = hSQL.keys();
+	                        String sSQLID, sSQLName;
+	                        while (enum2.hasMoreElements()) {
+	                            sSQLID = (String) enum2.nextElement();
+	                            sSQLName = (String) hSQL.get(sSQLID);
+	
+	                            if (sSQLID.equalsIgnoreCase(sSelectedOc_value)) {
+	                                %><option value="<%=sSQLID%>" SELECTED><%=(sSQLID+" "+sSQLName)%></option><%
+	                            }
                                 else{
                                     %><option value="<%=sSQLID%>"><%=(sSQLID+" "+sSQLName)%></option><%
                                 }
@@ -219,7 +221,7 @@
                         else{
                             %><%=writeTextarea("EditOc_value","","4","",sSelectedOc_value)%><%
                         }
-                     %>
+                    %>
                     </td>
                 </tr>
                 <%-- default value --%>
@@ -265,14 +267,14 @@
                      <%
                             if(sAction.equals("Show")){
                                 %>
-                                <input class='button' type="button" name="SaveButton" value='<%=getTran("Web","Save",sWebLanguage)%>' onclick="doSave();">&nbsp;
-                                <input class="button" type="button" name="AddButton" value='<%=getTran("Web","Add",sWebLanguage)%>' onclick="doAdd();">&nbsp;
-                                <input class="button" type="button" name="DeleteButton" value='<%=getTran("Web","delete",sWebLanguage)%>' onclick="doDelete();">&nbsp;
+                                <input class='button' type="button" name="SaveButton" value='<%=getTranNoLink("Web","Save",sWebLanguage)%>' onclick="doSave();">&nbsp;
+                                <input class="button" type="button" name="AddButton" value='<%=getTranNoLink("Web","Add",sWebLanguage)%>' onclick="doAdd();">&nbsp;
+                                <input class="button" type="button" name="DeleteButton" value='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="doDelete();">&nbsp;
                                 <%
                             }
                             else if(sAction.equals("New")){
                                 %>
-                                <input class="button" type="button" name="AddButton" value='<%=getTran("Web","Add",sWebLanguage)%>' onclick="doAdd();">&nbsp;
+                                <input class="button" type="button" name="AddButton" value='<%=getTranNoLink("Web","Add",sWebLanguage)%>' onclick="doAdd();">&nbsp;
                                 <%
                             }
                         %>
@@ -327,10 +329,7 @@
 
   function formComplete(){
     if(transactionForm.EditOc_key.value==""){
-      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web&labelID=someFieldsAreEmpty";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("Web","someFieldsAreEmpty",sWebLanguage)%>");
-
+      alertDialog("Web","someFieldsAreEmpty");
       transactionForm.EditOc_key.focus();
       return false;
     }

@@ -45,6 +45,6 @@ if (MultipartFormDataRequest.isMultipartFormData(request)) {
     </table>
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>
-        <input class="button" type="submit" name="Submit" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>">
+        <input class="button" type="submit" name="Submit" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>">
     <%=ScreenHelper.alignButtonsStop()%>
 </form>

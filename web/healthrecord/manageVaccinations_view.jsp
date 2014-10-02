@@ -78,8 +78,8 @@
                                         <table border='0' width='100%'>
                                             <tr>
                                                 <td align='center'>
-                                                    <INPUT id="save" class="button" type="button" onClick="doSubmit();" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>">
-                                                    <INPUT class="button" type="button" onclick="doBack();" value="<%=getTran("Web","Back",sWebLanguage)%>">
+                                                    <INPUT id="save" class="button" type="button" onClick="doSubmit();" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>">
+                                                    <INPUT class="button" type="button" onclick="doBack();" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>">
                                                 </td>
                                             </tr>
                                         </table>

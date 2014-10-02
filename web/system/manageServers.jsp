@@ -130,19 +130,19 @@
                     // display saveButton with add-label + do not display delete button
                     if(sFindID.equals("-1") || sFindID.length()==0){
                         %>
-                        <input class="button" type="button" name="saveButton" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="doSave();">
+                        <input class="button" type="button" name="saveButton" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="doSave();">
                         <%
                     }
                     else{
                         // existing server
                         // display saveButton with save-label
                         %>
-                        <input class="button" type="button" name="saveButton" value="<%=getTran("Web","save",sWebLanguage)%>" onclick="doSave();">
-                        <input class="button" type="button" name="deleteButton" value="<%=getTran("Web","delete",sWebLanguage)%>" onclick="doDelete();">
+                        <input class="button" type="button" name="saveButton" value="<%=getTranNoLink("Web","save",sWebLanguage)%>" onclick="doSave();">
+                        <input class="button" type="button" name="deleteButton" value="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="doDelete();">
                         <%
                     }
                 %>
-                <input class="button" type="button" name="backbutton" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+                <input class="button" type="button" name="backbutton" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
             </td>
         </tr>
     </table>

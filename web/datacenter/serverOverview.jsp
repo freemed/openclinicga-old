@@ -227,7 +227,7 @@
        <div class="subcontent">
            <a class="togglecontent" href="javascript:void(0)" onclick="togglecontent(this,'financial')"><span class="icon down">&nbsp;</span></a>
            <select name="financialmonth" id="financialmonth" class="text" onchange="loadFinancials('<%=serverid %>',this.value);"><%=sb.toString() %></select>
-           <div id="financial_ajax" style="display:none;width:100%;"><img src='<c:url value="/_img/ajax-loader.gif"/>'/></div>
+           <div id="financial_ajax" style="display:none;width:100%;"><img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/></div>
        </div>
    </div>
 </div>
@@ -267,7 +267,7 @@
             &nbsp;
             <select name="diagmonth" id="diagmonth" class="text" onchange="loadDiagnoses('<%=serverid %>',this.value);"><%=sb.toString() %></select>
 
-            <div id="diagnostics_ajax" style="display:none;"><img src='<c:url value="/_img/ajax-loader.gif"/>'/></div>
+            <div id="diagnostics_ajax" style="display:none;"><img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/></div>
         </div>
     </div>
 </div>
@@ -287,7 +287,7 @@
        <div class="subcontent">
             <a class="togglecontent" href="javascript:void(0)" onclick="togglecontent(this,'hr')"><span class="icon down">&nbsp;</span></a>
            <select name="hrmonth" id="hrmonth" class="text" onchange="loadHR('<%=serverid %>',this.value);"><%=sb.toString() %></select>
-           <div id="hr_ajax" style="display:none;width:100%;"><img src='<c:url value="/_img/ajax-loader.gif"/>'/></div>
+           <div id="hr_ajax" style="display:none;width:100%;"><img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/></div>
        </div>
    </div>
 </div>
@@ -309,7 +309,7 @@
         <div class="subcontent">
             <a class="togglecontent" href="javascript:void(0)" onclick="togglecontent(this,'mortality')"><span class="icon down">&nbsp;</span></a>
             <select name="mortalitymonth" id="mortalitymonth" class="text" onchange="loadMortality('<%=serverid %>',this.value);"><%=sb.toString() %></select>
-            <div id="mortality_ajax" style="display:none;"><img src='<c:url value="/_img/ajax-loader.gif"/>'/></div>
+            <div id="mortality_ajax" style="display:none;"><img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/></div>
         </div>
     </div>
 </div>
@@ -326,7 +326,7 @@
             <!--<a class="expandcontent" href="javascript:void(0)" onclick="expandOrReduceContent(this,'bedoccupancy')"><span class="icon expand">&nbsp;</span></a>-->
 
             <span class="important"><%=DatacenterHelper.getGlobalBedoccupancy(Integer.parseInt(serverid))+"%" %></span>
-            <div style="display:none;width:100%;float:left;clear:left;" id="bedoccupancy_ajax"><img src='<c:url value="/_img/ajax-loader.gif"/>'/></div>
+            <div style="display:none;width:100%;float:left;clear:left;" id="bedoccupancy_ajax"><img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/></div>
 
         </div>
     </div>
@@ -350,7 +350,7 @@
 
     function loadDiagnoses(serverid,period,nextfunction){
         if($("diagtype").options[document.getElementById("diagtype").selectedIndex].value=="ALL"){
-            $('diagnostics_ajax').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/>";
+            $('diagnostics_ajax').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/>";
 	        var params = 'serverid=' + serverid
 	                +"&period="+ period;
 	        var url= '<c:url value="/datacenter/loadDiagnoses.jsp"/>?ts=' + new Date();
@@ -372,7 +372,7 @@
 	        );
         }
         else {
-            $('diagnostics_ajax').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/>";
+            $('diagnostics_ajax').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/>";
             var params = 'serverid=' + serverid
 	        +"&encountertype="+ document.getElementById("diagtype").options[document.getElementById("diagtype").selectedIndex].value
 	        +"&period="+ period;
@@ -389,7 +389,7 @@
     }
 
     function loadFinancials(serverid,period,nextfunction){
-        $('financial_ajax').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/>";
+        $('financial_ajax').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/>";
         var params = 'serverid=' + serverid
                 +"&period="+ period;
         var url= '<c:url value="/datacenter/loadFinancials.jsp"/>?ts=' + new Date();
@@ -412,7 +412,7 @@
     }
 
     function loadMortality(serverid,period,nextfunction){
-    	$('mortality_ajax').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/>";
+    	$('mortality_ajax').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/>";
         var params = 'serverid=' + serverid
                 +"&period="+ period;
         var url= '<c:url value="/datacenter/loadMortality.jsp"/>?ts=' + new Date();
@@ -435,7 +435,7 @@
     }
 
     function loadHR(serverid,period,nextfunction){
-    	$('hr_ajax').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/>";
+    	$('hr_ajax').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/>";
         var params = 'serverid=' + serverid
                 +"&period="+ period;
         var url= '<c:url value="/datacenter/loadHR.jsp"/>?ts=' + new Date();
@@ -458,7 +458,7 @@
     }
 
     function loadBedoccupancy(serverid,nextfunction){
-    	document.getElementById('bedoccupancy_ajax').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/>";
+    	document.getElementById('bedoccupancy_ajax').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/>";
         var params = 'serverid=' + serverid;
         var url= '<c:url value="/datacenter/loadBedoccupancy.jsp"/>?ts=' + new Date();
         new Ajax.Request(url,{

@@ -7,6 +7,14 @@
 
 <%
     String sOrderUids = checkString(request.getParameter("OrderUids"));
+
+	/// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+	if(Debug.enabled){
+		Debug.println("\n******************** pharmacy/createOrderTicketsPdf.jsp ****************");
+		Debug.println("sOrderUids : "+sOrderUids+"\n");
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
     ByteArrayOutputStream baosPDF = null;
 
     try{
@@ -35,6 +43,7 @@
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
         writer.println(this.getClass().getName()+ " caught an exception: "+ dex.getClass().getName()+ "<br>");
+        
         writer.println("<pre>");
         dex.printStackTrace(writer);
         writer.println("</pre>");

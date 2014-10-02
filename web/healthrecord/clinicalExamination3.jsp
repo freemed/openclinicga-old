@@ -22,7 +22,7 @@
     </tr>
     <tr>
         <td class="title" colspan="2">
-            <img src='<c:url value="/_img/pijl.gif"/>'>
+            <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
             <a href="#" onclick="toggle_id('medwan.healthrecord.vascular-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
         </td>
     </tr>
@@ -89,7 +89,7 @@
     </tr>
     <tr>
         <td class="title" colspan="2">
-            <img src='<c:url value="/_img/pijl.gif"/>'>
+            <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
             <a href="#" onclick="toggle_id('medwan.healthrecord.respiratory-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
         </td>
     </tr>
@@ -159,7 +159,7 @@
     </tr>
     <tr>
         <td class="title" colspan="2">
-            <img src='<c:url value="/_img/pijl.gif"/>'>
+            <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
             <a href="#" onclick="toggle_id('medwan.healthrecord.gastro-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
         </td>
     </tr>
@@ -284,7 +284,7 @@
     </tr>
     <tr id="HEMATO-details" width="100%">
         <td class="title">
-            <img src='<c:url value="/_img/pijl.gif"/>'>
+            <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
             <a href="#" onclick="toggle_id('medwan.healthrecord.hemato-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
         </td>
     </tr>

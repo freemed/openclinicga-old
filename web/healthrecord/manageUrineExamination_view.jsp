@@ -136,11 +136,11 @@
         <%
             if ((activeUser.getAccessRight("occupurineexamination.add"))||(activeUser.getAccessRight("occupurineexamination.edit"))){
 	            %>
-	                <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+	                <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
 	            <%
             }
         %>
-        <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/healthrecord/managePeriodicExaminations.do"/>?ConvocationID=currentConvocation&ts=<%=getTs()%>'}">
+        <INPUT class="button" type="button" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/healthrecord/managePeriodicExaminations.do"/>?ConvocationID=currentConvocation&ts=<%=getTs()%>'}">
     <%=ScreenHelper.alignButtonsStop()%>
     
     <%=ScreenHelper.contextFooter(request)%>

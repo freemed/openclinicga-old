@@ -8,8 +8,8 @@
 
         sTmp.append("<tr id='rowOther"+iTotal+"'>")
              .append("<td class=\"admin2\">")
-              .append("<a href='javascript:deleteOther(rowOther"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> ")
-              .append("<a href='javascript:editOther(rowOther"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>")
+              .append("<a href='javascript:deleteOther(rowOther"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> ")
+              .append("<a href='javascript:editOther(rowOther"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>")
              .append("</td>")
              .append("<td class='admin2'>&nbsp;" + sName + "</td>")
              .append("<td class='admin2'>&nbsp;" +sValue + "</td>")
@@ -124,8 +124,8 @@
                         <td class="admin2"><input type="text" class="text" name="otherValue" size="5"></td>
                         <td class="admin2"><input type="text" class="text" name="otherUnit" size="5"></td>
                         <td class="admin2">
-                            <input type="button" class="button" name="ButtonAddOther" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addOther();">
-                            <input type="button" class="button" name="ButtonUpdateOther" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateOther();">
+                            <input type="button" class="button" name="ButtonAddOther" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addOther();">
+                            <input type="button" class="button" name="ButtonUpdateOther" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateOther();">
                         </td>
                     </tr>
                     <%
@@ -249,8 +249,8 @@
       tr.id = "rowOther"+iOtherIndex;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteOther(rowOther"+iOtherIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editOther(rowOther"+iOtherIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteOther(rowOther"+iOtherIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editOther(rowOther"+iOtherIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -290,8 +290,8 @@
 
       <%-- update table object --%>
       row = tblOther.rows[editOtherRowid.rowIndex];
-      row.cells[0].innerHTML = "<a href='javascript:deleteOther("+editOtherRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                              +"<a href='javascript:editOther("+editOtherRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      row.cells[0].innerHTML = "<a href='javascript:deleteOther("+editOtherRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                              +"<a href='javascript:editOther("+editOtherRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
       row.cells[1].innerHTML = "&nbsp;"+transactionForm.otherName.value;
       row.cells[2].innerHTML = "&nbsp;"+transactionForm.otherValue.value;

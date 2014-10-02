@@ -13,7 +13,7 @@
     <table width="100%" cellspacing="0" cellpadding="5" style="border:1px solid #aaa">
         <tr>
             <td bgcolor="#dddddd" style="text-align:center;padding:20px;">
-                <img src="<c:url value='/_img/ajax-loader.gif'/>"><br><br>
+                <img src="<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/>"><br><br>
                 <%=getTran("web","searchInProgress",sWebLanguage)%>
             </td>
         </tr>
@@ -27,10 +27,10 @@
         return "<tr id='rowCategory"+iTotal+"' class='"+(iTotal%2==0?"list":"list1")+"'>"+
                 "<td>"+
                  "<a href='#' onclick='deleteCategory(rowCategory"+iTotal+");'>"+
-                  "<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web","delete",sWebLanguage)+"' border='0'>"+
+                  "<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web","delete",sWebLanguage)+"' border='0'>"+
                  "</a>&nbsp;"+
                  "<a href='#' onclick='editCategory(rowCategory"+iTotal+");'>"+
-                  "<img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web","edit",sWebLanguage)+"' border='0'>"+
+                  "<img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web","edit",sWebLanguage)+"' border='0'>"+
                  "</a>&nbsp;"+
                 "</td>"+
                "<td>"+sCatName+"</td>"+
@@ -280,7 +280,7 @@
                 &nbsp;<%=getTran("web","insurar",sWebLanguage)%>&nbsp;&nbsp;<input type="text" class="text" name="FindInsurarName" size="30" maxChars="255" value="<%=sFindInsurarName%>">
 
                 <%-- BUTTONS --%>
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="clearSearchFields();">&nbsp;
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="clearSearchFields();">&nbsp;
                 <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","Search",sWebLanguage)%>" onClick="searchInsurar();">&nbsp;
                 <input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","New",sWebLanguage)%>" onClick="newInsurar();">&nbsp;
                 <input type="button" class="button" name="backButton" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onClick="<%=sBackFunction%>">
@@ -297,7 +297,7 @@
                 %>
                     <br>
 
-                    <table id="searchresults" cellpadding="0" cellspacing="0" width="100%" class="sortable" style="border:1px solid #cccccc;">
+                    <table id="searchresults" cellpadding="0" cellspacing="0" width="100%" class="sortable">
                         <%-- header --%>
                         <tr class="admin">
                             <td width="25">&nbsp;</td>
@@ -333,12 +333,12 @@
                                     %>
                                         <tr class="list<%=sClass%>" onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';">
                                             <td>
-                                                <a href="#" onclick="deleteInsurar('<%=insurar.getUid()%>');"><img src='<c:url value="/_img/icon_delete.gif"/>' border='0' alt="<%=sTranDelete%>"></a>
+                                                <a href="#" onclick="deleteInsurar('<%=insurar.getUid()%>');"><img src='<c:url value="/_img/icons/icon_delete.gif"/>' border='0' alt="<%=sTranDelete%>"></a>
                                             </td>
                                             <td class="hand" onClick="editInsurar('<%=insurar.getUid()%>');"><%=checkString(insurar.getName())%></td>
                                             <td class="hand" onClick="editInsurar('<%=insurar.getUid()%>');"><%=checkString(insurar.getOfficialName())%></td>
                                             <td class="hand" onClick="editInsurar('<%=insurar.getUid()%>');"><%=sContact%></td>
-                                            <td class="hand"  onClick="editInsurar('<%=insurar.getUid()%>');"><%=sLanguage%></td>
+                                            <td class="hand" onclick="editInsurar('<%=insurar.getUid()%>');"><%=sLanguage%></td>
                                         </tr>
                                     <%
                                     if(insurarCount>50){
@@ -433,7 +433,7 @@
                                 String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","en,fr");
                             %>
                             <select class="text" name="EditInsurarLanguage">
-                                <option><%=getTran("web","choose",sWebLanguage)%></option>
+                                <option><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                                 <%
                                     String tmpLang;
                                     StringTokenizer tokenizer = new StringTokenizer(sSupportedLanguages, ",");
@@ -789,7 +789,7 @@
             window.showModalDialog(popupUrl,"",modalities);
         }
         else {
-            alertDialogMessage('<%=getTranNoLink("web.manage","somefieldsareempty",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
+            alertDialogDirectText('<%=getTranNoLink("web.manage","somefieldsareempty",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
         }
     }
   }
@@ -835,8 +835,8 @@
         row.insertCell(i);
       }
 
-      row.cells[0].innerHTML = "<a href='#' onclick='deleteCategory(rowCategory"+iIndexCategories+");'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>&nbsp;"+
-                               "<a href='#' onclick='editCategory(rowCategory"+iIndexCategories+");'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web","edit",sWebLanguage)%>' border='0'></a>&nbsp;";
+      row.cells[0].innerHTML = "<a href='#' onclick='deleteCategory(rowCategory"+iIndexCategories+");'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>&nbsp;"+
+                               "<a href='#' onclick='editCategory(rowCategory"+iIndexCategories+");'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web","edit",sWebLanguage)%>' border='0'></a>&nbsp;";
       row.cells[1].innerHTML = catName;
 
       // remove quotes from label
@@ -865,7 +865,7 @@
             window.showModalDialog(popupUrl,"",modalities);
         }
         else {
-            alertDialogMessage('<%=getTranNoLink("web.manage","categoryExists",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
+            alertDialogDirectText('<%=getTranNoLink("web.manage","categoryExists",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
         }
 
       transactionForm.EditCategoryName.focus();
@@ -898,8 +898,8 @@
 
       <%-- update table object --%>
       var row = tblCategories.rows[editCategoryRowid.rowIndex];
-      row.cells[0].innerHTML = "<a href='#' onclick='deleteCategory("+editCategoryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'></a> "+
-                               "<a href='#' onclick='editCategory("+editCategoryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'></a>";
+      row.cells[0].innerHTML = "<a href='#' onclick='deleteCategory("+editCategoryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'></a> "+
+                               "<a href='#' onclick='editCategory("+editCategoryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'></a>";
 
       row.cells[1].innerHTML = transactionForm.EditCategoryName.value;
       row.cells[2].innerHTML = transactionForm.EditCategoryLabel.value;
@@ -944,7 +944,7 @@
             window.showModalDialog(popupUrl,"",modalities);
         }
         else {
-        	alertDialogMessage('<%=getTranNoLink("web.manage","countPatientsPerCategoryBeforeDelete",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
+        	alertDialogDirectText('<%=getTranNoLink("web.manage","countPatientsPerCategoryBeforeDelete",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
         }
       }
       else{
@@ -963,11 +963,8 @@
           <%-- some patients in this category, so ask again before deleting it --%>
           var msg = "<%=getTranNoLink("web.manage","patientsInThisCategory",sWebLanguage)%><br><%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>";
           msg = replaceAll(msg,"#patientCount#",patientCount);
-          var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelValue="+msg;
-          var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm('<%=getTranNoLink("web","areyousure",sWebLanguage)%>');
-
-          if(answer==1){
+                    
+          if(yesnoDialog(msg)){
             categoriesToDeleteOnSave+= categoryName+"$";
 
             sCategories = deleteRowFromArrayString(sCategories,rowid.id);

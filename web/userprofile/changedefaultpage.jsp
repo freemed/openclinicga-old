@@ -53,8 +53,8 @@
         </tr>
         <%-- BUTTONS --%>
         <%=ScreenHelper.setFormButtonsStart()%>
-            <input type='submit' name='SaveUserProfile' class="button" value='<%=getTran("Web.UserProfile","Change",sWebLanguage)%>'>&nbsp;
-            <input type='button' name='Cancel' class="button" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick='window.location.href="<c:url value='/main.do'/>?Page=userprofile/index.jsp"'>
+            <input type='submit' name='SaveUserProfile' class="button" value='<%=getTranNoLink("Web.UserProfile","Change",sWebLanguage)%>'>&nbsp;
+            <input type='button' name='Cancel' class="button" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick='window.location.href="<c:url value='/main.do'/>?Page=userprofile/index.jsp"'>
         <%=ScreenHelper.setFormButtonsStop()%>
     </table>
 </form>

@@ -42,7 +42,7 @@
 				%>
 			</select>
 		</td>
-		<td class='admin2' width="*"><input type='submit' name='submit' class="button" value='<%=getTran("web","find",sWebLanguage) %>'/></td>
+		<td class='admin2' width="*"><input type='submit' name='submit' class="button" value='<%=getTranNoLink("web","find",sWebLanguage) %>'/></td>
 	</tr>
 </table>
 </form>

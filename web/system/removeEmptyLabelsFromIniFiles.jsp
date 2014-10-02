@@ -76,8 +76,8 @@
             <input type="radio" name="LeaderIniFile" id="rbFR" value="fr" <%=sLeaderIniFile.equalsIgnoreCase("fr")?"checked":""%>><label for="rbFR">FR</label>
             &nbsp;&nbsp;&nbsp;
             <%-- buttons --%>
-            <input type="button" class="button" name="FindButton" value="<%=getTran("Web","Find",sWebLanguage)%>" onclick="doSubmit('find');">&nbsp;
-            <input type="button" class="button" name="ClearButton" value="<%=getTran("Web","Clear",sWebLanguage)%>" onClick="clearFindFields();">
+            <input type="button" class="button" name="FindButton" value="<%=getTranNoLink("Web","Find",sWebLanguage)%>" onclick="doSubmit('find');">&nbsp;
+            <input type="button" class="button" name="ClearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onClick="clearFindFields();">
         </td>
     </tr>
     <%-- exclude types --%>
@@ -151,7 +151,7 @@
                 <a href="#" onclick="checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
             </td>
             <td align="right">
-                <a href='#bottom'><img src='<c:url value='/_img/bottom.jpg'/>' class='link' border="0"></a>
+                <a href='#bottom'><img src='<c:url value='/_img/themes/default/bottom.gif'/>' class='link' border="0"></a>
             </td>
         </tr>
     </table>
@@ -319,7 +319,7 @@
         <%-- BUTTON --%>
         <tr>
             <td colspan="2">
-               <input type="button" class="button" name="DeleteButton" value="<%=getTran("Web","Delete",sWebLanguage)%>" onclick="doSubmit('delete')">
+               <input type="button" class="button" name="DeleteButton" value="<%=getTranNoLink("Web","Delete",sWebLanguage)%>" onclick="doSubmit('delete')">
             </td>
         </tr>
         <%-- NUMBER OF LABELS FOUND --%>
@@ -338,7 +338,7 @@
 </form>
 <%-- link to manage translations --%>
 <%=ScreenHelper.alignButtonsStart()%>
-    <img src='<c:url value="/_img/pijl.gif"/>'>
+    <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
     <a  href="<c:url value='/main.do'/>?Page=system/manageTranslations.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web","managetranslations",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
 <a name="bottom"/>

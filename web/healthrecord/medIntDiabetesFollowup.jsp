@@ -50,10 +50,7 @@
       var max = <%=maxGlycemy%>;
 
       if(isNaN(inputObj.value) || inputObj.value < min || inputObj.value > max){
-        var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelValue=<%=glycemyMsg%>";
-        var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=glycemyMsg%>");
-
+        alertDialogDirectText("<%=glycemyMsg%>");
         inputObj.focus();
       }
     }
@@ -67,10 +64,7 @@
       var max = <%=maxInsuline%>;
 
       if(isNaN(inputObj.value) || inputObj.value < min || inputObj.value > max){
-        var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelValue=<%=insulineMsg%>";
-        var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=insulineMsg%>");
-
+        alertDialogDirectText("<%=insulineMsg%>");
         inputObj.focus();
       }
     }
@@ -494,7 +488,7 @@
                 <%-- graph header --%>
                 <tr onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" id="header_glycemyGraph">
                     <td class="admin" width="20" align="center" onClick="toggleGraph('glycemyGraph');">
-                        <img id="img_glycemyGraph" src="<%=sCONTEXTPATH%>/_img/plus.png" class="link">
+                        <img id="img_glycemyGraph" src="<%=sCONTEXTPATH%>/_img/icons/icon_plus.png" class="link">
                     </td>
                     <td class="admin" width="99%" onClick="toggleGraph('glycemyGraph');"><%=getTran("web.occup","glycemy",sWebLanguage)%></td>
                     <td class="admin" align="right" width ="1%" style="vertical-align:bottom;">
@@ -645,7 +639,7 @@
                 <%-- graph header --%>
                 <tr onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" id="header_insulineRapidGraph">
                     <td class="admin" width="20" align="center" onClick="toggleGraph('insulineRapidGraph');">
-                        <img id="img_insulineRapidGraph" src="<%=sCONTEXTPATH%>/_img/plus.png" class="link">
+                        <img id="img_insulineRapidGraph" src="<%=sCONTEXTPATH%>/_img/icons/icon_plus.png" class="link">
                     </td>
                     <td class="admin" width="99%" onClick="toggleGraph('insulineRapidGraph');"><%=getTran("web.occup","insuline",sWebLanguage)%>&nbsp;<%=getTran("web","rapid",sWebLanguage)%></td>
                     <td class="admin" align="right" width ="1%" style="vertical-align:bottom;">
@@ -795,7 +789,7 @@
                 <%-- graph header --%>
                 <tr onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" id="header_insulineSemiRapidGraph">
                     <td class="admin" width="20" align="center" onClick="toggleGraph('insulineSemiRapidGraph');">
-                        <img id="img_insulineSemiRapidGraph" src="<%=sCONTEXTPATH%>/_img/plus.png" class="link">
+                        <img id="img_insulineSemiRapidGraph" src="<%=sCONTEXTPATH%>/_img/icons/icon_plus.png" class="link">
                     </td>
                     <td class="admin" width="99%" onClick="toggleGraph('insulineSemiRapidGraph');"><%=getTran("web.occup","insuline",sWebLanguage)%>&nbsp;<%=getTran("web","semirapid",sWebLanguage)%></td>
                     <td class="admin" align="right" width ="1%" style="vertical-align:bottom;">
@@ -945,7 +939,7 @@
                 <%-- graph header --%>
                 <tr onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" id="header_insulineSlowGraph">
                     <td class="admin" width="20" align="center" onClick="toggleGraph('insulineSlowGraph');">
-                        <img id="img_insulineSlowGraph" src="<%=sCONTEXTPATH%>/_img/plus.png" class="link">
+                        <img id="img_insulineSlowGraph" src="<%=sCONTEXTPATH%>/_img/icons/icon_plus.png" class="link">
                     </td>
                     <td class="admin" width="99%" onClick="toggleGraph('insulineSlowGraph');"><%=getTran("web.occup","insuline",sWebLanguage)%>&nbsp;<%=getTran("web","slow",sWebLanguage)%></td>
                     <td class="admin" align="right" width ="1%" style="vertical-align:bottom;">
@@ -1105,12 +1099,12 @@
       if(divObj.style.display=="none"){
         divObj.style.display = "block";
         headerObj.title = "<%=hideGraphTran%>";
-        imgObj.src = "<%=sCONTEXTPATH%>/_img/minus.png";
+        imgObj.src = "<%=sCONTEXTPATH%>/_img/icons/icon_minus.png";
       }
       else{
         divObj.style.display = "none";
         headerObj.title = "<%=showGraphTran%>";
-        imgObj.src = "<%=sCONTEXTPATH%>/_img/plus.png";
+        imgObj.src = "<%=sCONTEXTPATH%>/_img/icons/icon_plus.png";
       }
     }
   }

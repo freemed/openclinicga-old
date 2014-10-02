@@ -130,15 +130,15 @@
 
 <%-- BUTTONS --%>
 <%=ScreenHelper.alignButtonsStart()%>
-    <INPUT class="button" type="button" value="<%=getTran("Web.Occup","medwan.common.limited",sWebLanguage)%>" onclick="window.location.href='healthrecord/manageClinicalExamination.do?ts=<%=getTs()%>'">
+    <INPUT class="button" type="button" value="<%=getTranNoLink("Web.Occup","medwan.common.limited",sWebLanguage)%>" onclick="window.location.href='healthrecord/manageClinicalExamination.do?ts=<%=getTs()%>'">
 <%
     if ((activeUser.getAccessRight("occupgeneralclinicalexamination.add"))||(activeUser.getAccessRight("occupgeneralclinicalexamination.edit"))) {
 %>
-        <INPUT class="button" type="button" name="saveButton" id="save" onClick="submitForm();" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>">
+        <INPUT class="button" type="button" name="saveButton" id="save" onClick="submitForm();" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>">
 <%
     }
 %>
-    <INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="window.location.href='<c:url value='/healthrecord/managePeriodicExaminations.do'/>?ts=<%=getTs()%>'">
+    <INPUT class="button" type="button" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="window.location.href='<c:url value='/healthrecord/managePeriodicExaminations.do'/>?ts=<%=getTs()%>'">
 <%=ScreenHelper.alignButtonsStop()%>
 
 <script>

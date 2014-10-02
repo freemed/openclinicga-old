@@ -85,11 +85,11 @@
 						ps.close();
 						oc_conn.close();
 					%>
-				</select> <a href='javascript:deletegroup();'><img src='<c:url value="/_img/icon_delete.gif"/>'/></a>
+				</select> <a href='javascript:deletegroup();'><img src='<c:url value="/_img/icons/icon_delete.gif"/>'/></a>
 			</td>
 			<td>
 				<input type='text' class='text' name='newgroupname' id='newgroupname' size='25'/>
-				<input type='button' class='text' name='newgroup' value='<%=getTran("web","new",sWebLanguage)%>' onclick='createnewgroup();'/>
+				<input type='button' class='text' name='newgroup' value='<%=getTranNoLink("web","new",sWebLanguage)%>' onclick='createnewgroup();'/>
 			</td>
 		</tr>
 		<tr>
@@ -119,9 +119,9 @@
                         }
                     %>
                 </select>
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchPrestation();">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchPrestation();">
             </td>
-			<td class='admin2'><input type='submit' class='text' name='addprestation' value='<%=getTran("web","add",sWebLanguage)%>'/></td>
+			<td class='admin2'><input type='submit' class='text' name='addprestation' value='<%=getTranNoLink("web","add",sWebLanguage)%>'/></td>
         </tr>
 		
 		<tr id='prestationcontent'/>

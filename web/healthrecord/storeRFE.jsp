@@ -44,5 +44,5 @@
         reasonForEncounter.setFlags(flags);
         reasonForEncounter.store();
     }
-    out.println(ReasonForEncounter.getReasonsForEncounterAsHtml(encounterUid,language,"_img/icon_delete.gif","deleteRFE($serverid,$objectid)"));
+    out.println(ReasonForEncounter.getReasonsForEncounterAsHtml(encounterUid,language,"_img/icons/icon_delete.gif","deleteRFE($serverid,$objectid)"));
 %>

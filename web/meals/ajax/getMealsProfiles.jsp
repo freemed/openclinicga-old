@@ -22,7 +22,7 @@
         while (it.hasNext()) {
             profil = (MealProfil) it.next();
             String sClass = ((i % 2) == 0) ? "list" : "list1";
-            out.write("<tr  class='" + sClass + "' >");
+            out.write("<tr class='" + sClass + "' >");
             out.write("<td onclick='getPatientMealProfile(\"" + profil.getUid() + "\")'>" + HTMLEntities.htmlentities(profil.name) + "</td>");
             out.write("</tr>");
             i++;
@@ -49,8 +49,8 @@
         while (it.hasNext()) {
             profil = (MealProfil) it.next();
             String sClass = ((i % 2) == 0) ? "list" : "list1";
-            out.write("<tr  class='" + sClass + "' >");
-            out.write(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.png' class='link' title='" + (getTranNoLink("web", "delete", sWebLanguage)) + "' onclick=\"deleteMealProfile('" + profil.getUid() + "');\"></td>");
+            out.write("<tr class='" + sClass + "' >");
+            out.write(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.png' class='link' title='" + (getTranNoLink("web", "delete", sWebLanguage)) + "' onclick=\"deleteMealProfile('" + profil.getUid() + "');\"></td>");
             out.write("<td onclick='openMealProfile(\"" + profil.getUid() + "\")'>" + HTMLEntities.htmlentities(profil.name) + "</td>");
             out.write("</tr>");
             i++;

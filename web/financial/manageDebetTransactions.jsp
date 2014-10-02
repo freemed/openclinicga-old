@@ -167,8 +167,8 @@
             <td class='admin2'>
                 <input type="hidden" name="EditDebetPrestationUID" value="<%=sEditDebetPrestationUID%>">
                 <input class="text" type="text" name="EditDebetPrestationName" readonly size="<%=sTextWidth%>" value="<%=sEditDebetPrestationName%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchPrestation('EditDebetPrestationUID','EditDebetPrestationName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="EditForm.EditDebetPrestationUID.value='';EditForm.EditDebetPrestationName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchPrestation('EditDebetPrestationUID','EditDebetPrestationName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditForm.EditDebetPrestationUID.value='';EditForm.EditDebetPrestationName.value='';">
             </td>
         </tr>
         <%-- description --%>
@@ -182,8 +182,8 @@
             <td class='admin2'>
                 <input type="hidden" name="EditDebetEncounterUID" value="<%=sEditDebetEncounterUID%>">
                 <input class="text" type="text" name="EditDebetEncounterName" readonly size="<%=sTextWidth%>" value="<%=sEditDebetEncounterName%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchEncounter('EditDebetEncounterUID','EditDebetEncounterName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="EditForm.EditDebetEncounterUID.value='';EditForm.EditDebetEncounterName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchEncounter('EditDebetEncounterUID','EditDebetEncounterName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditForm.EditDebetEncounterUID.value='';EditForm.EditDebetEncounterName.value='';">
             </td>
         </tr>
 
@@ -212,8 +212,8 @@
             <td class='admin2'>
                 <input type="hidden" name="EditDebetSupplierUID" value="<%=sEditDebetSupplierUID%>">
                 <input class="text" type="text" name="EditDebetSupplierName" readonly size="<%=sTextWidth%>" value="<%=sEditDebetSupplierName%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchSupplier('EditDebetSupplierUID','EditDebetSupplierName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="EditForm.EditDebetSupplierUID.value='';EditForm.EditDebetSupplierName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('EditDebetSupplierUID','EditDebetSupplierName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditForm.EditDebetSupplierUID.value='';EditForm.EditDebetSupplierName.value='';">
             </td>
         </tr>
 
@@ -267,12 +267,12 @@
             <td class="admin"/>
             <td class="admin2">
                 <%-- Buttons --%>
-                <input class='button' type="button" name="buttonSave" value='<%=getTran("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
-                <input class='button' type="button" name="buttonBack" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doBack();">
+                <input class='button' type="button" name="buttonSave" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
+                <input class='button' type="button" name="buttonBack" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
             </td>
         </tr>
     </table>
-    <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>.
+    <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
     <input type='hidden' name='Action' value=''>
     <input type='hidden' name='EditDebetUID' value='<%=sEditDebetUID%>'>
     <input type='hidden' name='EditDebetBalanceUID' value='<%=sEditDebetBalanceUID%>'>

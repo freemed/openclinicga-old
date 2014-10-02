@@ -50,7 +50,7 @@
         Iterator requestsIterator = requestList.keySet().iterator();
         while (requestsIterator.hasNext()) {
             LabRequest labRequest = (LabRequest) requestList.get(requestsIterator.next());
-            out.print("<td><b>"+labRequest.getPatientname()+"</b><br/>" + ScreenHelper.fullDateFormat.format(labRequest.getRequestdate()) + "<br/><a href='javascript:showRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>" + labRequest.getTransactionid() + "</b></a></td>");
+            out.print("<td><b>"+labRequest.getPatientname()+"</b><br/>" + ScreenHelper.formatDate(labRequest.getRequestdate(),ScreenHelper.fullDateFormat) + "<br/><a href='javascript:showRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>" + labRequest.getTransactionid() + "</b></a></td>");
         }
     %>
     </tr>

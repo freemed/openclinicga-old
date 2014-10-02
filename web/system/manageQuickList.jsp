@@ -82,7 +82,7 @@
 					<td id="prest.<%=i%>.<%=n%>" bgcolor='<%=getItemColor(sPrestations,i,n)%>' width='1%' nowrap>
 						<input onclick="chooseColor('<%=i%>.<%=n%>');" name="prest.<%=i%>.<%=n%>" type="text" size="10" value="<%=getItemValue(sPrestations,i,n)%>"/>
 						<input name="prestcolor.<%=i%>.<%=n%>" id="prestcolor.<%=i%>.<%=n%>" class="Multiple" type="hidden" value="<%=getItemColor(sPrestations,i,n)%>"/>
-						<img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchPrestation('<%=i+"."+n%>');">
+						<img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchPrestation('<%=i+"."+n%>');">
 					</td>
 			<%
 					String val=getItemValue(sPrestations,i,n);
@@ -110,7 +110,7 @@
 			}
 		%>
 	</table>
-	<input type="submit" class="button" name="submit" value="<%=getTran("web","save",sWebLanguage)%>"/>
+	<input type="submit" class="button" name="submit" value="<%=getTranNoLink("web","save",sWebLanguage)%>"/>
 </form>
 <script>
 function searchPrestation(id){

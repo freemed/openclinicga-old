@@ -47,7 +47,7 @@
         sCode = checkString(uTmp.getCode());
         sCodeType = checkString(uTmp.getCodeType());
         sbResults.append("<tr class='list" + sClass + "'>" +
-                "<td><img src=\""+sCONTEXTPATH + "/_img/icon_delete.gif\" class=\"link\" alt='" + getTranNoLink("Web", "delete", sWebLanguage) + "' onclick=\"doDelete('" + sCode + "','" + sCodeType + "');\"></td>" +
+                "<td><img src=\""+sCONTEXTPATH + "/_img/icons/icon_delete.gif\" class=\"link\" alt='" + getTranNoLink("Web", "delete", sWebLanguage) + "' onclick=\"doDelete('" + sCode + "','" + sCodeType + "');\"></td>" +
                 "<td>" + sCode + "</td>" +
                 "<td>" + MedwanQuery.getInstance().getCodeTran(sCodeType + "code" + sCode, sWebLanguage) + "</td>" +
                 "</tr>");
@@ -57,8 +57,8 @@
     <%=writeTableHeader("Web.manage","manageServiceDiagnoses",sWebLanguage,"")%>
     <input type="hidden" name="EditService" value="<%=activeService%>">
     <input class="text" type="text" name="EditServiceName" id="EditServiceName" readonly size="<%=sTextWidth%>" value="<%=activeServiceName%>">
-    <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditService','EditServiceName');">
-    <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="DeleteDiagnosisForm.EditService.value='';DeleteDiagnosisForm.EditServiceName.value='';">
+    <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('EditService','EditServiceName');">
+    <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="DeleteDiagnosisForm.EditService.value='';DeleteDiagnosisForm.EditServiceName.value='';">
     <table class='sortable' width='100%' cellspacing="0" cellpadding="0" id="searchresults">
         <%-- header --%>
         <tr>
@@ -96,8 +96,8 @@
                 <input type="hidden" name="EditDiagnosisCode" id="EditDiagnosisCode" value="">
                 <input type="hidden" name="EditDiagnosisCodeType" id="EditDiagnosisCodeType" value="">
                 <input class="text" type="text" name="EditDiagnosisCodeLabel" id="EditDiagnosisCodeLabel" value="" readonly size="<%=sTextWidth%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchICPC('EditDiagnosisCode','EditDiagnosisCodeLabel','EditDiagnosisCodeType');">
-                <img src="<c:url value="/_img/icon_add.gif"/>" class="link" alt="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="doAdd();">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchICPC('EditDiagnosisCode','EditDiagnosisCodeLabel','EditDiagnosisCodeType');">
+                <img src="<c:url value="/_img/icons/icon_add.gif"/>" class="link" alt="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="doAdd();">
             </td>
         </tr>
     </table>

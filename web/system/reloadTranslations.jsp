@@ -18,7 +18,7 @@
 </table>
 <%-- BUTTONS --%>
 <%=ScreenHelper.alignButtonsStart()%>
-    <input type='submit' name="ReloadButton" class="button" value='<%=getTran("Web.Translations","Reload",sWebLanguage)%>'>&nbsp;
-    <Input class='button' type=button name=cancel value='<%=getTran("Web","Back",sWebLanguage)%>' OnClick='javascript:window.location.href="main.do?Page=system/menu.jsp"'>
+    <input type='submit' name="ReloadButton" class="button" value='<%=getTranNoLink("Web.Translations","Reload",sWebLanguage)%>'>&nbsp;
+    <Input class='button' type=button name=cancel value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' OnClick='javascript:window.location.href="main.do?Page=system/menu.jsp"'>
 <%=ScreenHelper.alignButtonsStop()%>
 </form>

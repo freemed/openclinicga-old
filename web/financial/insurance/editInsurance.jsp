@@ -66,7 +66,7 @@
         if(sEditInsurarUID.length()!=0){
         	Insurar insurar = Insurar.get(sEditInsurarUID);
         	if(insurar!=null && insurar.getRequireAffiliateID()==1 && sEditInsuranceNr.length()==0){
-        		out.println("<script>alert('"+getTranNoLink("web","requireaffiliateid",sWebLanguage)+"');</script>");
+        		out.println("<script>alertDialog('"+getTranNoLink("web","requireaffiliateid",sWebLanguage)+"');</script>");
         		bCanSave=false;
         	}
         }
@@ -225,8 +225,8 @@
                 <td class="admin2">
                     <input type="hidden" name="EditInsurarUID" id="EditInsurarUID" value="<%=sEditInsurarUID%>"/>
                     <input class="text" type="text" readonly name="EditInsuranceInsurarName" value="<%=sEditInsuranceInsurarName%>" size="<%=sTextWidth%>"/>
-                    <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchInsuranceCategory();">
-                    <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="EditInsuranceForm.EditInsuranceInsurarName.value='';EditInsuranceForm.EditInsuranceCategory.value='';EditInsuranceForm.EditInsuranceCategoryLetter.value='';checkInsuranceAuthorization()">
+                    <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchInsuranceCategory();">
+                    <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditInsuranceForm.EditInsuranceInsurarName.value='';EditInsuranceForm.EditInsuranceCategory.value='';EditInsuranceForm.EditInsuranceCategoryLetter.value='';checkInsuranceAuthorization()">
                 </td>
             </tr>
             <tr>
@@ -330,11 +330,11 @@
         <%
         	if((sEditInsuranceUID.length()==0 && activeUser.getAccessRight("financial.insurance.add")) || activeUser.getAccessRight("financial.insurance.edit")){
         %>
-            <input class='button' type="button" name="EditSaveButton" value='<%=getTran("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
+            <input class='button' type="button" name="EditSaveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
         <%
         	}
         %>
-            <input class='button' type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doSearchBack();">
+            <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doSearchBack();">
         <%=ScreenHelper.setFormButtonsStop()%>
     </table>
     <input type="hidden" name="Action" value="">

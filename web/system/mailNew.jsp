@@ -55,7 +55,7 @@
 
 <%-- SUBMIT BUTTON --%>
 <%=ScreenHelper.alignButtonsStart()%>
-    <input type="button" class="button" name="SendEmail" value="<%=getTran("Web.Occup","medwan.common.send",sWebLanguage)%>" onclick="submitForm()">
+    <input type="button" class="button" name="SendEmail" value="<%=getTranNoLink("Web.Occup","medwan.common.send",sWebLanguage)%>" onclick="submitForm()">
 <%=ScreenHelper.alignButtonsStop()%>
 
 <input type="hidden" name="EditDestinationName">

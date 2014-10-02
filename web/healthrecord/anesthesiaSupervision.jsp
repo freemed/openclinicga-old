@@ -14,8 +14,8 @@
         
         sTmp.append("<tr id='rowSA"+iTotal+"'>")
              .append("<td class='admin2'>")
-              .append("<a href='javascript:deleteSA(rowSA"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> ")
-              .append("<a href='javascript:editSA(rowSA"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>")
+              .append("<a href='javascript:deleteSA(rowSA"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> ")
+              .append("<a href='javascript:editSA(rowSA"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>")
              .append("</td>")
              .append("<td class='admin2'>&nbsp;").append(sHeure).append("</td>")
              .append("<td class='admin2'>&nbsp;").append(sSys).append("</td>")
@@ -192,9 +192,9 @@
                         <td class="admin2">
                             <select class="text" name="svstage">
                                 <option/>
-                                <option value="pre_anesthesie"><%=getTran("anesthesie_stage","pre_anesthesie",sWebLanguage)%></option>
-                                <option value="anesthesie"><%=getTran("anesthesie_stage","anesthesie",sWebLanguage)%></option>
-                                <option value="post_anesthesie"><%=getTran("anesthesie_stage","post_anesthesie",sWebLanguage)%></option>
+                                <option value="pre_anesthesie"><%=getTranNoLink("anesthesie_stage","pre_anesthesie",sWebLanguage)%></option>
+                                <option value="anesthesie"><%=getTranNoLink("anesthesie_stage","anesthesie",sWebLanguage)%></option>
+                                <option value="post_anesthesie"><%=getTranNoLink("anesthesie_stage","post_anesthesie",sWebLanguage)%></option>
                             </select>
                         </td>
                         <td class="admin2">
@@ -209,8 +209,8 @@
 
                         <%-- add-buttons --%>
                         <td class="admin2">
-                            <input type="button" class="button" name="ButtonAddSA" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addSA();">
-                            <input type="button" class="button" name="ButtonUpdateSA" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateSA();">
+                            <input type="button" class="button" name="ButtonAddSA" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addSA();">
+                            <input type="button" class="button" name="ButtonUpdateSA" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateSA();">
                         </td>
                     </tr>
                          
@@ -266,8 +266,8 @@
       tr.id = "rowSA"+iSAIndex;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteSA(rowSA"+iSAIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editSA(rowSA"+iSAIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteSA(rowSA"+iSAIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editSA(rowSA"+iSAIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -354,8 +354,8 @@
 
       <%-- update table object --%>
       row = tblSA.rows[editSARowid.rowIndex];
-      row.cells[0].innerHTML = "<a href='javascript:deleteSA("+editSARowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                              +"<a href='javascript:editSA("+editSARowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      row.cells[0].innerHTML = "<a href='javascript:deleteSA("+editSARowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                              +"<a href='javascript:editSA("+editSARowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
       row.cells[1].innerHTML = "&nbsp;"+transactionForm.svheure.value;
       row.cells[2].innerHTML = "&nbsp;"+transactionForm.svsys.value;

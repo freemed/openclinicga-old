@@ -20,10 +20,10 @@
         
         // delete- and edit-icon
         sHtml+= "<td>"+
-                 "<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' class='link' name='Item_"+item.getItemTypeId()+"'"+
+                 "<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link' name='Item_"+item.getItemTypeId()+"'"+
                   " alt='"+getTranNoLink("web","delete",sWebLanguage)+"'"+
                   " onClick=\"deleteItem('row_"+itemIdx+"')\">&nbsp;"+
-                 "<img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' class='link' style='vertical-align:-3px' name='Item_"+item.getItemTypeId()+"'"+
+                 "<img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' class='link' style='vertical-align:-3px' name='Item_"+item.getItemTypeId()+"'"+
                   " alt='"+getTranNoLink("web","edit",sWebLanguage)+"'"+
                   " onClick=\"editItem('row_"+itemIdx+"')\">"+
                 "</td>";
@@ -117,7 +117,7 @@
             <td class="admin" width="80"><%=getTran("web","width",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="text" class="text" name="EditWidth" value="<%=screen.getCellAttribute(cell,"width")%>" size="4" maxLength="3"
-                 onBlur="if(this.value.length>0 && !isNumberLimited(this,100,500)){alertDialogMessage('<%=getTranNoLink("web.occup","out-of-bounds-value",sWebLanguage)%> (100~500px)');this.focus();}"> px
+                 onBlur="if(this.value.length>0 && !isNumberLimited(this,100,500)){alertDialogDirectText('<%=getTranNoLink("web.occup","out-of-bounds-value",sWebLanguage)%> (100~500px)');this.focus();}"> px
             </td>
         </tr>
         
@@ -126,7 +126,7 @@
             <td class="admin"><%=getTran("web","colspan",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="text" class="text" name="EditColspan" value="<%=screen.getCellAttribute(cell,"colspan")%>" size="4" maxLength="2"
-                 onBlur="if(this.value.length>0 && !isNumberLimited(this,1,10)){alertDialogMessage('<%=getTranNoLink("web.occup","out-of-bounds-value",sWebLanguage)%> (1~10)');this.focus();}">
+                 onBlur="if(this.value.length>0 && !isNumberLimited(this,1,10)){alertDialogDirectText('<%=getTranNoLink("web.occup","out-of-bounds-value",sWebLanguage)%> (1~10)');this.focus();}">
              </td>
         </tr>
         
@@ -186,7 +186,7 @@
                         <%-- htmlElement --%>
                         <td class="admin">
                             <select class="text" name="addHtmlElement" onChange="setAddRowOptions(this);">
-                                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                                <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                                 <option value="label">label</option>
                                 <option value="text">text</option>
                                 <option value="date">date</option>
@@ -216,9 +216,9 @@
 				        <%-- followedBy --%>
                         <td class="admin">
 			                <select class="text" name="addFollowedBy">
-			                    <option value="nothing"><%=getTran("web.manage","nothing",sWebLanguage)%></option>
-			                    <option value="newline"><%=getTran("web.manage","newLine",sWebLanguage)%></option>
-			                    <option value="space"><%=getTran("web.manage","space",sWebLanguage)%></option>
+			                    <option value="nothing"><%=getTranNoLink("web.manage","nothing",sWebLanguage)%></option>
+			                    <option value="newline"><%=getTranNoLink("web.manage","newLine",sWebLanguage)%></option>
+			                    <option value="space"><%=getTranNoLink("web.manage","space",sWebLanguage)%></option>
 			                </select>
 			             </td>
 				                        
@@ -277,6 +277,6 @@
 <%-- Ajax loader --------------------------------------------------------------------------------%>
 <center>
     <div id="ajaxLoader" style="position:absolute;top:100px;left:280px;visibility:hidden;width:280px;height:40px;border:1px solid #ccc;background:#eee;padding:30px;">
-        <center><img src="<%=sCONTEXTPATH%>/_img/ajax-loader.gif" style="vertical-align:-3px;"/>&nbsp;&nbsp;Loading..</center>
+        <center><img src="<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif" style="vertical-align:-3px;"/>&nbsp;&nbsp;Loading..</center>
     </div>
 </center>

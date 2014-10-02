@@ -145,20 +145,20 @@
                             // display saveButton with add-label + do not display delete button
                             if(sFindDestinationID.equals("-1") || sFindDestinationID.length()==0){
                                 %>
-                                    <input type='button' class="button" name="saveButton" value='<%=getTran("Web","add",sWebLanguage)%>' onclick="doSave();">
+                                    <input type='button' class="button" name="saveButton" value='<%=getTranNoLink("Web","add",sWebLanguage)%>' onclick="doSave();">
                                 <%
                             }
                             // existing destination
                             // display saveButton with save-label
                             else{
                                 %>
-                                    <input type='button' class="button" name="saveButton" value='<%=getTran("Web","save",sWebLanguage)%>' onclick="doSave();">
+                                    <input type='button' class="button" name="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">
                                     <%=writeResetButton("transactionForm",sWebLanguage)%>
-                                    <input type='button' class="button" name="deleteButton" value='<%=getTran("Web","delete",sWebLanguage)%>' onclick="doDelete();">
+                                    <input type='button' class="button" name="deleteButton" value='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="doDelete();">
                                 <%
                             }
                         %>
-                        <input type='button' class="button" name="backButton" value='<%=getTran("Web","Back",sWebLanguage)%>' onClick='doBack();'>
+                        <input type='button' class="button" name="backButton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onClick='doBack();'>
                     <%=ScreenHelper.setFormButtonsStop()%>
                 </table>
 

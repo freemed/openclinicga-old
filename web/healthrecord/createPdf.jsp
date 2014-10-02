@@ -340,7 +340,7 @@
 
                                 sOut.append("<tr class=\"list"+sClass+"\" >")
                                      .append("<td align='center'>")
-                                      .append(" <input type='checkbox' value='"+tranType+"' name='tranType_"+cbCounter+"'>")
+                                      .append("<input type='checkbox' value='"+tranType+"' name='tranType_"+cbCounter+"'>")
                                      .append("</td>")
                                      .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"')\">"+getTran("web.occup", tranType, sWebLanguage)+"</td>")
                                      .append("<td onClick=\"clickCheckBox('tranType_"+cbCounter+"')\">"+getTran("service", tranCtxt, sWebLanguage)+"</td>")
@@ -595,12 +595,12 @@
                                 <tr>
                                     <td class="admin">&nbsp;</td>
                                     <td class="admin2">
-                                        <input type="button" class="button" value="<%=getTran("web","show",sWebLanguage)%>" onClick="doApplyFilter();">
-                                        <input class="button" type="button" value="<%=getTran("Web","reset",sWebLanguage)%>" onclick="transactionForm.reset();checkAll(true);">
+                                        <input type="button" class="button" value="<%=getTranNoLink("web","show",sWebLanguage)%>" onClick="doApplyFilter();">
+                                        <input class="button" type="button" value="<%=getTranNoLink("Web","reset",sWebLanguage)%>" onclick="transactionForm.reset();checkAll(true);">
 
                                         <%
                                             if(!sAction.equals("")){
-                                                %><input class="button" type="button" name="backButton" id="backButton" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="window.location.href='<c:url value='/main.jsp?Page=healthrecord/createPdf.jsp'/>?ts=<%=getTs()%>&action=<%=sAction%>&filter=<%=sSelectedFilter%>'"><%
+                                                %><input class="button" type="button" name="backButton" id="backButton" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="window.location.href='<c:url value='/main.jsp?Page=healthrecord/createPdf.jsp'/>?ts=<%=getTs()%>&action=<%=sAction%>&filter=<%=sSelectedFilter%>'"><%
                                             }
                                         %>
                                     </td>
@@ -658,7 +658,7 @@
                                             <a href="#" onclick="checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
                                         </td>
                                         <td align="right">
-                                            <a href="#bottom" class="top"><img src="<c:url value='/_img/bottom.jpg'/>" class="link" border="0"></a>
+                                            <a href="#bottom" class="top"><img src="<c:url value='/_img/themes/default/bottom.gif'/>" class="link" border="0"></a>
                                         </td>
                                     </tr>
                                 </table>
@@ -716,16 +716,16 @@
                                     %>
                                 </select>
                             
-                                <input class="button" type="submit" name="printButton" value="<%=getTran("Web.Occup","medwan.common.print",sWebLanguage)%>">
+                                <input class="button" type="submit" name="printButton" value="<%=getTranNoLink("Web.Occup","medwan.common.print",sWebLanguage)%>">
                             <%
                         }
 
                         %>
-                            <input class="button" type="button" name="resetButton" value="<%=getTran("Web","reset",sWebLanguage)%>" onclick="<%=(sAction.length()==0?"doReset();":"transactionForm.reset();checkAll(true);")%>">
+                            <input class="button" type="button" name="resetButton" value="<%=getTranNoLink("Web","reset",sWebLanguage)%>" onclick="<%=(sAction.length()==0?"doReset();":"transactionForm.reset();checkAll(true);")%>">
                         <%
 
                         if(!sAction.equals("")){
-                            %><input class="button" type="button" name="backButton" id="backButton" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="window.location.href='<c:url value='/main.jsp?Page=healthrecord/createPdf.jsp'/>?ts=<%=getTs()%>&action=<%=sAction%>&filter=<%=sSelectedFilter%>'"><%
+                            %><input class="button" type="button" name="backButton" id="backButton" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="window.location.href='<c:url value='/main.jsp?Page=healthrecord/createPdf.jsp'/>?ts=<%=getTs()%>&action=<%=sAction%>&filter=<%=sSelectedFilter%>'"><%
                         }
                     %>
                 </p>

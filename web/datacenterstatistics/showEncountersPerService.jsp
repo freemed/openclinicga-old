@@ -20,8 +20,8 @@
                 <%=writeDateField("fromdate","diagstats",fromdate,sWebLanguage)%>&nbsp;
                 <%=getTran("web","to",sWebLanguage)%>&nbsp;
                 <%=writeDateField("todate","diagstats",todate,sWebLanguage)%>&nbsp;
-                <input type="submit" class="button" name="calculate" value="<%=getTran("web","calculate",sWebLanguage)%>"/>
-                <input type="button" class="button" name="backButton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doBack();">
+                <input type="submit" class="button" name="calculate" value="<%=getTranNoLink("web","calculate",sWebLanguage)%>"/>
+                <input type="button" class="button" name="backButton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
             </td>
         </tr>
     </table>

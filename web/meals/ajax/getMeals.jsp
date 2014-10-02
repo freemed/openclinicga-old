@@ -33,7 +33,7 @@
         while (it.hasNext()) {
             item = (Meal) it.next();
             String sClass = ((i % 2) == 0) ? "list" : "list1";
-            out.write("<tr  class='" + sClass + "' >");
+            out.write("<tr class='" + sClass + "' >");
             if (bToMakeProfile) {
                 out.write("<td onclick='insertMealIntoProfile(\"" + item.getUid() + "\",\"" + HTMLEntities.htmlentities(item.name) + "\"," + item.mealDatetime.getHours() + "," + item.mealDatetime.getMinutes() + ")'>" + HTMLEntities.htmlentities(item.name) + "</td>");
             } else {
@@ -65,8 +65,8 @@
         while (it.hasNext()) {
             item = (Meal) it.next();
             String sClass = ((i % 2) == 0) ? "list" : "list1";
-            out.write("<tr  class='" + sClass + "' >");
-            out.write(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.png' class='link' title='" + (getTranNoLink("web", "delete", sWebLanguage)) + "' onclick=\"deleteMeal('" + item.getUid() + "');\"></td>");
+            out.write("<tr class='" + sClass + "' >");
+            out.write(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.png' class='link' title='" + (getTranNoLink("web", "delete", sWebLanguage)) + "' onclick=\"deleteMeal('" + item.getUid() + "');\"></td>");
             out.write("<td onclick='openMeal(\"" + item.getUid() + "\")'>" + HTMLEntities.htmlentities(item.name) + "</td>");
             out.write("</tr>");
             i++;

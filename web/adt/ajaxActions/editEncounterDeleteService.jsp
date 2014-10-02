@@ -21,7 +21,7 @@
             username = User.getUserName(encounterService.managerUID);
 %>
     <tr>
-        <td><img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","delete",sWebLanguage)%>" onclick="deleteService('<%=encounterService.serviceUID%>')"></td>
+        <td><img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="deleteService('<%=encounterService.serviceUID%>')"></td>
         <td><%=ScreenHelper.fullDateFormat.format(encounterService.begin)+" - "+ScreenHelper.fullDateFormat.format(encounterService.end)%></td>
         <td><b><%=getTran("Service", encounterService.serviceUID, sWebLanguage)%></b></td>
         <td><%=getTran("web", "bed", sWebLanguage) + ": " + checkString(Bed.get(encounterService.bedUID).getName())%></td>

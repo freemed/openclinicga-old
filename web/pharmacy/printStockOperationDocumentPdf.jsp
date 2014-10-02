@@ -2,13 +2,16 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@page import="java.io.ByteArrayOutputStream,
                 com.itextpdf.text.DocumentException,
-                java.io.PrintWriter,be.mxs.common.util.pdf.general.*,java.util.Vector,java.util.Enumeration" %>
+                java.io.PrintWriter,
+                be.mxs.common.util.pdf.general.*,
+                java.util.Vector,
+                java.util.Enumeration"%>
 <%
 	String sUid=checkString(request.getParameter("documentuid"));
-	if(sUid.length()>0){
+	if(sUid.length() > 0){
 		ByteArrayOutputStream baosPDF = null;
 
-        try {
+        try{
             // PDF generator
             PDFStockOperationDocumentGenerator pdfStockOperationDocumentGenerator = new PDFStockOperationDocumentGenerator(activeUser, sProject,sWebLanguage);
             baosPDF = pdfStockOperationDocumentGenerator.generatePDFDocumentBytes(request, sUid);
@@ -17,7 +20,7 @@
 
             StringBuffer sbContentDispValue = new StringBuffer();
             sbContentDispValue.append("inline; filename=")
-                    .append(sbFilename);
+                              .append(sbFilename);
 
             // prepare response
             response.setHeader("Cache-Control", "max-age=30");
@@ -30,22 +33,20 @@
             baosPDF.writeTo(sos);
             sos.flush();
         }
-        catch (DocumentException dex) {
+        catch(DocumentException dex){
             response.setContentType("text/html");
             PrintWriter writer = response.getWriter();
             writer.println(this.getClass().getName() + " caught an exception: " + dex.getClass().getName() + "<br>");
+            
             writer.println("<pre>");
             dex.printStackTrace(writer);
             writer.println("</pre>");
         }
-        finally {
-            if (baosPDF != null) {
-                baosPDF.reset();
-            }
+        finally{
+            if(baosPDF!=null) baosPDF.reset();
         }
-    } else {
-%>
-    <script>window.close();</script>
-<%
+    }
+	else {
+        %><script>window.close();</script><%
     }
 %>

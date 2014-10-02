@@ -27,7 +27,7 @@
     <%=writeTableHeader("web","skills",sWebLanguage,"")%>
                     
     <table class="list" border="0" width="100%" cellspacing="1">   
-        <%-- languages (multi-add) --%>
+        <%-- *** languages (multi-add) *** --%>
         <tr>
             <td class="admin"><%=getTran("web.hr","languages",sWebLanguage)%></td>
             <td class="admin2" style="padding:10px;padding-left:5px;">
@@ -57,9 +57,7 @@
                         <%-- 5 - empty --%>
                         <td nowrap/>    
                     </tr>
-                    
-                    <%-- content by ajax and javascript --%>
-                    
+                                        
                     <%-- add-row --%>                          
                     <tr>
                         <%-- 0 - empty --%>
@@ -94,12 +92,11 @@
                         </td>
                         <%-- 5 - buttons --%>
                         <td class="admin" nowrap>
-                            <input type="button" class="button" name="ButtonAddLS" value="<%=getTran("web","add",sWebLanguage)%>" onclick="addLS();">
-                            <input type="button" class="button" name="ButtonUpdateLS" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateLS();" disabled>&nbsp;
+                            <input type="button" class="button" name="ButtonAddLS" value="<%=getTranNoLink("web","add",sWebLanguage)%>" onclick="addLS();">
+                            <input type="button" class="button" name="ButtonUpdateLS" value="<%=getTranNoLink("web","edit",sWebLanguage)%>" onclick="updateLS();" disabled>&nbsp;
                         </td>    
                     </tr>
-                </table>
-                
+                </table>                
             </td>
         </tr>
                                             
@@ -215,11 +212,13 @@
       }
       document.getElementById("languages").value = sLS.substring(0,255);
        
-      document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
+      document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Saving";  
       var url = "<c:url value='/hr/ajax/skills/saveSkill.jsp'/>?ts="+new Date().getTime();
+      
       <%-- disable buttons --%>
       document.getElementById("buttonSave").disabled = true;
       document.getElementById("buttonClear").disabled = true;
+      
       new Ajax.Request(url,
         {
           method: "POST",
@@ -364,10 +363,10 @@
 
     var td = tr.insertCell(0);
     td.innerHTML = "<a href='javascript:deleteLS(rowLS"+iLSIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
                    "</a> "+
                    "<a href='javascript:editLS(rowLS"+iLSIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
                    "</a>";
     tr.appendChild(td);
 
@@ -377,6 +376,8 @@
     else if(sTmpLang=="lang3") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.languages","lang3",sWebLanguage)%>";
     else if(sTmpLang=="lang4") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.languages","lang4",sWebLanguage)%>";
     else if(sTmpLang=="lang5") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.languages","lang5",sWebLanguage)%>";
+    else if(sTmpLang=="lang6") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.languages","lang6",sWebLanguage)%>";
+    else if(sTmpLang=="lang7") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.languages","lang7",sWebLanguage)%>";
     tr.appendChild(td);
 
     td = tr.insertCell(2);
@@ -385,6 +386,8 @@
     else if(sTmpSpoken=="type3") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type3",sWebLanguage)%>";
     else if(sTmpSpoken=="type4") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type4",sWebLanguage)%>";
     else if(sTmpSpoken=="type5") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type5",sWebLanguage)%>";
+    else if(sTmpSpoken=="type6") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type6",sWebLanguage)%>";
+    else if(sTmpSpoken=="type7") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type7",sWebLanguage)%>";
     tr.appendChild(td);
 
     td = tr.insertCell(3);
@@ -393,6 +396,8 @@
     else if(sTmpReading=="type3") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type3",sWebLanguage)%>";
     else if(sTmpReading=="type4") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type4",sWebLanguage)%>";
     else if(sTmpReading=="type5") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type5",sWebLanguage)%>";
+    else if(sTmpReading=="type6") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type6",sWebLanguage)%>";
+    else if(sTmpReading=="type7") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type7",sWebLanguage)%>";
     tr.appendChild(td);
 
     td = tr.insertCell(4);
@@ -401,6 +406,8 @@
     else if(sTmpWriting=="type3") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type3",sWebLanguage)%>";
     else if(sTmpWriting=="type4") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type4",sWebLanguage)%>";
     else if(sTmpWriting=="type5") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type5",sWebLanguage)%>";
+    else if(sTmpWriting=="type6") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type6",sWebLanguage)%>";
+    else if(sTmpWriting=="type7") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type7",sWebLanguage)%>";
     tr.appendChild(td);
       
     <%-- empty cell --%>
@@ -433,10 +440,10 @@
 
         var td = tr.insertCell(0);
         td.innerHTML = "<a href='javascript:deleteLS(rowLS"+iLSIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
                        "</a> "+
                        "<a href='javascript:editLS(rowLS"+iLSIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
                        "</a>";
         tr.appendChild(td);
 
@@ -446,6 +453,8 @@
         else if(EditForm.lsLanguage.value=="lang3") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.languages","lang3",sWebLanguage)%>";
         else if(EditForm.lsLanguage.value=="lang4") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.languages","lang4",sWebLanguage)%>";
         else if(EditForm.lsLanguage.value=="lang5") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.languages","lang5",sWebLanguage)%>";
+        else if(EditForm.lsLanguage.value=="lang6") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.languages","lang6",sWebLanguage)%>";
+        else if(EditForm.lsLanguage.value=="lang7") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.languages","lang7",sWebLanguage)%>";
         tr.appendChild(td);
 
         td = tr.insertCell(2);
@@ -454,6 +463,8 @@
         else if(EditForm.lsSpoken.value=="type3") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type3",sWebLanguage)%>";
         else if(EditForm.lsSpoken.value=="type4") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type4",sWebLanguage)%>";
         else if(EditForm.lsSpoken.value=="type5") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type5",sWebLanguage)%>";
+        else if(EditForm.lsSpoken.value=="type6") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type6",sWebLanguage)%>";
+        else if(EditForm.lsSpoken.value=="type7") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type7",sWebLanguage)%>";
         tr.appendChild(td);
 
         td = tr.insertCell(3);
@@ -462,6 +473,8 @@
         else if(EditForm.lsReading.value=="type3") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type3",sWebLanguage)%>";
         else if(EditForm.lsReading.value=="type4") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type4",sWebLanguage)%>";
         else if(EditForm.lsReading.value=="type5") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type5",sWebLanguage)%>";
+        else if(EditForm.lsReading.value=="type6") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type6",sWebLanguage)%>";
+        else if(EditForm.lsReading.value=="type7") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type7",sWebLanguage)%>";
         tr.appendChild(td);
 
         td = tr.insertCell(4);
@@ -470,6 +483,8 @@
         else if(EditForm.lsWriting.value=="type3") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type3",sWebLanguage)%>";
         else if(EditForm.lsWriting.value=="type4") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type4",sWebLanguage)%>";
         else if(EditForm.lsWriting.value=="type5") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type5",sWebLanguage)%>";
+        else if(EditForm.lsWriting.value=="type6") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type6",sWebLanguage)%>";
+        else if(EditForm.lsWriting.value=="type7") td.innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type7",sWebLanguage)%>";
         tr.appendChild(td);
       
         <%-- empty cell --%>
@@ -509,10 +524,10 @@
       var tblLS = document.getElementById("tblLS"); // FF
       var row = tblLS.rows[editLSRowid.rowIndex];
       row.cells[0].innerHTML = "<a href='javascript:deleteLS("+editLSRowid.id+")'>"+
-                                "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                                "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
                                "</a> "+
                                "<a href='javascript:editLS("+editLSRowid.id+")'>"+
-                                "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                                "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
                                "</a>";
 
            if(EditForm.lsLanguage.value=="lang1") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.languages","lang1",sWebLanguage)%>";
@@ -520,12 +535,16 @@
       else if(EditForm.lsLanguage.value=="lang3") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.languages","lang3",sWebLanguage)%>";
       else if(EditForm.lsLanguage.value=="lang4") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.languages","lang4",sWebLanguage)%>";
       else if(EditForm.lsLanguage.value=="lang5") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.languages","lang5",sWebLanguage)%>";
+      else if(EditForm.lsLanguage.value=="lang6") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.languages","lang6",sWebLanguage)%>";
+      else if(EditForm.lsLanguage.value=="lang7") row.cells[1].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.languages","lang7",sWebLanguage)%>";
       
            if(EditForm.lsSpoken.value=="type1")  row.cells[2].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type1",sWebLanguage)%>";
       else if(EditForm.lsSpoken.value=="type2")  row.cells[2].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type2",sWebLanguage)%>";
       else if(EditForm.lsSpoken.value=="type3")  row.cells[2].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type3",sWebLanguage)%>";
       else if(EditForm.lsSpoken.value=="type4")  row.cells[2].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type4",sWebLanguage)%>";
       else if(EditForm.lsSpoken.value=="type5")  row.cells[2].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type5",sWebLanguage)%>";
+      else if(EditForm.lsSpoken.value=="type6")  row.cells[2].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type6",sWebLanguage)%>";
+      else if(EditForm.lsSpoken.value=="type7")  row.cells[2].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type7",sWebLanguage)%>";
       else if(EditForm.lsSpoken.value.length==0) row.cells[2].innerHTML = "&nbsp;";
      
            if(EditForm.lsReading.value=="type1")  row.cells[3].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type1",sWebLanguage)%>";
@@ -533,13 +552,17 @@
       else if(EditForm.lsReading.value=="type3")  row.cells[3].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type3",sWebLanguage)%>";
       else if(EditForm.lsReading.value=="type4")  row.cells[3].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type4",sWebLanguage)%>";
       else if(EditForm.lsReading.value=="type5")  row.cells[3].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type5",sWebLanguage)%>";
+      else if(EditForm.lsReading.value=="type6")  row.cells[3].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type6",sWebLanguage)%>";
+      else if(EditForm.lsReading.value=="type7")  row.cells[3].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type7",sWebLanguage)%>";
       else if(EditForm.lsReading.value.length==0) row.cells[3].innerHTML = "&nbsp;";
 
            if(EditForm.lsWriting.value=="type1")  row.cells[4].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type1",sWebLanguage)%>";
       else if(EditForm.lsWriting.value=="type2")  row.cells[4].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type2",sWebLanguage)%>";
       else if(EditForm.lsWriting.value=="type3")  row.cells[4].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type3",sWebLanguage)%>";
       else if(EditForm.lsWriting.value=="type4")  row.cells[4].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type4",sWebLanguage)%>";
-      else if(EditForm.lsWriting.value=="type5")  row.cells[4].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type5",sWebLanguage)%>"; 
+      else if(EditForm.lsWriting.value=="type5")  row.cells[4].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type5",sWebLanguage)%>";
+      else if(EditForm.lsWriting.value=="type6")  row.cells[4].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type6",sWebLanguage)%>"; 
+      else if(EditForm.lsWriting.value=="type7")  row.cells[4].innerHTML = "&nbsp;<%=getTranNoLink("hr.skills.range1","type7",sWebLanguage)%>"; 
       else if(EditForm.lsWriting.value.length==0) row.cells[4].innerHTML = "&nbsp;";
 
       <%-- empty cell --%>

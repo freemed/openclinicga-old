@@ -113,15 +113,15 @@
                     </td>
                     <td class="admin2">
                         <input id="ac_ITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE1" size="20" <%=setRightClick("ITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE1")%> type="text" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE1" property="itemId"/>]>.value" value="<%=sITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE1%>">
-                        <script>writeMyDate("ac_ITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE1", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                        <script>writeMyDate("ac_ITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE1", "<c:url value="/_img/icons/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
                     </td>
                     <td class="admin2">
                         <input id="ac_ITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE2" size="20" <%=setRightClick("ITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE2")%> type="text" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE2" property="itemId"/>]>.value" value="<%=sITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE2%>">
-                        <script>writeMyDate("ac_ITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE2", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                        <script>writeMyDate("ac_ITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE2", "<c:url value="/_img/icons/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
                     </td>
                     <td class="admin2">
                         <input id="ac_ITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE3" size="20" <%=setRightClick("ITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE3")%> type="text" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE3" property="itemId"/>]>.value" value="<%=sITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE3%>">
-                        <script>writeMyDate("ac_ITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE3", "<c:url value="/_img/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
+                        <script>writeMyDate("ac_ITEM_TYPE_OBREPORT_FETAL_BIOMETRY_DATE3", "<c:url value="/_img/icons/icon_agenda.gif"/>", "<%=getTran("Web","PutToday",sWebLanguage)%>");</script>
                     </td>
                 </tr>
                 <tr class="admin">

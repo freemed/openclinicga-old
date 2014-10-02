@@ -108,7 +108,7 @@
     <br>
     
     <%-- BUTTONS --%>
-    <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+    <INPUT class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
 </form>
 <%
     }

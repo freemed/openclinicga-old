@@ -100,8 +100,8 @@
                         </td>
                         <%-- 5 - buttons --%>
                         <td class="admin">
-                            <input type="button" class="button" name="ButtonAddTB" value="<%=getTran("web","add",sWebLanguage)%>" onclick="addTB();">
-                            <input type="button" class="button" name="ButtonUpdateTB" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="updateTB();" disabled>&nbsp;
+                            <input type="button" class="button" name="ButtonAddTB" value="<%=getTranNoLink("web","add",sWebLanguage)%>" onclick="addTB();">
+                            <input type="button" class="button" name="ButtonUpdateTB" value="<%=getTranNoLink("web","edit",sWebLanguage)%>" onclick="updateTB();" disabled>&nbsp;
                         </td>    
                     </tr>
                 </table>
@@ -126,7 +126,7 @@
     <i>This value is saved as config-value 'defaultWeekSchedules'.</i><br>
     
     <%-- link to manageConfig --%>
-    <img src='<c:url value="/_img/pijl.gif"/>'>
+    <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
     <a  href="<c:url value='/main.do'/>?Page=system/manageConfig.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Manage","manageConfiguration",sWebLanguage)%></a>&nbsp;    
 </form>
     
@@ -241,7 +241,7 @@
         EditForm.EditScheduleUid.value = "new";
       }
       
-      document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
+      document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Saving";  
 
       <%-- disable buttons --%>
       document.getElementById("buttonSave").disabled = true;
@@ -395,7 +395,7 @@
     clearTimeBlockTable();
       
     if(weekScheduleId.length > 0){
-      document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";            
+      document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
       var url = "<c:url value='/system/ajax/defaultWeekschedules/getDefaultWeekschedule.jsp'/>?ts="+new Date().getTime();
       
       new Ajax.Request(url,
@@ -481,10 +481,10 @@
 
     var td = tr.insertCell(0);
     td.innerHTML = "<a href='javascript:deleteTB(rowTB"+iTBIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
                    "</a> "+
                    "<a href='javascript:editTB(rowTB"+iTBIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
                    "</a>";
     tr.appendChild(td);
 
@@ -560,10 +560,10 @@
 
         var td = tr.insertCell(0);
         td.innerHTML = "<a href='javascript:deleteTB(rowTB"+iTBIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
                        "</a> "+
                        "<a href='javascript:editTB(rowTB"+iTBIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
                        "</a>";
         tr.appendChild(td);
 
@@ -655,10 +655,10 @@
         <%-- update table object --%>
         var row = tblTB.rows[editTBRowid.rowIndex];
         row.cells[0].innerHTML = "<a href='javascript:deleteTB("+editTBRowid.id+")'>"+
-                                  "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
                                  "</a> "+
                                  "<a href='javascript:editTB("+editTBRowid.id+")'>"+
-                                  "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
                                  "</a>";
 
         <%-- day name --%>

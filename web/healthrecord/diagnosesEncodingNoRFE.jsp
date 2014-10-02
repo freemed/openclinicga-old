@@ -76,7 +76,7 @@
 			         
 			     	  %>
 			     	  <tr id="ICPCCode<%=item.getItemId()%>" class="list<%=sClass%>">
-			     		<td width="16" nowrap><img src="<c:url value='/_img/icon_delete.gif'/>" class="link" onclick="deleteDiagnosis(ICPCCode<%=item.getItemId()%>);"/></td>
+			     		<td width="16" nowrap><img src="<c:url value='/_img/icons/icon_delete.gif'/>" class="link" onclick="deleteDiagnosis(ICPCCode<%=item.getItemId()%>);"/></td>
 			            <td width="1%">ICPC</td>
 			            <td width="1%"><b><%=item.getType().replaceAll("ICPCCode","")%></b></td>
 			            <td><b><%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%>&nbsp;<i>G:<%=sGravity%>/C:<%=sCertainty%><%=POA.length()>0?" POA":""%><%=NC.length()>0?" N":""%><%=flags.length()==0?"":" ("+flags+")"%></i></b>
@@ -118,7 +118,7 @@
 			                 
 			          %>
 			          <tr id='ICD10Code<%=item.getItemId()%>' class="list<%=sClass%>">
-			            <td width="16" nowrap><img src='<c:url value="/_img/icon_delete.gif"/>' class="link" onclick="deleteDiagnosis(ICD10Code<%=item.getItemId()%>);"/></td>
+			            <td width="16" nowrap><img src='<c:url value="/_img/icons/icon_delete.gif"/>' class="link" onclick="deleteDiagnosis(ICD10Code<%=item.getItemId()%>);"/></td>
 		                <td width="1%">ICD10</td>
 		                <td width="1%"><b><%=item.getType().replaceAll("ICD10Code","")%></b></td>
 		                <td><b><%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%>&nbsp;<i>G:<%=sGravity%>/C:<%=sCertainty%><%=POA.length()>0?" POA":""%><%=NC.length()>0?" N":""%><%=flags.length()==0?"":" ("+flags+")"%></i></b>

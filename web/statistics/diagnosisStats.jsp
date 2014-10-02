@@ -54,10 +54,10 @@
             <td><%=getTran("web","codetype",sWebLanguage)%></td>
             <td>
                 <select name="codetype" class="text">
-                    <option value="icpc" <%="icpc".equalsIgnoreCase(request.getParameter("codetype"))?" selected":""%>><%=getTran("web","icpc",sWebLanguage)%></option>
-                    <option value="icd10" <%="icd10".equalsIgnoreCase(request.getParameter("codetype"))?" selected":""%>><%=getTran("web","icd10",sWebLanguage)%></option>
-                    <option value="icpcgroups" <%="icpcgroups".equalsIgnoreCase(request.getParameter("codetype"))?" selected":""%>><%=getTran("web","icpcgroups",sWebLanguage)%></option>
-                    <option value="icd10groups" <%="icd10groups".equalsIgnoreCase(request.getParameter("codetype"))?" selected":""%>><%=getTran("web","icd10groups",sWebLanguage)%></option>
+                    <option value="icpc" <%="icpc".equalsIgnoreCase(request.getParameter("codetype"))?" selected":""%>><%=getTranNoLink("web","icpc",sWebLanguage)%></option>
+                    <option value="icd10" <%="icd10".equalsIgnoreCase(request.getParameter("codetype"))?" selected":""%>><%=getTranNoLink("web","icd10",sWebLanguage)%></option>
+                    <option value="icpcgroups" <%="icpcgroups".equalsIgnoreCase(request.getParameter("codetype"))?" selected":""%>><%=getTranNoLink("web","icpcgroups",sWebLanguage)%></option>
+                    <option value="icd10groups" <%="icd10groups".equalsIgnoreCase(request.getParameter("codetype"))?" selected":""%>><%=getTranNoLink("web","icd10groups",sWebLanguage)%></option>
                 </select>
                 <%=getTran("web","code",sWebLanguage)%>
                 <input type="text" class="text" name="code" value="<%=checkString(request.getParameter("code"))%>"/>
@@ -88,8 +88,8 @@
             <td colspan='2'>
                 <input type="hidden" name="ServiceID" id="ServiceID" value="<%=service%>">
                 <input class="text" type="text" name="ServiceName" id="ServiceName" readonly size="<%=sTextWidth%>" value="<%=serviceName%>" >
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('ServiceID','ServiceName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="ServiceID.value='';ServiceName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('ServiceID','ServiceName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="ServiceID.value='';ServiceName.value='';">
             </td>
         </tr>
         <tr>
@@ -102,17 +102,17 @@
             <td><%=getTran("Web","sortorder",sWebLanguage)%></td>
             <td>
                 <select name="sortorder" id="sortorder" class="text">
-                    <option value="duration" <%="duration".equalsIgnoreCase(sortorder)?" selected":""%>><%=getTran("web","sortorder.duration",sWebLanguage)%></option>
-                    <option value="count" <%="count".equalsIgnoreCase(sortorder)?" selected":""%>><%=getTran("web","sortorder.count",sWebLanguage)%></option>
-                    <option value="dead" <%="dead".equalsIgnoreCase(sortorder)?" selected":""%>><%=getTran("web","sortorder.dead",sWebLanguage)%></option>
+                    <option value="duration" <%="duration".equalsIgnoreCase(sortorder)?" selected":""%>><%=getTranNoLink("web","sortorder.duration",sWebLanguage)%></option>
+                    <option value="count" <%="count".equalsIgnoreCase(sortorder)?" selected":""%>><%=getTranNoLink("web","sortorder.count",sWebLanguage)%></option>
+                    <option value="dead" <%="dead".equalsIgnoreCase(sortorder)?" selected":""%>><%=getTranNoLink("web","sortorder.dead",sWebLanguage)%></option>
                 </select>
             </td>
         </tr>
         <tr>
             <td/>
             <td>
-                <input type="submit" class="button" name="calculate" value="<%=getTran("web","calculate",sWebLanguage)%>"/>
-                <input type="button" class="button" name="backButton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doBack();">
+                <input type="submit" class="button" name="calculate" value="<%=getTranNoLink("web","calculate",sWebLanguage)%>"/>
+                <input type="button" class="button" name="backButton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
             </td>
         </tr>
     </table>

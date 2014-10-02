@@ -235,7 +235,7 @@
             iterA = usi_data_holders.iterator();
             out.print("<tr>" +
                        "<td width='200px' align='center' valign='middle'>" + getTran("openclinic.chuk","usi_add_surveillance",sWebLanguage) +
-                        " &nbsp;<img src='" + sCONTEXTPATH + "/_img/icon_new.gif' alt='" + getTranNoLink("web","new",sWebLanguage) + "' style='vertical-align:-3px;' onmouseout='this.style.cursor = \"default\";' onmouseover='this.style.cursor = \"pointer\";' onclick='addSurveillance();'>" +
+                        " &nbsp;<img src='" + sCONTEXTPATH + "/_img/icons/icon_new.gif' alt='" + getTranNoLink("web","new",sWebLanguage) + "' style='vertical-align:-3px;' onmouseout='this.style.cursor = \"default\";' onmouseover='this.style.cursor = \"pointer\";' onclick='addSurveillance();'>" +
                        "</td>"
                       );
             while(iterA.hasNext()){
@@ -244,8 +244,8 @@
                            "<table cellpadding='0' cellspacing='0' style='border: 1px solid black;' width='100%' height='50'>" +
                             "<tr>" +
                              "<td align='center'>&nbsp;" + usiData.getDate() + "&nbsp;" + usiData.getTime()+"&nbsp;&nbsp;"+
-                              "<img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' style='vertical-align:-3px;' alt='" + getTranNoLink("web","edit",sWebLanguage) + "' onmouseout='this.style.cursor = \"default\";' onmouseover='this.style.cursor = \"pointer\";' onclick='editSurveillance(" + usiData.getDataSetNr() + ");'>&nbsp;&nbsp;"+
-                              "<img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' style='vertical-align:-3px;' alt='" + getTranNoLink("web","delete",sWebLanguage) + "' onmouseout='this.style.cursor = \"default\";' onmouseover='this.style.cursor = \"pointer\";' onclick='deleteSurveillance(" + usiData.getDataSetNr() + ");'>"+
+                              "<img src='" + sCONTEXTPATH + "/_img/icons/icon_edit.gif' style='vertical-align:-3px;' alt='" + getTranNoLink("web","edit",sWebLanguage) + "' onmouseout='this.style.cursor = \"default\";' onmouseover='this.style.cursor = \"pointer\";' onclick='editSurveillance(" + usiData.getDataSetNr() + ");'>&nbsp;&nbsp;"+
+                              "<img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' style='vertical-align:-3px;' alt='" + getTranNoLink("web","delete",sWebLanguage) + "' onmouseout='this.style.cursor = \"default\";' onmouseover='this.style.cursor = \"pointer\";' onclick='deleteSurveillance(" + usiData.getDataSetNr() + ");'>"+
                              "</td>" +
                             "</tr>" +
                             "<tr>" +
@@ -287,8 +287,8 @@
             if(activeUser.getAccessRight("occup.surveillance.USI.add") || activeUser.getAccessRight("occup.surveillance.USI.edit")) {
                 if(usi_data_holders.size() == 0){
 	                %>
-		                <INPUT class="button" type="button" name="add_surveillance" value="<%=getTran("openclinic.chuk","usi_add_surveillance",sWebLanguage)%>" onclick="addSurveillance();"/>
-		                <INPUT class="button" type="button" name="saveButton" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="doSubmit();"/>
+		                <INPUT class="button" type="button" name="add_surveillance" value="<%=getTranNoLink("openclinic.chuk","usi_add_surveillance",sWebLanguage)%>" onclick="addSurveillance();"/>
+		                <INPUT class="button" type="button" name="saveButton" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="doSubmit();"/>
 		            <%
                 }
                 else{
@@ -320,13 +320,13 @@
 	            	        %>
 	            	    </select>
 	            	        
-	                    <INPUT class="button" type="button" value="<%=getTran("Web","print",sWebLanguage)%>" onclick="doPrint(transactionForm.PrintLanguage.options[transactionForm.PrintLanguage.selectedIndex].text);"/>&nbsp;
+	                    <INPUT class="button" type="button" value="<%=getTranNoLink("Web","print",sWebLanguage)%>" onclick="doPrint(transactionForm.PrintLanguage.options[transactionForm.PrintLanguage.selectedIndex].text);"/>&nbsp;
 	                <%
                 }
             }
         %>
 
-        <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();"/>
+        <INPUT class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();"/>
     <%=ScreenHelper.alignButtonsStop()%>
     
     <%=ScreenHelper.contextFooter(request)%>

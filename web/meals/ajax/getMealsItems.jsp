@@ -59,7 +59,7 @@
         while (it.hasNext()) {
             item = (MealItem) it.next();
             String sClass = ((i % 2) == 0) ? "list" : "list1";
-            out.write("<tr onclick='insertMealItem(\"" + item.getUid() + "\",\"" + HTMLEntities.htmlQuotes(HTMLEntities.htmlentities(item.name)) + "\",\"" + HTMLEntities.htmlQuotes(HTMLEntities.htmlentities(item.unit)) + "\")'  class='" + sClass + "' >");
+            out.write("<tr onclick='insertMealItem(\"" + item.getUid() + "\",\"" + HTMLEntities.htmlQuotes(HTMLEntities.htmlentities(item.name)) + "\",\"" + HTMLEntities.htmlQuotes(HTMLEntities.htmlentities(item.unit)) + "\")' class='" + sClass + "' >");
             out.write("<td >" + HTMLEntities.htmlentities(item.name) + "</td>");
             out.write("<td >" + HTMLEntities.htmlentities(item.unit) + "</td>");
             out.write("<td >" + HTMLEntities.htmlentities(item.description) + "</td>");
@@ -92,8 +92,8 @@
         while (it.hasNext()) {
             item = (MealItem) it.next();
             String sClass = ((i % 2) == 0) ? "list" : "list1";
-            out.write("<tr  class='" + sClass + "' >");
-            out.write(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.png' class='link' title='" + (getTranNoLink("web", "delete", sWebLanguage)) + "' onclick=\"deleteMealItem('" + item.getUid() + "');\"></td>");
+            out.write("<tr class='" + sClass + "' >");
+            out.write(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.png' class='link' title='" + (getTranNoLink("web", "delete", sWebLanguage)) + "' onclick=\"deleteMealItem('" + item.getUid() + "');\"></td>");
             out.write("<td onclick='openMealItem(\"" + item.getUid() + "\")'>" + HTMLEntities.htmlentities(item.name) + "</td>");
             out.write("<td onclick='openMealItem(\"" + item.getUid() + "\")'>" + HTMLEntities.htmlentities(item.unit) + "</td>");
             out.write("<td onclick='openMealItem(\"" + item.getUid() + "\")'>" + HTMLEntities.htmlentities(item.description) + "</td>");

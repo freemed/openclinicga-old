@@ -188,4 +188,4 @@
     }
 %>
 </table>
-<INPUT class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="history.go(-1);return false;">
+<INPUT class="button" type="button" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="history.go(-1);return false;">

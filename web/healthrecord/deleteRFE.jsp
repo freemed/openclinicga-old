@@ -5,6 +5,6 @@
     String encounterUid= ScreenHelper.checkString(request.getParameter("encounterUid"));
     String language= ScreenHelper.checkString(request.getParameter("language"));
     ReasonForEncounter.delete(Integer.parseInt(serverid),Integer.parseInt(objectid));
-    String sResponse=ReasonForEncounter.getReasonsForEncounterAsHtml(encounterUid,language,"_img/icon_delete.gif","deleteRFE($serverid,$objectid)");
+    String sResponse=ReasonForEncounter.getReasonsForEncounterAsHtml(encounterUid,language,"_img/icons/icon_delete.gif","deleteRFE($serverid,$objectid)");
     out.println(sResponse);
 %>

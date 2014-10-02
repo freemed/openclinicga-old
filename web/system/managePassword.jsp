@@ -125,8 +125,8 @@
         
         <%-- BUTTONS --%>
         <%=ScreenHelper.setFormButtonsStart()%>
-            <input class="button" type="button" name="saveButton" value="<%=getTran("Web","Save",sWebLanguage)%>" onclick="doSave();">
-            <input class="button" type="button" name="backbutton" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="doBack();">
+            <input class="button" type="button" name="saveButton" value="<%=getTranNoLink("Web","Save",sWebLanguage)%>" onclick="doSave();">
+            <input class="button" type="button" name="backbutton" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="doBack();">
         <%=ScreenHelper.setFormButtonsStop()%>
     </table>
 </form>

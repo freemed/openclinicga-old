@@ -107,7 +107,7 @@
 
 <%-- BUTTONS --%>
 <%=ScreenHelper.alignButtonsStart()%>
-    <input type="button" class="button" name="backButton" value="<%=getTran("Web","back",sWebLanguage)%>" OnClick="doBack();">
+    <input type="button" class="button" name="backButton" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" OnClick="doBack();">
 <%=ScreenHelper.alignButtonsStop()%>
 
 <script>

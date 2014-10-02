@@ -113,7 +113,7 @@
                     <%=ScreenHelper.writeSelect("care_type",sFindCareUID,sWebLanguage,true,true)%>
                 </select>
 
-                <input class="button" type="button" name="buttonNew" value="<%=getTran("Web","new",sWebLanguage)%>" onclick="doNew();">&nbsp;
+                <input class="button" type="button" name="buttonNew" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">&nbsp;
             </td>
         </tr>
     </table>
@@ -167,11 +167,11 @@
 
                 <%-- Time Unit (dropdown : Hour|Day|Week|Month) --%>
                 <select class="text" name="EditTimeUnit">
-                    <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                    <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                     <%=ScreenHelper.writeSelectUnsorted("prescription.timeunit",sEditTimeUnit,sWebLanguage)%>
                 </select>
 
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="clearDescriptionRule();">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="clearDescriptionRule();">
             </td>
         </tr>
         <tr>

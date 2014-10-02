@@ -89,7 +89,7 @@
                         </td>
                         <%-- link to bottom --%>
                         <td align="right">
-                            <a href="#bottom" class="top"><img src="<c:url value='/_img/bottom.jpg'/>" class="link" border="0"></a>
+                            <a href="#bottom" class="top"><img src="<c:url value='/_img/themes/default/bottom.gif'/>" class="link" border="0"></a>
                         </td>
                     </tr>
                 </table>
@@ -129,7 +129,7 @@
 
                             %>
                                 <tr class="list<%=sClass%>" title="<%=sClickTran%>" id="header_<%=iCounter%>">
-                                    <td class="hand"><img src="<c:url value='/_img/icon_delete.gif'/>" border="0" alt="<%=getTran("Web","delete",sWebLanguage)%>" onclick="deleteError('<%=sErrorId%>');" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'/></td>
+                                    <td class="hand"><img src="<c:url value='/_img/icons/icon_delete.gif'/>" border="0" alt="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="deleteError('<%=sErrorId%>');" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'/></td>
                                     <td class="hand" onClick="toggleError('error_<%=iCounter%>');"><%=sAccessTime%></td>
                                     <td class="hand" onClick="toggleError('error_<%=iCounter%>');"><%=sName%></td>
                                     <td class="hand" onClick="toggleError('error_<%=iCounter%>');"><%=sPage%></td>
@@ -179,8 +179,8 @@
                      
                         <td align="left" ><%=writeDateField("DelFromDate","transactionForm",sDelFromDate,sWebLanguage)%> <%=getTran("Web","to",sWebLanguage)%> 
                             <%=writeDateField("DelUntilDate","transactionForm",sDelUntilDate,sWebLanguage)%>&nbsp;&nbsp;
-                            <input type="button" class="button" name="deleteRangeButton" value="<%=getTran("web","delete",sWebLanguage)%>" onClick="deleteErrors();">
-                            <input class="button" type="button" name="backButton" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="doBack();">
+                            <input type="button" class="button" name="deleteRangeButton" value="<%=getTranNoLink("web","delete",sWebLanguage)%>" onClick="deleteErrors();">
+                            <input class="button" type="button" name="backButton" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="doBack();">
                         </td>
                         <td align="right">
                         <%

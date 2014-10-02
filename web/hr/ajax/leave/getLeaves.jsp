@@ -15,9 +15,9 @@
            sEpisodeCode  = checkString(request.getParameter("episodeCode")),
            sComment      = checkString(request.getParameter("comment"));
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n****************** getLeaves.jsp ******************");
+        Debug.println("\n******************* hr/ajax/getLeaves.jsp *******************");
         Debug.println("sPatientId    : "+sPatientId);
         Debug.println("sDuration     : "+sDuration);
         Debug.println("sType         : "+sType);
@@ -25,7 +25,7 @@
         Debug.println("sEpisodeCode  : "+sEpisodeCode);
         Debug.println("sComment      : "+sComment+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
 
     // compose object to pass search criteria with
     Leave findObject = new Leave();
@@ -82,9 +82,9 @@
 <%
     if(leaves.size() > 0){
         %>
-<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
+<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border:none;">
     <%-- header --%>
-    <tr class="admin" style="padding-left: 1px;">
+    <tr class="admin" style="padding-left:1px;">
         <td width="10%" nowrap><asc><%=HTMLEntities.htmlentities(getTran("web.hr","begin",sWebLanguage))%></asc></td>
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","end",sWebLanguage))%></td>
         <td width="15%" nowrap><%=HTMLEntities.htmlentities(getTran("web","duration",sWebLanguage))%></td>

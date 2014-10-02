@@ -137,7 +137,7 @@
 
         <%-- CLOSE BUTTON --%>
         <center>
-            <input type="button" class="button" name="closeButton" value='<%=getTran("Web","Close",sWebLanguage)%>' onclick='window.close()'>
+            <input type="button" class="button" name="closeButton" value='<%=getTranNoLink("Web","Close",sWebLanguage)%>' onclick='window.close()'>
         </center>
 
         <%-- hidden fields --%>

@@ -1,7 +1,8 @@
-<%@ page import="be.openclinic.adt.*,be.openclinic.adt.Encounter.*,java.util.Vector" %>
-<%@ page import="be.openclinic.medical.ReasonForEncounter" %>
+<%@page import="be.openclinic.adt.*,
+                be.openclinic.adt.Encounter.*,
+                java.util.Vector,
+                be.openclinic.medical.ReasonForEncounter" %>
 <%@include file="/includes/validateUser.jsp"%>
-
 <%=checkPermission("adt.encounterhistory","select",activeUser)%>
 <%=sJSSORTTABLE%>
 
@@ -10,7 +11,7 @@
 
 	/// DEBUG ///////////////////////////////////////////////////////////////////////////
 	if(Debug.enabled){
-		Debug.println("\n***************** adt/historyEncounters.jsp *****************");
+		Debug.println("\n***************** adt/historyEncounter.jsp ******************");
 		Debug.println("sFindSortColumn : "+sFindSortColumn+"\n");
 	}
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -20,11 +21,12 @@
     if(sFindSortColumn.length() > 0){
         sFindSortColumn+= " DESC";
     } 
-    else {
+    else{
         sFindSortColumn = " OC_ENCOUNTER_BEGINDATE DESC,OC_ENCOUNTER_OBJECTID DESC";
     }
 
     Vector vEncounters = Encounter.selectEncountersUnique("","","","","","","","",activePatient.personid,sFindSortColumn);
+    Debug.println("--> vEncounters : "+vEncounters.size());
 
     boolean bFinished = true;
     String sClass = "", sInactive = "", sInactiveSelect = "", sUpdateUser = "";
@@ -120,8 +122,8 @@
         else                   sClass = "";
         
         sbResults.append("<tr id='"+(bFinished?"finished":"")+"' class='list"+sInactive+sClass+"'")
-                 .append(" onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">")
-                  .append("<td id='"+tmpEnc.getUid()+"' width='20px' onclick=\"deleteEncounter('"+tmpEnc.getUid()+"');\"><img class='hand' src='/openclinic/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></td>")
+                 .append("onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\">")
+                  .append("<td id='"+tmpEnc.getUid()+"' width='20px' onclick=\"deleteEncounter('"+tmpEnc.getUid()+"');\"><img class='hand' src='/openclinic/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></td>")
                   .append("<td height='20' onclick=\"doSelect('"+tmpEnc.getUid()+"');\" >"+getTran("web",checkString(tmpEnc.getType()),sWebLanguage)+"</td>")
                   .append("<td onclick=\"doSelect('"+tmpEnc.getUid()+"');\">"+tmpEnc.getUid()+"</td>")
                   .append("<td onclick=\"doSelect('"+tmpEnc.getUid()+"');\">"+sBegin+"</td>")
@@ -149,7 +151,6 @@
 %>
 
 <form name="HistoryEncounterForm" method="post">
-
 <%=writeTableHeader("web","historyEncounters",sWebLanguage," doBack();")%>
 
 <%

@@ -257,28 +257,31 @@
             //************************************************************************************
 	        //*** list all historical encounters as options **************************************	 
             //************************************************************************************    
-            StringBuffer sOut = new StringBuffer();    
+            StringBuffer sOutEnc1 = new StringBuffer(),
+            		     sOutEnc2 = new StringBuffer();    
             String sClass = "1";
             int cbCounter = 1;
-
-            // records
-            sOut.append("<tbody style='cursor:pointer;'>");
 	        
 	        //*** 1 - visits ***
 		    Vector visits = (Vector)Encounter.getInactiveEncounters(activePatient.personid,"visit",new java.util.Date());
 		    if(visits.size() > 0){
-			    sClass = "1";
+	            sOutEnc1.append("<tbody style='cursor:pointer;'>");
+
+		        // subtitle		         
+                sOutEnc1.append("<tr class='admin'>")
+	                     .append("<td colspan='7'>&nbsp;&nbsp;"+getTran("web","visits",sWebLanguage)+"</td>")
+	                    .append("</tr>");
 		        
 		        // header
-                sOut.append("<tr height='20'>")
-                     .append("<td class='admin2' width='30'>&nbsp;</td>")
-	                 .append("<td class='admin2' width='100'>"+getTran("web.occup","medwan.common.contacttype",sWebLanguage)+"&nbsp;</td>")
-	                 .append("<td class='admin2' width='80'>"+getTran("web","begin",sWebLanguage)+"&nbsp;</td>")
-	                 .append("<td class='admin2' width='80'>"+getTran("web","end",sWebLanguage)+"&nbsp;</td>")
-	                 .append("<td class='admin2' width='120'>"+getTran("openclinic.chuk","urgency.origin",sWebLanguage)+"&nbsp;</td>")
-	                 .append("<td class='admin2' width='150'>"+getTran("web","service",sWebLanguage)+"&nbsp;</td>")
-	                 .append("<td class='admin2' width='*'>"+getTran("openclinic.chuk","rfe",sWebLanguage)+"&nbsp;</td>")
-                    .append("</tr>");
+                sOutEnc1.append("<tr height='20'>")
+                         .append("<td class='admin' width='30'>&nbsp;</td>")
+	                     .append("<td class='admin' width='100'>"+getTran("web.occup","medwan.common.contacttype",sWebLanguage)+"&nbsp;</td>")
+	                     .append("<td class='admin' width='80'>"+getTran("web","begin",sWebLanguage)+"&nbsp;</td>")
+	                     .append("<td class='admin' width='80'>"+getTran("web","end",sWebLanguage)+"&nbsp;</td>")
+	                     .append("<td class='admin' width='120'>"+getTran("openclinic.chuk","urgency.origin",sWebLanguage)+"&nbsp;</td>")
+	                     .append("<td class='admin' width='150'>"+getTran("web","service",sWebLanguage)+"&nbsp;</td>")
+	                     .append("<td class='admin' width='*'>"+getTran("openclinic.chuk","rfe",sWebLanguage)+"&nbsp;</td>")
+                        .append("</tr>");
 
 		        Encounter encounter;
 				for(int i=0; i<visits.size(); i++){
@@ -289,50 +292,45 @@
                     else                   sClass = "";
 
 					// one counter
-                    sOut.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">")
-                         .append("<td align='center'>")
-                         .append("<input type='checkbox' value='"+encounter.getUid()+"' name='encounterUID_"+cbCounter+"'>")
-                         .append("</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+getTran("encountertype",encounter.getType(),sWebLanguage)+"</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getBegin())+"</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getEnd())+"</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+getTran("urgency.origin",encounter.getOrigin(),sWebLanguage)+"</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\">&nbsp;"+encounter.getService().getLabel(sWebLanguage)+"</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"')\" style='padding-left:5px;'>"+ReasonForEncounter.getReasonsForEncounterAsText(encounter.getUid(),sWebLanguage).replaceAll("\n","<br>")+"</td>")
-                        .append("</tr>");
+                    sOutEnc1.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">")
+                             .append("<td align='center'>")
+                              .append("<input type='checkbox' value='"+encounter.getUid()+"' name='visitUID_"+cbCounter+"'>")
+                             .append("</td>")
+                             .append("<td onClick=\"clickCheckBox('visitUID_"+cbCounter+"')\">&nbsp;"+getTran("encountertype",encounter.getType(),sWebLanguage)+"</td>")
+                             .append("<td onClick=\"clickCheckBox('visitUID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getBegin())+"</td>")
+                             .append("<td onClick=\"clickCheckBox('visitUID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getEnd())+"</td>")
+                             .append("<td onClick=\"clickCheckBox('visitUID_"+cbCounter+"')\">&nbsp;"+getTran("urgency.origin",encounter.getOrigin(),sWebLanguage)+"</td>")
+                             .append("<td onClick=\"clickCheckBox('visitUID_"+cbCounter+"')\">&nbsp;"+encounter.getService().getLabel(sWebLanguage)+"</td>")
+                             .append("<td onClick=\"clickCheckBox('visitUID_"+cbCounter+"')\" style='padding-left:5px;'>"+ReasonForEncounter.getReasonsForEncounterAsText(encounter.getUid(),sWebLanguage).replaceAll("\n","<br>")+"</td>")
+                            .append("</tr>");
 
                     cbCounter++;		
-			     }
+			    }
+		        
+			    sOutEnc1.append("</tbody>");
 		    }
-			/*
-			else{
-		    	 // no records found		    	
-                sOut.append("<tr class='admin'>")
-	                 .append("<td colspan='7'>"+ getTran("web","noRecordsFound",sWebLanguage)+"</td>")
-	                .append("</tr>");
-			}
-			*/
 			
 			//*** 2 - admissions ***
 			Vector admissions = (Vector)Encounter.getInactiveEncounters(activePatient.personid,"admission",new java.util.Date());
 			if(admissions.size() > 0){
-			    sClass = "1";
+	            sOutEnc2.append("<tbody style='cursor:pointer;'>");
+			    sClass = "1"; // reset
 				 
 		        // subtitle		         
-                sOut.append("<tr class='admin'>")
-	                 .append("<td colspan='7'>"+getTran("web","admissions",sWebLanguage)+"</td>")
-	                .append("</tr>");
+                sOutEnc2.append("<tr class='admin'>")
+	                     .append("<td colspan='7'>&nbsp;&nbsp;"+getTran("web","admissions",sWebLanguage)+"</td>")
+	                    .append("</tr>");
 		        
 		        // header
-                sOut.append("<tr height='20'>")
-                     .append("<td class='admin2' width='30'>&nbsp;</td>")
- 	                 .append("<td class='admin2' width='100'>"+getTran("web.occup","medwan.common.contacttype",sWebLanguage)+"&nbsp;</td>")
-	                 .append("<td class='admin2' width='80'>"+getTran("web","begin",sWebLanguage)+"&nbsp;</td>")
-	                 .append("<td class='admin2' width='80'>"+getTran("web","end",sWebLanguage)+"&nbsp;</td>")
-	                 .append("<td class='admin2' width='120'>"+getTran("openclinic.chuk","urgency.origin",sWebLanguage)+"&nbsp;</td>")
-	                 .append("<td class='admin2' width='150'>"+getTran("web","service",sWebLanguage)+"&nbsp;</td>")
-	                 .append("<td class='admin2' width='*'>"+getTran("openclinic.chuk","rfe",sWebLanguage)+"&nbsp;</td>")
-                    .append("</tr>");
+                sOutEnc2.append("<tr height='20'>")
+                         .append("<td class='admin' width='30'>&nbsp;</td>")
+ 	                     .append("<td class='admin' width='100'>"+getTran("web.occup","medwan.common.contacttype",sWebLanguage)+"&nbsp;</td>")
+	                     .append("<td class='admin' width='80'>"+getTran("web","begin",sWebLanguage)+"&nbsp;</td>")
+	                     .append("<td class='admin' width='80'>"+getTran("web","end",sWebLanguage)+"&nbsp;</td>")
+	                     .append("<td class='admin' width='120'>"+getTran("openclinic.chuk","urgency.origin",sWebLanguage)+"&nbsp;</td>")
+	                     .append("<td class='admin' width='150'>"+getTran("web","service",sWebLanguage)+"&nbsp;</td>")
+	                     .append("<td class='admin' width='*'>"+getTran("openclinic.chuk","rfe",sWebLanguage)+"&nbsp;</td>")
+                        .append("</tr>");
 
 		        Encounter encounter;
 				for(int i=0; i<visits.size(); i++){
@@ -343,52 +341,84 @@
                     else                   sClass = "";
 
 				    // one counter
-                    sOut.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">")
-                         .append("<td align='center'>")
-                          .append("<input type='checkbox' value='"+encounter.getUid()+"' name='encounterUID_"+cbCounter+"'>")
-                         .append("</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\">&nbsp;"+getTran("encountertype",encounter.getType(),sWebLanguage)+"</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getBegin())+"</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getEnd())+"</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\">&nbsp;"+getTran("urgency.origin",encounter.getOrigin(),sWebLanguage)+"</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\">&nbsp;"+encounter.getService().getLabel(sWebLanguage)+"</td>")
-                         .append("<td onClick=\"clickCheckBox('encounterUID_"+cbCounter+"');\" style='padding-left:5px;'>"+ReasonForEncounter.getReasonsForEncounterAsText(encounter.getUid(),sWebLanguage).replaceAll("\n","<br>")+"</td>")
-                        .append("</tr>");
+                    sOutEnc2.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">")
+                             .append("<td align='center'>")
+                              .append("<input type='checkbox' value='"+encounter.getUid()+"' name='admissionUID_"+cbCounter+"'>")
+                             .append("</td>")
+                             .append("<td onClick=\"clickCheckBox('admissionUID_"+cbCounter+"');\">&nbsp;"+getTran("encountertype",encounter.getType(),sWebLanguage)+"</td>")
+                             .append("<td onClick=\"clickCheckBox('admissionUID_"+cbCounter+"');\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getBegin())+"</td>")
+                             .append("<td onClick=\"clickCheckBox('admissionUID_"+cbCounter+"');\">&nbsp;"+ScreenHelper.stdDateFormat.format(encounter.getEnd())+"</td>")
+                             .append("<td onClick=\"clickCheckBox('admissionUID_"+cbCounter+"');\">&nbsp;"+getTran("urgency.origin",encounter.getOrigin(),sWebLanguage)+"</td>")
+                             .append("<td onClick=\"clickCheckBox('admissionUID_"+cbCounter+"');\">&nbsp;"+encounter.getService().getLabel(sWebLanguage)+"</td>")
+                             .append("<td onClick=\"clickCheckBox('admissionUID_"+cbCounter+"');\" style='padding-left:5px;'>"+ReasonForEncounter.getReasonsForEncounterAsText(encounter.getUid(),sWebLanguage).replaceAll("\n","<br>")+"</td>")
+                            .append("</tr>");
 
                     cbCounter++;		
 			 	}
+		        
+				sOutEnc2.append("</tbody>");
 		    }
-			/*
-			else{
-		        // no records found		    	
-                sOut.append("<tr class='admin'>")
-	                 .append("<td colspan='7'>"+ getTran("web","noRecordsFound",sWebLanguage)+"</td>")
-	                .append("</tr>");
-			}
-			*/
 			 
 			if(visits.size()==0 && admissions.size()==0){
 		        // no records found		    	
-                sOut.append("<tr>")
-	                 .append("<td class='admin2' colspan='7'>"+getTran("web","noRecordsFound",sWebLanguage)+"</td>")
-	                .append("</tr>");
+                sOutEnc2.append("<tr>")
+	                     .append("<td class='admin2' colspan='7'>"+getTran("web","noRecordsFound",sWebLanguage)+"</td>")
+	                    .append("</tr>");
 			}
-        
-            sOut.append("</tbody>");
         %>      
         
         <tr id="encounterTable" style="display:none">
             <td class="admin">
 		        <%-- ENCOUNTER HISTORY --%>
-                <table width="100%" cellspacing="1">
+                <table width="100%" cellspacing="1" cellpadding="0" class="list" style="border-bottom:none;">
 					<tr class="admin">
 					    <td><%=getTran("web","encounters",sWebLanguage)%></td>
 					</tr>     
                 </table>
                 
-                <table width="100%" class="sortable" id="tblEncounters" cellspacing="1" headerRowCount="2" style="background:#ccc;"> 
-		            <%=sOut%>
-		        </table>
+                <%
+	                if(sOutEnc1.length() > 0){
+	                    %>
+			                <table width="100%" class="sortable" id="tblEncounters1" cellspacing="1" headerRowCount="2" style="background:#fff" style="border-bottom:none;"> 
+					            <%=sOutEnc1%>
+					        </table>
+		        
+						    <%-- UN/CHECK ALL encounters - visits --%>
+						    <table width="100%" cellspacing="1">
+						        <tr>
+						            <td>
+						                <a href="javascript:checkAllVisits(true);"><%=getTran("web.manage","CheckAll",sWebLanguage)%></a>
+						                <a href="javascript:checkAllVisits(false);"><%=getTran("web.manage","UncheckAll",sWebLanguage)%></a>
+						            </td>
+						            <td align="right">
+						                <a href="#top"><img src="<c:url value='/_img'/>/themes/default/top.gif" class="link"></a>
+						            </td>
+						        </tr>
+						    </table>
+					     <%
+					}
+
+                    if(sOutEnc2.length() > 0){
+                        %>
+			                <table width="100%" class="sortable" id="tblEncounters2" cellspacing="1" headerRowCount="2" style="background:#fff"> 
+					            <%=sOutEnc2%>
+					        </table>
+		        
+						    <%-- UN/CHECK ALL encounters - admissions --%>
+						    <table width="100%" cellspacing="1">
+						        <tr>
+						            <td>
+						                <a href="javascript:checkAllAdmissions(true);"><%=getTran("web.manage","CheckAll",sWebLanguage)%></a>
+						                <a href="javascript:checkAllAdmissions(false);"><%=getTran("web.manage","UncheckAll",sWebLanguage)%></a>
+						            </td>
+						            <td align="right">
+						                <a href="#top"><img src="<c:url value='/_img'/>/themes/default/top.gif" class="link"></a>
+						            </td>
+						        </tr>
+						    </table>
+					     <%
+					}
+			    %>
 		    </td>
 		</tr>
         
@@ -419,7 +449,7 @@
 	        TransactionVO transaction, newTransaction;
 	
 	        String sSelectedTranCtxt = "allContexts";
-	        sOut = new StringBuffer();
+	        StringBuffer sOut = new StringBuffer();
 	        cbCounter = 1;
 	        sClass = "1";
 	        String sList = "1", sTransTranslation;
@@ -442,22 +472,15 @@
                 }
             }
 
-            /*
-	        // subtitle		         
-            sOut.append("<tr class='admin' height='20'>")
-                 .append("<td colspan='3'>"+getTran("web","examinationTypes",sWebLanguage)+"</td>")
-                .append("</tr>");
-            */
-
             // records
             sOut.append("<tbody style='cursor:pointer;'>");
 
             if(hTrans.size() > 0){    	        
                 // header
                 sOut.append("<tr height='20'>")
-                     .append("<td class='admin2' width='30'>&nbsp;</td>")
-                     .append("<td class='admin2' width='400'>"+getTran("web.occup","medwan.common.contacttype",sWebLanguage)+"</td>")
-                     .append("<td class='admin2' width='*'>"+getTran("web.occup","medwan.common.context",sWebLanguage)+"</td>")
+                     .append("<td class='admin' width='30'>&nbsp;</td>")
+                     .append("<td class='admin' width='400'>"+getTran("web.occup","medwan.common.contacttype",sWebLanguage)+"</td>")
+                     .append("<td class='admin' width='*'>"+getTran("web.occup","medwan.common.context",sWebLanguage)+"</td>")
                     .append("</tr>");
                 
                 Iterator setIter = set.iterator();
@@ -552,13 +575,13 @@
         <tr id="tranTable" style="display:none">
             <td class="admin">
 		        <%-- TRANSACTIONS --%>
-                <table width="100%" cellspacing="1">
+                <table width="100%" cellspacing="1" cellpadding="0" class="list" style="border-bottom:none;">
 					<tr class="admin">
 					    <td><%=getTran("web","examinationTypes",sWebLanguage)%></td>
 					</tr>     
                 </table>
 	                
-                <table width="100%" class="sortable" id="tblTransactions" cellspacing="1" headerRowCount="2" style="background:#ccc;">
+                <table width="100%" class="sortable" id="tblTransactions" cellspacing="1" style="background:#fff;">
 		            <%=sOut%>
 		        </table>
 		        
@@ -566,11 +589,11 @@
 			    <table width="100%" cellspacing="1">
 			        <tr>
 			            <td>
-			                <a href="#" onclick="checkAllExaminationTypes(true);"><%=getTran("web.manage","CheckAll",sWebLanguage)%></a>
-			                <a href="#" onclick="checkAllExaminationTypes(false);"><%=getTran("web.manage","UncheckAll",sWebLanguage)%></a>
+			                <a href="javascript:checkAllExaminationTypes(true);"><%=getTran("web.manage","CheckAll",sWebLanguage)%></a>
+			                <a href="javascript:checkAllExaminationTypes(false);"><%=getTran("web.manage","UncheckAll",sWebLanguage)%></a>
 			            </td>
 			            <td align="right">
-			                <a href="#top"><img src="<c:url value='/_img'/>/top.jpg" class="link"></a>
+			                <a href="#top"><img src="<c:url value='/_img'/>/themes/default/top.gif" class="link"></a>
 			            </td>
 			        </tr>
 			    </table>
@@ -591,11 +614,11 @@
     <table width="100%" cellspacing="1">
         <tr>
             <td>
-                <a href="#" onclick="checkAll(true);"><%=getTran("web.manage","CheckAll",sWebLanguage)%></a>
-                <a href="#" onclick="checkAll(false);"><%=getTran("web.manage","UncheckAll",sWebLanguage)%></a>
+                <a href="javascript:checkAll(true);"><%=getTran("web.manage","CheckAll",sWebLanguage)%></a>
+                <a href="javascript:checkAll(false);"><%=getTran("web.manage","UncheckAll",sWebLanguage)%></a>
             </td>
             <td align="right">
-                <a href="#top"><img src="<c:url value='/_img'/>/top.jpg" class="link"></a>
+                <a href="#top"><img src="<c:url value='/_img'/>/themes/default/top.gif" class="link"></a>
             </td>
         </tr>
     </table>
@@ -661,6 +684,28 @@
 
     toggleEncounterTable(document.getElementById("section_14"));
     toggleTranTable(document.getElementById("section_16"));
+  }
+
+  <%-- CHECK ALL VISITS --%>
+  function checkAllVisits(setchecked){	
+    for(var i=0; i<printForm.elements.length; i++){
+      if(printForm.elements[i].type=="checkbox"){
+        if(printForm.elements[i].name.startsWith("visitUID_")){
+          printForm.elements[i].checked = setchecked;
+        }
+      }
+    }
+  }
+  
+  <%-- CHECK ALL ADMISSIONS --%>
+  function checkAllAdmissions(setchecked){	
+    for(var i=0; i<printForm.elements.length; i++){
+      if(printForm.elements[i].type=="checkbox"){
+        if(printForm.elements[i].name.startsWith("admissionUID_")){
+          printForm.elements[i].checked = setchecked;
+        }
+      }
+    }
   }
   
   <%-- CHECK ALL EXAMINATION TYPES --%>
@@ -728,7 +773,7 @@
   function checkAllEncounters(checkedOrNot){
     for(var i=0; i<printForm.elements.length; i++){
       if(printForm.elements[i].type=="checkbox"){
-        if(printForm.elements[i].name.startsWith("encounterUID_")){
+        if(printForm.elements[i].name.startsWith("visitUID_") || printForm.elements[i].name.startsWith("admissionUID_")){
           printForm.elements[i].checked = checkedOrNot;
         }
       }

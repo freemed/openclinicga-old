@@ -10,12 +10,12 @@
 	    String sName = sCode;
 	    
 	    sQuery.append("SELECT OC_LABEL_VALUE as name")
-	          .append(" FROM LabProfiles p, OC_LABELS l")
-	          .append(" WHERE "+ MedwanQuery.getInstance().convert("varchar(255)","p.profileID")+" = l.OC_LABEL_ID")
-	          .append("  AND l.OC_LABEL_TYPE = 'labprofiles'")
-	          .append("  AND l.OC_LABEL_LANGUAGE = ?")
-	          .append("  AND p.deletetime IS NULL")
-	          .append("  AND p.profilecode = ?");
+	          .append("FROM LabProfiles p, OC_LABELS l")
+	          .append("WHERE "+ MedwanQuery.getInstance().convert("varchar(255)","p.profileID")+" = l.OC_LABEL_ID")
+	          .append("AND l.OC_LABEL_TYPE = 'labprofiles'")
+	          .append("AND l.OC_LABEL_LANGUAGE = ?")
+	          .append("AND p.deletetime IS NULL")
+	          .append("AND p.profilecode = ?");
 	
 	    Connection loc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
 	    try{
@@ -110,7 +110,7 @@
 		}
 	%>
 	</table>
-	<input type="button" name="submit" value="<%=getTran("web","save",sWebLanguage)%>" class="button" onclick="saveLabAnalyses()"/>
+	<input type="button" name="submit" value="<%=getTranNoLink("web","save",sWebLanguage)%>" class="button" onclick="saveLabAnalyses()"/>
 </form>
 
 <script>

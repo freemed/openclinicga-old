@@ -20,8 +20,8 @@
         }
         sTmp.append("<tr id='rowChildren"+iTotal+"'>")
              .append("<td class=\"admin2\">")
-              .append("<a href='javascript:deleteChildren(rowChildren"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> ")
-              .append("<a href='javascript:editChildren(rowChildren"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>")
+              .append("<a href='javascript:deleteChildren(rowChildren"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> ")
+              .append("<a href='javascript:editChildren(rowChildren"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>")
              .append("</td>")
              .append("<td class='admin2'>&nbsp;" + sAge + "</td>")
              .append("<td class='admin2'>&nbsp;" + sTmpAdopt + "</td>")
@@ -44,8 +44,8 @@
 
         sTmp.append("<tr id='rowARV"+iTotal+"'>")
              .append("<td class=\"admin2\">")
-              .append("<a href='javascript:deleteARV(rowARV"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> ")
-              .append("<a href='javascript:editARV(rowARV"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>")
+              .append("<a href='javascript:deleteARV(rowARV"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> ")
+              .append("<a href='javascript:editARV(rowARV"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>")
              .append("</td>")
              .append("<td class='admin2'>&nbsp;" + sTmpMolecule + "</td>")
              .append("<td class='admin2'>&nbsp;" +sDuration + "</td>")
@@ -67,8 +67,8 @@
 
         sTmp.append("<tr id='rowAntecedents"+iTotal+"'>")
              .append("<td class=\"admin2\">")
-              .append("<a href='javascript:deleteAntecedents(rowAntecedents"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> ")
-              .append("<a href='javascript:editAntecedents(rowAntecedents"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>")
+              .append("<a href='javascript:deleteAntecedents(rowAntecedents"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> ")
+              .append("<a href='javascript:editAntecedents(rowAntecedents"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>")
              .append("</td>")
              .append("<td class='admin2'>&nbsp;" + sTmpMolecule + "</td>")
              .append("<td class='admin2'>&nbsp;" +sDateBegin + "</td>")
@@ -150,8 +150,8 @@
         </td>
         <td class="admin2"><input type="text" class="text" size="50" name="childrenResult"></td>
         <td class="admin2">
-            <input type="button" class="button" name="ButtonAddChildren" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addChildren();">
-            <input type="button" class="button" name="ButtonUpdateChildren" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateChildren();">
+            <input type="button" class="button" name="ButtonAddChildren" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addChildren();">
+            <input type="button" class="button" name="ButtonUpdateChildren" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateChildren();">
         </td>
     </tr>
     <%
@@ -272,8 +272,8 @@ if (sChildren.indexOf("£")>-1){
         <td class="admin2"><input type="text" class="text" size="5" name="ARVDuration" onblur="isNumber(this)"></td>
         <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="50" rows="2" name="ARVComment"></textarea></td>
         <td class="admin2">
-            <input type="button" class="button" name="ButtonAddARV" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addARV();">
-            <input type="button" class="button" name="ButtonUpdateARV" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateARV();">
+            <input type="button" class="button" name="ButtonAddARV" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addARV();">
+            <input type="button" class="button" name="ButtonUpdateARV" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateARV();">
         </td>
     </tr>
     <%
@@ -358,8 +358,8 @@ if (sARV.indexOf("£")>-1){
         <td class="admin2"><%=writeDateField("antecedentsDateEnd","transactionForm","",sWebLanguage)%></td>
         <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="50" rows="2" name="antecedentsComment"></textarea></td>
         <td class="admin2">
-            <input type="button" class="button" name="ButtonAddAntecedents" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addAntecedents();">
-            <input type="button" class="button" name="ButtonUpdateAntecedents" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateAntecedents();">
+            <input type="button" class="button" name="ButtonAddAntecedents" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addAntecedents();">
+            <input type="button" class="button" name="ButtonUpdateAntecedents" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateAntecedents();">
         </td>
     </tr>
         <%
@@ -522,8 +522,8 @@ if (sAntecedents.indexOf("£")>-1){
       tr.id = "rowChildren"+iChildrenIndex;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteChildren(rowChildren"+iChildrenIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editChildren(rowChildren"+iChildrenIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteChildren(rowChildren"+iChildrenIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editChildren(rowChildren"+iChildrenIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -568,8 +568,8 @@ if (sAntecedents.indexOf("£")>-1){
 
       <%-- update table object --%>
       row = tblChildren.rows[editChildrenRowid.rowIndex];
-      row.cells[0].innerHTML = "<a href='javascript:deleteChildren("+editChildrenRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                              +"<a href='javascript:editChildren("+editChildrenRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      row.cells[0].innerHTML = "<a href='javascript:deleteChildren("+editChildrenRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                              +"<a href='javascript:editChildren("+editChildrenRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
       row.cells[1].innerHTML = "&nbsp;"+transactionForm.childrenAge.value;
       row.cells[2].innerHTML = "&nbsp;"+transactionForm.childrenAdopt.options[transactionForm.childrenAdopt.selectedIndex].text;
@@ -631,8 +631,8 @@ if (sAntecedents.indexOf("£")>-1){
       tr.id = "rowARV"+iARVIndex;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteARV(rowARV"+iARVIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editARV(rowARV"+iARVIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteARV(rowARV"+iARVIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editARV(rowARV"+iARVIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -672,8 +672,8 @@ if (sAntecedents.indexOf("£")>-1){
 
       <%-- update table object --%>
       row = tblARV.rows[editARVRowid.rowIndex];
-      row.cells[0].innerHTML = "<a href='javascript:deleteARV("+editARVRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                              +"<a href='javascript:editARV("+editARVRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      row.cells[0].innerHTML = "<a href='javascript:deleteARV("+editARVRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                              +"<a href='javascript:editARV("+editARVRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
       row.cells[1].innerHTML = "&nbsp;"+transactionForm.ARVMolecule.options[transactionForm.ARVMolecule.selectedIndex].text;
       row.cells[2].innerHTML = "&nbsp;"+transactionForm.ARVDuration.value;
@@ -732,8 +732,8 @@ function addAntecedents(){
       tr.id = "rowAntecedents"+iAntecedentsIndex;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteAntecedents(rowAntecedents"+iAntecedentsIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editAntecedents(rowAntecedents"+iAntecedentsIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteAntecedents(rowAntecedents"+iAntecedentsIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editAntecedents(rowAntecedents"+iAntecedentsIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -778,8 +778,8 @@ function addAntecedents(){
 
       <%-- update table object --%>
       row = tblAntecedents.rows[editAntecedentsRowid.rowIndex];
-      row.cells[0].innerHTML = "<a href='javascript:deleteAntecedents("+editAntecedentsRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                              +"<a href='javascript:editAntecedents("+editAntecedentsRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      row.cells[0].innerHTML = "<a href='javascript:deleteAntecedents("+editAntecedentsRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                              +"<a href='javascript:editAntecedents("+editAntecedentsRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
       row.cells[1].innerHTML = "&nbsp;"+transactionForm.antecedentsMolecule.options[transactionForm.antecedentsMolecule.selectedIndex].text;
       row.cells[2].innerHTML = "&nbsp;"+transactionForm.antecedentsDateBegin.value;

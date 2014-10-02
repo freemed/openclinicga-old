@@ -22,10 +22,10 @@
             <td class="admin">
                 <%=getTran("web","diagnosis",sWebLanguage)%>&nbsp;</td><td class="admin2">
                 <select name="codetype" class="text">
-                    <option value="icpc" <%="icpc".equalsIgnoreCase(request.getParameter("codetype"))?" selected":""%>><%=getTran("web","icpc",sWebLanguage)%></option>
-                    <option value="icd10" <%="icd10".equalsIgnoreCase(request.getParameter("codetype"))?" selected":""%>><%=getTran("web","icd10",sWebLanguage)%></option>
-                    <option value="icpcgroups" <%="icpcgroups".equalsIgnoreCase(request.getParameter("codetype"))?" selected":""%>><%=getTran("web","icpcgroups",sWebLanguage)%></option>
-                    <option value="icd10groups" <%="icd10groups".equalsIgnoreCase(request.getParameter("codetype"))?" selected":""%>><%=getTran("web","icd10groups",sWebLanguage)%></option>
+                    <option value="icpc" <%="icpc".equalsIgnoreCase(request.getParameter("codetype"))?" selected":""%>><%=getTranNoLink("web","icpc",sWebLanguage)%></option>
+                    <option value="icd10" <%="icd10".equalsIgnoreCase(request.getParameter("codetype"))?" selected":""%>><%=getTranNoLink("web","icd10",sWebLanguage)%></option>
+                    <option value="icpcgroups" <%="icpcgroups".equalsIgnoreCase(request.getParameter("codetype"))?" selected":""%>><%=getTranNoLink("web","icpcgroups",sWebLanguage)%></option>
+                    <option value="icd10groups" <%="icd10groups".equalsIgnoreCase(request.getParameter("codetype"))?" selected":""%>><%=getTranNoLink("web","icd10groups",sWebLanguage)%></option>
                 </select>
                 <input type='text' class='text' name='diagnosis'/>
             </td>
@@ -40,7 +40,7 @@
         </tr>
         <tr>
         	<td colspan="2">
-				<input type="submit" class="button" name="find" value="<%=getTran("web","find",sWebLanguage)%>"/>
+				<input type="submit" class="button" name="find" value="<%=getTranNoLink("web","find",sWebLanguage)%>"/>
         	</td>
         </tr>
     </table>

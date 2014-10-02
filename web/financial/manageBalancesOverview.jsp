@@ -207,7 +207,7 @@
 </table>
 <%=ScreenHelper.alignButtonsStart()%>
     <%-- Buttons --%>
-    <input class='button' type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doBack();">
+    <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
 <%=ScreenHelper.alignButtonsStop()%>
 <script>
     function doBack(){

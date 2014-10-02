@@ -51,7 +51,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan='2'><input type='button' name='button' value='<%=getTran("web","export",sWebLanguage)%>' onclick='exporttable();'/></td>
+			<td colspan='2'><input type='button' name='button' value='<%=getTranNoLink("web","export",sWebLanguage)%>' onclick='exporttable();'/></td>
 		</tr>
 	</table>
 </form>

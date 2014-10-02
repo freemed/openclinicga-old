@@ -36,14 +36,14 @@
            sOperator = checkString(request.getParameter("operator"));
 
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n************** getMaintenancePlans.jsp *************");
+        Debug.println("\n************* assets/ajax/getMaintenancePlans.jsp ************");
         Debug.println("sName     : "+sName);
         Debug.println("sAssetUID : "+sAssetUID);
         Debug.println("sOperator : "+sOperator+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
 
     // compose object to pass search criteria with
     MaintenancePlan findObject = new MaintenancePlan();
@@ -75,7 +75,7 @@
         Vector keys = new Vector(hSort.keySet());
         Collections.sort(keys);
         Iterator iter = keys.iterator();
-        String sClass = "";
+        String sClass = "1";
         
         while(iter.hasNext()){
             // alternate row-style
@@ -93,9 +93,9 @@
 <%
     if(plans.size() > 0){
         %>
-<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
+<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border:none;">
     <%-- header --%>
-    <tr class="admin" style="padding-left: 1px;">    
+    <tr class="admin" style="padding-left:1px;">    
         <td width="25%" nowrap><%=HTMLEntities.htmlentities(getTran("web.assets","name",sWebLanguage))%></td>
         <td width="10%" nowrap><asc><%=HTMLEntities.htmlentities(getTran("web.assets","asset",sWebLanguage))%></asc></td>
         <td width="7%" nowrap><%=HTMLEntities.htmlentities(getTran("web.assets","startDate",sWebLanguage))%></td>

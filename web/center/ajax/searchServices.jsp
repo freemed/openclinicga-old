@@ -1,8 +1,6 @@
-<%@page contentType="text/html;charset=UTF-8" language="java"%>
-
-<%@page import="be.openclinic.system.Center"%>
-<%@page import="java.util.*"%>
-<%@page import="be.mxs.common.util.system.HTMLEntities"%>
+<%@page import="be.openclinic.system.Center,
+                java.util.*,
+                be.mxs.common.util.system.HTMLEntities"%>
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
@@ -11,26 +9,27 @@
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-    	Debug.println("\n************************** searchServices.jsp *************************");
+    	Debug.println("\n******************** center/ajax/searchServices.jsp *******************");
     	Debug.println("sFindBegin : "+sFindBegin);
     	Debug.println("sFindEnd   : "+sFindEnd+"\n");
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
 %>
 
-<table width='100%' onmouseover="this.style.cursor= 'pointer';" onmouseover="this.style.cursor= 'default';" cellspacing='1' class="sortable" id="searchresults">
-    <tr height='20' class='admin'>
-        <td width="25">&nbsp;</td>
-        <td width="100"><%=getTran("web", "version", sWebLanguage)%></td>
-        <td width="150"><%=getTran("web", "updatetime", sWebLanguage)%></td>
-        <td width="150"><%=getTran("wicket", "create_date", sWebLanguage)%></td>
-        <td><%=getTran("web", "user", sWebLanguage)%></td>
+<table width="100%" cellspacing="0" class="sortable" id="searchresults">
+    <tr height="20" class="admin">
+        <td width="20">&nbsp;</td>
+        <td width="80"><%=getTran("web","version",sWebLanguage)%></td>
+        <td width="100"><%=getTran("web","updatetime",sWebLanguage)%></td>
+        <td width="100"><%=getTran("wicket","create_date",sWebLanguage)%></td>
+        <td width="*"><%=getTran("web","user",sWebLanguage)%></td>
     </tr>
     
+    <tbody class="hand">
     <%
         int i = 0;
-        List centerList = (Center.getAll(sFindBegin, sFindEnd, true));
-        centerList.addAll(Center.getAll(sFindBegin, sFindEnd, false));
+        List centerList = (Center.getAll(sFindBegin,sFindEnd,true));
+        centerList.addAll(Center.getAll(sFindBegin,sFindEnd,false));
         Iterator centerIter = centerList.iterator();
         Center center;
         
@@ -50,7 +49,7 @@
 		    }
 		    
 		    %>>
-		        <td><img src="<%=sCONTEXTPATH%>/_img/icon_delete.gif" onClick="deleteService('<%=center.getUid()%>')" title="<%=getTranNoLink("web","delete",sWebLanguage)%>"></td>
+		        <td><img src="<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif" onClick="deleteService('<%=center.getUid()%>','<%=center.getVersion()%>')" title="<%=getTranNoLink("web","delete",sWebLanguage)%>"></td>
 		        <td onclick="showService('<%=center.getVersion()%>')">&nbsp;<%=center.getVersion()%></td>
 		        <td onclick="showService('<%=center.getVersion()%>')">&nbsp;<%=ScreenHelper.getSQLDate(center.getUpdateDateTime())%></td>
 		        <td onclick="showService('<%=center.getVersion()%>')">&nbsp;<%=ScreenHelper.getSQLDate(center.getCreateDateTime())%></td>
@@ -68,10 +67,9 @@
 		    i++;
 	    }
     %>
+    </tbody>
 </table>
 
-<span><%=centerList.size()%> <%=HTMLEntities.htmlentities(getTran("web", "recordsfound", sWebLanguage))%></span>
+<span><%=centerList.size()%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%></span>
 
-<script>
-  sortables_init();
-</script>
+<script>sortables_init();</script>

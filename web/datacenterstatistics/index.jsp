@@ -70,8 +70,8 @@
                 +"<tr><td>"+getTran("web","from",sWebLanguage)+"&nbsp;</td><td>"+writeDateField("begin3b","stats",today,sWebLanguage)+"&nbsp;"+getTran("web","to",sWebLanguage)+"&nbsp;"+writeDateField("end3b","stats",today,sWebLanguage)+"&nbsp;</td></tr>"
                 +"<tr><td>"+getTran("Web","service",sWebLanguage)+"</td><td colspan='2'><input type='hidden' name='statserviceid' id='statserviceid' value='"+service+"'>"
                 +"<input class='text' type='text' name='statservicename' id='statservicename' readonly size='"+sTextWidth+"' value='"+serviceName+"'>"
-                +"<img src='_img/icon_search.gif' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"' onclick='searchService(\"statserviceid\",\"statservicename\");'>"
-                +"<img src='_img/icon_delete.gif' class='link' alt='"+getTranNoLink("Web","clear",sWebLanguage)+"' onclick='statserviceid.value=\"\";statservicename.value=\"\";'>"
+                +"<img src='_img/icons/icon_search.gif' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"' onclick='searchService(\"statserviceid\",\"statservicename\");'>"
+                +"<img src='_img/icons/icon_delete.gif' class='link' alt='"+getTranNoLink("Web","clear",sWebLanguage)+"' onclick='statserviceid.value=\"\";statservicename.value=\"\";'>"
                 +"</td></tr>"
                 +writeTblChildWithCode("javascript:patientslistvisits()",getTran("Web","statistics.patientslist.visits",sWebLanguage))
                 +writeTblChildWithCode("javascript:patientslistadmissions()",getTran("Web","statistics.patientslist.admissions",sWebLanguage))

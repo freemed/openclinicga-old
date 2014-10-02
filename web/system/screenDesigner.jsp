@@ -27,7 +27,7 @@
             <td class="admin2">
                 <span id="savedScreensDiv"><%-- Ajax --%></span>&nbsp;
                 
-                <input type="button" name="backButton" id="backButton" class="button" value="<%=getTran("web","back",sWebLanguage)%>" onClick="doBack();">
+                <input type="button" name="backButton" id="backButton" class="button" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onClick="doBack();">
             </td>
         </tr>
     </table>
@@ -84,8 +84,8 @@
         
         <%-- BUTTONS --%>
         <%=ScreenHelper.setFormButtonsStart()%>
-            <input type="button" name="saveButton" id="saveButton" class="button" value="<%=getTran("web","save",sWebLanguage)%>" onClick="storeScreen();">&nbsp;
-            <input type="button" name="deleteButton" id="deleteButton" class="button" value="<%=getTran("web","delete",sWebLanguage)%>" onClick="deleteScreen();" style="display:none">
+            <input type="button" name="saveButton" id="saveButton" class="button" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onClick="storeScreen();">&nbsp;
+            <input type="button" name="deleteButton" id="deleteButton" class="button" value="<%=getTranNoLink("web","delete",sWebLanguage)%>" onClick="deleteScreen();" style="display:none">
         <%=ScreenHelper.setFormButtonsStop()%>
     </table>
     
@@ -93,7 +93,7 @@
     
     <%-- link to manageServiceExaminations --%>
     <div id="linkDiv" style="width:100%;height:22px;display:none">
-	    <img src="<c:url value='/_img/pijl.gif'/>">
+	    <img src="<c:url value='/_img/themes/default/pijl.gif'/>">
 	    <a href="<c:url value='/main.do'/>?Page=system/manageServiceExaminations.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("web.manage","manageServiceExaminations",sWebLanguage)%></a>&nbsp;
     </div>
 </form>
@@ -105,7 +105,7 @@
  
   <%-- LIST SAVED SCREENS --%>
   function listSavedScreens(){
-    document.getElementById("savedScreensDiv").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/ajax-loader.gif' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
+    document.getElementById("savedScreensDiv").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'>' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
     var url = "<c:url value='/system/ajax/screenDesigner/listSavedScreens.jsp'/>?ts="+new Date().getTime();
     new Ajax.Request(url,{
       method: "GET",
@@ -220,7 +220,7 @@
         height = editForm.ScreenHeight.options[editForm.ScreenHeight.selectedIndex].value;
     
     if(width > 0 && height > 0){
-      document.getElementById("layoutDiv").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/ajax-loader.gif' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
+      document.getElementById("layoutDiv").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'>' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
       
       var url = "<c:url value='/system/ajax/screenDesigner/drawScreen.jsp'/>?ts="+new Date().getTime();
       new Ajax.Request(url,{
@@ -246,7 +246,6 @@
           }
         },
         onFailure: function(){
-          alert(resp.responseText); ///
           document.getElementById("msgDiv").innerHTML = "<font color='red'>Error in function drawScreen()</font>";
         }
       });
@@ -262,7 +261,7 @@
     if(editForm.ScreenWidth.selectedIndex > 0 &&
        editForm.ScreenHeight.selectedIndex > 0 &&
        areAllLabelsSpecified()){
-      document.getElementById("msgDiv").innerHTML = "&nbsp;<img src='<%=sCONTEXTPATH%>/_img/ajax-loader.gif' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
+      document.getElementById("msgDiv").innerHTML = "&nbsp;<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'>' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
       editForm.saveButton.disabled = true; 
       if(editForm.deleteButton) editForm.deleteButton.disabled = true; 
         
@@ -375,7 +374,7 @@
     if(yesnoDialog("Web","areYouSureToDelete")){
       var url = "<c:url value='/system/ajax/screenDesigner/deleteScreen.jsp'/>?ts="+new Date().getTime();
 
-      document.getElementById("msgDiv").innerHTML = "&nbsp;<img src='<%=sCONTEXTPATH%>/_img/ajax-loader.gif' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
+      document.getElementById("msgDiv").innerHTML = "&nbsp;<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'>' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
       editForm.saveButton.disabled = true; 
       editForm.deleteButton.disabled = true; 
       
@@ -402,7 +401,7 @@
     editForm.performedAction.value = "deleteRow";
     var url = "<c:url value='/system/ajax/screenDesigner/deleteRow.jsp'/>?ts="+new Date().getTime();
 
-    document.getElementById("msgDiv").innerHTML = "&nbsp;<img src='<%=sCONTEXTPATH%>/_img/ajax-loader.gif' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
+    document.getElementById("msgDiv").innerHTML = "&nbsp;<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'>' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
     editForm.saveButton.disabled = true; 
     editForm.deleteButton.disabled = true; 
       
@@ -436,7 +435,7 @@
     editForm.performedAction.value = "moveRow";
     var url = "<c:url value='/system/ajax/screenDesigner/moveRow.jsp'/>?ts="+new Date().getTime();
 
-    document.getElementById("msgDiv").innerHTML = "&nbsp;<img src='<%=sCONTEXTPATH%>/_img/ajax-loader.gif' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
+    document.getElementById("msgDiv").innerHTML = "&nbsp;<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'>' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
     editForm.saveButton.disabled = true; 
     editForm.deleteButton.disabled = true; 
       
@@ -686,8 +685,8 @@
       var rowId = cellForm.activeRowId.value;
       var row = document.getElementById(rowId);
         
-      row.cells(0).innerHTML = "<a href='#' onclick=\"deleteItem('"+rowId+"')\"><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'></a>&nbsp;"+
-                               "<a href='#' onclick=\"editItem('"+rowId+"')\"><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' style='vertical-align:-3px' border='0'></a>";
+      row.cells(0).innerHTML = "<a href='#' onclick=\"deleteItem('"+rowId+"')\"><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'></a>&nbsp;"+
+                               "<a href='#' onclick=\"editItem('"+rowId+"')\"><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' style='vertical-align:-3px' border='0'></a>";
       row.cells(1).innerHTML = cellForm.addItemTypeId.value;
       row.cells(2).innerHTML = cellForm.addHtmlElement.options[cellForm.addHtmlElement.selectedIndex].value;
       row.cells(3).innerHTML = cellForm.addSize.value;
@@ -796,8 +795,8 @@
         row.insertCell();
             
         row.id = "row_"+rowIdx; 
-        row.cells(0).innerHTML = "<a href='#' onclick=\"deleteItem('row_"+rowIdx+"')\"><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'></a>&nbsp;"+
-                                 "<a href='#' onclick=\"editItem('row_"+rowIdx+"')\"><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' style='vertical-align:-3px,' border='0'></a>";
+        row.cells(0).innerHTML = "<a href='#' onclick=\"deleteItem('row_"+rowIdx+"')\"><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'></a>&nbsp;"+
+                                 "<a href='#' onclick=\"editItem('row_"+rowIdx+"')\"><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' style='vertical-align:-3px,' border='0'></a>";
         row.cells(1).innerHTML = cellForm.addItemTypeId.value;
         row.cells(2).innerHTML = cellForm.addHtmlElement.options[cellForm.addHtmlElement.selectedIndex].value;
         row.cells(3).innerHTML = cellForm.addSize.value;

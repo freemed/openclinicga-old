@@ -27,12 +27,12 @@
             </td>
             <td>
                 <input type="text" class="text" name="FindCoveragePlanInvoiceUID" id="FindCoveragePlanInvoiceUID" onblur="isNumber(this)" value="<%=sFindCoveragePlanInvoiceUID%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchCoveragePlanInvoice();">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="doClearCoveragePlanInvoice()">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchCoveragePlanInvoice();">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="doClearCoveragePlanInvoice()">
 
-                <input type="button" class="button" name="ButtonFind" value="<%=getTran("web","find",sWebLanguage)%>" onclick="doFind()">
-                <input type="button" class="button" name="ButtonNew" value="<%=getTran("web","new",sWebLanguage)%>" onclick="doNew();searchInsurar();">
-                <input type="button" class="button" name="ButtonClear" value="<%=getTran("web","clear",sWebLanguage)%>" onclick="doClear()">
+                <input type="button" class="button" name="ButtonFind" value="<%=getTranNoLink("web","find",sWebLanguage)%>" onclick="doFind()">
+                <input type="button" class="button" name="ButtonNew" value="<%=getTranNoLink("web","new",sWebLanguage)%>" onclick="doNew();searchInsurar();">
+                <input type="button" class="button" name="ButtonClear" value="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="doClear()">
             </td>
         </tr>
     </table>
@@ -77,8 +77,8 @@
             <%
                 if(checkString(coveragePlanInvoice.getUid()).length() == 0){
             %>
-            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchInsurar();">
-            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="doClearInsurar()">
+            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchInsurar();">
+            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="doClearInsurar()">
             <%
                 }
             %>
@@ -128,7 +128,7 @@
                         <%=writeDateField("EditBegin", "EditForm", new SimpleDateFormat("01/MM/yyyy").format(previousmonth), sWebLanguage)%>
                         <%=getTran("web","to",sWebLanguage)%>
                         <%=writeDateField("EditEnd", "EditForm", ScreenHelper.stdDateFormat.format(previousmonth), sWebLanguage)%>
-                        &nbsp;<input type="button" class="button" name="update" value="<%=getTran("web","update",sWebLanguage)%>" onclick="changeCoveragePlan();"/>
+                        &nbsp;<input type="button" class="button" name="update" value="<%=getTranNoLink("web","update",sWebLanguage)%>" onclick="changeCoveragePlan();"/>
                         &nbsp;<input type="button" class="button" name="updateBalance" value="<%=getTranNoLink("web","updateBalance",sWebLanguage)%>" onclick="updateBalance();"/>
                     </td>
                 </tr>
@@ -144,8 +144,8 @@
                     </td>
                     <td class='admin2'>
                         <div id="divPrestations" style="height:120px;" class="searchResults"></div>
-                        <input class='button' type="button" name="ButtonDebetSelectAll" id="ButtonDebetSelectAll" value="<%=getTran("web","selectall",sWebLanguage)%>" onclick="selectAll('cbDebet',true,'ButtonDebetSelectAll','ButtonDebetDeselectAll',true);">&nbsp;
-                        <input class='button' type="button" name="ButtonDebetDeselectAll" id="ButtonDebetDeselectAll" value="<%=getTran("web","deselectall",sWebLanguage)%>" onclick="selectAll('cbDebet',false,'ButtonDebetDeselectAll','ButtonDebetSelectAll',true);">
+                        <input class='button' type="button" name="ButtonDebetSelectAll" id="ButtonDebetSelectAll" value="<%=getTranNoLink("web","selectall",sWebLanguage)%>" onclick="selectAll('cbDebet',true,'ButtonDebetSelectAll','ButtonDebetDeselectAll',true);">&nbsp;
+                        <input class='button' type="button" name="ButtonDebetDeselectAll" id="ButtonDebetDeselectAll" value="<%=getTranNoLink("web","deselectall",sWebLanguage)%>" onclick="selectAll('cbDebet',false,'ButtonDebetDeselectAll','ButtonDebetSelectAll',true);">
                     </td>
                 </tr>
                 <tr>
@@ -153,8 +153,8 @@
                     </td>
                     <td class='admin2'>
                         <div id="divCredits" style="height:120px;" class="searchResults"></div>
-                        <input class='button' type="button" name="ButtoncoveragePlanInvoiceSelectAll" id="ButtoncoveragePlanInvoiceSelectAll" value="<%=getTran("web","selectall",sWebLanguage)%>" onclick="selectAll('cbcoveragePlanInvoice',true,'ButtoncoveragePlanInvoiceSelectAll', 'ButtoncoveragePlanInvoiceDeselectAll',false);">&nbsp;
-                        <input class='button' type="button" name="ButtoncoveragePlanInvoiceDeselectAll" id="ButtoncoveragePlanInvoiceDeselectAll" value="<%=getTran("web","deselectall",sWebLanguage)%>" onclick="selectAll('cbcoveragePlanInvoice',false,'ButtoncoveragePlanInvoiceDeselectAll', 'ButtoncoveragePlanInvoiceSelectAll',false);">
+                        <input class='button' type="button" name="ButtoncoveragePlanInvoiceSelectAll" id="ButtoncoveragePlanInvoiceSelectAll" value="<%=getTranNoLink("web","selectall",sWebLanguage)%>" onclick="selectAll('cbcoveragePlanInvoice',true,'ButtoncoveragePlanInvoiceSelectAll', 'ButtoncoveragePlanInvoiceDeselectAll',false);">&nbsp;
+                        <input class='button' type="button" name="ButtoncoveragePlanInvoiceDeselectAll" id="ButtoncoveragePlanInvoiceDeselectAll" value="<%=getTranNoLink("web","deselectall",sWebLanguage)%>" onclick="selectAll('cbcoveragePlanInvoice',false,'ButtoncoveragePlanInvoiceDeselectAll', 'ButtoncoveragePlanInvoiceSelectAll',false);">
                     </td>
                 </tr>
                 <tr>
@@ -188,7 +188,7 @@
                                 while (tokenizer.hasMoreTokens()){
                                     tmpLang = tokenizer.nextToken();
 
-                                    %><option value="<%=tmpLang%>"<%if(tmpLang.equalsIgnoreCase(sPrintLanguage)){out.print(" selected");}%>><%=getTran("Web.language",tmpLang,sWebLanguage)%></option><%
+                                    %><option value="<%=tmpLang%>"<%if(tmpLang.equalsIgnoreCase(sPrintLanguage)){out.print(" selected");}%>><%=getTranNoLink("Web.language",tmpLang,sWebLanguage)%></option><%
                                 }
                             %>
                         </select>
@@ -218,13 +218,15 @@
         </td>
     </tr>
 </table>
-<%=getTran("Web", "colored_fields_are_obligate", sWebLanguage)%>.
+<%=getTran("Web", "colored_fields_are_obligate", sWebLanguage)%>
+
 <div id="divMessage"></div>
+
 <input type='hidden' name='EditCoveragePlanInvoiceUID' id='EditCoveragePlanInvoiceUID' value='<%=checkString(coveragePlanInvoice.getUid())%>'>
 </form>
+
 <script>
 function doSave(){
-
     if((EditForm.EditDate.value.length > 0) && (EditForm.EditStatus.selectedIndex > -1 && EditForm.EditInsurarUID.value.length>0)){
         var sCbs = "";
         for(i=0; i < EditForm.elements.length; i++){
@@ -237,7 +239,7 @@ function doSave(){
         EditForm.ButtonSave.disabled = true;
         var today = new Date();
         var url = '<c:url value="/financial/coveragePlanInvoiceSave.jsp"/>?ts=' + today;
-        document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Saving";
+        document.getElementById('divMessage').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Saving";
         new Ajax.Request(url, {
             method: "POST",
             postBody: 'EditDate=' + EditForm.EditDate.value
@@ -384,7 +386,7 @@ function changeCoveragePlan(){
     document.getElementById("invoicedetailstable").style.visibility="hidden";
   }
   var url = '<c:url value="/financial/coveragePlanInvoiceGetPrestations.jsp"/>?ts=' + <%=getTs()%>;
-  document.getElementById('divPrestations').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+  document.getElementById('divPrestations').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading";
   var pb= 'InsurarUid=' + EditForm.EditInsurarUID.value
           + '&EditBegin=' + EditForm.EditBegin.value
           + '&EditEnd=' + EditForm.EditEnd.value
@@ -405,7 +407,7 @@ function changeCoveragePlan(){
   });
 
   var url = '<c:url value="/financial/coveragePlanInvoiceGetCredits.jsp"/>?ts='  + <%=getTs()%>;
-  document.getElementById('divCredits').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+  document.getElementById('divCredits').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading";
   new Ajax.Request(url, {
     method: "POST",
     postBody: 'InsurarUid=' + EditForm.EditInsurarUID.value

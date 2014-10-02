@@ -40,7 +40,7 @@
 
             <%-- select a macro --%>
             <a  style="vertical-align:top;" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="showTerminologyList(this);">
-                <img title="<%=getTranNoLink("web","terminologylist",sWebLanguage)%>" src="<c:url value="/_img/icon_help.gif"/>">
+                <img title="<%=getTranNoLink("web","terminologylist",sWebLanguage)%>" src="<c:url value="/_img/icons/icon_help.gif"/>">
             </a>
         </td>
     </tr>
@@ -52,7 +52,7 @@
 
             <%-- select a macro --%>
             <a  style="vertical-align:top;" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="showTerminologyList(this);">
-                <img title="<%=getTranNoLink("web","terminologylist",sWebLanguage)%>" src="<c:url value="/_img/icon_help.gif"/>">
+                <img title="<%=getTranNoLink("web","terminologylist",sWebLanguage)%>" src="<c:url value="/_img/icons/icon_help.gif"/>">
             </a>
         </td>
     </tr>
@@ -64,7 +64,7 @@
 
             <%-- select a macro --%>
             <a  style="vertical-align:top;" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="showTerminologyList(this);">
-                <img title="<%=getTranNoLink("web","terminologylist",sWebLanguage)%>" src="<c:url value="/_img/icon_help.gif"/>">
+                <img title="<%=getTranNoLink("web","terminologylist",sWebLanguage)%>" src="<c:url value="/_img/icons/icon_help.gif"/>">
             </a>
         </td>
     </tr>
@@ -81,10 +81,10 @@
         <td class="admin2">
     <%
         if(activeUser.getAccessRight("occup.neurologytransfer.add") || activeUser.getAccessRight("occup.neurologytransfer.edit")){
-            %><INPUT class="button" type="button" name="saveButton" id="saveButton" value="<%=getTran("Web","save",sWebLanguage)%>" onclick="submitForm();"/><%
+            %><INPUT class="button" type="button" name="saveButton" id="saveButton" value="<%=getTranNoLink("Web","save",sWebLanguage)%>" onclick="submitForm();"/><%
         }
     %>
-            <INPUT class="button" type="button" name="backButton" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="doBack();">
+            <INPUT class="button" type="button" name="backButton" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="doBack();">
         </td>
     </tr>
 </table>

@@ -38,7 +38,7 @@
         while (it.hasNext()) {
             item = (NutricientItem) it.next();
             String sClass = ((i % 2) == 0) ? "list" : "list1";
-            out.write("<tr onclick='insertNutricientItem(\"" + item.getUid() + "\",\"" + HTMLEntities.htmlQuotes(HTMLEntities.htmlentities(item.name)) + "\",\"" + HTMLEntities.htmlQuotes(HTMLEntities.htmlentities(item.unit)) + "\")'  class='" + sClass + "' >");
+            out.write("<tr onclick='insertNutricientItem(\"" + item.getUid() + "\",\"" + HTMLEntities.htmlQuotes(HTMLEntities.htmlentities(item.name)) + "\",\"" + HTMLEntities.htmlQuotes(HTMLEntities.htmlentities(item.unit)) + "\")' class='" + sClass + "' >");
             out.write("<td>" + HTMLEntities.htmlentities(item.name) + "</td>");
             out.write("<td >" + HTMLEntities.htmlentities(item.unit) + "</td>");
             out.write("</tr>");
@@ -66,8 +66,8 @@
         while (it.hasNext()) {
             item = (NutricientItem) it.next();
             String sClass = ((i % 2) == 0) ? "list" : "list1";
-            out.write("<tr  class='" + sClass + "' >");
-            out.write(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.png' class='link' title='" + (getTranNoLink("web", "delete", sWebLanguage)) + "' onclick=\"deleteNutricientItem('" + item.getUid() + "');\"></td>");
+            out.write("<tr class='" + sClass + "' >");
+            out.write(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.png' class='link' title='" + (getTranNoLink("web", "delete", sWebLanguage)) + "' onclick=\"deleteNutricientItem('" + item.getUid() + "');\"></td>");
             out.write("<td onclick='openNutricientItem(\"" + item.getUid() + "\")'>" + HTMLEntities.htmlentities(item.name) + "</td>");
             out.write("<td onclick='openNutricientItem(\"" + item.getUid() + "\")'>" + HTMLEntities.htmlentities(item.unit) + "</td>");
             out.write("</tr>");

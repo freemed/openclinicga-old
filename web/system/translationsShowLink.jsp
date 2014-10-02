@@ -39,7 +39,7 @@
 </table>
 <%-- BACK BUTTON --%>
 <%=ScreenHelper.alignButtonsStart()%>
-    <input class="button" type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick='doBack();'>
+    <input class="button" type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick='doBack();'>
 <%=ScreenHelper.alignButtonsStop()%>
 </form>
 <script>

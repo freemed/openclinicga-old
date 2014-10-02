@@ -6,12 +6,29 @@
                 be.mxs.common.model.vo.healthrecord.IConstants"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+
+<%
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n********************* healthrecord/itemGraph.jsp **********************");
+    	Debug.println("no parameters");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+%>
+
 <html>
 <script>var _PathToScript="<c:url value='/_common/_script/'/>";</script>
 <%=sJSDIAGRAM2%>
 <%=sCSSNORMAL%>
-<HEAD><TITLE><%=getTran("Web.Occup","medwan.occupational-medicine.getgraph",sWebLanguage)%></TITLE></HEAD>
+
+<HEAD><TITLE><%=getTranNoLink("Web.Occup","medwan.occupational-medicine.getgraph",sWebLanguage)%></TITLE></HEAD>
 <body title="<%=getTranNoLink("Web.Occup","medwan.common.click-for-history",sWebLanguage)%>" onclick="window.location.href='<c:url value="/healthrecord/itemHistory.jsp"/>?itemType=<%=request.getParameter("itemType")%>';">
+
+<table class="list" width="100%" cellspacing="1" cellpadding="0">
+    <tr class="admin"><td colspan="2"><%=getTran("Web.Occup","medwan.occupational-medicine.getgraph",sWebLanguage)%></td></tr>
+</table>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <script>
 <%!
     private class Item{
@@ -152,8 +169,8 @@
                 minRef/=2;
             }
         }
-    %>
-    
+        
+    %>    
 function formMonth(millis){
     dDate=new Date(millis);
     return dDate.getDate()+"/"+(dDate.getMonth()+1)+"/"+new String(dDate.getFullYear()).substr(Math.min(new String(dDate.getFullYear()).length-2,2),2);
@@ -165,7 +182,7 @@ function formDay(millis){
 
 interval=0;
 var D=new Diagram();
-D.SetFrame(40, 20, 360, 180);
+D.SetFrame(40, 35, 360, 195);
 D.SetBorder(new Date(<%=minDate%>),new Date(<%=maxDate%>),<%=minRef%>,<%=maxRef%>);
 if(<%=maxDate-minDate%>>2678400000*3){
     D.XScale="function formMonth";
@@ -179,14 +196,16 @@ else {
     D.XScale="2";
 }
 D.YScale="1";
-<%
+    <%
+    
     if(sUnits.length()>0){
         out.print("D.SetText('','','"+getTran("TRANSACTION_TYPE_LAB_RESULT",request.getParameter("itemType"),sWebLanguage)+" ("+getTran("TRANSACTION_TYPE_LAB_RESULT","be.mxs.common.model.vo.healthrecord.IConstants.EXT_"+format+"UNIT_"+sUnits,sWebLanguage)+")')");
     }
     else if(itemsDouble!=null){
         out.print("D.SetText('','','"+getTran("Web.Occup","medwan.healthrecord.cardial.pression-arterielle",sWebLanguage)+" "+(request.getParameter("itemType").indexOf("RIGHT")>-1?getTran("Web.Occup","medwan.common.right",sWebLanguage):getTran("Web.Occup","medwan.common.left",sWebLanguage))+" (mmHg)')");
     }
-%>
+
+    %>
 D.XSubGrids=1;
 D.YSubGrids=1;
 D.GetXGrid();
@@ -194,6 +213,7 @@ D.XGridDelta=<%=maxDate-minDate%>/Math.min(8,Math.floor(<%=maxDate-minDate%>/int
 D.Font="font-family:arial;font-weight:normal;font-size:6pt;line-height:22pt;"
 D.Draw("#FFFFFF", "#000000", false, "", "", "#DDDDFF","#CCCCCC");
     <%
+    
         double oldval=0;
         long olddate=0;
         ItemVO oldItem=null;
@@ -218,6 +238,7 @@ D.Draw("#FFFFFF", "#000000", false, "", "", "#DDDDFF","#CCCCCC");
                     }
                     sVal = labItem.result;
                 }
+                
                 double val = Double.parseDouble(sVal);
                 long date = ((ItemVO)items.get(n)).getDate().getTime();
                 out.print("new Dot(D.ScreenX(new Date("+date+")),D.ScreenY("+val+"),5,2,'black');");
@@ -247,15 +268,30 @@ D.Draw("#FFFFFF", "#000000", false, "", "", "#DDDDFF","#CCCCCC");
     }
     else {
         if(vals<=1){
-            out.print("</script><div class='text'>"+getTran("Web.Occup","medwan.common.not-enough-measurements",sWebLanguage)+"</div><script>");
+            out.print("</script>"+
+                      "<div class='text'>&nbsp;"+getTran("Web.Occup","medwan.common.not-enough-measurements",sWebLanguage)+"</div>"+
+                      "<script>");
         }
         else {
-            out.print("</script><div class='text'>"+getTran("Web.Occup","medwan.common.all-measurements-on-same-date",sWebLanguage)+"</div><script>");
+            out.print("</script>"+
+                      "<div class='text'>&nbsp;"+getTran("Web.Occup","medwan.common.all-measurements-on-same-date",sWebLanguage)+"</div>"+
+                      "<script>");
         }
     }
+    
+    Debug.println("--> values : "+vals);
 %>
 
 window.focus();
+
+if(window.opener.document.getElementById('ie5menu')){
+  window.opener.document.getElementById('ie5menu').style.visibility = 'hidden';
+}
 </script>
+<br><br>
+
+<center>
+    <input type="button" class="button" value="<%=getTranNoLink("web","close",sWebLanguage)%>" onclick="window.close()">
+</center>
 </body>
 </html>

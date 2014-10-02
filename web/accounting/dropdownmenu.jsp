@@ -195,12 +195,12 @@
                             // Check if menu file exists, else use file at templateSource location.
                             try {
                                 document = xmlReader.read(new URL(sMenuXMLUrl));
-                                if(Debug.enabled) Debug.println("Using custom menu file : "+sMenuXMLUrl);
+                                Debug.println("Using custom menu file : "+sMenuXMLUrl);
                             }
                             catch (DocumentException e){
                                 sMenuXMLUrl = MedwanQuery.getInstance().getConfigString("templateSource")+"/"+sMenuXML;
                                 document = xmlReader.read(new URL(sMenuXMLUrl));
-                                if(Debug.enabled) Debug.println("Using default menu file : "+sMenuXMLUrl);
+                                Debug.println("Using default menu file : "+sMenuXMLUrl);
                             }
                             session.setAttribute("AccountancyMenuXML", document.asXML());
                         }

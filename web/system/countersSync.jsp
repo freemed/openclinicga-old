@@ -127,7 +127,7 @@
 				<input type="hidden" name="Action">
 				 
 				<input class="button" type="button" name="executebutton" value="<%=getTranNoLink("Web.Occup", "medwan.common.execute",sWebLanguage)%>" onclick="execute();">
-				<input class="button" type="button" name="backbutton" value='<%=getTran("Web", "Back", sWebLanguage)%>' OnClick='doBack();'>
+				<input class="button" type="button" name="backbutton" value='<%=getTranNoLink("Web", "Back", sWebLanguage)%>' OnClick='doBack();'>
 			</form>
 		</td>
 	</tr>

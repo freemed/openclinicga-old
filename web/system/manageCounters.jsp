@@ -66,7 +66,7 @@
 	                    <td class="admin" width="200"><%=sName%>&nbsp;</td>
 	                    <td class="admin2" width="*">
 	                        <input type="text" class="text" name="Edit<%=sName%>" value="<%=sCounter%>">
-	                        <input type="button" class="button" name="Button<%=sName%>" value="<%=getTran("web","save",sWebLanguage)%>" onclick="doSubmit('<%=sName%>')">
+	                        <input type="button" class="button" name="Button<%=sName%>" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="doSubmit('<%=sName%>')">
 	                    </td>
 	                </tr>
                 <%
@@ -85,7 +85,7 @@
     
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>
-        <input class="button" type="button" name="cancel" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick='window.location.href="<c:url value='/main.do'/>?Page=system/menu.jsp";'>
+        <input class="button" type="button" name="cancel" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick='window.location.href="<c:url value='/main.do'/>?Page=system/menu.jsp";'>
     <%=ScreenHelper.alignButtonsStop()%>
 </form>
     

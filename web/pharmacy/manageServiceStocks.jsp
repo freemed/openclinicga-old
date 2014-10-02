@@ -9,13 +9,13 @@
 
 <%!
     //--- ADD AUTHORIZED USER ---------------------------------------------------------------------
-    private String addAuthorizedUser(int userIdx, String userName, String sWebLanguage) {
+    private String addAuthorizedUser(int userIdx, String userName, String sWebLanguage){
         StringBuffer html = new StringBuffer();
 
         html.append("<tr id='rowAuthorizedUsers"+userIdx+"'>")
              .append("<td width='18'>")
               .append("<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+userIdx+")'>")
-               .append("<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTran("Web", "delete", sWebLanguage)+"' class='link'>")
+               .append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("web","delete",sWebLanguage)+"' class='link'>")
               .append("</a>")
              .append("</td>")
              .append("<td>"+userName+"</td>")
@@ -25,22 +25,22 @@
     }
 
     //--- OBJECTS TO HTML -------------------------------------------------------------------------
-    private StringBuffer objectsToHtml(Vector objects, String sWebLanguage, User activeUser) {
+    private StringBuffer objectsToHtml(Vector objects, String sWebLanguage, User activeUser){
         StringBuffer html = new StringBuffer();
         Vector authorizedUserIds;
         String sClass = "1", sServiceStockUid = "", sServiceUid = "", sServiceName = "", sAuthorizedUserIds,
-                sManagerUid = "", sPreviousManagerUid = "", sManagerName = "";
+               sManagerUid = "", sPreviousManagerUid = "", sManagerName = "";
         StringTokenizer tokenizer;
 
         // frequently used translations
-        String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
-               deleteTran = getTranNoLink("Web", "delete", sWebLanguage),
-               productStockTran = getTranNoLink("web.manage", "productstockmanagement", sWebLanguage),
+        String detailsTran        = getTranNoLink("web", "showdetails", sWebLanguage),
+               deleteTran         = getTranNoLink("Web", "delete", sWebLanguage),
+               productStockTran   = getTranNoLink("web.manage", "productstockmanagement", sWebLanguage),
                calculateOrderTran = getTranNoLink("Web.manage", "calculateOrder", sWebLanguage);
 
         // run thru found serviceStocks
         ServiceStock serviceStock;
-        for (int i = 0; i < objects.size(); i++) {
+        for(int i=0; i<objects.size(); i++){
             serviceStock = (ServiceStock) objects.get(i);
             sServiceStockUid = serviceStock.getUid();
 
@@ -50,8 +50,8 @@
 
             // only search manager-name when different manager-UID
             sManagerUid = checkString(serviceStock.getStockManagerUid());
-            if (sManagerUid.length() > 0) {
-                if (!sManagerUid.equals(sPreviousManagerUid)) {
+            if(sManagerUid.length() > 0){
+                if(!sManagerUid.equals(sPreviousManagerUid)){
                     sPreviousManagerUid = sManagerUid;
                     sManagerName = ScreenHelper.getFullUserName(sManagerUid);
                 }
@@ -61,38 +61,39 @@
             int productCount = ServiceStock.getProductStockCount(sServiceStockUid);
 
             // alternate row-style
-            if (sClass.equals("")) sClass = "1";
-            else                   sClass = "";
+            if(sClass.equals("")) sClass = "1";
+            else                  sClass = "";
 
             //*** display stock in one row ***
-            html.append("<tr class='list"+sClass+"' title='"+detailsTran+"'>");
+            html.append("<tr class='list"+sClass+"' title='"+detailsTran+"'>")
+                 .append("<td>");
+            
             if((serviceStock.isAuthorizedUser(activeUser.userid) || activeUser.getAccessRight("sa")) && activeUser.getAccessRight("pharmacy.manageservicestocks.delete")){
-                html.append("<td align='left'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+sServiceStockUid+"');\"/>");
-                html.append("<img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' class='link' onclick=\"printFiche('"+sServiceStockUid+"','"+serviceStock.getName()+"');\" title='"+getTranNoLink("web","stockfiche",sWebLanguage)+"'/>");
+                html.append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link' onclick=\"doDelete('"+sServiceStockUid+"');\" title='"+deleteTran+"'/>").
+                     append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' class='link' onclick=\"printFiche('"+sServiceStockUid+"','"+serviceStock.getName()+"');\" title='"+getTranNoLink("web","stockfiche",sWebLanguage)+"'/>");
             }
-            else {
-                html.append("<td>");
-            }
+            
             if(serviceStock.getNosync()==0){
-                html.append("<img src='"+sCONTEXTPATH+"/_img/sync.jpg'/>");
+                html.append("&nbsp;<img src='"+sCONTEXTPATH+"/_img/icons/icon_sync.gif' class='link' alt='"+getTranNoLink("web","sync",sWebLanguage)+"'/>");
             }
             if(serviceStock.hasOpenDeliveries()){
-                html.append("&nbsp;<img src='"+sCONTEXTPATH+"/_img/incoming.jpg' onclick='javascript:bulkReceive(\""+serviceStock.getUid()+"\");'/></a>");
+                html.append("&nbsp;<img src='"+sCONTEXTPATH+"/_img/icons/icon_incoming.gif' class='link' alt='"+getTranNoLink("web","incoming",sWebLanguage)+"'' onclick='javascript:bulkReceive(\""+serviceStock.getUid()+"\");'/></a>");
             }
             html.append("</td>");
+            
             html.append("<td onclick=\"doShowDetails('"+sServiceStockUid+"');\">"+serviceStock.getName()+"</td>")
                 .append("<td onclick=\"doShowDetails('"+sServiceStockUid+"');\">"+sServiceName+"</td>")
                 .append("<td onclick=\"doShowDetails('"+sServiceStockUid+"');\">"+sManagerName+"</td>")
                 .append("<td onclick=\"doShowDetails('"+sServiceStockUid+"');\">"+productCount+"</td>");
 
             // display "manage product stocks"-button when user is authorized
-            if (serviceStock.isAuthorizedUser(activeUser.userid)) {
+            if(serviceStock.isAuthorizedUser(activeUser.userid)){
                 html.append("<td>")
                      .append("<input type='button' class='button' value='"+calculateOrderTran+"' onclick=\"doCalculateOrder('"+sServiceStockUid+"','"+sServiceName+"');\">&nbsp;")
                      .append("<input type='button' class='button' value='"+productStockTran+"' onclick=\"displayProductStockManagement('"+sServiceStockUid+"','"+sServiceUid+"');\">&nbsp;")
                     .append("</td>");
             } 
-            else {
+            else{
                 html.append("<td onclick=\"doShowDetails('"+sServiceStockUid+"');\">&nbsp;</td>");
             }
 
@@ -123,8 +124,9 @@
            sEditDefaultSupplierUid = checkString(request.getParameter("EditDefaultSupplierUid")),
            sEditOrderPeriod        = checkString(request.getParameter("EditOrderPeriodInMonths")),
     	   sEditNosync        	   = checkString(request.getParameter("EditNosync"));
+    
     	   if(sEditNosync.equalsIgnoreCase("")){
-    		   sEditNosync="0";
+    		   sEditNosync = "0";
     	   }
 	
     // afgeleide data
@@ -132,7 +134,7 @@
            sEditManagerName         = checkString(request.getParameter("EditManagerName")),
            sEditDefaultSupplierName = checkString(request.getParameter("EditDefaultSupplierName"));
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
         Debug.println("\n#################### pharmacy/manageServiceStocks.jsp ##################");
         Debug.println("sEditStockUid        : "+sEditStockUid);
@@ -147,7 +149,7 @@
         Debug.println("sEditManagerName     : "+sEditManagerName);
         Debug.println("sEditDefSupplierName : "+sEditDefaultSupplierName+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     String msg = "", sFindStockName = "", sFindServiceUid = "", sFindServiceName = "",
            sFindBegin = "", sFindEnd = "", sFindManagerUid = "", sSelectedStockName = "",
@@ -445,8 +447,8 @@
                         <td class="admin2">
                             <input type="hidden" name="FindServiceUid" value="<%=sFindServiceUid%>">
                             <input class="text" type="text" name="FindServiceName" readonly size="<%=sTextWidth%>" value="<%=sFindServiceName%>">
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('FindServiceUid','FindServiceName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindServiceUid.value='';transactionForm.FindServiceName.value='';">
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('FindServiceUid','FindServiceName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindServiceUid.value='';transactionForm.FindServiceName.value='';">
                         </td>
                     </tr>
                     <%-- Begin --%>
@@ -465,8 +467,8 @@
                         <td class="admin2">
                             <input type="hidden" name="FindManagerUid" value="<%=sFindManagerUid%>">
                             <input class="text" type="text" name="FindManagerName" readonly size="<%=sTextWidth%>" value="<%=sFindManagerName%>">
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchManager('FindManagerUid','FindManagerName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindManagerUid.value='';transactionForm.FindManagerName.value='';">
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchManager('FindManagerUid','FindManagerName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindManagerUid.value='';transactionForm.FindManagerName.value='';">
                         </td>
                     </tr>
                     <%-- default supplier --%>
@@ -475,8 +477,8 @@
                         <td class="admin2">
                             <input type="hidden" name="FindDefaultSupplierUid" value="<%=sFindDefaultSupplierUid%>">
                             <input class="text" type="text" name="FindDefaultSupplierName" readonly size="<%=sTextWidth%>" value="<%=sFindDefaultSupplierName%>">
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('FindDefaultSupplierUid','FindDefaultSupplierName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindDefaultSupplierUid.value='';transactionForm.FindDefaultSupplierName.value='';">
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('FindDefaultSupplierUid','FindDefaultSupplierName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindDefaultSupplierUid.value='';transactionForm.FindDefaultSupplierName.value='';">
                         </td>
                     </tr>
                     <%-- SEARCH BUTTONS --%>
@@ -487,9 +489,7 @@
                             <input type="button" class="button" name="clearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearSearchFields();">
                             <%
                                 if(activeUser.getAccessRight("pharmacy.manageservicestocks.add")){
-                            %>
-                            <input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">
-                            <%
+                                    %><input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();"><%
                                 }
                             %>
                             <%-- display message --%>
@@ -532,7 +532,7 @@
                     <table width='100%' cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
                         <%-- clickable header --%>
                         <tr class="admin">
-                            <td/>
+                            <td width="90" nowrap>&nbsp;</td>
                             <td><%=getTran("Web","name",sWebLanguage)%></td>
                             <td><%=getTran("Web","service",sWebLanguage)%></td>
                             <td><%=getTran("Web","manager",sWebLanguage)%></td>
@@ -592,8 +592,9 @@
                         <td class="admin2">
                             <input type="hidden" name="EditServiceUid" value="<%=sSelectedServiceUid%>">
                             <input class="text" type="text" name="EditServiceName" readonly size="<%=sTextWidth%>" value="<%=sSelectedServiceName%>">
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('EditServiceUid','EditServiceName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditServiceUid.value='';transactionForm.EditServiceName.value='';">
+                         
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('EditServiceUid','EditServiceName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditServiceUid.value='';transactionForm.EditServiceName.value='';">
                         </td>
                     </tr>
                     <%-- Begin date --%>
@@ -619,8 +620,9 @@
                         <td class="admin2">
                             <input type="hidden" name="EditManagerUid" value="<%=sSelectedManagerUid%>">
                             <input class="text" type="text" name="EditManagerName" readonly size="<%=sTextWidth%>" value="<%=sSelectedManagerName%>">
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchManager('EditManagerUid','EditManagerName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditManagerName.value='';transactionForm.EditManagerUid.value='';">
+                           
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchManager('EditManagerUid','EditManagerName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditManagerName.value='';transactionForm.EditManagerUid.value='';">
                         </td>
                     </tr>
                     <%-- Authorized users --%>
@@ -630,9 +632,10 @@
                             <%-- add row --%>
                             <input type="hidden" name="AuthorizedUserIdAdd" value="">
                             <input class="text" type="text" name="AuthorizedUserNameAdd" size="<%=sTextWidth%>" value="" readonly>
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchAuthorizedUser('AuthorizedUserIdAdd','AuthorizedUserNameAdd');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.AuthorizedUserIdAdd.value='';transactionForm.AuthorizedUserNameAdd.value='';">
-                            <img src="<c:url value="/_img/icon_add.gif"/>" class="link" alt="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addAuthorizedUser();">
+                           
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchAuthorizedUser('AuthorizedUserIdAdd','AuthorizedUserNameAdd');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.AuthorizedUserIdAdd.value='';transactionForm.AuthorizedUserNameAdd.value='';">
+                            <img src="<c:url value="/_img/icons/icon_add.gif"/>" class="link" alt="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addAuthorizedUser();">
                             <table width="100%" cellspacing="1" id="tblAuthorizedUsers">
                                 <%=authorizedUsersHTML%>
                             </table>
@@ -646,8 +649,9 @@
                         <td class="admin2">
                             <input type="hidden" name="EditDefaultSupplierUid" value="<%=sSelectedDefaultSupplierUid%>">
                             <input class="text" type="text" name="EditDefaultSupplierName" readonly size="<%=sTextWidth%>" value="<%=sSelectedDefaultSupplierName%>">
-                            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('EditDefaultSupplierUid','EditDefaultSupplierName');">
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditDefaultSupplierUid.value='';transactionForm.EditDefaultSupplierName.value='';">
+                          
+                            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('EditDefaultSupplierUid','EditDefaultSupplierName');">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditDefaultSupplierUid.value='';transactionForm.EditDefaultSupplierName.value='';">
                         </td>
                     </tr>
                     <%-- orderPeriodInMonths --%>
@@ -674,40 +678,32 @@
                                 ServiceStock serviceStock = ServiceStock.get(sEditStockUid);
                                 if(serviceStock.isAuthorizedUser(activeUser.userid) || activeUser.getAccessRight("sa")){
                                     if(activeUser.getAccessRight("pharmacy.manageservicestocks.edit")){
-                                %>
-                                    <input class="button" type="button" name="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">
-                                <%
+		                                %><input class="button" type="button" name="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();"><%
                                     }
                                     if(activeUser.getAccessRight("pharmacy.manageservicestocks.delete")){
-                                %>
-                                    <input class="button" type="button" name="deleteButton" value='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="doDelete('<%=sEditStockUid%>');">
-                                <%
+		                                %><input class="button" type="button" name="deleteButton" value='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="doDelete('<%=sEditStockUid%>');"><%
                                     }
                                 }
-                                %>
-                                    <input class="button" type="button" name="returnButton" value='<%=getTranNoLink("Web","backtooverview",sWebLanguage)%>' onclick="doBackToOverview();">
-                                <%
+                                %><input class="button" type="button" name="returnButton" value='<%=getTranNoLink("Web","backtooverview",sWebLanguage)%>' onclick="doBackToOverview();"><%
                             }
                             else if(sAction.equals("showDetailsNew") || sAction.equals("showDetailsAfterAddReject")){
                                 // new serviceStock : display saveButton with add-label
                                 if(activeUser.getAccessRight("pharmacy.manageservicestocks.add")){
-                                %>
-                                    <input class="button" type="button" name="saveButton" value='<%=getTranNoLink("Web","add",sWebLanguage)%>' onclick="doAdd();">
-                                <%
+                                    %><input class="button" type="button" name="saveButton" value='<%=getTranNoLink("Web","add",sWebLanguage)%>' onclick="doAdd();"><%
                                 }
-                                %>
-                                    <input class="button" type="button" name="returnButton" value='<%=getTranNoLink("Web","back",sWebLanguage)%>' onclick="doBack();">
-                                <%
-                        }
+                                %><input class="button" type="button" name="returnButton" value='<%=getTranNoLink("Web","back",sWebLanguage)%>' onclick="doBack();"><%
+                            }
                         %>
                         <%-- display message --%>
                         <span id="msgArea"><%=msg%></span>
                     </td>
                 </tr>
             </table>
+            
             <%-- indication of obligated fields --%>
             <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
             <br><br>
+            
             <table width='100%'>
             	<tr>
             		<td class='text'><a href="javascript:printInventory('<%=sEditStockUid %>')"><%=getTran("web","servicestockinventory.pdf",sWebLanguage) %></a></td>
@@ -791,7 +787,7 @@
                     <%-- sub title --%>
                     <table width='100%' cellspacing='0'>
                         <tr class='admin'>
-                            <td>&nbsp;&nbsp;<%=getTran("Web.manage","ActiveServiceStocks",sWebLanguage)%>&nbsp;(<%=sFindServiceName%>)</td>
+                            <td><%=getTran("Web.manage","ActiveServiceStocks",sWebLanguage)%>&nbsp;(<%=sFindServiceName%>)</td>
                         </tr>
                     </table>
                     <%=getTran("web.manage","noservicestocksfoundinactiveservice",sWebLanguage)%>
@@ -836,9 +832,7 @@
         return false;
     }
   }
-
-
-
+  
   <%-- ADD AUTHORIZED USER --%>
   function addAuthorizedUser(){
     if(transactionForm.AuthorizedUserIdAdd.value.length > 0){
@@ -852,7 +846,7 @@
 
       var td = tr.insertCell(0);
       td.width = 16;
-      td.innerHTML = "<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+iAuthorizedUsersIdx+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+iAuthorizedUsersIdx+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -869,9 +863,10 @@
         var modalitiesIE = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
 
         if(window.showModalDialog){
-            window.showModalDialog(popupUrl,'',modalitiesIE);
-        }else{
-            window.confirm("<%=getTranNoLink("web","firstselectaperson",sWebLanguage)%>");
+          window.showModalDialog(popupUrl,'',modalitiesIE);
+        }
+        else{
+          window.confirm("<%=getTranNoLink("web","firstselectaperson",sWebLanguage)%>");
         }
 
         transactionForm.AuthorizedUserNameAdd.focus();
@@ -900,7 +895,7 @@
   <%-- EXTRACT USER IDS (between '=' and '£') --%>
   function extractUserIds(sourceString){
     var array = sourceString.split("$");
-    for (var i=0;i<array.length;i++){
+    for(var i=0;i<array.length;i++){
        array[i] = array[i].substring(array[i].indexOf("=")+1,array[i].indexOf("£"));
     }
     return array.join("$");
@@ -909,8 +904,8 @@
   <%-- DELETE ROW FROM ARRAY STRING --%>
   function deleteRowFromArrayString(sArray,rowid){
     var array = sArray.split("$");
-    for (var i=0;i<array.length;i++){
-      if (array[i].indexOf(rowid)>-1){
+    for(var i=0;i<array.length;i++){
+      if(array[i].indexOf(rowid)>-1){
         array.splice(i,1);
       }
     }
@@ -985,9 +980,7 @@
           maySubmit = true;
         }
         else{
-          var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.Occup&labelID=endMustComeAfterBegin";
-          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.Occup","endMustComeAfterBegin",sWebLanguage)%>");
+          alertDialog("web.Occup","endMustComeAfterBegin");
           transactionForm.EditEnd.focus();
           maySubmit = false;
         }

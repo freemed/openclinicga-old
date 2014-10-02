@@ -120,9 +120,9 @@
     </table>
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>
-        <input class="button" type="button" value="<%=getTran("Web.Occup","medwan.common.view-system-documents",sWebLanguage)%>" onclick="window.location.href='<c:url value='/main.do?Page=viewSystemDocuments.jsp'/>'"/>
-        <input class="button" type="button" value="<%=getTran("Web.Occup","medwan.common.view-patient-documents",sWebLanguage)%>" onclick="window.location.href='<c:url value='/main.do?Page=viewPatientDocuments.jsp'/>'"/>
-        <input class="button" type="submit" name="Submit" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>">
+        <input class="button" type="button" value="<%=getTranNoLink("Web.Occup","medwan.common.view-system-documents",sWebLanguage)%>" onclick="window.location.href='<c:url value='/main.do?Page=viewSystemDocuments.jsp'/>'"/>
+        <input class="button" type="button" value="<%=getTranNoLink("Web.Occup","medwan.common.view-patient-documents",sWebLanguage)%>" onclick="window.location.href='<c:url value='/main.do?Page=viewPatientDocuments.jsp'/>'"/>
+        <input class="button" type="submit" name="Submit" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>">
     <%=ScreenHelper.alignButtonsStop()%>
 </form>
 <%

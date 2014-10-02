@@ -229,9 +229,9 @@
           &nbsp;&nbsp;
 
            <%-- SEARCH BUTTONS --%>
-          <input type="button" class="button" name="FindButton"  value="<%=getTran("Web","Find",sWebLanguage)%>" onclick="doFind();">&nbsp;
-          <input type="button" class="button" name="ClearButton" value="<%=getTran("Web","Clear",sWebLanguage)%>" onClick="clearFindFields();">&nbsp;
-          <input type="button" class="button" name="NewButton"   value="<%=getTran("Web","New",sWebLanguage)%>" onClick="doNew();">
+          <input type="button" class="button" name="FindButton"  value="<%=getTranNoLink("Web","Find",sWebLanguage)%>" onclick="doFind();">&nbsp;
+          <input type="button" class="button" name="ClearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onClick="clearFindFields();">&nbsp;
+          <input type="button" class="button" name="NewButton"   value="<%=getTranNoLink("Web","New",sWebLanguage)%>" onClick="doNew();">
       </td>
   </tr>
 </table>
@@ -295,9 +295,9 @@
             else                  sClass = "";
 
             foundLabels.append("<tr class='list"+sClass+"'  onclick=\"setLabel('"+sLabelType+"','"+sLabelID+"','"+sLabelLang+"');\">")
-                       .append(" <td colspan='2'>"+sLabelType+"</td>")
-                       .append(" <td>"+sLabelID+"</td>")
-                       .append(" <td>"+getTran("web.language",sLabelLang,sWebLanguage)+"</td>")
+                       .append("<td colspan='2'>"+sLabelType+"</td>")
+                       .append("<td>"+sLabelID+"</td>")
+                       .append("<td>"+getTran("web.language",sLabelLang,sWebLanguage)+"</td>")
                        .append("<td colspan='2'>"+sLabelValue+"</td>");
 
             recsFound++;
@@ -311,8 +311,8 @@
                   <%-- HEADER --%>
                   <tr class="admin">
                       <td width="1%">
-                          <img id="Input_Hist_S" src="<c:url value='/_img/plus.png'/>" OnClick='showD("Input_Hist","Input_Hist_S","Input_Hist_H")' <%=(sAction.equals("Find")?"style='display:none'":"")%>>
-                          <img id="Input_Hist_H" src="<c:url value='/_img/minus.png'/>" OnClick='hideD("Input_Hist","Input_Hist_S", "Input_Hist_H")' <%=(sAction.equals("Find")?"":"style='display:none'")%>>
+                          <img id="Input_Hist_S" src="<c:url value='/_img/icons/icon_plus.png'/>" OnClick='showD("Input_Hist","Input_Hist_S","Input_Hist_H")' <%=(sAction.equals("Find")?"style='display:none'":"")%>>
+                          <img id="Input_Hist_H" src="<c:url value='/_img/icons/icon_minus.png'/>" OnClick='hideD("Input_Hist","Input_Hist_S", "Input_Hist_H")' <%=(sAction.equals("Find")?"":"style='display:none'")%>>
                       </td>
                       <td width="25%"><%=getTran("Web.Translations","LabelType",sWebLanguage)%></td>
                       <td width="25%"><%=getTran("Web.Translations","LabelID",sWebLanguage)%></td>
@@ -348,7 +348,7 @@
 
             <%-- CLOSE BUTTON --%>
             <%=ScreenHelper.alignButtonsStart()%>
-                <input class="button" type="button" name="closeButton" value="<%=getTran("Web","close",sWebLanguage)%>" onclick="window.close();">
+                <input class="button" type="button" name="closeButton" value="<%=getTranNoLink("Web","close",sWebLanguage)%>" onclick="window.close();">
             <%=ScreenHelper.alignButtonsStop()%>
             <br>
         <%
@@ -404,7 +404,7 @@
                   <td class="admin"><%=getTran("Web","Language",sWebLanguage)%></td>
                   <td class="admin2">
                       <select name="EditLabelLang" class="text">
-                          <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                          <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                           <%
                               tokenizer = new StringTokenizer(supportedLanguages,",");
                               while(tokenizer.hasMoreTokens()){
@@ -450,10 +450,10 @@
             %>
             <%-- BUTTONS --%>
             <%=ScreenHelper.alignButtonsStart()%>
-                <input class="button" type="button" name="AddButton" value="<%=getTran("Web","Add",sWebLanguage)%>" onclick="checkAdd();">&nbsp;
-                <input class="button" type="button" name="SaveButton" value="<%=getTran("Web","Save",sWebLanguage)%>" onclick="checkSave();">&nbsp;
-                <input class="button" type="button" name="DeleteButton" value="<%=getTran("Web","Delete",sWebLanguage)%>" onclick="askDelete();">&nbsp;
-                <input class="button" type="button" name="closeButton" value="<%=getTran("Web","close",sWebLanguage)%>" onclick="window.close();">
+                <input class="button" type="button" name="AddButton" value="<%=getTranNoLink("Web","Add",sWebLanguage)%>" onclick="checkAdd();">&nbsp;
+                <input class="button" type="button" name="SaveButton" value="<%=getTranNoLink("Web","Save",sWebLanguage)%>" onclick="checkSave();">&nbsp;
+                <input class="button" type="button" name="DeleteButton" value="<%=getTranNoLink("Web","Delete",sWebLanguage)%>" onclick="askDelete();">&nbsp;
+                <input class="button" type="button" name="closeButton" value="<%=getTranNoLink("Web","close",sWebLanguage)%>" onclick="window.close();">
             <%=ScreenHelper.alignButtonsStop()%>
         <%
     }

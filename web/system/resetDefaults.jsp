@@ -29,10 +29,10 @@
 %>
 
 <form name='resetDefaults' method='post'>
-	<table>
+	<table class="list" cellpadding="0" cellspacing="1" width="100%"> 
 		<tr class='admin'><td colspan='2'><%=getTran("web","reset.defaults",sWebLanguage) %>&nbsp</td></tr>
 		<tr>
-			<td class='admin'><%=getTran("web","country",sWebLanguage) %></td>
+			<td class='admin' width="<%=sTDAdminWidth%>"><%=getTran("web","country",sWebLanguage) %></td>
 			<td class='admin2'>
 				<select name='country' id='country' class='text'>
 					<option value=''></option>
@@ -99,10 +99,13 @@
 			</td>
 		</tr>
 	</table>
-	<input class='button' type = 'submit' name='update' value='<%=getTran("web","update",sWebLanguage)%>'/>
+	
+	<%=ScreenHelper.alignButtonsStart()%>
+	    <input class='button' type = 'submit' name='update' value='<%=getTranNoLink("web","update",sWebLanguage)%>'/>
+	<%=ScreenHelper.alignButtonsStop()%>
 </form>
 
-<script language="JavaScript" type="text/javascript">
+<script>
 function sortlist(list) {
 	var lb = document.getElementById(list);
 	arrTexts = new Array();

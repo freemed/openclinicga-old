@@ -112,13 +112,13 @@
             </select>
         </td>
         <td class="admin2"><input type="submit" class="button" class="text" name="findPatient"
-                                  value="<%=getTran("web","find",sWebLanguage)%>" size="1"/></td>
+                                  value="<%=getTranNoLink("web","find",sWebLanguage)%>" size="1"/></td>
         <td class="admin2"><input name="newPatient" class="button" type="hidden"/><input type="button" class="button" class="text"
                                                                           name="newPatientButton"
-                                                                          value="<%=getTran("web","new",sWebLanguage)%>"
+                                                                          value="<%=getTranNoLink("web","new",sWebLanguage)%>"
                                                                           size="1" onclick="newpat();"/></td>
         <td class="admin2"><input type="button" class="button" class="text" name="clear"
-                                  value="<%=getTran("web","clear",sWebLanguage)%>" size="1"
+                                  value="<%=getTranNoLink("web","clear",sWebLanguage)%>" size="1"
                                   onclick="clearPatient();EditPatientForm.document.getElementsByName('patientLastname')[0].focus();"/>
         </td>
     </tr>
@@ -184,7 +184,7 @@
         Vector diagnoses = Diagnosis.selectDiagnoses("", "", sEditEncounterUID, "", "", "", "", "", "", "", "", "", "");
         for (int n = 0; n < diagnoses.size(); n++) {
             Diagnosis diagnosis = (Diagnosis) diagnoses.elementAt(n);
-            sICPCHtml += "<span id='" + diagnosis.getCodeType() + diagnosis.getCode() + "'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' onclick='document.getElementById(\"" + diagnosis.getCodeType() + diagnosis.getCode() + "\").innerHTML=\"\";'/> <input type='hidden' name='" + diagnosis.getCodeType().toUpperCase() + "Code" + diagnosis.getCode() + "' value='" + (diagnosis.getLateralisation().length() == 0 ? "-" : diagnosis.getLateralisation() + "") + "'/>" +
+            sICPCHtml += "<span id='" + diagnosis.getCodeType() + diagnosis.getCode() + "'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' onclick='document.getElementById(\"" + diagnosis.getCodeType() + diagnosis.getCode() + "\").innerHTML=\"\";'/> <input type='hidden' name='" + diagnosis.getCodeType().toUpperCase() + "Code" + diagnosis.getCode() + "' value='" + (diagnosis.getLateralisation().length() == 0 ? "-" : diagnosis.getLateralisation() + "") + "'/>" +
                     "<input type='hidden' name='Gravity" + diagnosis.getCodeType().toUpperCase() + "Code" + diagnosis.getCode() + "' value='" + diagnosis.getGravity() + "'/>" +
                     "<input type='hidden' name='Certainty" + diagnosis.getCodeType().toUpperCase() + "Code" + diagnosis.getCode() + "' value='" + diagnosis.getCertainty() + "'/>" +
                     "<input type='hidden' name='POA" + diagnosis.getCodeType().toUpperCase() + "Code" + diagnosis.getCode() + "' value='" + diagnosis.getPOA() + "'/>" +
@@ -261,7 +261,7 @@
             HTMLEntities.htmlentities(activePerson.lastname + " " + activePerson.firstname + "  °" + activePerson.dateOfBirth + " " + activePerson.gender)%>
         </b></td>
         <td class="admin2"><input type="submit" class="text button" name="newEncounter"
-                                  value="<%=getTran("web","newencounter",sWebLanguage)%>" size="1"/></td>
+                                  value="<%=getTranNoLink("web","newencounter",sWebLanguage)%>" size="1"/></td>
     </tr>
 </table>
 <%
@@ -318,11 +318,11 @@
             <input type="hidden" name="EditEncounterService" value="<%=sEditEncounterService%>">
             <input class="text" type="text" name="EditEncounterServiceName" readonly size="<%=sTextWidth%>"
                    value="<%=sEditEncounterServiceName%>" >
-            <img src="<c:url value="/_img/icon_search.gif"/>" class="link"
-                 alt="<%=getTran("Web","select",sWebLanguage)%>"
+            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link"
+                 alt="<%=getTranNoLink("Web","select",sWebLanguage)%>"
                  onclick="searchService('EditEncounterService','EditEncounterServiceName');">
-            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link"
-                 alt="<%=getTran("Web","clear",sWebLanguage)%>"
+            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link"
+                 alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>"
                  onclick="EditPatientForm.EditEncounterService.value='';EditPatientForm.EditEncounterServiceName.value='';">
         </td>
     </tr>
@@ -368,12 +368,8 @@
             if (encounter.getBegin() != null) {
     %>
     <tr>
-        <td class="admin2"><b><a
-                href="<c:url value='/'/>popup.jsp?Page=statistics/quickFile.jsp&PopupHeight=600&PopupWidth=800&EditEncounterUID=<%=encounter.getUid()%>&PatientUID=<%=activePerson.personid%>&findEncounter=1"/><%=
-            ScreenHelper.stdDateFormat.format(encounter.getBegin()) + " -> " + (encounter.getEnd() == null ? "" : ScreenHelper.stdDateFormat.format(encounter.getEnd()))%>
-        </b></td>
-        <td class="admin2"><b><%=
-            (encounter.getService() == null ? "" : encounter.getService().getLabel(sWebLanguage)) + (encounter.getOutcome() == null ? "" : " (" + getTran("encounter.outcome", encounter.getOutcome(), sWebLanguage) + ")")%>
+        <td class="admin2"><b><a href="<c:url value='/'/>popup.jsp?Page=statistics/quickFile.jsp&PopupHeight=600&PopupWidth=800&EditEncounterUID=<%=encounter.getUid()%>&PatientUID=<%=activePerson.personid%>&findEncounter=1"/><%=ScreenHelper.stdDateFormat.format(encounter.getBegin()) + " -> " + (encounter.getEnd() == null ? "" : ScreenHelper.stdDateFormat.format(encounter.getEnd()))%></b></td>
+        <td class="admin2"><b><%=(encounter.getService()==null?"":encounter.getService().getLabel(sWebLanguage))+(encounter.getOutcome()==null?"":" ("+getTran("encounter.outcome",encounter.getOutcome(),sWebLanguage)+")")%>
         </b></td>
     </tr>
     <%
@@ -391,49 +387,54 @@
 </form>
 
 <script>
-    function doSubmit() {
-        var begin = createDate(document.getElementsByName("EditEncounterBegin")[0].value);
-        var end = createDate(document.getElementsByName("EditEncounterEnd")[0].value);
-        if (document.getElementsByName("EditEncounterEnd")[0].value.length>0 && end < begin) {
-            alert('<%=getTran("web","beginandendinverted",sWebLanguage)%>');
-        }
-        else if (end > new Date()) {
-            alert('<%=getTran("web","endinfuture",sWebLanguage)%>');
-        }
-        else {
-            document.getElementsByName("saveEncounter")[0].value = "true";
-            document.getElementById("EditPatientForm").submit();
-        }
+  function doSubmit(){
+    var begin = createDate(document.getElementsByName("EditEncounterBegin")[0].value);
+    var end = createDate(document.getElementsByName("EditEncounterEnd")[0].value);
+        
+    if(document.getElementsByName("EditEncounterEnd")[0].value.length>0 && end < begin){
+      alertDialog("web","beginandendinverted");
     }
+    else if (end > new Date()){
+      alertDialog("web","endinfuture");
+    }
+    else{
+      document.getElementsByName("saveEncounter")[0].value = "true";
+      document.getElementById("EditPatientForm").submit();
+    }
+  }
 
-    function validatePeriod() {
-        if (document.getElementsByName("EditEncounterBegin")[0].value.length > 0 && document.getElementsByName("EditEncounterEnd")[0].value.length > 0) {
-            var begin = createDate(document.getElementsByName("EditEncounterBegin")[0].value);
-            var end = createDate(document.getElementsByName("EditEncounterEnd")[0].value);
-            if (end.getTime() - begin.getTime() > 180 * 24 * 60 * 60000) {
-                alert('<%=getTran("web","longadmission",sWebLanguage)%>');
-            }
-        }
+  function validatePeriod(){
+    if(document.getElementsByName("EditEncounterBegin")[0].value.length > 0 && document.getElementsByName("EditEncounterEnd")[0].value.length > 0){
+      var begin = createDate(document.getElementsByName("EditEncounterBegin")[0].value);
+      var end = createDate(document.getElementsByName("EditEncounterEnd")[0].value);
+      
+      if(end.getTime() - begin.getTime() > 180 * 24 * 60 * 60000){
+      	alertDialog("web","longadmission");
+      }
     }
+  }
 
-    function createDate(sdate) {
-        var d = new Date();
-        d.setYear(sdate.substring(6, 10) * 1);
-        d.setMonth(sdate.substring(3, 5) * 1 - 1);
-        d.setDate(sdate.substring(0, 2) * 1);
-        return d;
-    }
-    function clearPatient() {
-        EditPatientForm.document.getElementsByName('patientLastname')[0].value = '';
-        EditPatientForm.document.getElementsByName('patientFirstname')[0].value = '';
-        EditPatientForm.document.getElementsByName('patientDateOfBirth')[0].value = '';
-        EditPatientForm.document.getElementsByName('patientGender')[0].value = '';
-    }
+  function createDate(sdate){
+    var d = new Date();
+    d.setYear(sdate.substring(6, 10) * 1);
+    d.setMonth(sdate.substring(3, 5) * 1 - 1);
+    d.setDate(sdate.substring(0, 2) * 1);
+    return d;
+  }
+    
+  function clearPatient(){
+    EditPatientForm.document.getElementsByName('patientLastname')[0].value = '';
+    EditPatientForm.document.getElementsByName('patientFirstname')[0].value = '';
+    EditPatientForm.document.getElementsByName('patientDateOfBirth')[0].value = '';
+    EditPatientForm.document.getElementsByName('patientGender')[0].value = '';
+  }
 
-    function searchService(serviceUidField, serviceNameField) {
-        openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode=" + serviceUidField + "&VarText=" + serviceNameField);
-        if (document.getElementsByName(serviceNameField)[0])document.getElementsByName(serviceNameField)[0].focus();
+  function searchService(serviceUidField, serviceNameField) {
+    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode=" + serviceUidField + "&VarText=" + serviceNameField);
+    if(document.getElementsByName(serviceNameField)[0]){
+      document.getElementsByName(serviceNameField)[0].focus();
     }
+  }
 
-    window.setTimeout("EditPatientForm.patientLastname.focus()",100);
+  window.setTimeout("EditPatientForm.patientLastname.focus()",100);
 </script>

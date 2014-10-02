@@ -357,7 +357,7 @@
 </form>
 
 <%-- link to config --%>
-<img src='<c:url value="/_img/pijl.gif"/>'>
+<img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
 <a  href="<c:url value='/main.do'/>?Page=system/manageConfig.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("web.manage","ManageConfiguration",sWebLanguage)%></a>&nbsp;
   
 <%

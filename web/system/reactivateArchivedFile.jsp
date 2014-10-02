@@ -104,9 +104,9 @@
         <tr>
             <td/>
             <td>
-                <input class="button" type="button" name="searchButton" onclick="searchHistoryPatient();" value="<%=getTran("Web","Find",sWebLanguage)%>">&nbsp;
-                <input class="button" type="button" name="clearButton" onClick="clearHistoryPatient();" value="<%=getTran("web","Clear",sWebLanguage)%>">&nbsp;
-                <input class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+                <input class="button" type="button" name="searchButton" onclick="searchHistoryPatient();" value="<%=getTranNoLink("Web","Find",sWebLanguage)%>">&nbsp;
+                <input class="button" type="button" name="clearButton" onClick="clearHistoryPatient();" value="<%=getTranNoLink("web","Clear",sWebLanguage)%>">&nbsp;
+                <input class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
             </td>
         </tr>
     </table>
@@ -141,7 +141,7 @@
     <%=ScreenHelper.alignButtonsStart()%>
         <br><br>
         <%-- link to archive active file --%>
-        <img src="<c:url value="/_img/pijl.gif"/>">
+        <img src="<c:url value="/_img/themes/default/pijl.gif"/>">
         <a  href="<c:url value='/main.do'/>?Page=system/archiveActiveFile.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.manage","archiveactivefile",sWebLanguage)%></a>&nbsp;
     <%=ScreenHelper.alignButtonsStop()%>
 </form>

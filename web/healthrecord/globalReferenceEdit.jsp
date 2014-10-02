@@ -96,8 +96,8 @@
             <td class="admin2">
                 <input type="hidden" id="EditCreationUserUID" name="EditCreationUserUID" value="<%=checkString(reference.getCreationUserUID())%>">
                 <input class="text" type="text" name="EditCreationUserName" readonly size="<%=sTextWidth%>" value="<%=sCreationUserName%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchUser('EditCreationUserUID','EditCreationUserName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditCreationUserUID').value='';editForm.EditCreationUserName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchUser('EditCreationUserUID','EditCreationUserName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditCreationUserUID').value='';editForm.EditCreationUserName.value='';">
             </td>
         </tr>
         <tr>
@@ -107,11 +107,11 @@
     <%
       if ((activeUser.getAccessRight("reference.add") || activeUser.getAccessRight("reference.edit"))){
     %>
-            <INPUT class="button" type="button" name="buttonSave" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+            <INPUT class="button" type="button" name="buttonSave" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
     <%
       }
     %>
-                <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){doMyBack();}">
+                <INPUT class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){doMyBack();}">
             </td>
         </tr>
     </table>

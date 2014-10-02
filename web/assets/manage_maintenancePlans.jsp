@@ -40,8 +40,8 @@
                 <input type="text" class="text" id="searchAssetCode" name="searchAssetCode" size="20" readonly value="">
                                    
                 <%-- buttons --%>
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("web","select",sWebLanguage)%>" onclick="selectAsset('searchAssetUID','searchAssetCode');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("web","clear",sWebLanguage)%>" onclick="clearAssetFields();">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("web","select",sWebLanguage)%>" onclick="selectAsset('searchAssetUID','searchAssetCode');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="clearAssetSearchFields();">
             </td>
         </tr>  
         
@@ -69,7 +69,7 @@
 
   <%-- SEARCH MAINTENANCE PLANS --%>
   function searchMaintenancePlans(){
-    document.getElementById("divMaintenancePlans").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Searching";            
+    document.getElementById("divMaintenancePlans").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Searching";            
     var url = "<c:url value='/assets/ajax/maintenancePlan/getMaintenancePlans.jsp'/>?ts="+new Date().getTime();
     new Ajax.Request(url,
       {        
@@ -124,16 +124,15 @@
         </tr>
         
         <%-- asset (code) (*) --%>
+        <tr>
             <td class="admin"><%=getTran("web.assets","asset",sWebLanguage)%>&nbsp;*&nbsp;</td>
             <td class="admin2">
                 <input type="hidden" name="assetUID" id="assetUID" value="">
                 <input type="text" class="text" id="assetCode" name="assetCode" size="20" value="" readonly>
                 
                 <%-- BUTTONS --%>
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("web","select",sWebLanguage)%>" onclick="selectAsset('assetUID','assetCode');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("web","clear",sWebLanguage)%>" onclick="clearAssetFields();">
-            </td>
-        </tr>  
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("web","select",sWebLanguage)%>" onclick="selectAsset('assetUID','assetCode');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="clearAssetFields();">
             </td>
         </tr>
              
@@ -203,19 +202,15 @@
       if(okToSubmit==true){
         if(EditForm.planManager.value.length > 0){
           if(!validEmailAddress(EditForm.planManager.value)){
-            okToSubmit = false;
-            
-            var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web&labelID=invalidemailaddress";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","invalidEmailAddress",sWebLanguage)%>");
-
+            okToSubmit = false;            
+            alertDialog("Web","invalidemailaddress");
             EditForm.planManager.focus();
           }
         }
       }
     
       if(okToSubmit==true){
-        document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
+        document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Saving";  
         disableButtons();
         
         var sParams = "EditPlanUID="+EditForm.EditPlanUID.value+
@@ -265,7 +260,7 @@
   
   <%-- LOAD MAINTENANCEPLANS --%>
   function loadMaintenancePlans(){
-    document.getElementById("divMaintenancePlans").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";            
+    document.getElementById("divMaintenancePlans").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
     var url = "<c:url value='/assets/ajax/maintenancePlan/getMaintenancePlans.jsp'/>?ts="+new Date().getTime();
     new Ajax.Request(url,
       {

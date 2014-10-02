@@ -158,8 +158,8 @@
     </table>
     <%-- BUTTONS --%>
     <p align="center">
-        <input type="button" class="button" name="processButton" value="<%=getTran("web.manage","processUpdateQueries",sWebLanguage)%>" onClick="doSubmit();">
-        <input type="button" class="button" name="backButton" value="<%=getTran("Web","Back",sWebLanguage)%>" onClick="doBack();">
+        <input type="button" class="button" name="processButton" value="<%=getTranNoLink("web.manage","processUpdateQueries",sWebLanguage)%>" onClick="doSubmit();">
+        <input type="button" class="button" name="backButton" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onClick="doBack();">
     </p>
 </form>
 

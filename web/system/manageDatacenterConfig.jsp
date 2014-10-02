@@ -63,5 +63,5 @@
 		</tr>
 	</table>
 	<p/>
-	<input type="submit" name="submit" value="<%=getTran("web","save",sWebLanguage)%>"/>
+	<input type="submit" name="submit" value="<%=getTranNoLink("web","save",sWebLanguage)%>"/>
 </form>

@@ -27,7 +27,7 @@
             <td class="admin2">
                 <input type="hidden" name="userID" value="">
                 <input TYPE='TEXT' NAME='userName' size='35px' class="text" onchange='setUserItemsValues();'>
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link"
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link"
                      alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchUser('userName','userID');">
 
                 <br/><br/>
@@ -55,15 +55,15 @@
                 <div id="ALLITEMTYPES" style="visibility:hidden;">
                     <a href='#'
                        onclick="addItem(transactionForm.allItemsAvailable.value,transactionForm.userID.value);">
-                        <img src='<%=sCONTEXTPATH%>/_img/icon_add.gif'
+                        <img src='<%=sCONTEXTPATH%>/_img/icons/icon_add.gif'
                              alt='<%=getTranNoLink("Web", "add", sWebLanguage)%>'
-                             class='link'>
+                            class='link'>
                         <%=getTran("Web.manage", "addthisTypeinUser", sWebLanguage)%>
                         <br/></a>
                     <a href='#' onclick="addItem('',transactionForm.userID.value);">
-                        <img src='<%=sCONTEXTPATH%>/_img/icon_add.gif'
+                        <img src='<%=sCONTEXTPATH%>/_img/icons/icon_add.gif'
                              alt='<%=getTranNoLink("Web", "add", sWebLanguage)%>'
-                             class='link'>
+                            class='link'>
                         <%=getTran("Web.manage", "addAllTypesinUser", sWebLanguage)%>
                     </a>
                 </div>
@@ -81,7 +81,7 @@
                 <div id="selectedItemsTypes">
                 </div>
                 <a href='#' onclick="delValue(transactionForm.itemTypeSelect.value,'',transactionForm.userID.value);">
-                    <img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif'
+                    <img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif'
                          alt='<%=getTranNoLink("Web", "delete", sWebLanguage)%>' class='link'>
                     <%=getTran("Web.manage", "deletethisTypeFromUser", sWebLanguage)%>
                 </a>
@@ -158,7 +158,7 @@
     }
 
     function ajaxChangeSearchResults(urlForm, SearchForm, moreParams, div) {
-        document.getElementById(div).innerHTML = "<div style='text-align:center'><img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading</div>";
+        document.getElementById(div).innerHTML = "<div style='text-align:center'><img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading</div>";
         var url = urlForm;
         var params = Form.serialize(SearchForm) + moreParams;
 

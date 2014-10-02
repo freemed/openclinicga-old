@@ -9,6 +9,7 @@
                 java.util.Vector" %>
 <%@include file="/includes/validateUser.jsp" %>
 <%@page errorPage="/includes/error.jsp" %>
+
 <script>
   function reloadOpener(){
     if(isModified && window.opener.document.getElementById('patientmedicationsummary')!=undefined){
@@ -132,13 +133,13 @@
 
             //*** display prescription in one row ***
             html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
-                 .append("<td align='center'>"+(((prescr == null || (prescr != null && prescr.getDeliveredQuantity() == 0))) && (activeUser.getAccessRight("prescriptions.drugs.delete")) ? "<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+prescr.getUid()+"');\">" : "")+"</td>")
+                 .append("<td align='center'>"+(((prescr == null || (prescr != null && prescr.getDeliveredQuantity() == 0))) && (activeUser.getAccessRight("prescriptions.drugs.delete")) ? "<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+prescr.getUid()+"');\">" : "")+"</td>")
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\"><b>"+sProductName+"</b></td>")
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sDateBeginFormatted+"</td>")
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sDateEndFormatted+"</td>")
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sPrescrRule.toLowerCase()+"</td>")
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+prescr.getDeliveredQuantity()+"</td>")
-                 .append("<td "+(!available && openQuantity > 0 ? " class='strike'" : "")+(openQuantity > 0 ? " bgcolor='#ff9999'" : "")+">"+(available && openQuantity > 0 ? "<a title='"+getTran("web", "deliver", sWebLanguage)+"' href=\"javascript:doDeliverMedication('"+prescr.getUid()+"');\"><font style='color: black;'>" : "<font style='color: black; text-decoration: line-through;'>")+openQuantity+"</font></a></td>")
+                 .append("<td "+(!available && openQuantity > 0 ? " class='strike'" : "")+(openQuantity > 0 ? " bgcolor='#ff9999'" : "")+">"+(available && openQuantity > 0 ? "<a title='"+getTranNoLink("web", "deliver", sWebLanguage)+"' href=\"javascript:doDeliverMedication('"+prescr.getUid()+"');\"><font style='color: black;'>" : "<font style='color: black; text-decoration: line-through;'>")+openQuantity+"</font></a></td>")
                 .append("</tr>");
         }
 
@@ -232,10 +233,10 @@
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
 
     String msg = "", sSelectedPrescriberUid = "", sSelectedProductUid = "",
-            sSelectedDateBegin = "", sSelectedDateEnd = "", sSelectedTimeUnit = "", sSelectedTimeUnitCount = "",
-            sSelectedUnitsPerTimeUnit = "", sSelectedSupplyingServiceUid = "", sSelectedProductUnit = "",
-            sSelectedPrescriberFullName = "", sSelectedProductName = "", sSelectedSupplyingServiceName = "",
-            sSelectedServiceStockUid = "", sSelectedServiceStockName = "", sSelectedRequiredPackages = "";
+           sSelectedDateBegin = "", sSelectedDateEnd = "", sSelectedTimeUnit = "", sSelectedTimeUnitCount = "",
+           sSelectedUnitsPerTimeUnit = "", sSelectedSupplyingServiceUid = "", sSelectedProductUnit = "",
+           sSelectedPrescriberFullName = "", sSelectedProductName = "", sSelectedSupplyingServiceName = "",
+           sSelectedServiceStockUid = "", sSelectedServiceStockName = "", sSelectedRequiredPackages = "";
 
     // variables
     int foundPrescrCount;
@@ -320,7 +321,7 @@
                 prescriptionSchema.setPrescriptionUid(prescr.getUid());
                 prescriptionSchema.store();
 
-                msg = getTran("web", "dataissaved", sWebLanguage);
+                msg = "<font color='green'>"+getTran("web", "dataissaved", sWebLanguage)+"</font>";
             }
             //***** reject new addition *****
             else {
@@ -328,14 +329,15 @@
                 sAction = "showDetailsAfterAddReject";
                 msg = "<font color='red'>"+getTran("web.manage", "prescriptionexists", sWebLanguage)+"</font>";
             }
-        } else {
+        }
+        else {
             //***** update existing record *****
             if(true || !prescrExists){
                 prescr.store(false);
                 prescriptionSchema.setPrescriptionUid(prescr.getUid());
                 prescriptionSchema.store();
 
-                msg = getTran("web", "dataissaved", sWebLanguage);
+                msg = "<font color='green'>"+getTran("web", "dataissaved", sWebLanguage)+"</font>";
             }
             //***** reject double record thru update *****
             else {
@@ -343,12 +345,13 @@
                     // nothing : just updating a record with its own data
                     if(prescr.changed()){
                         prescr.store(false);
-                        msg = getTran("web", "dataissaved", sWebLanguage);
+                        msg = "<font color='green'>"+getTran("web", "dataissaved", sWebLanguage)+"</font>";
                     }
 
                     prescriptionSchema.setPrescriptionUid(prescr.getUid());
                     prescriptionSchema.store();
-                } else {
+                }
+                else {
                     // tried to update one prescription with exact the same data as an other prescription
                     // show rejected data
                     sAction = "showDetailsAfterUpdateReject";
@@ -487,22 +490,22 @@
 <table width="100%" cellspacing="0">
     <tr class="admin">
         <td>
-            &nbsp;&nbsp;<%="true".equalsIgnoreCase(request.getParameter("ServicePrescriptions")) ? getTran("Web.manage", "ManageServicePrescriptions", sWebLanguage)+"&nbsp;"+activeUser.activeService.getLabel(sWebLanguage) : getTran("Web.manage", "ManagePatientPrescriptions", sWebLanguage)+"&nbsp;"+activePatient.lastname+" "+activePatient.firstname%>
+            <%="true".equalsIgnoreCase(request.getParameter("ServicePrescriptions")) ? getTran("Web.manage", "ManageServicePrescriptions", sWebLanguage)+"&nbsp;"+activeUser.activeService.getLabel(sWebLanguage) : getTran("Web.manage", "ManagePatientPrescriptions", sWebLanguage)+"&nbsp;"+activePatient.lastname+" "+activePatient.firstname%>
         </td>
         <td align="right">
             <%
                 if(sAction.startsWith("showDetails")){
-            %><img onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';"
-                   onClick="doBackToOverview();" style='vertical-align:middle;' border='0'
-                   src='<%=sCONTEXTPATH%>/_img/arrow.jpg' alt='<%=getTranNoLink("Web","Back",sWebLanguage)%>'><%
-            }
-        %>
+		            %><img onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';"
+		                   onClick="doBackToOverview();" style='vertical-align:middle;' border='0'
+		                   src='<%=sCONTEXTPATH%>/_img/themes/default/arrow_left.gif' alt='<%=getTranNoLink("Web","Back",sWebLanguage)%>'><%
+	            }
+	        %>
         </td>
     </tr>
 </table>
 
 <%
-String onClick = "onclick=\"searchProduct('EditProductUid','EditProductName','ProductUnit','EditUnitsPerTimeUnit','UnitsPerPackage',null,'EditServiceStockUid');\"";
+    String onClick = "onclick=\"searchProduct('EditProductUid','EditProductName','ProductUnit','EditUnitsPerTimeUnit','UnitsPerPackage',null,'EditServiceStockUid');\"";
     if(!"true".equalsIgnoreCase(request.getParameter("ServicePrescriptions")) && activePatient == null){
         // display message
         %><%=getTran("web", "firstselectaperson", sWebLanguage)%><%
@@ -523,44 +526,35 @@ String onClick = "onclick=\"searchProduct('EditProductUid','EditProductName','Pr
     <td class="admin2">
         <input type="hidden" name="EditProductUid" value="<%=sSelectedProductUid%>">
         <input type="hidden" name="ProductUnit" value="<%=sSelectedProductUnit%>">
-        <input class="text" type="text" name="EditProductName" readonly size="<%=sTextWidth%>"
-               value="<%=sSelectedProductName%>">
+        <input class="text" type="text" name="EditProductName" readonly size="<%=sTextWidth%>" value="<%=sSelectedProductName%>">
 
-        <img id="findProduct" src="<c:url value="/_img/icon_search.gif"/>" class="link"
-             alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" <%=onClick%>>
-        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link"
-             alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>"
-             onclick="transactionForm.EditProductName.value='';transactionForm.EditProductUid.value='';">
+        <img id="findProduct" src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" <%=onClick%>>
+        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditProductName.value='';transactionForm.EditProductUid.value='';">
     </td>
 </tr>
+
 <%-- ***** prescription-rule (dosage) ***** --%>
 <tr>
     <td class="admin"><%=getTran("Web", "prescriptionrule", sWebLanguage)%>&nbsp;*&nbsp;</td>
     <td class="admin2">
         <%-- Units Per Time Unit --%>
-        <input type="text" class="text" style="vertical-align:-1px;" name="EditUnitsPerTimeUnit"
-               value="<%=(sSelectedUnitsPerTimeUnit.length()>0?(doubleFormat.format(Double.parseDouble(sSelectedUnitsPerTimeUnit))).replaceAll(",","."):"")%>"
-               size="5" maxLength="5" onKeyUp="isNumber(this);calculatePackagesNeeded();">
+        <input type="text" class="text" style="vertical-align:-1px;" name="EditUnitsPerTimeUnit" value="<%=(sSelectedUnitsPerTimeUnit.length()>0?(doubleFormat.format(Double.parseDouble(sSelectedUnitsPerTimeUnit))).replaceAll(",","."):"")%>" size="5" maxLength="5" onKeyUp="isNumber(this);calculatePackagesNeeded();">
         <span id="EditUnitsPerTimeUnitLabel"></span>
 
         <%-- Time Unit Count --%>
         &nbsp;<%=getTran("web", "per", sWebLanguage)%>
-        <input type="text" class="text" style="vertical-align:-1px;" name="EditTimeUnitCount"
-               value="<%=sSelectedTimeUnitCount%>" size="5" maxLength="5" onKeyUp="calculatePackagesNeeded();">
+        <input type="text" class="text" style="vertical-align:-1px;" name="EditTimeUnitCount" value="<%=sSelectedTimeUnitCount%>" size="5" maxLength="5" onKeyUp="calculatePackagesNeeded();">
 
         <%-- Time Unit (dropdown : Hour|Day|Week|Month) --%>
-        <select class="text" name="EditTimeUnit"
-                onChange="setEditUnitsPerTimeUnitLabel();setEditTimeUnitCount();calculatePackagesNeeded();"
-                style="vertical-align:-3px;">
-            <option value=""><%=getTran("web", "choose", sWebLanguage)%>
-            </option>
+        <select class="text" name="EditTimeUnit" onChange="setEditUnitsPerTimeUnitLabel();setEditTimeUnitCount();calculatePackagesNeeded();" style="vertical-align:-3px;">
+            <option value=""><%=getTranNoLink("web", "choose", sWebLanguage)%></option>
             <%=ScreenHelper.writeSelectUnsorted("prescription.timeunit", sSelectedTimeUnit, sWebLanguage)%>
         </select>
 
-        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" style="vertical-align:-4px;"
-             alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="clearDescriptionRule();">
+        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" style="vertical-align:-4px;" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="clearDescriptionRule();">
     </td>
 </tr>
+
 <%-- date begin --%>
 <tr>
     <td class="admin"><%=getTran("Web", "begindate", sWebLanguage)%>&nbsp;*&nbsp;</td>
@@ -568,16 +562,17 @@ String onClick = "onclick=\"searchProduct('EditProductUid','EditProductName','Pr
         <input type="text" maxlength="10" class="text" id="EditDateBegin" name="EditDateBegin" value="<%=sSelectedDateBegin%>" size="12"
                onblur="if(!checkDate(this)){alertDialog('Web.Occup','date.error');this.value='';}else{calculatePackagesNeeded(false);}if(isEndDateBeforeBeginDate()){displayEndBeforeBeginAlert();}"
                onKeyUp="if(this.value.length==10){calculatePackagesNeeded(false);}else{transactionForm.EditRequiredPackages.value='';}">
-        <img name="popcal" class="link" src="<%=sCONTEXTPATH%>/_img/icon_agenda.gif"
-             alt="<%=getTran("Web","Select",sWebLanguage)%>"
+        <img name="popcal" class="link" src="<%=sCONTEXTPATH%>/_img/icons/icon_agenda.gif"
+             alt="<%=getTranNoLink("Web","Select",sWebLanguage)%>"
              onclick="gfPop1.fPopCalendar(document.getElementById('EditDateBegin'));return false;">
-        <img class="link" src="<%=sCONTEXTPATH%>/_img/icon_compose.gif"
-             alt="<%=getTran("Web","PutToday",sWebLanguage)%>"
+        <img class="link" src="<%=sCONTEXTPATH%>/_img/icons/icon_compose.gif"
+             alt="<%=getTranNoLink("Web","PutToday",sWebLanguage)%>"
              onclick="getToday(document.getElementById('EditDateBegin'));calculatePackagesNeeded(false);">
-        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link"
+        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link"
              alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditDateBegin.value='';">
     </td>
 </tr>
+
 <%-- date end --%>
 <tr>
     <td class="admin"><%=getTran("Web", "enddate", sWebLanguage)%>&nbsp;*&nbsp;</td>
@@ -585,16 +580,17 @@ String onClick = "onclick=\"searchProduct('EditProductUid','EditProductName','Pr
         <input type="text" maxlength="10" class="text" id="EditDateEnd" name="EditDateEnd" value="<%=sSelectedDateEnd%>" size="12"
                onblur="if(!checkDate(this)){alertDialog('Web.Occup','date.error');this.value='';}else{calculatePackagesNeeded(false);}if(isEndDateBeforeBeginDate()){displayEndBeforeBeginAlert();}"
                onKeyUp="if(this.value.length==10){calculatePackagesNeeded(false);}else{transactionForm.EditRequiredPackages.value='';}">
-        <img name="popcal" class="link" src="<%=sCONTEXTPATH%>/_img/icon_agenda.gif"
-             alt="<%=getTran("Web","Select",sWebLanguage)%>"
+        <img name="popcal" class="link" src="<%=sCONTEXTPATH%>/_img/icons/icon_agenda.gif"
+             alt="<%=getTranNoLink("Web","Select",sWebLanguage)%>"
              onclick="gfPop1.fPopCalendar(document.getElementById('EditDateEnd'));return false;">
-        <img class="link" src="<%=sCONTEXTPATH%>/_img/icon_compose.gif"
-             alt="<%=getTran("Web","PutToday",sWebLanguage)%>"
+        <img class="link" src="<%=sCONTEXTPATH%>/_img/icons/icon_compose.gif"
+             alt="<%=getTranNoLink("Web","PutToday",sWebLanguage)%>"
              onclick="getToday(document.getElementById('EditDateEnd'));calculatePackagesNeeded(false);">
-        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link"
+        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link"
              alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditDateEnd.value='';">
     </td>
 </tr>
+
 <%-- number of packages needed for this prescription --%>
 <%
     // units per package
@@ -617,6 +613,7 @@ String onClick = "onclick=\"searchProduct('EditProductUid','EditProductName','Pr
         &nbsp;(<input type="text" class="text" name="UnitsPerPackage" value="<%=sUnitsPerPackage%>" size="3" readonly style="border:none;background:transparent;text-align:right;vertical-align:-4px;">&nbsp;<%=getTran("web", "packageunits", sWebLanguage).toLowerCase()%>)
     </td>
 </tr>
+
 <%-- prescriber --%>
 <tr>
     <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web", "prescriber", sWebLanguage)%>&nbsp;*&nbsp;</td>
@@ -624,10 +621,11 @@ String onClick = "onclick=\"searchProduct('EditProductUid','EditProductName','Pr
         <input type="hidden" name="EditPrescriberUid" value="<%=sSelectedPrescriberUid%>">
         <input class="text" type="text" name="EditPrescriberFullName" readonly size="<%=sTextWidth%>" value="<%=sSelectedPrescriberFullName%>">
 
-        <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchPrescriber('EditPrescriberUid','EditPrescriberFullName');">
-        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditPrescriberUid.value='';transactionForm.EditPrescriberFullName.value='';">
+        <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchPrescriber('EditPrescriberUid','EditPrescriberFullName');">
+        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditPrescriberUid.value='';transactionForm.EditPrescriberFullName.value='';">
     </td>
 </tr>
+
 <%-- Service Stock --%>
 <tr>
     <td class="admin"><%=getTran("Web", "servicestock", sWebLanguage)%>&nbsp;</td>
@@ -635,10 +633,11 @@ String onClick = "onclick=\"searchProduct('EditProductUid','EditProductName','Pr
         <input type="hidden" name="EditServiceStockUid" value="<%=sSelectedServiceStockUid%>">
         <input class="text" type="text" name="EditServiceStockName" readonly size="<%=sTextWidth%>" value="<%=sSelectedServiceStockName%>">
 
-        <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchServiceStock('EditServiceStockUid','EditServiceStockName');">
-        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditServiceStockUid.value='';transactionForm.EditServiceStockName.value='';transactionForm.EditSupplyingServiceUid.value='';transactionForm.EditSupplyingServiceName.value='';">
+        <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchServiceStock('EditServiceStockUid','EditServiceStockName');">
+        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditServiceStockUid.value='';transactionForm.EditServiceStockName.value='';transactionForm.EditSupplyingServiceUid.value='';transactionForm.EditSupplyingServiceName.value='';">
     </td>
 </tr>
+
 <%-- Supplying Service --%>
 <tr>
     <td class="admin" nowrap><%=getTran("Web", "supplyingservice", sWebLanguage)%>&nbsp;</td>
@@ -647,6 +646,7 @@ String onClick = "onclick=\"searchProduct('EditProductUid','EditProductName','Pr
         <input class="text" type="text" name="EditSupplyingServiceName" readonly size="<%=sTextWidth%>" value="<%=sSelectedSupplyingServiceName%>">
     </td>
 </tr>
+
 <%-- schema --%>
 <tr>
     <td class="admin" nowrap><%=getTran("Web", "schema", sWebLanguage)%>&nbsp;</td>
@@ -659,7 +659,7 @@ String onClick = "onclick=\"searchProduct('EditProductUid','EditProductName','Pr
                 <td><input class="text" type="text" name="time4" value="<%=prescriptionSchema.getTimeQuantity(3).getKey()%>" size="2"><%=getTran("web", "abbreviation.hour", sWebLanguage)%></td>
                 <td><input class="text" type="text" name="time5" value="<%=prescriptionSchema.getTimeQuantity(4).getKey()%>" size="2"><%=getTran("web", "abbreviation.hour", sWebLanguage)%></td>
                 <td><input class="text" type="text" name="time6" value="<%=prescriptionSchema.getTimeQuantity(5).getKey()%>" size="2"><%=getTran("web", "abbreviation.hour", sWebLanguage)%></td>
-                <td><a href="javascript:loadSchema();"><img class="link" src="<c:url value="/_img/icon_search.gif"/>" alt="Search schema"/></a></td>
+                <td><a href="javascript:loadSchema();"><img class="link" src="<c:url value="/_img/icons/icon_search.gif"/>" alt="Search schema"/></a></td>
             </tr>
             <tr>
                 <td><input class="text" type="text" name="quantity1" value="<%=(prescriptionSchema.getTimeQuantity(0).getValue().equals("-1")?"":prescriptionSchema.getTimeQuantity(0).getValue())%>" size="2">#</td>
@@ -847,9 +847,7 @@ function calculatePackagesNeeded(displayAlert){
         }
 
         if(displayAlert == true){
-          var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.Occup&labelID=endMustComeAfterBegin";
-          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          (window.showModalDialog)?window.showModalDialog(popupUrl,"Popup",modalities):window.confirm("<%=getTranNoLink("web.Occup","endMustComeAfterBegin",sWebLanguage)%>");
+          alertDialog("web.Occup","endMustComeAfterBegin");
           transactionForm.EditDateEnd.focus();
         }
 
@@ -862,9 +860,7 @@ function calculatePackagesNeeded(displayAlert){
 <%-- DISPLAY "END BEFORE BEGIN" ALERT --%>
 function displayEndBeforeBeginAlert(){
   if(transactionForm.EditDateEnd.value.length > 0){
-    var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=<%=getTs()%>&labelType=web.Occup&labelID=endMustComeAfterBegin";
-    var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    (window.showModalDialog)?window.showModalDialog(popupUrl,"Popup",modalities):window.confirm("<%=getTranNoLink("web.Occup","endMustComeAfterBegin",sWebLanguage)%>");
+	alertDialog("web.Occup","endMustComeAfterBegin");
   }
 }
 
@@ -951,36 +947,43 @@ function isEndDateBeforeBeginDate(){
             String sortTran = getTran("web", "clicktosort", sWebLanguage);
 
 %>
-<table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
-    <%-- clickable header --%>
-    <tr>
-        <td class="admin" width="22" nowrap>&nbsp;</td>
-        <td class="admin"><%=getTran("Web", "product", sWebLanguage)%>
-        </td>
-        <td class="admin"><SORTTYPE:DATE><%=getTran("Web", "begindate", sWebLanguage)%></SORTTYPE:DATE></td>
-        <td class="admin"><SORTTYPE:DATE><%=getTran("Web", "enddate", sWebLanguage)%></SORTTYPE:DATE></td>
-        <td class="admin"><%=getTran("Web", "prescriptionrule", sWebLanguage)%></td>
-        <td class="admin" nowrap><%=getTran("Web", "delivered.quantity", sWebLanguage)%></td>
-        <td class="admin" nowrap><%=getTran("Web", "tobedelivered.quantity", sWebLanguage)%></td>
-    </tr>
-
+<table width="100%" cellspacing="0" cellpadding="0" class="list">
     <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
         <%
             foundPrescrCount = 0;
             Vector services = Service.getChildIds(activeUser.activeService.code);
             services.add(activeUser.activeService.code);
             Vector activePatients;
+            
             for (int s = 0; s < services.size(); s++){
                 activePatients = AdminPerson.getPatientsAdmittedInService((String) services.elementAt(s));
+                
                 for (int n = 0; n < activePatients.size(); n++){
-                    String patient = (String) activePatients.elementAt(n);
+                    String patient = (String) activePatients.elementAt(n);                    
                     Vector activePrescrs = Prescription.findActive(patient, "", "", "", "", "", sSortCol, sSortDir);
                     foundPrescrCount += activePrescrs.size();
+                    
                     if(activePrescrs.size() > 0){
                       	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
                         AdminPerson p = AdminPerson.getAdminPerson(ad_conn, patient);
                         ad_conn.close();
-                        out.print("<tr class='admin'><td colspan='25'>"+getTran("Web.manage", "ManagePatientPrescriptions", sWebLanguage)+"&nbsp;"+p.lastname+" "+p.firstname+"</td>");
+                        
+                        // header per patient
+                        out.print("<tr class='gray'><td colspan='25'>"+getTran("Web.manage", "ManagePatientPrescriptions", sWebLanguage)+"&nbsp;"+p.lastname+" "+p.firstname+"</td>");
+
+                        %>
+                            <%-- header --%>
+	                        <tr class="label">
+	                            <td width="22" nowrap>&nbsp;</td>
+	                            <td><%=getTran("Web", "product", sWebLanguage)%></td>
+	                            <td><SORTTYPE:DATE><%=getTran("Web", "begindate", sWebLanguage)%></SORTTYPE:DATE></td>
+	                            <td><SORTTYPE:DATE><%=getTran("Web", "enddate", sWebLanguage)%></SORTTYPE:DATE></td>
+	                            <td><%=getTran("Web", "prescriptionrule", sWebLanguage)%></td>
+	                            <td><%=getTran("Web", "delivered.quantity", sWebLanguage)%></td>
+	                            <td><%=getTran("Web", "tobedelivered.quantity", sWebLanguage)%></td>
+	                        </tr>
+                        <%
+                        
                         out.print(objectsToHtml(activePrescrs, sWebLanguage, activeUser));
                     }
                 }
@@ -997,12 +1000,11 @@ function isEndDateBeforeBeginDate(){
 <%
     if(foundPrescrCount > 20){
         // link to top of page
-%>
-<span style="width:51%;text-align:right;">
-    <a href="#topp" class="topbutton">&nbsp;</a>
-</span>
-<br>
-<%
+		%>
+		<span style="width:51%;text-align:right;">
+		    <a href="#topp" class="topbutton">&nbsp;</a>
+		</span>
+		<%
     }
 }
 else {
@@ -1045,33 +1047,32 @@ else {
 </span>
 <br>
 <%
-    }
-} 
-else {
-    // no records found
-%>
-<script>window.location.href = "<c:url value='/popup.jsp'/>?Page=medical/managePrescriptionsPopup.jsp&Action=showDetailsNew&Close=true&findProduct=true&ts=<%=getTs()%>&PopupHeight=400&PopupWidth=900";</script>
-<%
-        }
-    }
+	        }
+	    } 
+	    else {
+	        // no records found
+	        %><script>window.location.href = "<c:url value='/popup.jsp'/>?Page=medical/managePrescriptionsPopup.jsp&Action=showDetailsNew&Close=true&findProduct=true&ts=<%=getTs()%>&PopupHeight=400&PopupWidth=900";</script><%
+	    }
+	}
 
+    if(msg.length() > 0){
+        %>
+			<%-- display message --%>
+			<br><span id="msgArea">&nbsp;<%=msg%></span>
+	    <%
+	}
 %>
-<%-- display message --%>
-<br><span id="msgArea">&nbsp;<%=msg%></span>
 
 <%-- NEW BUTTON --%>
 <%=ScreenHelper.alignButtonsStart()%>
-<%
-    if(!"true".equalsIgnoreCase(request.getParameter("ServicePrescriptions")) && activeUser.getAccessRight("prescriptions.drugs.add")){
-%>
-<input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>"
-       onclick="doNew();">
-<%
-    }
-%>
-<input type="button" class="button" name="closeButton" value="<%=getTranNoLink("Web","close",sWebLanguage)%>"
-       onclick="window.close();">
+	<%
+	    if(!"true".equalsIgnoreCase(request.getParameter("ServicePrescriptions")) && activeUser.getAccessRight("prescriptions.drugs.add")){
+	        %><input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();"><%
+	    }
+	%>
+	<input type="button" class="button" name="closeButton" value="<%=getTranNoLink("Web","close",sWebLanguage)%>" onclick="window.close();">
 <%=ScreenHelper.alignButtonsStop()%>
+
 <%
         }
     }
@@ -1171,9 +1172,7 @@ function checkPrescriptionFields(){
         maySubmit = true;
       }
       else{
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.Occup&labelID=endMustComeAfterBegin";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        (window.showModalDialog)?window.showModalDialog(popupUrl,"Popup",modalities):window.confirm("<%=getTranNoLink("web.Occup","endMustComeAfterBegin",sWebLanguage)%>");
+    	alertDialog("web.Occup","endMustComeAfterBegin");
         transactionForm.EditDateEnd.focus();
       }
     }
@@ -1284,26 +1283,26 @@ function doDeliverMedication(prescrUID){
 
 <%-- popup : search userProduct --%>
 function searchUserProduct(productUidField, productNameField, productUnitField, unitsPerTimeUnitField, unitsPerPackageField, productStockUidField, serviceStockUidField){
-    var url = "/_common/search/searchUserProduct.jsp&ts=<%=getTs()%>&loadschema=true&ReturnProductUidField="+productUidField+"&ReturnProductNameField="+productNameField;
+    var url = "<%=sCONTEXTPATH%>/_common/search/searchUserProduct.jsp?ts=<%=getTs()%>&loadschema=true&ReturnProductUidField="+productUidField+"&ReturnProductNameField="+productNameField;
 
     if(productUnitField != undefined){
-        url += "&ReturnProductUnitField="+productUnitField;
+        url+= "&ReturnProductUnitField="+productUnitField;
     }
 
     if(unitsPerTimeUnitField != undefined){
-        url += "&ReturnUnitsPerTimeUnitField="+unitsPerTimeUnitField;
+        url+= "&ReturnUnitsPerTimeUnitField="+unitsPerTimeUnitField;
     }
 
     if(unitsPerPackageField != undefined){
-        url += "&ReturnUnitsPerPackageField="+unitsPerPackageField;
+        url+= "&ReturnUnitsPerPackageField="+unitsPerPackageField;
     }
 
     if(productStockUidField != undefined){
-        url += "&ReturnProductStockUidField="+productStockUidField;
+        url+= "&ReturnProductStockUidField="+productStockUidField;
     }
 
     if(serviceStockUidField != undefined){
-        url += "&ReturnServiceStockUidField="+serviceStockUidField;
+        url+= "&ReturnServiceStockUidField="+serviceStockUidField;
     }
 
     openPopup(url);

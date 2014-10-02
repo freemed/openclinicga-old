@@ -4,17 +4,19 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
-    String sServiceUid = checkString(request.getParameter("ServiceUid"));
+    String sServiceUid     = checkString(request.getParameter("ServiceUid")),
+           sServiceVersion = checkString(request.getParameter("ServiceVersion"));
        
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n********** center/ajax/deleteService.jsp **********");
-        Debug.println("sServiceUid : "+sServiceUid+"\n");
+        Debug.println("\n*************** center/ajax/deleteService.jsp ***************");
+        Debug.println("sServiceUid     : "+sServiceUid);
+        Debug.println("sServiceVersion : "+sServiceVersion+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
 
     
-    boolean errorOccurred = Center.delete(sServiceUid);
+    boolean errorOccurred = Center.delete(sServiceUid,sServiceVersion);
     String sMessage = "";
     
     if(!errorOccurred){

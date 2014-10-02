@@ -31,8 +31,8 @@
                 <input type="text" class="text" id="searchMaintenancePlanName" name="searchMaintenancePlanName" size="20" readonly value="">
                                    
                 <%-- buttons --%>
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("web","select",sWebLanguage)%>" onclick="selectMaintenancePlan('searchMaintenancePlanUID','searchMaintenancePlanName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("web","clear",sWebLanguage)%>" onclick="clearMaintenancePlanSearchFields();">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("web","select",sWebLanguage)%>" onclick="selectMaintenancePlan('searchMaintenancePlanUID','searchMaintenancePlanName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="clearMaintenancePlanSearchFields();">
             </td>
         </tr>   
         
@@ -103,7 +103,7 @@
     }
       
     if(okToSearch==true){
-      document.getElementById("divMaintenanceOperations").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Searching";            
+      document.getElementById("divMaintenanceOperations").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Searching";            
       var url = "<c:url value='/assets/ajax/maintenanceOperation/getMaintenanceOperations.jsp'/>?ts="+new Date().getTime();
       new Ajax.Request(url,
         {
@@ -151,8 +151,8 @@
                 <input type="text" class="text" id="maintenancePlanName" name="maintenancePlanName" size="20" readonly value="">
                                    
                 <%-- buttons --%>
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("web","select",sWebLanguage)%>" onclick="selectMaintenancePlan('maintenancePlanUID','maintenancePlanName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("web","clear",sWebLanguage)%>" onclick="clearMaintenancePlanFields();">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("web","select",sWebLanguage)%>" onclick="selectMaintenancePlan('maintenancePlanUID','maintenancePlanName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="clearMaintenancePlanFields();">
             </td>
         </tr>   
         
@@ -243,7 +243,7 @@
       }
           
       if(okToSubmit==true){
-        document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
+        document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Saving";  
         disableButtons();
         
         var sParams = "EditOperationUID="+EditForm.EditOperationUID.value+
@@ -296,7 +296,7 @@
   
   <%-- LOAD MAINTENANCE OPERATIONS --%>
   function loadMaintenanceOperations(){
-    document.getElementById("divMaintenanceOperations").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";            
+    document.getElementById("divMaintenanceOperations").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
     var url = "<c:url value='/assets/ajax/maintenanceOperation/getMaintenanceOperations.jsp'/>?ts="+new Date().getTime();
     new Ajax.Request(url,
       {

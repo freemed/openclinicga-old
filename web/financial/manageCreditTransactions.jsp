@@ -139,8 +139,8 @@
             <td class='admin2'>
                 <input type="hidden" name="EditCreditEncounterUID" value="<%=sEditCreditEncounterUID%>">
                 <input class="text" type="text" name="EditCreditEncounterName" readonly size="<%=sTextWidth%>" value="<%=sEditCreditEncounterName%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchEncounter('EditCreditEncounterUID','EditCreditEncounterName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditForm.EditCreditEncounterUID.value='';EditForm.EditCreditEncounterName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchEncounter('EditCreditEncounterUID','EditCreditEncounterName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditForm.EditCreditEncounterUID.value='';EditForm.EditCreditEncounterName.value='';">
             </td>
         </tr>
         <%-- sourcetype --%>
@@ -168,8 +168,8 @@
             <td class='admin2'>
                 <input type="hidden" name="EditCreditSourceUID" value="<%=sEditCreditSourceUID%>">
                 <input class="text" type="text" name="EditCreditSourceName" readonly size="<%=sTextWidth%>" value="<%=sEditCreditSourceName%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchEditCreditSource('EditCreditSourceUID','EditCreditSourceName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditForm.EditCreditSourceUID.value='';EditForm.EditCreditSourceName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchEditCreditSource('EditCreditSourceUID','EditCreditSourceName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditForm.EditCreditSourceUID.value='';EditForm.EditCreditSourceName.value='';">
             </td>
         </tr>
         <tr>
@@ -181,7 +181,7 @@
             </td>
         </tr>
     </table>
-    <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>.
+    <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
     <input type='hidden' name='Action' value=''>
     <input type='hidden' name='EditCreditUID' value='<%=sEditCreditUID%>'>
     <input type='hidden' name='EditCreditBalanceUID' value='<%=sEditCreditBalanceUID%>'>

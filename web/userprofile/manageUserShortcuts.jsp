@@ -144,7 +144,7 @@
         <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","type",sWebLanguage)%>&nbsp;*&nbsp;</td>
         <td class="admin2">
             <select name="ShortcutType" class="text" onchange="getSubtypes(this);">
-                <option value="-1"><%=getTran("web","choose",sWebLanguage)%></option>
+                <option value="-1"><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                 <%
                     /*
                         <Menu labelid="applications">
@@ -241,10 +241,10 @@
     <tr>     
         <td class="admin"/>
         <td class="admin2" colspan="2">
-            <input type="button" class="button" name="saveButton" id="saveButton" value="<%=getTran("web","save",sWebLanguage)%>" style="visibility:visible" onclick="saveShortcut();">
-            <input type="button" class="button" name="deleteButton" id="deleteButton" value="<%=getTran("web","delete",sWebLanguage)%>" style="visibility:hidden;" onclick="deleteShortcut();"/>
-            <input type="button" class="button" name="newButton" id="newButton" value="<%=getTran("web","new",sWebLanguage)%>" style="visibility:hidden;" onclick="newShortcut();"/>
-            <input type="button" class="button" name="backButton" id="backButton" value="<%=getTran("web","back",sWebLanguage)%>" style="visibility:visible;" OnClick="doBack();">
+            <input type="button" class="button" name="saveButton" id="saveButton" value="<%=getTranNoLink("web","save",sWebLanguage)%>" style="visibility:visible" onclick="saveShortcut();">
+            <input type="button" class="button" name="deleteButton" id="deleteButton" value="<%=getTranNoLink("web","delete",sWebLanguage)%>" style="visibility:hidden;" onclick="deleteShortcut();"/>
+            <input type="button" class="button" name="newButton" id="newButton" value="<%=getTranNoLink("web","new",sWebLanguage)%>" style="visibility:hidden;" onclick="newShortcut();"/>
+            <input type="button" class="button" name="backButton" id="backButton" value="<%=getTranNoLink("web","back",sWebLanguage)%>" style="visibility:visible;" OnClick="doBack();">
         </td>
     </tr>
 </table>    
@@ -269,7 +269,7 @@
   
   <%-- LOAD SAVED SHORTCUTS --%>
   function loadSavedShortcuts(){
-	document.getElementById("savedShortcutsTD").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";     
+	document.getElementById("savedShortcutsTD").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";     
     var url = "<c:url value='/userprofile/ajax/loadSavedShortcuts.jsp'/>?ts="+new Date().getTime();
     var params = "UserId=<%=activeUser.userid%>";
     

@@ -9,12 +9,12 @@
 <%
     String sPatientId = checkString(request.getParameter("PatientId"));
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n****************** getSalaries.jsp ****************");
+        Debug.println("\n******************* hr/ajax/getSalaries.jsp *****************");
         Debug.println("sPatientId : "+sPatientId+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
 
     // compose object to pass search criteria with
     Salary findObject = new Salary();
@@ -75,9 +75,9 @@
 <%
     if(salaries.size() > 0){
         %>
-<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
+<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border:none;">
     <%-- header --%>
-    <tr class="admin" style="padding-left: 1px;">
+    <tr class="admin" style="padding-left:1px;">
         <td width="10%" nowrap><asc><%=HTMLEntities.htmlentities(getTran("web.hr","begin",sWebLanguage))%></asc></td>
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","end",sWebLanguage))%></td>
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","contract",sWebLanguage))%></td>

@@ -25,13 +25,13 @@
         String detailsTran = getTran("web","showDetails",sWebLanguage);
         StringBuffer buf = new StringBuffer();
         buf.append("<tr id='rowLA"+iTotal+"' class='"+sClass+"' title='"+detailsTran+"' >")
-           .append(" <td>&nbsp;"+sCode+"</td>")
-           .append(" <td>&nbsp;"+sType+"</td>")
-           .append(" <td>&nbsp;"+sLabel+"</td>")
-           .append(" <td>&nbsp;"+sComment+"</td>")
-           .append(" <td>&nbsp;"+sMonster+"</td>")
-           .append(" <td>&nbsp;"+sResultValue+"</td>")
-           .append(" <td>&nbsp;"+(sResultModifier.length()>0?getTran("labanalysis.resultmodifier",sResultModifier,sWebLanguage):"")+"</td>")
+           .append("<td>&nbsp;"+sCode+"</td>")
+           .append("<td>&nbsp;"+sType+"</td>")
+           .append("<td>&nbsp;"+sLabel+"</td>")
+           .append("<td>&nbsp;"+sComment+"</td>")
+           .append("<td>&nbsp;"+sMonster+"</td>")
+           .append("<td>&nbsp;"+sResultValue+"</td>")
+           .append("<td>&nbsp;"+(sResultModifier.length()>0?getTran("labanalysis.resultmodifier",sResultModifier,sWebLanguage):"")+"</td>")
            .append("</tr>");
 
         return buf.toString();
@@ -189,7 +189,7 @@
 
     <%-- BUTTONS --%>
     <p align="center">
-        <input class="button" type="button" value="<%=getTran("Web","close",sWebLanguage)%>" onclick="window.close();">
+        <input class="button" type="button" value="<%=getTranNoLink("Web","close",sWebLanguage)%>" onclick="window.close();">
     </p>
 </form>
 

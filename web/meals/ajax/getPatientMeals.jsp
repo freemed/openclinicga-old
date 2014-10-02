@@ -26,8 +26,8 @@
         while (it.hasNext()) {
             item = (Meal) it.next();
             String sClass = ((i % 2) == 0) ? "list" : "list1";
-            out.write("<tr id=\"patientmeal_"+item.getUid()+"\"  class='" + sClass + " ' >");
-            out.write("<td align='center'><img src='" + sCONTEXTPATH + "/_img/icon_delete.png' class='link' title='" + (HTMLEntities.htmlentities(getTranNoLink("web", "delete", sWebLanguage))) + "' onclick=\"deleteMealFromPatient('" + item.patientMealUid + "');\"></td>");
+            out.write("<tr id=\"patientmeal_"+item.getUid()+"\" class='" + sClass + " ' >");
+            out.write("<td align='center'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.png' class='link' title='" + (HTMLEntities.htmlentities(getTranNoLink("web", "delete", sWebLanguage))) + "' onclick=\"deleteMealFromPatient('" + item.patientMealUid + "');\"></td>");
             if (item.taken) {
                 out.write("<td align='center'><img src='" + sCONTEXTPATH + "/_img/checked.png' class='link' title='" + (HTMLEntities.htmlentities(getTranNoLink("meals", "mealtaken", sWebLanguage))) + "' onclick=\"setMealTaken('" + item.patientMealUid  + "','');\"></td>");
             } else {

@@ -71,7 +71,7 @@
         </tr>
     </table>
     <br>
-    <div id="divUnassignedDebets" class="searchResults" style="height:120px;"><img src="<c:url value="/_img/ajax-loader.gif"/>"/><br/>Loading</div>
+    <div id="divUnassignedDebets" class="searchResults" style="height:120px;"><img src="<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif"/><br/>Loading</div>
     <input class='text' readonly type='hidden' id='EditAmount' name='EditAmount' value='<%=debet.getAmount()+debet.getExtraInsurarAmount()%>' size='20'>
     <input class='text' readonly type='hidden' id='EditInsurarAmount' name='EditInsurarAmount' value='<%=debet.getInsurarAmount()%>' size='20'> 
     <br>
@@ -164,7 +164,7 @@
                         }
                     %>
                 </select>
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchPrestation();">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchPrestation();">
 				<%=getTran("web","prestationgroups",sWebLanguage) %>
 				<select class="text" name="EditPrestationGroup" id="EditPrestationGroup" onchange="document.getElementById('EditPrestationName').value='';changePrestation(false)">
                     <option/>
@@ -201,8 +201,8 @@
             <td class='admin2'>
                 <input type="hidden" name="EditEncounterUID" value="<%=debet.getEncounterUid()%>">
                 <input class="text" type="text" name="EditEncounterName" readonly size="<%=sTextWidth%>" value="<%=sEditEncounterName%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchEncounter('EditEncounterUID','EditEncounterName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditForm.EditEncounterUID.value='';EditForm.EditEncounterName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchEncounter('EditEncounterUID','EditEncounterName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditForm.EditEncounterUID.value='';EditForm.EditEncounterName.value='';">
             </td>
         </tr>
         <tr>
@@ -210,8 +210,8 @@
             <td class='admin2'>
                 <input type="hidden" name="EditSupplierUID" value="<%=debet.getSupplierUid()%>">
                 <input class="text" type="text" name="EditSupplierName" readonly size="<%=sTextWidth%>" value="<%=sEditSupplierName%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchSupplier('EditSupplierUID','EditSupplierName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="EditForm.EditSupplierUID.value='';EditForm.EditSupplierName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('EditSupplierUID','EditSupplierName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditForm.EditSupplierUID.value='';EditForm.EditSupplierName.value='';">
             </td>
         </tr>
         <tr>
@@ -241,7 +241,7 @@
             </td>
         </tr>
     </table>
-    <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>.
+    <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
     <div id="divMessage" name="divMessage"></div>
     <input type='hidden' id="EditDebetUID" name='EditDebetUID' value='<%=sEditDebetUID%>'>
 </form>
@@ -256,7 +256,7 @@
             
           EditForm.EditPrestationName.style.backgroundColor='white';
           if(!bFirst){
-              document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Calculating";
+              document.getElementById('divMessage').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Calculating";
               var today = new Date();
               var url= '<c:url value="/financial/getPrestationAmount2.jsp"/>?ts='+today;
               new Ajax.Request(url,{
@@ -322,7 +322,7 @@
         sCredited = "1";
       }
       var url= '<c:url value="/financial/debetSave2.jsp"/>?ts='+today;
-      document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+      document.getElementById('divMessage').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading";
 	  var prests="";
       pars=document.all;
       for(n=0;n<document.all.length;n++){
@@ -424,7 +424,7 @@
     }
 
     function loadUnassignedDebets(){
-        document.getElementById('divUnassignedDebets').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+        document.getElementById('divUnassignedDebets').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading";
         var params = 'FindDateBegin=' + EditForm.FindDateBegin.value
               +"&FindDateEnd="+EditForm.FindDateEnd.value
               +"&FindAmountMin="+EditForm.FindAmountMin.value

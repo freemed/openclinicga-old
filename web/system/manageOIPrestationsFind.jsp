@@ -62,7 +62,7 @@
 	    %>
 	                <tr class="list<%=sClass%>" onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';">
 	                    <td>
-	                        <a href="#" onclick="deletePrestation('<%=prestation.getUid()%>');"><img src='<c:url value="/_img/icon_delete.gif"/>' border='0' alt="<%=sTranDelete%>"></a>
+	                        <a href="#" onclick="deletePrestation('<%=prestation.getUid()%>');"><img src='<c:url value="/_img/icons/icon_delete.gif"/>' border='0' alt="<%=sTranDelete%>"></a>
 	                    </td>
 	                    <td class="hand" onClick="editPrestation('<%=prestation.getUid()%>');"><%=HTMLEntities.htmlentities(checkString(prestation.getCode()))%></td>
 	                    <td class="hand" onClick="editPrestation('<%=prestation.getUid()%>');"><%=HTMLEntities.htmlentities(checkString(prestation.getDescription()))%></td>

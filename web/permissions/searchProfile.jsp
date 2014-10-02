@@ -36,11 +36,11 @@
     <%-- PAGE TITLE --%>
     <%=writeTableHeader("Web.UserProfile","usersPerProfile",sWebLanguage," doBack();")%>
 
-    <table width="100%" class="menu">
+    <table width="100%" class="menu" cellspacing="1" cellpadding="0">
         <%-- PROFILE --%>
         <tr>
-            <td width="<%=sTDAdminWidth%>"><%=getTran("Web.UserProfile","UserProfile",sWebLanguage)%></td>
-            <td>
+            <td width="<%=sTDAdminWidth%>" class="admin2"><%=getTran("Web.UserProfile","UserProfile",sWebLanguage)%></td>
+            <td class="admin2">
                 <select name="FindProfileID" class="text" onchange="transactionForm.FindApplication.selectedIndex = -1;transactionForm.submit();"><option/>
                     <%=sProfiles%>
                 </select>
@@ -49,8 +49,8 @@
 
         <%-- APPLICATION --%>
         <tr>
-            <td><%=getTran("Web","Applications",sWebLanguage)%></td>
-            <td>
+            <td class="admin2"><%=getTran("Web","Applications",sWebLanguage)%></td>
+            <td class="admin2">
                 <select name="FindApplication" class="text" onChange="transactionForm.FindProfileID.selectedIndex = -1;transactionForm.submit();">
                     <option/>
                     <%
@@ -98,7 +98,7 @@
         %>
             <%-- PRINT BUTTON top --%>
             <%=ScreenHelper.alignButtonsStart()%>
-                <input type="button" value="<%=getTran("Web.Occup","medwan.common.print",sWebLanguage)%>" class="button" onclick="doPrint();">
+                <input type="button" value="<%=getTranNoLink("Web.Occup","medwan.common.print",sWebLanguage)%>" class="button" onclick="doPrint();">
             <%=ScreenHelper.alignButtonsStop()%>
 
             <span id="printtable">
@@ -166,7 +166,7 @@
                                     else                   sClass = "";
 
                                     %>
-                                        <tr class="list<%=sClass%>"  onClick="window.location.href = '<%=sCONTEXTPATH%>/main.do?Page=/permissions/userpermission.jsp&PersonID=<%=sPersonID%>&ts=<%=getTs()%>';">
+                                        <tr class="list<%=sClass%>" onclick="window.location.href = '<%=sCONTEXTPATH%>/main.do?Page=/permissions/userpermission.jsp&PersonID=<%=sPersonID%>&ts=<%=getTs()%>';">
                                             <td><%=sLastname%></td>
                                             <td width="1%" nowrap><%=sService%></td>
                                             <td><%=sLogin%></td>
@@ -182,8 +182,8 @@
 
             <%-- BUTTONS at bottom --%>
             <%=ScreenHelper.alignButtonsStart()%>
-                <input type="button" class="button" name="printButtonBottom" value="<%=getTran("Web.Occup","medwan.common.print",sWebLanguage)%>" onclick="doPrint();">
-                <input type="button" class="button" name="backButton" Value='<%=getTran("Web","Back",sWebLanguage)%>' OnClick="doBack();">&nbsp;
+                <input type="button" class="button" name="printButtonBottom" value="<%=getTranNoLink("Web.Occup","medwan.common.print",sWebLanguage)%>" onclick="doPrint();">
+                <input type="button" class="button" name="backButton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' OnClick="doBack();">&nbsp;
             <%=ScreenHelper.alignButtonsStop()%>
         <%
     }

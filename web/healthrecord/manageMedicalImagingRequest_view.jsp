@@ -88,15 +88,15 @@
     </table>
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>
-        <INPUT class="button" type="button" value="<%=getTran("Web.Occup","medwan.common.print",sWebLanguage)%>" onclick="window.open('<%=sCONTEXTPATH+sAPPDIR%>/loadPDF.jsp?file=base/<%=sWebLanguage%>4CO.pdf&module=N4C&modulepar1='+document.getElementsByName('examination')[0].options[document.getElementsByName('examination')[0].selectedIndex].text+'&modulepar2='+document.getElementsByName('other')[0].value+'&modulepar3='+document.getElementsByName('remark')[0].value+'&modulepar4='+document.getElementsByName('reason')[0].value+'&ts=<%=ScreenHelper.getTs()%>','Print','toolbar=yes, status=yes, scrollbars=yes, resizable=yes, width=700, height=500,menubar=yes');">
+        <INPUT class="button" type="button" value="<%=getTranNoLink("Web.Occup","medwan.common.print",sWebLanguage)%>" onclick="window.open('<%=sCONTEXTPATH+sAPPDIR%>/loadPDF.jsp?file=base/<%=sWebLanguage%>4CO.pdf&module=N4C&modulepar1='+document.getElementsByName('examination')[0].options[document.getElementsByName('examination')[0].selectedIndex].text+'&modulepar2='+document.getElementsByName('other')[0].value+'&modulepar3='+document.getElementsByName('remark')[0].value+'&modulepar4='+document.getElementsByName('reason')[0].value+'&ts=<%=ScreenHelper.getTs()%>','Print','toolbar=yes, status=yes, scrollbars=yes, resizable=yes, width=700, height=500,menubar=yes');">
         <%
             if(activeUser.getAccessRight("occup.other.add") || activeUser.getAccessRight("occup.other.edit")) {
             %>
-                <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+                <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
             <%
             }
         %>
-        <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();"/>
+        <INPUT class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();"/>
     <%=ScreenHelper.alignButtonsStop()%>
     <%=ScreenHelper.contextFooter(request)%>
 </form>

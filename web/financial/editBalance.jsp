@@ -87,8 +87,8 @@
         <tr>
             <td class="admin"/>
             <td class="admin2">
-                <input class='button' type="button" name="buttonSave" value='<%=getTran("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
-                <input class='button' type="button" name="buttonBack" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doBack();">
+                <input class='button' type="button" name="buttonSave" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
+                <input class='button' type="button" name="buttonBack" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
             </td>
         </tr>
         <%-- UID,action --%>

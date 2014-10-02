@@ -2,6 +2,7 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("system.management","all",activeUser)%>
+
 <%!
     //--- CONTAINS KEY ----------------------------------------------------------------------------
     // a properties-object is case sensitive; this function makes it INsensitive.
@@ -108,7 +109,7 @@
 <table width="100%" class="menu" cellspacing="1">
     <%-- DATA DIRECTION --%>
     <tr>
-        <td colspan="2">
+        <td colspan="2" class="admin2">
             <input type="radio" name="dataDirection" id="dataDirection1" value="dbToIni" onDblClick="uncheckRadio(this);" <%=(dataDirection.equals("dbToIni")?" checked":"")%>>
             <label for="dataDirection1">In Db, not in ini file (DB to INI)</label>
             &nbsp;&nbsp;&nbsp;&nbsp;
@@ -116,20 +117,17 @@
             <label for="dataDirection2">In ini file, not in Db (INI to DB)</label>
         </td>
     </tr>
-    <tr>
-         <td colspan="2"><br></td>
-    </tr>
     
     <%-- FROM DATE --%>
     <tr width="<%=sTDAdminWidth%>">
-        <td>&nbsp;<%=getTran("Web.control","from",sWebLanguage)%></td>
-        <td><%=writeDateField("FindLabelDate","transactionForm",findLabelDate,sWebLanguage)%></td>
+        <td class="admin2">&nbsp;<%=getTran("Web.control","from",sWebLanguage)%></td>
+        <td class="admin2"><%=writeDateField("FindLabelDate","transactionForm",findLabelDate,sWebLanguage)%></td>
     </tr>
     
     <%-- LABEL TYPE --%>
     <tr>
-        <td>&nbsp;<%=getTran("Web","type",sWebLanguage)%></td>
-        <td>
+        <td class="admin2">&nbsp;<%=getTran("Web","type",sWebLanguage)%></td>
+        <td class="admin2">
             <select name="FindLabelType" class="text">
                 <option></option>
                 <%
@@ -157,16 +155,16 @@
     
     <%-- LABEL ID --%>
     <tr>
-        <td>&nbsp;<%=getTran("Web.Translations","labelid",sWebLanguage)%></td>
-        <td>
+        <td class="admin2">&nbsp;<%=getTran("Web.Translations","labelid",sWebLanguage)%></td>
+        <td class="admin2">
             <input type="text" class="text" name="FindLabelID" value="<%=findLabelID%>" size="<%=sTextWidth%>">
         </td>
     </tr>
     
     <%-- LABEL LANGUAGE --%>
     <tr>
-        <td>&nbsp;<%=getTran("Web","Language",sWebLanguage)%></td>
-        <td>
+        <td class="admin2">&nbsp;<%=getTran("Web","Language",sWebLanguage)%></td>
+        <td class="admin2">
             <select name="FindLabelLang" class="text">
                 <%
                     String tmpLang;
@@ -174,7 +172,7 @@
                     while (tokenizer.hasMoreTokens()) {
                         tmpLang = tokenizer.nextToken();
                 %>
-                            <option value="<%=tmpLang%>" <%=(findLabelLang.equals(tmpLang)?"selected":"")%>><%=getTran("Web.language",tmpLang,sWebLanguage)%></option>
+                            <option value="<%=tmpLang%>" <%=(findLabelLang.equals(tmpLang)?"selected":"")%>><%=getTranNoLink("Web.language",tmpLang,sWebLanguage)%></option>
                         <%
                     }
                 %>
@@ -184,28 +182,29 @@
     
     <%-- LABEL VALUE --%>
     <tr>
-        <td>&nbsp;<%=getTran("Web.Translations","label",sWebLanguage)%></td>
-        <td>
+        <td class="admin2">&nbsp;<%=getTran("Web.Translations","label",sWebLanguage)%></td>
+        <td class="admin2">
             <input type="text" class="text" name="FindLabelValue" value="<%=findLabelValue%>" size="<%=sTextWidth%>">&nbsp;&nbsp;
         </td>
     </tr>
     
     <%-- EXCLUDED TYPES --%>
     <tr height="22">
-        <td>&nbsp;<%=getTran("web.translations","Excludedtypes",sWebLanguage)%></td>
-        <td><%=excludedLabelTypes%></td>
+        <td class="admin2">&nbsp;<%=getTran("web.translations","Excludedtypes",sWebLanguage)%></td>
+        <td class="admin2"><%=excludedLabelTypes%></td>
     </tr>
     
     <%-- BUTTONS --%>
     <tr>
-        <td/>
-        <td>
-            <input type="button" class="button" name="FindButton" value="<%=getTran("Web","Find",sWebLanguage)%>" onclick="doSubmit('find');">&nbsp;
-            <input type="button" class="button" name="ClearButton" value="<%=getTran("Web","Clear",sWebLanguage)%>" onClick="clearFindFields();">&nbsp;
-            <input class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+        <td class="admin2">&nbsp;</td>
+        <td class="admin2">
+            <input type="button" class="button" name="FindButton" value="<%=getTranNoLink("Web","Find",sWebLanguage)%>" onclick="doSubmit('find');">&nbsp;
+            <input type="button" class="button" name="ClearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onClick="clearFindFields();">&nbsp;
+            <input class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
         </td>
     </tr>
 </table>
+
 <%
     String select = "";
 
@@ -412,7 +411,7 @@
                         <a href="#" onclick="checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
                     </td>
                     <td align="right">
-                        <a href='#bottom'><img src='<c:url value='/_img/bottom.jpg'/>' class='link' border="0"></a>
+                        <a href='#bottom'><img src='<c:url value='/_img/themes/default/bottom.gif'/>' class='link' border="0"></a>
                     </td>
                 </tr>
             </table>
@@ -607,15 +606,15 @@
                         <a href="#" onclick="checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
                     </td>
                     <td align="right">
-                        <a href='#topp'><img src='<c:url value='/_img/top.jpg'/>' class='link' border="0"></a>
+                        <a href='#topp'><img src='<c:url value='/_img/themes/default/top.gif'/>' class='link' border="0"></a>
                     </td>
                 </tr>
                 <%-- BUTTONS --%>
                 <tr>
                     <td colspan="2">
                         <%=ScreenHelper.alignButtonsStart()%>
-                        <input type="button" class="button" name="InsertButton" value="<%=getTran("Web","Add",sWebLanguage)%>" onclick="doSubmit('insert')">
-                        <input type="button" class="button" name="DeleteButton" value="<%=getTran("Web","Delete",sWebLanguage)%>" onclick="doSubmit('delete')">
+                        <input type="button" class="button" name="InsertButton" value="<%=getTranNoLink("Web","Add",sWebLanguage)%>" onclick="doSubmit('insert')">
+                        <input type="button" class="button" name="DeleteButton" value="<%=getTranNoLink("Web","Delete",sWebLanguage)%>" onclick="doSubmit('delete')">
                         <%=ScreenHelper.alignButtonsStop()%>
                     </td>
                 </tr>
@@ -639,10 +638,11 @@
 
 <%-- link to manage translations --%>
 <%=ScreenHelper.alignButtonsStart()%>
-    <img src='<c:url value="/_img/pijl.gif"/>'>
+    <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
     <a  href="<c:url value='/main.do'/>?Page=system/manageTranslations.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web","managetranslations",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
-<a name="bottom"/>
+
+<a name="bottom">&nbsp;<a/>
 
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>

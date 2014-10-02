@@ -1,55 +1,63 @@
-<%@ page import="be.openclinic.pharmacy.*,be.mxs.common.util.system.*" %><%@page errorPage="/includes/error.jsp"%><%@include file="/includes/validateUser.jsp"%>
+<%@page import="be.openclinic.pharmacy.*,
+                be.mxs.common.util.system.*" %>
+<%@page errorPage="/includes/error.jsp"%>
+<%@include file="/includes/validateUser.jsp"%>
+
 <%!
 	public static String sFormat;	
 	public static StringBuffer sOutput;
 	public static int totalcols;
 
+	//---  ADD LINE -------------------------------------------------------------------------------
 	void addLine(boolean boxed){
 		
 	}
-	
-	void addCell(String value, int cols,boolean boxed){
+
+	//---  ADD CELL -------------------------------------------------------------------------------
+	void addCell(String value, int cols, boolean boxed){
 		if(sFormat.equals("pdf")){
 			
 		}
-		else {
+		else{
 			sOutput.append(value);
-			for(int n=1;n<cols;n++){
+			for(int n=1; n<cols; n++){
 				sOutput.append(";");
 			}
 		}
 	}
 
-	void addBoldCell(String value, int cols,boolean boxed){
+	//--- ADD BOLD CELL ---------------------------------------------------------------------------
+	void addBoldCell(String value, int cols, boolean boxed){
 		if(sFormat.equals("pdf")){
 			
 		}
-		else {
-			addCell(value, cols);
-		}
-	}
-	
-	void addGreyCell(String value, int cols,boolean boxed){
-		if(sFormat.equals("pdf")){
-			
-		}
-		else {
-			addCell(value, cols);
+		else{
+			addCell(value,cols,boxed);
 		}
 	}
 
-	void addTitleCell(String value, int cols,boolean boxed){
+	//---  ADD GREY CELL --------------------------------------------------------------------------
+	void addGreyCell(String value, int cols, boolean boxed){
 		if(sFormat.equals("pdf")){
 			
 		}
-		else {
-			addCell(value, cols);
+		else{
+			addCell(value,cols,boxed);
 		}
 	}
 
+	//---  ADD TITLE CELL -------------------------------------------------------------------------
+	void addTitleCell(String value, int cols, boolean boxed){
+		if(sFormat.equals("pdf")){
+			
+		}
+		else{
+			addCell(value,cols,boxed);
+		}
+	}
 %>
+
 <%
-	
 	sOutput = new StringBuffer();
 	String sType = checkString(request.getParameter("type"));
 	String sStart = checkString(request.getParameter("start"));
@@ -66,8 +74,7 @@
 	sOutput.append(getTranNoLink("pharmacy.report","general.title",sWebLanguage).replaceAll("<cr>","\r\n")+"\r\n\r\n");
 	sOutput.append(getTranNoLink("web","from",sWebLanguage)+" "+sStart+" "+getTranNoLink("web","to",sWebLanguage)+" "+sEnd+"\r\n");
 	sOutput.append(getTranNoLink("web","servicestock",sWebLanguage)+": "+serviceStock.getName()+"\r\n\r\n");
-	
-	
+		
 	if(sType.equals("supplier.deliveries")){
 		//Report title goes here
 		sOutput.append(getTranNoLink("pharmacy.report","supplier.deliveries.title",sWebLanguage)+"\r\n\r\n");
@@ -115,22 +122,23 @@
 			if(product!=null){
 				sOutput.append(product.getName()+";");
 			}
-			else {
+			else{
 				sOutput.append("?;");
 			}
 			if(operation.getBatchEnd()!=null){
 				sOutput.append(ScreenHelper.stdDateFormat.format(operation.getBatchEnd())+";");
 			}
-			else {
+			else{
 				sOutput.append(";");
 			}
 			sOutput.append(operation.getUnitsChanged()+";");
 			if(product!=null){
 				sOutput.append(product.getUnit()+";");
 			}
-			else {
+			else{
 				sOutput.append(";");
 			}
+			
 			String price = "";
 			if(product!=null){
 				String[] pricepointer=Pointer.getPointer("drugprice."+product.getUid()+"."+operation.getUid()).split(";");

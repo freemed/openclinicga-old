@@ -40,11 +40,11 @@
     </table>
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>
-        <input class="button" type="button" name="archiveButton" value="<%=getTran("Web.manage","archivefile",sWebLanguage)%>" onClick="doArchive();">&nbsp;
-        <input class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+        <input class="button" type="button" name="archiveButton" value="<%=getTranNoLink("Web.manage","archivefile",sWebLanguage)%>" onClick="doArchive();">&nbsp;
+        <input class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
         <br><br>
         <%-- link to reactivate archived file --%>
-        <img src='<c:url value="/_img/pijl.gif"/>'>
+        <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
         <a  href="<c:url value='/main.do?Page=system/reactivateArchivedFile.jsp?ts='/><%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.manage","reactivatearchivedfile",sWebLanguage)%></a>&nbsp;
     <%=ScreenHelper.alignButtonsStop()%>
 </form>

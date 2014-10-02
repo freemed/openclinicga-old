@@ -155,7 +155,7 @@
       }
       
       if(okToSubmit){
-        document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
+        document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Saving";  
         var url = "<c:url value='/hr/ajax/leave/saveLeave.jsp'/>?ts="+new Date().getTime();
 
         document.getElementById("buttonSave").disabled = true;
@@ -208,7 +208,7 @@
     
   <%-- LOAD LEAVES --%>
   function loadLeaves(){
-    document.getElementById("divLeaves").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";            
+    document.getElementById("divLeaves").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
     var url = "<c:url value='/hr/ajax/leave/getLeaves.jsp'/>?ts="+new Date().getTime();
     new Ajax.Request(url,
       {

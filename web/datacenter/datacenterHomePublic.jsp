@@ -227,7 +227,7 @@
 
 					output.append("<tr style='padding:0px;' bgcolor='#dddddd'>")
 					       .append("<td colspan='1' width='25%' nowrap>")
-					        .append("<img src='"+sCONTEXTPATH+"/_img/plus.png' style='vertical-align:-3px;' id='plus_"+countryIdx+"' onClick=\"toggleSites('"+sCountryCode+"','"+countryIdx+"');\"/> <b>"+(sCountryCode.equals("B")?"BE":sCountryCode)+" - "+sCountryName+"</b>")
+					        .append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_plus.png' style='vertical-align:-3px;' id='plus_"+countryIdx+"' onClick=\"toggleSites('"+sCountryCode+"','"+countryIdx+"');\"/> <b>"+(sCountryCode.equals("B")?"BE":sCountryCode)+" - "+sCountryName+"</b>")
 					       .append("</td>")
 					       .append("<td align='right' width='15%'>"+countSites(countries,sCountryCode)+" "+getTran("web","sites",sWebLanguage)+" "+getTran("web","datacenter.in",sWebLanguage).toLowerCase()+" "+countCities(countries,sCountryCode)+" "+getTran("web","cities",sWebLanguage)+"</td>")
 					       .append("<td align='right' width='10%'>"+deci.format(countryTotal.patients)+"</td>")
@@ -380,13 +380,13 @@
       <%-- change icon and toggle dataTR --%>
       var icon = document.getElementById("plus_"+countryIdx);
       if(divIsOpen==true){
-    	icon.src = "<%=sCONTEXTPATH%>/_img/plus.png";
+    	icon.src = "<%=sCONTEXTPATH%>/_img/icons/icon_plus.png";
     	dataTR.style.visibility = "collapse";
       }
       else{
-        icon.src = "<%=sCONTEXTPATH%>/_img/minus.png";
+        icon.src = "<%=sCONTEXTPATH%>/_img/icons/icon_minus.png";
         dataTR.style.visibility = "visible";
-        dataDIV.innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/ajax-loader.gif' style='vertical-align:-3px;'/>&nbsp;&nbsp;<%=getTranNoLink("web","loading",sWebLanguage)%>";
+        dataDIV.innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/default/ajax-loader.gif' style='vertical-align:-3px;'/>&nbsp;&nbsp;<%=getTranNoLink("web","loading",sWebLanguage)%>";
       }
 
       <%-- fetch data and put it in dataTR --%>

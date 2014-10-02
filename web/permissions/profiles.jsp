@@ -23,11 +23,11 @@
 	            "<td></td>"+
 	            "<td width='25%'><b>"+sLabel+"</b></td>"+
 	            "<td width='25%'>"+sScreenID+"</td>"+
-	            "<td><img src='"+sCONTEXTPATH+"/_img/uncheck.gif' name='cat"+categoryIdx+"$"+sScreenID+"' class='link' onclick='checkRow(\""+categoryIdx+"\",\""+sScreenID+"\");'></td>"+
-	    	    "<td><img src='"+sCONTEXTPATH+"/_img/"+(sSelect.equals("checked")?"check.gif":"uncheck.gif")+"' name='cat"+categoryIdx+"$"+sScreenID+".Select' class='link' onclick='uncheckRowSelector(\""+categoryIdx+"\",\""+sScreenID+"\");applyPolicy1(this,"+categoryIdx+",\""+sScreenID+"\");'></td>"+
-	    	    "<td><img src='"+sCONTEXTPATH+"/_img/"+(sAdd.equals("checked")?"check.gif":"uncheck.gif")+"' name='cat"+categoryIdx+"$"+sScreenID+".Add' class='link' onclick='uncheckRowSelector(\""+categoryIdx+"\",\""+sScreenID+"\");applyPolicy2(this,"+categoryIdx+",\""+sScreenID+"\");'></td>"+
-	    	    "<td><img src='"+sCONTEXTPATH+"/_img/"+(sEdit.equals("checked")?"check.gif":"uncheck.gif")+"' name='cat"+categoryIdx+"$"+sScreenID+".Edit' class='link' onclick='uncheckRowSelector(\""+categoryIdx+"\",\""+sScreenID+"\");applyPolicy2(this,"+categoryIdx+",\""+sScreenID+"\");'></td>"+
-	    	    "<td colspan='2'><img src='"+sCONTEXTPATH+"/_img/"+(sDelete.equals("checked")?"check.gif":"uncheck.gif")+"' name='cat"+categoryIdx+"$"+sScreenID+".Delete' class='link' onclick='uncheckRowSelector(\""+categoryIdx+"\",\""+sScreenID+"\");applyPolicy2(this,"+categoryIdx+",\""+sScreenID+"\");'></td>"+
+	            "<td><img src='"+sCONTEXTPATH+"/_img/themes/default/uncheck.gif' name='cat"+categoryIdx+"$"+sScreenID+"' class='link' onclick='checkRow(\""+categoryIdx+"\",\""+sScreenID+"\");'></td>"+
+	    	    "<td><img src='"+sCONTEXTPATH+"/_img/themes/default/"+(sSelect.equals("checked")?"check.gif":"uncheck.gif")+"' name='cat"+categoryIdx+"$"+sScreenID+".Select' class='link' onclick='uncheckRowSelector(\""+categoryIdx+"\",\""+sScreenID+"\");applyPolicy1(this,"+categoryIdx+",\""+sScreenID+"\");'></td>"+
+	    	    "<td><img src='"+sCONTEXTPATH+"/_img/themes/default/"+(sAdd.equals("checked")?"check.gif":"uncheck.gif")+"' name='cat"+categoryIdx+"$"+sScreenID+".Add' class='link' onclick='uncheckRowSelector(\""+categoryIdx+"\",\""+sScreenID+"\");applyPolicy2(this,"+categoryIdx+",\""+sScreenID+"\");'></td>"+
+	    	    "<td><img src='"+sCONTEXTPATH+"/_img/themes/default/"+(sEdit.equals("checked")?"check.gif":"uncheck.gif")+"' name='cat"+categoryIdx+"$"+sScreenID+".Edit' class='link' onclick='uncheckRowSelector(\""+categoryIdx+"\",\""+sScreenID+"\");applyPolicy2(this,"+categoryIdx+",\""+sScreenID+"\");'></td>"+
+	    	    "<td colspan='2'><img src='"+sCONTEXTPATH+"/_img/themes/default/"+(sDelete.equals("checked")?"check.gif":"uncheck.gif")+"' name='cat"+categoryIdx+"$"+sScreenID+".Delete' class='link' onclick='uncheckRowSelector(\""+categoryIdx+"\",\""+sScreenID+"\");applyPolicy2(this,"+categoryIdx+",\""+sScreenID+"\");'></td>"+
 	           "</tr>";
 	}
 
@@ -38,8 +38,8 @@
                 "<table width='100%' cellspacing='0' class='list'>"+
                  "<tr class='admin'>"+
                   "<td width='2%'>"+
-                   "<a href='#'><img id='Input_"+headerIdx+"_S' name='Input_"+headerIdx+"_S' border='0' src='"+sCONTEXTPATH+"/_img/plus.png' OnClick='showD(\"Input_"+headerIdx+"\",\"Input_"+headerIdx+"_S\",\"Input_"+headerIdx+"_H\")' style='display:none'></a>"+
-                   "<a href='#'><img id='Input_"+headerIdx+"_H' name='Input_"+headerIdx+"_H' border='0' src='"+sCONTEXTPATH+"/_img/minus.png' OnClick='hideD(\"Input_"+headerIdx+"\",\"Input_"+headerIdx+"_S\", \"Input_"+headerIdx+"_H\")'></a>"+
+                   "<a href='#'><img id='Input_"+headerIdx+"_S' name='Input_"+headerIdx+"_S' border='0' src='"+sCONTEXTPATH+"/_img/icons/icon_plus.png' OnClick='showD(\"Input_"+headerIdx+"\",\"Input_"+headerIdx+"_S\",\"Input_"+headerIdx+"_H\")' style='display:none'></a>"+
+                   "<a href='#'><img id='Input_"+headerIdx+"_H' name='Input_"+headerIdx+"_H' border='0' src='"+sCONTEXTPATH+"/_img/icons/icon_minus.png' OnClick='hideD(\"Input_"+headerIdx+"\",\"Input_"+headerIdx+"_S\", \"Input_"+headerIdx+"_H\")'></a>"+
                   "</td>"+
                   "<td>"+sHeader+"</td>"+
                   "<td>Permission</td>"+
@@ -256,9 +256,9 @@
                     <option/>
                     <%=sProfiles%>
                 </select>
-                <input type="submit" class="button" name="NewUserProfile" value="<%=getTran("Web","new",sWebLanguage)%>">
+                <input type="submit" class="button" name="NewUserProfile" value="<%=getTranNoLink("Web","new",sWebLanguage)%>">
                 <%if (sUserProfileID.trim().length() > 0) {%>
-                <input type="button" class="button" name="deleteButton" value="<%=getTran("Web","delete",sWebLanguage)%>" onclick="doDelete('<%=sUserProfileID%>','<%=sUserProfileName%>');">
+                <input type="button" class="button" name="deleteButton" value="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="doDelete('<%=sUserProfileID%>','<%=sUserProfileName%>');">
                 <%}%>
             </td>
         </tr>
@@ -271,11 +271,12 @@
                 <td width="320"><%=getTran("Web.UserProfile","UserProfile",sWebLanguage)%></td>
                 <td>
                     <input type="text" class="text" name="UserProfileName" value="<%=sUserProfileName%>" size="50" maxLength="70">
-                    <input type="button" class="button" value="<%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%>" onClick="checkAll(true);">
-                    <input type="button" class="button" value="<%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%>" onClick="checkAll(false);">
+                    <input type="button" class="button" value="<%=getTranNoLink("Web.Manage.CheckDb","CheckAll",sWebLanguage)%>" onClick="checkAll(true);">
+                    <input type="button" class="button" value="<%=getTranNoLink("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%>" onClick="checkAll(false);">
                 </td>
             </tr>
         </table>
+        
         <table class="list" width="100%" cellpadding="0" cellspacing="2">
             <%-- PERMISSION PER CATEGORY --%>
             <tr>
@@ -326,8 +327,7 @@
                         catch(DocumentException e){
                         	// empty
                         }
-                    %>
-                    
+                    %>                    
                 </td>
             </tr>
         </table>
@@ -335,14 +335,14 @@
     
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>
-	    <input type="button" class="button" name="saveButton" id="saveButton" value="<%=getTran("Web","Save",sWebLanguage)%>" onClick="doSubmit();">&nbsp;
-	    <input type="button" class="button" name="printButton" value="<%=getTran("Web","print",sWebLanguage)%>" onclick="doPrint();">&nbsp;
+	    <input type="button" class="button" name="saveButton" id="saveButton" value="<%=getTranNoLink("Web","Save",sWebLanguage)%>" onClick="doSubmit();">&nbsp;
+	    <input type="button" class="button" name="printButton" value="<%=getTranNoLink("Web","print",sWebLanguage)%>" onclick="doPrint();">&nbsp;
 	    <%
 	    	if(sUserProfileID.trim().length() > 0){
-	    	    %><input type="button" class="button" name="deleteButton" value="<%=getTran("Web","delete",sWebLanguage)%>" onclick="doDelete('<%=sUserProfileID%>','<%=sUserProfileName%>');">&nbsp;<%
+	    	    %><input type="button" class="button" name="deleteButton" value="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="doDelete('<%=sUserProfileID%>','<%=sUserProfileName%>');">&nbsp;<%
 	    	}
 	    %>
-	    <input type="button" class="button" name="backButton" Value='<%=getTran("Web","Back",sWebLanguage)%>' OnClick="doBack();">
+	    <input type="button" class="button" name="backButton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' OnClick="doBack();">
     <%=ScreenHelper.alignButtonsStop()%>
     
     <input type="hidden" name="UserProfileID" value="<%=sUserProfileID%>">
@@ -394,7 +394,7 @@
     var imgs = document.getElementsByTagName("img");
     for(var i=0; i<imgs.length; i++){
       if(imgs[i].name!=null && imgs[i].name.indexOf("cat")==0){
-    	imgs[i].src = (setchecked==true?"<%=sCONTEXTPATH%>/_img/check.gif":"<%=sCONTEXTPATH%>/_img/uncheck.gif");
+    	imgs[i].src = (setchecked==true?"<%=sCONTEXTPATH%>/_img/themes/default/check.gif":"<%=sCONTEXTPATH%>/_img/themes/default/uncheck.gif");
       }
     }
   }
@@ -406,10 +406,10 @@
     
     if(leaderCheck.src.endsWith("uncheck.gif")){
       leaderChecked = false;
-      leaderCheck.src = "<%=sCONTEXTPATH%>/_img/check.gif";
+      leaderCheck.src = "<%=sCONTEXTPATH%>/_img/themes/default/check.gif";
     }
     else{
-      leaderCheck.src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
+      leaderCheck.src = "<%=sCONTEXTPATH%>/_img/themes/default/uncheck.gif";
     }
     
     eval("document.getElementsByName('cat"+categoryIdx+"$"+screenID+".Select')[0]").src = leaderCheck.src;
@@ -421,7 +421,7 @@
   <%-- UNCHECK ROW SELECTOR --%>
   function uncheckRowSelector(categoryIdx,screenID){
     var leaderCheck = eval("document.getElementsByName('cat"+categoryIdx+"$"+screenID+"')[0]");
-    leaderCheck.src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
+    leaderCheck.src = "<%=sCONTEXTPATH%>/_img/themes/default/uncheck.gif";
   }
   
   <%-- SELECT PERMISSIONS --%>
@@ -430,7 +430,7 @@
     for(var i=0; i<imgs.length; i++){
       if(imgs[i].name!=null && imgs[i].name.indexOf("cat")==0){
         if(imgs[i].name.indexOf("cat"+headerIdx+"$")==0){
-          imgs[i].src = "<%=sCONTEXTPATH%>/_img/check.gif";
+          imgs[i].src = "<%=sCONTEXTPATH%>/_img/themes/default/check.gif";
         }
       }
     }
@@ -439,24 +439,24 @@
   <%-- APPLY POLICY 1 --%>
   function applyPolicy1(checkBoxImg,categoryIdx,screenId){
     if(checkBoxImg.src.endsWith("uncheck.gif")){
-    	checkBoxImg.src = "<%=sCONTEXTPATH%>/_img/check.gif";
+      checkBoxImg.src = "<%=sCONTEXTPATH%>/_img/themes/default/check.gif";
     }
     else{
-    	checkBoxImg.src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
+      checkBoxImg.src = "<%=sCONTEXTPATH%>/_img/themes/default/uncheck.gif";
       
-      document.getElementsByName("cat"+categoryIdx+"$"+screenId+".Add")[0].src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
-      document.getElementsByName("cat"+categoryIdx+"$"+screenId+".Edit")[0].src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
-      document.getElementsByName("cat"+categoryIdx+"$"+screenId+".Delete")[0].src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
+      document.getElementsByName("cat"+categoryIdx+"$"+screenId+".Add")[0].src = "<%=sCONTEXTPATH%>/_img/themes/default/uncheck.gif";
+      document.getElementsByName("cat"+categoryIdx+"$"+screenId+".Edit")[0].src = "<%=sCONTEXTPATH%>/_img/themes/default/uncheck.gif";
+      document.getElementsByName("cat"+categoryIdx+"$"+screenId+".Delete")[0].src = "<%=sCONTEXTPATH%>/_img/themes/default/uncheck.gif";
     }
   }
 
   <%-- APPLY POLICY 2 --%>
   function applyPolicy2(checkBoxImg,categoryIdx,screenId){
-    if(checkBoxImg.src.endsWith("uncheck.gif")) checkBoxImg.src = "<%=sCONTEXTPATH%>/_img/check.gif";
-    else                                        checkBoxImg.src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
+    if(checkBoxImg.src.endsWith("uncheck.gif")) checkBoxImg.src = "<%=sCONTEXTPATH%>/_img/themes/default/check.gif";
+    else                                        checkBoxImg.src = "<%=sCONTEXTPATH%>/_img/themes/default/uncheck.gif";
 	    
     var selectCB = document.getElementsByName("cat"+categoryIdx+"$"+screenId+".Select")[0];
-    if(checkBoxImg.src.endsWith("check.gif")) selectCB.src = "<%=sCONTEXTPATH%>/_img/check.gif";
+    if(checkBoxImg.src.endsWith("check.gif")) selectCB.src = "<%=sCONTEXTPATH%>/_img/themes/default/check.gif";
   }
     
   <%-- DO DELETE --%>

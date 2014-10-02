@@ -8,8 +8,8 @@
         sTmp.append(
                     "<tr id='rowSeance"+iTotal+"'>" +
                         "<td class=\"admin2\">" +
-                        "   <a href='#' onclick='deleteSeance(rowSeance"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> "+
-                        "   <a href='#' onclick='editSeance(rowSeance"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>" +
+                        "   <a href='#' onclick='deleteSeance(rowSeance"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> "+
+                        "   <a href='#' onclick='editSeance(rowSeance"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>" +
                         "</td>" +
                         "<td class=\"admin2\">&nbsp;" + sDate + "</td>" +
                         "<td class=\"admin2\">&nbsp;" + sHour + "</td>" +
@@ -143,8 +143,8 @@
                 <br/>
                 <%=getTran("openclinic.chuk","diagnosis.code",sWebLanguage)%>
                 <input class="text" <%=setRightClick("ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_DIAGNOSIS_CODE")%> type="text" name="DiagnosisCodeLabel" value="<%=sDiagnosisCode%> <%=sDiagnosisCodeLabel%>" readonly size="100">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchICPC('transactionForm.DiagnosisCode','transactionForm.DiagnosisCodeLabel','transactionForm.DiagnosisCodeType');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.DiagnosisCode.value='';transactionForm.DiagnosisCodeLabel.value='';transactionForm.DiagnosisCodeType.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchICPC('transactionForm.DiagnosisCode','transactionForm.DiagnosisCodeLabel','transactionForm.DiagnosisCodeType');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.DiagnosisCode.value='';transactionForm.DiagnosisCodeLabel.value='';transactionForm.DiagnosisCodeType.value='';">
                 <input type="hidden" name="DiagnosisCode" value="<%=sDiagnosisCode%>">
                 <input type="hidden" name="DiagnosisCodeType" value="<%=sDiagnosisCodeType%>">
                 <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_CONSULTATION_TREATMENT_DIAGNOSIS_CODE" property="itemId"/>]>.value"/>
@@ -219,8 +219,8 @@
                             <input type="text" class="text" size="5" name="seanceHour" value="" onblur="checkTime(this);">
                         </td>
                         <td class="admin2">
-                            <input type="button" class="button" name="ButtonAddSeance" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addSeance();">
-                            <input type="button" class="button" name="ButtonUpdateSeance" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateSeance();">
+                            <input type="button" class="button" name="ButtonAddSeance" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addSeance();">
+                            <input type="button" class="button" name="ButtonUpdateSeance" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateSeance();">
                         </td>
                     </tr>
                     <%=sDivSeances%>
@@ -275,11 +275,11 @@
                 <%
                   if (activeUser.getAccessRight("occup.kinesitherapy.consultation.treatment.add") || activeUser.getAccessRight("occup.kinesitherapy.consultation.treatment.edit")){
                 %>
-                            <INPUT class="button" type="button" name="saveButton" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+                            <INPUT class="button" type="button" name="saveButton" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
                 <%
                   }
                 %>
-                <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>'}">
+                <INPUT class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>'}">
             </td>
         </tr>
     </table>
@@ -317,8 +317,8 @@ function addSeance(){
       tr.id = "rowSeance"+iSeancesIndex;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='#' onclick='deleteSeance(rowSeance"+iSeancesIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='#' onclick='editSeance(rowSeance"+iSeancesIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='#' onclick='deleteSeance(rowSeance"+iSeancesIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='#' onclick='editSeance(rowSeance"+iSeancesIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -359,8 +359,8 @@ function updateSeance(){
 
     <%-- update table object --%>
     var row = tblSeances.rows[editSeancesRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='#' onclick='deleteSeance("+editSeancesRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='#' onclick='editSeance("+editSeancesRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='#' onclick='deleteSeance("+editSeancesRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='#' onclick='editSeance("+editSeancesRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
     row.cells[1].innerHTML = "&nbsp;"+transactionForm.seanceDate.value;
     row.cells[2].innerHTML = "&nbsp;"+transactionForm.seanceHour.value;

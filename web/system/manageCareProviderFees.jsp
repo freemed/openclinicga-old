@@ -63,10 +63,10 @@
 	        <td class='admin'><%=getTran("web","type",sWebLanguage)%></td>
 	        <td class='admin2'>
 	        	<select name="feetype" id="feetype" class="text" onchange="setfeeselection();">
-	        		<option value="prestation"><%=getTran("web","prestation",sWebLanguage)%></option>
-	        		<option value="prestationtype"><%=getTran("web","type",sWebLanguage)%></option>
-	        		<option value="invoicegroup"><%=getTran("web","invoicegroup",sWebLanguage)%></option>
-	        		<option value="default"><%=getTran("web","default",sWebLanguage)%></option>
+	        		<option value="prestation"><%=getTranNoLink("web","prestation",sWebLanguage)%></option>
+	        		<option value="prestationtype"><%=getTranNoLink("web","type",sWebLanguage)%></option>
+	        		<option value="invoicegroup"><%=getTranNoLink("web","invoicegroup",sWebLanguage)%></option>
+	        		<option value="default"><%=getTranNoLink("web","default",sWebLanguage)%></option>
 	        	</select>
 	        </td>
 	    </tr>
@@ -78,7 +78,7 @@
 	    	<td class='admin'><%=getTran("web","amount",sWebLanguage)%></td>
 	    	<td class='admin2'><table><tr><td><input type='text' class='text' name='feeamount' id='feeamount' size='10'/></td><td><div name='feeamountmodifier' id='feeamountmodifier'></div></td></tr></table></td>
 	    </tr>
-	    <tr><td colspan="2"><input type="submit" name="submit" value="<%=getTran("web","save",sWebLanguage) %>"/></td></tr>
+	    <tr><td colspan="2"><input type="submit" name="submit" value="<%=getTranNoLink("web","save",sWebLanguage) %>"/></td></tr>
 	</table>
 	
 </form>
@@ -89,7 +89,7 @@
 	function setfeeselection(){
 		if(document.getElementById("feetype").selectedIndex==0){
 			document.getElementById("typeselectionlabel").innerHTML="<%=getTran("web","prestation",sWebLanguage)%>";
-			document.getElementById("typeselection").innerHTML="<input type='text' class='text' name='feeid' id='feeid' size='10' readonly/><input type='text' class='text' name='feename' id='feename' readonly size='50'/><img src='<c:url value="/_img/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick='searchPrestation();'>";
+			document.getElementById("typeselection").innerHTML="<input type='text' class='text' name='feeid' id='feeid' size='10' readonly/><input type='text' class='text' name='feename' id='feename' readonly size='50'/><img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick='searchPrestation();'>";
 			document.getElementById("feeamountmodifier").innerHTML="<%=MedwanQuery.getInstance().getConfigString("currency","")%>";
 		}
 		else if(document.getElementById("feetype").selectedIndex==1){
@@ -155,12 +155,7 @@
     }
     
     function deleteline(feetype,feeid,userid){
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=areyousure";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("adt.encounter","encounter_close",sWebLanguage)%>");
-
-
-        if(answer){
+        if(yesnoDialog("web","areyousure")){
 	      var today = new Date();
 	      var url= '<c:url value="/system/deleteCareProviderFee.jsp"/>?ts='+today;
 	      new Ajax.Request(url,{

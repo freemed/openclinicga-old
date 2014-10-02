@@ -19,8 +19,8 @@
     private String addChirurgie(int iTotal, String sTmpChirurgieDateBegin, String sTmpChirurgieDateEnd, String sTmpChirurgieDescr, String sWebLanguage) {
         return "<tr id='rowChirurgie"+iTotal+"'>"
                +"<td width='36'>"
-                +"<a href='javascript:deleteChirurgie(rowChirurgie"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.delete", sWebLanguage)+"' border='0'></a> "
-                +"<a href='javascript:editChirurgie(rowChirurgie"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.edit", sWebLanguage)+"' border='0'></a>"
+                +"<a href='javascript:deleteChirurgie(rowChirurgie"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.delete", sWebLanguage)+"' border='0'></a> "
+                +"<a href='javascript:editChirurgie(rowChirurgie"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.edit", sWebLanguage)+"' border='0'></a>"
                +"</td>"
                +"<td>&nbsp;"+sTmpChirurgieDateBegin+"</td>"
                +"<td>&nbsp;"+sTmpChirurgieDateEnd+"</td>"
@@ -32,8 +32,8 @@
     private String addHeelkunde(int iTotal, String sTmpHeelkundeDateBegin, String sTmpHeelkundeDateEnd, String sTmpHeelkundeDescr, String sWebLanguage) {
         return "<tr id='rowHeelkunde"+iTotal+"'>"
                +"<td width='36'>"
-                +"<a href='javascript:deleteHeelkunde(rowHeelkunde"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.delete", sWebLanguage)+"' border='0'></a> "
-                +"<a href='javascript:editHeelkunde(rowHeelkunde"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.edit", sWebLanguage)+"' border='0'></a>"
+                +"<a href='javascript:deleteHeelkunde(rowHeelkunde"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.delete", sWebLanguage)+"' border='0'></a> "
+                +"<a href='javascript:editHeelkunde(rowHeelkunde"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.edit", sWebLanguage)+"' border='0'></a>"
                +"</td>"
                +"<td>&nbsp;"+sTmpHeelkundeDateBegin+"</td>"
                +"<td>&nbsp;"+sTmpHeelkundeDateEnd+"</td>"
@@ -45,8 +45,8 @@
     private String addLetsel(int iTotal, String sTmpLetselsDate, String sTmpLetselsDescr, String sTmpLetselsBI, String sWebLanguage) {
         return "<tr id='rowLetsels"+iTotal+"'>"
                +"<td>"
-                +"<a href='javascript:deleteLetsels(rowLetsels"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.delete", sWebLanguage)+"' border='0'></a> "
-                +"<a href='javascript:editLetsels(rowLetsels"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.edit", sWebLanguage)+"' border='0'></a>"
+                +"<a href='javascript:deleteLetsels(rowLetsels"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.delete", sWebLanguage)+"' border='0'></a> "
+                +"<a href='javascript:editLetsels(rowLetsels"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web.Occup", "medwan.common.edit", sWebLanguage)+"' border='0'></a>"
                +"</td>"
                +"<td>&nbsp;"+sTmpLetselsDate+"</td>"
                +"<td>&nbsp;"+sTmpLetselsDescr+"</td>"
@@ -275,8 +275,8 @@
                                 <td class="admin2"><%=writeDateField("ChirurgieDateEnd", "transactionForm","",sWebLanguage)%></td>
                                 <td class="admin2"><input type="text" class="text" name="ChirurgieDescription" size="40" onblur="limitLength(this);"></td>
                                 <td class="admin2">
-                                    <input type="button" class="button" name="ButtonAddChirurgie" onclick="addChirurgie()" value="<%=getTran("Web","add",sWebLanguage)%>">
-                                    <input type="button" class="button" name="ButtonUpdateChirurgie" onclick="updateChirurgie()" value="<%=getTran("Web","edit",sWebLanguage)%>">
+                                    <input type="button" class="button" name="ButtonAddChirurgie" onclick="addChirurgie()" value="<%=getTranNoLink("Web","add",sWebLanguage)%>">
+                                    <input type="button" class="button" name="ButtonUpdateChirurgie" onclick="updateChirurgie()" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>">
                                 </td>
                             </tr>
                             <%=sDivChirurgie%>
@@ -315,8 +315,8 @@
                                 <td class="admin2"><%=writeDateField("HeelkundeDateEnd", "transactionForm","",sWebLanguage)%></td>
                                 <td class="admin2"><input type="text" class="text" name="HeelkundeDescription" size="40" onblur="limitLength(this);"></td>
                                 <td class="admin2">
-                                    <input type="button" class="button" name="ButtonAddHeelkunde" onclick="addHeelkunde()" value="<%=getTran("Web","add",sWebLanguage)%>">
-                                    <input type="button" class="button" name="ButtonUpdateHeelkunde" onclick="updateHeelkunde()" value="<%=getTran("Web","edit",sWebLanguage)%>">
+                                    <input type="button" class="button" name="ButtonAddHeelkunde" onclick="addHeelkunde()" value="<%=getTranNoLink("Web","add",sWebLanguage)%>">
+                                    <input type="button" class="button" name="ButtonUpdateHeelkunde" onclick="updateHeelkunde()" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>">
                                 </td>
                             </tr>
                             <%=sDivHeelkunde%>
@@ -353,10 +353,10 @@
                                 <td class="admin2"></td>
                                 <td class="admin2"><%=writeDateField("LetselsDate", "transactionForm","",sWebLanguage)%></td>
                                 <td class="admin2"><input type="text" class="text" name="LetselsDescription" size="40" onblur="limitLength(this);"></td>
-                                <td class="admin2"><input type="text" name="LetselsBI" class="text" size="5" onblur="if(!isNumberLimited(this,0,100)){alert('<%=getTran("Web.Occup","out-of-bounds-value",sWebLanguage)%>');}"></td>
+                                <td class="admin2"><input type="text" name="LetselsBI" class="text" size="5" onblur="if(!isNumberLimited(this,0,100)){alertDialog('Web.Occup','out-of-bounds-value');}"></td>
                                 <td class="admin2">
-                                    <input type="button" class="button" name="ButtonAddLetsels" onclick="addLetsels()" value="<%=getTran("Web","add",sWebLanguage)%>">
-                                    <input type="button" class="button" name="ButtonUpdateLetsels" onclick="updateLetsels()" value="<%=getTran("Web","edit",sWebLanguage)%>">
+                                    <input type="button" class="button" name="ButtonAddLetsels" onclick="addLetsels()" value="<%=getTranNoLink("Web","add",sWebLanguage)%>">
+                                    <input type="button" class="button" name="ButtonUpdateLetsels" onclick="updateLetsels()" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>">
                                 </td>
                             </tr>
                             <%=sDivLetsels%>
@@ -413,8 +413,8 @@ function addChirurgie(){
       tr.id = "rowChirurgie"+iIndexPersoonlijk;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteChirurgie(rowChirurgie"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editChirurgie(rowChirurgie"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteChirurgie(rowChirurgie"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editChirurgie(rowChirurgie"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -466,8 +466,8 @@ function updateChirurgie(){
 
     // update table object
     var row = tblChirurgie.rows[editChirurgieRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteChirurgie("+editChirurgieRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editChirurgie("+editChirurgieRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteChirurgie("+editChirurgieRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editChirurgie("+editChirurgieRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells[1].innerHTML = "&nbsp;"+document.getElementById("transactionForm").ChirurgieDateBegin.value;
     row.cells[2].innerHTML = "&nbsp;"+document.getElementById("transactionForm").ChirurgieDateEnd.value;
     row.cells[3].innerHTML = "&nbsp;"+document.getElementById("transactionForm").ChirurgieDescription.value;
@@ -517,8 +517,8 @@ function addHeelkunde(){
       tr.id = "rowHeelkunde"+iIndexPersoonlijk;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteHeelkunde(rowHeelkunde"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editHeelkunde(rowHeelkunde"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteHeelkunde(rowHeelkunde"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editHeelkunde(rowHeelkunde"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -578,8 +578,8 @@ function updateHeelkunde(){
 
     // update table object
     var row = tblHeelkunde.rows[editHeelkundeRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteHeelkunde("+editHeelkundeRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editHeelkunde("+editHeelkundeRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteHeelkunde("+editHeelkundeRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editHeelkunde("+editHeelkundeRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells[1].innerHTML = "&nbsp;"+document.getElementById("transactionForm").HeelkundeDateBegin.value;
     row.cells[2].innerHTML = "&nbsp;"+document.getElementById("transactionForm").HeelkundeDateEnd.value;
     row.cells[3].innerHTML = "&nbsp;"+document.getElementById("transactionForm").HeelkundeDescription.value;
@@ -609,8 +609,8 @@ function addLetsels(){
     tr.id = "rowLetsels"+iIndexPersoonlijk;
 
     var td = tr.insertCell(0);
-    td.innerHTML = "<a href='javascript:deleteLetsels(rowLetsels"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                  +"<a href='javascript:editLetsels(rowLetsels"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    td.innerHTML = "<a href='javascript:deleteLetsels(rowLetsels"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                  +"<a href='javascript:editLetsels(rowLetsels"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     tr.appendChild(td);
 
     td = tr.insertCell(1);
@@ -671,8 +671,8 @@ function updateLetsels(){
     var sBI = formatBI(document.getElementById("transactionForm").LetselsBI.value);
 
     var row = tblLetsels.rows[editLetselsRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteLetsels("+editLetselsRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editLetsels("+editLetselsRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteLetsels("+editLetselsRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editLetsels("+editLetselsRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells[1].innerHTML = "&nbsp;"+document.getElementById("transactionForm").LetselsDate.value;
     row.cells[2].innerHTML = "&nbsp;"+document.getElementById("transactionForm").LetselsDescription.value;
     row.cells[3].innerHTML = "&nbsp;"+sBI;

@@ -234,7 +234,7 @@
         return sReturn.toString();
     }
 %>
-<table width="100%" cellspacing="1">
+<table width="100%" cellspacing="1" cellpadding="0">
     <tr class="gray">
         <td width="50"/>
         <td width="200"><%=HTMLEntities.htmlentities(getTran("web.control","output_h_4",sWebLanguage))%></td>
@@ -248,22 +248,23 @@
 	if(sServiceUid.length()>0){
 		sServiceUid = Service.getChildIdsAsString(sServiceUid);
 	}
+	
     String sEditInsurarInvoiceUID = checkString(request.getParameter("EditInsurarInvoiceUID"));
     String sEditBegin = checkString(request.getParameter("EditBegin"));
     String sEditEnd = checkString(request.getParameter("EditEnd"));
     String sClass = "";
     ExtraInsurarInvoice2 insurarInvoice = null;
 
-    if (sEditInsurarInvoiceUID.length() > 0) {
+    if(sEditInsurarInvoiceUID.length() > 0){
         insurarInvoice = ExtraInsurarInvoice2.get(sEditInsurarInvoiceUID);
         Vector vDebets = insurarInvoice.getDebets();
-        out.print(addDebets(vDebets, sClass, sWebLanguage, true));
+        out.print(addDebets(vDebets,sClass,sWebLanguage,true));
     }
 
-    if ((insurarInvoice==null)||(!checkString(insurarInvoice.getStatus()).equalsIgnoreCase("closed") && !checkString(insurarInvoice.getStatus()).equalsIgnoreCase("canceled"))) {
+    if(insurarInvoice==null || (!checkString(insurarInvoice.getStatus()).equalsIgnoreCase("closed") && !checkString(insurarInvoice.getStatus()).equalsIgnoreCase("canceled"))) {
         String sInsurarUid = checkString(request.getParameter("InsurarUid"));
-        Date begin=ScreenHelper.parseDate("01/01/1900");
-        Date end=new Date();
+        Date begin = ScreenHelper.parseDate("01/01/1900");
+        Date end = new Date();
         try{
             begin = ScreenHelper.parseDate(sEditBegin);
         }
@@ -273,7 +274,8 @@
             end = new java.util.Date(end.getTime()+(24*3600*1000)-1);
         }
         catch(Exception e){}
-        Vector vUnassignedDebets=new Vector();
+        
+        Vector vUnassignedDebets = new Vector();
 		Insurar insurar = Insurar.get(sInsurarUid);
         if(insurar!=null && insurar.getRequireValidation()==1){
         	vUnassignedDebets = Debet.getUnassignedValidatedAndSignedExtraInsurarDebets2(sInsurarUid,begin,end);
@@ -281,9 +283,9 @@
         else {
         	vUnassignedDebets = Debet.getUnassignedExtraInsurarDebets2(sInsurarUid,begin,end);
         }
+        
         out.print(addPeriodDebets(vUnassignedDebets, sClass, sWebLanguage, false,begin,end,sServiceUid));
-    }
-    else {
+       	out.print("<tr><td colspan='6'>"+vUnassignedDebets.size()+" "+getTranNoLink("web","records.loaded",sWebLanguage)+"</td></tr>");
     }
 %>
 </table>

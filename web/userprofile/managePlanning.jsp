@@ -60,8 +60,8 @@
                 <input type="hidden" name="EditUserIDs" value="<%=sEditUserIDs%>">
                 <input type="hidden" name="EditUserID">
                 <input style="margin-left:30px;" class="text" type="text" name="EditUserName" readonly size="<%=sTextWidth%>">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchUser()">
-                <img src="<c:url value="/_img/icon_add.gif"/>" class="link" alt="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="doAdd()">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchUser()">
+                <img src="<c:url value="/_img/icons/icon_add.gif"/>" class="link" alt="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="doAdd()">
                 <br>
                 <table style="margin-left:30px;" id="tableUsers">
                     <tr height="1">
@@ -75,7 +75,7 @@
                                 sUserName = ScreenHelper.getFullUserName(aUserIDs[i]);%>
                     <tr id='tr<%=aUserIDs[i]%>'>
                         <td>
-                            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="doDelete('tr<%=aUserIDs[i]%>',this.parentNode.parentNode.rowIndex)">
+                            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="doDelete('tr<%=aUserIDs[i]%>',this.parentNode.parentNode.rowIndex)">
                         </td>
                         <td><%=sUserName%>
                         </td>
@@ -139,8 +139,8 @@
         </tr>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>">&nbsp;</td><td class="admin2"> <div id="updateByAjax" style="margin-left:30px;">&nbsp;</div>
-                <input style="margin-left:30px;" type='button' name='saveButton' class="button" Value='<%=getTran("Web","save",sWebLanguage)%>' onClick="doSubmit();">
-                <input type='button' name='backButton' class="button" Value='<%=getTran("Web","back",sWebLanguage)%>' OnClick='doBack();'>
+                <input style="margin-left:30px;" type='button' name='saveButton' class="button" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onClick="doSubmit();">
+                <input type='button' name='backButton' class="button" value='<%=getTranNoLink("Web","back",sWebLanguage)%>' OnClick='doBack();'>
             </td>
         </tr>
     </table>
@@ -200,7 +200,7 @@
         }
         <%-- CHECK TIME OUT --%>
         function doSubmit() {
-            $("updateByAjax").innerHTML = "<div class='wait'><img src='<%=sCONTEXTPATH%>/_img/ajax-loader.gif'/></div>";
+            $("updateByAjax").innerHTML = "<div class='wait'><img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/></div>";
             var params = Form.serialize("formEdit");
             new Ajax.Updater("updateByAjax", "<%=sCONTEXTPATH%>/userprofile/managePlanning.jsp?ts=<%=getTs()%>", {parameters:params,evalScripts:true});
        }
@@ -220,7 +220,7 @@
                 var tr = tableUsers.insertRow(tableUsers.rows.length);
                 tr.id = "tr" + formEdit.EditUserID.value;
                 var td = tr.insertCell(0);
-                td.innerHTML = "<img src='<c:url value="/_img/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick='doDelete(\"tr" + formEdit.EditUserID.value + "\",this.parentNode.parentNode.rowIndex)'>";
+                td.innerHTML = "<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick='doDelete(\"tr" + formEdit.EditUserID.value + "\",this.parentNode.parentNode.rowIndex)'>";
                 tr.appendChild(td);
                 td = tr.insertCell(1);
                 td.innerHTML = formEdit.EditUserName.value;
@@ -284,7 +284,7 @@ else if (sAction.equals("save")) {
     }
     catch(Exception e){
         out.write("<span class='error'>"+
-                   "<img src='"+sCONTEXTPATH+"/_img/warning.gif' style='vertical-align:-3px;'>&nbsp;"+
+                   "<img src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif' style='vertical-align:-3px;'>&nbsp;"+
                    HTMLEntities.htmlentities(getTranNoLink("Web.Control", "dberror", sWebLanguage))+
                    "<br>"+e.getMessage()+
                   "</span>");

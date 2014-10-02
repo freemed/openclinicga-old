@@ -17,7 +17,7 @@
     		if(prestation!=null){
     	        prestationcontent+="<tr>";
     	        prestationcontent+="<td>";
-				prestationcontent+="<a href='javascript:deleteprestation(\\\""+prestation.getUid()+"\\\")'><img src='"+ request.getRequestURI().replaceAll(request.getServletPath(), "")+"/_img/icon_delete.gif'/></a> ";
+				prestationcontent+="<a href='javascript:deleteprestation(\\\""+prestation.getUid()+"\\\")'><img src='"+ request.getRequestURI().replaceAll(request.getServletPath(), "")+"/_img/icons/icon_delete.gif'/></a> ";
     	        prestationcontent+=prestation.getCode()+"</td><td><b>"+prestation.getDescription()+"</b></td>";
     	        prestationcontent+="</tr>";
    	        }

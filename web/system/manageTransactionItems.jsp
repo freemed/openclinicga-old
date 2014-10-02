@@ -128,7 +128,7 @@
         sOut1.append("<option value='" + transactionTypeId + "'");
         if (transactionTypeId.equals(sFindKey1)) {
             selectedTransactionTypeId = transactionTypeId;
-            sOut1.append(" selected");
+            sOut1.append("selected");
         }
         sOut1.append(">" + transactionTypeId + "</option>");
     }
@@ -147,7 +147,7 @@
             selectedItemTypeId = itemTypeId;
             selectedDefaultValue = checkString(objTI.getDefaultValue());
             selectedModifier = checkString(objTI.getModifier());
-            sOut2.append(" selected");
+            sOut2.append("selected");
         }
         sOut2.append(">" + itemTypeId + "</option>");
     }
@@ -176,7 +176,7 @@
       </select>
 
       <%-- NEW BUTTON --%>
-      <input class="button" type="button" name="NewButton" value="<%=getTran("Web","New",sWebLanguage)%>" onclick="doNew();">
+      <input class="button" type="button" name="NewButton" value="<%=getTranNoLink("Web","New",sWebLanguage)%>" onclick="doNew();">
     </td>
   </tr>
 </table>
@@ -210,13 +210,13 @@
   <tr>
       <td class="admin"/>
       <td class="admin2">
-          <input class="button" type="button" name="AddButton"    value="<%=getTran("Web","Add",sWebLanguage)%>"    onclick="checkAdd();">&nbsp;
-          <input class="button" type="button" name="SaveButton"   value="<%=getTran("Web","Save",sWebLanguage)%>"   onclick="checkSave();">&nbsp;
-          <input class="button" type="button" name="DeleteButton" value="<%=getTran("Web","Delete",sWebLanguage)%>" onclick="askDelete();">&nbsp;
-          <input class="button" type="button" name="backbutton"   value="<%=getTran("Web","Back",sWebLanguage)%>"   onclick="doBack();">
+          <input class="button" type="button" name="AddButton"    value="<%=getTranNoLink("Web","Add",sWebLanguage)%>"    onclick="checkAdd();">&nbsp;
+          <input class="button" type="button" name="SaveButton"   value="<%=getTranNoLink("Web","Save",sWebLanguage)%>"   onclick="checkSave();">&nbsp;
+          <input class="button" type="button" name="DeleteButton" value="<%=getTranNoLink("Web","Delete",sWebLanguage)%>" onclick="askDelete();">&nbsp;
+          <input class="button" type="button" name="backbutton"   value="<%=getTranNoLink("Web","Back",sWebLanguage)%>"   onclick="doBack();">
 
           <%-- link to synchronise transactionItems with ini --%>
-          <img src='<c:url value="/_img/pijl.gif"/>'>
+          <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
           <a  href="<c:url value='/main.do?Page=system/syncTransactionItemsWithIni.jsp?ts='/><%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.manage","synchronizetransactionitemswithini",sWebLanguage)%></a>&nbsp;
       </td>
   </tr>

@@ -124,15 +124,15 @@
 
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>
-        <INPUT class="button" type="button" value="<%=getTran("Web.Occup","medwan.common.extended",sWebLanguage)%>" onclick="window.location.href='<c:url value='/main.do'/>?Page=healthrecord/clinicalExaminationMax.jsp'">
+        <INPUT class="button" type="button" value="<%=getTranNoLink("Web.Occup","medwan.common.extended",sWebLanguage)%>" onclick="window.location.href='<c:url value='/main.do'/>?Page=healthrecord/clinicalExaminationMax.jsp'">
         <%
         if (activeUser.getAccessRight("occup.clinicalexamination.add") || activeUser.getAccessRight("occup.clinicalexamination.edit")){
         %>
-        <input class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
+        <input class="button" type="button" name="saveButton" id="save" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
         <%
         }
         %>
-        <input class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="if ('<%=sCONTEXTPATH%>',checkSaveButton()){window.location.href='<c:url value="/main.do"/>?Page=curative/index.jsp&ts=<%=getTs()%>';}">
+        <input class="button" type="button" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="if ('<%=sCONTEXTPATH%>',checkSaveButton()){window.location.href='<c:url value="/main.do"/>?Page=curative/index.jsp&ts=<%=getTs()%>';}">
     <%=ScreenHelper.alignButtonsStop()%>
 
 <script>

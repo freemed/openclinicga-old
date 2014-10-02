@@ -385,17 +385,17 @@
     <%
         if (activeUser.getAccessRight("occup.respiratoryfunction.add") || activeUser.getAccessRight("occup.respiratoryfunction.edit")) {
         %>
-            <input class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="checkSubmit();"/>
+            <input class="button" type="button" name="saveButton" id="save" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="checkSubmit();"/>
         <%
         }
 
         if (MedwanQuery.getInstance().getConfigInt("spiroBankEnabled")==1){
         %>
-            <input class="button" type="button" name="spirobank" value="<%=getTran("Web.Occup","medwan.common.spirobank",sWebLanguage)%>" onclick="loadSpirobank();"/>
+            <input class="button" type="button" name="spirobank" value="<%=getTranNoLink("Web.Occup","medwan.common.spirobank",sWebLanguage)%>" onclick="loadSpirobank();"/>
         <%
         }
     %>
-            <input class="button" type="button" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="doBack();">
+            <input class="button" type="button" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="doBack();">
         </td>
     </tr>
 </table>

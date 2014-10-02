@@ -68,7 +68,7 @@
 		}
 	%>
 	</table>
-	<input type="button" name="submit" value="<%=getTran("web","save",sWebLanguage)%>" class="button" onclick="savePrestations()"/>
+	<input type="button" name="submit" value="<%=getTranNoLink("web","save",sWebLanguage)%>" class="button" onclick="savePrestations()"/>
 	<%if(MedwanQuery.getInstance().getConfigInt("enableQuickInvoicing",0)==1){ %>
 	<input type="button" class="redbutton" name="submit" value="<%=getTranNoLink("web","save.and.quickinvoice",sWebLanguage)%>" onclick="savePrestationsAndInvoice()"/>
 	<%} %>

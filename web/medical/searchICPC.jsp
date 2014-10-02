@@ -39,8 +39,8 @@
             <td><%=getTran("Web","Keyword",sWebLanguage)%>&nbsp;&nbsp;</td>
             <td colspan='2'>
                 <input type='text' class='text' name='keywords' size='40' value="<%=request.getParameter("keywords")!=null?request.getParameter("keywords"):""%>" onblur="limitLength(this);" onKeyDown='if(event.keyCode==13){doFind();return false;}else{return true;}'/>
-                <input class='button' type='button' name='findButton' onClick='doFind();' value='<%=getTran("Web","Find",sWebLanguage)%>'/>
-                <input class='button' type='button' name='cancel' onclick='window.close()' value='<%=getTran("Web","Close",sWebLanguage)%>'/>
+                <input class='button' type='button' name='findButton' onClick='doFind();' value='<%=getTranNoLink("Web","Find",sWebLanguage)%>'/>
+                <input class='button' type='button' name='cancel' onclick='window.close()' value='<%=getTranNoLink("Web","Close",sWebLanguage)%>'/>
             </td>
         </tr>
 
@@ -77,8 +77,8 @@
                             sbResultsICPC2.append("<tr>");
                         }
                         sLabel = checkString(MedwanQuery.getInstance().getCodeTran(sCodeType + "code" + sCode, sWebLanguage));
-                        sbResultsICPC2.append(" <td width='15%' onclick='addICPC(\"" + sCode + "\",\"" + sLabel + "\",\"" + sCodeType + "\");'>" + sCode + "</td>");
-                        sbResultsICPC2.append(" <td onclick='addICPC(\"" + sCode + "\",\"" + sLabel + "\",\"" + sCodeType + "\");'>" + sLabel + "</td>");
+                        sbResultsICPC2.append("<td width='15%' onclick='addICPC(\"" + sCode + "\",\"" + sLabel + "\",\"" + sCodeType + "\");'>" + sCode + "</td>");
+                        sbResultsICPC2.append("<td onclick='addICPC(\"" + sCode + "\",\"" + sLabel + "\",\"" + sCodeType + "\");'>" + sLabel + "</td>");
                         sbResultsICPC2.append("</tr>");
                         foundRecordsICPC2++;
                     } else if (sCodeType.equals("icd10")) {
@@ -88,8 +88,8 @@
                             sbResultsICd10.append("<tr>");
                         }
                         sLabel = checkString(MedwanQuery.getInstance().getCodeTran(sCodeType + "code" + sCode, sWebLanguage));
-                        sbResultsICd10.append(" <td width='15%' onclick='addICPC(\"" + sCode + "\",\"" + sLabel + "\",\"" + sCodeType + "\");'>" + sCode + "</td>");
-                        sbResultsICd10.append(" <td onclick='addICPC(\"" + sCode + "\",\"" + sLabel + "\",\"" + sCodeType + "\");'>" + sLabel + "</td>");
+                        sbResultsICd10.append("<td width='15%' onclick='addICPC(\"" + sCode + "\",\"" + sLabel + "\",\"" + sCodeType + "\");'>" + sCode + "</td>");
+                        sbResultsICd10.append("<td onclick='addICPC(\"" + sCode + "\",\"" + sLabel + "\",\"" + sCodeType + "\");'>" + sLabel + "</td>");
                         sbResultsICd10.append("</tr>");
                         foundRecordsICD10++;
                     }

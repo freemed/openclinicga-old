@@ -99,7 +99,7 @@
     insertMealIntoProfile = function(id, name, hour, min) {
         var li = document.createElement('LI');
         li.id = "meal_" + id;
-        li.innerHTML = "<div style='width:180px'>" + name + "<%="</div><div style='width:160px'>"%>" + getHoursSelect(id, hour, min) + "<%="</div><div style='width:20px'><img src='" + sCONTEXTPATH + "/_img/icon_delete.png' class='link' title='" + (getTranNoLink("web","delete",sWebLanguage)) + "' "%>onclick=\"removeMealfromProfil('" + id + "');\"></div>";
+        li.innerHTML = "<div style='width:180px'>" + name + "<%="</div><div style='width:160px'>"%>" + getHoursSelect(id, hour, min) + "<%="</div><div style='width:20px'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.png' class='link' title='" + (getTranNoLink("web","delete",sWebLanguage)) + "' "%>onclick=\"removeMealfromProfil('" + id + "');\"></div>";
         $("mealProfileitems").insert(li, { position: top });
         openBackMealProfile();
     }

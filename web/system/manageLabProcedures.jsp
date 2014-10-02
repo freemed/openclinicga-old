@@ -156,14 +156,14 @@
             	<input type="hidden" name="EditReagents" id="EditReagents" value="<%=sReagentsString%>"/>
 		        <%=getTran("web","reagent",sWebLanguage) %>: <input class="greytext" type="text" disabled name="EditReagentUid" id="EditReagentUid" size="10" readonly value="" >
 		        <input class="greytext" readonly disabled type="text" name="EditReagentName" id="EditReagentName" value="" size="50"/>
-		        <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchReagent('EditReagentUid','EditReagentName','EditReagentUnit');">
-		        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt='Vider' onclick="document.getElementById('EditReagentUid').value='';document.getElementById('EditReagentName').value='';"> 
+		        <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchReagent('EditReagentUid','EditReagentName','EditReagentUnit');">
+		        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt='Vider' onclick="document.getElementById('EditReagentUid').value='';document.getElementById('EditReagentName').value='';"> 
 				<%=getTran("web","quantity",sWebLanguage) %>: <input type="text" class="text" size="10" name="EditQuantity" id="EditQuantity"/>   
             	<input type="text" class="greytext" size="10" readonly disabled name="EditReagentUnit" id="EditReagentUnit" value=""/>
             	<select class="text" name="EditConsumptionType" id="EditConsumptionType">
             		<%=ScreenHelper.writeSelect("labprocedure.consumptiontype", "", sWebLanguage) %>
             	</select>
-				<input type="button" class="button" name="AddReagent" value="<%=getTran("web","add",sWebLanguage) %>" onclick="addReagent();"/>         	
+				<input type="button" class="button" name="AddReagent" value="<%=getTranNoLink("web","add",sWebLanguage) %>" onclick="addReagent();"/>         	
             	<table width="100%"  cellspacing="1">
             		<tr class='admin'>
             			<td width="10%">ID</td>
@@ -227,7 +227,7 @@
 			var html="";
 			var reagents=document.getElementById("EditReagents").value.split("$");
 			for(var n=0;n<reagents.length;n++){
-				html=html+"<tr><td width='10%'><img src='<c:url value="_img/icon_delete.gif"/>' onclick='removeReagent(\""+reagents[n].split("|")[0]+"\")'/>"+reagents[n].split("|")[0]+"</td><td width='60%'>"+reagents[n].split("|")[2]+"</td><td width='30%'>"+reagents[n].split("|")[1];
+				html=html+"<tr><td width='10%'><img src='<c:url value="_img/icons/icon_delete.gif"/>' onclick='removeReagent(\""+reagents[n].split("|")[0]+"\")'/>"+reagents[n].split("|")[0]+"</td><td width='60%'>"+reagents[n].split("|")[2]+"</td><td width='30%'>"+reagents[n].split("|")[1];
 				if(reagents[n].split("|").length>=4){
 					html=html+" "+reagents[n].split("|")[3];					
 				}
@@ -261,7 +261,7 @@
 	}
 	
     function ajaxChangeSearchResults(urlForm, SearchForm, moreParams) {
-        document.getElementById('divFindRecords').innerHTML = "<div style='text-align:center'><img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading</div>";
+        document.getElementById('divFindRecords').innerHTML = "<div style='text-align:center'><img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading</div>";
         var url = urlForm;
         var params = Form.serialize(SearchForm)+moreParams;
         var myAjax = new Ajax.Updater(

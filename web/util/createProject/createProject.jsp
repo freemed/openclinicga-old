@@ -75,7 +75,7 @@
             <td class='admin' width="<%=sTDAdminWidth%>">Project</td>
             <td class="admin2">
                 <select name='projectName' class='text' onchange='FindForm.submit();'>
-                    <option><%=getTran("web","choose",sWebLanguage)%></option>
+                    <option><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                     <%
                         if (hProjects!= null){
                             Vector v = new Vector(hProjects.keySet());
@@ -97,7 +97,7 @@
                     %>
                 </select>
                 <%-- BUTTON --%>
-                <input type='button' class='button' name='newProjectButton' value='<%=getTran("web.occup","medwan.common.create-new",sWebLanguage)%>' onclick='doNew();'>
+                <input type='button' class='button' name='newProjectButton' value='<%=getTranNoLink("web.occup","medwan.common.create-new",sWebLanguage)%>' onclick='doNew();'>
             </td>
         </tr>
     </form>
@@ -135,8 +135,8 @@
                 <%-- BUTTONS --%>
                 <tr>
                     <td colspan='2' align='right'>
-                        <input type='button' class='button' name='editButton' value='<%=getTran("web.occup","medwan.common.edit",sWebLanguage)%>' onclick='doEdit();'>
-                        <input type='button' class='button' name='createButton' value='<%=getTran("web.occup","medwan.common.create",sWebLanguage)%>' onclick='doCreate();'>
+                        <input type='button' class='button' name='editButton' value='<%=getTranNoLink("web.occup","medwan.common.edit",sWebLanguage)%>' onclick='doEdit();'>
+                        <input type='button' class='button' name='createButton' value='<%=getTranNoLink("web.occup","medwan.common.create",sWebLanguage)%>' onclick='doCreate();'>
                     </td>
                 </tr>
             </table>

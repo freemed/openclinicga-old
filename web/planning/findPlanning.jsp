@@ -40,15 +40,15 @@ ClientMsg.prototype = {
     if(!time) time = 5000;
     if(option){
       if(option=="before"){
-        this.div.update("<span class='error'><img src='<%=sCONTEXTPATH%>/_img/warning.gif' style='vertical-align:-3px;'>&nbsp;<blink>"+msg+"</blink></span>" +
+        this.div.update("<span class='error'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_warning.gif' style='vertical-align:-3px;'>&nbsp;<blink>"+msg+"</blink></span>" +
                         "<br>"+this.div.innerHTML);
       }
       else if(option=="after"){
-        this.div.update(this.div.innerHTML+"<br><span class='error'><img src='<%=sCONTEXTPATH%>/_img/warning.gif' style='vertical-align:-3px;'>&nbsp;<blink>"+msg+"</blink></span>");
+        this.div.update(this.div.innerHTML+"<br><span class='error'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_warning.gif' style='vertical-align:-3px;'>&nbsp;<blink>"+msg+"</blink></span>");
       }
     }
     else{
-      this.div.update("<span class='error'><img src='<%=sCONTEXTPATH%>/_img/warning.gif' style='vertical-align:-3px;'>&nbsp;<blink>"+msg+"</blink></span>");
+      this.div.update("<span class='error'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_warning.gif' style='vertical-align:-3px;'>&nbsp;<blink>"+msg+"</blink></span>");
     }
     this.div.style.display = "block";
     setTimeout(function(){$(clientMsg.div).style.display = 'none';},time);},
@@ -228,15 +228,15 @@ ClientMsg.prototype = {
     }
 
     if(unitsPerTimeUnitField!=undefined){
-      url = url+"&ReturnUnitsPerTimeUnitField="+unitsPerTimeUnitField;
+      url+= "&ReturnUnitsPerTimeUnitField="+unitsPerTimeUnitField;
     }
 
     if(unitsPerPackageField!=undefined){
-      url = url+"&ReturnUnitsPerPackageField="+unitsPerPackageField;
+      url+= "&ReturnUnitsPerPackageField="+unitsPerPackageField;
     }
 
     if(productStockUidField!=undefined){
-      url = url+"&ReturnProductStockUidField="+productStockUidField;
+      url+= "&ReturnProductStockUidField="+productStockUidField;
     }
 
     window.open(url,"SearchUserProduct","toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=1,height=1,menubar=no");

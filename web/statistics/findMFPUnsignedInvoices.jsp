@@ -49,7 +49,7 @@ String sSql = 	"select distinct OC_PATIENTINVOICE_OBJECTID,OC_PATIENTINVOICE_ACC
 	conn.close();
 %>
 </table>
-<center><input type='button' name='button' value='<%=getTran("web","close",sWebLanguage) %>' onclick='window.close();'/></center>
+<center><input type='button' name='button' value='<%=getTranNoLink("web","close",sWebLanguage) %>' onclick='window.close();'/></center>
 
 <script>
 	function showPatientInvoice(sInvoiceId){

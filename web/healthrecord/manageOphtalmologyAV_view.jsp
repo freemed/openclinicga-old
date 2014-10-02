@@ -1,6 +1,5 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%%>
 
 <form name="transactionForm" id="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>'>
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
@@ -9,6 +8,7 @@
     <input id="transactionId" type="hidden" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
     <input id="serverId" type="hidden" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.serverId" value="<bean:write name="transaction" scope="page" property="serverId"/>"/>
     <input type="hidden" name="subClass" value="AV"/>
+    
     <input id="transactionType" type="hidden" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionType" value="<bean:write name="transaction" scope="page" property="transactionType"/>"/>
     <input type="hidden" readonly name="be.mxs.healthrecord.updateTransaction.actionForwardKey" value="/healthrecord/template.jsp?Page=manageOphtalmologyExaminationWithStereoscopy_view.jsp?be.mxs.healthrecord.createTransaction.transactionType=<bean:write name="transaction" scope="page" property="transactionType"/>&be.mxs.healthrecord.transaction_id=currentTransaction"/>
     <input type="hidden" readonly name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VISUS_AV_RAS" property="itemId"/>]>.value" value="medwan.common.false"/>
@@ -34,7 +34,7 @@
         <td align="right" width="20%">
             <%=getLabel("web.occup","medwan.common.not-executed",sWebLanguage,"moav_c1")%>&nbsp;<input name="visus-ras" type="checkbox" id="moav_c1" value="medwan.common.true" onclick="if (this.checked == true){hide('visus-details');setTrue('<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VISUS_AV_RAS" property="itemId"/>'); } else{show('visus-details');setFalse('<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VISUS_AV_RAS" property="itemId"/>'); }">
         </td>
-        <td align="right" width ="1%"><a href="#top"><img class="link" src='<c:url value="/_img/top.jpg"/>'></a></td>
+        <td align="right" width ="1%"><a href="#top"><img class="link" src='<c:url value="/_img/themes/default/top.gif"/>'></a></td>
     </tr>
     
     <tr id="visus-details" style="display:none" width="100%">
@@ -162,4 +162,4 @@
 </script>
 </form>
 
-<%=writeJSButtons("transactionForm", "document.all['saveBack']")%>
+<%=writeJSButtons("transactionForm","document.all['saveBack']")%>

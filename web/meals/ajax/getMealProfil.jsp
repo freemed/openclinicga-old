@@ -44,7 +44,7 @@
                     <%Iterator it = mealProfiles.iterator();
                         while (it.hasNext()) {
                             MealProfil profil = (MealProfil) it.next();
-                            out.write("<li id='meal_" + profil.mealUid + "'><div style='width:180px'>" + HTMLEntities.htmlentities(profil.mealName) + "</div><div style='width:160px'>" + getHoursField(profil.mealUid, profil.mealDatetime, sWebLanguage) + "</div><div style='width:20px'><img src='" + sCONTEXTPATH + "/_img/icon_delete.png' class='link' title='" + (getTranNoLink("web", "delete", sWebLanguage)) + "' onclick='removeMealfromProfil(\"" + profil.mealUid + "\");'></div></li>");
+                            out.write("<li id='meal_" + profil.mealUid + "'><div style='width:180px'>" + HTMLEntities.htmlentities(profil.mealName) + "</div><div style='width:160px'>" + getHoursField(profil.mealUid, profil.mealDatetime, sWebLanguage) + "</div><div style='width:20px'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.png' class='link' title='" + (getTranNoLink("web", "delete", sWebLanguage)) + "' onclick='removeMealfromProfil(\"" + profil.mealUid + "\");'></div></li>");
                         }%>
                 </ul>
             </td>

@@ -79,16 +79,16 @@
                             sTmpCategory = (String) iter.next();
 
                             if (sTmpCategory.equals(sSelectedCategory)) {
-                    %><option value="<%=sTmpCategory%>" selected><%=getTran("web.macro",sTmpCategory,sWebLanguage)%></option><%
+                                %><option value="<%=sTmpCategory%>" selected><%=getTranNoLink("web.macro",sTmpCategory,sWebLanguage)%></option><%
                             }
                             else {
-                                %><option value="<%=sTmpCategory%>"><%=getTran("web.macro",sTmpCategory,sWebLanguage)%></option><%
+                                %><option value="<%=sTmpCategory%>"><%=getTranNoLink("web.macro",sTmpCategory,sWebLanguage)%></option><%
                             }
                         }
                     %>
                 </select>&nbsp;
                 <%-- BUTTONS --%>
-                <input type="button" class="button" name="newButton" value="<%=getTran("Web","new",sWebLanguage)%>" onclick="doNew();">
+                <input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">
             </td>
         </tr>
     </table>
@@ -128,7 +128,7 @@
                             %>
                                 <tr class="list<%=sClass%>" >
                                     <td>
-                                        <a href="#" onclick="doDelete();"><img src='<c:url value="/_img/icon_delete.gif"/>' border='0' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>'></a>
+                                        <a href="#" onclick="doDelete();"><img src='<c:url value="/_img/icons/icon_delete.gif"/>' border='0' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>'></a>
                                     </td>
                                     <td onClick="showDetails('<%=checkString((String)hInfo.get("id"))%>');"><%=checkString((String)hInfo.get("id"))%></td>
                                     <td onClick="showDetails('<%=checkString((String)hInfo.get("id"))%>');"><%=checkString((String)hInfo.get("name"))%></td>
@@ -212,18 +212,18 @@
             // SAVE & DELETE BUTTON
             if(sAction.equals("showDetails")){
                 %>
-                <input class="button" type="button" name="saveButton" id="saveButton" value="<%=getTran("Web","save",sWebLanguage)%>" onclick="doSave();"/>
-                <input class="button" type="button" name="deleteButton" value="<%=getTran("Web","delete",sWebLanguage)%>" onclick="doDelete();"/>
+                <input class="button" type="button" name="saveButton" id="saveButton" value="<%=getTranNoLink("Web","save",sWebLanguage)%>" onclick="doSave();"/>
+                <input class="button" type="button" name="deleteButton" value="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="doDelete();"/>
                 <%
             }
             // ONLY SAVE BUTTON
             else if(sAction.equals("showNew")){
                 %>
-                <input class="button" type="button" name="saveButton" id="saveButton" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="doSave();"/>
+                <input class="button" type="button" name="saveButton" id="saveButton" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="doSave();"/>
                 <%
             }
         %>
-        <input class="button" type="button" name="backButton" value='<%=getTran("Web","Back",sWebLanguage)%>' OnClick="doBack();"/>
+        <input class="button" type="button" name="backButton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' OnClick="doBack();"/>
     <%=ScreenHelper.alignButtonsStop()%>
     <input type="hidden" name="EditOldID" value="<%=sNewID%>">
 </form>
@@ -241,9 +241,7 @@
       else if(MacroForm.EditNL.value.length == 0) { MacroForm.EditNL.focus(); }
       else if(MacroForm.EditFR.value.length == 0) { MacroForm.EditFR.focus(); }
 
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=somefieldsareempty";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","somefieldsareempty",sWebLanguage)%>");
+      alertDialog("web","somefieldsareempty");
 
     }
   }

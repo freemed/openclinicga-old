@@ -606,11 +606,11 @@ try{
 	                <%
 	                  if (activeUser.getAccessRight("occup.surveillance.USI.add") || activeUser.getAccessRight("occup.surveillance.USI.edit")){
 	                %>
-	                    <INPUT class="button" type="button" name="saveButton" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="doSubmit();"/>
+	                    <INPUT class="button" type="button" name="saveButton" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="doSubmit();"/>
 	                <%
 	                  }
 	                %>
-	                    <INPUT class="button" type="button" value="<%=getTran("Web","close",sWebLanguage)%>" onclick="window.close();">
+	                    <INPUT class="button" type="button" value="<%=getTranNoLink("Web","close",sWebLanguage)%>" onclick="window.close();">
 	            </td>
 	        <tr>
 	        

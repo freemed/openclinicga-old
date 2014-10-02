@@ -24,21 +24,23 @@
             sTreatment3 = getTran("physiotherapy.act",sTreatment3,sWebLanguage);
         }
 
-        sTmp.append(
-            "<tr id='rowSeance"+iTotal+"' class='list'>"+
-              "<td>"+
-                "<a href='javascript:deleteSeance(rowSeance"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> "+
-                "<a href='javascript:editSeance(rowSeance"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>"+
-              "</td>"+
-              "<td>&nbsp;"+sDate+"</td>"+
-              "<td>&nbsp;"+sHour+"</td>"+
-              "<td>&nbsp;"+sTreatment1+"</td>"+
-              "<td>&nbsp;"+sTreatment2+"</td>"+
-              "<td>&nbsp;"+sTreatment3+"</td>"+
-              "<td>"+
-              "</td>"+
-            "</tr>"
-        );
+        // alternate row-style
+        String sClass;
+        if(iTotal%2==0) sClass = "1";
+        else            sClass = "";
+        
+        sTmp.append("<tr id='rowSeance"+iTotal+"' class='list"+sClass+"' onMouseOver=\"this.className='list_select'\" onMouseout=\"this.className='list"+sClass+"'\">")
+             .append("<td>")
+              .append("<a href='javascript:deleteSeance(rowSeance"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)+"' border='0'></a> ")
+              .append("<a href='javascript:editSeance(rowSeance"+iTotal+")'><img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)+"' border='0'></a>")
+             .append("</td>")
+             .append("<td>&nbsp;"+sDate+"</td>")
+             .append("<td>&nbsp;"+sHour+"</td>")
+             .append("<td>&nbsp;"+sTreatment1+"</td>")
+             .append("<td>&nbsp;"+sTreatment2+"</td>")
+             .append("<td>&nbsp;"+sTreatment3+"</td>")
+             .append("<td></td>")
+            .append("</tr>");
 
         return sTmp;
     }
@@ -127,7 +129,7 @@
                 }
 
                 sSeances.append("rowSeance"+iSeancesTotal+"="+sTmpDate+"£"+sTmpHeure+"£"+sTmpTreatment1+"£"+sTmpTreatment2+"£"+sTmpTreatment3+"$");
-                sDivSeances.append(addSeance(iSeancesTotal, sTmpDate, sTmpHeure, sTmpTreatment1,sTmpTreatment2,sTmpTreatment3,sWebLanguage));
+                sDivSeances.append(addSeance(iSeancesTotal,sTmpDate,sTmpHeure,sTmpTreatment1,sTmpTreatment2,sTmpTreatment3,sWebLanguage));
                 iSeancesTotal++;
             }
         }
@@ -201,7 +203,7 @@
 
 	                            %>
 	                              <span id="ICPCCode<%=item.getItemId()%>">
-	                                  <img src="<c:url value='/_img/icon_delete.gif'/>" onclick="document.getElementById('ICPCCode<%=item.getItemId()%>').innerHTML='';"/><input type='hidden' name='ICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=item.getValue().trim()%>"/><input type='hidden' name='GravityICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sCertainty%>"/>
+	                                  <img src="<c:url value='/_img/icons/icon_delete.gif'/>" onclick="document.getElementById('ICPCCode<%=item.getItemId()%>').innerHTML='';"/><input type='hidden' name='ICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=item.getValue().trim()%>"/><input type='hidden' name='GravityICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sCertainty%>"/>
 	                                  <%=item.getType().replaceAll("ICPCCode","")%>&nbsp;<%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%> G:<%=sGravity %>/C:<%=sCertainty %>
 	                                  <br>
 	                              </span>
@@ -217,7 +219,7 @@
 
 	                            %>
 	                              <span id='ICD10Code<%=item.getItemId()%>'>
-	                                  <img src='<c:url value="/_img/icon_delete.gif"/>' onclick="document.getElementById('ICD10Code<%=item.getItemId()%>').innerHTML='';"/><input type='hidden' name='ICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value='<%=item.getValue().trim()%>'/><input type='hidden' name='GravityICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sCertainty%>"/>
+	                                  <img src='<c:url value="/_img/icons/icon_delete.gif"/>' onclick="document.getElementById('ICD10Code<%=item.getItemId()%>').innerHTML='';"/><input type='hidden' name='ICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value='<%=item.getValue().trim()%>'/><input type='hidden' name='GravityICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICD10Code<%=item.getType().replaceAll("ICD10Code","")%>' value="<%=sCertainty%>"/>
 	                                  <%=item.getType().replaceAll("ICD10Code","")%>&nbsp;<%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%> G:<%=sGravity %>/C:<%=sCertainty %>
 	                                  <br>
 	                              </span>
@@ -252,40 +254,39 @@
             <td class="admin2">                
                 <table id="searchresults" width="100%" class="sortable" cellspacing="0" headerrowcount="2">
                     <%-- HEADER --%>
-                    <tr>
-                        <td class="admin" width="38"/>
-                        <td class="admin" width="120"><%=getTran("Web.occup","medwan.common.date",sWebLanguage)%></td>
-                        <td class="admin" width="55"><%=getTran("Web.occup","medwan.common.hour",sWebLanguage)%></td>
-                        <td class="admin"><%=getTran("openclinic.chuk","treatment",sWebLanguage)%></td>
-                        <td class="admin"><%=getTran("openclinic.chuk","treatment",sWebLanguage)%></td>
-                        <td class="admin"><%=getTran("openclinic.chuk","treatment",sWebLanguage)%></td>
-                        <td class="admin"></td>
-                        <td/>
+                    <tr class="admin">
+                        <td width="38">&nbsp;</td>
+                        <td width="140"><%=getTran("Web.occup","medwan.common.date",sWebLanguage)%></td>
+                        <td width="55"><%=getTran("Web.occup","medwan.common.hour",sWebLanguage)%></td>
+                        <td><%=getTran("openclinic.chuk","treatment",sWebLanguage)%></td>
+                        <td><%=getTran("openclinic.chuk","treatment",sWebLanguage)%></td>
+                        <td><%=getTran("openclinic.chuk","treatment",sWebLanguage)%></td>
+                        <td></td>
                     </tr>
 
                     <%-- ADD ROW --%>
                     <tr>
-                        <td class="admin2"/>
-                        <td class="admin2">
+                        <td class="admin"/>
+                        <td class="admin">
                             <input type="text" class="text" size="12" maxLength="10" id="seanceDate" name="seanceDate" OnBlur='checkDate(this)'>
                             <script>writeMyDate("seanceDate");</script>
                         </td>
-                        <td class="admin2">
+                        <td class="admin">
                             <input type="text" class="text" size="5" name="seanceHour" onblur="checkTime(this);"onkeypress="keypressTime(this)">
                         </td>
-                        <td class="admin2">
+                        <td class="admin">
                             <select class="text" name="seancetreatment1">
                                 <option/>
                                 <%=ScreenHelper.writeSelect("physiotherapy.act","",sWebLanguage)%>
                             </select>
                         </td>
-                        <td class="admin2">
+                        <td class="admin">
                             <select class="text" name="seancetreatment2">
                                 <option/>
                                 <%=ScreenHelper.writeSelect("physiotherapy.act","",sWebLanguage)%>
                             </select>
                         </td>
-                        <td class="admin2">
+                        <td class="admin">
                             <select class="text" name="seancetreatment3">
                                 <option/>
                                 <%=ScreenHelper.writeSelect("physiotherapy.act","",sWebLanguage)%>
@@ -293,9 +294,9 @@
                         </td>
 
                         <%-- ADD/EDIT BUTTONS --%>
-                        <td class="admin2">
-                            <input type="button" class="button" name="ButtonAddSeance" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addSeance();">
-                            <input type="button" class="button" name="ButtonUpdateSeance" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateSeance();">
+                        <td class="admin">
+                            <input type="button" class="button" name="ButtonAddSeance" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addSeance();">
+                            <input type="button" class="button" name="ButtonUpdateSeance" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateSeance();">
                         </td>
                     </tr>
 
@@ -407,13 +408,13 @@ function addSeance(){
                                            +transactionForm.seancetreatment2.value+"£"
                                            +transactionForm.seancetreatment3.value+"$";
       
-    var tr;
-    tr = searchresults.insertRow(searchresults.rows.length);
+    var tr = searchresults.insertRow(searchresults.rows.length);
     tr.id = "rowSeance"+iSeancesIndex;
+    tr.onmouseover = "this.className = 'list_select'";
 
     var td = tr.insertCell(0);
-    td.innerHTML = "<a href='javascript:deleteSeance(rowSeance"+iSeancesIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "+
-                   "<a href='javascript:editSeance(rowSeance"+iSeancesIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    td.innerHTML = "<a href='javascript:deleteSeance(rowSeance"+iSeancesIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "+
+                   "<a href='javascript:editSeance(rowSeance"+iSeancesIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     tr.appendChild(td);
 
     td = tr.insertCell(1);
@@ -425,22 +426,37 @@ function addSeance(){
     tr.appendChild(td);
 
     td = tr.insertCell(3);
-    td.innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment1.value);
+    if(transactionForm.seancetreatment1.value.length > 0){
+      td.innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment1.value);
+    }
+    else{
+      td.innerHTML = "";
+    }
     tr.appendChild(td);
 
     td = tr.insertCell(4);
-    td.innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment2.value);
+    if(transactionForm.seancetreatment2.value.length > 0){
+      td.innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment2.value);
+    }
+    else{
+      td.innerHTML = "";
+    }
     tr.appendChild(td);
 
     td = tr.insertCell(5);
-    td.innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment3.value);
+    if(transactionForm.seancetreatment3.value.length > 0){
+      td.innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment3.value);
+    }
+    else{
+      td.innerHTML = "";
+    }
     tr.appendChild(td);
 
     td = tr.insertCell(6);
     td.innerHTML = "&nbsp;";
     tr.appendChild(td);
 
-    setCellStyle(tr);
+    setCellStyle(tr,iSeancesIndex);
     clearSeanceFields()
     transactionForm.ButtonUpdateSeance.disabled = true;
   }
@@ -466,16 +482,34 @@ function updateSeance(){
 
     <%-- update table object --%>
     row = searchresults.rows[editSeancesRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteSeance("+editSeancesRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editSeance("+editSeancesRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteSeance("+editSeancesRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editSeance("+editSeancesRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
     row.cells[1].innerHTML = "&nbsp;"+transactionForm.seanceDate.value;
     row.cells[2].innerHTML = "&nbsp;"+transactionForm.seanceHour.value;
-    row.cells[3].innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment1.value);
-    row.cells[4].innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment2.value);
-    row.cells[5].innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment3.value);
 
-    setCellStyle(row);
+    if(transactionForm.seancetreatment1.value.length > 0){
+      row.cells[3].innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment1.value);
+    }
+    else{
+      row.cells[3].innerHTML = "&nbsp;";
+    }
+
+    if(transactionForm.seancetreatment2.value.length > 0){
+      row.cells[4].innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment2.value);
+    }
+    else{
+      row.cells[4].innerHTML = "&nbsp;";
+    }
+
+    if(transactionForm.seancetreatment3.value.length > 0){
+      row.cells[5].innerHTML = "&nbsp;"+translateTreatment(transactionForm.seancetreatment3.value);
+    }
+    else{
+      row.cells[5].innerHTML = "&nbsp;";
+    }
+
+    setCellStyle(row,editSeancesRowid.rowIndex);
     clearSeanceFields();
     transactionForm.ButtonUpdateSeance.disabled = true;
   }
@@ -612,19 +646,10 @@ if(document.getElementById('encounteruid').value==''){
 }	
 
 <%-- SET CELL STYLE --%>
-function setCellStyle(row){
-  for(var i=0; i<row.cells.length; i++){
-    row.cells[i].style.color = "#333333";
-    row.cells[i].style.fontFamily = "arial";
-    row.cells[i].style.fontSize = "10px";
-    row.cells[i].style.fontWeight = "normal";
-    row.cells[i].style.textAlign = "left";
-    row.cells[i].style.paddingLeft = "1px";
-    row.cells[i].style.paddingRight = "1px";
-    row.cells[i].style.paddingTop = "1px";
-    row.cells[i].style.paddingBottom = "1px";
-    //row.cells[i].style.backgroundColor = "#E0EBF2";
-  }
+function setCellStyle(row,idx){
+  row.className = "list"+(idx%2==0?"":"1");
+  row.onmouseover = function(){this.className = 'list_select'};
+  row.onmouseout = function(){this.className = 'list'+(idx%2==0?"":"1")};
 }
 
 <%-- SEARCH ICPC --%>

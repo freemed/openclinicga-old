@@ -60,7 +60,7 @@
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n################## financial/patientCreditEdit.jsp ###############");
+        Debug.println("\n#################### financial/patientCreditEdit.jsp ##################");
         Debug.println("sAction               : "+sAction);
         Debug.println("sEditCreditUid        : "+sEditCreditUid);
         Debug.println("sEditCreditDate       : "+sEditCreditDate);
@@ -260,27 +260,27 @@
 %>
 <form name="EditForm" id="EditForm" method="POST" onClick="checkForMaxAmount(EditForm.EditCreditAmount);">
 <%
-    if (sScreenType.equals("")){
+    if(sScreenType.equals("")){
 %>
     <%ScreenHelper.setIncludePage(customerInclude("financial/financialStatusPatient.jsp"),pageContext);%>
-    <table class="menu" width="100%" cellspacing="0">
+    <table class="list" width="100%" cellspacing="1" cellpadding="0">
         <tr>
-            <td width="<%=sTDAdminWidth%>"><%=getTran("web.occup","medwan.common.date",sWebLanguage)%></td>
-            <td width="100"><%=getTran("Web","Begin",sWebLanguage)%></td>
-            <td width="150"><%=writeDateField("FindDateBegin","EditForm",sFindDateBegin,sWebLanguage)%></td>
-            <td width="100"><%=getTran("Web","end",sWebLanguage)%></td>
-            <td><%=writeDateField("FindDateEnd","EditForm",sFindDateEnd,sWebLanguage)%></td>
+            <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web.occup","medwan.common.date",sWebLanguage)%></td>
+            <td class="admin2" width="80"><%=getTran("Web","Begin",sWebLanguage)%></td>
+            <td class="admin2" width="150"><%=writeDateField("FindDateBegin","EditForm",sFindDateBegin,sWebLanguage)%></td>
+            <td class="admin2" width="80"><%=getTran("Web","end",sWebLanguage)%></td>
+            <td class="admin2"><%=writeDateField("FindDateEnd","EditForm",sFindDateEnd,sWebLanguage)%></td>
         </tr>
         <tr>
-            <td width="<%=sTDAdminWidth%>"><%=getTran("web","amount",sWebLanguage)%></td>
-            <td><%=getTran("Web","min",sWebLanguage)%></td>
-            <td><input type="text" class="text" name="FindAmountMin" id="FindAmountMin" value="<%=sFindAmountMin%>" onblur="isNumber(this)"></td>
-            <td><%=getTran("Web","max",sWebLanguage)%></td>
-            <td><input type="text" class="text" name="FindAmountMax" id="FindAmountMax" value="<%=sFindAmountMax%>" onblur="isNumber(this)"></td>
+            <td class="admin"><%=getTran("web","amount",sWebLanguage)%></td>
+            <td class="admin2"><%=getTran("Web","min",sWebLanguage)%></td>
+            <td class="admin2"><input type="text" class="text" name="FindAmountMin" id="FindAmountMin" value="<%=sFindAmountMin%>" onblur="isNumber(this)"></td>
+            <td class="admin2"><%=getTran("Web","max",sWebLanguage)%></td>
+            <td class="admin2"><input type="text" class="text" name="FindAmountMax" id="FindAmountMax" value="<%=sFindAmountMax%>" onblur="isNumber(this)"></td>
         </tr>
         <tr>
-            <td/>
-            <td colspan="4">
+            <td class="admin"/>
+            <td class="admin2" colspan="4">
                 <input type="button" class="button" name="ButtonSearch" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="loadUnassignedCredits()">&nbsp;
                 <input type="button" class="button" name="ButtonClear" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearFindFields()">&nbsp;
                 <input class="button" type="button" name="buttonNew" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="clearEditFields();">
@@ -289,7 +289,7 @@
     </table>
     <br>
 
-    <div id="divCredits" class="searchResults" style="height:122px">
+    <div id="divCredits" class="searchResults" style="height:122px;width:100%">
        <%-- Filled by Ajax --%>
     </div>
     <br>
@@ -302,7 +302,7 @@
     <input type="hidden" name="ScreenType" value="<%=sScreenType%>">
     
     <%=writeTableHeader("financial","patientCreditEdit",sWebLanguage," doBack();")%>
-    <table class="list"width="100%" cellspacing="1">
+    <table class="list" width="100%" cellspacing="1" cellpadding="0">
 	    <tr>
 	        <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","creditid",sWebLanguage)%></td>
 	        <td class="admin2"><div id="creditid"></div></td>
@@ -316,8 +316,10 @@
             <td class="admin2">
                 <input type="hidden" name="EditCreditInvoiceUid" value="<%=sEditCreditInvoiceUid%>">
                 <input class="text" type="text" name="EditCreditInvoiceNr" readonly size="10" value="<%=sEditCreditInvoiceNr%>">
-                <img src="<c:url value='/_img/icon_search.gif'/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchInvoice('EditCreditInvoiceUid','EditCreditInvoiceNr','EditCreditAmount','EditCreditMaxAmount');">
-                <img src="<c:url value='/_img/icon_delete.gif'/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditForm.EditCreditInvoiceUid.value='';EditForm.EditCreditInvoiceNr.value='';EditForm.EditCreditMaxAmount.value='';">
+                
+                <%-- icons --%>
+                <img src="<c:url value='/_img/icons/icon_search.gif'/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchInvoice('EditCreditInvoiceUid','EditCreditInvoiceNr','EditCreditAmount','EditCreditMaxAmount');">
+                <img src="<c:url value='/_img/icons/icon_delete.gif'/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditForm.EditCreditInvoiceUid.value='';EditForm.EditCreditInvoiceNr.value='';EditForm.EditCreditMaxAmount.value='';">
             </td>
         </tr>
         <tr>
@@ -331,7 +333,7 @@
             <td class="admin"><%=getTran("web","type",sWebLanguage)%>&nbsp;*</td>
             <td class="admin2">
                 <select class="text" name="EditCreditType">
-                    <option/>
+                    <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                     <%=ScreenHelper.writeSelectUnsorted("credit.type",sEditCreditType,sWebLanguage)%>
                 </select>
             </td>
@@ -343,14 +345,15 @@
                 <input class="text" type="text" name="EditCreditEncounterName" readonly size="<%=sTextWidth%>" value="<%=sEditCreditEncName%>">
 
                 <%-- icons --%>
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchEncounter('EditCreditEncounterUid','EditCreditEncounterName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditForm.EditCreditEncounterUid.value='';EditForm.EditCreditEncounterName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchEncounter('EditCreditEncounterUid','EditCreditEncounterName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditForm.EditCreditEncounterUid.value='';EditForm.EditCreditEncounterName.value='';">
             </td>
         </tr>
         <tr>
             <td class="admin"><%=getTran("web","description",sWebLanguage)%></td>
             <td class="admin2"><%=writeTextarea("EditCreditDescription","","","",sEditCreditDescr)%></td>
         </tr>
+        
         <%
             Vector userWickets = Wicket.getWicketsForUser(activeUser.userid);
             if((userWickets.size() > 0)&&(!sScreenType.equalsIgnoreCase("doCancellation"))){
@@ -359,7 +362,7 @@
                         <td class="admin"><%=getTran("wicket","wicket",sWebLanguage)%>&nbsp;*</td>
                         <td class="admin2">
                             <select class="text" id="EditCreditWicketUid" name="EditCreditWicketUid">
-                                <option value="" selected><%=getTran("web","choose",sWebLanguage)%></option>
+                                <option value="" selected><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                                 <%
                                     Iterator iter = userWickets.iterator();
                                     Wicket wicket;
@@ -369,7 +372,7 @@
 
                                         %>
                                           <option value="<%=wicket.getUid()%>" <%=sAction.length()==0 && sEditCreditWicketUid.equals(wicket.getUid())?" selected":""%>>
-                                              <%=wicket.getUid()%>&nbsp;<%=getTran("service",wicket.getServiceUID(),sWebLanguage)%>
+                                              <%=wicket.getUid()%>&nbsp;<%=getTranNoLink("service",wicket.getServiceUID(),sWebLanguage)%>
                                           </option>
                                         <%
                                     }
@@ -379,34 +382,30 @@
                     </tr>
                 <%
             }
-            else {
-            %>
-            <input type="hidden" name="EditCreditWicketUid"/>
-            <%
+            else{
+                %><input type="hidden" name="EditCreditWicketUid"/><%
             }
         %>
+        
+        <%-- BUTTONS & PRINT --%>
         <tr>
             <td class="admin"/>
             <td class="admin2">
             	<%
-            	if(userWickets.size() > 0){
-            	%>
-                	<input class="button" type="button" name="buttonSave" id="buttonSave" value="<%=getTranNoLink("Web","save",sWebLanguage)%>" onclick="doSave();">&nbsp;
-                <%
-            	}
-            	else {
-            	%>
-            		<font color='red'><%=getTran("web","nowicketassignedtouser",sWebLanguage) %></font>
-            	<%
-            	}
+	            	if(userWickets.size() > 0){
+	            	    %><input class="button" type="button" name="buttonSave" id="buttonSave" value="<%=getTranNoLink("Web","save",sWebLanguage)%>" onclick="doSave();">&nbsp;&nbsp;<%
+	            	}
+	            	else{
+	            	    %><font color="red"><%=getTran("web","nowicketassignedtouser",sWebLanguage)%></font><%
+            		}
                 %>
-                <div id="printsection" name="printsection" style="visibility: hidden">
-                    <%=getTran("Web.Occup","PrintLanguage",sWebLanguage)%>
+                
+                <span id="printsection" name="printsection" style="visibility:hidden">
+                    <%=getTran("Web.Occup","PrintLanguage",sWebLanguage)%>&nbsp;
 
                     <%
                         String sPrintLanguage = activeUser.person.language;
-
-                        if (sPrintLanguage.length()==0){
+                        if(sPrintLanguage.length()==0){
                             sPrintLanguage = sWebLanguage;
                         }
 
@@ -416,34 +415,31 @@
                     <select class="text" name="PrintLanguage" id="PrintLanguage">
                         <%
                             String tmpLang;
-                            StringTokenizer tokenizer = new StringTokenizer(sSupportedLanguages, ",");
-                            while (tokenizer.hasMoreTokens()) {
+                            StringTokenizer tokenizer = new StringTokenizer(sSupportedLanguages,",");
+                            while(tokenizer.hasMoreTokens()){
                                 tmpLang = tokenizer.nextToken();
 
-                                %><option value="<%=tmpLang%>"<%if (tmpLang.equalsIgnoreCase(sPrintLanguage)){out.print(" selected");}%>><%=getTran("Web.language",tmpLang,sWebLanguage)%></option><%
+                                %><option value="<%=tmpLang%>" <%=(tmpLang.equalsIgnoreCase(sPrintLanguage)?" selected":"")%>><%=getTranNoLink("Web.language",tmpLang,sWebLanguage)%></option><%
                             }
                         %>
                     </select>
 
-                    <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print",sWebLanguage)%>' onclick="doPrintPdf(document.getElementById('EditCreditUid').value);">
+                    <%-- BUTTONS --%>
+                    <input class="button" type="button" name="buttonPrint" value="<%=getTranNoLink("Web","print",sWebLanguage)%>" onclick="doPrintPdf(document.getElementById('EditCreditUid').value);">
                     <%
                     	if(MedwanQuery.getInstance().getConfigInt("javaPOSenabled",0)==1){
-                    %>
-                    <input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print.receipt",sWebLanguage)%>' onclick="doPrintPatientPaymentReceipt();">
-                    <%
+                            %><input class="button" type="button" name="buttonPrint" value='<%=getTranNoLink("Web","print.receipt",sWebLanguage)%>' onclick="doPrintPatientPaymentReceipt();"><%
                     	}
 	                	if(MedwanQuery.getInstance().getConfigInt("printPDFreceiptenabled",0)==1){
-	                %>
-	                <input class="button" type="button" name="buttonPrintPdf" value='<%=getTranNoLink("Web","print.receipt.pdf",sWebLanguage)%>' onclick="doPrintPatientReceiptPdf();">
-	                <%
+	                        %><input class="button" type="button" name="buttonPrintPdf" value='<%=getTranNoLink("Web","print.receipt.pdf",sWebLanguage)%>' onclick="doPrintPatientReceiptPdf();"><%
 	                	}
-                    %>
-                    
-                </div>
+                    %>                    
+                </span>
             </td>
         </tr>
     </table>
     <%=getTran("web","asterisk_fields_are_obligate",sWebLanguage)%>
+    
     <%-- display message --%>
     <br><br><span id="msgArea">&nbsp;<%=msg%></span>
 </form>
@@ -460,66 +456,62 @@
   }
 
   function doPrintPatientPaymentReceipt(){
-  	  var params = '';
-      var today = new Date();
-      var url= '<c:url value="/financial/printPaymentReceiptOffline.jsp"/>?credituid='+document.getElementById('EditCreditUid').value+'&ts='+today+'&language=<%=sWebLanguage%>&userid=<%=activeUser.userid%>';
-      new Ajax.Request(url,{
-				method: "GET",
-              parameters: params,
-              onSuccess: function(resp){
-              	var label = eval('('+resp.responseText+')');
-              	if(label.message.length>0){
-                  	alert(label.message.unhtmlEntities());
-                  };
-              },
-				onFailure: function(){
-					alert("Error printing receipt");
-              }
-          }
-		);
+    var url= "<c:url value='/financial/printPaymentReceiptOffline.jsp'/>"+
+             "?credituid="+document.getElementById("EditCreditUid").value+
+             "&language=<%=sWebLanguage%>&userid=<%=activeUser.userid%>"+
+             "&ts="+new Date();
+    new Ajax.Request(url,{
+	  method: "GET",
+      parameters: "",
+      onSuccess: function(resp){
+        var label = eval('('+resp.responseText+')');
+        if(label.message.length>0){
+          alertDialogDirectText(label.message.unhtmlEntities());
+        };
+      },
+      onFailure: function(){
+        alert("Error printing receipt");
+      }
+    });
   }
 
   function doPrintPatientReceiptPdf(){
-      var url = "<c:url value='/financial/createPatientPaymentReceiptPdf.jsp'/>?creditUid="+EditForm.EditCreditUid.value+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value;
-      window.open(url,"PatientPaymentPdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    var url = "<c:url value='/financial/createPatientPaymentReceiptPdf.jsp'/>?creditUid="+EditForm.EditCreditUid.value+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value;
+    window.open(url,"PatientPaymentPdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
 
   function checkForMaxAmount(amountField){
     if(EditForm.EditCreditMaxAmount.value.length > 0){
       if(EditForm.EditCreditAmount.value > EditForm.EditCreditMaxAmount.value){
         amountField.value = EditForm.EditCreditMaxAmount.value;
-
-        var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=<%=getTs()%>&labelType=web.financial&labelID=creditAmountLimitedToInvoiceAmount";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm('<%=getTranNoLink("web.financial","creditAmountLimitedToInvoiceAmount",sWebLanguage)%>');
-
+        alertDialog("web.financial","creditAmountLimitedToInvoiceAmount");        
       }
     }
   }
 
   function doSave(){
-	document.getElementById("buttonSave").disabled=true;
+	document.getElementById("buttonSave").disabled = true;
+	
     if(EditForm.EditCreditDate.value.length > 0 &&
        EditForm.EditCreditAmount.value.length > 0 &&
        EditForm.EditCreditEncounterUid.value.length > 0 &&
        EditForm.EditCreditType.value.length > 0){
       <%
-          if ((userWickets.size() > 0)){
+          if(userWickets.size() > 0){
               %>
                 if(document.getElementById("EditCreditWicketUid").selectedIndex==0){
                   alertDialog("web.manage","datamissing");
                   EditForm.EditCreditWicketUid.focus();
-	            	document.getElementById("buttonSave").disabled=false;
-
+                  document.getElementById("buttonSave").disabled = false;
                 }
-                else {
+                else{
                   EditForm.buttonSave.disabled = true;
                   EditForm.Action.value = "save";
                   EditForm.submit();
                 }
         	<%
-            }
-          else {
+          }
+          else{
         	  %>
                 EditForm.buttonSave.disabled = true;
                 EditForm.Action.value = "save";
@@ -542,12 +534,11 @@
         EditForm.EditCreditType.focus();
       }
       else if(EditForm.EditCreditWicketUid.value.length==0){
- //       EditForm.EditCreditWicketUid.focus();
+        //EditForm.EditCreditWicketUid.focus();
       }
 
       alertDialog("web.manage","datamissing");
-	  	document.getElementById("buttonSave").disabled=false;
-
+	  document.getElementById("buttonSave").disabled = false;
     }
   }
 
@@ -580,39 +571,35 @@
   }
 
   function loadUnassignedCredits(){
-<%
-if (sScreenType.equals("")){
-%>
-      if (document.getElementById("EditCreditEncounterUid").value.length==0){
-      var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=<%=getTs()%>&labelType=medical&labelID=no_encounter";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm('<%=getTranNoLink("medical","no_encounter",sWebLanguage)%>');
-    }
-    else{
-        $('divCredits').innerHTML="<br><br><br><div id='ajaxLoader' style='display:block;text-align:center;'><img src='<c:url value='/_img/ajax-loader.gif'/>'/><br>Loading..</div>";
-        var params = 'FindDateBegin=' + EditForm.FindDateBegin.value
-              +"&FindDateEnd="+document.getElementById('FindDateEnd').value
-              +"&FindAmountMin="+document.getElementById('FindAmountMin').value
-              +"&FindAmountMax="+document.getElementById('FindAmountMax').value
-              +"&encounterUID="+document.getElementById("EditCreditEncounterUid").value;
-        var today = new Date();
-        var url= "<c:url value='/financial/getEncounterCredits.jsp'/>?ts="+today;
-        new Ajax.Request(url,
-          {
-            method: "GET",
-            parameters: params,
-            onSuccess: function(resp){
-              $("divCredits").innerHTML = resp.responseText;
-            },
-            onFailure: function(){
-                $('divCredits').innerHTML="Error";
-            }
-          }
-        );
-    }
-<%
-}
-%>
+	<%
+	    if(sScreenType.equals("")){
+	%>
+	    if(document.getElementById("EditCreditEncounterUid").value.length==0){
+	      alertDialog("medical","no_encounter");
+	    }
+	    else{
+	      $("divCredits").innerHTML = "<br><br><br><div id='ajaxLoader' style='display:block;text-align:center;'>"+
+	                                  "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading..</div>";
+	      var params = "FindDateBegin="+ EditForm.FindDateBegin.value+
+	                   "&FindDateEnd="+document.getElementById('FindDateEnd').value+
+	                   "&FindAmountMin="+document.getElementById('FindAmountMin').value+
+	                   "&FindAmountMax="+document.getElementById('FindAmountMax').value+
+	                   "&encounterUID="+document.getElementById("EditCreditEncounterUid").value;
+	      var url= "<c:url value='/financial/getEncounterCredits.jsp'/>?ts="+new Date();
+	      new Ajax.Request(url,{
+	        method: "GET",
+	        parameters: params,
+	        onSuccess: function(resp){
+	          $("divCredits").innerHTML = resp.responseText;
+	        },
+	        onFailure: function(){
+	          $("divCredits").innerHTML = "Error";
+	        }
+	      });
+	    }
+	<%
+	    }
+	%>
   }
 
   function selectCredit(creditUid,creditDate,amount,type,encUid,encName,descr, invoiceUid,wicketuid){
@@ -625,31 +612,34 @@ if (sScreenType.equals("")){
     EditForm.EditCreditEncounterName.value = encName;
     EditForm.EditCreditDescription.value = replaceAll(descr,"<br>","\r\n");
     EditForm.EditCreditInvoiceUid.value = invoiceUid;
+    
     if(<%=(activeUser.getAccessRight("financial.patientcreditedit.edit")?"true":"false")%> && EditForm.EditCreditWicketUid.value==wicketuid){
-        document.getElementById("buttonSave").style.visibility='visible';
-        document.getElementById("EditCreditWicketUid").style.visibility='visible';
+      document.getElementById("buttonSave").style.visibility='visible';
+      document.getElementById("EditCreditWicketUid").style.visibility='visible';
     }
     else if(document.getElementById("buttonSave")){
-        document.getElementById("buttonSave").style.visibility='hidden';
-        document.getElementById("EditCreditWicketUid").style.visibility='hidden';
+      document.getElementById("buttonSave").style.visibility='hidden';
+      document.getElementById("EditCreditWicketUid").style.visibility='hidden';
     }
 
-    if (invoiceUid.indexOf(".")>-1){
-        EditForm.EditCreditInvoiceNr.value = invoiceUid.split(".")[1];
+    if(invoiceUid.indexOf(".")>-1){
+      EditForm.EditCreditInvoiceNr.value = invoiceUid.split(".")[1];
     }
-    else {
-        EditForm.EditCreditInvoiceNr.value = "";
+    else{
+      EditForm.EditCreditInvoiceNr.value = "";
     }
+    
     document.getElementById('creditid').innerHTML=document.getElementById('EditCreditUid').value.split(".")[1];
     document.getElementById('printsection').style.visibility='visible';
-      document.getElementById('PrintLanguage').style.visibility='visible';
+    document.getElementById('PrintLanguage').style.visibility='visible';
   }
 
   function clearEditFields(){
 	if(document.getElementById("buttonSave")){
-		document.getElementById("buttonSave").style.visibility='visible';
+	  document.getElementById("buttonSave").style.visibility='visible';
 	}
     document.getElementById("EditCreditWicketUid").style.visibility='visible';
+    
     EditForm.EditCreditUid.value = "";
     EditForm.EditCreditDate.value = "<%=getDate()%>";
     EditForm.EditCreditInvoiceUid.value = "";
@@ -695,14 +685,16 @@ if (sScreenType.equals("")){
   }
 
   EditForm.EditCreditDate.focus();
-  if(document.getElementById('EditCreditUid').value.length>0){
-      document.getElementById('creditid').innerHTML=document.getElementById('EditCreditUid').value.split(".")[1];
-      document.getElementById('printsection').style.visibility='visible';
-      document.getElementById('PrintLanguage').style.visibility='visible';
+  
+  if(document.getElementById('EditCreditUid').value.length > 0){
+    document.getElementById('creditid').innerHTML=document.getElementById('EditCreditUid').value.split(".")[1];
+    document.getElementById('printsection').style.visibility = 'visible';
+    document.getElementById('PrintLanguage').style.visibility = 'visible';
   }
+  
 <%
-if(sScreenType.equals("")){
-    %>loadUnassignedCredits();<%
-}
+	if(sScreenType.equals("")){
+	    %>loadUnassignedCredits();<%
+	}
 %>
 </script>

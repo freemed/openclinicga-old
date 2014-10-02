@@ -111,7 +111,7 @@
        document.getElementById("decisionBy").value.length > 0
       ){               
       if(okToSubmit){
-        document.getElementById("divMessage").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Saving";  
+        document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Saving";  
         var url = "<c:url value='/hr/ajax/disciplinaryrecord/saveDisciplinaryRecord.jsp'/>?ts="+new Date().getTime();
 
         document.getElementById("buttonSave").disabled = true;
@@ -161,7 +161,7 @@
     
   <%-- LOAD DISRECS --%>
   function loadDisRecs(){
-    document.getElementById("divDisRecs").innerHTML = "<img src=\"<c:url value='/_img/ajax-loader.gif'/>\"/><br>Loading";            
+    document.getElementById("divDisRecs").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
     var url = "<c:url value='/hr/ajax/disciplinaryrecord/getDisciplinaryRecords.jsp'/>?ts="+new Date().getTime();
     new Ajax.Request(url,
       {

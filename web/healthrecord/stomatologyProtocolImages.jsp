@@ -15,8 +15,8 @@
         sTmp.append(
             "<tr id='rowImagesInformation"+iTotal+"'>" +
             "<td class='admin2'>" +
-            " <a href='javascript:deleteImagesInformation(rowImagesInformation"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> "+
-            " <a href='javascript:editImagesInformation(rowImagesInformation"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>" +
+            " <a href='javascript:deleteImagesInformation(rowImagesInformation"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web.Occup","medwan.common.delete",sWebLanguage) + "' border='0'></a> "+
+            " <a href='javascript:editImagesInformation(rowImagesInformation"+iTotal+")'><img src='" + sCONTEXTPATH + "/_img/icons/icon_edit.gif' alt='" + getTran("Web.Occup","medwan.common.edit",sWebLanguage) + "' border='0'></a>" +
             "</td>" +
             "<td class='admin2'>&nbsp;" + sTmpInfo + "</td>" +
             "<td class='admin2'>&nbsp;" + sNomenclature + "</td>" +
@@ -131,8 +131,8 @@
                             <textarea onkeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="30" rows="2" name="resultsrx"></textarea>
                         </td>
                         <td class="admin2">
-                            <input type="button" class="button" name="ButtonAddImagesInformation" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addImagesInformation();">
-                            <input type="button" class="button" name="ButtonUpdateImagesInformation" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="updateImagesInformation();">
+                            <input type="button" class="button" name="ButtonAddImagesInformation" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addImagesInformation();">
+                            <input type="button" class="button" name="ButtonUpdateImagesInformation" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateImagesInformation();">
                         </td>
                     </tr>
 
@@ -196,8 +196,8 @@ function addImagesInformation(){
       tr.id = "rowImagesInformation"+iImagesInformationIndex;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteImagesInformation(rowImagesInformation"+iImagesInformationIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editImagesInformation(rowImagesInformation"+iImagesInformationIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteImagesInformation(rowImagesInformation"+iImagesInformationIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                    +"<a href='javascript:editImagesInformation(rowImagesInformation"+iImagesInformationIndex+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -246,8 +246,8 @@ function updateImagesInformation(){
 
     <%-- update table object --%>
     row = tblImagesInformation.rows[editImagesInformationRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteImagesInformation("+editImagesInformationRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editImagesInformation("+editImagesInformationRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteImagesInformation("+editImagesInformationRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+                            +"<a href='javascript:editImagesInformation("+editImagesInformationRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells[1].innerHTML = "&nbsp;"+sInfo;
     row.cells[2].innerHTML = "&nbsp;"+transactionForm.nomenclature.value;
     row.cells[3].innerHTML = "&nbsp;"+transactionForm.resultsrx.value;

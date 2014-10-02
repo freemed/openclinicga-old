@@ -357,7 +357,7 @@
         //e.printStackTrace();
     }
 
-    if(Debug.enabled) Debug.println("reloading model");
+    Debug.println("reloading model");
     SAXReader reader = new SAXReader(false);
     sDoc = MedwanQuery.getInstance().getConfigString("templateSource")+"openwork.xml";
     document = reader.read(new URL(sDoc));
@@ -366,8 +366,8 @@
     <input id="7" class="checkBox" type="hidden" name="synchronize" value="synchronize"/>
     <%=writeTableHeader("Web.manage","Synchronization",sWebLanguage,"main.do?Page=system/menu.jsp")%>
     <%=ScreenHelper.alignButtonsStart()%>
-        <input class="button" type="submit" name="submit" value="<%=getTran("Web.Occup","medwan.common.execute",sWebLanguage)%>"/>
-        <input class="button" type="button" name="cancel" value='<%=getTran("Web","Back",sWebLanguage)%>' OnClick='javascript:window.location.href="main.do?Page=system/menu.jsp"'>
+        <input class="button" type="submit" name="submit" value="<%=getTranNoLink("Web.Occup","medwan.common.execute",sWebLanguage)%>"/>
+        <input class="button" type="button" name="cancel" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' OnClick='javascript:window.location.href="main.do?Page=system/menu.jsp"'>
     <%=ScreenHelper.alignButtonsStop()%>
     <br>
 <%
@@ -384,7 +384,7 @@
 
     if (request.getParameter("submit") != null) {
         try {
-            //if(Debug.enabled) Debug.println("1");
+            //Debug.println("1");
             String sOwnServerId = MedwanQuery.getInstance().getConfigString("serverId");
             Element versionColumn = null;
             Connection connectionCheck = null;
@@ -802,7 +802,7 @@
                                         }
                                     }
 
-                                    //if(Debug.enabled) Debug.println(sMessage);
+                                    //Debug.println(sMessage);
                                     rsSync2 = psSync2.executeQuery();
                                     if (versionColumn != null && !table.attribute("sync").getValue().equalsIgnoreCase("masterexist") && rsSync2.next()) { //We do not want to synchronize objects that exist on both sides for masterexist
                                         //compare versions
@@ -825,7 +825,7 @@
                                             }
                                         }
 
-                                        //if(Debug.enabled) Debug.println("Comparestatus="+compareStatus);
+                                        //Debug.println("Comparestatus="+compareStatus);
                                         if (compareStatus == 0) {
                                             if (Debug.enabled) Debug.println("Destination is equal to Source");
                                             //DO NOTHING
@@ -868,7 +868,7 @@
                                                 bInited = false;
                                                 columns = table.element("columns").elementIterator("column");
                                                 params = new Vector();
-                                                //if(Debug.enabled) Debug.println("1");
+                                                //Debug.println("1");
                                                 while (columns.hasNext()) {
                                                     column = (Element) columns.next();
                                                     if (bInited) {
@@ -908,7 +908,7 @@
                                                     }
                                                 }
 
-                                                //if(Debug.enabled) Debug.println("2");
+                                                //Debug.println("2");
                                                 sMessage += " where 1=1";
                                                 sQuery += " where 1=1";
                                                 columns = table.element("columns").elementIterator("column");
@@ -932,7 +932,7 @@
                                                     }
                                                 }
 
-                                                //if(Debug.enabled) Debug.println(sMessage);
+                                                //Debug.println(sMessage);
                                                 psSync2 = destination.prepareStatement(sQuery);
                                                 for (int n = 0; n < params.size(); n++) {
                                                     if (params.get(n) == null) {
@@ -1023,12 +1023,12 @@
                                             }
                                             sQuery += ") values (" + values + ")";
                                             psSync2 = destination.prepareStatement(sQuery);
-                                            //if(Debug.enabled) Debug.println("1");
+                                            //Debug.println("1");
                                             for (int n = 0; n < params.size(); n++) {
                                                 if (params.get(n) == null) {
                                                     psSync2.setObject(n + 1, null);
                                                 } else {
-                                                    //if(Debug.enabled) Debug.println("2");
+                                                    //Debug.println("2");
                                                     if (Integer.class.isInstance(params.get(n))) {
                                                         psSync2.setInt(n + 1, ((Integer) params.get(n)).intValue());
                                                     } else if (String.class.isInstance(params.get(n))) {
@@ -1042,10 +1042,10 @@
                                                     } else if (Float.class.isInstance(params.get(n))) {
                                                         psSync2.setFloat(n + 1, ((Float) params.get(n)).floatValue());
                                                     }
-                                                    //if(Debug.enabled) Debug.println("3");
+                                                    //Debug.println("3");
                                                 }
                                             }
-                                            //if(Debug.enabled) Debug.println(sQuery);
+                                            //Debug.println(sQuery);
                                             psSync2.execute();
                                         }
                                     }
@@ -1165,7 +1165,7 @@
                                         }
                                     }
 
-                                    //if(Debug.enabled) Debug.println(sMessage);
+                                    //Debug.println(sMessage);
                                     rsSync2 = psSync2.executeQuery();
                                     if (rsSync2.next()) {
                                         //compare versions
@@ -1188,7 +1188,7 @@
                                             }
                                         }
 
-                                        //if(Debug.enabled) Debug.println("Comparestatus="+compareStatus);
+                                        //Debug.println("Comparestatus="+compareStatus);
                                         if (compareStatus == 0) {
                                             if (Debug.enabled) Debug.println("Source is equal to Destination");
                                             //DO NOTHING
@@ -1223,7 +1223,7 @@
                                                         cols.put(column, new Float(rsSync.getFloat(column.attribute("name").getValue())));
                                                     }
                                                 }
-                                                //if(Debug.enabled) Debug.println("Sending back");
+                                                //Debug.println("Sending back");
                                                 executeProcedure(table.attribute("proc").getValue(), cols, destination, source, out);
                                             } else {
                                                 //Copy source data to source
@@ -1288,7 +1288,7 @@
                                                         }
                                                     }
                                                 }
-                                                //if(Debug.enabled) Debug.println(sMessage);
+                                                //Debug.println(sMessage);
                                                 psSync2 = source.prepareStatement(sQuery);
                                                 for (int n = 0; n < params.size(); n++) {
                                                     if (params.get(n) == null) {
@@ -1378,12 +1378,12 @@
                                             }
                                             sQuery += ") values (" + values + ")";
                                             psSync2 = source.prepareStatement(sQuery);
-                                            //if(Debug.enabled) Debug.println("1");
+                                            //Debug.println("1");
                                             for (int n = 0; n < params.size(); n++) {
                                                 if (params.get(n) == null) {
                                                     psSync2.setObject(n + 1, null);
                                                 } else {
-                                                    //if(Debug.enabled) Debug.println("2");
+                                                    //Debug.println("2");
                                                     if (Integer.class.isInstance(params.get(n))) {
                                                         psSync2.setInt(n + 1, ((Integer) params.get(n)).intValue());
                                                     } else if (String.class.isInstance(params.get(n))) {
@@ -1397,10 +1397,10 @@
                                                     } else if (Float.class.isInstance(params.get(n))) {
                                                         psSync2.setFloat(n + 1, ((Float) params.get(n)).floatValue());
                                                     }
-                                                    //if(Debug.enabled) Debug.println("3");
+                                                    //Debug.println("3");
                                                 }
                                             }
-                                            //if(Debug.enabled) Debug.println(sQuery);
+                                            //Debug.println(sQuery);
                                             psSync2.execute();
                                         }
                                     }

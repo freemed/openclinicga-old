@@ -51,7 +51,7 @@
     %>
     <tr class="gray">
         <td colspan="2" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="toggleDivisionOverview('<%=sServiceID%>');">
-            <img id="img_<%=sServiceID%>" src='<c:url value="/"/>_img/minus.png' alt="" border="0"/>
+            <img id="img_<%=sServiceID%>" src='<c:url value="/"/>_img/icons/icon_minus.png' alt="" border="0"/>
             <%=sServiceName%>
         </td>
     </tr>
@@ -123,7 +123,7 @@
 
                         if (((Boolean)hOccupiedInfo.get("status")).booleanValue()) {
                             %>
-                            <tr style="height:16px;"  class="list<%=sClass%>">
+                            <tr style="height:16px;" class="list<%=sClass%>">
                                 <td><%=bed.getName()%></td>
                                 <td>
                                     <a href="<c:url value="/main.do"/>?Page=curative/index.jsp&PersonID=<%=sPatientUID%>">
@@ -186,11 +186,11 @@
 
     if(obj.style.display == "none"){
       obj.style.display = "block";
-      imgObj.src = "<c:url value='/_img/minus.png'/>";
+      imgObj.src = "<c:url value='/_img/icons/icon_minus.png'/>";
     }
     else{
       obj.style.display = "none";
-      imgObj.src = "<c:url value='/_img/plus.png'/>";
+      imgObj.src = "<c:url value='/_img/icons/icon_plus.png'/>";
     }
   }
 </script>

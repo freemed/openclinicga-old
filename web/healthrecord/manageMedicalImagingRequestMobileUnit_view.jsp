@@ -36,7 +36,7 @@
             <td class='admin2'>
                 <select id="applying_physician" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_APPLYING_PHYSICIAN" property="itemId"/>]>.value">
                     <option>test</option>
-                    <option><%=getTran("web","choose",sWebLanguage)%></option>
+                    <option><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                     <%
                         SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
 
@@ -96,7 +96,7 @@
                     if(type.length() > 0){
                         %>
                             <select id="examination" class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_MIR2_TYPE" property="itemId"/>]>.value">
-                                <option value="0" <%=(type.equals("0")?"SELECTED":"")%>><%=getTran("Web","choose",sWebLanguage)%>
+                                <option value="0" <%=(type.equals("0")?"SELECTED":"")%>><%=getTranNoLink("web","choose",sWebLanguage)%>
                                 <option value="1" <%=(type.equals("1")?"SELECTED":"")%>><%=getTran("Web.Occup","medwan.occupational-medicine.medical-imaging-request.type-1",sWebLanguage)%>
                                 <option value="2" <%=(type.equals("2")?"SELECTED":"")%>><%=getTran("Web.Occup","medwan.occupational-medicine.medical-imaging-request.type-2",sWebLanguage)%>
                                 <option value="3" <%=(type.equals("3")?"SELECTED":"")%>><%=getTran("Web.Occup","medwan.occupational-medicine.medical-imaging-request.type-3",sWebLanguage)%>
@@ -178,10 +178,10 @@
             <td class="admin"/>
             <td class="admin2">
         <%-- BUTTONS ---------------------------------------------------------------------------------%>
-                <INPUT class="button" type="button" value="<%=getTran("Web.Occup","medwan.common.print",sWebLanguage)%>" onclick="doPrintPDF();">&nbsp;
+                <INPUT class="button" type="button" value="<%=getTranNoLink("Web.Occup","medwan.common.print",sWebLanguage)%>" onclick="doPrintPDF();">&nbsp;
                 <button accesskey="<%=ScreenHelper.getAccessKey(getTranNoLink("accesskey","save",sWebLanguage))%>" class="buttoninvisible" onclick="doSave();"></button>
                 <button class="button" name="ButtonSave" id="ButtonSave" onclick="doSave();"><%=getTran("accesskey","save",sWebLanguage)%></button>
-                <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();"/>
+                <INPUT class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();"/>
             </td>
         </tr>
     </table>

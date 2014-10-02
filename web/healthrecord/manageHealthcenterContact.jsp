@@ -431,13 +431,13 @@
   function setBP(oObject,sbp,dbp){
     if(oObject.value.length>0){
       if(!isNumberLimited(oObject,40,300)){
-        alert('<%=getTran("Web.Occup","out-of-bounds-value",sWebLanguage)%>');
+        alertDialog("Web.Occup","out-of-bounds-value");
       }
       else if((sbp.length>0)&&(dbp.length>0)){
         isbp = document.getElementsByName(sbp)[0].value*1;
         idbp = document.getElementsByName(dbp)[0].value*1;
         if(idbp>isbp){
-          alert('<%=getTran("Web.Occup","error.dbp_greather_than_sbp",sWebLanguage)%>');
+          alertDialog("Web.Occup","error.dbp_greather_than_sbp");
         }
       }
     }

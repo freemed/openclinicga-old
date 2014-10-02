@@ -149,10 +149,10 @@
        <tr>
            <td/>
            <td>
-               <input type="button" class="button" name="searchButton" value="<%=getTran("Web","search",sWebLanguage)%>" onclick="doSearch('code');">&nbsp;
-               <input type="button" class="button" name="clearButton" value="<%=getTran("Web","Clear",sWebLanguage)%>" onclick="clearSearchFields();">&nbsp;
-               <input type="button" class="button" name="newButton" value="<%=getTran("Web.Occup","medwan.common.create-new",sWebLanguage)%>" onclick="doNew();">&nbsp;
-               <input type="button" class="button" name="backButton" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+               <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearch('code');">&nbsp;
+               <input type="button" class="button" name="clearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearSearchFields();">&nbsp;
+               <input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web.Occup","medwan.common.create-new",sWebLanguage)%>" onclick="doNew();">&nbsp;
+               <input type="button" class="button" name="backButton" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
            </td>
        </tr>
     </table>
@@ -185,12 +185,12 @@
 
                 // display center in row
                 centers.append("<tr class='list" + sClass + "'  onclick=\"doShowDetails('" + sCode + "');\" title='" + detailsTran + "'>")
-                        .append(" <td>" + sCode + "</td>")
-                        .append(" <td>" + objMC.getName() + "</td>")
-                        .append(" <td>" + objMC.getAddress() + "</td>")
-                        .append(" <td>" + objMC.getZipcode() + "</td>")
-                        .append(" <td>" + objMC.getCity() + "</td>")
-                        .append(" <td>" + hourDateFormat.format(objMC.getUpdatetime()) + "</td>")
+                        .append("<td>" + sCode + "</td>")
+                        .append("<td>" + objMC.getName() + "</td>")
+                        .append("<td>" + objMC.getAddress() + "</td>")
+                        .append("<td>" + objMC.getZipcode() + "</td>")
+                        .append("<td>" + objMC.getCity() + "</td>")
+                        .append("<td>" + hourDateFormat.format(objMC.getUpdatetime()) + "</td>")
                         .append("</tr>");
             }
 
@@ -349,14 +349,14 @@
                         if(sAction.equals("showDetailsAfterReject") || sAction.equals("showDetailsNew")){
                             // new center : display saveButton with add-label + do not display delete button
                             %>
-                            <input class="button" type="button" name="saveButton" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="doSave();">
+                            <input class="button" type="button" name="saveButton" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="doSave();">
                             <%
                         }
                         else if(sAction.equals("showDetails")){
                             // existing center : display saveButton with save-label
                             %>
-                            <input class="button" type="button" name="saveButton" value="<%=getTran("Web","save",sWebLanguage)%>" onclick="doSave();">
-                            <input class="button" type="button" name="deleteButton" value="<%=getTran("Web","delete",sWebLanguage)%>" onclick="doDelete();">
+                            <input class="button" type="button" name="saveButton" value="<%=getTranNoLink("Web","save",sWebLanguage)%>" onclick="doSave();">
+                            <input class="button" type="button" name="deleteButton" value="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="doDelete();">
                             <%
                         }
                         else if(foundCenterCount > 20){
@@ -365,7 +365,7 @@
                         }
 
                         // allways show back button
-                        %><input class="button" type="button" name="backButton" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBackToSearch();"><%
+                        %><input class="button" type="button" name="backButton" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBackToSearch();"><%
                     %>
                     <%=ScreenHelper.setFormButtonsStop()%>
                 </table>

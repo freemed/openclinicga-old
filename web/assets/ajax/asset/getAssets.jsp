@@ -17,9 +17,9 @@
            sPurchasePeriodBegin = checkString(request.getParameter("purchasePeriodBegin")),
            sPurchasePeriodEnd   = checkString(request.getParameter("purchasePeriodEnd"));
     
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n****************** getAssets.jsp ******************");
+        Debug.println("\n***************** assets/ajax/getAssets.jsp *****************");
         Debug.println("sCode         : "+sCode);
         Debug.println("sDescription  : "+sDescription);
         Debug.println("sSerialnumber : "+sSerialnumber);
@@ -28,7 +28,7 @@
         Debug.println("sPurchasePeriodBegin : "+sPurchasePeriodBegin);
         Debug.println("sPurchasePeriodEnd   : "+sPurchasePeriodEnd+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
 
     // compose object to pass search criteria with
     Asset findObject = new Asset();
@@ -75,7 +75,7 @@
         Vector keys = new Vector(hSort.keySet());
         Collections.sort(keys);
         Iterator iter = keys.iterator();
-        String sClass = "";
+        String sClass = "1";
         
         while(iter.hasNext()){
             // alternate row-style
@@ -93,7 +93,7 @@
 <%
     if(assets.size() > 0){
         %>
-<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
+<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border:none;">
     <%-- header --%>
     <tr class="admin" style="padding-left:1px;">    
         <td width="10%" nowrap><asc><%=HTMLEntities.htmlentities(getTran("web","code",sWebLanguage))%></asc></td>

@@ -58,7 +58,7 @@
         </td>
     </tr>
     <tr>
-    	<td><input type='submit' class='button' name='submit' value='<%=getTran("web","save",sWebLanguage)%>'/></td>
+    	<td><input type='submit' class='button' name='submit' value='<%=getTranNoLink("web","save",sWebLanguage)%>'/></td>
     </tr>
 </table>
 </form>

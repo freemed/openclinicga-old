@@ -112,7 +112,7 @@
         <tr>
             <td class="admin"/>
             <td class="admin2" colspan="3">
-                <input class="button" type="button" name="ButtonCalculateCardio" value="<%=getTran("Web.Occup","calculate",sWebLanguage)%>" onclick="calculateRisk();"/>&nbsp;
+                <input class="button" type="button" name="ButtonCalculateCardio" value="<%=getTranNoLink("Web.Occup","calculate",sWebLanguage)%>" onclick="calculateRisk();"/>&nbsp;
             </td>
         </tr>
     </table>
@@ -139,12 +139,12 @@
     }
 
     if(document.getElementById("sbpr").value.length==0){
-      alertDialogMessage("<%=getTran("web.manage","datamissing",sWebLanguage)%> (<%=getTran("Web.Occup",sPREFIX+"item_type_recruitment_sce_sbp",sWebLanguage)%>)");
+      alertDialogDirectText("<%=getTran("web.manage","datamissing",sWebLanguage)%> (<%=getTran("Web.Occup",sPREFIX+"item_type_recruitment_sce_sbp",sWebLanguage)%>)");
       document.getElementById("sbpr").focus();
       return 0;
     }
     else if(document.getElementById("chol").value.length==0){
-      alertDialogMessage("<%=getTran("web.manage","datamissing",sWebLanguage)%> (<%=getTran("Web.Occup","medwan.healthrecord.laboratory-examinations.blood.totale-cholesterol",sWebLanguage)%>)");
+      alertDialogDirectText("<%=getTran("web.manage","datamissing",sWebLanguage)%> (<%=getTran("Web.Occup","medwan.healthrecord.laboratory-examinations.blood.totale-cholesterol",sWebLanguage)%>)");
       document.getElementById("chol").focus();
       return 0;
     }
@@ -169,7 +169,7 @@
   %>
   function setBP(obj){
     if(!isNumberLimited(obj,<%=minBP%>,<%=maxBP%>)){
-      alertDialogMessage("<%=outOfBoundsMsgBP%>");
+      alertDialogDirectText("<%=outOfBoundsMsgBP%>");
     }
   }
 
@@ -184,7 +184,7 @@
   %>
   function setCholesterol(obj){
     if(!isNumberLimited(obj,<%=minChol%>,<%=maxChol%>)){
-      alertDialogMessage("<%=outOfBoundsMsgChol%>");
+      alertDialogDirectText("<%=outOfBoundsMsgChol%>");
     }
   }
 </script>

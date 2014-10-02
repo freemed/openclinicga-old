@@ -8,14 +8,16 @@
     private String sortMenu(Hashtable hMenu){
         Vector keys = new Vector(hMenu.keySet());
         Collections.sort(keys);
-        Iterator it = keys.iterator();
+        Iterator iter = keys.iterator();
 
         // to html
-        String sLabel,sLink,sOut = "";
-        while(it.hasNext()){
-            sLabel = (String)it.next();
+        String sLabel, sLink, sOut = "";
+        int rowIdx = 0;
+        
+        while(iter.hasNext()){
+            sLabel = (String)iter.next();
             sLink = (String)hMenu.get(sLabel);
-            sOut+= writeTblChild(sLink,sLabel);
+            sOut+= writeTblChild(sLink,sLabel,rowIdx++);
         }
 
         return sOut;
@@ -64,9 +66,9 @@
                     hMenu.put(getTran("web.manage","ManageAssetSuppliers",sWebLanguage),"main.do?Page=assets/manage_suppliers.jsp");
                     hMenu.put(getTran("web.manage","manageHistoryItems",sWebLanguage),"main.do?Page=system/manageHistoryItems.jsp");
 
-                    out.print(ScreenHelper.writeTblHeader(getTran("Web","Manage",sWebLanguage),sCONTEXTPATH)
-                            + sortMenu(hMenu)
-                            + ScreenHelper.writeTblFooter());
+                    out.print(ScreenHelper.writeTblHeader(getTran("Web","Manage",sWebLanguage),sCONTEXTPATH)+
+                    		  sortMenu(hMenu)+
+                    		  ScreenHelper.writeTblFooter());
                 %>
             </td>
         </tr>
@@ -78,21 +80,20 @@
     <table width="100%">
         <tr>
             <td>
-                <%
+                <% 
                     hMenu = new Hashtable();
                     hMenu.put(getTran("Web.Occup","medwan.common.execute-sql",sWebLanguage),"main.do?Page=system/executeSQL.jsp");
                     hMenu.put(getTran("web.manage","MonitorConnections",sWebLanguage),"main.do?Page=system/monitorConnections.jsp");
                     hMenu.put(getTran("web.manage","MonitorAccess",sWebLanguage),"main.do?Page=system/monitorAccess.jsp");
                     hMenu.put(getTran("web.manage","ViewErrors",sWebLanguage),"main.do?Page=system/monitorErrors.jsp");
                     hMenu.put(getTran("web.manage","processUpdateQueries",sWebLanguage),"main.do?Page=system/processUpdateQueries.jsp");
-                    if (MedwanQuery.getInstance().getConfigString("serverId").equals("1")) {
+                    if(MedwanQuery.getInstance().getConfigString("serverId").equals("1")){
                         hMenu.put(getTran("web.manage","merge_persons",sWebLanguage),"main.do?Page=system/mergePersons.jsp");
                     }
 
-
-                    out.print(ScreenHelper.writeTblHeader(getTran("web.manage","Database",sWebLanguage),sCONTEXTPATH)
-                            + sortMenu(hMenu)
-                            + ScreenHelper.writeTblFooter());
+                    out.print(ScreenHelper.writeTblHeader(getTran("web.manage","Database",sWebLanguage),sCONTEXTPATH)+
+                    		  sortMenu(hMenu)+
+                    		  ScreenHelper.writeTblFooter());
                 %>
             </td>
         </tr>
@@ -117,9 +118,9 @@
                     hMenu.put(getTran("web.manage","load.file",sWebLanguage),"main.do?Page=system/loadTable.jsp");
                     hMenu.put(getTran("web.manage","export.labels",sWebLanguage),"main.do?Page=system/exportLabels.jsp");
 
-                    out.print(ScreenHelper.writeTblHeader(getTran("web.manage","Synchronization",sWebLanguage),sCONTEXTPATH)
-                            + sortMenu(hMenu)
-                            + ScreenHelper.writeTblFooter());
+                    out.print(ScreenHelper.writeTblHeader(getTran("web.manage","Synchronization",sWebLanguage),sCONTEXTPATH)+
+                    		  sortMenu(hMenu)+
+                    		  ScreenHelper.writeTblFooter());
                 %>
             </td>
         </tr>
@@ -170,9 +171,9 @@
                         hMenu.put(getTran("web.manage","screenDesigner",sWebLanguage),"main.do?Page=system/screenDesigner.jsp");
                     }
                     
-                    out.print(ScreenHelper.writeTblHeader(getTran("web.manage","setup",sWebLanguage),sCONTEXTPATH)
-                            + sortMenu(hMenu)
-                            + ScreenHelper.writeTblFooter());
+                    out.print(ScreenHelper.writeTblHeader(getTran("web.manage","setup",sWebLanguage),sCONTEXTPATH)+
+                    		  sortMenu(hMenu)+
+                    		  ScreenHelper.writeTblFooter());
                 %>
             </td>
         </tr>
@@ -203,10 +204,10 @@
                     hMenu.put(getTran("web.manage","manageDoubleScannedDocuments",sWebLanguage),"main.do?Page=system/manageDoubleScannedDocuments.jsp");
                     hMenu.put(getTran("web.manage","exporttomaster",sWebLanguage),"main.do?Page=util/createOpenclinicExport.jsp");
 
-                    out.print(ScreenHelper.writeTblHeader(getTran("web.occup","medwan.common.other",sWebLanguage),sCONTEXTPATH)
-	                            + sortMenu(hMenu)
-	                            + (activePatient!=null?writeTblChildWithCode("javascript:printUserCard()",getTran("web.manage","createusercard",sWebLanguage)):"")
-	                            + ScreenHelper.writeTblFooter());
+                    out.print(ScreenHelper.writeTblHeader(getTran("web.occup","medwan.common.other",sWebLanguage),sCONTEXTPATH)+
+	                          sortMenu(hMenu)+
+	                          (activePatient!=null?writeTblChildWithCode("javascript:printUserCard()",getTran("web.manage","createusercard",sWebLanguage)):"")+
+	                          ScreenHelper.writeTblFooter());
                 %>
             </td>
         </tr>
@@ -220,6 +221,6 @@
 	var url = "<c:url value='/userprofile/createUserCardPdf.jsp'/>"+
 	          "?cardtype=<%=MedwanQuery.getInstance().getConfigString("userCardType","default")%>"+
 	          "&ts=<%=getTs()%>";
-    window.open(url,"Popup" + new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=400,height=300,menubar=no").moveTo((screen.width - 400) / 2,(screen.height - 300) / 2);
+    window.open(url,"Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=400,height=300,menubar=no").moveTo((screen.width-400)/2,(screen.height-300)/2);
   }
 </script>

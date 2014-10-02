@@ -10,12 +10,12 @@
 	<tr class='admin'>
 		<td colspan='6'><%=getTran("Web","statistics.incomeVentilationPerPerformer",sWebLanguage)+"  "+checkString(request.getParameter("start"))+" - "+checkString(request.getParameter("end")) %></td><td> 
 		<%if(request.getParameter("showdetails")==null){ %>
-		<input type="submit" class="button" name="showdetails" value="<%=getTran("web","showdetails",sWebLanguage)%>"/></td></tr>
+		<input type="submit" class="button" name="showdetails" value="<%=getTranNoLink("web","showdetails",sWebLanguage)%>"/></td></tr>
 		<%
 		}
 		else {
 		%>
-		<input type="submit" class="button" name="hidedetails" value="<%=getTran("web","hidedetails",sWebLanguage)%>"/></td></tr>
+		<input type="submit" class="button" name="hidedetails" value="<%=getTranNoLink("web","hidedetails",sWebLanguage)%>"/></td></tr>
 		<tr class='admin'>
 			<td><%=getTran("web","date",sWebLanguage) %></td>
 			<td><%=getTran("web","patient",sWebLanguage) %></td>

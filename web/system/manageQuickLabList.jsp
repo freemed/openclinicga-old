@@ -88,7 +88,7 @@
 					<td id="anal.<%=i%>.<%=n%>" bgcolor='<%=getItemColor(sLabAnalyses,i,n)%>' width='1%' nowrap>
 						<input onclick="chooseColor('<%=i%>.<%=n%>');" name="anal.<%=i%>.<%=n%>" type="text" class="text" value="<%=getItemValue(sLabAnalyses,i,n)%>"/>
 						<input name="analysiscolor.<%=i%>.<%=n%>" id="analysiscolor.<%=i%>.<%=n%>" type="hidden" value="<%=getItemColor(sLabAnalyses,i,n)%>"/>
-						<img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchLabAnalysis('<%=i+"."+n%>');">
+						<img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchLabAnalysis('<%=i+"."+n%>');">
 					</td>
 			<%
 					String val=getItemValue(sLabAnalyses,i,n);
@@ -121,7 +121,7 @@
 		%>
 	</table>
 	
-	<input type="submit" class="button" name="submit" value="<%=getTran("web","save",sWebLanguage)%>"/>
+	<input type="submit" class="button" name="submit" value="<%=getTranNoLink("web","save",sWebLanguage)%>"/>
 </form>
 
 <script>

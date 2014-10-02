@@ -47,7 +47,7 @@
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web.Occup","medwan.common.reference_centre",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
                 <select class="text" <%=setRightClick("ITEM_TYPE_REFERENCE_REF_CENTR")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_REFERENCE_REF_CENTR" property="itemId"/>]>.value">
-                    <option><%=getTran("web","choose",sWebLanguage)%></option>
+                    <option><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                     <%=ScreenHelper.writeSelect("reference.referencecenter",sCentre,sWebLanguage)%>
                 </select>
             </td>
@@ -103,7 +103,7 @@
                     %>
                 </select>
 
-                <input class="button" type="button" name="SaveAndPrintRef" value="<%=getTran("Web.Occup","medwan.common.record-and-print",sWebLanguage)%>" onclick="doSave(true,'reference');"/>
+                <input class="button" type="button" name="SaveAndPrintRef" value="<%=getTranNoLink("Web.Occup","medwan.common.record-and-print",sWebLanguage)%>" onclick="doSave(true,'reference');"/>
            </td>
         </tr>
     </table>
@@ -174,12 +174,12 @@
 		        <%
 		            if ((activeUser.getAccessRight("occup.reference.add")) || (activeUser.getAccessRight("occup.reference.edit"))){
 		                %>
-		                    <INPUT class="button" type="button" name="SaveAndPrintContraRef" value="<%=getTran("Web.Occup","medwan.common.record-and-print",sWebLanguage)%>" onclick="doSave(true,'contrareference');"/>
-		                    <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTran("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm();"/>
+		                    <INPUT class="button" type="button" name="SaveAndPrintContraRef" value="<%=getTranNoLink("Web.Occup","medwan.common.record-and-print",sWebLanguage)%>" onclick="doSave(true,'contrareference');"/>
+		                    <INPUT class="button" type="button" name="saveButton" id="save" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm();"/>
 		                <%
 		            }
 		        %>
-                <INPUT class="button" type="button" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+                <INPUT class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
             </td>
         </tr>
     </table>

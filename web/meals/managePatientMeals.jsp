@@ -19,7 +19,7 @@
             <input type="text" style="width:100px;text-align:center" id="datechoosed" value="9/08/2009" class="text" disabled="true"/>
             <input type="button" style="padding:0 5px 0 5px" class="button" value=">" onclick="addDays($F('datechoosed'),+1);"/>
             <input type="button" class="button" value="<%=getTranNoLink("web","add",sWebLanguage)%> <%=getTranNoLink("meals","meal",sWebLanguage)%>" onclick="getMeals();"/> &nbsp;
-            <input type="button" class="button" value="<%=getTran("web","add",sWebLanguage)%> <%=getTranNoLink("meals","profil",sWebLanguage)%>" onclick="getProfiles();"/>
+            <input type="button" class="button" value="<%=getTranNoLink("web","add",sWebLanguage)%> <%=getTranNoLink("meals","profil",sWebLanguage)%>" onclick="getProfiles();"/>
              <a href="javascript:void(0)" id="mealnutricientsbutton" class="link down" onclick="getNutricientsIntoPatientMeals(false);"><span><%=getTranNoLink("meals", "seenutricients", sWebLanguage).toLowerCase()%></span></a>
              <ul id="patientMealsNutricientsList" class="items" style="width:370px;float:none;"></ul>
         </td>

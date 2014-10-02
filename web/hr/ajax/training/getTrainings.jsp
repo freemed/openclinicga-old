@@ -20,9 +20,9 @@
            sDiplomaCode3 = checkString(request.getParameter("diplomaCode3")),
            sComment      = checkString(request.getParameter("comment"));
     
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n****************** getTrainings.jsp ******************");
+        Debug.println("\n****************** hr/ajax/getTrainings.jsp ******************");
         Debug.println("sPatientId   : "+sPatientId);
         Debug.println("sBeginDate    : "+sBeginDate);
         Debug.println("sEndDate      : "+sEndDate);
@@ -34,10 +34,9 @@
         Debug.println("sDiplomaCode1 : "+sDiplomaCode1);
         Debug.println("sDiplomaCode2 : "+sDiplomaCode2);
         Debug.println("sDiplomaCode3 : "+sDiplomaCode3);
-        Debug.println("sComment      : "+sComment+"\n");
-     
+        Debug.println("sComment      : "+sComment+"\n");     
     }
-    ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
 
     // compose object to pass search criteria with
     Training findObject = new Training();
@@ -98,9 +97,9 @@
 <%
     if(trainings.size() > 0){
         %>
-<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border-bottom:none;">
+<table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border:none;">
     <%-- header --%>
-    <tr class="admin" style="padding-left: 1px;">
+    <tr class="admin" style="padding-left:1px;">
         <td width="10%" nowrap><asc><%=HTMLEntities.htmlentities(getTran("web.hr","begin",sWebLanguage))%></asc></td>
         <td width="10%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","end",sWebLanguage))%></td>
         <td width="40%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","titleOrDiploma",sWebLanguage))%></td>

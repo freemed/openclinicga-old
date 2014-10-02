@@ -138,13 +138,13 @@
             </select>
         </td>
         <td class="admin2"><input type="submit" class="button" class="text" name="findPatient"
-                                  value="<%=getTran("web","find",sWebLanguage)%>" size="1"/></td>
+                                  value="<%=getTranNoLink("web","find",sWebLanguage)%>" size="1"/></td>
         <td class="admin2"><input name="newPatient" class="button" type="hidden"/><input type="button" class="button" class="text"
                                                                           name="newPatientButton"
-                                                                          value="<%=getTran("web","new",sWebLanguage)%>"
+                                                                          value="<%=getTranNoLink("web","new",sWebLanguage)%>"
                                                                           size="1" onclick="newpat();"/></td>
         <td class="admin2"><input type="button" class="button" class="text" name="clear"
-                                  value="<%=getTran("web","clear",sWebLanguage)%>" size="1"
+                                  value="<%=getTranNoLink("web","clear",sWebLanguage)%>" size="1"
                                   onclick="clearPatient();EditPatientForm.document.getElementById('patientLastname').focus();"/>
         </td>
     </tr>
@@ -212,7 +212,7 @@
         Vector diagnoses = Diagnosis.selectDiagnoses("", "", sEditEncounterUID, "", "", "", "", "", "", "", "", "", "");
         for (int n = 0; n < diagnoses.size(); n++) {
             Diagnosis diagnosis = (Diagnosis) diagnoses.elementAt(n);
-            sDSM4Html += "<span id='" + diagnosis.getCodeType() + diagnosis.getCode() + "'><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' onclick='document.getElementById(\"" + diagnosis.getCodeType() + diagnosis.getCode() + "\").innerHTML=\"\";'/> <input type='hidden' name='" + diagnosis.getCodeType().toUpperCase() + "Code" + diagnosis.getCode() + "' value='" + (diagnosis.getLateralisation().length() == 0 ? "-" : diagnosis.getLateralisation() + "") + "'/>" +
+            sDSM4Html += "<span id='" + diagnosis.getCodeType() + diagnosis.getCode() + "'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' onclick='document.getElementById(\"" + diagnosis.getCodeType() + diagnosis.getCode() + "\").innerHTML=\"\";'/> <input type='hidden' name='" + diagnosis.getCodeType().toUpperCase() + "Code" + diagnosis.getCode() + "' value='" + (diagnosis.getLateralisation().length() == 0 ? "-" : diagnosis.getLateralisation() + "") + "'/>" +
                     "<input type='hidden' name='Gravity" + diagnosis.getCodeType().toUpperCase() + "Code" + diagnosis.getCode() + "' value='" + diagnosis.getGravity() + "'/>" +
                     "<input type='hidden' name='Certainty" + diagnosis.getCodeType().toUpperCase() + "Code" + diagnosis.getCode() + "' value='" + diagnosis.getCertainty() + "'/>" +
                     "<input type='hidden' name='POA" + diagnosis.getCodeType().toUpperCase() + "Code" + diagnosis.getCode() + "' value='" + diagnosis.getPOA() + "'/>" +
@@ -289,7 +289,7 @@
             HTMLEntities.htmlentities(activePerson.lastname + " " + activePerson.firstname + "  °" + activePerson.dateOfBirth + " " + activePerson.gender)%>
         </b></td>
         <td class="admin2"><input type="submit" class="text button" name="newEncounter"
-                                  value="<%=getTran("web","newencounter",sWebLanguage)%>" size="1"/></td>
+                                  value="<%=getTranNoLink("web","newencounter",sWebLanguage)%>" size="1"/></td>
     </tr>
 </table>
 <%
@@ -359,11 +359,11 @@
             <input type="hidden" name="EditEncounterService" value="<%=sEditEncounterService%>">
             <input class="text" type="text" name="EditEncounterServiceName" readonly size="<%=sTextWidth%>"
                    value="<%=sEditEncounterServiceName%>" >
-            <img src="<c:url value="/_img/icon_search.gif"/>" class="link"
-                 alt="<%=getTran("Web","select",sWebLanguage)%>"
+            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link"
+                 alt="<%=getTranNoLink("Web","select",sWebLanguage)%>"
                  onclick="searchService('EditEncounterService','EditEncounterServiceName');">
-            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link"
-                 alt="<%=getTran("Web","clear",sWebLanguage)%>"
+            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link"
+                 alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>"
                  onclick="EditPatientForm.EditEncounterService.value='';EditPatientForm.EditEncounterServiceName.value='';">
         </td>
     </tr>
@@ -380,7 +380,7 @@
         </td>
     </tr>
 	<%
-	    String sRfe= ReasonForEncounter.getReasonsForEncounterAsHtml(sEditEncounterUID,sWebLanguage,"_img/icon_delete.gif","deleteRFE($serverid,$objectid)");
+	    String sRfe= ReasonForEncounter.getReasonsForEncounterAsHtml(sEditEncounterUID,sWebLanguage,"_img/icons/icon_delete.gif","deleteRFE($serverid,$objectid)");
 	%>
     <tr class="admin">
         <td align="left" colspan="2"><a href="javascript:openPopup('healthrecord/findRFE.jsp&field=rfe&patientuid=<%=sPatientUID%>&encounterUid=<%=sEditEncounterUID%>&ts=<%=getTs()%>',700,400)"><%=getTran("openclinic.chuk","rfe",sWebLanguage)%> <%=getTran("Web.Occup","ICPC-2",sWebLanguage)%>/<%=getTran("Web.Occup","ICD-10",sWebLanguage)%></a></td>

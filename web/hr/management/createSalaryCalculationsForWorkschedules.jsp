@@ -142,14 +142,14 @@
     <% 
         if(activePatient!=null && activePatient.personid.length() > 0){
             %>
-                <img src="<c:url value='/_img/pijl.gif'/>">
+                <img src="<c:url value='/_img/themes/default/pijl.gif'/>">
                 <a href="<c:url value='/main.do'/>?Page=hr/manage_workschedule.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("web","workschedulesForActivePatient",sWebLanguage)%></a><br>
             <%
         }
     %>     
     
     <%-- link to createSalaryCalculationsForLeaves --%>
-    <img src="<c:url value='/_img/pijl.gif'/>">
+    <img src="<c:url value='/_img/themes/default/pijl.gif'/>">
     <a href="<c:url value='/main.do'/>?Page=hr/management/createSalaryCalculationsForLeaves.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("web.manage","createSalaryCalculationsForLeaves",sWebLanguage)%></a>&nbsp;
 </form>  
     

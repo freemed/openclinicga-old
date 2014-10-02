@@ -22,8 +22,8 @@
                 "<table width='100%' cellspacing='0' class='list'>" +
                 " <tr class='admin'>" +
                 "  <td width='2%'>" +
-                "   <a href='#'><img id='Input_" + headerIdx + "_S' border='0' src='" + sCONTEXTPATH + "/_img/plus.png' OnClick='showD(\"Input_" + headerIdx + "\",\"Input_" + headerIdx + "_S\",\"Input_" + headerIdx + "_H\")' style='display:none'></a>" +
-                "   <a href='#'><img id='Input_" + headerIdx + "_H' border='0' src='" + sCONTEXTPATH + "/_img/minus.png' OnClick='hideD(\"Input_" + headerIdx + "\",\"Input_" + headerIdx + "_S\", \"Input_" + headerIdx + "_H\")'></a>" +
+                "   <a href='#'><img id='Input_" + headerIdx + "_S' border='0' src='" + sCONTEXTPATH + "/_img/icons/icon_plus.png' OnClick='showD(\"Input_" + headerIdx + "\",\"Input_" + headerIdx + "_S\",\"Input_" + headerIdx + "_H\")' style='display:none'></a>" +
+                "   <a href='#'><img id='Input_" + headerIdx + "_H' border='0' src='" + sCONTEXTPATH + "/_img/icons/icon_minus.png' OnClick='hideD(\"Input_" + headerIdx + "\",\"Input_" + headerIdx + "_S\", \"Input_" + headerIdx + "_H\")'></a>" +
                 "  </td>" +
                 "  <td width='300'>" + sHeader + "</td>" +
                 "  <td width='8%'>&nbsp;<a href='javascript:togglePermissions(" + headerIdx + ");'>All</a></td>" +
@@ -167,10 +167,10 @@
     </table>
     <%=ScreenHelper.alignButtonsStart()%>
         <b><%=sMessage%></b>
-        <input type="button" class="button" name="saveButton"  value="<%=getTran("Web","Save",sWebLanguage)%>" onclick="doSave();">&nbsp;
-        <input type="button" class="button" name="backButton" Value='<%=getTran("Web","Back",sWebLanguage)%>' OnClick="doBack();">&nbsp;
-        <input type="button" class="button" value="<%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%>" onClick="checkAll(true);">&nbsp;
-        <input type="button" class="button" value="<%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%>" onClick="checkAll(false);">
+        <input type="button" class="button" name="saveButton"  value="<%=getTranNoLink("Web","Save",sWebLanguage)%>" onclick="doSave();">&nbsp;
+        <input type="button" class="button" name="backButton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' OnClick="doBack();">&nbsp;
+        <input type="button" class="button" value="<%=getTranNoLink("Web.Manage.CheckDb","CheckAll",sWebLanguage)%>" onClick="checkAll(true);">&nbsp;
+        <input type="button" class="button" value="<%=getTranNoLink("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%>" onClick="checkAll(false);">
     <%=ScreenHelper.alignButtonsStop()%>
     <input type="hidden" name="ActionField">
 </form>
@@ -178,7 +178,7 @@
 
   function doSave(){
       if (profileForm.EditPassword.value.length==0){
-    	  alertDialogMessage("<%=getTran("web.occup","medwan.transaction.delete.wrong-password",sWebLanguage)%>");
+    	  alertDialogDirectText("<%=getTran("web.occup","medwan.transaction.delete.wrong-password",sWebLanguage)%>");
       }
       else {
           profileForm.ActionField.value="save";

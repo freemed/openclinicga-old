@@ -1,72 +1,89 @@
-<%@page import="be.openclinic.system.Center"%>
-<%@page import="java.util.*"%>
-<%@page import="java.util.Date"%>
+<%@page import="be.openclinic.system.Center,
+                java.util.*,
+                java.util.Date"%>
 <%@include file="/includes/validateUser.jsp"%>
+
 <script>
   function goToIndex(set){
     if(set){
-      window.location.href = "<c:url value="/main.do"/>?Page=center/index.jsp&action=1&ts=<%=getTs()%>";
+      window.location.href = "<c:url value='/main.do'/>?Page=center/index.jsp&action=1&ts=<%=getTs()%>";
     }
     else{
-      window.location.href = "<c:url value="/main.do"/>?Page=center/index.jsp&ts=<%=getTs()%>";
+      window.location.href = "<c:url value='/main.do'/>?Page=center/index.jsp&ts=<%=getTs()%>";
     }
   }
 </script>
+
 <%!
     //--- WRITE TAB -------------------------------------------------------------------------------
-    public String writeTab(String sId, String sFocusField, String sLanguage) {
-        return "<script>sTabs+= ',"+sId+"';</script>" +
-                "<td style='border-bottom:1px solid #000;width:10px'>&nbsp;</td>" +
-                "<td class='tabunselected' width='1%' style='padding:2px 4px;text-align:center;' onclick='activateTab(\""+sId+"\")' id='tab"+sId+"' name='tab"+sId+"' nowrap><b>"+getTran("centerinfo", sId, sLanguage)+"</b></td>";
+    public String writeTab(String sId, String sFocusField, String sLanguage){
+        return "<script>sTabs+= ',"+sId+"';</script>"+
+               "<td class='tabs'>&nbsp;</td>"+
+               "<td class='tabunselected' width='1%' onclick='activateTab(\""+sId+"\")' id='tab"+sId+"' name='tab"+sId+"' nowrap><b>"+getTran("centerinfo", sId, sLanguage)+"</b></td>";
     }
+
     //--- WRITE TAB BEGIN -------------------------------------------------------------------------
-    public String writeTabBegin(String sId) {
+    public String writeTabBegin(String sId){
         return "<tr id='tr"+sId+"' name='tr"+sId+"' style='display:none'><td>";
     }
+    
     //--- WRITE TAB END ---------------------------------------------------------------------------
-    public String writeTabEnd() {
+    public String writeTabEnd(){
         return "</td></tr>";
     }
 %>
 
 <%
-    String sVersion = checkString(request.getParameter("version"));
-    String sUid = checkString(request.getParameter("uid"));
-    String sAction = checkString(request.getParameter("action"));
-    String sName = checkString(request.getParameter("name"));
-    String sNumeroUid = checkString(request.getParameter("NumeroUid"));
-    String sProvince = checkString(request.getParameter("province"));
-    String sDistrict = checkString(request.getParameter("district"));
-    String sZone = checkString(request.getParameter("zone"));
-    String sSector = checkString(request.getParameter("sector"));
-    String sFosa = checkString(request.getParameter("fosa"));
-    String sCell = checkString(request.getParameter("cell"));
-    String sContactName = checkString(request.getParameter("contactName"));
-    String sContactFunction = checkString(request.getParameter("contactFunction"));
-    String sRemEpidemiology = checkString(request.getParameter("remEpidemiology"));
-    String sRemDrugs = checkString(request.getParameter("remDrugs"));
-    String sRemVaccinations = checkString(request.getParameter("remVaccinations"));
-    String sRemEquipment = checkString(request.getParameter("remEquipment"));
-    String sRemBuilding = checkString(request.getParameter("remBuilding"));
-    String sRemTransport = checkString(request.getParameter("remTransport"));
-    String sRemPersonnel = checkString(request.getParameter("remPersonnel"));
-    String sRemOther = checkString(request.getParameter("remOther"));
-    String sPopulationTotal = checkString(request.getParameter("populationTotal"));
-    String sPopulationLt1m = checkString(request.getParameter("populationLt1m"));
-    String sPopulationLt1y = checkString(request.getParameter("populationLt1y"));
-    String sPopulationLt5y = checkString(request.getParameter("populationLt5y"));
-    String sPopulationLt25y = checkString(request.getParameter("populationLt25y"));
-    String sPopulationLt50y = checkString(request.getParameter("populationLt50y"));
-    String sPopulationMt50y = checkString(request.getParameter("populationMt50y"));
-    String sPopulationPreg = checkString(request.getParameter("populationPreg"));
-    String sPopulationMut = checkString(request.getParameter("populationMut"));
-    String sBeds = checkString(request.getParameter("beds"));
-    String sActive = checkString(request.getParameter("active"));
+    String sAction = checkString(request.getParameter("Action"));
+    
+    String sVersion   = checkString(request.getParameter("version")),
+           sUid       = checkString(request.getParameter("uid")),
+           sName      = checkString(request.getParameter("name")),
+           sNumeroUid = checkString(request.getParameter("NumeroUid")),
+           sProvince  = checkString(request.getParameter("province")),
+           sDistrict  = checkString(request.getParameter("district")),
+           sZone      = checkString(request.getParameter("zone")),
+           sSector    = checkString(request.getParameter("sector")),
+           sFosa      = checkString(request.getParameter("fosa")),
+           sCell      = checkString(request.getParameter("cell")),
+           sContactName     = checkString(request.getParameter("contactName")),
+           sContactFunction = checkString(request.getParameter("contactFunction")),
+           sRemEpidemiology = checkString(request.getParameter("remEpidemiology")),
+           sRemDrugs        = checkString(request.getParameter("remDrugs")),
+           sRemVaccinations = checkString(request.getParameter("remVaccinations")),
+           sRemEquipment    = checkString(request.getParameter("remEquipment")),
+           sRemBuilding     = checkString(request.getParameter("remBuilding")),
+           sRemTransport    = checkString(request.getParameter("remTransport")),
+           sRemPersonnel    = checkString(request.getParameter("remPersonnel")),
+           sRemOther        = checkString(request.getParameter("remOther")),
+           sPopulationTotal = checkString(request.getParameter("populationTotal")),
+           sPopulationLt1m  = checkString(request.getParameter("populationLt1m")),
+           sPopulationLt1y  = checkString(request.getParameter("populationLt1y")),
+           sPopulationLt5y  = checkString(request.getParameter("populationLt5y")),
+           sPopulationLt25y = checkString(request.getParameter("populationLt25y")),
+           sPopulationLt50y = checkString(request.getParameter("populationLt50y")),
+           sPopulationMt50y = checkString(request.getParameter("populationMt50y")),
+           sPopulationPreg  = checkString(request.getParameter("populationPreg")),
+           sPopulationMut   = checkString(request.getParameter("populationMut")),
+           sBeds            = checkString(request.getParameter("beds")),
+           sActive          = checkString(request.getParameter("active"));
+    
+    //// DEBUG ////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n*************************** center/manage.jsp **************************");
+    	Debug.println("sAction  : "+sAction);
+    	Debug.println("sVersion : "+sVersion);
+    	Debug.println("sUid     : "+sUid+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     
     boolean actual = false;
     Center center = new Center();
-    if (sAction.equals("save")) {
+    
+    //--- SAVE ------------------------------------------------------------------------------------
+    if(sAction.equals("save")){
         center = new Center();
+        
         center.setUid(sUid);
         center.setName(sName);
         center.setNumeroUid(sNumeroUid);
@@ -101,12 +118,16 @@
         center.setActive(Integer.parseInt(sActive));
         center.setBeds(Integer.parseInt(sBeds));
         center.store();
+        
         out.write("<script>goToIndex(1);</script>");
-    } else if (sAction.equals("set")) {
-        center = Center.get(Integer.parseInt(sVersion), false);
-        if (center == null || sVersion.equals("0")) {
-            center = Center.get(Integer.parseInt(sVersion), true);
-            if (center == null) {
+    } 
+    //--- SET -------------------------------------------------------------------------------------
+    else if(sAction.equals("set")){
+        center = Center.get(Integer.parseInt(sVersion),false);
+        
+        if(center==null || sVersion.equals("0")){
+            center = Center.get(Integer.parseInt(sVersion),true);
+            if(center==null){
                 center = new Center();
             }
             actual = true;
@@ -119,18 +140,24 @@
   var activeTab = "";
 </script>
 
-<table width="100%" cellspacing="0" cellpadding="0">
-    <tr>
-        <%=writeTab("identification", "", sWebLanguage)%><%=writeTab("remarques", "", sWebLanguage)%><%=writeTab("population", "", sWebLanguage)%><%=writeTab("hospitalisation", "", sWebLanguage)%>
-        <td style="border-bottom:1px solid #cccccc;" width="*">&nbsp;</td>
-    </tr>
-</table>
-
-<form name="centerForm" id="centerForm" method="post" action='<c:url value="/main.do"/>?Page=center/manage.jsp&action=save&Tab=1&ts=<%=getTs()%>'>
+<form name="centerForm" id="centerForm" method="post" action='<c:url value="/main.do"/>?Page=center/manage.jsp&Action=save&Tab=1&ts=<%=getTs()%>'>
     <input type="hidden" id="uid" name="uid" value="<%=checkString(center.getUid())%>"/>
-    <table width="100%">
+   
+    <%-- TABS --%>
+	<table width="100%" cellspacing="0" cellpadding="0">
+	    <tr>
+	        <%=writeTab("identification","",sWebLanguage)%>
+	        <%=writeTab("remarques","",sWebLanguage)%>
+	        <%=writeTab("population","",sWebLanguage)%>
+	        <%=writeTab("hospitalisation","",sWebLanguage)%>
+	        <td class="tabs" width="100%">&nbsp;</td>
+	    </tr>
+	</table>
+	
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <%-- TAB 1 --%>
         <%=writeTabBegin("identification")%>
-        <table width="100%" class="list" cellspacing="1" onkeydown="if(enterEvent(event,13)){centerForm.submit();}">
+        <table width="100%" class="list" style="border-top:none;" cellspacing="1" onkeydown="if(enterEvent(event,13)){centerForm.submit();}">
             <tr>
                 <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo","denomination",sWebLanguage)%>
                 </td>
@@ -139,22 +166,22 @@
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo","numero.identification",sWebLanguage)%></td>
+                <td class="admin"><%=getTran("centerinfo","numero.identification",sWebLanguage)%></td>
                 <td class="admin2">
                     <input class="text" type="text" name="NumeroUid" value="<%=checkString(center.getNumeroUid())%>"/><br/>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","province",sWebLanguage)%></td>
+                <td class="admin"><%=getTran("web","province",sWebLanguage)%></td>
                 <td class="admin2">
                     <select class='text' name='province' id='Province'>
                         <option/>
-                        <%=ScreenHelper.writeSelect("province", checkString(center.getProvince()), sWebLanguage, false, true)%>
+                        <%=ScreenHelper.writeSelect("province",checkString(center.getProvince()),sWebLanguage,false,true)%>
                     </select>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","district",sWebLanguage)%></td>
+                <td class="admin"><%=getTran("web","district",sWebLanguage)%></td>
                 <td class="admin2">
                     <%
                         String sDistricts = "<select class='text' id='PDistrict' name='district' onchange='changeDistrict();'><option/>";
@@ -162,186 +189,194 @@
                         Collections.sort(vDistricts);
                         String sTmpDistrict;
                         boolean bDistrictSelected = false;
-                        for (int i = 0; i < vDistricts.size(); i++) {
+                       
+                        for(int i=0; i<vDistricts.size(); i++){
                             sTmpDistrict = (String) vDistricts.elementAt(i);
                             sDistricts += "<option value='"+sTmpDistrict+"'";
-                            if (sTmpDistrict.equalsIgnoreCase(checkString(center.getDistrict()))) {
-                                sDistricts += " selected";
+                            if(sTmpDistrict.equalsIgnoreCase(checkString(center.getDistrict()))){
+                                sDistricts+= " selected";
                                 bDistrictSelected = true;
                             }
-                            sDistricts += ">"+sTmpDistrict+"</option>";
+                            sDistricts+= ">"+sTmpDistrict+"</option>";
                         }
-
-                        /*     if ((!bDistrictSelected)&&(checkString(apc.district).length()>0)){
-                      sDistricts += "<option value='"+checkString(apc.district)+"' selected>"+checkString(apc.district)+"</option>";
-                  }      */
-                        sDistricts += "</select>";%><%=sDistricts%>
+                        
+                        sDistricts+= "</select>";%><%=sDistricts%>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo", "zone.rayonnement", sWebLanguage)%></td>
+                <td class="admin"><%=getTran("centerinfo","zone.rayonnement",sWebLanguage)%></td>
                 <td class="admin2">
                     <input class="text" type="text" name="zone" value="<%=checkString(center.getZone())%>"/><br/>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web", "sector", sWebLanguage)%></td>
+                <td class="admin"><%=getTran("web","sector",sWebLanguage)%></td>
                 <td class="admin2">
                     <%
-                        String sCities = "<select class='text' id='PSector' name='sector' ><option/>";
+                        String sCities = "<select class='text' id='PSector' name='sector'>"+
+                                          "<option/>";
                         Vector vCities = Zipcode.getCities(checkString(center.getDistrict()),MedwanQuery.getInstance().getConfigString("zipcodetable","RwandaZipcodes"));
                         Collections.sort(vCities);
                         String sTmpCity;
                         boolean bCitySelected = false;
-                        for (int i = 0; i < vCities.size(); i++) {
-                            sTmpCity = (String) vCities.elementAt(i);
-                            sCities += "<option value='"+sTmpCity+"'";
-                            if (sTmpCity.equalsIgnoreCase(checkString(center.getSector()))) {
+                        for(int i=0; i<vCities.size(); i++){
+                            sTmpCity = (String)vCities.elementAt(i);
+                            sCities+= "<option value='"+sTmpCity+"'";
+                            if(sTmpCity.equalsIgnoreCase(checkString(center.getSector()))){
                                 sCities += " selected";
                                 bCitySelected = true;
                             }
-                            sCities += ">"+sTmpCity+"</option>";
+                            sCities+= ">"+sTmpCity+"</option>";
                         }
-                        sCities += "</select>";%><%=sCities%>
+                        sCities+= "</select>";%><%=sCities%>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo", "nom.fosa", sWebLanguage)%></td>
+                <td class="admin"><%=getTran("centerinfo","nom.fosa",sWebLanguage)%></td>
                 <td class="admin2">
                     <input class="text" type="text" name="fosa" value="<%=checkString(center.getFosa())%>"/><br/>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo", "cellule", sWebLanguage)%></td>
+                <td class="admin"><%=getTran("centerinfo","cellule",sWebLanguage)%></td>
                 <td class="admin2">
                     <input class="text" type="text" name="cell" value="<%=checkString(center.getCell())%>"/><br/>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo", "nom.responsable", sWebLanguage)%></td>
+                <td class="admin"><%=getTran("centerinfo","nom.responsable",sWebLanguage)%></td>
                 <td class="admin2">
                     <input class="text" type="text" name="contactName" value="<%=checkString(center.getContactName())%>"/><br/>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo", "qualification.responsable", sWebLanguage)%></td>
+                <td class="admin"><%=getTran("centerinfo","qualification.responsable",sWebLanguage)%></td>
                 <td class="admin2">
                     <input class="text" type="text" name="contactFunction" value="<%=checkString(center.getContactFunction())%>"/><br/>
                 </td>
             </tr>
         </table>
-        <%=writeTabEnd()%><%=writeTabBegin("remarques")%>
-        <table width="100%" class="list" cellspacing="1">
+        <%=writeTabEnd()%>
+        
+        <%-- TAB 2 --%>
+        <%=writeTabBegin("remarques")%>        
+        <table width="100%" class="list" style="border-top:none;" cellspacing="1">
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo", "epidemiologie", sWebLanguage)%></td>
+                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo","epidemiologie",sWebLanguage)%></td>
                 <td class="admin2">
-                    <textarea id="remEpidemiology" class="text" name="remEpidemiology" cols="75" onkeyup="resizeTextarea(this,10);" rows="1"><%=center.getRemEpidemiology()%></textarea>
+                    <textarea id="remEpidemiology" class="text" name="remEpidemiology" cols="75" onkeyup="resizeTextarea(this,10);" rows="1"><%=checkString(center.getRemEpidemiology())%></textarea>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo", "medicaments.consommables", sWebLanguage)%></td>
+                <td class="admin"><%=getTran("centerinfo","medicaments.consommables",sWebLanguage)%></td>
                 <td class="admin2">
-                    <textarea id="remDrugs" class="text" name="remDrugs" cols="75" onkeyup="resizeTextarea(this,10);" rows="1"><%=center.getRemDrugs()%></textarea>
+                    <textarea id="remDrugs" class="text" name="remDrugs" cols="75" onkeyup="resizeTextarea(this,10);" rows="1"><%=checkString(center.getRemDrugs())%></textarea>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo", "vaccins.chaine.froid", sWebLanguage)%></td>
+                <td class="admin"><%=getTran("centerinfo","vaccins.chaine.froid",sWebLanguage)%></td>
                 <td class="admin2">
-                    <textarea id="remVaccinations" class="text" name="remVaccinations" cols="75" onkeyup="resizeTextarea(this,10);" rows="1"><%=center.getRemVaccinations()%></textarea>
+                    <textarea id="remVaccinations" class="text" name="remVaccinations" cols="75" onkeyup="resizeTextarea(this,10);" rows="1"><%=checkString(center.getRemVaccinations())%></textarea>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo", "equipements", sWebLanguage)%></td>
+                <td class="admin"><%=getTran("centerinfo","equipements",sWebLanguage)%></td>
                 <td class="admin2">
-                    <textarea id="remEquipment" class="text" name="remEquipment" cols="75" onkeyup="resizeTextarea(this,10);" rows="1"><%=center.getRemEquipment()%></textarea>
+                    <textarea id="remEquipment" class="text" name="remEquipment" cols="75" onkeyup="resizeTextarea(this,10);" rows="1"><%=checkString(center.getRemEquipment())%></textarea>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo", "batiment", sWebLanguage)%></td>
+                <td class="admin"><%=getTran("centerinfo","batiment",sWebLanguage)%></td>
                 <td class="admin2">
-                    <textarea id="remBuilding" class="text" name="remBuilding" cols="75" onkeyup="resizeTextarea(this,10);" rows="1"><%=center.getRemBuilding()%></textarea>
+                    <textarea id="remBuilding" class="text" name="remBuilding" cols="75" onkeyup="resizeTextarea(this,10);" rows="1"><%=checkString(center.getRemBuilding())%></textarea>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo", "moyens.locomotion", sWebLanguage)%></td>
+                <td class="admin"><%=getTran("centerinfo","moyens.locomotion",sWebLanguage)%></td>
                 <td class="admin2">
-                    <textarea id="remTransport" class="text" name="remTransport" cols="75" onkeyup="resizeTextarea(this,10);" rows="1"><%=center.getRemTransport()%></textarea>
+                    <textarea id="remTransport" class="text" name="remTransport" cols="75" onkeyup="resizeTextarea(this,10);" rows="1"><%=checkString(center.getRemTransport())%></textarea>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo", "personnel", sWebLanguage)%></td>
+                <td class="admin"><%=getTran("centerinfo","personnel",sWebLanguage)%></td>
                 <td class="admin2">
-                    <textarea id="remPersonnel" class="text" name="remPersonnel" cols="75" onkeyup="resizeTextarea(this,10);" rows="1"><%=center.getRemPersonnel()%></textarea>
+                    <textarea id="remPersonnel" class="text" name="remPersonnel" cols="75" onkeyup="resizeTextarea(this,10);" rows="1"><%=checkString(center.getRemPersonnel())%></textarea>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web", "other", sWebLanguage)%></td>
+                <td class="admin"><%=getTran("web","other",sWebLanguage)%></td>
                 <td class="admin2">
-                    <textarea id="remOther" class="text" name="remOther" cols="75" onkeyup="resizeTextarea(this,10);" rows="1"><%=center.getRemOther()%></textarea>
+                    <textarea id="remOther" class="text" name="remOther" cols="75" onkeyup="resizeTextarea(this,10);" rows="1"><%=checkString(center.getRemOther())%></textarea>
                 </td>
             </tr>
         </table>
-        <%=writeTabEnd()%><%=writeTabBegin("population")%>
-        <table width="100%" class="list" cellspacing="1" onkeydown="if(enterEvent(event,13)){centerForm.submit();}">
+        <%=writeTabEnd()%>
+        
+        <%-- TAB 3 --%>
+        <%=writeTabBegin("population")%>        
+        <table width="100%" class="list" style="border-top:none;" cellspacing="1" onkeydown="if(enterEvent(event,13)){centerForm.submit();}">
             <%-- service --%>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo", "population.totale.zone.rayonnement", sWebLanguage)%>
+                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo","population.totale.zone.rayonnement",sWebLanguage)%>
                 </td>
                 <td class="admin2">
                     <input class="text" onblur="isNumber(this);" type="text" name="populationTotal" value="<%=center.getPopulationTotal()%>"/><br/>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo", "moins.30.jours", sWebLanguage)%></td>
+                <td class="admin"><%=getTran("centerinfo", "moins.30.jours", sWebLanguage)%></td>
                 <td class="admin2">
                     <input class="text" onblur="isNumber(this);" type="text" name="populationLt1m" value="<%=center.getPopulationLt1m()%>"/> %<br/>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>">1-11 <%=getTran("web", "months", sWebLanguage)%></td>
+                <td class="admin">1-11 <%=getTran("web", "months", sWebLanguage)%></td>
                 <td class="admin2">
                     <input class="text" onblur="isNumber(this);" type="text" name="populationLt1y" value="<%=center.getPopulationLt1y()%>"/> %<br/>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>">12-59 <%=getTran("web", "months", sWebLanguage)%></td>
+                <td class="admin">12-59 <%=getTran("web", "months", sWebLanguage)%></td>
                 <td class="admin2">
                     <input class="text" onblur="isNumber(this);" type="text" name="populationLt5y" value="<%=center.getPopulationLt5y()%>"/> %<br/>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>">5-14 <%=getTran("web", "years", sWebLanguage)%></td>
+                <td class="admin">5-14 <%=getTran("web", "years", sWebLanguage)%></td>
                 <td class="admin2">
                     <input class="text" onblur="isNumber(this);" type="text" name="populationLt25y" value="<%=center.getPopulationLt25y()%>"/> %<br/>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>">25-49 <%=getTran("web", "years", sWebLanguage)%></td>
+                <td class="admin">25-49 <%=getTran("web", "years", sWebLanguage)%></td>
                 <td class="admin2">
                     <input class="text" onblur="isNumber(this);" type="text" name="populationLt50y" value="<%=center.getPopulationLt50y()%>"/> %<br/>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>">+50 <%=getTran("web", "years", sWebLanguage)%></td>
+                <td class="admin">+50 <%=getTran("web", "years", sWebLanguage)%></td>
                 <td class="admin2">
                     <input class="text" onblur="isNumber(this);" type="text" name="populationMt50y" value="<%=center.getPopulationMt50y()%>"/> %<br/>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo", "femmes.enceintes", sWebLanguage)%></td>
+                <td class="admin"><%=getTran("centerinfo", "femmes.enceintes", sWebLanguage)%></td>
                 <td class="admin2">
                     <input class="text" onblur="isNumber(this);" type="text" name="populationPreg" value="<%=center.getPopulationPreg()%>"/><br/>
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo", "population.mutuelles", sWebLanguage)%></td>
+                <td class="admin"><%=getTran("centerinfo", "population.mutuelles", sWebLanguage)%></td>
                 <td class="admin2">
                     <input class="text" onblur="isNumber(this);" type="text" name="populationMut" value="<%=center.getPopulationMut()%>"/> %<br/>
                 </td>
             </tr>
         </table>
-        <%=writeTabEnd()%><%=writeTabBegin("hospitalisation")%>
-        <table width="100%" class="list" cellspacing="1" onkeydown="if(enterEvent(event,13)){centerForm.submit();}">
+        <%=writeTabEnd()%>
+        
+        <%-- TAB 4 --%>
+        <%=writeTabBegin("hospitalisation")%>        
+        <table width="100%" class="list" style="border-top:none;" cellspacing="1" onkeydown="if(enterEvent(event,13)){centerForm.submit();}">
             <%-- service --%>
             <tr>
                 <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("centerinfo", "nombre.lits", sWebLanguage)%></td>
@@ -350,7 +385,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web", "active", sWebLanguage)%></td>
+                <td class="admin"><%=getTran("web", "active", sWebLanguage)%></td>
                 <td class="admin2">
                     <input class="text" onblur="isNumber(this);" type="text" name="active" value="<%=center.getActive()%>"/><br/>
                 </td>
@@ -363,10 +398,11 @@
     <%
         if(activeUser.getAccessRight("patient.administration.edit")){
             %>
-	          <div id="saveMsg"><%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>.</div>
+	          <div id="saveMsg"><%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%></div>
+	          
 	          <%=ScreenHelper.alignButtonsStart()%>
-	          <input <%=(!actual)?"type='hidden'":"type='button'"%> class="button" name="centerForm" value="<%=getTran("Web","Save",sWebLanguage)%>" onclick="checkSubmit();">&nbsp;
-	          <input class="button" type="button" name="cancel" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="goToIndex();"/>&nbsp;
+	              <input <%=(!actual?"type='hidden'":"type='button'")%> class="button" name="saveButton" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="doSave();">&nbsp;
+	              <input class="button" type="button" name="cancel" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="goToIndex();"/>&nbsp;
 	          <%=ScreenHelper.alignButtonsStop()%>
 	        <%
         }
@@ -375,7 +411,7 @@
 
 <script>
   var aTabs = sTabs.split(',');
-  var path = '<c:url value="/"/>';
+  var path = "<c:url value=''/>";
     
   <%-- ACTIVATE TAB --%>
   function activateTab(sTab){
@@ -391,14 +427,14 @@
     document.getElementsByName("tab"+sTab)[0].className = "tabselected";
   }
   
-  function checkSubmit(){
+  <%-- DO SAVE --%>
+  function doSave(){
     $("centerForm").submit();
   }
   
   <%-- CHANGE DISTRICT --%>
   function changeDistrict(){
-    var today = new Date();
-    var url = path+"/_common/search/searchByAjax/getCitiesByDistrict.jsp?ts="+today;
+    var url = path+"/_common/search/searchByAjax/getCitiesByDistrict.jsp?ts="+new Date();
     new Ajax.Request(url,{
       method: "POST",
       postBody: 'FindDistrict='+document.getElementById("PDistrict").value,

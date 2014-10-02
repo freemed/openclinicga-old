@@ -24,15 +24,11 @@
 	    if(rs.getInt("total")>0){
 	        %>
 	        <script>
-	            var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-	            var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=statistics.patientexists";
-	            var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","statistics.patientexists",sWebLanguage)%>");
-	
-	            if(answer==1){
-	                window.opener.document.getElementsByName('newPatient')[0].value='1';
-	                window.opener.document.getElementsByName('EditPatientForm')[0].submit();
-	            }
-	            window.close();
+	          if(yesnoDialog("web","statistics.patientexists")){
+	            window.opener.document.getElementsByName('newPatient')[0].value='1';
+	            window.opener.document.getElementsByName('EditPatientForm')[0].submit();
+	          }
+	          window.close();
 	        </script>
 	        <%
 	    }

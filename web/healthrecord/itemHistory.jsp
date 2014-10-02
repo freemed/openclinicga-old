@@ -5,6 +5,17 @@
                 be.mxs.common.util.io.MessageReaderMedidoc"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+<%=sCSSNORMAL%>
+
+<%
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n********************* healthrecord/itemHistory.jsp *********************");
+    	Debug.println("no parameters");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+%>
+
 <%!
     private class Item{
         public String id = "";
@@ -19,8 +30,8 @@
         public Hashtable unitname = new Hashtable();
     }
 %>
-<%=sCSSNORMAL%>
 
+<HEAD><TITLE><%=getTranNoLink("web","history",sWebLanguage)%></TITLE></HEAD>
 <body title="<%=getTranNoLink("Web.Occup","medwan.common.click-for-graph",sWebLanguage)%>" onclick="window.location.href='<c:url value="/healthrecord/itemGraph.jsp"/>?itemType=<%=request.getParameter("itemType")%>';">
 <%
     String format = "";
@@ -74,16 +85,10 @@
             sVal = getTranNoLink("Web.Occup",sVal,sWebLanguage);
         }
 
-        sHTML+="<tr class='list'><td width='70'>"+ScreenHelper.stdDateFormat.format(((ItemVO)items.get(n)).getDate())+"</td><td>"+sVal+"</td></tr>";
-    }
-%>
-
-<%
-    if (sUnits.length()>0){
-        out.print(getTran("TRANSACTION_TYPE_LAB_RESULT",request.getParameter("itemType"),sWebLanguage)+" ("+getTran("TRANSACTION_TYPE_LAB_RESULT","be.mxs.common.model.vo.healthrecord.IConstants.EXT_"+format+"UNIT_"+sUnits,sWebLanguage)+")");
-    }
-    else if (vals<1){
-        out.print("<div class='text'>"+getTran("Web.Occup","medwan.common.no-measurements",sWebLanguage)+"</div>");
+        sHTML+= "<tr class='list'>"+
+                 "<td class='admin' width='70'>"+ScreenHelper.stdDateFormat.format(((ItemVO)items.get(n)).getDate())+"</td>"+
+                 "<td class='admin2'>"+sVal+"</td>"+
+                "</tr>";
     }
 %>
 
@@ -91,11 +96,27 @@
     <tr class="admin"><td colspan="2"><%=getTran("web","history",sWebLanguage)%></td></tr>
     <%=sHTML%>
 </table>
+    
+<%
+    if (sUnits.length()>0){
+        out.print(getTran("TRANSACTION_TYPE_LAB_RESULT",request.getParameter("itemType"),sWebLanguage)+" ("+getTran("TRANSACTION_TYPE_LAB_RESULT","be.mxs.common.model.vo.healthrecord.IConstants.EXT_"+format+"UNIT_"+sUnits,sWebLanguage)+")");
+    }
+    else if (vals<1){
+        out.print("<div class='text'>&nbsp;"+getTran("Web.Occup","medwan.common.no-measurements",sWebLanguage)+"</div>");
+    }
+%>
+	
 <br/>
+
 <center>
-    <input type="button" class="button" value="<%=getTran("web","close",sWebLanguage)%>" onclick="window.close()">
+    <input type="button" class="button" value="<%=getTranNoLink("web","close",sWebLanguage)%>" onclick="window.close()">
 </center>
+
 <script>
   window.focus();
+
+  if(window.opener.document.getElementById('ie5menu')){
+    window.opener.document.getElementById('ie5menu').style.visibility = 'hidden';
+  }
 </script>
 </body>

@@ -136,16 +136,16 @@
             <td>
                 <input type="hidden" name="FindBalanceOwner" value="<%=sFindBalanceOwner%>">
                 <input class="text" type="text" name="FindBalanceOwnerName" readonly size="<%=sTextWidth%>" value="<%=sFindBalanceOwnerName%>">
-                <input class="button" type="button" name="SearchOwnerButton" value="<%=getTran("Web","Select",sWebLanguage)%>" onclick="searchFindOwner('FindBalanceOwner','FindBalanceOwnerName');">
+                <input class="button" type="button" name="SearchOwnerButton" value="<%=getTranNoLink("Web","Select",sWebLanguage)%>" onclick="searchFindOwner('FindBalanceOwner','FindBalanceOwnerName');">
             </td>
         </tr>
         <%-- buttons: search,clear,new --%>
         <tr>
             <td/>
             <td>
-                <input class='button' type='button' name='buttonfind' value='<%=getTran("Web","search",sWebLanguage)%>' onclick='doFind();'>
-                <input class='button' type='button' name='buttonclear' value='<%=getTran("Web","Clear",sWebLanguage)%>' onclick='doClear();'>
-                <input class='button' type='button' name='buttonnew' value='<%=getTran("Web.Occup","medwan.common.create-new",sWebLanguage)%>' onclick='doNew();'>&nbsp;
+                <input class='button' type='button' name='buttonfind' value='<%=getTranNoLink("Web","search",sWebLanguage)%>' onclick='doFind();'>
+                <input class='button' type='button' name='buttonclear' value='<%=getTranNoLink("Web","Clear",sWebLanguage)%>' onclick='doClear();'>
+                <input class='button' type='button' name='buttonnew' value='<%=getTranNoLink("Web.Occup","medwan.common.create-new",sWebLanguage)%>' onclick='doNew();'>&nbsp;
             </td>
         </tr>
         <%-- action --%>
@@ -210,18 +210,18 @@
             if (dDate != null) {
                 sDate = ScreenHelper.stdDateFormat.format(dDate);
             }
-            sbResults.append("<tr  class='list");
+            sbResults.append("<tr class='list");
             sbResults.append(sClass);
             sbResults.append("' " + " ");
             sbResults.append("> " + "<td onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" onclick=\"doSelect('");
             sbResults.append(sBalanceUID);
             sbResults.append("');\"><img src='");
             sbResults.append(request.getContextPath());
-            sbResults.append("/_img/icon_view.gif' alt='view'></td>" + "<td onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" onclick=\"doEdit('");
+            sbResults.append("/_img/icons/icon_view.gif' alt='view'></td>" + "<td onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" onclick=\"doEdit('");
             sbResults.append(sBalanceUID);
             sbResults.append("');\"><img src='");
             sbResults.append(request.getContextPath());
-            sbResults.append("/_img/icon_edit.gif' alt='edit'></td>" + "<td>");
+            sbResults.append("/_img/icons/icon_edit.gif' alt='edit'></td>" + "<td>");
             sbResults.append(sName);
             sbResults.append("</td>" + "<td>");
             sbResults.append(sDate);
@@ -291,7 +291,7 @@
             <td class='admin2'>
                 <input type="hidden" name="EditBalanceOwner" value="<%=sEditBalanceOwner%>">
                 <input class="text" type="text" name="EditBalanceOwnerName" readonly size="<%=sTextWidth%>" value="<%=sEditBalanceOwnerName%>">
-                <input class="button" type="button" name="SearchOwnerButton" value="<%=getTran("Web","Select",sWebLanguage)%>" onclick="searchEditOwner('EditBalanceOwner','EditBalanceOwnerName');">
+                <input class="button" type="button" name="SearchOwnerButton" value="<%=getTranNoLink("Web","Select",sWebLanguage)%>" onclick="searchEditOwner('EditBalanceOwner','EditBalanceOwnerName');">
             </td>
         </tr>
         <%-- maxbalance --%>
@@ -326,134 +326,140 @@
     <%
         if(sAction.equals("NEW") || sAction.equals("SELECT")){
     %>
-        <input class='button' type="button" name="saveButton" value='<%=getTran("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
+        <input class='button' type="button" name="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;
     <%
         }
     %>
-    <input class='button' type="button" name="Backbutton" value='<%=getTran("Web","Back",sWebLanguage)%>' onclick="doBack();">
+    <input class='button' type="button" name="Backbutton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' onclick="doBack();">
 <%=ScreenHelper.alignButtonsStop()%>
 
 <%-- End Edit Block--%>
 
 <script>
 <%-- Find Block --%>
-    FindBalanceForm.FindBalanceDate.focus();
-    function doClear(){
-        FindBalanceForm.FindBalanceDate.value = "";
-        FindBalanceForm.FindBalanceOwner.value = "";
-        FindBalanceForm.FindBalanceOwnerName.value = "";
+  FindBalanceForm.FindBalanceDate.focus();
+  
+  function doClear(){
+    FindBalanceForm.FindBalanceDate.value = "";
+    FindBalanceForm.FindBalanceOwner.value = "";
+    FindBalanceForm.FindBalanceOwnerName.value = "";
+  }
 
-    }
-    function doFind(){
-        FindBalanceForm.Action.value = "SEARCH";
-        FindBalanceForm.buttonfind.disabled = true;
-        FindBalanceForm.submit();
-    }
+  function doFind(){
+    FindBalanceForm.Action.value = "SEARCH";
+    FindBalanceForm.buttonfind.disabled = true;
+    FindBalanceForm.submit();
+  }
 
-    function doNew(){
-        FindBalanceForm.Action.value = "NEW";
-        FindBalanceForm.submit();
-    }
+  function doNew(){
+    FindBalanceForm.Action.value = "NEW";
+    FindBalanceForm.submit();
+  }
 
-    <%-- search owner --%>
-    function searchFindOwner(ownerUidField,ownerNameField){
-        if(document.getElementById("Findperson").checked){
-            openPopup("/_common/search/searchPatient.jsp&ts=<%=getTs()%>&ReturnPersonID="+ownerUidField+"&ReturnName="+ownerNameField+"&displayImmatNew=no&isUser=no");
-        }else if(document.getElementById("Findservice").checked){
-           openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+ownerUidField+"&VarText="+ownerNameField);
-        }
+  <%-- search owner --%>
+  function searchFindOwner(ownerUidField,ownerNameField){
+    if(document.getElementById("Findperson").checked){
+      openPopup("/_common/search/searchPatient.jsp&ts=<%=getTs()%>&ReturnPersonID="+ownerUidField+"&ReturnName="+ownerNameField+"&displayImmatNew=no&isUser=no");
     }
+    else if(document.getElementById("Findservice").checked){
+      openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+ownerUidField+"&VarText="+ownerNameField);
+    }
+  }
 
-    function changeFindType(){
-        if(document.getElementById("Findperson").checked){
-             document.getElementById("FindTypeLabel").innerText = "<%=getTran("Web","person",sWebLanguage)%>";
-        }else{
-             document.getElementById("FindTypeLabel").innerText = "<%=getTran("Web","service",sWebLanguage)%>";
-        }
-        FindBalanceForm.FindBalanceOwner.value = "";
-        FindBalanceForm.FindBalanceOwnerName.value = "";
+  function changeFindType(){
+    if(document.getElementById("Findperson").checked){
+      document.getElementById("FindTypeLabel").innerText = "<%=getTran("Web","person",sWebLanguage)%>";
     }
+    else{
+      document.getElementById("FindTypeLabel").innerText = "<%=getTran("Web","service",sWebLanguage)%>";
+    }
+    FindBalanceForm.FindBalanceOwner.value = "";
+    FindBalanceForm.FindBalanceOwnerName.value = "";
+  }
 <%-- End Find Block --%>
 
 <%-- FindResults Block --%>
-    function doEdit(id){
-        window.location.href="<c:url value='/main.do'/>?Page=financial/manageBalances.jsp&Action=SELECT&EditBalanceUID=" + id + "&ts=<%=getTs()%>";
-    }
+  function doEdit(id){
+    window.location.href="<c:url value='/main.do'/>?Page=financial/manageBalances.jsp&Action=SELECT&EditBalanceUID=" + id + "&ts=<%=getTs()%>";
+  }
 
-    function doSelect(id){
-        window.location.href="<c:url value='/main.do'/>?Page=financial/manageBalancesOverview.jsp&EditBalanceUID=" + id + "&ts=<%=getTs()%>";
-    }
+  function doSelect(id){
+    window.location.href="<c:url value='/main.do'/>?Page=financial/manageBalancesOverview.jsp&EditBalanceUID=" + id + "&ts=<%=getTs()%>";
+  }
 <%-- End FindResults Block --%>
 
 <%-- Edit Block --%>
-    function doBack(){
-        window.location.href="<c:url value='/main.do'/>?Page=financial/index.jsp&ts=<%=getTs()%>";
-    }
+  function doBack(){
+    window.location.href="<c:url value='/main.do'/>?Page=financial/index.jsp&ts=<%=getTs()%>";
+  }
 
-    function doSave(){
-        if(EditBalanceForm.EditBalanceOwner.value == ""){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.financial&labelID=owner_missing";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.financial","owner_missing",sWebLanguage)%>");
-        }else if(EditBalanceForm.EditBalanceMin.value == ""){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.financial&labelID=min_balance_missing";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.financial","min_balance_missing",sWebLanguage)%>");
-        }else if(EditBalanceForm.EditBalanceMax.value == ""){
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.financial&labelID=max_balance_missing";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web.financial","max_balance_missing",sWebLanguage)%>");
-        }else{
-            saveButton.disabled = true;
-            EditBalanceForm.Action.value = "SAVE";
-            EditBalanceForm.submit();
-        }
+  function doSave(){
+    if(EditBalanceForm.EditBalanceOwner.value == ""){
+      alertDialog("web.financial","owner_missing");
     }
+    else if(EditBalanceForm.EditBalanceMin.value == ""){
+      alertDialog("web.financial","min_balance_missing");
+    }
+    else if(EditBalanceForm.EditBalanceMax.value == ""){
+      alertDialog("web.financial","max_balance_missing");
+    }
+    else{
+      saveButton.disabled = true;
+      EditBalanceForm.Action.value = "SAVE";
+      EditBalanceForm.submit();
+    }
+  }
 
-    <%-- search owner --%>
-    function searchEditOwner(ownerUidField,ownerNameField){
-        if(document.getElementById("Editperson").checked){
-            openPopup("/_common/search/searchPatient.jsp&ts=<%=getTs()%>&ReturnPersonID="+ownerUidField+"&ReturnName="+ownerNameField+"&displayImmatNew=no&isUser=no");
-        }else if(document.getElementById("Editservice").checked){
-            openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+ownerUidField+"&VarText="+ownerNameField);
-        }
+  <%-- search edit owner --%>
+  function searchEditOwner(ownerUidField,ownerNameField){
+    if(document.getElementById("Editperson").checked){
+      openPopup("/_common/search/searchPatient.jsp&ts=<%=getTs()%>&ReturnPersonID="+ownerUidField+"&ReturnName="+ownerNameField+"&displayImmatNew=no&isUser=no");
     }
+    else if(document.getElementById("Editservice").checked){
+      openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+ownerUidField+"&VarText="+ownerNameField);
+    }
+  }
 
-    function changeEditType(){
-        if(document.getElementById("Editperson").checked){
-             document.getElementById("EditTypeLabel").innerText = "<%=getTran("Web","person",sWebLanguage)%>";
-        }else{
-             document.getElementById("EditTypeLabel").innerText = "<%=getTran("Web","service",sWebLanguage)%>";
-        }
-        EditBalanceForm.EditBalanceOwner.value = "";
-        EditBalanceForm.EditBalanceOwnerName.value = "";
+  function changeEditType(){
+    if(document.getElementById("Editperson").checked){
+      document.getElementById("EditTypeLabel").innerText = "<%=getTran("Web","person",sWebLanguage)%>";
     }
+    else{
+      document.getElementById("EditTypeLabel").innerText = "<%=getTran("Web","service",sWebLanguage)%>";
+    }
+    EditBalanceForm.EditBalanceOwner.value = "";
+    EditBalanceForm.EditBalanceOwnerName.value = "";
+  }
 <%-- End Edit Block --%>
 
 <%-- General --%>
-    if(FindBalanceForm.FindBalanceOwnerName.value == ""){
-        document.getElementById("Findperson").checked = true;
-        document.getElementById("FindTypeLabel").innerText = "<%=getTran("Web","person",sWebLanguage)%>";
-    }else{
-        if(document.getElementById("Findperson").checked){
-            document.getElementById("FindTypeLabel").innerText = "<%=getTran("Web","person",sWebLanguage)%>";
-        }else{
-            document.getElementById("FindTypeLabel").innerText = "<%=getTran("Web","service",sWebLanguage)%>";
-        }
+  if(FindBalanceForm.FindBalanceOwnerName.value == ""){
+    document.getElementById("Findperson").checked = true;
+    document.getElementById("FindTypeLabel").innerText = "<%=getTran("Web","person",sWebLanguage)%>";
+  }
+  else{
+    if(document.getElementById("Findperson").checked){
+      document.getElementById("FindTypeLabel").innerText = "<%=getTran("Web","person",sWebLanguage)%>";
     }
+    else{
+      document.getElementById("FindTypeLabel").innerText = "<%=getTran("Web","service",sWebLanguage)%>";
+    }
+  }
 
-
-<% if(sAction.equals("SELECT") || sAction.equals("NEW")){
+<%
+    if(sAction.equals("SELECT") || sAction.equals("NEW")){
     %>
         if(EditBalanceForm.EditBalanceOwnerName.value == ""){
-            document.getElementById("Editperson").checked = true;
+          document.getElementById("Editperson").checked = true;
+          document.getElementById("EditTypeLabel").innerText = "<%=getTran("Web","person",sWebLanguage)%>";
+        }
+        else{
+          if(document.getElementById("Editperson").checked){
             document.getElementById("EditTypeLabel").innerText = "<%=getTran("Web","person",sWebLanguage)%>";
-        }else{
-            if(document.getElementById("Editperson").checked){
-                document.getElementById("EditTypeLabel").innerText = "<%=getTran("Web","person",sWebLanguage)%>";
-            }else{
-                document.getElementById("EditTypeLabel").innerText = "<%=getTran("Web","service",sWebLanguage)%>";
-            }
+          }
+          else{
+            document.getElementById("EditTypeLabel").innerText = "<%=getTran("Web","service",sWebLanguage)%>";
+          }
         }
     <%
     }

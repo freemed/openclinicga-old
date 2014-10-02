@@ -185,7 +185,7 @@
             <td class="admin"><%=getTran("Web","Language",sWebLanguage)%></td>
             <td class="admin2">
                 <select name="EditLabelLang" class="text">
-                    <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
+                    <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                     <%
                         StringTokenizer tokenizer = new StringTokenizer(supportedLanguages, ",");
                         String tmpLang;
@@ -224,8 +224,8 @@
     %>
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>
-        <input class="button" type="button" name="SaveButton" value="<%=getTran("Web","Save",sWebLanguage)%>" onclick="checkSave();">&nbsp;
-        <input class="button" type="button" name="closeButton" value="<%=getTran("Web","close",sWebLanguage)%>" onclick="window.close();">
+        <input class="button" type="button" name="SaveButton" value="<%=getTranNoLink("Web","Save",sWebLanguage)%>" onclick="checkSave();">&nbsp;
+        <input class="button" type="button" name="closeButton" value="<%=getTranNoLink("Web","close",sWebLanguage)%>" onclick="window.close();">
     <%=ScreenHelper.alignButtonsStop()%>
     <%-- hidden fields --%>
     <input type="hidden" name="EditOldLabelLang" value="<%=editLabelLang%>">

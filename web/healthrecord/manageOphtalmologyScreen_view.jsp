@@ -35,7 +35,7 @@
         <td align="right" width="20%">
             <%=getLabel("web.occup","medwan.common.not-executed",sWebLanguage,"mos_c1")%>&nbsp;<input name="visus-ras" type="checkbox" id="mos_c1" value="medwan.common.true" onclick="setScreenRAS(this);">
         </td>
-        <td align="right" width ="1%"><a href="#top"><img class="link" src='<c:url value="/_img/top.jpg"/>'></a></td>
+        <td align="right" width ="1%"><a href="#top"><img class="link" src='<c:url value="/_img/themes/default/top.gif"/>'></a></td>
     </tr>
 
     <tr id="visus-details" style="display:none" width="100%">

@@ -81,40 +81,56 @@
     <%=writeTableHeader("Web","controlanesthesie",sWebLanguage," doBack();")%>
     
     <table class="list" width="100%" border="0" cellspacing="1" cellpadding="0">
+        <%-- DATE --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%></td>
             <td class="admin2" colspan="3"><%=writeDateField("EditDate","transactionForm",checkString(ScreenHelper.stdDateFormat.format(ac.getDate())),sWebLanguage)%></td>
         </tr>
+        <%-- BEGIN HOUR --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","begin_hour",sWebLanguage)%></td>
             <td class="admin2" colspan="3">
-                <input type='text' class='text' id="abeginhour" name="EditBeginHour"onkeypress="keypressTime(this)" onblur="checkTime(this);calculateInterval('abeginhour', 'aendhour', 'aduration')" size='5' value="<%=ac.getBeginHour()%>">
+                <input type="text" class="text" id="abeginhour" name="EditBeginHour"onkeypress="keypressTime(this)" onblur="checkTime(this);calculateInterval('abeginhour','aendhour','aduration')" size="5" value="<%=ac.getBeginHour()%>">
+                
+                <a href="javascript:setCurrentTime('abeginhour');">
+                    <img src="<c:url value="/_img/icons/icon_compose.gif"/>" class="link" title="<%=getTranNoLink("web","currenttime",sWebLanguage)%>" border="0"/>
+                </a>
             </td>
         </tr>
+        <%-- END HOUR --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","end_hour",sWebLanguage)%></td>
             <td class="admin2" colspan="3">
-                <input type='text' class='text' id="aendhour" name="EditEndHour"onkeypress="keypressTime(this)" onblur="checkTime(this);calculateInterval('abeginhour', 'aendhour', 'aduration')" size='5' value="<%=ac.getEndHour()%>">
+                <input type="text" class="text" id="aendhour" name="EditEndHour"onkeypress="keypressTime(this)" onblur="checkTime(this);calculateInterval('abeginhour','aendhour','aduration');" size="5" value="<%=ac.getEndHour()%>">
+                
+                <a href="javascript:setCurrentTime('aendhour');">
+                    <img src="<c:url value="/_img/icons/icon_compose.gif"/>" class="link" title="<%=getTranNoLink("web","currenttime",sWebLanguage)%>" border="0"/>
+                </a>
             </td>
         </tr>
+        <%-- DURATION --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","duration",sWebLanguage)%></td>
             <td class="admin2" colspan="3">
                 <input readonly type='text' class='text' id="aduration" name="EditDuration" size='5' value="<%=ac.getDuration()%>">
             </td>
         </tr>
+        <%-- CONTROL PERFORMED BY --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","control_performed_by",sWebLanguage)%></td>
             <td class="admin2" colspan="3">
                 <input type="hidden" id="EditControlByID" name="EditControlByID" value="<%=ac.getControlPerformedById()%>">
                 <input class="text" type="text" name="EditControlByName" readonly size="<%=sTextWidth%>" value="<%=sControlByName%>">
                
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchUser('EditControlByID','EditControlByName');">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditControlByID').value='';transactionForm.EditControlByName.value='';">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchUser('EditControlByID','EditControlByName');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditControlByID').value='';transactionForm.EditControlByName.value='';">
             </td>
         </tr>
-        
-        <%-- CHECK-LIST --%>
+    </table>
+    <br>
+    
+    <%-- CHECK-LIST -----------------------------------------------------------------------------%>        
+    <table class="list" width="100%" border="0" cellspacing="1" cellpadding="0">
         <tr class="admin">
             <td/>
             <td width="50"><%=getTran("openclinic.chuk","ok",sWebLanguage)%></td>
@@ -158,21 +174,35 @@
             <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="100" rows="2" name="EditOtherRemark"><%=ac.getOtherRemark()%></textarea></td>
         </tr>
     </table>
-     
-    <%-- BUTTONS --%>
-    <%=ScreenHelper.alignButtonsStart()%>
-        <%=getButtonsHtml(request,activeUser,activePatient,"medical.controlanesthesie",sWebLanguage,false)%>
-    <%=ScreenHelper.alignButtonsStop()%>
     
     <input type="hidden" name="Action" value="">
     <input type="hidden" name="EditUID" value="<%=ac.getUid()%>">
-    <%=ScreenHelper.contextFooter(request)%>
+     
+	<%-- BUTTONS --%>
+	<%=ScreenHelper.alignButtonsStart()%>
+	    <%=getButtonsHtml(request,activeUser,activePatient,"medical.controlanesthesie",sWebLanguage,false)%>
+	<%=ScreenHelper.alignButtonsStop()%>
 </form>
     
 <script>
+  <%-- SET CURRENT TIME --%>
+  function setCurrentTime(objName){
+    var now = new Date();
+
+    var minutes = now.getMinutes();
+    if(minutes<10) minutes = "0"+minutes;
+
+    var hours = now.getHours();
+    if(hours<10) hours = "0"+hours;
+
+    document.getElementById(objName).value = hours+":"+minutes;
+    calculateInterval("abeginhour","aendhour","aduration");
+  }
+
   <%-- CALCULATE INTERVAL --%>
   function calculateInterval(sBegin,sEnd,sReturn){
     document.getElementById(sReturn).value = "";
+    
     if(document.getElementById(sBegin).value.length>0 && document.getElementById(sEnd).value.length>0){
       var aTimeBegin = document.getElementById(sBegin).value.split(":");
       var startHour = aTimeBegin[0];

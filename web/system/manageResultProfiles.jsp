@@ -71,10 +71,10 @@
     <td>
       <input type="text" name="FindProfileCode" class="text" size="20" value="<%=(sAction.equals("details")?"":sFindProfileCode)%>" onblur="limitLength(this);">
 
-      <input class="button" type="submit" name="findButton" value="<%=getTran("Web","find",sWebLanguage)%>" onclick="searchForm.Action.value='find';"/>&nbsp;
-      <input class="button" type="button" name="clearButton" value="<%=getTran("Web","clear",sWebLanguage)%>" onclick="doClear();">&nbsp;
-      <input class="button" type="button" name="createButton" value="<%=getTran("Web","new",sWebLanguage)%>" onclick="doNew();">&nbsp;
-      <input class="button" type="button" name="backButton" value="<%=getTran("Web","back",sWebLanguage)%>" onclick="doBack();">
+      <input class="button" type="submit" name="findButton" value="<%=getTranNoLink("Web","find",sWebLanguage)%>" onclick="searchForm.Action.value='find';"/>&nbsp;
+      <input class="button" type="button" name="clearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="doClear();">&nbsp;
+      <input class="button" type="button" name="createButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">&nbsp;
+      <input class="button" type="button" name="backButton" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
     </td>
   </tr>
 </table>
@@ -286,7 +286,7 @@
 	        else              sClass = "";
 
             %>
-                <tr style="cursor:pointer" class="list<%=sClass%>"  onClick="showDetails('<%=sEditProfileCode%>','<%=sProfileID%>');">
+                <tr style="cursor:pointer" class="list<%=sClass%>" onclick="showDetails('<%=sEditProfileCode%>','<%=sProfileID%>');">
                   <td><%=sEditProfileCode%></td>
                   <td><%=getTran(sLabelType,sProfileID,sWebLanguage)%></td>
                   <td><%=sComment%></td>
@@ -305,7 +305,7 @@
 
               <%-- link --%>
               <td align="right">
-                <img src='<c:url value="/_img/pijl.gif"/>'>
+                <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
                 <a  href="<c:url value="/main.do"/>?Page=system/manageLabAnalyses.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labAnalysis",sWebLanguage)%></a>&nbsp;
               </td>
             </tr>
@@ -370,7 +370,7 @@
   <tr>
     <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web.manage","labprofiles.cols.code",sWebLanguage)%></td>
     <td class="admin2">
-        <input type="text" name="EditProfileCode"  class="text" value="<%=sEditProfileCode%>" size="20" onblur="limitLength(this);">
+        <input type="text" name="EditProfileCode" class="text" value="<%=sEditProfileCode%>" size="20" onblur="limitLength(this);">
     </td>
   </tr>
   <%-- LABEL --%>
@@ -409,7 +409,7 @@
                   <%-- LABCODE CHOOSER --%>
                   <tr class="list1">
                     <td>
-                      <input type="text" name="LabCode"  class="text" size="18" onBlur='blurLabAnalysis();'>
+                      <input type="text" name="LabCode" class="text" size="18" onBlur='blurLabAnalysis();'>
                     </td>
                     <td>
                       <input type="text" name="LabType" class="text" size="10" READONLY>
@@ -421,8 +421,8 @@
                       <input type="text" name="LabComment" class="text" size="20" onblur="limitLength(this);">
                     </td>
                     <td>
-                      <input type="button" class="button"  name="LabChooseButton" value="<%=getTran("Web","choose",sWebLanguage)%>" onclick="searchLabAnalysis();">&nbsp;
-                      <input type="button" class="button"  name="LabAddButton"    value="<%=getTran("Web","add",sWebLanguage)%>" onClick="addLabAnalysis();">
+                      <input type="button" class="button"  name="LabChooseButton" value="<%=getTranNoLink("Web","choose",sWebLanguage)%>" onclick="searchLabAnalysis();">&nbsp;
+                      <input type="button" class="button"  name="LabAddButton"    value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onClick="addLabAnalysis();">
                     </td>
                   </tr>
                   <%
@@ -472,7 +472,7 @@
                                     }
                                 %>
                                 <td>
-                                  <img src='<c:url value="/_img/icon_delete.gif"/>' border='0' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="removeLabAnalysis('<%=sLabID%>','<%=sLabComment%>','<%=sLabCodeOther%>','<%=sLabCode%>');" onMouseOver='this.style.cursor="hand"' onMouseOut='this.style.cursor="default"'>
+                                  <img src='<c:url value="/_img/icons/icon_delete.gif"/>' border='0' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="removeLabAnalysis('<%=sLabID%>','<%=sLabComment%>','<%=sLabCodeOther%>','<%=sLabCode%>');" onMouseOver='this.style.cursor="hand"' onMouseOut='this.style.cursor="default"'>
                                 </td>
                               </tr>
                           <%
@@ -545,23 +545,23 @@
   <tr>
     <td class="admin"><%=getTran("Web.manage","labprofiles.cols.comment",sWebLanguage)%></td>
     <td class="admin2">
-      <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);"  class="text" cols="80" rows="2" name="EditComment"><%=sComment%></textarea>
+      <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="80" rows="2" name="EditComment"><%=sComment%></textarea>
     </td>
   </tr>
   <tr>
       <td class="admin"/>
       <td class="admin2">
-          <input class="button" type="button" name="SaveButton" id="SaveButton" value="<%=getTran("web","record",sWebLanguage)%>" onClick="checkSave();"/>&nbsp;
+          <input class="button" type="button" name="SaveButton" id="SaveButton" value="<%=getTranNoLink("web","record",sWebLanguage)%>" onClick="checkSave();"/>&nbsp;
           <%
             if(!sAction.equals("new")){
               %>
-                <input class="button" type="button" value="<%=getTran("web","delete",sWebLanguage)%>" onClick="checkDelete();"/>&nbsp;
+                <input class="button" type="button" value="<%=getTranNoLink("web","delete",sWebLanguage)%>" onClick="checkDelete();"/>&nbsp;
               <%
             }
           %>
-          <input class="button" type="button" value="<%=getTran("web","back",sWebLanguage)%>" onclick="showOverview();">&nbsp;
+          <input class="button" type="button" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="showOverview();">&nbsp;
           <%-- link to labanalyses --%>
-          <img src='<c:url value="/_img/pijl.gif"/>'>
+          <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
           <a  href="<c:url value="/main.do"/>?Page=system/manageLabAnalyses.jsp&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.system-related-actions.manage-labAnalysis",sWebLanguage)%></a>&nbsp;
       </td>
   </tr>
