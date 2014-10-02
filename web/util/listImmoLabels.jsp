@@ -130,8 +130,8 @@
                 <input readonly class="text" type="text" name="immoService" id="immoService" value="<%=sImmoService%>" size="20"/>
                 <input readonly class="text" type="text" name="immoServiceName" id="immoServiceName" value="<%=sImmoServiceName%>" size="60"/>
 			
-				<img src='_img/icon_search.gif' class='link' alt='<%=getTranNoLink("web","select",sWebLanguage)%>' onclick='searchService("immoService","immoServiceName");'>	
-                <img src='_img/icon_delete.gif' class='link' alt='<%=getTranNoLink("web","clear",sWebLanguage)%>' onclick='document.getElementById("immoService").value="";document.getElementById("immoServiceName").value="";'>
+				<img src='_img/icons/icon_search.gif' class='link' alt='<%=getTranNoLink("web","select",sWebLanguage)%>' onclick='searchService("immoService","immoServiceName");'>	
+                <img src='_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("web","clear",sWebLanguage)%>' onclick='document.getElementById("immoService").value="";document.getElementById("immoServiceName").value="";'>
             </td>
         </tr>
         <%-- location --%>
@@ -189,7 +189,7 @@
             			<%
             		}
 				%>
-				<input class="button" type="button" name="clear" value="<%=getTran("web","clear",sWebLanguage)%>" onclick="clearFields()"/>
+				<input class="button" type="button" name="clear" value="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="clearFields()"/>
             </td>
         </tr>
     </table>
@@ -256,9 +256,9 @@
 							
 							out.print("<tr class='list"+sClass+"' onmouseover='this.className=\"list_select\"' onmouseout='this.className=\"list"+sClass+"\"'>"+
 							           "<td nowrap>"+
-							      	    "<img src='_img/icon_delete.gif' class='link' title='"+getTranNoLink("web","delete",sWebLanguage)+"' onclick='deleteImmo("+sServerId+","+sObjectId+");'>"+
-									    "<img src='_img/icon_print_top.gif' class='link' title='"+getTranNoLink("web","print",sWebLanguage)+"' onclick='printImmo("+sServerId+","+sObjectId+",\""+sService.trim()+"/"+sLocation+"_"+sCode+"/"+sBuyer+"\");'>"+
-									    "<img src='_img/icon_edit.gif' class='link' title='"+getTranNoLink("web","edit",sWebLanguage)+"' onclick='editImmo("+sServerId+","+sObjectId+");'>"+
+							      	    "<img src='_img/icons/icon_delete.gif' class='link' title='"+getTranNoLink("web","delete",sWebLanguage)+"' onclick='deleteImmo("+sServerId+","+sObjectId+");'>&nbsp;"+
+									    "<img src='_img/icons/icon_print.gif' class='link' title='"+getTranNoLink("web","print",sWebLanguage)+"' onclick='printImmo("+sServerId+","+sObjectId+",\""+sService.trim()+"/"+sLocation+"_"+sCode+"/"+sBuyer+"\");'>&nbsp;"+
+									    "<img src='_img/icons/icon_edit.gif' class='link' title='"+getTranNoLink("web","edit",sWebLanguage)+"' onclick='editImmo("+sServerId+","+sObjectId+");'>&nbsp;"+
 									   "</td>"+
 									   "<td style='padding-left:5px;'>"+sServerId+"."+sObjectId+"</td>"+
 									   "<td style='padding-left:5px;'>"+sService+"</td>"+

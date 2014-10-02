@@ -14,7 +14,7 @@
 	
 %>
 <!-- Toon de ajax-loader.gif om aan te geven dat de synchroniser aan het draaien is -->
-<div id='divMonitor'><img src='<c:url value="/_img/ajax-loader.gif"/>'/></div>
+<div id='divMonitor'><img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/></div>
 <!-- Toon een bericht om aan te geven dat de synchroniser werd opgestart  -->
 <div id='divMonitorMessage'>Started</div>
 <script>

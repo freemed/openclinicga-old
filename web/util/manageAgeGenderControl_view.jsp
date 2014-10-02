@@ -180,15 +180,15 @@
             <td>
                 <select class="text" name="EditGender">
                     <option/>
-                    <option value="M"><%=getTran("Web.occup","Male",sWebLanguage)%></option>
-                    <option value="F"><%=getTran("Web.occup","female",sWebLanguage)%></option>
+                    <option value="M"><%=getTranNoLink("Web.occup","Male",sWebLanguage)%></option>
+                    <option value="F"><%=getTranNoLink("Web.occup","female",sWebLanguage)%></option>
                     <option value="MF">MF</option>
                 </select>
             </td>
             <td><input type="text" class="text" name="EditFreq" size="5" onBlur="isNumber(this);"></td>
             <td><input type="text" class="text" name="EditTol" size="5" onBlur="isNumber(this);"></td>
             <td align="right">&nbsp;
-                <input class="button" type="button" name="addButton" value="<%=getTran("Web","add",sWebLanguage)%>" onClick="doAdd();"/>
+                <input class="button" type="button" name="addButton" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onClick="doAdd();"/>
             </td>
         </tr>
     </table>
@@ -225,7 +225,7 @@
                     %>
                         <input type="hidden" name="" value="<%=checkString(Occuprs.getString("id"))%>">
                         <tr class="list<%=sClass%>">
-                            <td width="25"><a href="#"><img src="<%=sCONTEXTPATH%>/_img/icon_delete.gif" border="0" alt="<%=getTran("web","delete",sWebLanguage)%>" onClick="askDelete('<%=checkString(Occuprs.getString("rowid"))%>');"></a></td>
+                            <td width="25"><a href="#"><img src="<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif" border="0" alt="<%=getTranNoLink("web","delete",sWebLanguage)%>" onClick="askDelete('<%=checkString(Occuprs.getString("rowid"))%>');"></a></td>
                             <td><%=checkString(Occuprs.getString("minage"))%></td>
                             <td><%=checkString(Occuprs.getString("maxage"))%></td>
                             <td>
@@ -258,7 +258,7 @@
 
     <%-- CLOSE BUTTON --%>
     <div style="padding-top:10px;text-align:right;">
-        <input class="button" type="button" name="closeButton" onClick="window.close();" value="<%=getTran("Web","close",sWebLanguage)%>"/>
+        <input class="button" type="button" name="closeButton" onClick="window.close();" value="<%=getTranNoLink("Web","close",sWebLanguage)%>"/>
     </div>
 
     <%-- hidden fields --%>

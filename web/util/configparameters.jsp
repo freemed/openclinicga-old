@@ -63,8 +63,8 @@
 		<%-- header --%>
 		<tr>
 			<td class='admin' width="120">
-			    <img src='<%=sCONTEXTPATH%>/_img/plus.png' OnClick='expandAll();' class="link">
-                <img src='<%=sCONTEXTPATH%>/_img/minus.png' OnClick='collapseAll();' class="link">&nbsp;<%=getTran("web","name",sWebLanguage)%>&nbsp;
+			    <img src='<%=sCONTEXTPATH%>/_img/icons/icon_plus.png' OnClick='expandAll();' class="link">
+                <img src='<%=sCONTEXTPATH%>/_img/icons/icon_minus.png' OnClick='collapseAll();' class="link">&nbsp;<%=getTran("web","name",sWebLanguage)%>&nbsp;
             </td>
 			<td class='admin' width="250"><%=getTran("web","value",sWebLanguage)%>&nbsp;</td>
 			<td class='admin' width="200"><%=getTran("web","default",sWebLanguage)%>&nbsp;</td>
@@ -97,8 +97,8 @@
 					// header for each group
 					out.print("<tr class='admin'>"+
 					           "<td colspan='4'>"+
-				                "<img class='link' id='Input_"+group.attributeValue("id")+"_S' name='Input_"+group.attributeValue("id")+"_S' border='0' src='"+sCONTEXTPATH+"/_img/plus.png' OnClick='showD(\"gr_"+group.attributeValue("id")+"\",\"Input_"+group.attributeValue("id")+"_S\",\"Input_"+group.attributeValue("id")+"_H\")' style='display:none;vertical-align:-2px'>"+
-				                "<img class='link' id='Input_"+group.attributeValue("id")+"_H' name='Input_"+group.attributeValue("id")+"_H' border='0' src='"+sCONTEXTPATH+"/_img/minus.png' OnClick='hideD(\"gr_"+group.attributeValue("id")+"\",\"Input_"+group.attributeValue("id")+"_S\", \"Input_"+group.attributeValue("id")+"_H\")' style='vertical-align:-2px'>&nbsp;"+
+				                "<img class='link' id='Input_"+group.attributeValue("id")+"_S' name='Input_"+group.attributeValue("id")+"_S' border='0' src='"+sCONTEXTPATH+"/_img/icons/icon_plus.png' OnClick='showD(\"gr_"+group.attributeValue("id")+"\",\"Input_"+group.attributeValue("id")+"_S\",\"Input_"+group.attributeValue("id")+"_H\")' style='display:none;vertical-align:-2px'>"+
+				                "<img class='link' id='Input_"+group.attributeValue("id")+"_H' name='Input_"+group.attributeValue("id")+"_H' border='0' src='"+sCONTEXTPATH+"/_img/icons/icon_minus.png' OnClick='hideD(\"gr_"+group.attributeValue("id")+"\",\"Input_"+group.attributeValue("id")+"_S\", \"Input_"+group.attributeValue("id")+"_H\")' style='vertical-align:-2px'>&nbsp;"+
 							     (sGroupClass.equalsIgnoreCase("advanced")?"<font color='#ff9933'>":"")+group.attributeValue("name")+(sGroupClass.equalsIgnoreCase("advanced")?"</font>":"")+"&nbsp;"+
 							    "</td>"+
 				              "</tr>");
@@ -219,7 +219,7 @@
 								if(sDescription.length() > 0){
 									infoIconCount++;
 									sDescription = sDescription.replaceAll("'","´");
-								    out.print("<img class='link' src='"+sCONTEXTPATH+"/_img/icon_info.gif' id='info_"+infoIconCount+"' tooltiptext='"+sDescription+"'/>");
+								    out.print("<img class='link' src='"+sCONTEXTPATH+"/_img/icons/icon_info.gif' id='info_"+infoIconCount+"' tooltiptext='"+sDescription+"'/>");
 								}
 								out.print("</td>");
 							out.print("</tr>");
@@ -235,8 +235,8 @@
         
     <%-- BUTTONS --%>
     <center style="padding-top:10px;">
-        <input type="submit" name="save" class="button" value='<%=getTran("web","save",sWebLanguage)%>'/>	
-        <input type="button" name="backButton" class="button" value="<%=getTran("web","back",sWebLanguage)%>" onClick="doBack();">
+        <input type="submit" name="save" class="button" value='<%=getTranNoLink("web","save",sWebLanguage)%>'/>	
+        <input type="button" name="backButton" class="button" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onClick="doBack();">
     </center>
     
     <%-- LINK TO TOP --%>

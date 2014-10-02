@@ -34,5 +34,5 @@
 <br/>
 
 <center>
-    <input type="button" class="button" value="<%=getTran("web","close",sWebLanguage)%>" onclick="window.close()"/>
+    <input type="button" class="button" value="<%=getTranNoLink("web","close",sWebLanguage)%>" onclick="window.close()"/>
 </center>
