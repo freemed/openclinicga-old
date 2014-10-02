@@ -134,6 +134,7 @@
   session.removeAttribute("vUnits");
   session.removeAttribute("tsSessionStart");
   session.removeAttribute(sAPPTITLE+"WebLanguage");
+  session.removeAttribute("UserTheme");
 
   if(sUserLogin.length()==0 || sUserPassword.length()==0){
       response.sendRedirect("login.jsp?message=Empty values!&ts="+getTs());
@@ -187,6 +188,14 @@
                   if(langHashtable == null || langHashtable.size()==0){
                       reloadSingleton(session);
                   }
+                  
+                  // theme
+                  sUserTheme = checkString(user.getParameter("UserTheme"));
+                  if(sUserTheme.length()==0){
+                	  sUserTheme = MedwanQuery.getInstance().getConfigString("DefaultUserTheme","default");
+                  }
+                  
+                  session.setAttribute("UserTheme",sUserTheme);
 
                   //*** log access ****************************************************************
                   AccessLog objAL = new AccessLog();
