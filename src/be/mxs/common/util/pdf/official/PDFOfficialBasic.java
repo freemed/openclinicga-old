@@ -164,6 +164,20 @@ public abstract class PDFOfficialBasic extends PDFBasic {
 
         return cell;
     }
+    
+    protected PdfPCell emptyCell(int colspan, boolean setBorder){
+    	cell = emptyCell(10,colspan);
+    	
+        if(setBorder){
+            cell.setBorder(PdfPCell.BOX);
+            cell.setBorderColor(innerBorderColor);
+        }
+        else{
+        	cell.setBorder(PdfPCell.NO_BORDER);
+        }
+        
+        return cell;
+    }
 
     //--- CREATE TITLE ----------------------------------------------------------------------------
     protected PdfPCell createTitle(String msg, int fontStyle, int fontSize, int colspan){
@@ -184,7 +198,7 @@ public abstract class PDFOfficialBasic extends PDFBasic {
     }
 
     //--- CREATE VALUE CELL -----------------------------------------------------------------------
-    protected PdfPCell createValueCell(String value, int fontStyle, int fontSize, int colspan, boolean border){
+    protected PdfPCell createValueCell(String value, int fontStyle, int fontSize, int colspan, boolean setBorder){
         switch(fontStyle){
             case 0 : cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,fontSize,Font.NORMAL))); break;
             case 1 : cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,fontSize,Font.BOLD))); break;
@@ -194,7 +208,13 @@ public abstract class PDFOfficialBasic extends PDFBasic {
         }
 
         cell.setColspan(colspan);
-        cell.setBorder(border?PdfPCell.BOX:PdfPCell.NO_BORDER);
+        if(setBorder){
+            cell.setBorder(PdfPCell.BOX);
+            cell.setBorderColor(innerBorderColor);
+        }
+        else{
+        	cell.setBorder(PdfPCell.NO_BORDER);
+        }
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
 
@@ -202,11 +222,17 @@ public abstract class PDFOfficialBasic extends PDFBasic {
     }
 
     //--- CREATE VALUE CELL -----------------------------------------------------------------------
-    protected PdfPCell createValueCell(Phrase phrase, int fontStyle, int fontSize, int colspan, boolean border){
+    protected PdfPCell createValueCell(Phrase phrase, int fontStyle, int fontSize, int colspan, boolean setBorder){
         cell = new PdfPCell(phrase);
 
         cell.setColspan(colspan);
-        cell.setBorder(border?PdfPCell.BOX:PdfPCell.NO_BORDER);
+        if(setBorder){
+            cell.setBorder(PdfPCell.BOX);
+            cell.setBorderColor(innerBorderColor);
+        }
+        else{
+        	cell.setBorder(PdfPCell.NO_BORDER);
+        }
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
 

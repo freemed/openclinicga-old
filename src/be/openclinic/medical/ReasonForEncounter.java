@@ -39,7 +39,7 @@ public class ReasonForEncounter extends OC_Object {
     private Date date;
     private String flags;
 
-    //--- GETTERS AND SETTER ----------------------------------------------------------------------
+    //--- GETTERS AND SETTERS ---------------------------------------------------------------------
     public String getFlags(){
         return flags;
     }
@@ -90,6 +90,7 @@ public class ReasonForEncounter extends OC_Object {
         if(encounter==null || !encounter.getUid().equalsIgnoreCase(getEncounterUID())){
             encounter = Encounter.get(encounterUID);
         }
+        
         return encounter;
     }
 
@@ -135,9 +136,9 @@ public class ReasonForEncounter extends OC_Object {
             if(this.getUid()!=null && this.getUid().length() >0){
                 ids = this.getUid().split("\\.");
                 if(ids.length == 2){
-                    sDelete = " DELETE FROM OC_RFE " +
-                              " WHERE OC_RFE_SERVERID = ? " +
-                              " AND OC_RFE_OBJECTID = ? ";
+                    sDelete = "DELETE FROM OC_RFE "+
+                              " WHERE OC_RFE_SERVERID = ?"+
+                              "  AND OC_RFE_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sDelete);
                     ps.setInt(1,Integer.parseInt(ids[0]));
                     ps.setInt(2,Integer.parseInt(ids[1]));
@@ -216,20 +217,20 @@ public class ReasonForEncounter extends OC_Object {
                     rs.close();
                     ps.close();
 
-                    sInsert = " INSERT INTO OC_RFE_HISTORY " +
-                              " SELECT OC_RFE_SERVERID," +
-                                     " OC_RFE_OBJECTID," +
-                                     " OC_RFE_ENCOUNTERUID," +
-                                     " OC_RFE_CODETYPE," +
-                                     " OC_RFE_CODE," +
-                                     " OC_RFE_DATE," +
-                                     " OC_RFE_FLAGS,"+
-                                     " OC_RFE_VERSION," +
-                                     " OC_RFE_CREATETIME," +
-                                     " OC_RFE_UPDATETIME," +
-                                     " OC_RFE_UPDATEUID"  +
-                              " FROM OC_RFE " +
-                              " WHERE OC_RFE_SERVERID = ?" +
+                    sInsert = "INSERT INTO OC_RFE_HISTORY"+
+                              " SELECT OC_RFE_SERVERID,"+
+                              "  OC_RFE_OBJECTID,"+
+                              "  OC_RFE_ENCOUNTERUID,"+
+                              "  OC_RFE_CODETYPE,"+
+                              "  OC_RFE_CODE,"+
+                              "  OC_RFE_DATE,"+
+                              "  OC_RFE_FLAGS,"+
+                              "  OC_RFE_VERSION,"+
+                              "  OC_RFE_CREATETIME,"+
+                              "  OC_RFE_UPDATETIME,"+
+                              "  OC_RFE_UPDATEUID"+
+                              " FROM OC_RFE"+
+                              " WHERE OC_RFE_SERVERID = ?"+
                               " AND OC_RFE_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sInsert);
                     ps.setInt(1,Integer.parseInt(ids[0]));
@@ -240,14 +241,17 @@ public class ReasonForEncounter extends OC_Object {
                 }
             }
             else{
-                ids = new String[] {MedwanQuery.getInstance().getConfigString("serverId"),MedwanQuery.getInstance().getOpenclinicCounter("OC_RFE")+""};
+                ids = new String[]{
+                		MedwanQuery.getInstance().getConfigString("serverId"),
+                		MedwanQuery.getInstance().getOpenclinicCounter("OC_RFE")+""
+                	  };
             }
             
             if(ids.length == 2){
-                sDelete = " DELETE FROM OC_RFE " +
-                          " WHERE OC_RFE_ENCOUNTERUID = ? " +
-                          " AND OC_RFE_CODETYPE = ? "+
-                          " AND OC_RFE_CODE = ? ";
+                sDelete = "DELETE FROM OC_RFE"+
+                          " WHERE OC_RFE_ENCOUNTERUID = ?"+
+                          "  AND OC_RFE_CODETYPE = ?"+
+                          "  AND OC_RFE_CODE = ?";
 
                 ps = oc_conn.prepareStatement(sDelete);
                 ps.setString(1,this.getEncounterUID());
@@ -256,25 +260,25 @@ public class ReasonForEncounter extends OC_Object {
                 ps.executeUpdate();
                 ps.close();
 
-                sInsert = " INSERT INTO OC_RFE(" +
-                                 " OC_RFE_SERVERID," +
-                                 " OC_RFE_OBJECTID," +
-                                 " OC_RFE_ENCOUNTERUID," +
-                                 " OC_RFE_CODETYPE," +
-                                 " OC_RFE_CODE," +
-                                 " OC_RFE_DATE," +
-                                 " OC_RFE_FLAGS,"+
-                                 " OC_RFE_VERSION," +
-                                 " OC_RFE_CREATETIME," +
-                                 " OC_RFE_UPDATETIME," +
-                                 " OC_RFE_UPDATEUID)"  +
+                sInsert = "INSERT INTO OC_RFE("+
+                          " OC_RFE_SERVERID,"+
+                          " OC_RFE_OBJECTID,"+
+                          " OC_RFE_ENCOUNTERUID,"+
+                          " OC_RFE_CODETYPE,"+
+                          " OC_RFE_CODE,"+
+                          " OC_RFE_DATE,"+
+                          " OC_RFE_FLAGS,"+
+                          " OC_RFE_VERSION,"+
+                          " OC_RFE_CREATETIME,"+
+                          " OC_RFE_UPDATETIME,"+
+                          " OC_RFE_UPDATEUID)"+
                           " VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 
                 ps = oc_conn.prepareStatement(sInsert);
                 ps.setInt(1,Integer.parseInt(ids[0]));
                 ps.setInt(2,Integer.parseInt(ids[1]));
-                if(this.getEncounter() != null){
-                    ps.setString(3, ScreenHelper.checkString(this.getEncounter().getUid()));
+                if(this.getEncounter()!=null){
+                    ps.setString(3,ScreenHelper.checkString(this.getEncounter().getUid()));
                 }
                 else{
                     ps.setString(3,"");
@@ -282,7 +286,7 @@ public class ReasonForEncounter extends OC_Object {
                 ps.setString(4,this.getCodeType());
                 ps.setString(5,this.getCode());
                 if(this.getDate()==null){
-                    ps.setNull(6, Types.DATE);
+                    ps.setNull(6,Types.DATE);
                 }
                 else{
                     ps.setDate(6,new java.sql.Date(this.getDate().getTime()));
@@ -373,7 +377,7 @@ public class ReasonForEncounter extends OC_Object {
 
     //--- GET REASONS FOR ENCOUNTER AS HTML -------------------------------------------------------
     public static String getReasonsForEncounterAsHtml(String encounterUid, String sWebLanguage, String deleteImg, String deleteFunction){
-        String sHtml = "<table>";
+        String sHtml = "<table cellspacing='0' cellpadding='2' width='100%'>";
         
         Vector reasonsForEncounter = ReasonForEncounter.getReasonsForEncounterByEncounterUid(encounterUid);
         if(reasonsForEncounter.size()==0) return "";
@@ -392,7 +396,7 @@ public class ReasonForEncounter extends OC_Object {
                      "<td>"+reasonForEncounter.getCodeType().toUpperCase()+"</td>"+
                      "<td><b>"+reasonForEncounter.getCode()+"</b></td>"+
                      "<td><b>"+MedwanQuery.getInstance().getCodeTran(reasonForEncounter.getCodeType()+"code"+reasonForEncounter.getCode(),sWebLanguage)+"</b></td>"+
-                   "</tr>";
+                    "</tr>";
         }
         sHtml+= "</table>";
         
@@ -401,7 +405,7 @@ public class ReasonForEncounter extends OC_Object {
 
     //--- GET REASONS FOR ENCOUNTER AS HTML -------------------------------------------------------
     public static String getReasonsForEncounterAsHtml(String encounterUid, String sWebLanguage){
-        String sHtml = "<table cellpadding='0' cellspacing='1'>";
+        String sHtml = "<table cellpadding='0' cellspacing='1' style='border:1px solid #ddd'>";
         
         Vector reasonsForEncounter = ReasonForEncounter.getReasonsForEncounterByEncounterUid(encounterUid);
         if(reasonsForEncounter.size()==0) return "";
@@ -445,14 +449,14 @@ public class ReasonForEncounter extends OC_Object {
     
     //--- GET REASON FOR ENCOUNTER ----------------------------------------------------------------
     public static ReasonForEncounter get(String uid){
+        ReasonForEncounter reasonForEncounter = new ReasonForEncounter();
         PreparedStatement ps;
         ResultSet rs;
-        ReasonForEncounter reasonForEncounter = new ReasonForEncounter();
 
-        if(uid != null && uid.length() > 0){
+        if(uid!=null && uid.length() > 0){
             String sUids[] = uid.split("\\.");
             
-            if(sUids.length == 2){
+            if(sUids.length==2){
                 Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
                 try{
                     String sSelect = "SELECT * FROM OC_RFE"+
@@ -491,11 +495,12 @@ public class ReasonForEncounter extends OC_Object {
                 try{
         			oc_conn.close();
         		}
-                catch (SQLException e){
+                catch(SQLException e){
         			e.printStackTrace();
         		}
             }
         }
+        
         return reasonForEncounter;
     }
 
@@ -511,15 +516,15 @@ public class ReasonForEncounter extends OC_Object {
             Iterator flagElements = e.elementIterator("flag");
             while(flagElements.hasNext()){
                 Element f = (Element)flagElements.next();
-                if (flags.indexOf(f.attributeValue("flag"))<0 &&
-                        f.attributeValue("codetype").equalsIgnoreCase(codeType) &&
-                        f.attributeValue("start").compareTo(code)<1 &&
-                        f.attributeValue("end").compareTo(code)>-1){
-                    flags+=f.attributeValue("flag");
+                if(flags.indexOf(f.attributeValue("flag"))<0 &&
+                   f.attributeValue("codetype").equalsIgnoreCase(codeType) &&
+                   f.attributeValue("start").compareTo(code)<1 &&
+                   f.attributeValue("end").compareTo(code)>-1){
+                    flags+= f.attributeValue("flag");
                 }
             }
         }
-        catch (Exception e){
+        catch(Exception e){
             e.printStackTrace();
         }
         
@@ -530,22 +535,22 @@ public class ReasonForEncounter extends OC_Object {
     public static String getFlags(String codeType, String code, String flags){
         SAXReader reader = new SAXReader(false);
         String sDoc = MedwanQuery.getInstance().getConfigString("templateSource")+"/rfe.xml";
-        try {
+        try{
             Document document = reader.read(new URL(sDoc));
             Element root = document.getRootElement();
             Element e = root.element("flags");
             Iterator flagElements = e.elementIterator("flag");
             while(flagElements.hasNext()){
                 Element f = (Element)flagElements.next();
-                if (flags.indexOf(f.attributeValue("flag"))<0 &&
-                        f.attributeValue("codetype").equalsIgnoreCase(codeType) &&
-                        f.attributeValue("start").compareTo(code)<1 &&
-                        f.attributeValue("end").compareTo(code)>-1){
-                    flags+=f.attributeValue("flag");
+                if(flags.indexOf(f.attributeValue("flag"))<0 &&
+                   f.attributeValue("codetype").equalsIgnoreCase(codeType) &&
+                   f.attributeValue("start").compareTo(code)<1 &&
+                   f.attributeValue("end").compareTo(code)>-1){
+                    flags+= f.attributeValue("flag");
                 }
             }
         } 
-        catch (Exception e){
+        catch(Exception e){
             e.printStackTrace();
         }
         

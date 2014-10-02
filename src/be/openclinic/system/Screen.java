@@ -913,7 +913,7 @@ public class Screen extends OC_Object {
             // add some utility-icons : delete, moveUp, moveDown
             sHtml.append("<td width='50' class='admin2' style='padding:0 2px 0 2px'>");
 
-            sHtml.append("<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' class='link'")
+            sHtml.append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link'")
                  .append(" alt='"+ScreenHelper.getTranNoLink("web","delete",sWebLanguage)+"'")
                  .append(" onClick=deleteRow('"+sRowId+"')> ");
             

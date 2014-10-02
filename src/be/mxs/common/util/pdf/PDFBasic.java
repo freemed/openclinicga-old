@@ -440,7 +440,7 @@ public abstract class PDFBasic {
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
         cell.setPaddingTop(height);
         cell.setColspan(colspan);
-        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
         cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
@@ -453,7 +453,7 @@ public abstract class PDFBasic {
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,fontSize,Font.NORMAL)));
         cell.setPaddingTop(height);
         cell.setColspan(colspan);
-        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
         cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
@@ -465,7 +465,7 @@ public abstract class PDFBasic {
         cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,fontSize,Font.NORMAL)));
         cell.setPaddingTop(height);
         cell.setColspan(colspan);
-        cell.setBorder(PdfPCell.NO_BORDER);
+        cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
         cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);

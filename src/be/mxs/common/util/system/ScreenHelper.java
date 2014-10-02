@@ -185,7 +185,7 @@ public class ScreenHelper {
         return parseDate(sDate,stdDateFormat);
     }
     
-    private static java.util.Date parseDate(String sDate, SimpleDateFormat dateFormat){
+    public static java.util.Date parseDate(String sDate, SimpleDateFormat dateFormat){
     	reloadDateFormats();
     	java.util.Date date = null;
 				
@@ -1018,8 +1018,8 @@ public class ScreenHelper {
 
         // datefield that ALSO accepts just a year
         return "<input type='text' maxlength='10' class='text' id='"+sName+"' name='"+sName+"' value='"+sValue+"' size='12' onblur='if(!checkDateOnlyYearAllowed(this)){dateError(this);this.value=\"\";}'>"
-              +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icon_agenda.gif' alt='"+getTranNoLink("Web","Select",sWebLanguage)+"' onclick='gfPop"+gfPopType+".fPopCalendar(document."+sForm+"."+sName+");return false;'>"
-              +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icon_compose.gif' alt='"+getTranNoLink("Web","PutToday",sWebLanguage)+"' onclick='getToday(document."+sForm+"."+sName+");'>";
+              +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_agenda.gif' alt='"+getTranNoLink("Web","Select",sWebLanguage)+"' onclick='gfPop"+gfPopType+".fPopCalendar(document."+sForm+"."+sName+");return false;'>"
+              +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_compose.gif' alt='"+getTranNoLink("Web","PutToday",sWebLanguage)+"' onclick='getToday(document."+sForm+"."+sName+");'>";
     }
 
     //--- WRITE DATE FIELD ------------------------------------------------------------------------
@@ -1045,15 +1045,15 @@ public class ScreenHelper {
         }
         
         return "<input type='text' maxlength='10' class='text' id='"+sName+"' name='"+sName+"' value='"+sValue+"' size='12' onblur='if(!checkDate(this)"+sExtraCondition+"){dateError(this);}else{"+sExtraOnBlur+"}'>"
-              +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icon_agenda.gif' alt='"+getTranNoLink("Web","Select",sWebLanguage)+"' onclick='gfPop1.fPopCalendar(document."+sForm+"."+sName+");return false;'>"
-              +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icon_compose.gif' alt='"+getTranNoLink("Web","PutToday",sWebLanguage)+"' onclick='getToday(document."+sForm+"."+sName+");'>";
+              +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_agenda.gif' alt='"+getTranNoLink("Web","Select",sWebLanguage)+"' onclick='gfPop1.fPopCalendar(document."+sForm+"."+sName+");return false;'>"
+              +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_compose.gif' alt='"+getTranNoLink("Web","PutToday",sWebLanguage)+"' onclick='getToday(document."+sForm+"."+sName+");'>";
     }
 
     //--- NEW WRITE DATE TIME FIELD ---------------------------------------------------------------
     public static String newWriteDateTimeField(String sName, java.util.Date dValue, String sWebLanguage, String sCONTEXTDIR){
         return "<input id='"+sName+"' type='text' maxlength='10' class='text' name='"+sName+"' value='"+getSQLDate(dValue)+"' size='12' onblur='if(!checkDate(this)){dateError(this);this.value=\"\";}'>"
-               +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icon_agenda.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","Select",sWebLanguage))+"' onclick='gfPop1.fPopCalendar($(\""+sName+"\"));return false;'>"
-               +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icon_compose.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","putToday",sWebLanguage))+"' onclick=\"putTime($('"+sName+"Time'));getToday($('"+sName+"'));\">"
+               +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_agenda.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","Select",sWebLanguage))+"' onclick='gfPop1.fPopCalendar($(\""+sName+"\"));return false;'>"
+               +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_compose.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","putToday",sWebLanguage))+"' onclick=\"putTime($('"+sName+"Time'));getToday($('"+sName+"'));\">"
                +"&nbsp;"+writeTimeField(sName+"Time", formatSQLDate(dValue, "HH:mm"))
                +"&nbsp;"+getTran("web.occup", "medwan.common.hour", sWebLanguage);
     }
@@ -1061,8 +1061,8 @@ public class ScreenHelper {
     //--- PLANNING DATE TIME FIELD ----------------------------------------------------------------
     public static String planningDateTimeField(String sName, String dValue, String sWebLanguage, String sCONTEXTDIR){
         return "<input id='"+sName+"' type='text' maxlength='10' class='text' name='"+sName+"' value='"+dValue+"' size='12' onblur='if(!checkDate(this)){dateError(this);this.value=\"\";}'>"
-               +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icon_agenda.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","Select",sWebLanguage))+"' onclick='gfPop1.fPopCalendar($(\""+sName+"\"));return false;'>"
-               +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icon_compose.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","putToday",sWebLanguage))+"' onclick=\"getToday($('"+sName+"'));\">";
+               +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_agenda.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","Select",sWebLanguage))+"' onclick='gfPop1.fPopCalendar($(\""+sName+"\"));return false;'>"
+               +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_compose.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","putToday",sWebLanguage))+"' onclick=\"getToday($('"+sName+"'));\">";
     }
     
     //--- WRITE DATEE FIELD WITHOUT TODAY ---------------------------------------------------------
@@ -1078,7 +1078,7 @@ public class ScreenHelper {
         }
 
         return "<input type='text' maxlength='10' class='text' id='"+sName+"' name='"+sName+"' value='"+sValue+"' size='12' onblur='if(!checkDate(this)){dateError(this);this.value=\"\";}'>"
-              +"&nbsp;<img name='popcal' style='vertical-align:-1px;' onclick='gfPop"+gfPopType+".fPopCalendar(document."+sForm+"."+sName+");return false;' src='"+sCONTEXTDIR+"/_img/icon_agenda.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","Select",sWebLanguage))+"'></a>";
+              +"&nbsp;<img name='popcal' style='vertical-align:-1px;' onclick='gfPop"+gfPopType+".fPopCalendar(document."+sForm+"."+sName+");return false;' src='"+sCONTEXTDIR+"/_img/icons/icon_agenda.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","Select",sWebLanguage))+"'></a>";
     }
 
     //--- CHECK PERMISSION ------------------------------------------------------------------------
@@ -1241,16 +1241,16 @@ public class ScreenHelper {
     //--- WRITE SEARCH BUTTON ---------------------------------------------------------------------
     public static String writeSearchButton(String sButtonName, String sLabelType, String sVarCode, String sVarText,
                                            String sShowID, String sWebLanguage, String sCONTEXTDIR) {
-        return "<img src='"+sCONTEXTDIR+"/_img/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"'"
+        return "<img src='"+sCONTEXTDIR+"/_img/icons/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"'"
               +"onclick='openPopup(\"_common/search/searchScreen.jsp&LabelType="+sLabelType+"&VarCode="+sVarCode+"&VarText="+sVarText+"&ShowID="+sShowID+"\");'>"
-              +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icon_delete.gif' class='link' alt='"+getTranNoLink("Web","clear",sWebLanguage)+"' onclick=\""+sVarCode+".value='';"+sVarText+".value='';\">";
+              +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icons/icon_delete.gif' class='link' alt='"+getTranNoLink("Web","clear",sWebLanguage)+"' onclick=\""+sVarCode+".value='';"+sVarText+".value='';\">";
     }
 
     public static String writeSearchButton(String sButtonName, String sLabelType, String sVarCode, String sVarText,
                                            String sShowID,String sWebLanguage, String defaultValue, String sCONTEXTDIR) {
-        return  "<img src='"+sCONTEXTDIR+"/_img/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"'"
+        return  "<img src='"+sCONTEXTDIR+"/_img/icons/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"'"
               +" onclick='openPopup(\"_common/search/searchScreen.jsp&LabelType="+sLabelType+"&VarCode="+sVarCode+"&VarText="+sVarText+"&ShowID="+sShowID+"&DefaultValue="+defaultValue+"\");'>"
-              +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icon_delete.gif' class='link' alt='"+getTranNoLink("Web","clear",sWebLanguage)+"' onclick=\""+sVarCode+".value='';"+sVarText+".value='';\">";
+              +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icons/icon_delete.gif' class='link' alt='"+getTranNoLink("Web","clear",sWebLanguage)+"' onclick=\""+sVarCode+".value='';"+sVarText+".value='';\">";
     }
 
     //--- WRITE SERVICE BUTTON --------------------------------------------------------------------
@@ -1260,9 +1260,9 @@ public class ScreenHelper {
 
     public static String writeServiceButton(String sButtonName, String sVarCode, String sVarText,
                                             boolean onlySelectContractWithDivision, String sWebLanguage, String sCONTEXTDIR) {
-        return  "<img src='"+sCONTEXTDIR+"/_img/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"'"
+        return  "<img src='"+sCONTEXTDIR+"/_img/icons/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"'"
               +"onclick='openPopup(\"_common/search/searchService.jsp&VarCode="+sVarCode+"&VarText="+sVarText+"&onlySelectContractWithDivision="+onlySelectContractWithDivision+"\");'>"
-              +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icon_delete.gif' class='link' alt='"+getTranNoLink("Web","clear",sWebLanguage)+"' onclick=\"document.getElementsByName('"+sVarCode+"')[0].value='';document.getElementsByName('"+sVarText+"')[0].value='';\">";
+              +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icons/icon_delete.gif' class='link' alt='"+getTranNoLink("Web","clear",sWebLanguage)+"' onclick=\"document.getElementsByName('"+sVarCode+"')[0].value='';document.getElementsByName('"+sVarText+"')[0].value='';\">";
     }
 
     //--- WRITE SELECT (SORTED) -------------------------------------------------------------------
@@ -1482,17 +1482,17 @@ public class ScreenHelper {
     public static String writeZipcodeButton(String sButtonName, String sZipcode, String sCity, String sWebLanguage, String sCONTEXTDIR) {
         String sSearch = sZipcode+".value";
 
-        return "<img src='"+sCONTEXTDIR+"/_img/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"' "
+        return "<img src='"+sCONTEXTDIR+"/_img/icons/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"' "
               +"onclick='openPopup(\"_common/search/searchZipcode.jsp&VarCode="+sZipcode+"&VarText="+sCity+"&FindText=\"+"+sSearch+");'>"
-              +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icon_delete.gif' class='link' alt='"+getTranNoLink("Web","clear",sWebLanguage)+"' onclick=\""+sZipcode+".value='';"+sCity+".value='';\">";
+              +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icons/icon_delete.gif' class='link' alt='"+getTranNoLink("Web","clear",sWebLanguage)+"' onclick=\""+sZipcode+".value='';"+sCity+".value='';\">";
     }
 
     public static String writeZipcodeButton(String sButtonName, String sZipcode, String sCity, String sWebLanguage, String sDisplayLang, String sCONTEXTDIR) {
         String sSearch = sZipcode+".value";
 
-        return "<img src='"+sCONTEXTDIR+"/_img/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"' "
+        return "<img src='"+sCONTEXTDIR+"/_img/icons/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"' "
               +"onclick='openPopup(\"_common/search/searchZipcode.jsp&VarCode="+sZipcode+"&VarText="+sCity+"&FindText=\"+"+sSearch+"+\"&DisplayLang="+sDisplayLang+"\");'>"
-              +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icon_delete.gif' class='link' alt='"+getTranNoLink("Web","clear",sWebLanguage)+"' onclick=\""+sZipcode+".value='';"+sCity+".value='';\">";
+              +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icons/icon_delete.gif' class='link' alt='"+getTranNoLink("Web","clear",sWebLanguage)+"' onclick=\""+sZipcode+".value='';"+sCity+".value='';\">";
     }
 
     //--- SAVE UNKNOWN LABEL ----------------------------------------------------------------------
@@ -1610,10 +1610,18 @@ public class ScreenHelper {
     }
 
     //--- FORMAT DATE -----------------------------------------------------------------------------
-    public static String formatDate(java.util.Date dDate) {
+    public static String formatDate(java.util.Date dDate){
         String sDate = "";
         if(dDate!=null) {
             sDate = stdDateFormat.format(dDate);
+        }
+        return sDate;
+    } 
+    
+    public static String formatDate(java.util.Date dDate, SimpleDateFormat dateFormat){
+        String sDate = "";
+        if(dDate!=null) {
+            sDate = dateFormat.format(dDate);
         }
         return sDate;
     }
@@ -1626,48 +1634,52 @@ public class ScreenHelper {
     //--- WRITE TABLE HEADER ----------------------------------------------------------------------
     public static String writeTblHeader(String sHeader, String sCONTEXTDIR) {
         return "<table border='0' cellspacing='0' cellpadding='0' class='menu' width='100%'>"+
-               "<tr class='admin'><td width='100%'>&nbsp;&nbsp;"+sHeader+"&nbsp;&nbsp;</td></tr>"+
-               "<tr><td><img src='"+sCONTEXTDIR+"/_img/pix_bl.gif' alt='' width='100' height='1' border='0'></td></tr>"+
-               "<tr><td><table width='100%' cellspacing='0'>";
+                "<tr class='admin'><td width='100%'>&nbsp;&nbsp;"+sHeader+"&nbsp;&nbsp;</td></tr>"+
+                //"<tr><td><img src='"+sCONTEXTDIR+"/_img/pix_bl.gif' alt='' width='100' height='1' border='0'></td></tr>"+
+                "<tr><td><table width='100%' cellspacing='1'>";
     }
 
     //--- WRITE TABLE CHILD -----------------------------------------------------------------------
-    public static String writeTblChild(String sPath, String sHeader, String sCONTEXTDIR) {
-        return "<tr>"+
-               " <td class='arrow'><img src='"+sCONTEXTDIR+"/_img/pijl.gif'></td>"+
-               " <td width='99%' nowrap>"+
-               "  <button class='buttoninvisible' accesskey='"+getAccessKey(sHeader)+"' onclick='window.location.href=\""+sCONTEXTDIR+"/"+sPath+"\"'></button><a href='"+sCONTEXTDIR+"/"+sPath+"' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
-               " </td>"+
+    public static String writeTblChild(String sPath, String sHeader, String sCONTEXTDIR){
+        return writeTblChild(sPath,sHeader,sCONTEXTDIR,-1);	
+    }
+    
+    public static String writeTblChild(String sPath, String sHeader, String sCONTEXTDIR, int rowIdx){
+        return "<tr"+(rowIdx>-1?(rowIdx%2==0?" class='list1'":" class='list'"):"")+">"+
+                "<td class='arrow'><img src='"+sCONTEXTDIR+"/_img/themes/default/pijl.gif'></td>"+
+                "<td width='99%' nowrap>"+
+                 "<button class='buttoninvisible' accesskey='"+getAccessKey(sHeader)+"' onclick='window.location.href=\""+sCONTEXTDIR+"/"+sPath+"\"'></button><a href='"+sCONTEXTDIR+"/"+sPath+"' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
+                "</td>"+
                "</tr>";
     }
 
     //--- WRITE TABLE CHILD -----------------------------------------------------------------------
     public static String writeTblChildNoButton(String sPath, String sHeader, String sCONTEXTDIR) {
         return "<tr>"+
-               " <td class='arrow'><img src='"+sCONTEXTDIR+"/_img/pijl.gif'></td>"+
-               " <td width='99%' nowrap>"+
-               "  <a href='"+sCONTEXTDIR+"/"+sPath+"' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
-               " </td>"+
+                "<td class='arrow'><img src='"+sCONTEXTDIR+"/_img/themes/default/pijl.gif'></td>"+
+                "<td width='99%' nowrap>"+
+                 "<a href='"+sCONTEXTDIR+"/"+sPath+"' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
+                "</td>"+
                "</tr>";
     }
 
     //--- WRITE TABLE CHILD -----------------------------------------------------------------------
     public static String writeTblChildWithCode(String sCommand, String sHeader, String sCONTEXTDIR) {
         return "<tr>"+
-               " <td class='arrow'><img src='"+sCONTEXTDIR+"/_img/pijl.gif'></td>"+
-               " <td width='99%' nowrap>"+
-               "  <button class='buttoninvisible' accesskey='"+getAccessKey(sHeader)+"' onclick='"+sCommand+"'></button><a href='"+sCommand+"' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
-               " </td>"+
+                "<td class='arrow'><img src='"+sCONTEXTDIR+"/_img/themes/default/pijl.gif'></td>"+
+                "<td width='99%' nowrap>"+
+                 "<button class='buttoninvisible' accesskey='"+getAccessKey(sHeader)+"' onclick='"+sCommand+"'></button><a href='"+sCommand+"' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
+                "</td>"+
                "</tr>";
     }
 
     //--- WRITE TABLE CHILD -----------------------------------------------------------------------
     public static String writeTblChildWithCodeNoButton(String sCommand, String sHeader, String sCONTEXTDIR) {
         return "<tr>"+
-               " <td class='arrow'><img src='"+sCONTEXTDIR+"/_img/pijl.gif'></td>"+
-               " <td width='99%' nowrap>"+
-               "  <a href='"+sCommand+"' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
-               " </td>"+
+                "<td class='arrow'><img src='"+sCONTEXTDIR+"/_img/themes/default/pijl.gif'></td>"+
+                "<td width='99%' nowrap>"+
+                 "<a href='"+sCommand+"' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
+                "</td>"+
                "</tr>";
     }
 
@@ -2650,8 +2662,8 @@ public class ScreenHelper {
     public static String writeDateTimeField(String sName, String sForm, java.util.Date dValue,
     		                                String sWebLanguage, String sCONTEXTDIR){        
         return "<input type='text' maxlength='10' class='text' name='"+sName+"' value='"+getSQLDate(dValue)+"' size='12' onblur='if(!checkDate(this)){dateError(this);this.value=\"\";}'>"
-              +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icon_agenda.gif' alt='"+getTranNoLink("Web","Select",sWebLanguage)+"' onclick='gfPop1"+".fPopCalendar(document."+sForm+"."+sName+");return false;'>"
-              +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icon_compose.gif' alt='"+getTranNoLink("Web","PutToday",sWebLanguage)+"' onclick=\"getToday(document."+sForm+".all['"+sName+"']);getTime(document."+sForm+".all['"+sName+"Time'])\">"
+              +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_agenda.gif' alt='"+getTranNoLink("Web","Select",sWebLanguage)+"' onclick='gfPop1"+".fPopCalendar(document."+sForm+"."+sName+");return false;'>"
+              +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_compose.gif' alt='"+getTranNoLink("Web","PutToday",sWebLanguage)+"' onclick=\"getToday(document."+sForm+".all['"+sName+"']);getTime(document."+sForm+".all['"+sName+"Time'])\">"
               +"&nbsp;"+writeTimeField(sName+"Time", formatSQLDate(dValue,"HH:mm"))
               +"&nbsp;"+getTran("web.occup","medwan.common.hour",sWebLanguage);
     }

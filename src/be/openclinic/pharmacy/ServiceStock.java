@@ -9,6 +9,7 @@ import net.admin.Service;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
+
 public class ServiceStock extends OC_Object {
     private String name;
     private Service service;
@@ -26,17 +27,20 @@ public class ServiceStock extends OC_Object {
     private String stockManagerUid;
     private String defaultSupplierUid;
     
+	
+	//--- CONSTRUCTOR -----------------------------------------------------------------------------
+    public ServiceStock() {
+        this.authorizedUsers = new Vector();
+    }
     
+    //--- NO SYNC ---------------------------------------------------------------------------------
     public int getNosync() {
 		return nosync;
 	}
 	public void setNosync(int nosync) {
 		this.nosync = nosync;
 	}
-	//--- CONSTRUCTOR -----------------------------------------------------------------------------
-    public ServiceStock() {
-        this.authorizedUsers = new Vector();
-    }
+	
     //--- NAME ------------------------------------------------------------------------------------
     public String getName() {
         return this.name;
@@ -44,6 +48,7 @@ public class ServiceStock extends OC_Object {
     public void setName(String name) {
         this.name = name;
     }
+    
     //--- SERVICE ---------------------------------------------------------------------------------
     public Service getService() {
         if (serviceUid != null && serviceUid.length() > 0) {
@@ -56,6 +61,7 @@ public class ServiceStock extends OC_Object {
     public void setService(Service service) {
         this.service = service;
     }
+    
     //--- BEGIN -----------------------------------------------------------------------------------
     public Date getBegin() {
         return this.begin;
@@ -63,6 +69,7 @@ public class ServiceStock extends OC_Object {
     public void setBegin(Date begin) {
         this.begin = begin;
     }
+    
     //--- END -------------------------------------------------------------------------------------
     public Date getEnd() {
         return this.end;
@@ -70,6 +77,7 @@ public class ServiceStock extends OC_Object {
     public void setEnd(Date end) {
         this.end = end;
     }
+    
     //--- STOCK MANAGER ---------------------------------------------------------------------------
     public AdminPerson getStockManager() {
         if (stockManagerUid != null && stockManagerUid.length() > 0) {
@@ -89,6 +97,7 @@ public class ServiceStock extends OC_Object {
     public void setStockManager(AdminPerson stockManager) {
         this.stockManager = stockManager;
     }
+    
     //--- AUTHORISED USERS ------------------------------------------------------------------------
     public Vector getAuthorizedUsers() {
         AdminPerson user;
@@ -110,6 +119,7 @@ public class ServiceStock extends OC_Object {
         }
         return this.authorizedUsers;
     }
+    
     public void setAuthorizedUsers(Vector authorizedUsers) {
         this.authorizedUsers = authorizedUsers;
     }
@@ -125,6 +135,7 @@ public class ServiceStock extends OC_Object {
     public String getAuthorizedUserIds() {
         return this.authorizedUserIds;
     }
+    
     public boolean isAuthorizedUser(String userid) {
         if (userid.equalsIgnoreCase(this.getStockManagerUid())) return true;
         if (authorizedUserIds != null && authorizedUserIds.length() > 0) {
@@ -137,6 +148,7 @@ public class ServiceStock extends OC_Object {
         }
         return false;
     }
+    
     public boolean isAuthorizedUserNotManager(String userid) {
         if (authorizedUserIds != null && authorizedUserIds.length() > 0) {
             StringTokenizer tokenizer = new StringTokenizer(authorizedUserIds, "$");
@@ -148,6 +160,7 @@ public class ServiceStock extends OC_Object {
         }
         return false;
     }
+    
     //--- DEFAULT SUPPLIER ------------------------------------------------------------------------
     public Service getDefaultSupplier() {
         if (defaultSupplierUid != null && defaultSupplierUid.length() > 0) {
@@ -160,6 +173,7 @@ public class ServiceStock extends OC_Object {
     public void setDefaultSupplier(Service supplier) {
         this.defaultSupplier = supplier;
     }
+    
     //--- ORDER PERIOD IN MONTHS ------------------------------------------------------------------
     public int getOrderPeriodInMonths() {
         return this.orderPeriodInMonths;
@@ -167,6 +181,7 @@ public class ServiceStock extends OC_Object {
     public void setOrderPeriodInMonths(int orderPeriodInMonths) {
         this.orderPeriodInMonths = orderPeriodInMonths;
     }
+    
     //--- NON-DB DATA : SERVICE UID ---------------------------------------------------------------
     public String getServiceUid() {
         return this.serviceUid;
@@ -174,6 +189,7 @@ public class ServiceStock extends OC_Object {
     public void setServiceUid(String uid) {
         this.serviceUid = uid;
     }
+    
     //--- NON-DB DATA : STOCK MANAGER UID ---------------------------------------------------------
     public void setStockManagerUid(String uid) {
         this.stockManagerUid = uid;
@@ -181,6 +197,7 @@ public class ServiceStock extends OC_Object {
     public String getStockManagerUid() {
         return this.stockManagerUid;
     }
+    
     //--- NON-DB DATA : DEFAULT SUPPLIER UID ------------------------------------------------------
     public void setDefaultSupplierUid(String uid) {
         this.defaultSupplierUid = uid;
@@ -188,6 +205,7 @@ public class ServiceStock extends OC_Object {
     public String getDefaultSupplierUid() {
         return this.defaultSupplierUid;
     }
+    
     //--- GET -------------------------------------------------------------------------------------
     public static ServiceStock get(String stockUid) {
         ServiceStock stock = null;
@@ -255,6 +273,7 @@ public class ServiceStock extends OC_Object {
         return stock;
     }
     
+    //--- OPEN DELIVERIES -------------------------------------------------------------------------
     public boolean hasOpenDeliveries(){
     	return ProductStockOperation.getOpenServiceStockDeliveries(this.getUid()).size()>0;
     }
@@ -272,13 +291,14 @@ public class ServiceStock extends OC_Object {
         try {
             if (this.getUid().equals("-1")) {
                 // insert new version of stock into current stocks
-                if (Debug.enabled) Debug.println("@@@ SERVICESTOCK insert @@@");
+                Debug.println("@@@ SERVICESTOCK insert @@@");
+                
                 sSelect = "INSERT INTO OC_SERVICESTOCKS (OC_STOCK_SERVERID, OC_STOCK_OBJECTID," +
-                        "  OC_STOCK_NAME, OC_STOCK_SERVICEUID, OC_STOCK_BEGIN, OC_STOCK_END," +
-                        "  OC_STOCK_STOCKMANAGERUID, OC_STOCK_AUTHORIZEDUSERS, OC_STOCK_DEFAULTSUPPLIERUID," +
-                        "  OC_STOCK_ORDERPERIODINMONTHS," +
-                        "  OC_STOCK_CREATETIME, OC_STOCK_UPDATETIME, OC_STOCK_UPDATEUID, OC_STOCK_VERSION,OC_STOCK_NOSYNC)" +
-                        " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,1,?)";
+                          "  OC_STOCK_NAME, OC_STOCK_SERVICEUID, OC_STOCK_BEGIN, OC_STOCK_END," +
+                          "  OC_STOCK_STOCKMANAGERUID, OC_STOCK_AUTHORIZEDUSERS, OC_STOCK_DEFAULTSUPPLIERUID," +
+                          "  OC_STOCK_ORDERPERIODINMONTHS, OC_STOCK_CREATETIME, OC_STOCK_UPDATETIME,"+
+                          "  OC_STOCK_UPDATEUID, OC_STOCK_VERSION, OC_STOCK_NOSYNC)" +
+                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,1,?)";
                 ps = oc_conn.prepareStatement(sSelect);
 
                 // set new servicestockuid
@@ -292,15 +312,15 @@ public class ServiceStock extends OC_Object {
 
                 // date begin
                 if (this.begin != null) ps.setTimestamp(5, new java.sql.Timestamp(this.begin.getTime()));
-                else ps.setNull(5, Types.TIMESTAMP);
+                else                    ps.setNull(5, Types.TIMESTAMP);
 
                 // date end
                 if (this.end != null) ps.setTimestamp(6, new java.sql.Timestamp(this.end.getTime()));
-                else ps.setNull(6, Types.TIMESTAMP);
+                else                  ps.setNull(6, Types.TIMESTAMP);
 
                 // stockManagerUid
                 if (this.getStockManagerUid().length() > 0) ps.setString(7, this.getStockManagerUid());
-                else ps.setNull(7, Types.VARCHAR);
+                else                                        ps.setNull(7, Types.VARCHAR);
 
                 // authorized users
                 AdminPerson user;
@@ -309,16 +329,17 @@ public class ServiceStock extends OC_Object {
                     user = (AdminPerson) this.getAuthorizedUsers().elementAt(i);
                     authorizedUserIds.append(user.getActivePerson().personid + "$");
                 }
+                
                 if (authorizedUserIds.length() > 0) ps.setString(8, authorizedUserIds.toString());
-                else ps.setNull(8, Types.VARCHAR);
+                else                                ps.setNull(8, Types.VARCHAR);
 
                 // default supplier
                 if (this.getDefaultSupplierUid().length() > 0) ps.setString(9, this.getDefaultSupplierUid());
-                else ps.setNull(9, Types.VARCHAR);
+                else                                           ps.setNull(9, Types.VARCHAR);
 
                 // orderPeriodInMonths
                 if (this.getOrderPeriodInMonths() > -1) ps.setInt(10, this.getOrderPeriodInMonths());
-                else ps.setNull(10, Types.INTEGER);
+                else                                    ps.setNull(10, Types.INTEGER);
 
                 // OBJECT variables
                 ps.setTimestamp(11, new java.sql.Timestamp(new java.util.Date().getTime())); // now
@@ -326,9 +347,11 @@ public class ServiceStock extends OC_Object {
                 ps.setString(13, this.getUpdateUser());
                 ps.setInt(14, this.getNosync());
                 ps.executeUpdate();
-            } else {
+            }
+            else {
                 //***** UPDATE *****
-                if (Debug.enabled) Debug.println("@@@ SERVICESTOCK update @@@");
+                Debug.println("@@@ SERVICESTOCK update @@@");
+                
                 sSelect = "UPDATE OC_SERVICESTOCKS SET OC_STOCK_NAME=?, OC_STOCK_SERVICEUID=?," +
                         "  OC_STOCK_BEGIN=?, OC_STOCK_END=?, OC_STOCK_STOCKMANAGERUID=?," +
                         "  OC_STOCK_AUTHORIZEDUSERS=?, OC_STOCK_DEFAULTSUPPLIERUID=?, OC_STOCK_ORDERPERIODINMONTHS=?," +
@@ -340,15 +363,15 @@ public class ServiceStock extends OC_Object {
 
                 // date begin
                 if (this.begin != null) ps.setTimestamp(3, new java.sql.Timestamp(this.begin.getTime()));
-                else ps.setNull(3, Types.TIMESTAMP);
+                else                    ps.setNull(3, Types.TIMESTAMP);
 
                 // date end
                 if (this.end != null) ps.setTimestamp(4, new java.sql.Timestamp(end.getTime()));
-                else ps.setNull(4, Types.TIMESTAMP);
+                else                  ps.setNull(4, Types.TIMESTAMP);
 
                 // stockManagerUid
                 if (this.getStockManagerUid().length() > 0) ps.setString(5, this.getStockManagerUid());
-                else ps.setNull(5, Types.VARCHAR);
+                else                                        ps.setNull(5, Types.VARCHAR);
 
                 // authorized users
                 AdminPerson user;
@@ -358,20 +381,21 @@ public class ServiceStock extends OC_Object {
                     authorizedUserIds.append(user.getActivePerson().personid + "$");
                 }
                 if (authorizedUserIds.length() > 0) ps.setString(6, authorizedUserIds.toString());
-                else ps.setNull(6, Types.VARCHAR);
+                else                                ps.setNull(6, Types.VARCHAR);
 
                 // default supplier
                 if (this.getDefaultSupplierUid().length() > 0) ps.setString(7, this.getDefaultSupplierUid());
-                else ps.setNull(7, Types.VARCHAR);
+                else                                           ps.setNull(7, Types.VARCHAR);
 
                 // orderPeriodInMonths
                 if (this.getOrderPeriodInMonths() > -1) ps.setInt(8, this.getOrderPeriodInMonths());
-                else ps.setNull(8, Types.INTEGER);
+                else                                    ps.setNull(8, Types.INTEGER);
 
                 // OBJECT variables
                 ps.setTimestamp(9, new java.sql.Timestamp(new java.util.Date().getTime())); // now
                 ps.setString(10, this.getUpdateUser());
                 ps.setInt(11, this.getNosync());
+                
                 // where
                 ps.setInt(12, Integer.parseInt(this.getUid().substring(0, this.getUid().indexOf("."))));
                 ps.setInt(13, Integer.parseInt(this.getUid().substring(this.getUid().indexOf(".") + 1)));
@@ -392,10 +416,11 @@ public class ServiceStock extends OC_Object {
             }
         }
     }
+    
     //--- EXISTS ----------------------------------------------------------------------------------
     // checks the database for a record with the same UNIQUE KEYS as 'this'.
     public String exists() {
-        if (Debug.enabled) Debug.println("@@@ SERVICESTOCK exists ? @@@");
+        Debug.println("@@@ SERVICESTOCK exists ? @@@");
         PreparedStatement ps = null;
         ResultSet rs = null;
         String uid = "";
@@ -435,10 +460,11 @@ public class ServiceStock extends OC_Object {
         }
         return uid;
     }
+    
     //--- CHANGED ---------------------------------------------------------------------------------
     // checks the database for a record with the same DATA as 'this'.
     public boolean changed() {
-        if (Debug.enabled) Debug.println("@@@ SERVICESTOCK changed ? @@@");
+        Debug.println("@@@ SERVICESTOCK changed ? @@@");
         PreparedStatement ps = null;
         ResultSet rs = null;
         boolean changed = true;
@@ -513,6 +539,7 @@ public class ServiceStock extends OC_Object {
         }
         return changed;
     }
+    
     //--- DELETE ----------------------------------------------------------------------------------
     public static void delete(String serviceStockUid) {
         PreparedStatement ps = null;
@@ -540,6 +567,7 @@ public class ServiceStock extends OC_Object {
             }
         }
     }
+    
     //--- DELETE PRODUCTSTOCKS --------------------------------------------------------------------
     public static void deleteProductStocks(String serviceStockUid) {
         PreparedStatement ps = null;
@@ -547,7 +575,7 @@ public class ServiceStock extends OC_Object {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             String sSelect = "DELETE FROM OC_PRODUCTSTOCKS" +
-                    " WHERE OC_STOCK_SERVICESTOCKUID = ?";
+                             " WHERE OC_STOCK_SERVICESTOCKUID = ?";
             ps = oc_conn.prepareStatement(sSelect);
             ps.setString(1, serviceStockUid);
             ps.executeUpdate();
@@ -566,6 +594,7 @@ public class ServiceStock extends OC_Object {
             }
         }
     }
+    
     //--- GET PRODUCT STOCK IDS -------------------------------------------------------------------
     public Vector getProductStockIds() {
         Vector ids = new Vector();
@@ -573,9 +602,9 @@ public class ServiceStock extends OC_Object {
         ResultSet rs = null;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            String sSelect = "SELECT OC_STOCK_SERVERID, OC_STOCK_OBJECTID FROM OC_PRODUCTSTOCKS" +
-                    "  WHERE (OC_STOCK_END < ? OR OC_STOCK_END IS NULL)" +
-                    "   AND OC_STOCK_SERVICESTOCKUID = ?";
+            String sSelect = "SELECT OC_STOCK_SERVERID, OC_STOCK_OBJECTID FROM OC_PRODUCTSTOCKS"+
+                             " WHERE (OC_STOCK_END < ? OR OC_STOCK_END IS NULL)"+
+                             "  AND OC_STOCK_SERVICESTOCKUID = ?";
             ps = oc_conn.prepareStatement(sSelect);
 
             // set stock-end-date with hour and minutes = 0
@@ -608,6 +637,7 @@ public class ServiceStock extends OC_Object {
         }
         return ids;
     }
+    
     //--- GET PRODUCTSTOCKS -----------------------------------------------------------------------
     public Vector getProductStocks() throws SQLException {
         Vector stockIds = getProductStockIds();
@@ -629,6 +659,8 @@ public class ServiceStock extends OC_Object {
         
         return stocks;
     }
+
+    //--- GET PRODUCTSTOCK ------------------------------------------------------------------------
     public ProductStock getProductStock(String productUid) {
         Vector stockIds = getProductStockIds();
         for (int i = 0; i < stockIds.size(); i++) {
@@ -639,6 +671,7 @@ public class ServiceStock extends OC_Object {
         }
         return null;
     }
+    
     //--- GET PRODUCTSTOCKS IN SERVICE STOCK ------------------------------------------------------
     public static Vector getProductStocks(String sServiceStockUid) {
         Vector productStocks = new Vector();
@@ -648,9 +681,9 @@ public class ServiceStock extends OC_Object {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             String sSelect = "SELECT OC_STOCK_SERVERID, OC_STOCK_OBJECTID" +
-                    " FROM OC_PRODUCTSTOCKS" +
-                    "  WHERE OC_STOCK_SERVICESTOCKUID = ?" +
-                    " ORDER BY OC_STOCK_LEVEL ASC";
+                             " FROM OC_PRODUCTSTOCKS" +
+                             "  WHERE OC_STOCK_SERVICESTOCKUID = ?" +
+                             " ORDER BY OC_STOCK_LEVEL ASC";
             ps = oc_conn.prepareStatement(sSelect);
             ps.setString(1, sServiceStockUid);
             rs = ps.executeQuery();
@@ -676,6 +709,7 @@ public class ServiceStock extends OC_Object {
         }
         return productStocks;
     }
+    
     //--- GET PRODUCTSTOCK COUNT ------------------------------------------------------------------
     // Count number of productStocks belonging to the specified ServiceStock
     public static int getProductStockCount(String serviceStockUid) {
@@ -685,7 +719,7 @@ public class ServiceStock extends OC_Object {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             String sSelect = "SELECT COUNT(*) AS pstockcount FROM OC_PRODUCTSTOCKS a,OC_PRODUCTS b" +
-                    " WHERE OC_PRODUCT_OBJECTID=replace(OC_STOCK_PRODUCTUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and OC_STOCK_SERVICESTOCKUID = ?";
+                             " WHERE OC_PRODUCT_OBJECTID=replace(OC_STOCK_PRODUCTUID,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and OC_STOCK_SERVICESTOCKUID = ?";
             ps = oc_conn.prepareStatement(sSelect);
             ps.setString(1, serviceStockUid);
             rs = ps.executeQuery();
@@ -710,7 +744,8 @@ public class ServiceStock extends OC_Object {
         }
         return productStockCount;
     }
-    //--- FIND ------------------------------------------------------------------------------------
+    
+    //--- FIND (1) --------------------------------------------------------------------------------
     public static Vector find(String sFindStockName, String sFindServiceUid, String sFindBegin, String sFindEnd,
                               String sFindManagerUid, String sFindDefaultSupplierUid, String sSortCol, String sSortDir) {
         Vector foundObjects = new Vector();
@@ -790,6 +825,8 @@ public class ServiceStock extends OC_Object {
         }
         return foundObjects;
     }
+    
+    //--- FIND (2:serviceid) ----------------------------------------------------------------------
     public static Vector find(String sFindServiceUid) {
         Vector foundObjects = new Vector();
         PreparedStatement ps = null;
@@ -821,7 +858,8 @@ public class ServiceStock extends OC_Object {
         }
         return foundObjects;
     }
-    //-------------------- GET ALL STOCKS BY USER PERMISSION -----------//
+    
+    //--- GET STOCKS BY USER ----------------------------------------------------------------------
     public static Vector getStocksByUser(String sUserId) {
         Vector foundObjects = new Vector();
         PreparedStatement ps = null;
@@ -869,8 +907,10 @@ public class ServiceStock extends OC_Object {
                 se.printStackTrace();
             }
         }
+        
         return foundObjects;
     }
+    
     //--- IS ACTIVE -------------------------------------------------------------------------------
     public boolean isActive() {
         boolean isActive = false;
@@ -879,4 +919,5 @@ public class ServiceStock extends OC_Object {
         }
         return isActive;
     }
+    
 }

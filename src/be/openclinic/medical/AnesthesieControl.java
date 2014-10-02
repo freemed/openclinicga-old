@@ -32,14 +32,17 @@ public class AnesthesieControl extends OC_Object implements Comparable {
     private String acOther;
     private String acOtherRemark;
 
+    
+    //--- COMPARE TO ------------------------------------------------------------------------------
     public int compareTo(Object o){
         int comp;
-        if (o.getClass().isInstance(this)){
+        if(o.getClass().isInstance(this)){
             comp = this.acDate.compareTo(((AnesthesieControl)o).acDate);
         }
-        else {
+        else{
             throw new ClassCastException();
         }
+        
         return comp;
     }
 
@@ -51,135 +54,136 @@ public class AnesthesieControl extends OC_Object implements Comparable {
         this.acDate = date;
     }
 
-    public String getBeginHour() {
+    public String getBeginHour(){
         return ScreenHelper.checkString(acBeginHour);
     }
 
-    public void setBeginHour(String acBeginHour) {
+    public void setBeginHour(String acBeginHour){
         this.acBeginHour = acBeginHour;
     }
 
-    public String getEndHour() {
+    public String getEndHour(){
         return ScreenHelper.checkString(acEndHour);
     }
 
-    public void setEndHour(String acEndHour) {
+    public void setEndHour(String acEndHour){
         this.acEndHour = acEndHour;
     }
 
-    public String getDuration() {
+    public String getDuration(){
         return ScreenHelper.checkString(acDuration);
     }
 
-    public void setDuration(String acDuration) {
+    public void setDuration(String acDuration){
         this.acDuration = acDuration;
     }
 
-    public String getControlPerformedById() {
+    public String getControlPerformedById(){
         return ScreenHelper.checkString(acControlPerformedById);
     }
 
-    public void setControlPerformedById(String acControlPerformedById) {
+    public void setControlPerformedById(String acControlPerformedById){
         this.acControlPerformedById = acControlPerformedById;
     }
 
-    public String getEquipmentAnesthesie() {
+    public String getEquipmentAnesthesie(){
         return ScreenHelper.checkString(acEquipmentAnesthesie);
     }
 
-    public void setEquipmentAnesthesie(String acEquipmentAnesthesie) {
+    public void setEquipmentAnesthesie(String acEquipmentAnesthesie){
         this.acEquipmentAnesthesie = acEquipmentAnesthesie;
     }
 
-    public String getEquipmentAnesthesieRemark() {
+    public String getEquipmentAnesthesieRemark(){
         return ScreenHelper.checkString(acEquipmentAnesthesieRemark);
     }
 
-    public void setEquipmentAnesthesieRemark(String acEquipmentAnesthesieRemark) {
+    public void setEquipmentAnesthesieRemark(String acEquipmentAnesthesieRemark){
         this.acEquipmentAnesthesieRemark = acEquipmentAnesthesieRemark;
     }
 
-    public String getEquipmentMonitor() {
+    public String getEquipmentMonitor(){
         return ScreenHelper.checkString(acEquipmentMonitor);
     }
 
-    public void setEquipmentMonitor(String acEquipmentMonitor) {
+    public void setEquipmentMonitor(String acEquipmentMonitor){
         this.acEquipmentMonitor = acEquipmentMonitor;
     }
 
-    public String getEquipmentMonitorRemark() {
+    public String getEquipmentMonitorRemark(){
         return ScreenHelper.checkString(acEquipmentMonitorRemark);
     }
 
-    public void setEquipmentMonitorRemark(String acEquipmentMonitorRemark) {
+    public void setEquipmentMonitorRemark(String acEquipmentMonitorRemark){
         this.acEquipmentMonitorRemark = acEquipmentMonitorRemark;
     }
 
-    public String getManageMedicines() {
+    public String getManageMedicines(){
         return ScreenHelper.checkString(acManageMedicines);
     }
 
-    public void setManageMedicines(String acManageMedicines) {
+    public void setManageMedicines(String acManageMedicines){
         this.acManageMedicines = acManageMedicines;
     }
 
-    public String getManageMedicinesRemark() {
+    public String getManageMedicinesRemark(){
         return ScreenHelper.checkString(acManageMedicinesRemark);
     }
 
-    public void setManageMedicinesRemark(String acManageMedicinesRemark) {
+    public void setManageMedicinesRemark(String acManageMedicinesRemark){
         this.acManageMedicinesRemark = acManageMedicinesRemark;
     }
 
-    public String getVacuumCleaner() {
+    public String getVacuumCleaner(){
         return ScreenHelper.checkString(acVacuumCleaner);
     }
 
-    public void setVacuumCleaner(String acVacuumCleaner) {
+    public void setVacuumCleaner(String acVacuumCleaner){
         this.acVacuumCleaner = acVacuumCleaner;
     }
 
-    public String getVacuumCleanerRemark() {
+    public String getVacuumCleanerRemark(){
         return ScreenHelper.checkString(acVacuumCleanerRemark);
     }
 
-    public void setVacuumCleanerRemark(String acVacuumCleanerRemark) {
+    public void setVacuumCleanerRemark(String acVacuumCleanerRemark){
         this.acVacuumCleanerRemark = acVacuumCleanerRemark;
     }
 
-    public String getOxygen() {
+    public String getOxygen(){
         return ScreenHelper.checkString(acOxygen);
     }
 
-    public void setOxygen(String acOxygen) {
+    public void setOxygen(String acOxygen){
         this.acOxygen = acOxygen;
     }
 
-    public String getOxygenRemark() {
+    public String getOxygenRemark(){
         return ScreenHelper.checkString(acOxygenRemark);
     }
 
-    public void setOxygenRemark(String acOxygenRemark) {
+    public void setOxygenRemark(String acOxygenRemark){
         this.acOxygenRemark = acOxygenRemark;
     }
 
-    public String getOther() {
+    public String getOther(){
         return ScreenHelper.checkString(acOther);
     }
 
-    public void setOther(String acOther) {
+    public void setOther(String acOther){
         this.acOther = acOther;
     }
 
-    public String getOtherRemark() {
+    public String getOtherRemark(){
         return ScreenHelper.checkString(acOtherRemark);
     }
 
-    public void setOtherRemark(String acOtherRemark) {
+    public void setOtherRemark(String acOtherRemark){
         this.acOtherRemark = acOtherRemark;
     }
 
-    public static AnesthesieControl get(String sAcId) {
+    //--- GET -------------------------------------------------------------------------------------
+    public static AnesthesieControl get(String sAcId){
         AnesthesieControl ac = new AnesthesieControl();
         ac.setUid(sAcId);
         PreparedStatement ps = null;
@@ -187,15 +191,15 @@ public class AnesthesieControl extends OC_Object implements Comparable {
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            String sSelect = "SELECT * FROM OC_ANESTHESIE_CONTROLS" +
-                    " WHERE OC_AC_SERVERID = ? AND OC_AC_OBJECTID = ?";
+            String sSelect = "SELECT * FROM OC_ANESTHESIE_CONTROLS"+
+                             " WHERE OC_AC_SERVERID = ? AND OC_AC_OBJECTID = ?";
             ps = oc_conn.prepareStatement(sSelect);
             ps.setInt(1, Integer.parseInt(sAcId.substring(0, sAcId.indexOf("."))));
-            ps.setInt(2, Integer.parseInt(sAcId.substring(sAcId.indexOf(".") + 1)));
+            ps.setInt(2, Integer.parseInt(sAcId.substring(sAcId.indexOf(".")+1)));
             rs = ps.executeQuery();
 
             // get data from DB
-            if (rs.next()) {
+            if (rs.next()){
                 ac.setDate(rs.getTimestamp("OC_AC_DATE"));
                 ac.setBeginHour(rs.getString("OC_AC_BEGIN_HOUR"));
                 ac.setEndHour(rs.getString("OC_AC_END_HOUR"));
@@ -216,44 +220,50 @@ public class AnesthesieControl extends OC_Object implements Comparable {
                 ac.setCreateDateTime(rs.getTimestamp("OC_AC_CREATETIME"));
                 ac.setUpdateDateTime(rs.getTimestamp("OC_AC_UPDATETIME"));
                 ac.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_AC_UPDATEUID")));
-            } else {
-                throw new Exception("ERROR : ANESTHESIE CONTROL " + sAcId + " NOT FOUND");
+            }
+            else{
+                throw new Exception("ERROR : ANESTHESIE CONTROL "+sAcId+" NOT FOUND");
             }
         }
-        catch (Exception e) {
+        catch(Exception e){
             ac = null;
 
-            if (e.getMessage().endsWith("NOT FOUND")) {
+            if(e.getMessage().endsWith("NOT FOUND")){
                 Debug.println(e.getMessage());
-            } else {
+            }
+            else{
                 e.printStackTrace();
             }
         }
-        finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
                 oc_conn.close();
             }
-            catch (SQLException se) {
-                se.printStackTrace();
+            catch(SQLException e){
+                e.printStackTrace();
             }
         }
 
         return ac;
     }
 
+    //--- STORE -----------------------------------------------------------------------------------
     public void store(){
         String[] ids;
+        
         String sSelect = "";
         PreparedStatement ps = null;
         ResultSet rs = null;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        
         try{
             if(this.getUid() != null && this.getUid().length() > 0){
                 ids = this.getUid().split("\\.");
                 if(ids.length == 2){
-                    sSelect = "DELETE FROM OC_ANESTHESIE_CONTROLS WHERE OC_AC_SERVERID = ? AND OC_AC_OBJECTID = ? ";
+                    sSelect = "DELETE FROM OC_ANESTHESIE_CONTROLS"+
+                              " WHERE OC_AC_SERVERID = ? AND OC_AC_OBJECTID = ? ";
                     ps = oc_conn.prepareStatement(sSelect);
                     ps.setInt(1,Integer.parseInt(ids[0]));
                     ps.setInt(2,Integer.parseInt(ids[1]));
@@ -262,7 +272,8 @@ public class AnesthesieControl extends OC_Object implements Comparable {
                 }
             }
             else{
-                ids = new String[] {MedwanQuery.getInstance().getConfigString("serverId"),MedwanQuery.getInstance().getOpenclinicCounter("OC_ANESTHESIE_CONTROLS") + ""};
+                ids = new String[]{MedwanQuery.getInstance().getConfigString("serverId"),
+                		           MedwanQuery.getInstance().getOpenclinicCounter("OC_ANESTHESIE_CONTROLS")+""};
                 this.setUid(ids[0]+"."+ids[1]);
             }
 
@@ -317,7 +328,6 @@ public class AnesthesieControl extends OC_Object implements Comparable {
                 ps.setTimestamp(21,new Timestamp(this.getUpdateDateTime().getTime()));
                 ps.setString(22,this.getUpdateUser());
                 ps.executeUpdate();
-                ps.close();
             }
         }
         catch(Exception e){
@@ -325,31 +335,33 @@ public class AnesthesieControl extends OC_Object implements Comparable {
         }
         finally{
             try{
-                if(rs!=null)rs.close();
-                if(ps!=null)ps.close();
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
                 oc_conn.close();
             }
             catch(Exception e){
-                Debug.println("OpenClinic => ANESTHESIE CONTROL.java => store => "+e.getMessage()+" = "+sSelect);
                 e.printStackTrace();
             }
         }
     }
 
+    //--- SEARCH ANESTHESIE CONTROLS --------------------------------------------------------------
     public static Vector searchAnesthesieControls(String sFindBegin, String sFindEnd){
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         Vector vACs = new Vector();
 
-        String sSelect = " SELECT OC_AC_DATE, OC_AC_CONTROL_PERFORMED_BY_ID, OC_AC_SERVERID, OC_AC_OBJECTID FROM OC_ANESTHESIE_CONTROLS WHERE ";
-        String sSelect1 = " OC_AC_DATE BETWEEN ? AND ?  ORDER BY OC_AC_DATE ";
-        String sSelect2 = " OC_AC_DATE >= ? ORDER BY OC_AC_DATE";
-        String sSelect3 = " OC_AC_DATE <= ? ORDER BY OC_AC_DATE ";
+        String sSelect = "SELECT OC_AC_DATE, OC_AC_CONTROL_PERFORMED_BY_ID, OC_AC_SERVERID, OC_AC_OBJECTID"+
+                         " FROM OC_ANESTHESIE_CONTROLS"+
+        		         "  WHERE 1=1";
+        String sSelect1 = " AND OC_AC_DATE BETWEEN ? AND ? ORDER BY OC_AC_DATE";
+        String sSelect2 = " AND OC_AC_DATE >= ? ORDER BY OC_AC_DATE";
+        String sSelect3 = " AND OC_AC_DATE <= ? ORDER BY OC_AC_DATE ";
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            if ((sFindBegin.trim().length()>0)&&(sFindEnd.trim().length()>0)){
+            if(sFindBegin.trim().length()>0 && sFindEnd.trim().length()>0){
                 java.sql.Date dEnd = ScreenHelper.getSQLDate(ScreenHelper.getDateAdd(sFindEnd, "2"));
                 sSelect += sSelect1;
                 ps = oc_conn.prepareStatement(sSelect);
@@ -367,6 +379,9 @@ public class AnesthesieControl extends OC_Object implements Comparable {
                 ps = oc_conn.prepareStatement(sSelect);
                 ps.setDate(1,dEnd);
             }
+            else{
+                ps = oc_conn.prepareStatement(sSelect);            	
+            }
 
             rs = ps.executeQuery();
             AnesthesieControl ac;
@@ -378,20 +393,22 @@ public class AnesthesieControl extends OC_Object implements Comparable {
 
                 vACs.addElement(ac);
             }
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(rs!=null)rs.close();
-                if(ps!=null)ps.close();
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
 
         return vACs;
     }
+    
 }

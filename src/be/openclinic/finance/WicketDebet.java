@@ -22,70 +22,71 @@ public class WicketDebet extends OC_Object{
     private StringBuffer comment;
     private ObjectReference referenceObject;
 
-    public Wicket getWicket() {
+    public Wicket getWicket(){
         return wicket;
     }
 
-    public void setWicket(Wicket wicket) {
+    public void setWicket(Wicket wicket){
         this.wicket = wicket;
     }
 
-    public String getWicketUID() {
+    public String getWicketUID(){
         return wicketUID;
     }
 
-    public void setWicketUID(String wicketUID) {
+    public void setWicketUID(String wicketUID){
         this.wicketUID = wicketUID;
     }
 
-    public Timestamp getOperationDate() {
+    public Timestamp getOperationDate(){
         return operationDate;
     }
 
-    public void setOperationDate(Timestamp operationDate) {
+    public void setOperationDate(Timestamp operationDate){
         this.operationDate = operationDate;
     }
 
-    public double getAmount() {
+    public double getAmount(){
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(double amount){
         this.amount = amount;
     }
 
-    public int getUserUID() {
+    public int getUserUID(){
         return userUID;
     }
 
-    public void setUserUID(int userUID) {
+    public void setUserUID(int userUID){
         this.userUID = userUID;
     }
 
-    public String getOperationType() {
+    public String getOperationType(){
         return operationType;
     }
 
-    public void setOperationType(String operationType) {
+    public void setOperationType(String operationType){
         this.operationType = operationType;
     }
 
-    public StringBuffer getComment() {
+    public StringBuffer getComment(){
         return comment;
     }
 
-    public void setComment(StringBuffer comment) {
+    public void setComment(StringBuffer comment){
         this.comment = comment;
     }
 
-    public ObjectReference getReferenceObject() {
+    public ObjectReference getReferenceObject(){
         return referenceObject;
     }
 
-    public void setReferenceObject(ObjectReference referenceObject) {
+    public void setReferenceObject(ObjectReference referenceObject){
         this.referenceObject = referenceObject;
     }
 
+    //--- GET -------------------------------------------------------------------------------------
     public static WicketDebet get(String uid){
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -94,12 +95,12 @@ public class WicketDebet extends OC_Object{
 
         if(uid != null && uid.length() > 0){
             String sUids[] = uid.split("\\.");
-            if(sUids.length == 2){
-                Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+            if(sUids.length==2){
+                Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
                 try{
-                    String sSelect = " SELECT * FROM OC_WICKET_DEBETS " +
-                                     " WHERE OC_WICKET_DEBET_SERVERID = ? " +
-                                     " AND OC_WICKET_DEBET_OBJECTID = ?";
+                    String sSelect = "SELECT * FROM OC_WICKET_DEBETS"+
+                                     " WHERE OC_WICKET_DEBET_SERVERID = ?"+
+                                     "  AND OC_WICKET_DEBET_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sSelect);
                     ps.setInt(1,Integer.parseInt(sUids[0]));
                     ps.setInt(2,Integer.parseInt(sUids[1]));
@@ -107,7 +108,7 @@ public class WicketDebet extends OC_Object{
                     rs = ps.executeQuery();
 
                     if(rs.next()){
-                        wicketOps.setUid(ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_SERVERID")) + "." + ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_OBJECTID")));
+                        wicketOps.setUid(ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_SERVERID"))+"."+ ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_OBJECTID")));
                         wicketOps.setWicketUID(ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_WICKETUID")));
                         wicketOps.setCreateDateTime(rs.getTimestamp("OC_WICKET_DEBET_CREATETIME"));
                         wicketOps.setUpdateDateTime(rs.getTimestamp("OC_WICKET_DEBET_UPDATETIME"));
@@ -124,26 +125,28 @@ public class WicketDebet extends OC_Object{
                         wicketOps.setReferenceObject(or);
                         wicketOps.setVersion(rs.getInt("OC_WICKET_DEBET_VERSION"));
                     }
-                    rs.close();
-                    ps.close();
-                }catch(Exception e){
+                }
+                catch(Exception e){
                     Debug.println("OpenClinic => WicketOperation.java => get => "+e.getMessage());
                     e.printStackTrace();
-                }finally{
+                }
+                finally{
                     try{
                         if(rs!= null) rs.close();
                         if(ps!= null) ps.close();
                         oc_conn.close();
-                    }catch(Exception e){
+                    }
+                    catch(Exception e){
                         e.printStackTrace();
                     }
                 }
             }
         }
+        
         return wicketOps;
     }
 
-
+    //--- STORE ----------------------------------------------------------------------------------- 
     public void store(){
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -157,8 +160,8 @@ public class WicketDebet extends OC_Object{
             if(this.getUid()!=null && this.getUid().length() >0){
                 ids = this.getUid().split("\\.");
                 if(ids.length == 2){
-                    sSelect = " SELECT * FROM OC_WICKET_DEBETS " +
-                              " WHERE OC_WICKET_DEBET_SERVERID = ? " +
+                    sSelect = " SELECT * FROM OC_WICKET_DEBETS "+
+                              " WHERE OC_WICKET_DEBET_SERVERID = ? "+
                               " AND OC_WICKET_DEBET_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sSelect);
                     ps.setInt(1,Integer.parseInt(ids[0]));
@@ -167,29 +170,29 @@ public class WicketDebet extends OC_Object{
                     rs = ps.executeQuery();
 
                     if(rs.next()){
-                        iVersion = rs.getInt("OC_WICKET_DEBET_VERSION") + 1;
+                        iVersion = rs.getInt("OC_WICKET_DEBET_VERSION")+1;
                     }
 
                     rs.close();
                     ps.close();
 
-                    sInsert = " INSERT INTO OC_WICKET_DEBETS_HISTORY " +
-                              " SELECT OC_WICKET_DEBET_SERVERID," +
-                                     " OC_WICKET_DEBET_OBJECTID," +
-                                     " OC_WICKET_DEBET_WICKETUID," +
-                                     " OC_WICKET_DEBET_OPERATIONDATE," +
-                                     " OC_WICKET_DEBET_AMOUNT," +
-                                     " OC_WICKET_DEBET_USERUID," +
-                                     " OC_WICKET_DEBET_TYPE," +
-                                     " OC_WICKET_DEBET_COMMENT," +
-                                     " OC_WICKET_DEBET_REFERENCETYPE," +
-                                     " OC_WICKET_DEBET_REFERENCEUID," +
-                                     " OC_WICKET_DEBET_CREATETIME," +
-                                     " OC_WICKET_DEBET_UPDATETIME," +
+                    sInsert = "INSERT INTO OC_WICKET_DEBETS_HISTORY "+
+                              " SELECT OC_WICKET_DEBET_SERVERID,"+
+                                     " OC_WICKET_DEBET_OBJECTID,"+
+                                     " OC_WICKET_DEBET_WICKETUID,"+
+                                     " OC_WICKET_DEBET_OPERATIONDATE,"+
+                                     " OC_WICKET_DEBET_AMOUNT,"+
+                                     " OC_WICKET_DEBET_USERUID,"+
+                                     " OC_WICKET_DEBET_TYPE,"+
+                                     " OC_WICKET_DEBET_COMMENT,"+
+                                     " OC_WICKET_DEBET_REFERENCETYPE,"+
+                                     " OC_WICKET_DEBET_REFERENCEUID,"+
+                                     " OC_WICKET_DEBET_CREATETIME,"+
+                                     " OC_WICKET_DEBET_UPDATETIME,"+
                                      " OC_WICKET_DEBET_UPDATEUID,"  +
-                                     " OC_WICKET_DEBET_VERSION" +
-                              " FROM OC_WICKET_DEBETS " +
-                              " WHERE OC_WICKET_DEBET_SERVERID = ? AND OC_WICKET_DEBET_OBJECTID = ?";
+                                     " OC_WICKET_DEBET_VERSION"+
+                              " FROM OC_WICKET_DEBETS "+
+                              "  WHERE OC_WICKET_DEBET_SERVERID = ? AND OC_WICKET_DEBET_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sInsert);
                     ps.setInt(1,Integer.parseInt(ids[0]));
                     ps.setInt(2,Integer.parseInt(ids[1]));
@@ -204,27 +207,29 @@ public class WicketDebet extends OC_Object{
                     ps.executeUpdate();
                     ps.close();
                 }
-            }else{
+            }
+            else{
                 ids = new String[] {MedwanQuery.getInstance().getConfigString("serverId"),MedwanQuery.getInstance().getOpenclinicCounter("OC_WICKET_DEBETS")+""};
             }
+            
             if(ids.length == 2){
-                sInsert = " INSERT INTO OC_WICKET_DEBETS" +
-                                      "(" +
-                                      " OC_WICKET_DEBET_SERVERID," +
-                                      " OC_WICKET_DEBET_OBJECTID," +
-                                      " OC_WICKET_DEBET_WICKETUID," +
-                                      " OC_WICKET_DEBET_OPERATIONDATE," +
-                                      " OC_WICKET_DEBET_AMOUNT," +
-                                      " OC_WICKET_DEBET_USERUID," +
-                                      " OC_WICKET_DEBET_TYPE," +
-                                      " OC_WICKET_DEBET_COMMENT," +
-                                      " OC_WICKET_DEBET_REFERENCETYPE," +
-                                      " OC_WICKET_DEBET_REFERENCEUID," +
-                                      " OC_WICKET_DEBET_CREATETIME," +
-                                      " OC_WICKET_DEBET_UPDATETIME," +
+                sInsert = " INSERT INTO OC_WICKET_DEBETS"+
+                                      "("+
+                                      " OC_WICKET_DEBET_SERVERID,"+
+                                      " OC_WICKET_DEBET_OBJECTID,"+
+                                      " OC_WICKET_DEBET_WICKETUID,"+
+                                      " OC_WICKET_DEBET_OPERATIONDATE,"+
+                                      " OC_WICKET_DEBET_AMOUNT,"+
+                                      " OC_WICKET_DEBET_USERUID,"+
+                                      " OC_WICKET_DEBET_TYPE,"+
+                                      " OC_WICKET_DEBET_COMMENT,"+
+                                      " OC_WICKET_DEBET_REFERENCETYPE,"+
+                                      " OC_WICKET_DEBET_REFERENCEUID,"+
+                                      " OC_WICKET_DEBET_CREATETIME,"+
+                                      " OC_WICKET_DEBET_UPDATETIME,"+
                                       " OC_WICKET_DEBET_UPDATEUID,"  +
-                                      " OC_WICKET_DEBET_VERSION" +
-                                      ") " +
+                                      " OC_WICKET_DEBET_VERSION"+
+                                      ") "+
                           " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                 ps = oc_conn.prepareStatement(sInsert);
@@ -250,23 +255,29 @@ public class WicketDebet extends OC_Object{
                 ps.setInt(14,iVersion);
                 ps.executeUpdate();
                 ps.close();
-                this.setUid(ids[0] + "." + ids[1]);
+                
+                this.setUid(ids[0]+"."+ ids[1]);
             }
-        }catch(Exception e){
+        }
+        catch(Exception e){
             Debug.println("OpenClinic => WicketOperations.java => store => "+e.getMessage());
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
                 if(rs!=null)rs.close();
                 if(ps!=null)ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
     }
 
-    public static Vector selectWicketOperations(String sBegindate, String sEnddate, String sReferenceUID, String sReferenceType, String sType, String sWicketUID, String findSortColumn){
+    //--- SELECT WICKET OPERATIONS ----------------------------------------------------------------
+    public static Vector selectWicketOperations(String sBegindate, String sEnddate, String sReferenceUID,
+    		                                    String sReferenceType, String sType, String sWicketUID, String findSortColumn){
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -276,15 +287,15 @@ public class WicketDebet extends OC_Object{
         String sCondition = "";
         String sSelect = " SELECT * FROM OC_WICKET_DEBETS";
 
-        if(sBegindate.length() > 0)     sCondition += " OC_WICKET_DEBET_OPERATIONDATE >= ? AND";
-        if(sEnddate.length() > 0)       sCondition += " OC_WICKET_DEBET_OPERATIONDATE < ? AND";
-        if(sType.length() > 0)          sCondition += " OC_WICKET_DEBET_TYPE = ? AND";
-        if(sReferenceUID.length() > 0)  sCondition += " OC_WICKET_DEBET_REFERENCEUID = ? AND";
-        if(sReferenceType.length() > 0) sCondition += " OC_WICKET_DEBET_REFERENCETYPE = ? AND";
-        if(sWicketUID.length() > 0)     sCondition += " OC_WICKET_DEBET_WICKETUID = ? AND";
+        if(sBegindate.length() > 0)     sCondition+= " OC_WICKET_DEBET_OPERATIONDATE >= ? AND";
+        if(sEnddate.length() > 0)       sCondition+= " OC_WICKET_DEBET_OPERATIONDATE < ? AND";
+        if(sType.length() > 0)          sCondition+= " OC_WICKET_DEBET_TYPE = ? AND";
+        if(sReferenceUID.length() > 0)  sCondition+= " OC_WICKET_DEBET_REFERENCEUID = ? AND";
+        if(sReferenceType.length() > 0) sCondition+= " OC_WICKET_DEBET_REFERENCETYPE = ? AND";
+        if(sWicketUID.length() > 0)     sCondition+= " OC_WICKET_DEBET_WICKETUID = ? AND";
 
         if(sCondition.length() > 0){
-            sSelect += " WHERE " + sCondition;
+            sSelect += " WHERE "+ sCondition;
             sSelect = sSelect.substring(0,sSelect.length() - 3);
         }
 
@@ -292,25 +303,25 @@ public class WicketDebet extends OC_Object{
             findSortColumn = "OC_WICKET_DEBET_OPERATIONDATE DESC";
         }
 
-        sSelect += " ORDER BY " + findSortColumn;
+        sSelect += " ORDER BY "+ findSortColumn;
 
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             int i = 1;
             ps = oc_conn.prepareStatement(sSelect);
 
-            if(sBegindate.length() > 0)       { ps.setDate(i++,ScreenHelper.getSQLDate(sBegindate));}
-            if(sEnddate.length() > 0)         { ps.setDate(i++,ScreenHelper.getSQLDate(sEnddate));}
-            if(sType.length() > 0)            { ps.setString(i++,sType);}
-            if(sReferenceUID.length() > 0)    { ps.setString(i++,sReferenceUID);}
-            if(sReferenceType.length() > 0)   { ps.setString(i++,sReferenceType);}
-            if(sWicketUID.length() > 0)       { ps.setString(i++,sWicketUID);}
+            if(sBegindate.length() > 0)     ps.setDate(i++,ScreenHelper.getSQLDate(sBegindate));
+            if(sEnddate.length() > 0)       ps.setDate(i++,ScreenHelper.getSQLDate(sEnddate));
+            if(sType.length() > 0)          ps.setString(i++,sType);
+            if(sReferenceUID.length() > 0)  ps.setString(i++,sReferenceUID);
+            if(sReferenceType.length() > 0) ps.setString(i++,sReferenceType);
+            if(sWicketUID.length() > 0)     ps.setString(i++,sWicketUID);
             rs = ps.executeQuery();
 
             while(rs.next()){
                 wicketOps = new WicketDebet();
 
-                wicketOps.setUid(ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_SERVERID")) + "." + ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_OBJECTID")));
+                wicketOps.setUid(ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_SERVERID"))+"."+ ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_OBJECTID")));
                 wicketOps.setWicketUID(ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_WICKETUID")));
                 wicketOps.setCreateDateTime(rs.getTimestamp("OC_WICKET_DEBET_CREATETIME"));
                 wicketOps.setUpdateDateTime(rs.getTimestamp("OC_WICKET_DEBET_UPDATETIME"));
@@ -330,30 +341,33 @@ public class WicketDebet extends OC_Object{
 
                 vWicketOps.addElement(wicketOps);
             }
-
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
                 if(rs!=null)rs.close();
                 if(ps!=null)ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return vWicketOps;
     }
 
-
+    //--- SELECT WICKET OPERATIONS BY WICKET ------------------------------------------------------
     public static Vector selectWicketOperationsByWicket(String sWicketUID){
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String sSelect = "SELECT * FROM OC_WICKET_DEBETS WHERE OC_WICKET_DEBET_WICKETUID = ? ORDER BY OC_WICKET_DEBET_OPERATIONDATE DESC";
-
+        String sSelect = "SELECT * FROM OC_WICKET_DEBETS"+
+                         " WHERE OC_WICKET_DEBET_WICKETUID = ?"+
+        		         "  ORDER BY OC_WICKET_DEBET_OPERATIONDATE DESC";
         Vector vWicketOps = new Vector();
-
         WicketDebet wicketOp;
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
@@ -361,11 +375,10 @@ public class WicketDebet extends OC_Object{
             ps.setString(1,sWicketUID);
 
             rs = ps.executeQuery();
-
             while(rs.next()){
                 wicketOp = new WicketDebet();
 
-                wicketOp.setUid(ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_SERVERID")) + "." + ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_OBJECTID")));
+                wicketOp.setUid(ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_SERVERID"))+"."+ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_OBJECTID")));
                 wicketOp.setWicketUID(ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_WICKETUID")));
                 wicketOp.setCreateDateTime(rs.getTimestamp("OC_WICKET_DEBET_CREATETIME"));
                 wicketOp.setUpdateDateTime(rs.getTimestamp("OC_WICKET_DEBET_UPDATETIME"));
@@ -385,61 +398,64 @@ public class WicketDebet extends OC_Object{
 
                 vWicketOps.addElement(wicketOp);
             }
-
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
                 if(rs!=null)rs.close();
                 if(ps!=null)ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return vWicketOps;
     }
 
+    //--- DELETE ----------------------------------------------------------------------------------
     public void delete(){
         PreparedStatement ps = null;
 
-        String sInsert,sDelete;
+        String sInsert, sDelete;
         String ids[];
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            if(this.getUid()!=null && this.getUid().length() >0){
+            if(this.getUid()!=null && this.getUid().length() > 0){
                 ids = this.getUid().split("\\.");
-                if(ids.length == 2){
-                    sInsert = " INSERT INTO OC_WICKET_DEBETS_HISTORY " +
-                              " SELECT OC_WICKET_DEBET_SERVERID," +
-                                     " OC_WICKET_DEBET_OBJECTID," +
-                                     " OC_WICKET_DEBET_WICKETUID," +
-                                     " OC_WICKET_DEBET_OPERATIONDATE," +
-                                     " OC_WICKET_DEBET_AMOUNT," +
-                                     " OC_WICKET_DEBET_USERUID," +
-                                     " OC_WICKET_DEBET_TYPE," +
-                                     " OC_WICKET_DEBET_COMMENT," +
-                                     " OC_WICKET_DEBET_REFERENCETYPE," +
-                                     " OC_WICKET_DEBET_REFERENCEUID," +
-                                     " OC_WICKET_DEBET_CREATETIME," +
-                                     " OC_WICKET_DEBET_UPDATETIME," +
-                                     " OC_WICKET_DEBET_UPDATEUID,"  +
-                                     " OC_WICKET_DEBET_VERSION" +
-                              " FROM OC_WICKET_DEBETS " +
-                              " WHERE OC_WICKET_DEBET_SERVERID = ?" +
-                              " AND OC_WICKET_DEBET_OBJECTID = ?";
+                if(ids.length==2){
+                	//*** insert ***
+                    sInsert = "INSERT INTO OC_WICKET_DEBETS_HISTORY "+
+                              " SELECT OC_WICKET_DEBET_SERVERID,"+
+                                     " OC_WICKET_DEBET_OBJECTID,"+
+                                     " OC_WICKET_DEBET_WICKETUID,"+
+                                     " OC_WICKET_DEBET_OPERATIONDATE,"+
+                                     " OC_WICKET_DEBET_AMOUNT,"+
+                                     " OC_WICKET_DEBET_USERUID,"+
+                                     " OC_WICKET_DEBET_TYPE,"+
+                                     " OC_WICKET_DEBET_COMMENT,"+
+                                     " OC_WICKET_DEBET_REFERENCETYPE,"+
+                                     " OC_WICKET_DEBET_REFERENCEUID,"+
+                                     " OC_WICKET_DEBET_CREATETIME,"+
+                                     " OC_WICKET_DEBET_UPDATETIME,"+
+                                     " OC_WICKET_DEBET_UPDATEUID,"+
+                                     " OC_WICKET_DEBET_VERSION"+
+                              " FROM OC_WICKET_DEBETS"+
+                              "  WHERE OC_WICKET_DEBET_SERVERID = ?"+
+                              "   AND OC_WICKET_DEBET_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sInsert);
                     ps.setInt(1,Integer.parseInt(ids[0]));
                     ps.setInt(2,Integer.parseInt(ids[1]));
                     ps.executeUpdate();
                     ps.close();
 
-                    sDelete = " DELETE FROM OC_WICKET_DEBETS " +
-                              " WHERE OC_WICKET_DEBET_SERVERID = ? " +
-                              " AND OC_WICKET_DEBET_OBJECTID = ? ";
-
+                	//*** delete ***
+                    sDelete = "DELETE FROM OC_WICKET_DEBETS"+
+                              " WHERE OC_WICKET_DEBET_SERVERID = ?"+
+                              "  AND OC_WICKET_DEBET_OBJECTID = ?";
                     ps = oc_conn.prepareStatement(sDelete);
                     ps.setInt(1,Integer.parseInt(ids[0]));
                     ps.setInt(2,Integer.parseInt(ids[1]));
@@ -447,13 +463,16 @@ public class WicketDebet extends OC_Object{
                     ps.close();
                 }
             }
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
                 if(ps!=null)ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
