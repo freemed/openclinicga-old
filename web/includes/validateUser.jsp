@@ -26,7 +26,7 @@
             session.setAttribute("activeUser", activeUser);
 
             //reset lastPatient
-             session.removeAttribute("lastPatient");
+            session.removeAttribute("lastPatient");
             
             // weblanguage
             session.setAttribute(sAPPTITLE + "WebLanguage", activeUser.person.language);
@@ -124,7 +124,3 @@
         %><script>window.location.href="<c:url value='/relogin.do'/>?ts=<%=getTs()%>";</script><%
     }
 %>
-
-
-
-

@@ -39,7 +39,7 @@ if (checkString(request.getParameter("SaveMotivation")).trim().length()>0)
         </tr>
         <tr>
             <td colspan="2" align="right" class="menu">
-                <input type="submit" name="SaveMotivation" class="button" value="<%=getTran("Web","Save",sWebLanguage)%>">
+                <input type="submit" name="SaveMotivation" class="button" value="<%=getTranNoLink("Web","Save",sWebLanguage)%>">
             </td>
         </tr>
     </table>
