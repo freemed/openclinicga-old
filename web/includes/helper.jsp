@@ -90,7 +90,11 @@
 
     //--- WRITE TABEL CHILD -----------------------------------------------------------------------
     public String writeTblChild(String sPath, String sHeader){
-        return ScreenHelper.writeTblChild(sPath,sHeader,sCONTEXTPATH);
+        return writeTblChild(sPath,sHeader,-1);	
+    }
+    
+    public String writeTblChild(String sPath, String sHeader, int rowIdx){
+        return ScreenHelper.writeTblChild(sPath,sHeader,sCONTEXTPATH,rowIdx);
     }
 
     //--- WRITE TABEL CHILD -----------------------------------------------------------------------
@@ -200,7 +204,7 @@
     }
 
     public String contextHeader(HttpServletRequest request, String language, boolean setBackGround, String subTitle){
-        String result = "<table width='100%' cellspacing='0'>";
+        String result = "<table width='100%' cellspacing='0' class='menu' style='border-bottom:none;'>";
 
         // background ?
         // - "manageClinicalExamination_view" : background of contextHeader interferes with existing background.
@@ -267,10 +271,10 @@
 
                 if(transactionVO.getTransactionType().indexOf("_CUSTOMEXAMINATION") > -1){
                 	String sCustomExamType = transactionVO.getTransactionType().substring(transactionVO.getTransactionType().indexOf("_CUSTOMEXAMINATION")+"_CUSTOMEXAMINATION".length());
-                	result+= "&nbsp;"+ScreenHelper.uppercaseFirstLetter(getTran("examination",sCustomExamType,language));
+                	result+= ScreenHelper.uppercaseFirstLetter(getTran("examination",sCustomExamType,language));
                 }
                 else{
-                    result+= "&nbsp;"+ScreenHelper.getTran("web.occup",transactionVO.getTransactionType(),language);
+                    result+= ScreenHelper.getTran("web.occup",transactionVO.getTransactionType(),language);
                 }
 
                 // subtitle
@@ -297,7 +301,7 @@
 
             // context selector
             result+="<td>"+getLastTransactionAccess("T."+transactionVO.getServerId()+"."+transactionVO.getTransactionId(),language,request,transactionVO.getVersion())+"</td>";
-            result+= "<td align='right' style='padding-top:2px;'>"+
+            result+= "<td align='right'>"+
                       "<select id='ctxt' class='text' onchange=\"document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value')[0].value=this.value;show('content-details');if($('confirm'))hide('confirm');\">";
             UserVO user = sessionContainerWO.getUserVO();
             User activeUser = new User();
@@ -460,7 +464,7 @@
     }
 
     public String writeTableHeader(String sType, String sID, String sLanguage, String sPage){
-        String tableHeader = "<table  width='100%' cellspacing='0' class='list' style='border-bottom:none;'>"+
+        String tableHeader = "<table width='100%' cellspacing='0' class='list' style='border-bottom:none;'>"+
                               "<tr class='admin'>"+
                                "<td id='tableHeaderTitle'>"+getTran(sType,sID,sLanguage)+"</td>";
 
@@ -469,11 +473,11 @@
 
             // sPage is a link
             if(sPage.indexOf("()") < 0){
-                tableHeader += "<a class='previousButton' alt='"+getTranNoLink("Web","Back",sLanguage)+"' title='"+getTran("Web","Back",sLanguage)+"' href='"+sPage+"'>&nbsp;</a>";
+                tableHeader += "<a class='previousButton' alt='"+getTranNoLink("Web","Back",sLanguage)+"' title='"+getTranNoLink("Web","Back",sLanguage)+"' href='"+sPage+"'>&nbsp;</a>";
             }
             // sPage is a javascript function (like "doBack()")
             else{
-                tableHeader+= "<a class='previousButton' alt='"+getTranNoLink("Web","Back",sLanguage)+"' title='"+getTran("Web","Back",sLanguage)+"' href='javascript:"+sPage+"'>&nbsp;</a>";
+                tableHeader+= "<a class='previousButton' alt='"+getTranNoLink("Web","Back",sLanguage)+"' title='"+getTranNoLink("Web","Back",sLanguage)+"' href='javascript:"+sPage+"'>&nbsp;</a>";
             }
 
             tableHeader+= "</td>";
@@ -568,7 +572,7 @@
         StringBuffer buf = new StringBuffer();
 
         buf.append("<script>")
-           .append(" var historyPopup;");
+           .append("var historyPopup;");
 
         buf.append("function openHistoryPopupOLD(){")
             .append("var url = '").append(sCONTEXTPATH).append("/healthrecord/managePrintHistoryPopup.do?transactionType=").append(transactionType).append("&ts=").append(getTs()).append("';")
@@ -888,13 +892,18 @@
     sCONTEXTPATH = request.getRequestURI().replaceAll(request.getServletPath(),"");
     String sPREFIX = "be.mxs.common.model.vo.healthrecord.IConstants.";
 
+    String sUserTheme = checkString((String)session.getAttribute("UserTheme"));
+    if(sUserTheme.equals("default")) sUserTheme = "";
+        
     // stylesheets
     String sCSSPRINT         = "<link href='"+sCONTEXTPATH+"/_common/_css/print.css' rel='stylesheet' type='text/css'>";
-    String sCSSNORMAL        = "<link href='"+sCONTEXTPATH+"/_common/_css/web.css' rel='stylesheet' type='text/css'>"+
+    String sCSSNORMAL        = "<link href='"+sCONTEXTPATH+"/_common/_css/web"+(sUserTheme.length()>0?"_"+sUserTheme:"")+".css' rel='stylesheet' type='text/css'>"+
+                               "<link href='"+sCONTEXTPATH+"/"+sAPPDIR+"/_common/_css/web"+(sUserTheme.length()>0?"_"+sUserTheme:"")+".css' rel='stylesheet' type='text/css'>";
+    String sCSSDEFAULT       = "<link href='"+sCONTEXTPATH+"/_common/_css/web.css' rel='stylesheet' type='text/css'>"+
                                "<link href='"+sCONTEXTPATH+"/"+sAPPDIR+"/_common/_css/web.css' rel='stylesheet' type='text/css'>";
     String sCSSRTEDITOR      = "<link href='"+sCONTEXTPATH+"/_common/_css/rteditor.css' rel='stylesheet' type='text/css'>";
     String sCSSWEEKPLANNER   = "<link href='"+sCONTEXTPATH+"/_common/_css/weekPlanner.css' rel='stylesheet' type='text/css'>";
-    String sCSSMONTHPLANNER  = "<link href='"+sCONTEXTPATH+"/_common/_css/monthPlanner.css' rel='stylesheet' type='text/css'>";
+    String sCSSMONTHPLANNER  = "<link href='"+sCONTEXTPATH+"/_common/_css/monthPlanner"+(sUserTheme.length()>0?"_"+sUserTheme:"")+".css' rel='stylesheet' type='text/css'>";
     String sCSSMODALBOX      = "<link href='"+sCONTEXTPATH+"/_common/_css/modalbox.css' rel='stylesheet' type='text/css'>";
     String sCSSMODALBOXDATACENTER   = "<link href='"+sCONTEXTPATH+"/_common/_css/modalboxdatacenter.css' rel='stylesheet' type='text/css'>";
     String sCSSGNOOCALENDAR  = "<link href='"+sCONTEXTPATH+"/_common/_css/gnoocalendar.css' rel='stylesheet' type='text/css'>";
