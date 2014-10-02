@@ -119,14 +119,14 @@
                                     else                   sClass = "";
 
                                     examsHtml.append("<tr class='list" + sClass + "' title='" + sSelectTran + "'>")
-                                             .append(" <td width='20'><input type='checkbox' name='examId_" + examId + "'></td>");
+                                             .append("<td width='20'><input type='checkbox' name='examId_" + examId + "'></td>");
 
                                     // link to manageTranslations when no label found
                                     if (examName.indexOf("<a") > -1) {
-                                        examsHtml.append(" <td>" + examName + "</td>");
+                                        examsHtml.append("<td>" + examName + "</td>");
                                     }
                                     else {
-                                        examsHtml.append(" <td onClick=\"toggleExamCheck('examId_" + examId + "');\">" + examName + "</td>");
+                                        examsHtml.append("<td onClick=\"toggleExamCheck('examId_" + examId + "');\">" + examName + "</td>");
                                     }
 
                                     examsHtml.append("</tr>")
@@ -199,8 +199,8 @@
 
     <%-- BUTTONS --%>
     <center>
-        <input type="button" class="button" name="addButton" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addSelectedExaminations();">
-        <input type="button" class="button" name="closeButton" value="<%=getTran("Web","Close",sWebLanguage)%>" onclick="window.close();">
+        <input type="button" class="button" name="addButton" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addSelectedExaminations();">
+        <input type="button" class="button" name="closeButton" value="<%=getTranNoLink("Web","Close",sWebLanguage)%>" onclick="window.close();">
     </center>
 </form>
 

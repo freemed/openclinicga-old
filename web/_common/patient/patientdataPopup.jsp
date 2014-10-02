@@ -92,8 +92,8 @@
 </div>
 <br>
 <center>
-    <input type="button" class="button" name="ButtonEdit" value="<%=getTran("web","edit",sWebLanguage)%>" onclick="doEdit()">&nbsp;
-    <input type="button" class="button" name="ButtonClose" value="<%=getTran("Web","close",sWebLanguage)%>" onclick="window.close();">
+    <input type="button" class="button" name="ButtonEdit" value="<%=getTranNoLink("web","edit",sWebLanguage)%>" onclick="doEdit()">&nbsp;
+    <input type="button" class="button" name="ButtonClose" value="<%=getTranNoLink("Web","close",sWebLanguage)%>" onclick="window.close();">
 </center>
 <script>
   function doEdit(){

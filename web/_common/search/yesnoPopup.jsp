@@ -33,6 +33,7 @@
 </table>
 
 <script>
+  <%=sCenterWindow%>
   //document.getElementById("buttonYes").focus();
   //window.resizeTo(400,300);
 

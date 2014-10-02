@@ -41,7 +41,7 @@
                 <%
                     if (activeUser.getAccessRight("patient.administration.edit")){
                         %>
-                            <input type="button" class="button" onclick="window.location.href='<c:url value="/patientedit.do"/>?Tab=AdminSocSec&ts=<%=getTs()%>'" value="<%=getTran("Web","edit",sWebLanguage)%>">
+                            <input type="button" class="button" onclick="window.location.href='<c:url value="/patientedit.do"/>?Tab=AdminSocSec&ts=<%=getTs()%>'" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>">
                         <%
                     }
                 %>

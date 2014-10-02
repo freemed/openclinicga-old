@@ -1,26 +1,42 @@
-<%@ page errorPage="/includes/error.jsp" %>
-<%@ include file="/includes/validateUser.jsp" %>
+<%@page errorPage="/includes/error.jsp" %>
+<%@include file="/includes/validateUser.jsp" %>
 <%=sJSSORTTABLE%>
+
 <%
+    String sFindPrestationCode  = checkString(request.getParameter("FindPrestationCode")),
+           sFindPrestationDescr = checkString(request.getParameter("FindPrestationDescr")),
+           sFindPrestationType  = checkString(request.getParameter("FindPrestationType")),
+           sFindPrestationPrice = checkString(request.getParameter("FindPrestationPrice"));
 
+    String sFunction         = checkString(request.getParameter("doFunction")),
+	       sFunctionVariable = checkString(request.getParameter("doFunctionVariable"));
 
-    String sFindPrestationCode = checkString(request.getParameter("FindPrestationCode")),
-            sFindPrestationDescr = checkString(request.getParameter("FindPrestationDescr")),
-            sFindPrestationType = checkString(request.getParameter("FindPrestationType")),
-            sFindPrestationPrice = checkString(request.getParameter("FindPrestationPrice"));
-
-    String sFunction = checkString(request.getParameter("doFunction"));
-	String sFunctionVariable = checkString(request.getParameter("doFunctionVariable"));
-
-    String sReturnFieldUid = checkString(request.getParameter("ReturnFieldUid")),
-            sReturnFieldCode = checkString(request.getParameter("ReturnFieldCode")),
-            sReturnFieldDescr = checkString(request.getParameter("ReturnFieldDescr")),
-            sReturnFieldDescrHtml = checkString(request.getParameter("ReturnFieldDescrHtml")),
-            sReturnFieldType = checkString(request.getParameter("ReturnFieldType")),
-            sReturnFieldPrice = checkString(request.getParameter("ReturnFieldPrice"));
-
+    String sReturnFieldUid       = checkString(request.getParameter("ReturnFieldUid")),
+           sReturnFieldCode      = checkString(request.getParameter("ReturnFieldCode")),
+           sReturnFieldDescr     = checkString(request.getParameter("ReturnFieldDescr")),
+           sReturnFieldDescrHtml = checkString(request.getParameter("ReturnFieldDescrHtml")),
+           sReturnFieldType      = checkString(request.getParameter("ReturnFieldType")),
+           sReturnFieldPrice     = checkString(request.getParameter("ReturnFieldPrice"));
 
     String sCurrency = MedwanQuery.getInstance().getConfigParam("currency", "€");
+    
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n################## _common/search/searchPrestation.jsp #################");
+    	Debug.println("sFindPrestationCode   : "+sFindPrestationCode);
+    	Debug.println("sFindPrestationDescr  : "+sFindPrestationDescr);
+    	Debug.println("sFindPrestationType   : "+sFindPrestationType);
+    	Debug.println("sFindPrestationPrice  : "+sFindPrestationPrice+"\n");
+    	Debug.println("sFunction             : "+sFunction);
+    	Debug.println("sFunctionVariable     : "+sFunctionVariable+"\n");
+    	Debug.println("sReturnFieldUid       : "+sReturnFieldUid);
+    	Debug.println("sReturnFieldCode      : "+sReturnFieldCode);
+    	Debug.println("sReturnFieldDescr     : "+sReturnFieldDescr);
+    	Debug.println("sReturnFieldDescrHtml : "+sReturnFieldDescrHtml);
+    	Debug.println("sReturnFieldType      : "+sReturnFieldType);
+    	Debug.println("sReturnFieldPrice     : "+sReturnFieldPrice+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 %>
 <form name="SearchForm" method="POST" onkeyup="if(enterEvent(event,13)){searchPrestations();}">
     <%-- hidden fields --%>
@@ -33,7 +49,7 @@
 
     <table width="100%" cellspacing="1" cellpadding="0" class="menu">
         <%
-            if (!"no".equalsIgnoreCase(request.getParameter("header"))) {
+            if(!"no".equalsIgnoreCase(request.getParameter("header"))){
         %>
         <%-- TITLE --%>
         <tr class="admin">
@@ -89,9 +105,9 @@
             <td class="admin2">&nbsp;</td>
             <td class="admin2">
                 <input class="button" type="button" onClick="searchPrestations();" name="searchButton"
-                       value="<%=getTran("Web","search",sWebLanguage)%>">&nbsp;
+                       value="<%=getTranNoLink("Web","search",sWebLanguage)%>">&nbsp;
                 <input class="button" type="button" onClick="clearFields();" name="clearButton"
-                       value="<%=getTran("Web","clear",sWebLanguage)%>">
+                       value="<%=getTranNoLink("Web","clear",sWebLanguage)%>">
             </td>
         </tr>
         <%
@@ -100,91 +116,96 @@
         <%-- SEARCH RESULTS TABLE --%>
         <tr>
             <td style="vertical-align:top;" colspan="2" class="white" width="100%">
-                <div id="divFindRecords">
-                </div>
+                <div id="divFindRecords"></div>
             </td>
         </tr>
     </table>
     <br>
+    
     <center>
-        <input type="button" class="button" name="buttonclose" value="<%=getTran("Web","Close",sWebLanguage)%>"
-               onclick="window.close();">
+        <input type="button" class="button" name="buttonclose" value="<%=getTranNoLink("Web","Close",sWebLanguage)%>" onclick="window.close();">
     </center>
 </form>
 
 <script>
-    window.resizeTo(800, 600);
-    SearchForm.FindPrestationDescr.focus();
+  window.resizeTo(800, 600);
+  SearchForm.FindPrestationDescr.focus();
 
-    function clearFields() {
-        SearchForm.FindPrestationRefName.value = "";
-        SearchForm.FindPrestationCode.value = "";
-        SearchForm.FindPrestationDescr.value = "";
-        SearchForm.FindPrestationType.value = "";
-        SearchForm.FindPrestationPrice.value = "";
-        SearchForm.FindPrestationCode.focus();
+  <%-- CLEAR FIELDS --%>
+  function clearFields(){
+    SearchForm.FindPrestationRefName.value = "";
+    SearchForm.FindPrestationCode.value = "";
+    SearchForm.FindPrestationDescr.value = "";
+    SearchForm.FindPrestationType.value = "";
+    SearchForm.FindPrestationPrice.value = "";
+    SearchForm.FindPrestationCode.focus();
+  }
+
+  <%-- SEARCH PRESTATIONS --%>
+  function searchPrestations(){
+    SearchForm.Action.value = "search";
+    ajaxChangeSearchResults('_common/search/searchByAjax/searchPrestationShow.jsp', SearchForm);
+  }
+
+  <%-- SET PRESTATION --%>
+  function setPrestation(uid,code,descr,type,price){
+    if("<%=sReturnFieldUid%>".length > 0){
+      window.opener.document.getElementsByName("<%=sReturnFieldUid%>")[0].value = uid;
+    }
+    if("<%=sReturnFieldCode%>".length > 0){
+      window.opener.document.getElementsByName("<%=sReturnFieldCode%>")[0].value = code;
+    }
+    if("<%=sReturnFieldDescr%>".length > 0){
+      window.opener.document.getElementsByName("<%=sReturnFieldDescr%>")[0].value = descr;
+    }
+    if("<%=sReturnFieldDescrHtml%>".length > 0){
+      window.opener.document.getElementById("<%=sReturnFieldDescrHtml%>").innerHTML = descr;
+    }
+    if("<%=sReturnFieldType%>".length > 0){
+      window.opener.document.getElementsByName("<%=sReturnFieldType%>")[0].value = type;
+    }
+    if("<%=sReturnFieldPrice%>".length > 0){
+      window.opener.document.getElementsByName("<%=sReturnFieldPrice%>")[0].value = price;
     }
 
-    function searchPrestations() {
-        SearchForm.Action.value = "search";
-        ajaxChangeSearchResults('_common/search/searchByAjax/searchPrestationShow.jsp', SearchForm);
-    }
-
-    function setPrestation(uid, code, descr, type, price) {
-        if ("<%=sReturnFieldUid%>".length > 0) {
-            window.opener.document.getElementsByName("<%=sReturnFieldUid%>")[0].value = uid;
-        }
-        if ("<%=sReturnFieldCode%>".length > 0) {
-            window.opener.document.getElementsByName("<%=sReturnFieldCode%>")[0].value = code;
-        }
-        if ("<%=sReturnFieldDescr%>".length > 0) {
-            window.opener.document.getElementsByName("<%=sReturnFieldDescr%>")[0].value = descr;
-        }
-        if ("<%=sReturnFieldDescrHtml%>".length > 0) {
-            window.opener.document.getElementById("<%=sReturnFieldDescrHtml%>").innerHTML = descr;
-        }
-        if ("<%=sReturnFieldType%>".length > 0) {
-            window.opener.document.getElementsByName("<%=sReturnFieldType%>")[0].value = type;
-        }
-        if ("<%=sReturnFieldPrice%>".length > 0) {
-            window.opener.document.getElementsByName("<%=sReturnFieldPrice%>")[0].value = price;
-        }
-
-	    <%
-	    if (sFunction.length()>0){
+	<%
+	    if(sFunction.length()>0){
 	        out.print("window.opener."+sFunction+";");
 	    }
-	    %>
+	%>
 
-        window.close();
+    window.close();
+  }
+  
+  <%-- SET PRESTATION VARIABLE --%>
+  function setPrestationVariable(uid,code,descr,type,price){
+  	price = prompt("<%=getTran("web","enterprice",sWebLanguage)%>",price);
+    if("<%=sReturnFieldUid%>".length > 0){
+      window.opener.document.getElementsByName("<%=sReturnFieldUid%>")[0].value = uid;
     }
-    function setPrestationVariable(uid, code, descr, type, price) {
-    	price = prompt("<%=getTran("web","enterprice",sWebLanguage)%>",price);
-        if ("<%=sReturnFieldUid%>".length > 0) {
-            window.opener.document.getElementsByName("<%=sReturnFieldUid%>")[0].value = uid;
-        }
-        if ("<%=sReturnFieldCode%>".length > 0) {
-            window.opener.document.getElementsByName("<%=sReturnFieldCode%>")[0].value = code;
-        }
-        if ("<%=sReturnFieldDescr%>".length > 0) {
-            window.opener.document.getElementsByName("<%=sReturnFieldDescr%>")[0].value = descr;
-        }
-        if ("<%=sReturnFieldDescrHtml%>".length > 0) {
-            window.opener.document.getElementById("<%=sReturnFieldDescrHtml%>").innerHTML = descr;
-        }
-        if ("<%=sReturnFieldType%>".length > 0) {
-            window.opener.document.getElementsByName("<%=sReturnFieldType%>")[0].value = type;
-        }
-        if ("<%=sReturnFieldPrice%>".length > 0) {
-            window.opener.document.getElementsByName("<%=sReturnFieldPrice%>")[0].value = price;
-        }
-	    <%
-	    if (sFunctionVariable.length()>0){
+    if("<%=sReturnFieldCode%>".length > 0){
+      window.opener.document.getElementsByName("<%=sReturnFieldCode%>")[0].value = code;
+    }
+    if("<%=sReturnFieldDescr%>".length > 0){
+      window.opener.document.getElementsByName("<%=sReturnFieldDescr%>")[0].value = descr;
+    }
+    if("<%=sReturnFieldDescrHtml%>".length > 0){
+      window.opener.document.getElementById("<%=sReturnFieldDescrHtml%>").innerHTML = descr;
+    }
+    if("<%=sReturnFieldType%>".length > 0){
+      window.opener.document.getElementsByName("<%=sReturnFieldType%>")[0].value = type;
+    }
+    if("<%=sReturnFieldPrice%>".length > 0){
+      window.opener.document.getElementsByName("<%=sReturnFieldPrice%>")[0].value = price;
+    }
+	<%
+	    if(sFunctionVariable.length() > 0){
 	        out.print("window.opener."+sFunctionVariable+";");
 	    }
-	    %>
+    %>
 
-        window.close();
-    }
-    window.setTimeout("document.getElementsByName('FindPrestationDescr')[0].focus();")
+    window.close();
+  }
+    
+  window.setTimeout("document.getElementsByName('FindPrestationDescr')[0].focus();")
 </script>

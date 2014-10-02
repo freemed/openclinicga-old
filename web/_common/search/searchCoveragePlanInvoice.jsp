@@ -48,10 +48,10 @@
                 <input type="hidden" name="FindInvoiceInsurarUID" value="<%=sFindInvoiceInsurarUID%>">
                 <input type="text" class="text" readonly name="FindInvoiceInsurarText"
                        value="<%=sFindInvoiceInsurarText%>" size="60">
-                <img src="<c:url value="/_img/icon_search.gif"/>" class="link"
-                     alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchInsurar();">
-                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link"
-                     alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="doClearInsurar()">
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link"
+                     alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchInsurar();">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link"
+                     alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="doClearInsurar()">
             </td>
         </tr>
         <tr>
@@ -95,23 +95,21 @@
             <td/>
             <td>
                 <input class="button" type="button" onClick="searchInvoices();" name="searchButton"
-                       value="<%=getTran("Web","search",sWebLanguage)%>">&nbsp;
+                       value="<%=getTranNoLink("Web","search",sWebLanguage)%>">&nbsp;
                 <input class="button" type="button" onClick="clearSearchFields();" name="clearButton"
-                       value="<%=getTran("Web","clear",sWebLanguage)%>">
+                       value="<%=getTranNoLink("Web","clear",sWebLanguage)%>">
             </td>
         </tr>
         <%-- SEARCH RESULTS TABLE --%>
         <tr>
             <td style="vertical-align:top;" colspan="3" class="white" width="100%">
-                <div id="divFindRecords">
-                </div>
+                <div id="divFindRecords"></div>
             </td>
         </tr>
     </table>
     <br>
     <center>
-        <input type="button" class="button" name="closeButton" value="<%=getTran("Web","Close",sWebLanguage)%>"
-               onclick="window.close();">
+        <input type="button" class="button" name="closeButton" value="<%=getTranNoLink("Web","Close",sWebLanguage)%>" onclick="window.close();">
     </center>
 
     <%-- hidden fields --%>
@@ -123,93 +121,92 @@
     <input type="hidden" name="ReturnFieldInsurarName" value="<%=sReturnFieldInsurarName%>">
     <input type="hidden" name="doFunction" value="<%=sFunction%>">
 </form>
+
 <script>
-    window.resizeTo(700, 600);
-    getOpenerInsurance();
-    function searchInsurar() {
-        openPopup("/_common/search/searchCoveragePlan.jsp&ts=<%=getTs()%>&VarCompUID=FindInvoiceInsurarUID&VarText=FindInvoiceInsurarText");
+  window.resizeTo(700, 600);
+  getOpenerInsurance();
+    
+  function searchInsurar(){
+    openPopup("/_common/search/searchCoveragePlan.jsp&ts=<%=getTs()%>&VarCompUID=FindInvoiceInsurarUID&VarText=FindInvoiceInsurarText");
+  }
+
+  function doClearInsurar(){
+    SearchForm.FindInvoiceInsurarUID.value = "";
+    SearchForm.FindInvoiceInsurarText.value = "";
+  }
+
+  <%-- CLEAR SEARCH FIELDS --%>
+  function clearSearchFields(){
+    SearchForm.FindInvoiceDate.value = "";
+    SearchForm.FindInvoiceNr.value = "";
+    SearchForm.FindInvoiceBalanceMin.value = "";
+    SearchForm.FindInvoiceBalanceMax.value = "";
+    SearchForm.FindInvoiceStatus.value = "";
+    SearchForm.FindInvoiceInsurarUID.value = "";
+    SearchForm.FindInvoiceInsurarText.value = "";
+    SearchForm.FindInvoiceDate.focus();
+  }
+
+  <%-- SEARCH PRESTATIONS --%>
+  function searchInvoices(){
+    SearchForm.Action.value = "search";
+    ajaxChangeSearchResults('_common/search/searchByAjax/searchCoveragePlanInvoiceShow.jsp', SearchForm);
+  }
+
+  <%-- GET SELECTED ASSURANCE --%>
+  function getOpenerInsurance(){
+    var form = window.opener.document.forms["EditForm"];
+    var InsuranceId = form['EditCreditInsurarUid'];
+    var InsuranceName = form['EditCreditInsurarName'];
+
+    if(InsuranceName){
+      var newForm = document.forms["SearchForm"];
+      newForm["FindInvoiceInsurarUID"].value = InsuranceId.value;
+      newForm["FindInvoiceInsurarText"].value = InsuranceName.value;
+      searchInvoices();
+    }
+  }
+
+  <%-- SELECT INVOICE --%>
+  function selectInvoice(sInvoiceUid,sInvoiceDate,sInvoiceNr,sInvoiceBalance,sInvoiceStatus,sInsurarUid,sInsurarName){
+    if("<%=sReturnFieldInvoiceUid%>".length > 0) {
+      window.opener.document.getElementsByName("<%=sReturnFieldInvoiceUid%>")[0].value = sInvoiceUid;
     }
 
-    function doClearInsurar() {
-        SearchForm.FindInvoiceInsurarUID.value = "";
-        SearchForm.FindInvoiceInsurarText.value = "";
+    if("<%=sReturnFieldInvoiceNr%>".length > 0) {
+      window.opener.document.getElementsByName("<%=sReturnFieldInvoiceNr%>")[0].value = sInvoiceNr;
     }
 
-    <%-- CLEAR SEARCH FIELDS --%>
-    function clearSearchFields() {
-        SearchForm.FindInvoiceDate.value = "";
-        SearchForm.FindInvoiceNr.value = "";
-        SearchForm.FindInvoiceBalanceMin.value = "";
-        SearchForm.FindInvoiceBalanceMax.value = "";
-        SearchForm.FindInvoiceStatus.value = "";
-        SearchForm.FindInvoiceInsurarUID.value = "";
-        SearchForm.FindInvoiceInsurarText.value = "";
-        SearchForm.FindInvoiceDate.focus();
+    if("<%=sReturnFieldInvoiceBalance%>".length > 0) {
+      if(sInvoiceBalance > 0 && window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value * 1 == 0) {
+        window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value = format_number(sInvoiceBalance, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+      }
     }
 
-    <%-- SEARCH PRESTATIONS --%>
-    function searchInvoices() {
-        SearchForm.Action.value = "search";
-        ajaxChangeSearchResults('_common/search/searchByAjax/searchCoveragePlanInvoiceShow.jsp', SearchForm);
+    if("<%=sReturnFieldInvoiceStatus%>".length > 0) {
+      window.opener.document.getElementsByName("<%=sReturnFieldInvoiceStatus%>")[0].value = sInvoiceStatus;
     }
 
-    <%-- GET SELECTED ASSURANCE --%>
-    function getOpenerInsurance() {
-
-        var form = window.opener.document.forms["EditForm"];
-        var InsuranceId = form['EditCreditInsurarUid'];
-        var InsuranceName = form['EditCreditInsurarName'];
-
-
-        if (InsuranceName) {
-            var newForm = document.forms["SearchForm"];
-            newForm["FindInvoiceInsurarUID"].value = InsuranceId.value;
-            newForm["FindInvoiceInsurarText"].value = InsuranceName.value;
-            searchInvoices();
-        }
-
+    if("<%=sReturnFieldInsurarUid%>".length > 0) {
+      window.opener.document.getElementsByName("<%=sReturnFieldInsurarUid%>")[0].value = sInsurarUid;
     }
 
-    <%-- SELECT INVOICE --%>
-    function selectInvoice(sInvoiceUid, sInvoiceDate, sInvoiceNr, sInvoiceBalance, sInvoiceStatus, sInsurarUid, sInsurarName) {
-        if ("<%=sReturnFieldInvoiceUid%>".length > 0) {
-            window.opener.document.getElementsByName("<%=sReturnFieldInvoiceUid%>")[0].value = sInvoiceUid;
-        }
-
-        if ("<%=sReturnFieldInvoiceNr%>".length > 0) {
-            window.opener.document.getElementsByName("<%=sReturnFieldInvoiceNr%>")[0].value = sInvoiceNr;
-        }
-
-        if ("<%=sReturnFieldInvoiceBalance%>".length > 0) {
-            if (sInvoiceBalance > 0 && window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value * 1 == 0) {
-                window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value = format_number(sInvoiceBalance, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
-            }
-        }
-
-        if ("<%=sReturnFieldInvoiceStatus%>".length > 0) {
-            window.opener.document.getElementsByName("<%=sReturnFieldInvoiceStatus%>")[0].value = sInvoiceStatus;
-        }
-
-        if ("<%=sReturnFieldInsurarUid%>".length > 0) {
-            window.opener.document.getElementsByName("<%=sReturnFieldInsurarUid%>")[0].value = sInsurarUid;
-        }
-
-        if ("<%=sReturnFieldInsurarName%>".length > 0) {
-            window.opener.document.getElementsByName("<%=sReturnFieldInsurarName%>")[0].value = sInsurarName;
-        }
+    if("<%=sReturnFieldInsurarName%>".length > 0) {
+      window.opener.document.getElementsByName("<%=sReturnFieldInsurarName%>")[0].value = sInsurarName;
+    }
 
     <%
-    if (sFunction.length()>0){
-        out.print("window.opener."+sFunction+";");
-    }
+	    if(sFunction.length()>0){
+	        out.print("window.opener."+sFunction+";");
+	    }
     %>
 
-        if (window.opener.loadUnassignedCredits != null) {
-            window.opener.loadUnassignedCredits(sInsurarUid);
-        }
-
-        window.close();
+    if(window.opener.loadUnassignedCredits != null){
+      window.opener.loadUnassignedCredits(sInsurarUid);
     }
+
+    window.close();
+  }
 </script>
 
 <%-- CALENDAR FRAMES --%>

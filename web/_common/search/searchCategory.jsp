@@ -21,9 +21,9 @@
                 <input type="text" name="FindText" class="text" value="<%=sFindText%>" size="40">
 
                 <%-- buttons --%>
-                <input class="button" type="button" name="FindButton" value="<%=getTran("Web","find",sWebLanguage)%>"
+                <input class="button" type="button" name="FindButton" value="<%=getTranNoLink("Web","find",sWebLanguage)%>"
                        onClick="doFind();">&nbsp;
-                <input class="button" type="button" name="ClearButton" value="<%=getTran("Web","clear",sWebLanguage)%>"
+                <input class="button" type="button" name="ClearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>"
                        onClick="clearSearchFields();">
             </td>
         </tr>
@@ -33,15 +33,14 @@
         <%-- SEARCH RESULTS TABLE --%>
         <tr>
             <td class="white" style="vertical-align:top;">
-                <div id="divFindRecords">
-                </div>
+                <div id="divFindRecords"></div>
             </td>
         </tr>
     </table>
     <br>
     <%-- CLOSE BUTTON --%>
     <center>
-        <input type="button" class="button" name="buttonclose" value="<%=getTran("Web","Close",sWebLanguage)%>" onclick="window.close();">
+        <input type="button" class="button" name="buttonclose" value="<%=getTranNoLink("Web","Close",sWebLanguage)%>" onclick="window.close();">
     </center>
 </form>
 <script>

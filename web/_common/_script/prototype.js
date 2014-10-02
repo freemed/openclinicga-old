@@ -3805,15 +3805,15 @@ ClientMsg.prototype = {
  this.div.innerHTML = "";
  if(option){
  if(option=="before"){
- this.div.update("<span class='error'><img src='_img/warning.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>" +
+ this.div.update("<span class='error'><img src='_img/icons/icon_warning.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>" +
  "<br>"+this.div.innerHTML);
  }
  else if(option=="after"){
- this.div.update(this.div.innerHTML+"<br><span class='error'><img src='_img/warning.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
+ this.div.update(this.div.innerHTML+"<br><span class='error'><img src='_img/icons/icon_warning.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
  }
  }
  else{
- this.div.update("<span class='error'><img src='_img/warning.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
+ this.div.update("<span class='error'><img src='_img/icons/icon_warning.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
  }
  Effect.Appear(this.div, {duration:0.3});
  },

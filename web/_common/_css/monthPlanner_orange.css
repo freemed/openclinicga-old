@@ -1,6 +1,6 @@
 #monthScheduler_container {
-  border: 5px solid #DEEAFF;
-  background: #ECF5FF;
+  border: 5px solid #ffffff;
+  background: #FFE08A;
 }
 
 .monthScheduler_day, .monthScheduler_future {
@@ -35,7 +35,7 @@ div.today {
 #monthScheduler_weeks {
   width: 50px;
   float: left;
-  background: #ECF5FF;
+  background: #FFE08A;
 }
 
 #monthScheduler_days {
@@ -44,12 +44,12 @@ div.today {
 
 .dayHeaders div {
   float: left;
-  background: #ECF5FF;
+  background: #FFE08A;
   text-align: center;
   height: 20px;
   line-height: 20px;
   font-family: sans-serif bold 11px;
-  border-right: 1px solid #E1E1E1;
+  border-right: 1px solid #eee;
   color: #5A5A5B;
   padding: 0;
 }
@@ -92,7 +92,7 @@ div.today {
 #monthScheduler_top {
   position: relative;
   clear: both;
-  background: #ECF5FF;
+  background: #FFE08A;
 }
 
 #monthScheduler_content {
@@ -105,12 +105,12 @@ div.today {
 }
 
 .spacer {
-  background: #ECF5FF;
+  background: #FFE08A;
   color: #505050;
   width: 50px;
   height: 20px;
   float: left;
-  border-bottom: 1px solid #E1E1E1;
+  border-bottom: 1px solid #eee;
 }
 
 .calculation {

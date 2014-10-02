@@ -66,16 +66,16 @@
         );
     }
 
-    function setProvince(prov){
-        for(n=0;n<document.getElementById("PProvince").options.length;n++){
-            if (document.getElementById("PProvince").options[n].value==prov){
-                document.getElementById("PProvince").selectedIndex=n;
-                break;
-            }
-        }
+  function setProvince(prov){
+    for(n=0; n<document.getElementById("PProvince").options.length; n++){
+      if(document.getElementById("PProvince").options[n].value==prov){
+        document.getElementById("PProvince").selectedIndex=n;
+        break;
+      }
     }
+  }
 </script>
-        <table border='0' width='100%' class="list" cellspacing="1">
+        <table border='0' width='100%' class="list" cellspacing="1" style="border-top:none;">
     <%
         AdminPrivateContact apc = ScreenHelper.getActivePrivate(activePatient);
 
@@ -100,12 +100,12 @@
         }*/
 
         sBeginDate+=(" size='12' onblur='checkBegin(this,"+sStartDate.trim()+")'>&nbsp;"
-            +"<img class='link' name='popcal' onclick='gfPop1.fPopCalendar(document.getElementsByName(\"PBegin\")[0]);return false;' src='"+sCONTEXTPATH+"/_img/icon_agenda.gif' alt='"+getTranNoLink("Web","Select",sWebLanguage)+"'>"
-            +"&nbsp;<img class='link' src='"+sCONTEXTPATH+"/_img/icon_compose.gif' alt='"+getTranNoLink("Web","PutToday",sWebLanguage)+"' onclick='getToday(PBegin);'>");
+            +"<img class='link' name='popcal' onclick='gfPop1.fPopCalendar(document.getElementsByName(\"PBegin\")[0]);return false;' src='"+sCONTEXTPATH+"/_img/icons/icon_agenda.gif' alt='"+getTranNoLink("Web","Select",sWebLanguage)+"'>"
+            +"&nbsp;<img class='link' src='"+sCONTEXTPATH+"/_img/icons/icon_compose.gif' alt='"+getTranNoLink("Web","PutToday",sWebLanguage)+"' onclick='getToday(PBegin);'>");
 
         if (!bNew){
-            sBeginDate+= " <img src='"+sCONTEXTPATH+"/_img/icon_new.gif' id='buttonNewAPC' class='link' alt='"+getTranNoLink("Web","new",sWebLanguage)+"' onclick='newAPC()'>";
-//            sBeginDate+= "&nbsp;<input type='button' name='buttonNewAPC' class='button' onclick='newAPC()' value='"+getTran("Web","new",sWebLanguage)+"'>";
+            sBeginDate+= " <img src='"+sCONTEXTPATH+"/_img/icons/icon_new.gif' id='buttonNewAPC' class='link' alt='"+getTranNoLink("Web","new",sWebLanguage)+"' onclick='newAPC()'>";
+//            sBeginDate+= "&nbsp;<input type='button' name='buttonNewAPC' class='button' onclick='newAPC()' value='"+getTranNoLink("Web","new",sWebLanguage)+"'>";
         }
         sBeginDate+= "</td></tr>";
 
@@ -216,11 +216,7 @@
       if(!validEmailAddress(PatientEditForm.PEmail.value)){
         maySubmit = false;
         displayGenericAlert = false;
-
-        var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web&labelID=invalidemailaddress";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","invalidemailaddress",sWebLanguage)%>");
-
+        alertDialog("Web","invalidemailaddress");
         activateTab('AdminPrivate');
         PatientEditForm.PEmail.focus();
       }

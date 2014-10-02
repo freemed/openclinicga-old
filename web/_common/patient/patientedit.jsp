@@ -13,19 +13,20 @@
     <%-- TABS -----------------------------------------------------------------------------------%>
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
-            <td style="border-bottom: 1px solid Black;" width="5">&nbsp;</td>
+            <td class="tabs">&nbsp;</td>
             <td class="tabunselected" width="1%" onclick="activateTab('Admin')" id="td0" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' nowrap>&nbsp;<b><%=getTran("Web","actualpersonaldata",sWebLanguage)%></b>&nbsp;</td>
-            <td style="border-bottom: 1px solid Black;" width="5">&nbsp;</td>
+            <td class="tabs">&nbsp;</td>
             <td class="tabunselected" width="1%" onclick="activateTab('AdminPrivate')" id="td1" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' nowrap>&nbsp;<b><%=getTran("Web","private",sWebLanguage)%></b>&nbsp;</td>
-            <td style="border-bottom: 1px solid Black;" width="5">&nbsp;</td>
+            <td class="tabs">&nbsp;</td>
             <td class="tabunselected" width="1%" onclick="activateTab('AdminFamilyRelation')" id="td3" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' nowrap>&nbsp;<b><%=getTran("Web","AdminFamilyRelation",sWebLanguage)%></b>&nbsp;</td>
-            <td style="border-bottom: 1px solid Black;" width="5">&nbsp;</td>
+            <td class="tabs">&nbsp;</td>
             <td class="tabunselected" width="1%" onclick="activateTab('AdminResource')" id="td4" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' nowrap>&nbsp;<b><%=getTran("Web","AdminResource",sWebLanguage)%></b>&nbsp;</td>
-            <td width="*" class='tabs'>&nbsp;</td>
+            <td width="100%" class='tabs'>&nbsp;</td>
         </tr>
     </table>
+    
     <%-- ONE TAB --------------------------------------------------------------------------------%>
-    <table width="100%" border="0" cellspacing="0">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr id="tr0-view" style="display:none">
             <td><%ScreenHelper.setIncludePage(customerInclude("_common/patient/patienteditAdmin.jsp"),pageContext);%></td>
         </tr>
@@ -39,18 +40,21 @@
             <td><%ScreenHelper.setIncludePage(customerInclude("_common/patient/patienteditAdminResource.jsp"),pageContext);%></td>
         </tr>
     </table>
-    <%-- SAVE BUTTONS ---------------------------------------------------------------------------%>
+    
+    <%-- BUTTONS --%>
     <%
         if (activeUser.getAccessRight("patient.administration.edit")||activeUser.getAccessRight("patient.administration.add")){
             %>
-                <div id="saveMsg"><%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>.</div>
+                <div id="saveMsg"><%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%></div>
                 <%=ScreenHelper.alignButtonsStart()%>
-                    <input class="button" type="button" name="SavePatientEditForm" value="<%=getTran("Web","Save",sWebLanguage)%>" onclick="checkSubmit();">&nbsp;
-                    <input class="button" type="button" name="cancel" value="<%=getTran("Web","back",sWebLanguage)%>" onClick='window.location.href="<c:url value='/patientdata.do'/>?ts=<%=getTs()%>";'>&nbsp;
+                    <input class="button" type="button" name="SavePatientEditForm" value="<%=getTranNoLink("Web","Save",sWebLanguage)%>" onclick="checkSubmit();">&nbsp;
+                    <input class="button" type="button" name="cancel" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onClick='window.location.href="<c:url value='/patientdata.do'/>?ts=<%=getTs()%>";'>&nbsp;
                 <%=ScreenHelper.alignButtonsStop()%>
             <%
         }
     %>
+</form>
+    
 <script>
   var maySubmit = true;
   var displayGenericAlert = true;
@@ -112,6 +116,6 @@
       document.getElementById("saveMsg").style.display = "none";
     }
   }
+  
   activateTab("<%=tab%>");
 </script>
-</form>

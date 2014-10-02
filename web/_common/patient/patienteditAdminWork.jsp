@@ -32,13 +32,13 @@
         }
 
         sBeginDate+=(" size='12' onblur='checkBegin(this, "+sStartDate+")'>"
-            +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTPATH+"/_img/icon_agenda.gif' ALT='"
+            +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTPATH+"/_img/icons/icon_agenda.gif' ALT='"
             +getTran("Web","Select",sWebLanguage)+"' onclick='gfPop1.fPopCalendar(document.getElementsByName(\"WBegin\")[0]);return false;'>"
-            +"&nbsp;<img class='link'src='"+sCONTEXTPATH+"/_img/icon_compose.gif' alt='"+getTranNoLink("Web","PutToday",sWebLanguage)+"' OnClick=\"getToday(WBegin);\">");
+            +"&nbsp;<img class='link'src='"+sCONTEXTPATH+"/_img/icons/icon_compose.gif' alt='"+getTranNoLink("Web","PutToday",sWebLanguage)+"' OnClick=\"getToday(WBegin);\">");
 
         if (!bNew){
-//            sBeginDate += "&nbsp;<input type='button' name='buttonNewAWC' class='button' onclick='newAWC()' value='"+getTran("Web","new",sWebLanguage)+"'>";
-            sBeginDate+= " <img src='"+sCONTEXTPATH+"/_img/icon_new.gif' id='buttonNewAWC' class='link' alt='"+getTranNoLink("Web","new",sWebLanguage)+"' onclick='newAWC()'>";
+//            sBeginDate += "&nbsp;<input type='button' name='buttonNewAWC' class='button' onclick='newAWC()' value='"+getTranNoLink("Web","new",sWebLanguage)+"'>";
+            sBeginDate+= " <img src='"+sCONTEXTPATH+"/_img/icons/icon_new.gif' id='buttonNewAWC' class='link' alt='"+getTranNoLink("Web","new",sWebLanguage)+"' onclick='newAWC()'>";
         }
         sBeginDate += "</td></tr>";
         out.print(sBeginDate);
@@ -67,7 +67,7 @@
         <option/>
         <%=ScreenHelper.writeSelect("FunctionType","",sWebLanguage)%>
     </select>
-    &nbsp;<img src="<c:url value="/_img/icon_add.gif"/>" class="link" alt="<%=getTran("Web","add",sWebLanguage)%>" onclick="addFunction()">
+    &nbsp;<img src="<c:url value="/_img/icons/icon_add.gif"/>" class="link" alt="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addFunction()">
     <div id='divFunction'></div>
 
 <%
@@ -99,7 +99,7 @@
         %>
             <script>
               divFunction.innerHTML += "<div id='divFunction<%=iFunctions%>'>"
-                +"<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' class='link' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick='deleteFunction(divFunction<%=iFunctions%>)'>&nbsp;"
+                +"<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick='deleteFunction(divFunction<%=iFunctions%>)'>&nbsp;"
                 +"<%=sCode+sType%>"
                 +"<input type='hidden' name='EditFunctionType<%=iFunctions%>' value='<%=function.type%>'>"
                 +"<input type='hidden' name='EditFunctionCode<%=iFunctions%>' value='<%=function.code%>'><br></div>";
@@ -143,7 +143,7 @@
     <input type=hidden name='WUnit' VALUE='<%=service.code%>'>
     <%=normalRow("Web","service","WUnit","AdminWork",sWebLanguage)%>
     <input class='text' size='<%=sTextWidth%>' readonly type='text' name='WUnitDescription' value='<%=(MedwanQuery.getInstance().getConfigString("showUnitID").equals("1")?service.code+" ":"")+sServiceCode+"'"%>'>&nbsp;
-    <a href="#"><img src="<c:url value='/_img/icon_info.gif'/>" border="0" alt="<%=getTran("Web","Information",sWebLanguage)%>" onclick='searchInfoService(PatientEditForm.WUnit)'/></a>
+    <a href="#"><img src="<c:url value='/_img/icons/icon_info.gif'/>" border="0" alt="<%=getTranNoLink("Web","Information",sWebLanguage)%>" onclick='searchInfoService(PatientEditForm.WUnit)'/></a>
     <%=ScreenHelper.writeServiceButton("buttonService", "", "WUnit", "WUnitDescription", "ok",sWebLanguage,sCONTEXTPATH)%>
     </td></tr>
     <%=inputRow("Web","comment","WComment","AdminWork",awc.comment,"T",bEditable,false,sWebLanguage,sBackground)%>
@@ -260,7 +260,7 @@
       }
       iFunctions ++;
 
-      divFunction.innerHTML += "<div id='divFunction"+iFunctions+"'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' class='link' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick='deleteFunction(divFunction"+iFunctions+")'>&nbsp;"
+      divFunction.innerHTML += "<div id='divFunction"+iFunctions+"'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick='deleteFunction(divFunction"+iFunctions+")'>&nbsp;"
         +PatientEditForm.NewFunctionCode.value+sFunctionTypeDescr
         +"<input type='hidden' name='EditFunctionType"+iFunctions+"' value='"+sFunctionType+"'>"
         +"<input type='hidden' name='EditFunctionCode"+iFunctions+"' value='"+sFunctionCode+"'><br></div>";

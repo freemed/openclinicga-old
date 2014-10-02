@@ -67,10 +67,10 @@ div.leftcontainer div.container {
 }
 #footer-container {
   /*  height:250px;*/
-     background: url( "../../_img/background_footer_ghb.gif" ) repeat-x top left;
+     background: url( "../../_img/ghb/background_footer_ghb.gif" ) repeat-x top left;
 }
 div#footer_logo {
-    background:  url( "../../_img/background_footer_ghb.jpg" ) no-repeat left top;
+    background:  url( "../../_img/ghb/background_footer_ghb.jpg" ) no-repeat left top;
     text-align:left;
     padding-top:15px;
     

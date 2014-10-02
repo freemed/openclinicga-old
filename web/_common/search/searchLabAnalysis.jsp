@@ -19,7 +19,7 @@
         else if (sType.equals("7")) sType = getTran("Web.occup", "labanalysis.type.liquid", sWebLanguage);
 
         return "<tr>"+
-               " <td class='admin' width='60'><a href='#' onclick='selectLabAnalysis(\""+sID+"\",\""+sType+"\",\""+sCode+"\",\""+sLabel+"\")' title='"+getTran("web","select",sWebLanguage)+"'>"+sCode+"</a></td>"+
+               " <td class='admin' width='60'><a href='#' onclick='selectLabAnalysis(\""+sID+"\",\""+sType+"\",\""+sCode+"\",\""+sLabel+"\")' title='"+getTranNoLink("web","select",sWebLanguage)+"'>"+sCode+"</a></td>"+
                " <td class='admin2' width='70'>"+sType+"</td>"+
                " <td class='admin2'>"+sLabel+"</td>"+
                "</tr>";
@@ -137,8 +137,8 @@
         &nbsp;<%=getTran("web.manage","labanalysis.cols.name",sWebLanguage)%>&nbsp;<input class="text" type="text" name="FindText" value="<%=sFindText%>" size="32">
 
         <%-- BUTTONS --%>
-        &nbsp;<input class="button" type="button" name="FindButton"  value="<%=getTran("Web","find",sWebLanguage)%>" onClick="doFind();">
-        &nbsp;<input class="button" type="button" name="ClearButton" value="<%=getTran("Web","clear",sWebLanguage)%>" onClick="clearForm();">
+        &nbsp;<input class="button" type="button" name="FindButton"  value="<%=getTranNoLink("Web","find",sWebLanguage)%>" onClick="doFind();">
+        &nbsp;<input class="button" type="button" name="ClearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onClick="clearForm();">
       </td>
     </tr>
 
@@ -187,7 +187,7 @@
 
   <%-- CLOSE BUTTON --%>
   <center>
-    <input type="button" name="buttonclose" class="button" value="<%=getTran("Web","Close",sWebLanguage)%>" onclick="window.close();">
+    <input type="button" name="buttonclose" class="button" value="<%=getTranNoLink("Web","Close",sWebLanguage)%>" onclick="window.close();">
   </center>
 
   <%-- HIDDEN FIELDS --%>

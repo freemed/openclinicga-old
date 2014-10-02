@@ -33,9 +33,9 @@
             <td class="admin2">&nbsp;</td>
             <td class="admin2">
                 <input class="button" type="button" onClick="searchLabProcedures();" name="searchButton"
-                       value="<%=getTran("Web","search",sWebLanguage)%>">&nbsp;
+                       value="<%=getTranNoLink("Web","search",sWebLanguage)%>">&nbsp;
                 <input class="button" type="button" onClick="clearFields();" name="clearButton"
-                       value="<%=getTran("Web","clear",sWebLanguage)%>">
+                       value="<%=getTranNoLink("Web","clear",sWebLanguage)%>">
             </td>
         </tr>
         <%
@@ -51,7 +51,7 @@
     </table>
     <br>
     <center>
-        <input type="button" class="button" name="buttonclose" value="<%=getTran("Web","Close",sWebLanguage)%>"
+        <input type="button" class="button" name="buttonclose" value="<%=getTranNoLink("Web","Close",sWebLanguage)%>"
                onclick="window.close();">
     </center>
 </form>

@@ -19,7 +19,7 @@
         }
 
         %>
-        <table width="100%" cellspacing="1" class="list">
+        <table width="100%" cellspacing="1" class="list" style="border-top:none;">
             <tr>
                 <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("admin","category",sWebLanguage)%></td>
                 <td class="admin2"><%=sCategory%></td>
@@ -43,7 +43,7 @@
         <%
             if (activeUser.getAccessRight("patient.administration.edit")){
                 %>
-                <input type="button" class="button" onclick="window.location.href='<c:url value="/patientedit.do"/>?Tab=AdminResource&ts=<%=getTs()%>'" value="<%=getTran("Web","edit",sWebLanguage)%>">
+                <input type="button" class="button" onclick="window.location.href='<c:url value="/patientedit.do"/>?Tab=AdminResource&ts=<%=getTs()%>'" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>">
                 <%
             }
         %>

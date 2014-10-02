@@ -15,15 +15,15 @@
     String sReturnFieldUid  = checkString(request.getParameter("ReturnFieldUid")),
            sReturnFieldName = checkString(request.getParameter("ReturnFieldName"));
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n**************** searchSupplier.jsp ****************");
+        Debug.println("\n******************* _common/search/searchSupplier.jsp *****************");
         Debug.println("sSupplierUid     : "+sSupplierUid);
         Debug.println("sFunction        : "+sFunction);
         Debug.println("sReturnFieldUid  : "+sReturnFieldUid);
         Debug.println("sReturnFieldName : "+sReturnFieldName+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
         
     // inner search
     String sAction = checkString(request.getParameter("Action"));
@@ -100,10 +100,8 @@
 	        
 	        foundSuppliers = Supplier.getList(findItem);
 	        if(foundSuppliers.size() > 0){
-	            %>
-	                <br>
-	                
-	                <table id="searchresults" cellpadding="0" cellspacing="0" width="100%" class="sortable" style="border:1px solid #cccccc;">
+	            %>	                
+	                <table id="searchresults" cellpadding="0" cellspacing="0" width="100%" class="sortable">
 	                    <%-- header --%>
 	                    <tr class="admin">
 	                        <td class="admin" style="padding-left:0;" width="20%" nowrap><%=getTran("web","code",sWebLanguage)%></td>
@@ -113,7 +111,7 @@
 	                    
 	                    <tbody>
 	                        <%
-	                            String sClass = "";
+	                            String sClass = "1";
 	                            Supplier supplier;
 	                            
 	                            for(int i=0; i<foundSuppliers.size(); i++){
@@ -143,13 +141,13 @@
 	        %><%=foundSuppliers.size()%> <%=getTran("web","recordsFound",sWebLanguage)%><%
 	    }
 	    else{
-	        %><br><%=getTran("web","noRecordsFound",sWebLanguage)%><%
+	        %><%=getTran("web","noRecordsFound",sWebLanguage)%><%
 	    }
     }
     
     // display message
     if(msg.length() > 0){
-        %><br><%=msg%><br><%
+        %><%=msg%><br><%
     }
 %>
     

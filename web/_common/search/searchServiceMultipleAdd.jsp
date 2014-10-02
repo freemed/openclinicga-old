@@ -22,13 +22,13 @@
                     if ((sParentID != null) && (!sParentID.equals("0000")) && (sParentID.trim().length() > 0)) {
 
                         sReturn = getParent(sParentID, sWebLanguage)
-                                + "&nbsp;<img src='" + sCONTEXTPATH + "/_img/pijl.gif'>&nbsp;"
+                                + "&nbsp;<img src='" + sCONTEXTPATH + "/_img/themes/default/pijl.gif'>&nbsp;"
                                 + "<a href='#' onclick='populateService(\"" + sCode + "\")' title='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>" + sLabel + "</a>";
                     }
                 }
 
                 if (sReturn.trim().length() == 0) {
-                    sReturn = sReturn + "&nbsp;<img src='" + sCONTEXTPATH + "/_img/pijl.gif'>&nbsp;"
+                    sReturn = sReturn + "&nbsp;<img src='" + sCONTEXTPATH + "/_img/themes/default/pijl.gif'>&nbsp;"
                             + "<a href='#' onclick='populateService(\"" + sCode + "\")' title='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>" + sLabel + "</a>";
                 }
             }
@@ -45,20 +45,20 @@
         StringBuffer sReturn = new StringBuffer();
 
         sReturn.append("<tr>")
-                .append(" <td width='50'>")
-                .append("  <input type='checkbox' name='cb_" + rowIdx + "'/>")
-                .append("&nbsp;<img src='" + sCONTEXTPATH + "/_img/icon_view.gif' onmouseover='this.style.cursor=\"hand\"' onmouseout='this.style.cursor=\"default\"' alt='" + getTran("Web", "view", sWebLanguage) + "'" + " onclick='viewService(\"" + sID + "\")'>");
+                .append("<td width='50'>")
+                .append("<input type='checkbox' name='cb_" + rowIdx + "'/>")
+                .append("&nbsp;<img src='" + sCONTEXTPATH + "/_img/icons/icon_view.gif' onmouseover='this.style.cursor=\"hand\"' onmouseout='this.style.cursor=\"default\"' alt='" + getTran("Web", "view", sWebLanguage) + "'" + " onclick='viewService(\"" + sID + "\")'>");
 
         /*
         // add edit icon if user has the right permissions
         if(activeUser.getAccessRight("system.manageservices.edit")){
-            sReturn.append("&nbsp;<img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' onmouseover='this.style.cursor=\"hand\"' onmouseout='this.style.cursor=\"default\"' alt='"+getTranNoLink("Web","edit",sWebLanguage)+"'"+" onclick='editService(\""+sID+"\")'>");
+            sReturn.append("&nbsp;<img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' onmouseover='this.style.cursor=\"hand\"' onmouseout='this.style.cursor=\"default\"' alt='"+getTranNoLink("Web","edit",sWebLanguage)+"'"+" onclick='editService(\""+sID+"\")'>");
         }
         */
 
-        sReturn.append(" </td>")
-                .append(" <td>" + sID + "</td>")
-                .append(" <td><a href='#' onclick='checkService(\"cb_" + rowIdx + "\");' title='" + getTran("Web", "select", sWebLanguage) + "'>" + sLabel + "</a></td>")
+        sReturn.append("</td>")
+                .append("<td>" + sID + "</td>")
+                .append("<td><a href='#' onclick='checkService(\"cb_" + rowIdx + "\");' title='" + getTran("Web", "select", sWebLanguage) + "'>" + sLabel + "</a></td>")
                 .append("</tr>");
 
         return sReturn.toString();
@@ -198,8 +198,8 @@
                     <input type="text" NAME="FindText" class="text" value="<%=sFindText%>" size="40" onblur="limitLength(this);">
 
                     <%-- BUTTONS --%>
-                    <input class="button" type="button" name="FindButton" value="<%=getTran("Web","find",sWebLanguage)%>" onClick="doFind();">&nbsp;
-                    <input class="button" type="button" name="ClearButton" value="<%=getTran("Web","clear",sWebLanguage)%>" onClick="doClear();">
+                    <input class="button" type="button" name="FindButton" value="<%=getTranNoLink("Web","find",sWebLanguage)%>" onClick="doFind();">&nbsp;
+                    <input class="button" type="button" name="ClearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onClick="doClear();">
                 </td>
             </tr>
 
@@ -304,9 +304,9 @@
                 <td align="left" width="100"><%=sPrevious%></td>
 
                 <td align="center">
-                    <input type="button" name="buttonadd"    class="button" value='<%=getTran("Web","add",sWebLanguage)%>' onclick='addSelectedService();'>&nbsp;
-                    <input type="button" name="buttonaddall" class="button" value='<%=getTran("Web","addall",sWebLanguage)%>' onclick='addAllServices();window.close();'>&nbsp;
-                    <input type="button" name="buttonclose"  class="button" value='<%=getTran("Web","Close",sWebLanguage)%>' onclick='window.close();'>
+                    <input type="button" name="buttonadd"   class="button" value='<%=getTranNoLink("Web","add",sWebLanguage)%>' onclick='addSelectedService();'>&nbsp;
+                    <input type="button" name="buttonaddall" class="button" value='<%=getTranNoLink("Web","addall",sWebLanguage)%>' onclick='addAllServices();window.close();'>&nbsp;
+                    <input type="button" name="buttonclose" class="button" value='<%=getTranNoLink("Web","Close",sWebLanguage)%>' onclick='window.close();'>
                 </td>
 
                 <td align="right" width="100"><%=sNext%></td>

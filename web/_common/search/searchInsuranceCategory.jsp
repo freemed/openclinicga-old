@@ -39,9 +39,9 @@
             <td>
                 <%-- BUTTONS --%>
                 <input class="button" type="button" onClick="doFind();" name="findButton"
-                       value="<%=getTran("Web","find",sWebLanguage)%>">
+                       value="<%=getTranNoLink("Web","find",sWebLanguage)%>">
                 <input class="button" type="button" onClick="clearFields();" name="clearButton"
-                       value="<%=getTran("Web","clear",sWebLanguage)%>">&nbsp;
+                       value="<%=getTranNoLink("Web","clear",sWebLanguage)%>">&nbsp;
             </td>
         </tr>
         <%
@@ -59,7 +59,7 @@
 
     <%-- CLOSE BUTTON --%>
     <center>
-        <input type="button" class="button" name="buttonclose" value='<%=getTran("Web","Close",sWebLanguage)%>'
+        <input type="button" class="button" name="buttonclose" value='<%=getTranNoLink("Web","Close",sWebLanguage)%>'
                onclick='window.close()'>
     </center>
 

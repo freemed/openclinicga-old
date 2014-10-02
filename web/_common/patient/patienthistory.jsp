@@ -27,12 +27,12 @@
                             <table border=0 width='100%' align='center' class='list' cellspacing='0'>
                                 <tr class='admin'>
                                     <td width='1%'>
-                                        <img id="Apc<%=apc.privateid%>S" src="<c:url value='/_img/plus.png'/>" onclick="showD('Apc<%=apc.privateid%>','Apc<%=apc.privateid%>S','Apc<%=apc.privateid%>H');" style="display:none">
-                                        <img id="Apc<%=apc.privateid%>H" src="<c:url value='/_img/minus.png'/>" onclick="hideD('Apc<%=apc.privateid%>','Apc<%=apc.privateid%>S','Apc<%=apc.privateid%>H');">
+                                        <img id="Apc<%=apc.privateid%>S" src="<c:url value='/_img/icons/icon_plus.png'/>" onclick="showD('Apc<%=apc.privateid%>','Apc<%=apc.privateid%>S','Apc<%=apc.privateid%>H');" style="display:none">
+                                        <img id="Apc<%=apc.privateid%>H" src="<c:url value='/_img/icons/icon_minus.png'/>" onclick="hideD('Apc<%=apc.privateid%>','Apc<%=apc.privateid%>S','Apc<%=apc.privateid%>H');">
                                     </td>
                                     <td><%=getTran("Web","private",sWebLanguage)%></td>
                                     <td align='right'>&nbsp;
-                                        <a href="<c:url value='/patientdata.do'/>?ts=<%=getTs()%>"><img src="<c:url value='/_img/arrow.jpg'/>" border='0' alt="<%=getTran("Web","back",sWebLanguage)%>"></a>&nbsp;
+                                        <a href="<c:url value='/patientdata.do'/>?ts=<%=getTs()%>"><img src="<c:url value='/_img/themes/default/arrow_left.gif'/>" border='0' alt="<%=getTranNoLink("Web","back",sWebLanguage)%>"></a>&nbsp;
                                         <a href='#topp' class='topbutton'>&nbsp;</a>
                                     </td>
                                 </tr>
@@ -55,11 +55,11 @@
                                     <%
                                         if (activeUser.getAccessRight("patient.administration.edit")){
                                             %>
-                                            <input type="button" class="button" name="ButtonEdit" value="<%=getTran("Web","edit",sWebLanguage)%>" onclick="parent.location='patientedit.do?ts=<%=getTs()%>'">
+                                            <input type="button" class="button" name="ButtonEdit" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="parent.location='patientedit.do?ts=<%=getTs()%>'">
                                             <%
                                         }
                                     %>
-                                    <input type="button" class="button" name="ButtonBack" value="<%=getTran("Web","Back",sWebLanguage)%>" onclick="parent.location='patientdata.do?ts=<%=getTs()%>'">
+                                    <input type="button" class="button" name="ButtonBack" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="parent.location='patientdata.do?ts=<%=getTs()%>'">
                                 <%=ScreenHelper.alignButtonsStop()%>
                             <%
                         }

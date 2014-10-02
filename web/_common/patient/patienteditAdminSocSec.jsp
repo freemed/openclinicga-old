@@ -1,6 +1,6 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/_common/patient/patienteditHelper.jsp"%>
-<table border='0' width='100%' class="list" cellspacing="1">
+<table border='0' width='100%' class="list" cellspacing="1" style="border-top:none;">
     <%
         AdminSocSec socsec;
         String srbSCYes = "", srbSCNo = "";

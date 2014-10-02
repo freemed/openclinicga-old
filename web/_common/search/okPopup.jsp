@@ -22,7 +22,7 @@
     <tr>
         <td align="center" style="padding:1px">
             <br>
-            <img src="<c:url value='/_img/warning.gif'/>"/> <%=questionTran%>
+            <img src="<c:url value='/_img/icons/icon_warning.gif'/>"/> <%=questionTran%>
             <br><br><br>
 
             <input type="button" name="buttonOk" id="buttonOk" class="button" value="&nbsp;&nbsp;<%=getTranNoLink("web.occup","medwan.common.ok",sWebLanguage)%>&nbsp;&nbsp;" onclick="doClose(1);"/>
@@ -34,6 +34,7 @@
 <script>
   //document.getElementById("buttonOk").focus();
   //window.resizeTo(400,300);
+  <%=sCenterWindow%>
 
   <%-- DO CLOSE --%>
   function doClose(iReturn){

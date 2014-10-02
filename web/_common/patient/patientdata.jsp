@@ -19,8 +19,9 @@
                     <td width="*" class='tabs'>&nbsp;</td>
                 </tr>
             </table>
+            
             <%-- ONE TAB ------------------------------------------------------------------------%>
-            <table style="vertical-align:top;" width="100%" border="0" cellspacing="0">
+            <table style="vertical-align:top;" width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr id="tr0-view" style="display:none">
                     <td><%ScreenHelper.setIncludePage(customerInclude("_common/patient/patientdataAdmin.jsp"),pageContext);%></td>
                 </tr>
@@ -34,6 +35,7 @@
                     <td><%ScreenHelper.setIncludePage(customerInclude("_common/patient/patientdataAdminResource.jsp"),pageContext);%></td>
                 </tr>
             </table>
+            
             <script>
               function activateTab(sTab){
                 document.getElementById('tr0-view').style.display = 'none';

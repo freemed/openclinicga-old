@@ -1,12 +1,15 @@
-<%@ page import="java.util.Hashtable,java.util.Vector" %>
+<%@page import="java.util.Hashtable,
+                java.util.Vector"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/_common/patient/patienteditHelper.jsp"%>
+
 <%!
     //--- GET ENCLOSED FILE ID (immatnew of dossier) ----------------------------------------------
     public String getEnclosedFileId(String superFileId){
         return AdminPerson.getEnclosedFileId(superFileId);
     }
 %>
+
 <%
     String msgNames = "", msgImmatNew = "", msgNatReg = "";
     String link1Names = "", link2Names = "";
@@ -21,16 +24,14 @@
     if (activePatient != null) {
         // data to check on for doubles
         String sPersonID = checkString(request.getParameter("PersonID")).toUpperCase(),
-                sName = checkString(request.getParameter("Lastname")).toUpperCase(),
-                sFirstname = checkString(request.getParameter("Firstname")).toUpperCase(),
-                sDateOfBirth = checkString(request.getParameter("DateOfBirth")),
-                sImmatNew = checkString(request.getParameter("ImmatNew")).toUpperCase(),
-                sNatReg = checkString(request.getParameter("NatReg")).toUpperCase();
-
-
+               sName = checkString(request.getParameter("Lastname")).toUpperCase(),
+               sFirstname = checkString(request.getParameter("Firstname")).toUpperCase(),
+               sDateOfBirth = checkString(request.getParameter("DateOfBirth")),
+               sImmatNew = checkString(request.getParameter("ImmatNew")).toUpperCase(),
+               sNatReg = checkString(request.getParameter("NatReg")).toUpperCase();
 
         //--- CHECK ON DOUBLES --------------------------------------------------------------------
-        if (activePatient.sourceid.equals(sServiceSourceID)) {
+        if(activePatient.sourceid.equals(sServiceSourceID)){
             //#####################################################################################
             //################################## CREATE ###########################################
             //#####################################################################################
@@ -417,7 +418,7 @@
 
                     <%-- CLOSE BUTTON --%>
                     <div align="center">
-                        <input type="button" class="button" value="<%=getTran("web","close",sWebLanguage)%>" onClick="closeWindow();">
+                        <input type="button" class="button" value="<%=getTranNoLink("web","close",sWebLanguage)%>" onClick="closeWindow();">
                     </div>
                 </p>
 

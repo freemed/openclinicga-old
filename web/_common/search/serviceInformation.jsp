@@ -19,7 +19,7 @@
                 String sServiceLabel = getTran("Service", sServiceID, sWebLanguage);
                 Vector serviceParents = Service.getParentIds(sServiceID);
                 String sParentServiceID;
-                String arrow = "<img src='" + sCONTEXTPATH + "/_img/pijl.gif'/>&nbsp;";
+                String arrow = "<img src='" + sCONTEXTPATH + "/_img/themes/default/pijl.gif'/>&nbsp;";
                 for (int i = serviceParents.size() - 1; i >= 0; i--) {
                     sParentServiceID = (String) serviceParents.get(i);
                     sServiceLabel = getTran("Service", sParentServiceID, sWebLanguage) + "&nbsp;" + arrow + sServiceLabel;
@@ -57,7 +57,7 @@
 
 <%-- BUTTON --%>
 <center>
-    <input type="button" class="button" name="buttonclose" value='<%=getTran("Web","Close",sWebLanguage)%>'
+    <input type="button" class="button" name="buttonclose" value='<%=getTranNoLink("Web","Close",sWebLanguage)%>'
            onclick='window.close()'>
 </center>
 

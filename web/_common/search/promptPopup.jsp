@@ -17,7 +17,7 @@
     }
 %>
 
-<body class="Geenscroll">
+<body class="Geenscroll" onLoad="document.getElementById("buttonOk").focus();" onBlur="self.focus();document.getElementById("buttonOk").focus();">
 <form name="promptForm" method="POST" onkeydown="if(enterEvent(event,13)){doClose(document.getElementById('promptField').value);}">
     <table width="260" height="120">
         <tr>
@@ -27,7 +27,7 @@
                 <br><br><br>
 
                 <input type="text" class="text" size="20" name="promptField" id="promptField">
-                <input type="button" name="buttonOk" class="button" value="&nbsp;&nbsp;<%=getTran("web.occup","medwan.common.ok",sWebLanguage)%>&nbsp;&nbsp;" onclick="doClose(document.getElementById('promptField').value);"/>
+                <input type="button" name="buttonOk" class="button" value="&nbsp;&nbsp;<%=getTranNoLink("web.occup","medwan.common.ok",sWebLanguage)%>&nbsp;&nbsp;" onclick="doClose(document.getElementById('promptField').value);"/>
                 <br><br>
             </td>
         </tr>
@@ -35,13 +35,20 @@
 </form>
 
 <script>
-  //document.getElementById("buttonOk").focus();
+  <%=sCenterWindow%>
+  document.getElementById("buttonOk").focus();
   //window.resizeTo(400,300);
 
   <%-- DO CLOSE --%>
   function doClose(iReturn){
     window.returnValue = iReturn;
     window.close();
+  }
+  
+  <%-- ENTEREVENT --%>
+  function enterEvent(e,targetKey){
+	var eventKey = e.which?e.which:window.event.keyCode;
+    return (eventKey==targetKey);
   }
 </script>
 </body>

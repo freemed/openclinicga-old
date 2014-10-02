@@ -19,9 +19,9 @@
       <td width='100%' height='25'>
         &nbsp;<%=getTran("web.manage","labanalysis.cols.code",sWebLanguage)%>&nbsp;<input class="text" type="text" name="FindCode" value="<%=sFindCode%>" size="16">
         &nbsp;<%=getTran("web.manage","labanalysis.cols.name",sWebLanguage)%>&nbsp;<input class="text" type="text" name="FindText" value="<%=sFindText%>" size="32">
-        &nbsp;<input class="button" type="submit" name="FindButton"  value="<%=getTran("Web","find",sWebLanguage)%>">
-        &nbsp;<input class="button" type="button" name="ClearButton" value="<%=getTran("Web","clear",sWebLanguage)%>" onClick="clearForm();">
-        &nbsp;<input class="button" type="button" name="NewButton"   value="<%=getTran("Web","new",sWebLanguage)%>" onClick="newActivity();">
+        &nbsp;<input class="button" type="submit" name="FindButton"  value="<%=getTranNoLink("Web","find",sWebLanguage)%>">
+        &nbsp;<input class="button" type="button" name="ClearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onClick="clearForm();">
+        &nbsp;<input class="button" type="button" name="NewButton"   value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onClick="newActivity();">
       </td>
     </tr>
 
@@ -52,12 +52,12 @@
                 int iIndex = 1;
                 String sSelect = "SELECT * FROM Labels WHERE labeltype = 'activitycodes'";
                 if(sFindCode.length() > 0){
-                    sSelect += " AND "+MedwanQuery.getInstance().getConfigParam("lowerCompare","labelid")+" like ?";
+                    sSelect+= " AND "+MedwanQuery.getInstance().getConfigParam("lowerCompare","labelid")+" like ?";
                     iIndex++;
                 }
 
                 if(sFindText.length() > 0){
-                    sSelect += " AND "+MedwanQuery.getInstance().getConfigParam("lowerCompare",label)+" like ? ";
+                    sSelect+= " AND "+MedwanQuery.getInstance().getConfigParam("lowerCompare",label)+" like ? ";
                 }
 
             	Connection lad_conn = MedwanQuery.getInstance().getAdminConnection();
@@ -73,18 +73,18 @@
                 rs = ps.executeQuery();
                 String labelid, sClass = "";
                 boolean recsFound = false;
-                while (rs.next()){
+                while(rs.next()){
                     recsFound = true;
                     labelid = rs.getString("labelid");
 
-                    if (sClass.equals("")) sClass = "1";
-                    else                   sClass = "";
+                    if(sClass.equals("")) sClass = "1";
+                    else                  sClass = "";
 
                     %>
                       <tr class='list<%=sClass%>'>
                         <td onMouseOver="this.style.cursor='hand'" onMouseOut="this.style.cursor='default'">
-                          <img src='<c:url value="/_img/plus.png"/>' onclick="addActivity('<%=labelid%>')" title="<%=getTranNoLink("web","add",sWebLanguage)%>"/>
-                          <img src='<c:url value="/_img/icon_edit.gif"/>' onclick="editActivity('<%=labelid%>')" title="<%=getTranNoLink("web","edit",sWebLanguage)%>"/>
+                          <img src='<c:url value="/_img/icons/icon_plus.png"/>' onclick="addActivity('<%=labelid%>')" title="<%=getTranNoLink("web","add",sWebLanguage)%>"/>
+                          <img src='<c:url value="/_img/icons/icon_edit.gif"/>' onclick="editActivity('<%=labelid%>')" title="<%=getTranNoLink("web","edit",sWebLanguage)%>"/>
                         </td>
                         <td><%=labelid%></td>
                         <td><%=rs.getString(label)%></td>
@@ -108,6 +108,7 @@
                     <td width="*"></td>
                   </tr>
                 <%
+                
                     rs.close();
                     ps.close();
                     lad_conn.close();
@@ -122,23 +123,21 @@
 
   <%-- CLOSE BUTTON --%>
   <center>
-    <input type="button" name="buttonclose" class="button" value='<%=getTran("Web","Close",sWebLanguage)%>' onclick='window.close()'>
+    <input type="button" name="buttonclose" class="button" value='<%=getTranNoLink("Web","Close",sWebLanguage)%>' onclick='window.close()'>
   </center>
-
-  <script>
-    function addActivity(labelid){
-      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.occup&labelID=CodeAdded";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.occup","CodeAdded",sWebLanguage)%>");
-      window.location.href = "<c:url value="/healthrecord/addActivity.jsp"/>?activityCode="+labelid;
-      window.opener.location.reload();
-    }
-
-    function editActivity(labelid){
-      openPopup("/healthrecord/editActivity.jsp&ts=<%=getTs()%>&activityCode="+labelid);
-    }
-
-    window.resizeTo(582,484);
-    searchForm.FindCode.focus();
-  </script>
 </form>
+
+<script>
+  function addActivity(labelid){
+    alertDialog("web.occup","codeAdded");
+    window.location.href = "<c:url value='/healthrecord/addActivity.jsp'/>?activityCode="+labelid;
+    window.opener.location.reload();
+  }
+
+  function editActivity(labelid){
+    openPopup("/healthrecord/editActivity.jsp&ts=<%=getTs()%>&activityCode="+labelid);
+  }
+
+  window.resizeTo(582,484);
+  searchForm.FindCode.focus();
+</script>

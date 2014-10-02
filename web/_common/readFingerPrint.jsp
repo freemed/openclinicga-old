@@ -4,70 +4,69 @@
 
 <body onload="javascript:res();">
 <script>  
-   	var _app = navigator.appName;
+  var _app = navigator.appName;
   	
-  	function onErrorHandler() {
-        alert("Error");
-    }
+  function onErrorHandler(){
+    alert("Error");
+  }
   	
-  	function onLoadHandler(){
-  		document.UareUApplet.SelectFormatISO();
-	}
+  function onLoadHandler(){
+  	document.UareUApplet.SelectFormatISO();
+  }
 
-    function onDisconnectedHandler() {
-        setTimeout('document.getElementById("readerID").innerHTML="<%=getTranNoLink("web","no.reader",sWebLanguage)%>"');
-    }
+  function onDisconnectedHandler(){
+    setTimeout('document.getElementById("readerID").innerHTML="<%=getTranNoLink("web","no.reader",sWebLanguage)%>"');
+  }
 
-    function onConnectedHandler(reader) {
-  		document.getElementById('readerID').innerHTML=reader+' <%=getTranNoLink("web","detected",sWebLanguage)%>';
-  		document.UareUApplet.SelectFormatISO();
-    }
+  function onConnectedHandler(reader){
+  	document.getElementById('readerID').innerHTML=reader+' <%=getTranNoLink("web","detected",sWebLanguage)%>';
+  	document.UareUApplet.SelectFormatISO();
+  }
 
-    function onCaptureHandler() {
-    }
+  function onCaptureHandler(){
+  }
 
-    function onEnrollmentFailureHandler() {
-    }
+  function onEnrollmentFailureHandler(){
+  }
 
+  function onFMDHandler(hexFMD){
+  	document.getElementById("fingerprintImage").src='<c:url value="/_img/fingerprintImageSmall.jpg"/>';
+    document.getElementById('readerID').innerHTML='<%=getTranNoLink("web","checking.fingerprint",sWebLanguage)%>';
 
-    function onFMDHandler( hexFMD ) {
-    	document.getElementById("fingerprintImage").src='<c:url value="/_img/fingerprintImageSmall.jpg"/>';
-		document.getElementById('readerID').innerHTML='<%=getTranNoLink("web","checking.fingerprint",sWebLanguage)%>';
-
-	    var url = '<c:url value="/_common/identifyFingerPrint.jsp"/>?ts=' + <%=getTs()%>;
-	    var parameters= 'fmd=' + hexFMD;
+    var url = '<c:url value="/_common/identifyFingerPrint.jsp"/>?ts='+<%=getTs()%>;
+    var parameters= 'fmd='+hexFMD;
 	
-	    new Ajax.Request(url, {
-	        method: "POST",
-	        postBody: parameters,
-	        onSuccess: function(resp) {
-	            var s=eval('('+resp.responseText+')');
-	            if(s.personid!="0"){
-					setTimeout("selectPatient('"+s.personid+"')",1000);
-	            }
-	            else{
-			    	document.getElementById("fingerprintImage").src="<c:url value="/_img/fingerprintImageSmallWrong.jpg"/>";
-					document.getElementById('readerID').innerHTML='<%=getTranNoLink("web","unknown.fingerprint",sWebLanguage)%>';
-			    	setTimeout("document.getElementById('fingerprintImage').src='<c:url value="/_img/fingerprintImageSmallNoPrint.jpg"/>'", 3000);
-	            }
-	        },
-	        onFailure: function() {
-		    	setTimeout("document.getElementById('fingerprintImage').src='<c:url value="/_img/fingerprintImageSmallNoPrint.jpg"/>'", 500);
-				document.getElementById('readerID').innerHTML='<%=getTranNoLink("web","error.fingerprint",sWebLanguage)%>';
-	        }
-	    }
-	    );
-    }
+    new Ajax.Request(url,{
+      method: "POST",
+      postBody: parameters,
+      onSuccess: function(resp){
+        var s = eval('('+resp.responseText+')');
+        if(s.personid!="0"){
+		  setTimeout("selectPatient('"+s.personid+"')",1000);
+        }
+        else{
+		  document.getElementById("fingerprintImage").src="<c:url value="/_img/fingerprintImageSmallWrong.jpg"/>";
+		  document.getElementById('readerID').innerHTML='<%=getTranNoLink("web","unknown.fingerprint",sWebLanguage)%>';
+		  setTimeout("document.getElementById('fingerprintImage').src='<c:url value="/_img/fingerprintImageSmallNoPrint.jpg"/>'", 3000);
+        }
+      },
+      onFailure: function(){
+	  	setTimeout("document.getElementById('fingerprintImage').src='<c:url value="/_img/fingerprintImageSmallNoPrint.jpg"/>'", 500);
+		document.getElementById('readerID').innerHTML='<%=getTranNoLink("web","error.fingerprint",sWebLanguage)%>';
+      }
+	});
+  }
 
-	function selectPatient(personid){
-       	window.opener.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>&PersonID='+personid;
-       	window.close();
-	}
-    function setFormat(radioObj) {
-    }
+  function selectPatient(personid){
+   	window.opener.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>&PersonID='+personid;
+   	window.close();
+  }
+  
+  function setFormat(radioObj){
+  }
 
-    if (_app == 'Netscape' || _app == 'Opera') {
-        document.write('<object classid="java:UareUApplet.class"',
+  if(_app=='Netscape' || _app=='Opera'){
+    document.write('<object classid="java:UareUApplet.class"',
           'type="application/x-java-applet"',
           'name="UareUApplet"',
           'width="1"',  //apparently need to have dimension > 0 for foreground window to be associated with jvm process.
@@ -88,9 +87,9 @@
           'scriptable="true"',
           'mayscript="true"',
           'separate_jvm="true"> </object>');
-   }
-   else if(_app=="Microsoft Internet Explorer") {
-	   document.write( '<object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"',
+  }
+  else if(_app=="Microsoft Internet Explorer"){
+	document.write( '<object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"',
 	    'height="1" width="0" name="UareUApplet">',
 	    '<param name="type" value="application/x-java-applet;version=1.6" />',
 	    '<param name="code" value="UareUApplet"/>',
@@ -108,13 +107,14 @@
 	    '<param name="bExclusivePriority" value="false"/>',
 	    '<param name="separate_jvm" value="true" />',
 	    '</object>');
-    }
+  }
 
-    function res(){
-        window.resizeTo(400,200);
-        window.moveTo((self.screen.width-document.body.clientWidth)/2,(self.screen.height-document.body.clientHeight)/2);
-    }
+  function res(){
+    window.resizeTo(400,200);
+    window.moveTo((self.screen.width-document.body.clientWidth)/2,(self.screen.height-document.body.clientHeight)/2);
+  }
 </script>
+
 <table width='100%'>
 	<tr>
 		<td>
@@ -122,13 +122,12 @@
 				<tr>
 					<td>
 						<%
-							out.print("<img src='" + request.getParameter("referringServer") + "/_img/animatedclock.gif'/></td><td>"+MedwanQuery.getInstance().getLabel("web","waiting_for_fingerprint",((User)session.getAttribute("activeUser")).person.language)+"</br>");
+							out.print("<img src='" + request.getParameter("referringServer") + "/_img/themes/"+(sUserTheme.length()==0?"default":sUserTheme)+"/ajax-loader.gif'/><br><br>"+MedwanQuery.getInstance().getLabel("web","waiting_for_fingerprint",((User)session.getAttribute("activeUser")).person.language)+"</br>");
 							//Lanceer de jsp-pagina op de locale server
 						%>
 					</td>
 				</tr>
 				<tr>
-					<td/>
 					<td>
 						<form name="frmFingerPrint" method="post" action="<c:url value="/_common/readFingerPrint.jsp"/>">
 						    <input type="hidden" name="language" value="<%=((User)session.getAttribute("activeUser")).person.language%>"/>
@@ -145,6 +144,3 @@
 		</td>
 	</tr>
 </table>
-<script>
-</script>
-

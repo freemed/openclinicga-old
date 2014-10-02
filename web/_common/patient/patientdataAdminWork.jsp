@@ -7,9 +7,8 @@
 
         if(awc!=null){
             %>
-                <table width="100%" cellspacing="1" class="list">
-                    <%=ScreenHelper.setAdminWorkContact(awc, sWebLanguage,sCONTEXTPATH,sTDAdminWidth)%>
-                    
+                <table width="100%" cellspacing="1" class="list" style="border-top:none;">
+                    <%=ScreenHelper.setAdminWorkContact(awc, sWebLanguage,sCONTEXTPATH,sTDAdminWidth)%>                    
             <%
         }
     }
@@ -21,12 +20,10 @@
     if(!sShowButton.equals("false")){
         %>
             <%=ScreenHelper.alignButtonsStart()%>
-                <input type="button" class="button" value="<%=getTran("Web","history",sWebLanguage)%>" name="ButtonHistoryWork" onclick="parent.location='patienthistory.do?ts=<%=getTs()%>&contacttype=work'">&nbsp;
+                <input type="button" class="button" value="<%=getTranNoLink("Web","history",sWebLanguage)%>" name="ButtonHistoryWork" onclick="parent.location='patienthistory.do?ts=<%=getTs()%>&contacttype=work'">&nbsp;
                 <%
                     if (activeUser.accessRights.get("administration.edit")!=null){
-                        %>
-                            <input type="button" class="button" onclick="window.location.href='<c:url value="/patientedit.do"/>?Tab=AdminWork&ts=<%=getTs()%>'" value="<%=getTran("Web","edit",sWebLanguage)%>">
-                        <%
+                        %><input type="button" class="button" onclick="window.location.href='<c:url value="/patientedit.do"/>?Tab=AdminWork&ts=<%=getTs()%>'" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>"><%
                     }
                 %>
             <%=ScreenHelper.alignButtonsStop()%>

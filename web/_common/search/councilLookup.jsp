@@ -37,13 +37,13 @@
 					if(user !=null){
 						user.updateParameter(new Parameter("registrationstatusupdatetime",ScreenHelper.stdDateFormat.format(new java.util.Date())));
 						user = User.get(userid);
-						out.println("<script>window.opener.document.getElementById('registrationstatus').innerHTML='"+(user.getParameter("registrationstatus").equalsIgnoreCase("0")?"<img src=\""+sCONTEXTPATH+"/_img/checked.png\"/>":"<img src=\""+sCONTEXTPATH+"/_img/icon_error.jpg\"/>")+" <b>"+getTranNoLink("lookup","status."+user.getParameter("registrationstatus"),language)+" ("+user.getParameter("registrationstatusupdatetime")+")</b>';</script>");
+						out.println("<script>window.opener.document.getElementById('registrationstatus').innerHTML='"+(user.getParameter("registrationstatus").equalsIgnoreCase("0")?"<img src=\""+sCONTEXTPATH+"/_img/checked.png\"/>":"<img src=\""+sCONTEXTPATH+"/_img/icons/icon_error.jpg\"/>")+" <b>"+getTranNoLink("lookup","status."+user.getParameter("registrationstatus"),language)+" ("+user.getParameter("registrationstatusupdatetime")+")</b>';</script>");
 					}
 					if(element.attributeValue("id").equalsIgnoreCase("0")||element.attributeValue("id").equalsIgnoreCase("-2")){
 						out.println("<tr><td class='admin'>"+getTran("lookup","status",language)+"</td><td bgcolor='"+(element.attributeValue("id").equalsIgnoreCase("-2")?"red":"lightgreen")+"'>"+getTran("lookup","status."+element.attributeValue("id"),language)+"</td>");
 						out.println("<td class='admin'>"+getTran("web","nationality",language)+"</td><td class='admin2'>"+root.elementText("nationality").toUpperCase().replaceAll("COUNTRY.","")+"</td></tr>");
-						out.println("<tr><td class='admin'>"+getTran("web","lastname",language)+(root.elementText("lastname").equalsIgnoreCase(activePatient.lastname)?"":" <img src='"+sCONTEXTPATH+"/_img/warning.gif'>")+"</td><td class='admin2'>"+root.elementText("lastname").toUpperCase()+"</td>");
-						out.println("<td class='admin'>"+getTran("web","firstname",language)+(root.elementText("firstname").equalsIgnoreCase(activePatient.firstname)?"":" <img src='"+sCONTEXTPATH+"/_img/warning.gif'>")+"</td><td class='admin2'>"+root.elementText("firstname")+"</td></tr>");
+						out.println("<tr><td class='admin'>"+getTran("web","lastname",language)+(root.elementText("lastname").equalsIgnoreCase(activePatient.lastname)?"":" <img src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif'>")+"</td><td class='admin2'>"+root.elementText("lastname").toUpperCase()+"</td>");
+						out.println("<td class='admin'>"+getTran("web","firstname",language)+(root.elementText("firstname").equalsIgnoreCase(activePatient.firstname)?"":" <img src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif'>")+"</td><td class='admin2'>"+root.elementText("firstname")+"</td></tr>");
 						out.println("<tr><td class='admin'>"+getTran("web","gender",language)+"</td><td class='admin2'>"+root.elementText("gender").toUpperCase()+"</td>");
 						out.println("<td class='admin'>"+getTran("web","dateofbirth",language)+"</td><td class='admin2'>"+root.elementText("dateofbirth")+"</td></tr>");
 						if(element.attributeValue("id").equalsIgnoreCase("0")){

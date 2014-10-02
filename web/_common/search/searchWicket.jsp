@@ -28,8 +28,8 @@
                 <td/>
                 <td>
                     <%-- BUTTONS --%>
-                    <input class="button" type="button" onClick="doFind();" name="findButton" value="<%=getTran("Web","find",sWebLanguage)%>">
-                    <input class="button" type="button" onClick="clearFields();" name="clearButton" value="<%=getTran("Web","clear",sWebLanguage)%>">&nbsp;
+                    <input class="button" type="button" onClick="doFind();" name="findButton" value="<%=getTranNoLink("Web","find",sWebLanguage)%>">
+                    <input class="button" type="button" onClick="clearFields();" name="clearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>">&nbsp;
                 </td>
             </tr>
 
@@ -70,9 +70,9 @@
 
 
                                         results.append("<tr class='list" + sClass + "' onclick=\"setWicket(" + sWicketUID + ", '" + sWicketName.toUpperCase() + "');\">")
-                                                .append(" <td>" + sWicketName.toUpperCase() + "</td>")
-                                                .append(" <td>" + checkString(getTran("Service", objWicket.getServiceUID(), sWebLanguage)) + "</td>")
-                                                .append(" <td>" + sCreatedate + "</td>")
+                                                .append("<td>" + sWicketName.toUpperCase() + "</td>")
+                                                .append("<td>" + checkString(getTran("Service", objWicket.getServiceUID(), sWebLanguage)) + "</td>")
+                                                .append("<td>" + sCreatedate + "</td>")
                                                 .append("</tr>");
                                     }
 
@@ -108,7 +108,7 @@
 
         <%-- CLOSE BUTTON --%>
         <center>
-            <input type="button" class="button" name="buttonclose" value='<%=getTran("Web","Close",sWebLanguage)%>' onclick='window.close()'>
+            <input type="button" class="button" name="buttonclose" value='<%=getTranNoLink("Web","Close",sWebLanguage)%>' onclick='window.close()'>
         </center>
 
         <script>

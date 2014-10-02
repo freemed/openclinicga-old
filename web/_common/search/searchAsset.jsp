@@ -15,15 +15,15 @@
     String sReturnFieldUid  = checkString(request.getParameter("ReturnFieldUid")),
            sReturnFieldCode = checkString(request.getParameter("ReturnFieldCode"));
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n***************** searchAsset.jsp *****************");
+        Debug.println("\n******************** _common/search/searchAsset.jsp ********************");
         Debug.println("sAssetUid        : "+sAssetUid);
         Debug.println("sFunction        : "+sFunction);
         Debug.println("sReturnFieldUid  : "+sReturnFieldUid);
         Debug.println("sReturnFieldCode : "+sReturnFieldCode+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
         
     // inner search
     String sAction = checkString(request.getParameter("Action"));
@@ -105,8 +105,8 @@
                         <input type="text" class="text" name="searchSupplierName" id="searchSupplierName" readonly size="30" value="<%=sSupplierName%>">
                            
                         <%-- buttons --%>
-                        <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("web","select",sWebLanguage)%>" onclick="selectSupplier('searchSupplierUid','searchSupplierName');">
-                        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("web","clear",sWebLanguage)%>" onclick="clearSupplierSearchFields();">
+                        <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("web","select",sWebLanguage)%>" onclick="selectSupplier('searchSupplierUid','searchSupplierName');">
+                        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="clearSupplierSearchFields();">
                     </td>
                 </tr>
                 
@@ -153,10 +153,8 @@
 		    
 		    foundAssets = Asset.getList(findItem);
 		    if(foundAssets.size() > 0){
-		        %>
-		            <br>
-		            
-		            <table id="searchresults" cellpadding="0" cellspacing="0" width="100%" class="sortable" style="border:1px solid #cccccc;">
+		        %>		            
+		            <table id="searchresults" cellpadding="0" cellspacing="0" width="100%" class="sortable">
 		                <%-- header --%>
 		                <tr class="admin">
 		                    <td class="admin" style="padding-left:0;" width="15%" nowrap><%=getTran("web","code",sWebLanguage)%></td>
@@ -167,7 +165,7 @@
 		                
 		                <tbody>
 		                    <%
-		                        String sClass = "";
+		                        String sClass = "1";
 		                        Asset asset;
 		                        
 		                        for(int i=0; i<foundAssets.size(); i++){
@@ -198,7 +196,7 @@
 	        %><%=foundAssets.size()%> <%=getTran("web","recordsFound",sWebLanguage)%><%
 	    }
 	    else{
-	        %><br><%=getTran("web","noRecordsFound",sWebLanguage)%><%
+	        %><%=getTran("web","noRecordsFound",sWebLanguage)%><%
 	    }
     }
     

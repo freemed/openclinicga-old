@@ -30,7 +30,7 @@ function ts_makeSortable(table){
 
   var firstRow;
   if(table.rows && table.rows.length > 0){
-    firstRow = table.rows[0];
+    firstRow = table.rows[headerRowCount-1];
   }
   if(!firstRow) return;
   
@@ -324,7 +324,7 @@ function updateRowStyles(headerRowCount){
     }
 
     for(var i=headerRowCount; i<searchresults.rows.length; i++){
-      if(i%2==0){
+      if(i%2==1){
         if(searchresults.rows[i].className.indexOf("strike")>-1){
           searchresults.rows[i].className = "strikelist";
           searchresults.rows[i].onmouseout = function(){
@@ -372,7 +372,7 @@ function trim(value){
 
 // remove existing arrows to prevent build-up of arrows when table is reused by ajax
 function getLastValidCharIdx(txt){
-  txt = txt.trim();
+  txt = trim(txt);
   txt = txt.toLowerCase();
   
   var validChars = "abcdefghijklmnopqrstuvwxyz*'ґйибанмутъщ ";

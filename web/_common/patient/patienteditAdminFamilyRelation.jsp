@@ -4,7 +4,7 @@
 
 <%!
     //--- ADD FAMILY RELATION ------------------------------------------------------------------------------------------
-    private String addFR(int iTotal, String sourceId, String destinationId, String relationType, String sWebLanguage){
+    private String addFR(int iTotal, String sourceId, String destinationId, String relationType, String sWebLanguage, AdminPerson activePatient){
         // alternate row-style
         String sClass;
         if(iTotal%2==0) sClass = "list1";
@@ -18,22 +18,25 @@
         String detailsTran = getTran("web","showdetails",sWebLanguage);
         StringBuffer buf = new StringBuffer();
         buf.append("<tr id='rowFR"+iTotal+"' class='"+sClass+"'>")
-            .append("<td align='center'>")
-             .append("<a href='#' onclick=\"deleteFR(rowFR"+iTotal+");\">")
-              .append("<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='").append(getTran("Web","delete",sWebLanguage)).append("' border='0'>")
-             .append("</a>")
-            .append("</td>")
-            .append("<td>"+sSourceFullName+"</td>")
-            .append("<td title='"+detailsTran+"' onMouseOver=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" onClick=\"showDossier('"+destinationId+"');\">"+sDestinationFullName+"</td>")
-            .append("<td>"+sRelationType+"</td>")
+            .append("<td align='center'>");
+
+        if(sourceId.equals(activePatient.personid)){
+        	buf.append("<a href='#' onclick=\"deleteFR(rowFR"+iTotal+");\">")
+                .append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='").append(getTran("Web","delete",sWebLanguage)).append("' border='0'>")
+               .append("</a>");
+        }        
+             
+        buf.append("</td>")
+            .append("<td>&nbsp;"+sSourceFullName+"</td>")
+            .append("<td title='"+detailsTran+"'>&nbsp;<a href=\"javascipt:showDossier('"+destinationId+"');\"'>"+sDestinationFullName+"</a></td>")
+            .append("<td>&nbsp;"+sRelationType+"</td>")
            .append("</tr>");
 
         return buf.toString();
     }
 %>
-<script>
-  var relationsArray = new Array();
-</script>
+<script>var relationsArray = new Array();</script>
+
 <%
     if(activePatient!=null){
         // variables
@@ -52,19 +55,19 @@
 
             // compose sLA
             sFR+= "rowFR"+iTotal+"="+sTmpSourceId+"£"+sTmpDestinationId+"£"+sTmpRelationtype+"$";
-            sDivFR+= addFR(iTotal,sTmpSourceId,sTmpDestinationId,sTmpRelationtype,sWebLanguage);
+            sDivFR+= addFR(iTotal,sTmpSourceId,sTmpDestinationId,sTmpRelationtype,sWebLanguage,activePatient);
             iTotal++;
         }
 
         %>
             <%-- RELATIONS ----------------------------------------------------------------------%>
-            <table id="tblFR" width="100%" cellspacing="0" class="sortable">
+            <table id="tblFR" width="100%" cellspacing="0" class="sortable" style="border-top:none;">
                 <%-- HEADER --%>
                 <tr class="admin">
                     <td width="25" nowrap/>
-                    <td width="35%"><%=getTran("web.admin","sourceperson",sWebLanguage)%></td>
-                    <td width="35%"><%=getTran("web.admin","destinationperson",sWebLanguage)%></td>
-                    <td width="30%"><%=getTran("web.admin","relationtype",sWebLanguage)%></td>
+                    <td width="20%"><%=getTran("web.admin","sourceperson",sWebLanguage)%></td>
+                    <td width="20%"><%=getTran("web.admin","destinationperson",sWebLanguage)%></td>
+                    <td width="60%"><%=getTran("web.admin","relationtype",sWebLanguage)%></td>
                 </tr>
                 <%-- chosen relations --%>
                 <%=sDivFR%>
@@ -72,8 +75,6 @@
             <%
                 if(sDivFR.length() > 0){
                     %>
-                        <%-- delete all --%>
-                        <a href="#" onclick="deleteAllFR();"><%=getTran("Web.manage","deleteAllFamilyRelations",sWebLanguage)%></a>
                         <br>
                         <div id="msg"/>
                     <%
@@ -83,14 +84,17 @@
                 }
             %>
             <br>
+            
             <%-- ADD ROW ------------------------------------------------------------------------%>
             <table width="100%" cellspacing="1" class="list">
                 <%-- HEADER --%>
                 <tr class="admin">
                     <td colspan="2">&nbsp;<%=getTran("web.admin","addfamilyrelation",sWebLanguage)%></td>
                 </tr>
+                
                 <%-- source id --%>
                 <input type="hidden" name="RSourceId" value="<%=activePatient.personid%>">
+                
                 <%-- destination id --%>
                 <tr>
                     <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web.admin","destinationperson",sWebLanguage)%>&nbsp;</td>
@@ -98,30 +102,36 @@
                         <input type="hidden" name="RDestinationId" value="">
                         <input class="text" type="text" name="RDestinationFullName" readonly size="<%=sTextWidth%>" value="">
 
-                        <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="doSearchPatient('RDestinationId','RDestinationFullName');">
-                        <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="PatientEditForm.RDestinationId.value='';PatientEditForm.RDestinationFullName.value='';">
+                        <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="doSearchPatient('RDestinationId','RDestinationFullName');">
+                        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="PatientEditForm.RDestinationId.value='';PatientEditForm.RDestinationFullName.value='';">
                     </td>
                 </tr>
+                
                 <%-- relation type --%>
-               <tr>
+                <tr>
                     <td class="admin"><%=getTran("Web.admin","relationType",sWebLanguage)%>&nbsp;</td>
                     <td class="admin2">
                         <select class="text" name="RRelationType">
-                            <option><%=getTran("web","choose",sWebLanguage)%></option>
+                            <option><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                             <%=ScreenHelper.writeSelect("admin.familyrelation","",sWebLanguage)%>
                         </select>
                     </td>
                 </tr>
+                
                 <%-- BUTTONS --%>
                 <tr>
                     <td class="admin"/>
                     <td class="admin2">
-                        <input type="button" class="button" value="<%=getTran("web","add",sWebLanguage)%>" name="addButton" onClick="addFR();"/>&nbsp;
-                        <input type="button" class="button" value="<%=getTran("web","clear",sWebLanguage)%>" name="clearButton" onClick="clearAddFields();"/>
+                        <input type="button" class="button" value="<%=getTranNoLink("web","add",sWebLanguage)%>" name="addButton" onClick="addFR();"/>&nbsp;
+                        <input type="button" class="button" value="<%=getTranNoLink("web","clear",sWebLanguage)%>" name="clearButton" onClick="clearAddFields();"/>
                     </td>
                 </tr>
             </table>
+            
             <input type="hidden" name="familyRelations" value="">
+            
+            <i><%=getTran("web","familyRelationInfo",sWebLanguage)%></i>
+            
             <script>
               var iIndexFR = <%=iTotal%>;
               var sFR = "<%=sFR%>";
@@ -161,10 +171,7 @@
                     PatientEditForm.RDestinationFullName.focus();
                   }
                   else if(sourceId==destinationId){
-                    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=identicalpersonsnotallowed";
-                    var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                    (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","identicalpersonsnotallowed",sWebLanguage)%>");
-
+                    alertDialog("web.manage","identicalpersonsnotallowed");
                     PatientEditForm.RSourceFullName.focus();
                   }
                   // add
@@ -183,7 +190,7 @@
                         row.insertCell(i);
                       }
 
-                      row.cells[0].innerHTML = "<center><a href='javascript:deleteFR(rowFR"+iIndexFR+");'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a></center>";
+                      row.cells[0].innerHTML = "<center><a href='javascript:deleteFR(rowFR"+iIndexFR+");'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a></center>";
 
                       <%-- default data --%>
                       row.cells[1].innerHTML = "<%=activePatient.firstname+" "+activePatient.lastname%>";
@@ -226,11 +233,11 @@
               function initRelationsArray(sArray){
                 relationsArray = new Array();
 
-                if(sArray != ""){
+                if(sArray!=""){
                   var sOneFR;
                   for(var i=0; i<iIndexFR-1; i++){
                     sOneFR = getRowFromArrayString(sFR,"rowFR"+(i+1));
-                    if(sOneFR != ""){
+                    if(sOneFR!=""){
                       var oneFR = sOneFR.split("£");
                       relationsArray.push(oneFR);
                     }
@@ -254,7 +261,7 @@
               function getRowFromArrayString(sArray,rowid){
                 var array = sArray.split("$");
                 var row = "";
-                for(var i=0;i<array.length;i++){
+                for(var i=0; i<array.length; i++){
                   if(array[i].indexOf(rowid)>-1){
                     row = array[i].substring(array[i].indexOf("=")+1);
                     break;

@@ -136,8 +136,8 @@
                     <input type="text" NAME='FindText' class="text" value="<%=sFindText%>" size="40" >
 
                     <%-- buttons --%>
-                    <input class="button" type="button" name="FindButton" value="<%=getTran("Web","find",sWebLanguage)%>" onClick="doFind();">&nbsp;
-                    <input class="button" type="button" name="clear" value="<%=getTran("Web","clear",sWebLanguage)%>" onClick="doClear();">
+                    <input class="button" type="button" name="FindButton" value="<%=getTranNoLink("Web","find",sWebLanguage)%>" onClick="doFind();">&nbsp;
+                    <input class="button" type="button" name="clear" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onClick="doClear();">
                 </td>
             </tr>
 
@@ -161,12 +161,12 @@
                                         if(sLabelType.equalsIgnoreCase("function") || sLabelType.equalsIgnoreCase("service")){
                                             // previous
                                             if (iRSIndex >= iMaxRSIndex) {
-                                                %><a href='#' title='<%=getTran("Web","Previous",sWebLanguage)%>' OnClick="SearchForm.RSIndex.value='<%=(iRSIndex-iMaxRSIndex)%>';doFind();"><img src='<c:url value='/_img/arrow.jpg'/>' border='0'></a>&nbsp;<%
+                                                %><a href='#' title='<%=getTran("Web","Previous",sWebLanguage)%>' OnClick="SearchForm.RSIndex.value='<%=(iRSIndex-iMaxRSIndex)%>';doFind();"><img src='<c:url value='/_img/themes/default/arrow_left.gif'/>' border='0'></a>&nbsp;<%
                                             }
 
                                             // next
                                             if (iTotal == iMaxRSIndex) {
-                                                %><a href='#' title='<%=getTran("Web","Next",sWebLanguage)%>' OnClick="SearchForm.RSIndex.value='<%=(iRSIndex+iMaxRSIndex)%>';doFind();"><img src='<c:url value='/_img/next.jpg'/>' border='0'></a><%
+                                                %><a href='#' title='<%=getTran("Web","Next",sWebLanguage)%>' OnClick="SearchForm.RSIndex.value='<%=(iRSIndex+iMaxRSIndex)%>';doFind();"><img src='<c:url value='/_img/arrow-right.jpg'/>' border='0'></a><%
                                             }
                                         }
 
@@ -189,7 +189,7 @@
 
         <%-- CLOSE BUTTON --%>
         <center>
-            <input type=button class=button name=buttonclose value='<%=getTran("Web","Close",sWebLanguage)%>' onclick='window.close();'>
+            <input type=button class=button name=buttonclose value='<%=getTranNoLink("Web","Close",sWebLanguage)%>' onclick='window.close();'>
         </center>
 
         <script>

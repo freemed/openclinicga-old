@@ -125,7 +125,7 @@
                 String subsubMenu = "";
                 if(this.menus.size() > 0){
                     Menu subMenu;
-                    for (int y = 0; y < this.menus.size(); y++){
+                    for(int y = 0; y < this.menus.size(); y++){
                         subMenu = (Menu)this.menus.elementAt(y);
 
                         /*
@@ -142,30 +142,17 @@
                             continue;
                         }
                         else{
-                            subsubMenu += subMenu.makeMenu(bMenu, sWebLanguage, this.labelid, user, (y==this.menus.size() - 1),activePatient,isEmployee);
+                            subsubMenu+= subMenu.makeMenu(bMenu, sWebLanguage, this.labelid, user, (y==this.menus.size() - 1),activePatient,isEmployee);
                         }
                     }
                     
-                    if(this.target.length() > 0){
-                        sReturn+= "<li><a href='javascript:void(0); class='subparent''>"+sTranslation+"</a>";
-                        sReturn+= "<ul class='level3'>";
-                        sReturn+= (subsubMenu.length()>0)?subsubMenu:"<li><a href='javascript:void(0);'>empty</a></li>";
-                        sReturn+= "</ul></li>";
-                    } 
-                    else{
-                        sReturn+= "<li><a href='javascript:void(0);' class='subparent'>"+sTranslation+"</a>";
-                        sReturn+= "<ul class='level3'>";
-                        sReturn+= (subsubMenu.length()>0)?subsubMenu:"<li><a href='javascript:void(0);'>empty</a></li>";
-                        sReturn+= "</ul></li>";
-                    }
+                    sReturn+= "<li><a href='javascript:void(0);' class='subparent'>"+sTranslation+"</a>";
+                    sReturn+= "<ul class='level3'>";
+                    sReturn+= (subsubMenu.length()>0)?subsubMenu:"<li><a href='javascript:void(0);'>empty</a></li>";
+                    sReturn+= "</ul></li>";
                 } 
                 else{
-                    if(this.target.length() > 0){
-                        sReturn+= "<li><a href=\""+this.url+"\">"+sTranslation+"</a></li>";
-                    }
-                    else{
-                        sReturn+= "<li><a href=\""+this.url+"\">"+sTranslation+"</a></li>";
-                    }
+                    sReturn+= "<li><a href=\""+this.url+"\">"+sTranslation+"</a></li>";
                 }
             }
             catch(Exception e){
@@ -355,15 +342,10 @@
                                     // only add menu to menubar if the user has the required accessright
                                     // or when no accessright is specified or when the user has 'sa' as a userparameter
                                     if((menu.accessrights.length() > 0 && activeUser.getAccessRight(menu.accessrights)) ||
-                                            menu.accessrights.length()==0) /*|| activeUser.getParameter("sa").length()>0)*/ {
-                                        if(menu.target.length() > 0){
-                                            out.write("<li class='menu_"+menu.labelid+"'>");
-                                            out.write("<a href="+menu.url+">"+getTranNoLink("Web", menu.labelid, sWebLanguage)+"</a>");
-                                            out.write("</li>");
-                                        } 
-                                        else{
-                                            out.write("<li class='menu_"+menu.labelid+"'><a href="+menu.url+">"+getTranNoLink("Web", menu.labelid, sWebLanguage)+"</a></li>");
-                                        }
+                                        menu.accessrights.length()==0) /*|| activeUser.getParameter("sa").length()>0)*/ {
+                                        out.write("<li class='menu_"+menu.labelid+"'>");
+                                        out.write("<a href="+menu.url+">"+getTranNoLink("Web", menu.labelid, sWebLanguage)+"</a>");
+                                        out.write("</li>");                                       
                                     }
                                 }
                             }

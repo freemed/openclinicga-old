@@ -28,15 +28,15 @@
                 <td nowrap>
                     <input type="hidden" name="FindBalanceOwner" value="<%=sFindBalanceOwner%>">
                     <input class="text" type="text" name="FindBalanceOwnerName" readonly size="70" value="<%=sFindBalanceOwnerName%>">
-                    <input class="button" type="button" name="SearchOwnerButton" value="<%=getTran("Web","Select",sWebLanguage)%>" onclick="searchOwner('FindBalanceOwner','FindBalanceOwnerName');">
+                    <input class="button" type="button" name="SearchOwnerButton" value="<%=getTranNoLink("Web","Select",sWebLanguage)%>" onclick="searchOwner('FindBalanceOwner','FindBalanceOwnerName');">
                 </td>
             </tr>
             <tr height='25'>
                 <td/>
                 <td>
                     <%-- BUTTONS --%>
-                    <input class="button" type="button" onClick="doFind();" name="findButton" value="<%=getTran("Web","find",sWebLanguage)%>">
-                    <input class="button" type="button" onClick="clearFields();" name="clearButton" value="<%=getTran("Web","clear",sWebLanguage)%>">&nbsp;
+                    <input class="button" type="button" onClick="doFind();" name="findButton" value="<%=getTranNoLink("Web","find",sWebLanguage)%>">
+                    <input class="button" type="button" onClick="clearFields();" name="clearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>">&nbsp;
                 </td>
             </tr>
 
@@ -74,8 +74,8 @@
                                         sBalanceName = objBalance.getUid();
 
                                         results.append("<tr class='list" + sClass + "' onclick=\"setBalance(" + sBalanceName + ", '" + sBalanceName.toUpperCase() + "');\">")
-                                                .append(" <td>" + sOwnerName.toUpperCase() + "</td>")
-                                                .append(" <td>" + objBalance.getDate() + "</td>")
+                                                .append("<td>" + sOwnerName.toUpperCase() + "</td>")
+                                                .append("<td>" + objBalance.getDate() + "</td>")
                                                 .append("</tr>");
                                     }
 
@@ -110,7 +110,7 @@
 
         <%-- CLOSE BUTTON --%>
         <center>
-            <input type="button" class="button" name="buttonclose" value='<%=getTran("Web","Close",sWebLanguage)%>' onclick='window.close()'>
+            <input type="button" class="button" name="buttonclose" value='<%=getTranNoLink("Web","Close",sWebLanguage)%>' onclick='window.close()'>
         </center>
 
         <script>

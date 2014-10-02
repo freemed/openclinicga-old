@@ -20,7 +20,7 @@ body div.clear {
 }
 
 div#header-wrap {
-    background: url( "../../_img/background_body_ghb.gif" ) repeat-x top left white;
+    background: url( "../../_img/ghb/background_body_ghb.gif" ) repeat-x top left white;
 
     margin: 0;
     display: block;
@@ -33,7 +33,7 @@ div#header-wrap {
 }
 
 #header-container {
-    background: url( "../../_img/background_ghb.jpg" ) no-repeat top left;
+    background: url( "../../_img/ghb/background_ghb.jpg" ) no-repeat top left;
     height: 127px;
     width: 1000px;
 }
@@ -69,7 +69,7 @@ div#footer-wrap {
     width: 100%;
     position: relative;
     float: left;
-    background: transparent url( "../../_img/GHB_footer.png" ) repeat-x top left;
+    background: transparent url( "../../_img/ghb/GHB_footer.png" ) repeat-x top left;
 
 }
 
@@ -81,7 +81,7 @@ div#footer-wrap {
 }
 
 div#footer_logo {
-    background: transparent url( "../../_img/background_footer_ghb.png" ) no-repeat left 10px;
+    background: transparent url( "../../_img/ghb/background_footer_ghb.png" ) no-repeat left 10px;
     width: 850px;
     height: 60px;
     text-align: left;
@@ -124,7 +124,7 @@ table.content tr.header td {
 }
 
 table.content tr.header td.header {
-    background: url( "../../_img/row_ghb.gif" ) no-repeat bottom left;
+    background: url( "../../_img/ghb/row_ghb.gif" ) no-repeat bottom left;
     background-repeat: repeat-x;
 }
 
@@ -135,7 +135,7 @@ table.content td.important {
 }
 
 table.content tr {
-/*  background: url( "../../_img/tr_ghb.gif" ) repeat-x bottom left;*/
+/*  background: url( "../../_img/ghb/tr_ghb.gif" ) repeat-x bottom left;*/
     padding: 5px 0 0 0;
 }
 
@@ -143,7 +143,7 @@ table.content tr td {
     padding: 3px;
     color: #505050;
     font-size: 12px;
-    /*border-bottom: 1px solid #c9c9c8;    background: url( "../../_img/cell_border_ghb.gif" ) repeat-x bottom left;*/
+    /*border-bottom: 1px solid #c9c9c8;    background: url( "../../_img/ghb/cell_border_ghb.gif" ) repeat-x bottom left;*/
 }
 
 table.content tr.firstrow td {
@@ -156,7 +156,7 @@ table.content tr td a {
 }
 
 table.content tr td.admin2 {
-/*background: url( "../../_img/cell_border_ghb.gif" ) repeat-x bottom left;*/
+/*background: url( "../../_img/ghb/cell_border_ghb.gif" ) repeat-x bottom left;*/
     border-bottom: 1px solid #c9c9c8;
     vertical-align: middle;
 }
@@ -182,7 +182,7 @@ div.landlist h3 {
     font-size: 13px;
     color: white;
     margin: 5px 0 0 0;
-    background: #183D60 url( "../../_img/background_title_ghb.gif" ) repeat-x top left;
+    background: #183D60 url( "../../_img/ghb/background_title_ghb.gif" ) repeat-x top left;
     width: 98%;
     padding: 4px 1% 3px 1%;
     border-left: 1px solid #183D60;
@@ -214,7 +214,7 @@ div.landlist div.subcontent {
 }
 
 div#logout {
-    background: url( "../../_img/button_logout_ghb.png" ) no-repeat bottom left;
+    background: url( "../../_img/ghb/button_logout_ghb.png" ) no-repeat bottom left;
     position: absolute;
     right: 5px;
     top: 10px;
@@ -259,7 +259,7 @@ div.container h3 {
     color: white;
     margin: 6px 0 0 0;
     padding: 4px 1% 0 1%;
-    background: #183D60 url( "../../_img/background_title_ghb.gif" ) repeat-x top left;
+    background: #183D60 url( "../../_img/ghb/background_title_ghb.gif" ) repeat-x top left;
     width: 98%;
     border-left: 1px solid #183D60;
     border-right: 1px solid #183D60;
@@ -435,7 +435,7 @@ a.button {
     display: inline;
     clear: none;
     cursor: pointer;
-    background: url( "../../_img/button_right_ghb.png" ) no-repeat right top;
+    background: url( "../../_img/ghb/button_right_ghb.png" ) no-repeat right top;
 }
 
 a.button span.title {
@@ -446,7 +446,7 @@ a.button span.title {
     padding-right: 8px;
     padding-left: 15px;
     color: #505050;
-    background: url( "../../_img/button_left_ghb.png" ) no-repeat left top;
+    background: url( "../../_img/ghb/button_left_ghb.png" ) no-repeat left top;
 }
 
 a.link {

@@ -1,114 +1,103 @@
-<%@page import="java.text.DecimalFormat" %>
-<%@page errorPage="/includes/error.jsp" %>
-<%@include file="/includes/validateUser.jsp" %>
+<%@page import="java.text.DecimalFormat"%>
+<%@page errorPage="/includes/error.jsp"%>
+<%@include file="/includes/validateUser.jsp"%>
 
 <%
     String sAction = checkString(request.getParameter("Action"));
-
-    String sFindInvoicePatientId = checkString(request.getParameter("FindInvoicePatientId")),
-           sFindInvoiceDate = checkString(request.getParameter("FindInvoiceDate")),
-           sFindInvoiceNr = checkString(request.getParameter("FindInvoiceNr")),
+ 
+    String sFindInvoicePatientId  = checkString(request.getParameter("FindInvoicePatientId")),
+           sFindInvoiceDate       = checkString(request.getParameter("FindInvoiceDate")),
+           sFindInvoiceNr         = checkString(request.getParameter("FindInvoiceNr")),
            sFindInvoiceBalanceMin = checkString(request.getParameter("FindInvoiceBalanceMin")),
            sFindInvoiceBalanceMax = checkString(request.getParameter("FindInvoiceBalanceMax")),
-           sFindInvoiceStatus = checkString(request.getParameter("FindInvoiceStatus"));
+           sFindInvoiceStatus     = checkString(request.getParameter("FindInvoiceStatus"));
 
     String sFunction = checkString(request.getParameter("doFunction"));
 
-    String sReturnFieldInvoiceUid = checkString(request.getParameter("ReturnFieldInvoiceUid")),
-           sReturnFieldInvoiceNr = checkString(request.getParameter("ReturnFieldInvoiceNr")),
-           sReturnFieldInvoiceBalance = checkString(request.getParameter("ReturnFieldInvoiceBalance")),
+    String sReturnFieldInvoiceUid        = checkString(request.getParameter("ReturnFieldInvoiceUid")),
+           sReturnFieldInvoiceNr         = checkString(request.getParameter("ReturnFieldInvoiceNr")),
+           sReturnFieldInvoiceBalance    = checkString(request.getParameter("ReturnFieldInvoiceBalance")),
            sReturnFieldInvoiceMaxBalance = checkString(request.getParameter("ReturnFieldInvoiceMaxBalance")),
-           sReturnFieldInvoiceStatus = checkString(request.getParameter("ReturnFieldInvoiceStatus"));
+           sReturnFieldInvoiceStatus     = checkString(request.getParameter("ReturnFieldInvoiceStatus"));
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
+    /// DEBUG//////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n#################### search/searchPatientInvoice.jsp ###################");
-        Debug.println("sAction                   : " + sAction);
-        Debug.println("sFindInvoicePatientId     : " + sFindInvoicePatientId);
-        Debug.println("sFindInvoiceDate          : " + sFindInvoiceDate);
-        Debug.println("sFindInvoiceNr            : " + sFindInvoiceNr);
+        Debug.println("\n****************** search/searchPatientInvoice.jsp *********************");
+        Debug.println("sAction                   : "+sAction);
+        Debug.println("sFindInvoicePatientId     : "+sFindInvoicePatientId);
+        Debug.println("sFindInvoiceDate          : "+sFindInvoiceDate);
+        Debug.println("sFindInvoiceNr            : "+sFindInvoiceNr);
         Debug.println("sFindInvoiceType (static) : P");
-        Debug.println("sFunction                 : " + sFunction + "\n");
-        Debug.println("sFindInvoiceBalanceMin    : " + sFindInvoiceBalanceMin);
-        Debug.println("sFindInvoiceBalanceMax    : " + sFindInvoiceBalanceMax);
-        Debug.println("sFindInvoiceStatus        : " + sFindInvoiceStatus + "\n");
-        Debug.println("sReturnFieldInvoiceUid        : " + sReturnFieldInvoiceUid);
-        Debug.println("sReturnFieldInvoiceNr         : " + sReturnFieldInvoiceNr);
-        Debug.println("sReturnFieldInvoiceBalance    : " + sReturnFieldInvoiceBalance);
-        Debug.println("sReturnFieldInvoiceMaxBalance : " + sReturnFieldInvoiceMaxBalance);
-        Debug.println("sReturnFieldInvoiceStatus     : " + sReturnFieldInvoiceStatus + "\n");
+        Debug.println("sFunction                 : "+sFunction+"\n");
+        Debug.println("sFindInvoiceBalanceMin    : "+sFindInvoiceBalanceMin);
+        Debug.println("sFindInvoiceBalanceMax    : "+sFindInvoiceBalanceMax);
+        Debug.println("sFindInvoiceStatus        : "+sFindInvoiceStatus+"\n");
+        Debug.println("sReturnFieldInvoiceUid        : "+sReturnFieldInvoiceUid);
+        Debug.println("sReturnFieldInvoiceNr         : "+sReturnFieldInvoiceNr);
+        Debug.println("sReturnFieldInvoiceBalance    : "+sReturnFieldInvoiceBalance);
+        Debug.println("sReturnFieldInvoiceMaxBalance : "+sReturnFieldInvoiceMaxBalance);
+        Debug.println("sReturnFieldInvoiceStatus     : "+sReturnFieldInvoiceStatus+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    String sCurrency = MedwanQuery.getInstance().getConfigParam("currency", "€");
-    DecimalFormat priceFormat = new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat", "#,##0.00"));
+    String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
+    DecimalFormat priceFormat = new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#,##0.00"));
 %>
 
-<form name="SearchForm" method="POST" onKeyDown="if(enterEvent(event,13)){searchInvoices();}"
-      action="<c:url value='/popup.jsp'/>?Page=_common/search/searchPatientInvoice.jsp&ts=<%=getTs()%>">
-<%-- hidden fields --%>
-<input type="hidden" name="Action">
-<input type="hidden" name="ReturnFieldInvoiceUid" value="<%=sReturnFieldInvoiceUid%>">
-<input type="hidden" name="ReturnFieldInvoiceNr" value="<%=sReturnFieldInvoiceNr%>">
-<input type="hidden" name="ReturnFieldInvoiceBalance" value="<%=sReturnFieldInvoiceBalance%>">
-<input type="hidden" name="ReturnFieldInvoiceMaxBalance" value="<%=sReturnFieldInvoiceMaxBalance%>">
-<input type="hidden" name="ReturnFieldInvoiceStatus" value="<%=sReturnFieldInvoiceStatus%>">
-<input type="hidden" name="FindInvoicePatientId" value="<%=sFindInvoicePatientId%>"/>
+<form name="SearchForm" method="POST" onKeyDown="if(enterEvent(event,13)){searchInvoices();}" action="<c:url value='/popup.jsp'/>?Page=_common/search/searchPatientInvoice.jsp&ts=<%=getTs()%>">
+	<%-- hidden fields --%>
+	<input type="hidden" name="Action">
+	<input type="hidden" name="ReturnFieldInvoiceUid" value="<%=sReturnFieldInvoiceUid%>">
+	<input type="hidden" name="ReturnFieldInvoiceNr" value="<%=sReturnFieldInvoiceNr%>">
+	<input type="hidden" name="ReturnFieldInvoiceBalance" value="<%=sReturnFieldInvoiceBalance%>">
+	<input type="hidden" name="ReturnFieldInvoiceMaxBalance" value="<%=sReturnFieldInvoiceMaxBalance%>">
+	<input type="hidden" name="ReturnFieldInvoiceStatus" value="<%=sReturnFieldInvoiceStatus%>">
+	<input type="hidden" name="FindInvoicePatientId" value="<%=sFindInvoicePatientId%>"/>
 
 <table width="100%" cellspacing="1" cellpadding="0" class="menu">
     <%-- TITLE --%>
     <tr class="admin">
-        <td colspan="4"><%=getTran("web", "searchpatientinvoice", sWebLanguage)%>
-        </td>
+        <td colspan="4"><%=getTran("web","searchpatientinvoice",sWebLanguage)%></td>
     </tr>
 
     <%
-        if (!"false".equalsIgnoreCase(request.getParameter("header"))) {
+        if(!"false".equalsIgnoreCase(request.getParameter("header"))){
     %>
     <%-- INVOICE DATE --%>
     <tr>
-        <td class="admin2" width="120" nowrap><%=getTran("Web", "date", sWebLanguage)%>&nbsp;</td>
+        <td class="admin2" width="120" nowrap><%=getTran("Web","date",sWebLanguage)%>&nbsp;</td>
         <td class="admin2" width="330" nowrap><%=
-            writeDateField("FindInvoiceDate", "SearchForm", sFindInvoiceDate, sWebLanguage)%>
+            writeDateField("FindInvoiceDate","SearchForm",sFindInvoiceDate,sWebLanguage)%>
         </td>
     </tr>
 
     <%-- INVOICE NR --%>
     <tr>
-        <td class="admin2"><%=getTran("web", "number", sWebLanguage)%>
-        </td>
+        <td class="admin2"><%=getTran("web","number",sWebLanguage)%></td>
         <td class="admin2">
-            <input type="text" class="text" name="FindInvoiceNr" size="10" maxlength="10"
-                   onKeyUp="if(!isNumber(this)){this.value='';}" value="<%=sFindInvoiceNr%>">
+            <input type="text" class="text" name="FindInvoiceNr" size="10" maxlength="10" onKeyUp="if(!isNumber(this)){this.value='';}" value="<%=sFindInvoiceNr%>">
         </td>
     </tr>
 
     <%-- INVOICE BALANCE MIN --%>
     <tr>
-        <td class="admin2"><%=getTran("web", "balance", sWebLanguage)%> <%=getTran("web", "min", sWebLanguage)%>
-        </td>
+        <td class="admin2"><%=getTran("web", "balance", sWebLanguage)%> <%=getTran("web","min",sWebLanguage)%></td>
         <td class="admin2">
-            <input type="text" class="text" name="FindInvoiceBalanceMin" size="10" maxlength="8"
-                   onKeyUp="if(!isNumberNegativeAllowed(this)){this.value='';}" value="<%=sFindInvoiceBalanceMin%>">&nbsp;<%=
-            sCurrency%>
+            <input type="text" class="text" name="FindInvoiceBalanceMin" size="10" maxlength="8" onKeyUp="if(!isNumberNegativeAllowed(this)){this.value='';}" value="<%=sFindInvoiceBalanceMin%>">&nbsp;<%=sCurrency%>
         </td>
     </tr>
 
     <%-- INVOICE BALANCE MAX --%>
     <tr>
-        <td class="admin2"><%=getTran("web", "balance", sWebLanguage)%> <%=getTran("web", "max", sWebLanguage)%>
-        </td>
+        <td class="admin2"><%=getTran("web","balance",sWebLanguage)%> <%=getTran("web","max",sWebLanguage)%></td>
         <td class="admin2">
-            <input type="text" class="text" name="FindInvoiceBalanceMax" size="10" maxlength="8"
-                   onKeyUp="if(!isNumberNegativeAllowed(this)){this.value='';}" value="<%=sFindInvoiceBalanceMax%>">&nbsp;<%=
-            sCurrency%>
+            <input type="text" class="text" name="FindInvoiceBalanceMax" size="10" maxlength="8" onKeyUp="if(!isNumberNegativeAllowed(this)){this.value='';}" value="<%=sFindInvoiceBalanceMax%>">&nbsp;<%=sCurrency%>
         </td>
     </tr>
 
     <%-- INVOICE STATUS --%>
     <tr>
-        <td class="admin2"><%=getTran("web.finance", "patientinvoice.status", sWebLanguage)%>
-        </td>
+        <td class="admin2"><%=getTran("web.finance","patientinvoice.status",sWebLanguage)%></td>
         <td class="admin2">
             <select class="text" name="FindInvoiceStatus">
                 <option value=""></option>
@@ -121,21 +110,18 @@
     <tr height="25">
         <td class="admin2">&nbsp;</td>
         <td class="admin2">
-            <input class="button" type="button" onClick="searchInvoices();" name="searchButton"
-                   value="<%=getTran("Web","search",sWebLanguage)%>">&nbsp;
-            <input class="button" type="button" onClick="clearSearchFields();" name="clearButton"
-                   value="<%=getTran("Web","clear",sWebLanguage)%>">
+            <input class="button" type="button" onClick="searchInvoices();" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>">&nbsp;
+            <input class="button" type="button" onClick="clearSearchFields();" name="clearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>">
         </td>
     </tr>
     <%
         }
     %>
     <tr>
-        <%-- SEARCH RESULTS TABLE --%>
+    
     <tr>
-        <td style="vertical-align:top;" colspan="3" class="white" width="100%">
-            <div id="divFindRecords">
-            </div>
+        <td colspan="2">
+            <div id="divFindRecords"></div>
         </td>
     </tr>
 </table>
@@ -144,91 +130,73 @@
 
 <%-- BUTTONS --%>
 <center>
-    <input type="button" class="button" name="buttonClose" value="<%=getTran("Web","Close",sWebLanguage)%>"
-           onclick="window.close();">
+    <input type="button" class="button" name="buttonClose" value="<%=getTranNoLink("Web","Close",sWebLanguage)%>" onclick="window.close();">
 </center>
 </form>
 
 <script>
-    window.resizeTo(450, 500);
+  window.resizeTo(460,580);
 
-    <%-- CLEAR SEARCH FIELDS --%>
-    function clearSearchFields() {
-        SearchForm.FindInvoiceDate.value = "";
-        SearchForm.FindInvoiceNr.value = "";
-        SearchForm.FindInvoiceBalanceMin.value = "";
-        SearchForm.FindInvoiceBalanceMax.value = "";
-        SearchForm.FindInvoiceStatus.value = "";
-        SearchForm.FindInvoiceDate.focus();
+  <%-- CLEAR SEARCH FIELDS --%>
+  function clearSearchFields(){
+    SearchForm.FindInvoiceDate.value = "";
+    SearchForm.FindInvoiceNr.value = "";
+    SearchForm.FindInvoiceBalanceMin.value = "";
+    SearchForm.FindInvoiceBalanceMax.value = "";
+    SearchForm.FindInvoiceStatus.value = "";
+    SearchForm.FindInvoiceDate.focus();
+  }
+
+  <%-- SEARCH PRESTATIONS --%>
+  function searchInvoices(){
+    SearchForm.Action.value = "search";
+    ajaxChangeSearchResults('_common/search/searchByAjax/searchPatientInvoiceShow.jsp',SearchForm);
+  }
+
+  <%-- SELECT INVOICE --%>
+  function selectInvoice(sInvoiceUid,sInvoiceDate,sInvoiceNr,sInvoiceBalance,sInvoiceStatus){
+    if("<%=sReturnFieldInvoiceUid%>".length > 0){
+      window.opener.document.getElementsByName("<%=sReturnFieldInvoiceUid%>")[0].value = sInvoiceUid;
     }
 
-    <%-- SEARCH PRESTATIONS --%>
-    function searchInvoices() {
-        SearchForm.Action.value = "search";
-        ajaxChangeSearchResults('_common/search/searchByAjax/searchPatientInvoiceShow.jsp', SearchForm);
+    if("<%=sReturnFieldInvoiceNr%>".length > 0){
+      window.opener.document.getElementsByName("<%=sReturnFieldInvoiceNr%>")[0].value = sInvoiceNr;
     }
 
-    <%-- SELECT INVOICE --%>
-    function selectInvoice(sInvoiceUid, sInvoiceDate, sInvoiceNr, sInvoiceBalance, sInvoiceStatus) {
-        if ("<%=sReturnFieldInvoiceUid%>".length > 0){
-            window.opener.document.getElementsByName("<%=sReturnFieldInvoiceUid%>")[0].value = sInvoiceUid;
+    if("<%=sReturnFieldInvoiceBalance%>".length > 0){
+      if(window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0]!=null){
+      	if(window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value!=null){             	
+          if(window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value.length == 0) {
+            window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value = format_number(sInvoiceBalance, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+          }
         }
-
-        if ("<%=sReturnFieldInvoiceNr%>".length > 0){
-            window.opener.document.getElementsByName("<%=sReturnFieldInvoiceNr%>")[0].value = sInvoiceNr;
-        }
-
-        if ("<%=sReturnFieldInvoiceBalance%>".length > 0) {
-            if(window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0]!=null){
-            	if (window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value!=null){                	
-                    if (window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value.length == 0) {
-                        window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value = format_number(sInvoiceBalance, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
-                    }
-                }
-            }
-        }
-
-        if ("<%=sReturnFieldInvoiceMaxBalance%>".length > 0) {
-            if(window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0]!=null){
-                window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value = format_number(sInvoiceBalance, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
-            }
-        }
-
-        if ("<%=sReturnFieldInvoiceStatus%>".length > 0) {
-            if(window.opener.document.getElementsByName("<%=sReturnFieldInvoiceStatus%>")[0]!=null){
-                window.opener.document.getElementsByName("<%=sReturnFieldInvoiceStatus%>")[0].value = sInvoiceStatus;
-            }
-        }
-
-    <%
-    if (sFunction.length()>0){
-        out.print("window.opener."+sFunction+";");
+      }
     }
-    %>
 
-        window.close();
+    if("<%=sReturnFieldInvoiceMaxBalance%>".length > 0){
+      if(window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0]!=null){
+        window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value = format_number(sInvoiceBalance, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+      }
+    }
+
+    if("<%=sReturnFieldInvoiceStatus%>".length > 0){
+      if(window.opener.document.getElementsByName("<%=sReturnFieldInvoiceStatus%>")[0]!=null){
+        window.opener.document.getElementsByName("<%=sReturnFieldInvoiceStatus%>")[0].value = sInvoiceStatus;
+      }
     }
 
     <%
-    if (sAction.equalsIgnoreCase("search")){
-        out.print("searchInvoices();") ;
-    }
+        if(sFunction.length()>0){
+            out.print("window.opener."+sFunction+";");
+        }
     %>
 
+      window.close();
+    }
+
+    <%
+        if(sAction.equalsIgnoreCase("search")){
+            out.print("searchInvoices();") ;
+        }
+    %>
 </script>
-
-<%-- CALENDAR FRAMES --%>
-<% String sDateType = MedwanQuery.getInstance().getConfigString("dateType","eu"); // eu/us %>
-
-<iframe width="174" height="189" name="gToday:normal1_<%=sDateType%>:agenda.js:gfPop1" id="gToday:normal1_<%=sDateType%>:agenda.js:gfPop1"
-        src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
-        style="visibility:visible;z-index:999;position:absolute;top:-500px;left:-500px;">
-</iframe>
-<iframe width="174" height="189" name="gToday:normal2_<%=sDateType%>:agenda.js:gfPop2" id="gToday:normal2_<%=sDateType%>:agenda.js:gfPop2"
-        src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
-        style="visibility:visible;z-index:999;position:absolute;top:-500px;left:-500px;">
-</iframe>
-<iframe width="174" height="189" name="gToday:normal3_<%=sDateType%>:agenda.js:gfPop3" id="gToday:normal3_<%=sDateType%>:agenda.js:gfPop3"
-        src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
-        style="visibility:visible;z-index:999;position:absolute;top:-500px;left:-500px;">
-</iframe>

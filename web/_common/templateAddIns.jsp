@@ -1,7 +1,6 @@
-<%@ include file="/includes/validateUser.jsp" %>
+<%@include file="/includes/validateUser.jsp" %>
 <input type="hidden" name="prestationsVerified" value="0" id="prestationsVerified">
 <%
-
 	// prestations verified
     int prestationsVerified = 0;
 
@@ -43,7 +42,8 @@ function unhideSelects(){
     selects[i].style.visibility = "visible";
   }
 }
-  
+ 
+<%-- DATE ERROR --%>
 function dateError(field){
   alertDialog("Web.Occup","date.error");
   setTimeout('document.getElementById("'+field.id+'").focus();',100);
@@ -98,10 +98,7 @@ function checkSaveButton(){
   %>
 
   if(alertAnyway || (sFormBeginStatus!=sFormCurrStatus)){
-    var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelValue=<%=getTranNoLink("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>";
-    var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm(sQuestion);
-    discardFormData = (answer==1);
+    discardFormData = yesnoDialog("Web.Occup","medwan.common.buttonquestion");
   }
 
   return discardFormData;
@@ -109,14 +106,9 @@ function checkSaveButton(){
 <%
 
 %>
-
 function verifyPrestationCheck(){
   if(document.getElementById('prestationsVerified').value=='0'){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web.occup&labelID=exported-activities-not-validated";
-    var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.occup","exported-activities-not-validated",sWebLanguage)%>");
-
-    if(answer==1){
+    if(yesnoDialog("web.occup","exported-activities-not-validated")){
       showExportedActivities();
       return false;
     }
@@ -134,10 +126,7 @@ function checkBefore(beforeId,afterObj){
   if(beforeObj.value!="" && afterObj.value!=""){
     if(beforeObj.value!=afterObj.value){
       if(!before(beforeObj.value,afterObj.value)){
-        var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=web&labelID=dateMustBeLater";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","dateMustBeLater",sWebLanguage)%>");
-
+        alertDialog("web","dateMustBeLater");
         afterObj.value = beforeObj.value;
         afterObj.select();
       }
@@ -155,10 +144,7 @@ function checkAfter(afterId,beforeObj){
   if(afterObj.value!="" && beforeObj.value!=""){
     if(afterObj.value != beforeObj.value){
       if(before(afterObj.value, beforeObj.value)){
-        var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=web&labelID=dateMustBeSooner";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","dateMustBeSooner",sWebLanguage)%>");
-
+        alertDialog("web","dateMustBeSooner");
         beforeObj.value = afterObj.value;
         beforeObj.select();
       }
@@ -166,12 +152,10 @@ function checkAfter(afterId,beforeObj){
   }
 }
 </script>
+
 <script>
   var myForm = document;
 </script>
-<%
-
-%>
 <% response.setHeader("Content-Type","text/html; charset=ISO-8859-1"); %>
 
 <%=sJSSHORTCUTS%>
@@ -206,7 +190,7 @@ function checkAfter(afterId,beforeObj){
   <%-- WRITE MY DATE --%>
   function writeMyDate(sObject,sImg,sText,allowPastDates,allowFutureDates){    
     if(sImg==undefined){
-      sImg = "<c:url value='/_img/icon_agenda.gif'/>";
+      sImg = "<c:url value='/_img/icons/icon_agenda.gif'/>";
     }
     sDir = sImg.substring(0,sImg.lastIndexOf("/"))+"";
     
@@ -262,7 +246,7 @@ function checkAfter(afterId,beforeObj){
     else{
       window.open("<c:url value='/popup.jsp'/>?Page=_common/search/blurZipcode.jsp&ZipcodeValue="+oZipcode.value
                  +"&CityName="+oCity.name+"&CityValue="+oCity.value
-                 +"&VarButton="+oButton.name, "Zipcode", "toolbar=no, width=1, height=1, status=no, scrollbars=no, resizable=no, menubar=no, alwaysLowered=yes");
+                 +"&VarButton="+oButton.name, "Zipcode","toolbar=no,width=1,height=1,status=no,scrollbars=no,resizable=no,menubar=no,alwaysLowered=yes");
     }
   }
 
@@ -286,9 +270,8 @@ function checkAfter(afterId,beforeObj){
       gfPop3.fHideCal();
     }
   }
-
+    
   if(document.layers) document.captureEvents(Event.MOUSEDOWN);
-
   <%=getUserInterval(session,activeUser)%>
 
   window.document.title = "<%=sWEBTITLE+" "+getWindowTitle(request, sWebLanguage).toUpperCase()%>";
@@ -319,20 +302,17 @@ function checkAfter(afterId,beforeObj){
 %>
 
 <%-- popupmenu --%>
-<div id="ie5menu" class="skin0" onMouseover="highlightie5(event)" onMouseout="lowlightie5(event)" onClick="jumptoie5(event)" style="position:absolute;display:none;">
-    <%-- items van popupmenu. Met target komt de inhoud in een andere pagina --%>
-    <!-- <div id="Antecedents" class="menuitems" url="/">getTran("Web.Occup","medwan.common.transfert-to-antecedents",sWebLanguage)</div> -->
-    <div id="SetDefaultValue" class="menuitems" url="/"><%=getTran("Web.Occup","medwan.occupational-medicine.setdefaultvalue",sWebLanguage)%></div>
-    <div id="GetHistory" class="menuitems" url="javascript:openPage(sHistoryURL,'<%=getTran("Web.Occup","medwan.occupational-medicine.gethistory",sWebLanguage)%>','directories=no,location=no,menubar=no,status=no,toolbar=no,scrollbars=yes,width=400,height=250,top=100,left=100')"><%=getTran("Web.Occup","medwan.occupational-medicine.gethistory",sWebLanguage)%></div>
-    <div id="GetGraph" class="menuitems" url="javascript:openPage(sGraphURL,'<%=getTran("Web.Occup","medwan.occupational-medicine.getgraph",sWebLanguage)%>','directories=no,location=no,menubar=no,status=no,toolbar=no,scrollbars=no,width=400,height=220,top=100,left=100')"><%=getTran("Web.Occup","medwan.occupational-medicine.getgraph",sWebLanguage)%></div>
-    <div id="ShowLastTrans" class="menuitems" url="javascript:openPage(sLastTransURL,'LastTrans','directories=no,location=no,menubar=no,status=no,toolbar=no,scrollbars=yes,width=1,height=1')"><%=getTran("Web.Occup","medwan.occupational-medicine.showLastTransactions",sWebLanguage)%></div>
+<div id="ie5menu" onMouseover="highlightie5(event)" onMouseout="lowlightie5(event)" onClick="jumptoie5(event)" style="position:absolute;display:none;background-color:#c9c9c9;width:200px;">
+    <div id="SetDefaultValue" class="ie5menu" url="/"><%=getTranNoLink("Web.Occup","medwan.occupational-medicine.setdefaultvalue",sWebLanguage)%></div>
+    <div id="GetHistory" class="ie5menu" url="javascript:openPage(sHistoryURL,'<%=getTranNoLink("Web.Occup","medwan.occupational-medicine.gethistory",sWebLanguage)%>','directories=no,location=no,menubar=no,status=yes,toolbar=no,scrollbars=yes,width=400,height=270,top=100,left=100')"><%=getTranNoLink("Web.Occup","medwan.occupational-medicine.gethistory",sWebLanguage)%></div>
+    <div id="GetGraph" class="ie5menu" url="javascript:openPage(sGraphURL,'<%=getTranNoLink("Web.Occup","medwan.occupational-medicine.getgraph",sWebLanguage)%>','directories=no,location=no,menubar=no,status=yes,toolbar=no,scrollbars=no,width=400,height=270,top=100,left=100')"><%=getTranNoLink("Web.Occup","medwan.occupational-medicine.getgraph",sWebLanguage)%></div>
+    <div id="ShowLastTrans" class="ie5menu" url="javascript:openPage(sLastTransURL,'LastTrans','directories=no,location=no,menubar=no,status=yes,toolbar=no,scrollbars=yes,width=1,height=1,top=100,left=100')"><%=getTranNoLink("Web.Occup","medwan.occupational-medicine.showLastTransactions",sWebLanguage)%></div>
     <hr id="Sep1"/>
-    <div id="GetDefaultValue" class="menuitems" url="javascript:loadDefaults();"><%=getTran("Web.Occup","medwan.occupational-medicine.getdefaultvalues",sWebLanguage)%></div>
-    <div id="GetPreviousValue" class="menuitems" url="javascript:loadPrevious();"><%=getTran("Web.Occup","medwan.occupational-medicine.getpreviousvalues",sWebLanguage)%></div>
-    <div id="GetPreviousContextValue" class="menuitems" url="javascript:loadPreviousContext();"><%=getTran("Web.Occup","medwan.occupational-medicine.getpreviouscontextvalues",sWebLanguage)%></div>
-    <hr/>
-    <%-- <div id="RegisterDiagnosis" class="menuitems" url="/"><%=getTran("Web.Occup","medwan.common.register-as-diagnosis",sWebLanguage)%></div> --%>
-    <div class="menuitems" url="null"><%=getTran("Web.Occup","medwan.common.close",sWebLanguage)%></div>
+    <div id="GetDefaultValue" class="ie5menu" url="javascript:loadDefaults();"><%=getTranNoLink("Web.Occup","medwan.occupational-medicine.getdefaultvalues",sWebLanguage)%></div>
+    <div id="GetPreviousValue" class="ie5menu" url="javascript:loadPrevious();"><%=getTranNoLink("Web.Occup","medwan.occupational-medicine.getpreviousvalues",sWebLanguage)%></div>
+    <div id="GetPreviousContextValue" class="ie5menu" url="javascript:loadPreviousContext();"><%=getTranNoLink("Web.Occup","medwan.occupational-medicine.getpreviouscontextvalues",sWebLanguage)%></div>
+    <hr id="Sep2"/>
+    <div class="ie5menu" url="null"><%=getTranNoLink("Web.Occup","medwan.common.close",sWebLanguage)%></div>
 </div>
 
 <script>
@@ -351,25 +331,25 @@ function setPopup(itemType){
 }
 
 function setPopup(itemType,itemValue){
-	  if(ie){
-	    if(itemValue!=null){
-	      document.getElementById("SetDefaultValue").url = "javascript:openPage('<c:url value='/util/saveDefaultValue.jsp'/>?itemType="+itemType+"&itemValue="+itemValue+"','')";
-	    }
-	    else{
-	      document.getElementById("SetDefaultValue").url = "";
-	    }
-	  }
-	  else{
-	    if(itemValue!=null){
-	      document.getElementById("SetDefaultValue").setAttribute("url","javascript:openPage('<c:url value='/util/saveDefaultValue.jsp'/>?itemType="+itemType+"&itemValue="+itemValue+"','')");
-	    }
-	    else{
-	      document.getElementById("SetDefaultValue").setAttribute("url","");
-	    }
-	  }
+  if(ie){
+    if(itemValue!=null){
+      document.getElementById("SetDefaultValue").url = "javascript:openPage('<c:url value='/util/saveDefaultValue.jsp'/>?itemType="+itemType+"&itemValue="+itemValue+"','')";
+    }
+    else{
+      document.getElementById("SetDefaultValue").url = "";
+    }
+  }
+  else{
+    if(itemValue!=null){
+      document.getElementById("SetDefaultValue").setAttribute("url","javascript:openPage('<c:url value='/util/saveDefaultValue.jsp'/>?itemType="+itemType+"&itemValue="+itemValue+"','')");
+    }
+    else{
+      document.getElementById("SetDefaultValue").setAttribute("url","");
+    }
+  }
 
-  sHistoryURL = "<c:url value="healthrecord/itemHistory.jsp"/>?itemType="+itemType+"&ts=<%=getTs()%>";
-  sGraphURL = "<c:url value="/healthrecord/itemGraph.jsp"/>?itemType="+itemType+"&ts=<%=getTs()%>";
+  sHistoryURL = "<c:url value='/healthrecord/itemHistory.jsp'/>?itemType="+itemType+"&ts=<%=getTs()%>";
+  sGraphURL = "<c:url value='/healthrecord/itemGraph.jsp'/>?itemType="+itemType+"&ts=<%=getTs()%>";
 
   document.oncontextmenu = showmenuie5;
 }
@@ -381,7 +361,7 @@ function openPage(url,name,parameters){
 function setItemsMenu(bSet){
   if(!activeMenu){
     if(bSet || activeItem){
-      sDisp = 'list-item';
+      sDisp = 'block';
     }
     else{
       sDisp = 'none';

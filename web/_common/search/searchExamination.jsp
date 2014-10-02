@@ -132,7 +132,7 @@
 
         <%-- CLOSE BUTTON --%>
         <center>
-            <input type="button" class="button" name="buttonclose" value="<%=getTran("Web","Close",sWebLanguage)%>" onclick="window.close();">
+            <input type="button" class="button" name="buttonclose" value="<%=getTranNoLink("Web","Close",sWebLanguage)%>" onclick="window.close();">
         </center>
 
         <input type="hidden" name="Action">

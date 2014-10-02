@@ -26,7 +26,7 @@
     //--- SAVE ------------------------------------------------------------------------------------
     if((activePatient!=null)&&(request.getParameter("SavePatientEditForm")==null)) {
         %>
-            <table border='0' width='100%' class="list" cellspacing="1">
+            <table border='0' width='100%' class="list" cellspacing="1" style="border-top:none;">
         <%
 		boolean bCanModifyCore=true;
         if(checkString(activePatient.personid).length()>0 && MedwanQuery.getInstance().getConfigInt("canmodifyexistingcoreadmindata",1)==0 && !activeUser.getAccessRight("patient.modifyexistingcoreadminrecord.select")){

@@ -1,8 +1,9 @@
 <%@page errorPage="/includes/error.jsp"%>
-<%@ page import="java.util.Vector,java.util.StringTokenizer" %>
+<%@page import="java.util.Vector,
+                java.util.StringTokenizer"%>
 <%@include file="/_common/patient/patienteditHelper.jsp"%>
 <%
-    String sReturn = "<font color=red>" + getTran("Web.PatientEdit", "DBError", sWebLanguage) + "</font><br><br>";
+    String sReturn = "<font color=red>"+getTran("Web.PatientEdit", "DBError", sWebLanguage)+"</font><br><br>";
     boolean bReturn = true;
 
     String tab = checkString(request.getParameter("Tab"));
@@ -11,37 +12,38 @@
     if (activePatient != null && request.getParameter("SavePatientEditForm") != null) {
         // admin
         String sName = checkString(request.getParameter("Lastname")),
-                sFirstname = checkString(request.getParameter("Firstname")),
-                sDateOfBirth = checkString(request.getParameter("DateOfBirth")),
-                sImmatNew = checkString(request.getParameter("ImmatNew")), // Bedrijfs nr
-                sArchiveFileCode = checkString(request.getParameter("archiveFileCode")),
-                sNatReg = checkString(request.getParameter("NatReg")),
-                sLanguage = checkString(request.getParameter("Language")),
-                sGender = checkString(request.getParameter("Gender")),
-                sNativeCountry = checkString(request.getParameter("NativeCountry")),
-                sNativeTown = checkString(request.getParameter("NativeTown")),
-                sComment = checkString(request.getParameter("Comment")),
-                sComment3 = checkString(request.getParameter("Comment3")),
-                sComment4 = checkString(request.getParameter("Comment4")),
-                sComment5 = checkString(request.getParameter("Comment5")),
-                sMiddleName = checkString(request.getParameter("MiddleName")),
-                sComment1 = checkString(request.getParameter("Comment1")),
-                sCivilStatus = checkString(request.getParameter("CivilStatus")),
-                sTracnetID = checkString(request.getParameter("TracnetID")),
-                sVip = checkString(request.getParameter("Vip")),
-                sFatherName = checkString(request.getParameter("FatherName")),
-                sFatherProfession = checkString(request.getParameter("FatherProfession")),
-                sFatherEmployer = checkString(request.getParameter("FatherEmployer")),
-           		sMotherName = checkString(request.getParameter("MotherName")),
-  				sMotherProfession = checkString(request.getParameter("MotherProfession")),
-  				sMotherEmployer = checkString(request.getParameter("MotherEmployer")), 				
-          		sSpouseName = checkString(request.getParameter("SpouseName")),
- 				sSpouseProfession = checkString(request.getParameter("SpouseProfession")),
- 				sSpouseEmployer = checkString(request.getParameter("SpouseEmployer")), 				
-                sExport = checkString(request.getParameter("datacenterpatientexport")),
-		        sDeathCertificateOn = checkString(request.getParameter("DeathCertificateOn")),
-		        sDeathCertificateTo = checkString(request.getParameter("DeathCertificateTo"));
-        String sCenterreasons="";
+               sFirstname = checkString(request.getParameter("Firstname")),
+               sDateOfBirth = checkString(request.getParameter("DateOfBirth")),
+               sImmatNew = checkString(request.getParameter("ImmatNew")), // Bedrijfs nr
+               sArchiveFileCode = checkString(request.getParameter("archiveFileCode")),
+               sNatReg = checkString(request.getParameter("NatReg")),
+               sLanguage = checkString(request.getParameter("Language")),
+               sGender = checkString(request.getParameter("Gender")),
+               sNativeCountry = checkString(request.getParameter("NativeCountry")),
+               sNativeTown = checkString(request.getParameter("NativeTown")),
+               sComment = checkString(request.getParameter("Comment")),
+               sComment3 = checkString(request.getParameter("Comment3")),
+               sComment4 = checkString(request.getParameter("Comment4")),
+               sComment5 = checkString(request.getParameter("Comment5")),
+               sMiddleName = checkString(request.getParameter("MiddleName")),
+               sComment1 = checkString(request.getParameter("Comment1")),
+               sCivilStatus = checkString(request.getParameter("CivilStatus")),
+               sTracnetID = checkString(request.getParameter("TracnetID")),
+               sVip = checkString(request.getParameter("Vip")),
+               sFatherName = checkString(request.getParameter("FatherName")),
+               sFatherProfession = checkString(request.getParameter("FatherProfession")),
+               sFatherEmployer = checkString(request.getParameter("FatherEmployer")),
+           	   sMotherName = checkString(request.getParameter("MotherName")),
+  		       sMotherProfession = checkString(request.getParameter("MotherProfession")),
+  			   sMotherEmployer = checkString(request.getParameter("MotherEmployer")), 				
+          	   sSpouseName = checkString(request.getParameter("SpouseName")),
+ 			   sSpouseProfession = checkString(request.getParameter("SpouseProfession")),
+ 			   sSpouseEmployer = checkString(request.getParameter("SpouseEmployer")), 				
+               sExport = checkString(request.getParameter("datacenterpatientexport")),
+		       sDeathCertificateOn = checkString(request.getParameter("DeathCertificateOn")),
+		       sDeathCertificateTo = checkString(request.getParameter("DeathCertificateTo"));
+        
+       String sCenterreasons="";
        String[] reasons = request.getParameterValues("centerreason");
        if(reasons!=null){
 	       for(int n=0;n<reasons.length;n++){
@@ -54,23 +56,23 @@
 
         // private
         String sPBegin = checkString(request.getParameter("PBegin")),
-                sPAddress = checkString(request.getParameter("PAddress")),
-                sPZipcode = checkString(request.getParameter("PZipcode")),
-                sPCity = checkString(request.getParameter("PCity")),
-                sPCountry = checkString(request.getParameter("PCountry")),
-                sPComment = checkString(request.getParameter("PComment")),
-                sPTelephone = checkString(request.getParameter("PTelephone")),
-                sPFax = checkString(request.getParameter("PFax")),
-                sPEmail = checkString(request.getParameter("PEmail")),
-                sPMobile = checkString(request.getParameter("PMobile")),
-                sPDistrict = checkString(request.getParameter("PDistrict")),
-                sPSanitaryDistrict = checkString(request.getParameter("PSanitaryDistrict")),
-                sPProvince = checkString(request.getParameter("PProvince")),
-                sPSector = checkString(request.getParameter("PSector")),
-                sPCell = checkString(request.getParameter("PCell")),
-                sPFunction = checkString(request.getParameter("PFunction")),
-                sPBusiness = checkString(request.getParameter("PBusiness")),
-                sPQuarter = checkString(request.getParameter("PQuarter"));
+               sPAddress = checkString(request.getParameter("PAddress")),
+               sPZipcode = checkString(request.getParameter("PZipcode")),
+               sPCity = checkString(request.getParameter("PCity")),
+               sPCountry = checkString(request.getParameter("PCountry")),
+               sPComment = checkString(request.getParameter("PComment")),
+               sPTelephone = checkString(request.getParameter("PTelephone")),
+               sPFax = checkString(request.getParameter("PFax")),
+               sPEmail = checkString(request.getParameter("PEmail")),
+               sPMobile = checkString(request.getParameter("PMobile")),
+               sPDistrict = checkString(request.getParameter("PDistrict")),
+               sPSanitaryDistrict = checkString(request.getParameter("PSanitaryDistrict")),
+               sPProvince = checkString(request.getParameter("PProvince")),
+               sPSector = checkString(request.getParameter("PSector")),
+               sPCell = checkString(request.getParameter("PCell")),
+               sPFunction = checkString(request.getParameter("PFunction")),
+               sPBusiness = checkString(request.getParameter("PBusiness")),
+               sPQuarter = checkString(request.getParameter("PQuarter"));
 
         // private
         String sSCovered = checkString(request.getParameter("SCovered")),
@@ -83,21 +85,20 @@
 
         // resource
         String sRCategory = checkString(request.getParameter("RCategory")),
-                sRStatut = checkString(request.getParameter("RStatut")),
-		        sRGroup = checkString(request.getParameter("RGroup"));
-        /// DEBUG /////////////////////////////////////////////////////////////
-        Debug.println("=================================================");
-        Debug.println("sName        = "+sName);
-        Debug.println("sFirstname   = "+sFirstname);
-        Debug.println("sDateOfBirth = "+sDateOfBirth);
-        Debug.println("sImmatNew    = "+sImmatNew);
-        Debug.println("sNatReg      = "+sNatReg);
-        Debug.println("=================================================");
-        ///////////////////////////////////////////////////////////////////////          
-
-        if (Debug.enabled) {
-            Debug.println("1");
+               sRStatut = checkString(request.getParameter("RStatut")),
+		       sRGroup = checkString(request.getParameter("RGroup"));
+        
+        /// DEBUG /////////////////////////////////////////////////////////////////////////////////
+        if(Debug.enabled){
+	        Debug.println("\n**************** _common/patient/patientEditSave.jsp ***************");
+	        Debug.println("sName        : "+sName);
+	        Debug.println("sFirstname   : "+sFirstname);
+	        Debug.println("sDateOfBirth : "+sDateOfBirth);
+	        Debug.println("sImmatNew    : "+sImmatNew);
+	        Debug.println("sNatReg      : "+sNatReg+"\n");
         }
+        ///////////////////////////////////////////////////////////////////////////////////////////          
+
         //--- SAVE ---------------------------------------------------------------------------------
         if (bReturn) {
 
@@ -118,7 +119,6 @@
             activePatient.nativeCountry = sNativeCountry;
             activePatient.nativeTown = sNativeTown;
             AdminID aID;
-            Debug.println("2");
 
             if (sImmatNew.trim().length() > 0) {
                 aID = new AdminID("ImmatNew", sImmatNew.toUpperCase());
@@ -260,27 +260,32 @@
                 activePatient.adminextends.remove("usergroup");
             }
 
-            Debug.println("4");
             //################################ CREATE ##########################################
-            if (sPersonID == null || sPersonID.trim().length() == 0) {
-                if (activePatient.saveToDB(checkString((String) session.getAttribute("activeMedicalCenter")), checkString((String) session.getAttribute("activeMD")), checkString((String) session.getAttribute("activePara")))) {
+            if (sPersonID == null || sPersonID.trim().length()==0){
+                if (activePatient.saveToDB(checkString((String)session.getAttribute("activeMedicalCenter")),
+                		                   checkString((String)session.getAttribute("activeMD")),
+                		                   checkString((String)session.getAttribute("activePara")))){
                     // nothing
-                } else {
+                }
+                else {
                     // error
                     bReturn = false;
                 }
             }
             //################################ UPDATE ##########################################
-            else {
+            else{
                 activePatient.personid = sPersonID;
                 activePatient.updateuserid = activeUser.userid;
 
-                if (activePatient.saveToDB(checkString((String) session.getAttribute("activeMedicalCenter")), checkString((String) session.getAttribute("activeMD")), checkString((String) session.getAttribute("activePara")))) {
+                if(activePatient.saveToDB(checkString((String)session.getAttribute("activeMedicalCenter")),
+                		                  checkString((String)session.getAttribute("activeMD")),
+                		                  checkString((String)session.getAttribute("activePara")))){
                     // update patient in session
                     activePatient = new AdminPerson();
                     activePatient.initialize(sPersonID);
                     session.setAttribute("activePatient", activePatient);
-                } else {
+                }
+                else {
                     // error
                     bReturn = false;
                 }
@@ -288,19 +293,19 @@
           	activePatient.setExportRequest(sExport.equalsIgnoreCase("1"));
         }
     }
+    
     //*** display saved data OR display errormessage ***********************************************
-    if (bReturn) {
+    if(bReturn){
         String sNextPage = checkString(request.getParameter("NextPage"));
 
-        if (sNextPage.length()==0){
-            out.print("<script>window.location.href='" + sCONTEXTPATH + "/patientdata.do?Tab=" + tab + "&personid=" + activePatient.personid + "&ts=" + getTs() + "'</script>");
+        if(sNextPage.length()==0){
+            out.print("<script>window.location.href='"+sCONTEXTPATH+"/patientdata.do?Tab="+tab+"&personid="+activePatient.personid+"&ts="+getTs()+"'</script>");
         }
-        else {
-            %>
-            <script>window.location.href="<c:url value='/main.do'/>?Page=<%=sNextPage%>&personid=<%=activePatient.personid%>";</script>
-            <%
+        else{
+            %><script>window.location.href="<c:url value='/main.do'/>?Page=<%=sNextPage%>&personid=<%=activePatient.personid%>";</script><%
         }
-    } else {
+    }
+    else{
         out.print(sReturn);
     }
 %>

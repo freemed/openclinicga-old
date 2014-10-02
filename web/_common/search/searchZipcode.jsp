@@ -49,9 +49,9 @@
         sZipcode = (String) hResults.get("zipcode");
 
         sOut.append("<tr>")
-                .append(" <td title='" + chooseTran + "' onClick=\"selectUnit('" + sZipcode + "','" + sCity + "');\">")
+                .append("<td title='" + chooseTran + "' onClick=\"selectUnit('" + sZipcode + "','" + sCity + "');\">")
                 .append(sZipcode + " " + sCity)
-                .append(" </td>")
+                .append("</td>")
                 .append("</tr>");
         iTotal++;
     }
@@ -67,8 +67,8 @@
                     <input class="text" type="text" name='FindTextLocal' value="<%=sFindTextLocal%>" size="40">
 
                     <%-- BUTTONS --%>
-                    <input class='button' type="button" name='FindSearchbutton' value="<%=getTran("Web","find",sWebLanguage)%>" onClick='doFind();'>&nbsp;
-                    <input class='button' type="button" name="clear" value='<%=getTran("Web","clear",sWebLanguage)%>' OnClick="doClear();">
+                    <input class='button' type="button" name='FindSearchbutton' value="<%=getTranNoLink("Web","find",sWebLanguage)%>" onClick='doFind();'>&nbsp;
+                    <input class='button' type="button" name="clear" value='<%=getTranNoLink("Web","clear",sWebLanguage)%>' OnClick="doClear();">
                 </td>
             </tr>
 
@@ -113,7 +113,7 @@
 
         <%-- CLOSE BUTTON --%>
         <center>
-            <input type="button" class="button" name="buttonclose" value='<%=getTran("Web","Close",sWebLanguage)%>' onclick='window.close();'>
+            <input type="button" class="button" name="buttonclose" value='<%=getTranNoLink("Web","Close",sWebLanguage)%>' onclick='window.close();'>
             <input type="hidden" name='VarText' value="<%=sVarText%>">
             <input type="hidden" name='VarCode' value="<%=sVarCode%>">
         </center>

@@ -180,16 +180,16 @@
 			                             .append("</tr>")
 			                             .append("<tr class='list"+sClass+"' onmouseover='this.className=\"list_select\";' onmouseout='this.className=\"list"+sClass+"\";'>")
 			                              .append("<td>")
-			                               .append("<img src='"+request.getContextPath()+"/_img/icon_edit.gif'/ alt='"+getTranNoLink("web", "edit", sWebLanguage)+"' class='link' onclick=\"doEdit('"+tObj.getUid()+"')\">")
+			                               .append("<img src='"+request.getContextPath()+"/_img/icons/icon_edit.gif'/ alt='"+getTranNoLink("web", "edit", sWebLanguage)+"' class='link' onclick=\"doEdit('"+tObj.getUid()+"')\">")
 			                              .append("</td>")
 			                              .append("<td width='100%' style=\"padding-left: 10px;\" ")
-			                              .append(" onmouseover='this.style.cursor=\"hand\"' ")
-			                              .append(" onmouseout='this.style.cursor=\"default\"' ")
-			                              .append(" onclick=\"setTerminology('"+tObj.getPhrase()+"')\">")
+			                              .append("onmouseover='this.style.cursor=\"hand\"' ")
+			                              .append("onmouseout='this.style.cursor=\"default\"' ")
+			                              .append("onclick=\"setTerminology('"+tObj.getPhrase()+"')\">")
 			                               .append(tObj.getPhrase())
 			                              .append("</td>")
 			                              .append("<td>")
-			                               .append("<img src='"+request.getContextPath()+"/_img/icon_delete.gif'/ alt='"+getTranNoLink("web", "delete", sWebLanguage)+"' class='link' onclick=\"doDelete('"+tObj.getUid()+"')\">")
+			                               .append("<img src='"+request.getContextPath()+"/_img/icons/icon_delete.gif'/ alt='"+getTranNoLink("web", "delete", sWebLanguage)+"' class='link' onclick=\"doDelete('"+tObj.getUid()+"')\">")
 			                              .append("</td>")
 			                             .append("</tr>");
                             }
@@ -216,7 +216,7 @@
 
 <%-- CLOSE BUTTON --%>
 <center>
-    <input type="button" class="button" name="buttonclose" value='<%=getTran("Web","Close",sWebLanguage)%>' onclick='window.close()'>
+    <input type="button" class="button" name="buttonclose" value='<%=getTranNoLink("Web","Close",sWebLanguage)%>' onclick='window.close()'>
 </center>
 
 <script>

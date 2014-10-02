@@ -130,7 +130,7 @@ div.today {
 /* Appointment header row */
   height: 12px;
   text-align: left;
-  background: url( ../../_img/tradmin_bg.gif ) center;
+  background: url( ../../_img/themes/default/tradmin_bg.gif ) center;
   color: white;
 
 }
@@ -138,7 +138,7 @@ div.today {
 .weekScheduler_appointment_headerActive {
   text-align: left; /* Appointment header row  - when active*/
   height: 12px;
-  background: url( ../../_img/tradminselected_bg.gif ) center;
+  background: url( ../../_img/themes/default/tradminselected_bg.gif ) center;
 }
 
 div.weekScheduler_appointment_info {
@@ -151,7 +151,7 @@ div.weekScheduler_appointment_info {
   height: 12px;
   width: 12px;
   cursor: pointer;
-  background: no-repeat center center url( "../../_img/planning_info.gif" );
+  background: no-repeat center center url( "../../_img/themes/default/planning_info.gif" );
 }
 
 .weekScheduler_appointment_textarea {
@@ -178,7 +178,7 @@ div.weekScheduler_appointment_info {
 
 .weekScheduler_appointment_txt i {
   padding-left: 10px;
-  background: no-repeat left center url( "../../_img/arrow.right.png" );
+  background: no-repeat left center url( "../../_img/themes/default/arrow.right.png" );
 }
 
 .weekScheduler_appointment_footer {
@@ -189,7 +189,7 @@ div.weekScheduler_appointment_info {
   height: 5px;
   width: 100%;
   font-size: 12px;
-  background: no-repeat center center url( "../../_img/resize.gif" );
+  background: no-repeat center center url( "../../_img/themes/default/resize.gif" );
 }
 
 .weekScheduler_appointment_txt ul {
@@ -308,7 +308,7 @@ div.weekScheduler_appointment_info {
   background-color: #FFFAEA;
 }
 #weekScheduler_popup ul li a{
-   background: url( ../../_img/buttons_transparent.png ) left 0 no-repeat;
+   background: url( ../../_img/themes/default/buttons_transparent.png ) left 0 no-repeat;
 }
 #weekScheduler_popup ul li.del a {
   background-position:left -18px;
@@ -347,7 +347,7 @@ div.weekScheduler_appointment_info {
   width: 18px;
   height: 18px;
   margin-left: 15px;
-  background: no-repeat right top url( "../../_img/warning.gif" );
+  background: no-repeat right top url( "../../_img/themes/default/warning.gif" );
 }
 
 #weekScheduler_warning_popup {

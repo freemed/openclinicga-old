@@ -33,11 +33,11 @@
 
     // header
     sHtml.append("<tr class='admin'>")
-         .append(" <td nowrap>"+getTranNoLink("web","product",sWebLanguage)+"</td>")
-         .append(" <td width='10%'>"+getTranNoLink("web","unit",sWebLanguage)+"</td>")
-         .append(" <td width='12%' style='text-align:right;'>"+getTranNoLink("web","unitprice",sWebLanguage)+"&nbsp;</td>")
-         .append(" <td width='31%'>"+getTranNoLink("web","supplier",sWebLanguage)+"</td>")
-         .append(" <td width='27%'>"+getTranNoLink("web","productGroup",sWebLanguage)+"</td>")
+         .append("<td nowrap>"+getTranNoLink("web","product",sWebLanguage)+"</td>")
+         .append("<td width='10%'>"+getTranNoLink("web","unit",sWebLanguage)+"</td>")
+         .append("<td width='12%' style='text-align:right;'>"+getTranNoLink("web","unitprice",sWebLanguage)+"&nbsp;</td>")
+         .append("<td width='31%'>"+getTranNoLink("web","supplier",sWebLanguage)+"</td>")
+         .append("<td width='27%'>"+getTranNoLink("web","productGroup",sWebLanguage)+"</td>")
          .append("</tr>");
 
     // tbody
@@ -87,12 +87,12 @@
         sProductName = sProductName.replaceAll("'","");
 
         //*** display product in one row ***
-        sHtml.append("<tr title='"+chooseTran+"'  class='list"+sClass+"' onClick=\"selectProduct('"+product.getUid()+"','"+sProductName+"','"+product.getUnit()+"','"+sUnitsPerTimeUnit+"','"+sSupplierUid+"','"+sSupplierName+"','"+product.getPackageUnits()+"');\">")
-             .append(" <td nowrap "+(inStock?"":" class='strike'")+">"+sProductName+"</td>")
-             .append(" <td"+(inStock?"":" class='strike'")+">"+sUnitTran+"</td>")
-             .append(" <td align='right'"+(inStock?"":" class='strike'")+">"+sUnitPrice+"&nbsp;"+sCurrency+"&nbsp;</td>")
-             .append(" <td"+(inStock?"":" class='strike'")+">"+sSupplierName+"</td>")
-             .append(" <td"+(inStock?"":" class='strike'")+">"+sProductGroup+"</td>")
+        sHtml.append("<tr title='"+chooseTran+"' class='list"+sClass+"' onClick=\"selectProduct('"+product.getUid()+"','"+sProductName+"','"+product.getUnit()+"','"+sUnitsPerTimeUnit+"','"+sSupplierUid+"','"+sSupplierName+"','"+product.getPackageUnits()+"');\">")
+             .append("<td nowrap "+(inStock?"":" class='strike'")+">"+sProductName+"</td>")
+             .append("<td"+(inStock?"":" class='strike'")+">"+sUnitTran+"</td>")
+             .append("<td align='right'"+(inStock?"":" class='strike'")+">"+sUnitPrice+"&nbsp;"+sCurrency+"&nbsp;</td>")
+             .append("<td"+(inStock?"":" class='strike'")+">"+sSupplierName+"</td>")
+             .append("<td"+(inStock?"":" class='strike'")+">"+sProductGroup+"</td>")
              .append("</tr>");
 
         iTotal++;

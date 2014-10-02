@@ -76,7 +76,7 @@ a#MB_close:hover {
 #MB_loading {
 	padding: 1.5em;
 	text-indent: -10000px;
-	    background: transparent url( ../../_img/ajax-loader.gif ) 50% 0 no-repeat;
+	    background: transparent url( ../../_img/themes/default/ajax-loader.gif ) 50% 0 no-repeat;
 }
 
 /* Color scheme */

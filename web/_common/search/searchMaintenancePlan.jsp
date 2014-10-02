@@ -23,30 +23,32 @@
     String sReturnFieldUid  = checkString(request.getParameter("ReturnFieldUid")),
            sReturnFieldCode = checkString(request.getParameter("ReturnFieldCode"));
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n************* searchMaintenancePlan.jsp ************");
+        Debug.println("\n**************** _common/search/searchMaintenancePlan.jsp **************");
         Debug.println("sPlanUid         : "+sPlanUid);
         Debug.println("sFunction        : "+sFunction);
         Debug.println("sReturnFieldUid  : "+sReturnFieldUid);
         Debug.println("sReturnFieldCode : "+sReturnFieldCode+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
         
     // inner search
     String sAction = checkString(request.getParameter("Action"));
     
-    String sName     = ScreenHelper.checkString(request.getParameter("searchName")),
-           sAssetUID = ScreenHelper.checkString(request.getParameter("searchAssetUID")),
-           sOperator = ScreenHelper.checkString(request.getParameter("searchOperator"));
+    String sName            = ScreenHelper.checkString(request.getParameter("searchName")),
+           sAssetUID        = ScreenHelper.checkString(request.getParameter("searchAssetUID")),
+           sSearchAssetCode = ScreenHelper.checkString(request.getParameter("searchAssetCode")),
+           sOperator        = ScreenHelper.checkString(request.getParameter("searchOperator"));
 
     ///////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
         Debug.println("\n********** innerSearch **********");
-        Debug.println("sAction   : "+sAction);
-        Debug.println("sName     : "+sName);
-        Debug.println("sAssetUID : "+sAssetUID);
-        Debug.println("sOperator : "+sOperator+"\n");
+        Debug.println("sAction          : "+sAction);
+        Debug.println("sName            : "+sName);
+        Debug.println("sAssetUID        : "+sAssetUID);
+        Debug.println("sSearchAssetCode : "+sSearchAssetCode);
+        Debug.println("sOperator        : "+sOperator+"\n");
     }
     ///////////////////////////////////////////////////////////////////////////
    
@@ -64,7 +66,7 @@
 		        <tr>
 		            <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","name",sWebLanguage)%>&nbsp;</td>
 		            <td class="admin2">
-		                <input type="text" class="text" id="searchName" name="searchName" size="40" maxLength="50" value="">
+		                <input type="text" class="text" id="searchName" name="searchName" size="40" maxLength="50" value="<%=sName%>">
 		            </td>
 		        </tr>     
 		        
@@ -72,12 +74,12 @@
 		        <tr>
 		            <td class="admin"><%=getTran("web.assets","asset",sWebLanguage)%>&nbsp;</td>
 		            <td class="admin2">
-		                <input type="hidden" name="searchAssetUID" id="searchAssetUID" value="">
-		                <input type="text" class="text" id="searchAssetCode" name="searchAssetCode" size="20" readonly value="">
+		                <input type="hidden" name="searchAssetUID" id="searchAssetUID" value="<%=sAssetUID%>">
+		                <input type="text" class="text" id="searchAssetCode" name="searchAssetCode" size="20" readonly value="<%=sSearchAssetCode%>">
 		                                   
 		                <%-- buttons --%>
-		                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("web","select",sWebLanguage)%>" onclick="selectAsset('searchAssetUID','searchAssetCode');">
-		                <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("web","clear",sWebLanguage)%>" onclick="clearAssetFields();">
+		                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("web","select",sWebLanguage)%>" onclick="selectAsset('searchAssetUID','searchAssetCode');">
+		                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="clearAssetSearchFields();">
 		            </td>
 		        </tr>  
 		        
@@ -85,7 +87,7 @@
 		        <tr>
 		            <td class="admin"><%=getTran("web","operator",sWebLanguage)%>&nbsp;</td>
 		            <td class="admin2">
-		                <input type="text" class="text" id="searchOperator" name="searchOperator" size="40" maxLength="50" value="">
+		                <input type="text" class="text" id="searchOperator" name="searchOperator" size="40" maxLength="50" value="<%=sOperator%>">
 		            </td>
 		        </tr>     
                                     
@@ -112,10 +114,8 @@
 		    
 		    foundPlans = MaintenancePlan.getList(findItem);
 		    if(foundPlans.size() > 0){
-		        %>
-		            <br>
-		            
-		            <table id="searchresults" cellpadding="0" cellspacing="0" width="100%" class="sortable" style="border:1px solid #cccccc;">
+		        %>		            
+		            <table id="searchresults" cellpadding="0" cellspacing="0" width="100%" class="sortable">
 		                <%-- header --%>
 		                <tr class="admin">
 		                    <td class="admin" style="padding-left:0;" width="20%" nowrap><%=getTran("web.assets","name",sWebLanguage)%></td>
@@ -125,7 +125,7 @@
 		                
 		                <tbody>
 		                    <%
-		                        String sClass = "";
+		                        String sClass = "1";
 		                        MaintenancePlan plan;
 		                        
 		                        for(int i=0; i<foundPlans.size(); i++){
@@ -161,7 +161,7 @@
     
     // display message
     if(msg.length() > 0){
-        %><br><%=msg%><br><%
+        %><%=msg%><%
     }
 %>
     

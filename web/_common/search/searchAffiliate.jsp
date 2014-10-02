@@ -1,18 +1,21 @@
-<%@ page import="java.util.Vector,java.util.Hashtable" %>
-<%@ page errorPage="/includes/error.jsp" %>
-<%@ include file="/includes/validateUser.jsp" %>
+<%@page import="java.util.Vector,java.util.Hashtable" %>
+<%@page errorPage="/includes/error.jsp" %>
+<%@include file="/includes/validateUser.jsp" %>
 <%
-    String sFindLastname = checkString(request.getParameter("FindLastname")),
-           sFindFirstname = checkString(request.getParameter("FindFirstname")),
-           sFindGender = checkString(request.getParameter("FindGender")),
-           sFindDOB = checkString(request.getParameter("FindDOB")),
-           sFindInsuranceMember = checkString(request.getParameter("VarCode")),
-           sFindInsuranceMemberName = checkString(request.getParameter("VarText")),
+    String sFindLastname    = checkString(request.getParameter("FindLastname")),
+           sFindFirstname   = checkString(request.getParameter("FindFirstname")),
+           sFindGender      = checkString(request.getParameter("FindGender")),
+           sFindDOB         = checkString(request.getParameter("FindDOB")),
+           sFindInsuranceMember         = checkString(request.getParameter("VarCode")),
+           sFindInsuranceMemberName     = checkString(request.getParameter("VarText")),
            sFindInsuranceMemberEmployer = checkString(request.getParameter("VarEmp")),
-           sFindInsuranceMemberImmat = checkString(request.getParameter("VarImmat")),
+           sFindInsuranceMemberImmat    = checkString(request.getParameter("VarImmat")),
            sFindInsuranceNr = checkString(request.getParameter("EditInsuranceNr")),
-           sExclude = checkString(request.getParameter("exclude")),
-		   sFindInsurarUID=checkString(request.getParameter("EditInsurarUID"));
+           sExclude         = checkString(request.getParameter("exclude")),
+		   sFindInsurarUID  = checkString(request.getParameter("EditInsurarUID"));
+
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 %>
 <form name="SearchForm" method="POST" onsubmit="doFind();return false;"  onkeydown="if(enterEvent(event,13)){doFind();}">
     <table width="100%" cellspacing="0" cellpadding="0" class="menu">
@@ -27,6 +30,7 @@
                 <input type="text" name="FindFirstname" class="text" value="<%=sFindFirstname%>" onblur="limitLength(this);">
             </td>
         </tr>
+        
         <%-- search fields row 2 --%>
         <tr>
             <td height="25" nowrap>&nbsp;<%=getTran("Web", "dateofbirth", sWebLanguage)%>&nbsp;&nbsp;</td>
@@ -42,21 +46,20 @@
                 </select>&nbsp;
             </td>
         </tr>
+        
+        <%-- BUTTONS --%>
         <tr>
             <td>&nbsp;</td>
-            <%-- BUTTONS --%>
             <td height="25">
-                <input class="button" type="button" name="buttonfind" value="<%=getTran("Web","find",sWebLanguage)%>"
-                       onClick="doFind();">&nbsp;
-                <input class="button" type="button" name="buttonclear" value="<%=getTran("Web","clear",sWebLanguage)%>"
-                       onclick="clearFields();">
+                <input class="button" type="button" name="buttonfind" value="<%=getTranNoLink("Web","find",sWebLanguage)%>" onClick="doFind();">&nbsp;
+                <input class="button" type="button" name="buttonclear" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="clearFields();">
             </td>
         </tr>
+        
         <%-- SEARCH RESULTS TABLE --%>
         <tr>
             <td style="vertical-align:top;" colspan="4" align="center" class="white" width="100%">
-                <div id="divFindRecords">
-                </div>
+                <div id="divFindRecords"></div>
             </td>
         </tr>
     </table>
@@ -67,12 +70,13 @@
     <input type="hidden" name="EditInsuranceNr" value="<%=sFindInsuranceNr%>">
     <input type="hidden" name="exclude" value="<%=sExclude%>">
     <br>
+    
     <%-- CLOSE BUTTON --%>
     <center>
-        <input type="button" class="button" name="buttonclose" value="<%=getTran("Web","Close",sWebLanguage)%>"
-               onclick="window.close();">
+        <input type="button" class="button" name="buttonclose" value="<%=getTranNoLink("Web","Close",sWebLanguage)%>" onclick="window.close();">
     </center>
 </form>
+
 <script>
     window.resizeTo(500, 540);
 
@@ -113,7 +117,7 @@
             ajaxChangeSearchResults('_common/search/searchByAjax/searchPatientAdd.jsp', SearchForm);
         }
         else {
-            alert("<%=getTranNoLink("web","somefieldsareempty",sWebLanguage)%>");
+            alertDialog("<%=getTranNoLink("web","somefieldsareempty",sWebLanguage)%>");
         }
     }
     

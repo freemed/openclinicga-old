@@ -16,13 +16,13 @@
             +ScreenHelper.writeSelect("admin.statut",sStatut,sWebLanguage)+"</select>";
 
         %>
-        <table border='0' width='100%' class="list" cellspacing="1">
+        <table border='0' width='100%' class="list" cellspacing="1" style="border-top:none;">
             <tr>
                 <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("admin","category",sWebLanguage)%></td>
                 <td class="admin2">
                     <input type="text" readonly class="text" name="RCategoryText" value="<%=sCategoryDescr%>" size="<%=sTextWidth%>">
-                    <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchCategory('RCategory','RCategoryText');">
-                    <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="PatientEditForm.RCategory.value='';PatientEditForm.RCategoryText.value='';">
+                    <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchCategory('RCategory','RCategoryText');">
+                    <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="PatientEditForm.RCategory.value='';PatientEditForm.RCategoryText.value='';">
                     <input type="hidden" name="RCategory" value="<%=sCategory%>">
                 </td>
             </tr>

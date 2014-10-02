@@ -13,18 +13,19 @@
 %>
 
 <%
-    String sNewimmat = checkString(request.getParameter("findimmatnew"));
-    String sNatreg = checkString(request.getParameter("findnatreg"));
-    String sName = checkString(request.getParameter("findName"));
-    String sFirstname = checkString(request.getParameter("findFirstname"));
-    String sDateOfBirth = checkString(request.getParameter("findDateOfBirth"));
-    String sUnit = checkString(request.getParameter("findUnit"));
-    String sUnitText = checkString(request.getParameter("findUnitText"));
-    String sArchiveFileCode = checkString(request.getParameter("findArchiveFileCode"));
-    String sPersonID = checkString(request.getParameter("findPersonID"));
-    String sDistrict = checkString(request.getParameter("findDistrict"));
-    String sScript = "";
+    String sNewimmat    = checkString(request.getParameter("findimmatnew")),
+	       sNatreg      = checkString(request.getParameter("findnatreg")),
+	       sName        = checkString(request.getParameter("findName")),
+	       sFirstname   = checkString(request.getParameter("findFirstname")),
+	       sDateOfBirth = checkString(request.getParameter("findDateOfBirth")),
+	       sUnit        = checkString(request.getParameter("findUnit")),
+	       sUnitText    = checkString(request.getParameter("findUnitText")),
+	       sArchiveFileCode = checkString(request.getParameter("findArchiveFileCode")),
+	       sPersonID    = checkString(request.getParameter("findPersonID")),
+	       sDistrict    = checkString(request.getParameter("findDistrict"));
+    
     String sAction = checkString(request.getParameter("findSearchButtonClick"));
+    String sScript = "";
 
     // fedault focus
     String sDefaultFocus = checkString(activeUser.getParameter("DefaultFocus"));
@@ -43,8 +44,8 @@
 
         // retreive service via Encounters, not via AdminWork
         Service as = ScreenHelper.getActiveDivision(activePatient.personid);
-        if (as != null) sUnit = as.code;
-        else            sUnit = "";
+        if(as!=null) sUnit = as.code;
+        else         sUnit = "";
     } 
     else{
         sScript = "document.getElementById(\"SF\").find" + sDefaultFocus + ".focus();$(\"SF\").find" + sDefaultFocus + ".className=\"selected_bold\"";
@@ -71,13 +72,14 @@
         <tr>
             <td align="right" nowrap width="55"><%=getTran("Web","Name",sWebLanguage)%></td>
             <td>
-                <input id="ac2" autocomplete="off" class='<%=setFocus("Name",sDefaultFocus)%>' TYPE='TEXT' style='text-transform:uppercase' NAME='findName' VALUE="<%=sName%>" size='25' onblur='limitLength(this);'>
-                <div id="ac2update" style="display: none;border: 1px solid black;background-color: white; "></div>
+                <input id="ac2" autocomplete="off" class='<%=setFocus("Name",sDefaultFocus)%>' type='text' style='text-transform:uppercase' name='findName' value="<%=sName%>" size='25' onblur='limitLength(this);'>
+                <div id="ac2update" class="autocompletiondiv" style="display:none;"></div>
             </td>
+                        
             <td align="right" nowrap><%=getTran("Web", "Firstname", sWebLanguage)%>&nbsp;
-                <input id="ac1" autocomplete="off" class='<%=setFocus("Name",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase' name='findFirstname' value="<%=sFirstname%>" size='20' onblur='limitLength(this);'>
+                <input id="ac1" autocomplete="off" class='<%=setFocus("Name",sDefaultFocus)%>' type='text' style='text-transform:uppercase' name='findFirstname' value="<%=sFirstname%>" size='20' onblur='limitLength(this);'>
+                <div id="ac1update" class="autocompletiondiv" style="display:none;"></div>
             </td>
-            <div id="ac1update" style="display:none; border: 1px solid black;background-color: white;"></div>
 
             <td align="right" nowrap><%=getTran("Web","DateOfBirth", sWebLanguage)%>&nbsp;
                 <input class='<%=setFocus("DateOfBirth",sDefaultFocus)%>' type='TEXT' name='findDateOfBirth' value="<%=sDateOfBirth%>" size='17' OnBlur='checkDate(this)' maxlength='10'>
@@ -87,9 +89,9 @@
             	if(activePatient!=null && activePatient.personid!=null && activePatient.personid.length()>0){
 	            	java.util.Date death=activePatient.isDead();	
 	            	if(death!=null){
-						out.print("<img src='_img/warning.gif'/> <font style='{font-size: 12px; font-weight: bold; vertical-align: top}'>"+getTran("web","died",sWebLanguage)+" "+ScreenHelper.stdDateFormat.format(death)+"</font>");
+						out.print("<img src='_img/icons/icon_warning.gif'/> <font style='font-size:12px;font-weight:bold;vertical-align:2px;}'>"+getTran("web","died",sWebLanguage)+" "+ScreenHelper.stdDateFormat.format(death)+"</font>");
 	            	}
-	            	else {
+	            	else{
 	            		out.print(" ("+(activePatient.gender.equalsIgnoreCase("M")?getTran("web.occup","male",sWebLanguage):getTran("web.occup","female",sWebLanguage))+" - "+activePatient.getAge()+" "+getTran("web","years",sWebLanguage).toLowerCase()+")");
 	            	}
             	}
@@ -127,9 +129,8 @@
             <%
                 }
             %>
-            <td align="right" nowrap><%=getTran("Web", "personid", sWebLanguage)%>&nbsp;<input
-                    class='<%=setFocus("personid",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase'
-                    name='findPersonID' value="<%=sPersonID%>" size='17' onblur='limitLength(this);'>
+            <td align="right" nowrap><%=getTran("Web", "personid", sWebLanguage)%>&nbsp;
+                <input class='<%=setFocus("personid",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase' name='findPersonID' value="<%=sPersonID%>" size='17' onblur='limitLength(this);'>
             </td>
         </tr>
         <%-- row 3 --%>
@@ -139,12 +140,12 @@
                 <input class='text' TYPE="text" NAME="findUnitText" readonly size="49" TITLE="<%=sUnitText%>" VALUE="<%=sUnitText%>" onkeydown="enterEvent(event,13)? window.event.keyCode='' : (window.which='');return true;">
                 <%
                     if(sUnit.length() > 0){
-                        %><img src="<c:url value='/_img/icon_info.gif'/>" class="link" alt="<%=getTran("Web","Information",sWebLanguage)%>" onclick='searchInfoService(SF.findUnit)'/><%
+                        %><img src="<c:url value='/_img/icons/icon_info.gif'/>" class="link" alt="<%=getTranNoLink("Web","Information",sWebLanguage)%>" onclick='searchInfoService(SF.findUnit)'/><%
                     }
                 %>
                 <%=ScreenHelper.writeServiceButton("buttonUnit", "findUnit", "findUnitText", sWebLanguage, sCONTEXTPATH)%>
-                <input TYPE="hidden" NAME="Action" VALUE="">
-                <input TYPE="hidden" NAME="findUnit" VALUE="<%=sUnit%>">
+                <input type="hidden" name="Action" value="">
+                <input type="hidden" name="findUnit" value="<%=sUnit%>">
             </td>
             <%-- BUTTONS --%>
             <td align="right" nowrap><%=getTran("Web", "district", sWebLanguage)%>&nbsp;
@@ -194,41 +195,41 @@
 resizeSearchFields();
 
 <%-- Autocompletion code ---%>     
-function eventDateCallback(element,entry){
-  var serialized = "";
-  if(element.id=="ac1"){
-    serialized = "findFirstname="+element.value;
+function composeCallbackURL(field,item){
+  var url = "";
+  if(field.id=="ac1"){
+	url = "findFirstname="+field.value;
     if($F("ac2").length>0){
-      serialized+="&findName="+$F("ac2")+"&field=findFirstname";
+      url+="&findName="+$F("ac2")+"&field=findFirstname";
     }
   }
-  else if(element.id=="ac2"){
-    serialized = "findName="+element.value;
+  else if(field.id=="ac2"){
+	url = "findName="+field.value;
     if($F("ac1").length>0){
-      serialized+="&findFirstname="+$F("ac1")+"&field=findName";
+      url+="&findFirstname="+$F("ac1")+"&field=findName";
     }
   }
-  return serialized;
+  return url;
 }
 
 new Ajax.Autocompleter('ac2','ac2update','_common/search/searchByAjax/patientslistShow.jsp',{
-  minChars: 1,
-  method: 'post',
-  afterUpdateElement: ac_return,
-  callback:eventDateCallback
+  minChars:1,
+  method:'post',
+  afterUpdateElement:afterAutoComplete,
+  callback:composeCallbackURL
 });
 
 new Ajax.Autocompleter('ac1','ac1update','_common/search/searchByAjax/patientslistShow.jsp',{
-  minChars: 1,
-  method: 'post',
-  afterUpdateElement: ac_return,
-  callback:eventDateCallback
+  minChars:1,
+  method:'post',
+  afterUpdateElement:afterAutoComplete,
+  callback:composeCallbackURL
 });
 
-function ac_return(field,item){
-  var regex = new RegExp('[0123456789]*-idcache', 'i');
+function afterAutoComplete(field,item){
+  var regex = new RegExp('[0123456789]*-idcache','i');
   var nomimage = regex.exec(item.innerHTML);
-  var id = nomimage[0].replace('-idcache', '');
+  var id = nomimage[0].replace('-idcache','');
   clearPatient();
   document.getElementById("SF").findPersonID.value = id;
   doSPatient();

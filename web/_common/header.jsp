@@ -56,71 +56,90 @@
     </tr>
 </table>
 
+<div style="position:absolute;right:5px;top:27px;width:400px;">
 <%
-    if(!"datacenter".equalsIgnoreCase((String)session.getAttribute("edition"))){
+    if(!"datacenter".equalsIgnoreCase((String)session.getAttribute("edition"))){        
         String sVersion = checkString((String)session.getAttribute("ProjectVersion"));
 
-        String bgi = ""; 
-        if("datacenter".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))){
+        String bgi = "";
+        String sEdition = MedwanQuery.getInstance().getConfigString("edition","");
+        if("datacenter".equalsIgnoreCase(sEdition)){
        	    bgi = "projects/datacenter/_img/projectlogo.jpg";
         }
-        else if("openlab".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))){
+        else if("openlab".equalsIgnoreCase(sEdition)){
        	    bgi = "projects/openlab/_img/projectlogo.jpg";
         }
-        else if("openpharmacy".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))){
+        else if("openpharmacy".equalsIgnoreCase(sEdition)){
        	    bgi = "_img/openpharmacyprojectlogo.jpg";
         }
-        else if("openinsurance".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("edition",""))){
+        else if("openinsurance".equalsIgnoreCase(sEdition)){
        	    bgi = "_img/openinsuranceprojectlogo.jpg";
         }
         else{
-		    bgi = sAPPDIR+"_img/projectlogo.jpg";
+        	// default
+		    bgi = "/"+sAPPDIR+"_img/projectlogo.jpg";
         }
-        
-	    %>
-		    <div class="logo" style="background-image:url('<c:url value='/'/><%=bgi %>');"></div>
-			<div class="version"><%=sVersion%></div>
-			
-			<div class="topicones">
-			    <%
-			        if(MedwanQuery.getInstance().getConfigString("TestEdition").equals("1")){
-			            %><img style="float:right;" src="<c:url value='/_img/stamp_test.gif'/>" alt=""/><%
-			        }
-			        else{
-			            String sWorkTimeMessage = checkString((String)session.getAttribute("WorkTimeMessage"));
-			            if(sWorkTimeMessage.length() > 0){
-			                %><img style="float:right;" src="<c:url value='/_img/men_at_work.gif'/>" alt="<%=(getTran("Web.Occup","medwan.common.workuntil",sWebLanguage)+" "+sWorkTimeMessage)%>"/><%
-			            }
-			        }
 
-
-                    String sTmpPersonid = checkString(request.getParameter("personid"));
-                    if(sTmpPersonid.length()==0){
-                        sTmpPersonid = checkString(request.getParameter("PersonID"));
-                    }
-                    
-                    if(sTmpPersonid.length() > 0){
-                    	try{
-                    		sTmpPersonid=Integer.parseInt(sTmpPersonid)+"";
-                    	}
-                    	catch(Exception e){
-                    		e.printStackTrace();
-                    	}
-                        boolean bFingerPrint = FingerPrint.exists(Integer.parseInt(sTmpPersonid)),
-                                bPicture     = Picture.exists(Integer.parseInt(sTmpPersonid)),
-                                bBarcode     = Barcode.exists(Integer.parseInt(sTmpPersonid));
-                        if(!bFingerPrint){
-                            %> <a class="imglink" href="javascript:enrollFingerPrint();"><img  border='0' src="<c:url value='/_img/fingerprint.png'/>" alt="<%=getTranNoLink("web","enrollFingerPrint",sWebLanguage)%>"/></a><%
-                        }
-                        if(!bBarcode){
-                            %> <a class="imglink" href="javascript:printPatientCard();"><img  border='0' src="<c:url value='/_img/icon_badge.png'/>" alt="<%=getTranNoLink("web","printPatientCard",sWebLanguage)%>"/></a><%
-                        }
-                        if(!bPicture){
-                            %> <a class="imglink" href="javascript:storePicture();"><img  border='0' src="<c:url value='/_img/camera.png'/>" alt="<%=getTranNoLink("web","loadPicture",sWebLanguage)%>"/></a><%
-                        }
-                    }
-                %>
-            </div>
+        %>        
+            <div style="float:right">
+                <%        		
+			        // only show logo-div when logo-file was found
+			   	    if(bgi.length() > 0){
+			   	   	    String sLogoUrl = MedwanQuery.getInstance().getConfigString("baseDirectory")+"/"+bgi;
+			   	   	    
+			   	   	    java.io.File file = new java.io.File(sLogoUrl); 
+			   	   	    if(file.exists() && file.isFile()){ 
+			   	   	   	    bgi = sCONTEXTPATH+"/"+bgi;   	   	   	    
+			   	    	    %><div class="logo" style="background:url('<%=bgi%>');"></div><%
+			   	   	    }
+			   	   	    else{
+			   	   	    	Debug.println("INFO : Configured project-logo-file for edition '"+sEdition+"' does not exist : '"+sLogoUrl+"'");
+			   	   	    }
+			   	    } 
+                %> 
+                       		    			
+				<div class="topicones">
+				    <%
+				        if(MedwanQuery.getInstance().getConfigString("TestEdition").equals("1")){
+				            %><img style="float:right;" src="<c:url value='/_img/stamp_test.gif'/>" alt=""/><%
+				        }
+				        else{
+				            String sWorkTimeMessage = checkString((String)session.getAttribute("WorkTimeMessage"));
+				            if(sWorkTimeMessage.length() > 0){
+				                %><img style="float:right;" src="<c:url value='/_img/men_at_work.gif'/>" alt="<%=(getTran("Web.Occup","medwan.common.workuntil",sWebLanguage)+" "+sWorkTimeMessage)%>"/><%
+				            }
+				        }
+		
+		                String sTmpPersonid = checkString(request.getParameter("personid"));
+		                if(sTmpPersonid.length()==0){
+		                    sTmpPersonid = checkString(request.getParameter("PersonID"));
+		                }
+		                
+		                if(sTmpPersonid.length() > 0){
+		                	try{
+		                		sTmpPersonid=Integer.parseInt(sTmpPersonid)+"";
+		                	}
+		                	catch(Exception e){
+		                		e.printStackTrace();
+		                	}
+		                    boolean bFingerPrint = FingerPrint.exists(Integer.parseInt(sTmpPersonid)),
+		                            bPicture     = Picture.exists(Integer.parseInt(sTmpPersonid)),
+		                            bBarcode     = Barcode.exists(Integer.parseInt(sTmpPersonid));
+		                    if(!bFingerPrint){
+		                        %> <a class="imglink" href="javascript:enrollFingerPrint();"><img border='0' src="<c:url value='/_img/themes/default/fingerprint.png'/>" alt="<%=getTranNoLink("web","enrollFingerPrint",sWebLanguage)%>"/></a><%
+		                    }
+		                    if(!bBarcode){
+		                        %> <a class="imglink" href="javascript:printPatientCard();"><img border='0' src="<c:url value='/_img/themes/default/badge.png'/>" alt="<%=getTranNoLink("web","printPatientCard",sWebLanguage)%>"/></a><%
+		                    }
+		                    if(!bPicture){
+		                        %> <a class="imglink" href="javascript:storePicture();"><img border='0' src="<c:url value='/_img/themes/default/camera.png'/>" alt="<%=getTranNoLink("web","loadPicture",sWebLanguage)%>"/></a><%
+		                    }
+		                }
+		            %>
+				</div>
+        	</div>        
+	        <div class="version"><%=sVersion%></div>
         <%
     }
 %>
+</div>

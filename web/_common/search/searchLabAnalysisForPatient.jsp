@@ -11,8 +11,8 @@
         StringBuffer out = new StringBuffer();
 
         out.append("<tr class='"+(iTotal%2==0?"list":"list1")+"'>")
-           .append(" <td><input type='checkbox' name='cb_"+iTotal+"'></td>")
-           .append(" <td"+(unavailable==1?" class='strike'":"")+">"+sCode+"</td><td"+(unavailable==1?" class='strike'":"")+">"+sType+"</td><td"+(unavailable==1?" class='strike'":"")+">"+sLabel+"</td>");
+           .append("<td><input type='checkbox' name='cb_"+iTotal+"'></td>")
+           .append("<td"+(unavailable==1?" class='strike'":"")+">"+sCode+"</td><td"+(unavailable==1?" class='strike'":"")+">"+sType+"</td><td"+(unavailable==1?" class='strike'":"")+">"+sLabel+"</td>");
 
         if(unavailable==1){
             out.append("<td>"+MedwanQuery.getInstance().getLabel("web.manage","labanalysis.cols.unavailable",language)+"</td>");
@@ -219,8 +219,8 @@
         </select>&nbsp;
 
         <%-- BUTTONS --%>
-        <input class="button" type="button" name="FindButton" value="<%=getTran("Web","find",sWebLanguage)%>" onClick="doFind();">&nbsp;
-        <input class="button" type="button" name="ClearButton" value="<%=getTran("Web","clear",sWebLanguage)%>" onClick="clearForm();">
+        <input class="button" type="button" name="FindButton" value="<%=getTranNoLink("Web","find",sWebLanguage)%>" onClick="doFind();">&nbsp;
+        <input class="button" type="button" name="ClearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onClick="clearForm();">
       </td>
     </tr>
 
@@ -270,9 +270,9 @@
   
   <%-- BUTTONS --%>
   <center>
-    <input type="button" name="buttonadd"    class="button" value="<%=getTran("Web","add",sWebLanguage)%>" onclick="addSelection();">&nbsp;
-    <input type="button" name="buttonaddall" class="button" value="<%=getTran("Web","addall",sWebLanguage)%>" onclick="addAllLabAnalysis();setFocusToCode();">&nbsp;
-    <input type="button" name="buttonclose"  class="button" value="<%=getTran("Web","Close",sWebLanguage)%>" onclick="window.close();">
+    <input type="button" name="buttonadd"   class="button" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addSelection();">&nbsp;
+    <input type="button" name="buttonaddall" class="button" value="<%=getTranNoLink("Web","addall",sWebLanguage)%>" onclick="addAllLabAnalysis();setFocusToCode();">&nbsp;
+    <input type="button" name="buttonclose" class="button" value="<%=getTranNoLink("Web","Close",sWebLanguage)%>" onclick="window.close();">
   </center>
 
   <%-- HIDDEN FIELDS --%>
@@ -331,9 +331,7 @@
             var commentObj = document.getElementById("comment"+cbCount);
             if(commentObj.value == ""){
               commentObj.focus();
-              var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.occup&labelID=specifycomment";
-              var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-              (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.occup","specifycomment",sWebLanguage)%>");
+              alertDialog("Web.occup","specifycomment");
               closeWindow = false;
             }
             else{

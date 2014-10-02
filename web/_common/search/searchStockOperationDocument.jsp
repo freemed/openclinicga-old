@@ -122,7 +122,7 @@
 									<td class="admin" width="1%" nowrap><%=getTran("web","source",sWebLanguage) %>&nbsp;</td>
 									<td class="admin2">
 						                <input class='text' type="text" name="finddocumentsourcetext" id="finddocumentsourcetext" readonly size="50" TITLE="" VALUE="<%=sFindSourceText %>" onchange="">
-						                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='findsearchsource("finddocumentsource","finddocumentsourcetext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('finddocumentsource')[0].value='';document.getElementsByName('finddocumentsourcetext')[0].value='';">
+						                <img src='/openclinic/_img/icons/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='findsearchsource("finddocumentsource","finddocumentsourcetext");'>&nbsp;<img src='/openclinic/_img/icons/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('finddocumentsource')[0].value='';document.getElementsByName('finddocumentsourcetext')[0].value='';">
 						                <input type="hidden" name="finddocumentsource" id="finddocumentsource" VALUE="">
 									</td>
 								</tr>
@@ -130,7 +130,7 @@
 									<td class="admin" width="1%" nowrap><%=getTran("web","destination",sWebLanguage) %>&nbsp;</td>
 									<td class="admin2">
 						                <input class='text' type="text" name="finddocumentdestinationtext" id="finddocumentdestinationtext" readonly size="50" TITLE="" VALUE="<%=sFindDestinationText %>" onchange="">
-						                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=finddocumentdestination&ReturnServiceStockNameField=finddocumentdestinationtext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('finddocumentdestination')[0].value='';document.getElementsByName('finddocumentdestinationtext')[0].value='';">
+						                <img src='/openclinic/_img/icons/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=finddocumentdestination&ReturnServiceStockNameField=finddocumentdestinationtext");'>&nbsp;<img src='/openclinic/_img/icons/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('finddocumentdestination')[0].value='';document.getElementsByName('finddocumentdestinationtext')[0].value='';">
 						                <input type="hidden" name="finddocumentdestination" id="finddocumentdestination" VALUE="">
 									</td>
 								</tr>
@@ -146,9 +146,9 @@
 								
 			            	<%-- BUTTONS --%>
 			            	<div style="padding-top:3px;padding-left:1px;">
-								<input type="submit" class="button" name="submitfind" value="<%=getTran("web","find",sWebLanguage)%>"/>
-								<input type="button" class="button" name="submitnew" value="<%=getTran("web","new",sWebLanguage)%>" onclick="document.getElementById('formaction').value='new';searchForm.submit();"/>
-								<input type="button" class="button" name="clear" value="<%=getTran("web","clear",sWebLanguage)%>" onclick="clearFindFields();"/>
+								<input type="submit" class="button" name="submitfind" value="<%=getTranNoLink("web","find",sWebLanguage)%>"/>
+								<input type="button" class="button" name="submitnew" value="<%=getTranNoLink("web","new",sWebLanguage)%>" onclick="document.getElementById('formaction').value='new';searchForm.submit();"/>
+								<input type="button" class="button" name="clear" value="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="clearFindFields();"/>
 							</div>
 								
 							<input type='hidden' name='formaction' id='formaction' value='find'/>
@@ -207,7 +207,7 @@
 								
 								// display one document
 								out.println("<tr class='listText'>"+
-								             "<td><input type='button' class='button' value='"+getTran("web","select",sWebLanguage)+"' onclick='selectDocument(\""+document.getUid()+"\",\""+getTran("operationdocumenttypes",sType,sWebLanguage)+"\",\""+document.getDestinationuid()+"\",\""+sDestination+"\",\""+sSource+"\");'/></td>"+
+								             "<td><input type='button' class='button' value='"+getTranNoLink("web","select",sWebLanguage)+"' onclick='selectDocument(\""+document.getUid()+"\",\""+getTran("operationdocumenttypes",sType,sWebLanguage)+"\",\""+document.getDestinationuid()+"\",\""+sDestination+"\",\""+sSource+"\");'/></td>"+
 								             "<td>"+document.getUid()+"</td>"+
 								             "<td><a href='javascript:editDocument(\""+document.getUid()+"\");'>"+sDate+"</a></td>"+
 								             "<td>"+getTran("operationdocumenttypes",sType,sWebLanguage)+"</td>"+
@@ -253,7 +253,7 @@
 					<td class="admin"><%=getTran("web","source",sWebLanguage) %> *</td>
 					<td class="admin2">
 		                <input class='text' type="text" name="documentsourcetext" readonly size="50" TITLE="" VALUE="<%=operationDocument.getSourceuid().length()>0?operationDocument.getSourceName(sWebLanguage):"" %>" onchange="">
-		                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='findsource("documentsource","documentsourcetext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('documentsource')[0].value='';document.getElementsByName('documentsourcetext')[0].value='';">
+		                <img src='/openclinic/_img/icons/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='findsource("documentsource","documentsourcetext");'>&nbsp;<img src='/openclinic/_img/icons/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('documentsource')[0].value='';document.getElementsByName('documentsourcetext')[0].value='';">
 		                <input type="hidden" name="documentsource" id="documentsource" VALUE="<%=operationDocument.getSourceuid()%>">
 					</td>
 				</tr>
@@ -261,7 +261,7 @@
 					<td class="admin"><%=getTran("web","destination",sWebLanguage) %> *</td>
 					<td class="admin2">
 		                <input class='text' type="text" name="documentdestinationtext" readonly size="50" TITLE="" VALUE="<%=operationDocument.getDestinationuid().length()>0?operationDocument.getDestination().getName():"" %>" onchange="">
-		                <img src='/openclinic/_img/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=documentdestination&ReturnServiceStockNameField=documentdestinationtext");'>&nbsp;<img src='/openclinic/_img/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('documentdestination')[0].value='';document.getElementsByName('documentdestinationtext')[0].value='';">
+		                <img src='/openclinic/_img/icons/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=documentdestination&ReturnServiceStockNameField=documentdestinationtext");'>&nbsp;<img src='/openclinic/_img/icons/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('documentdestination')[0].value='';document.getElementsByName('documentdestinationtext')[0].value='';">
 		                <input type="hidden" name="documentdestination" id="documentdestination" VALUE="<%=operationDocument.getDestinationuid()%>">
 					</td>
 				</tr>
@@ -281,8 +281,8 @@
 			
 			<%-- BUTTONS --%>
 	        <div style="padding-top:3px;padding-left:1px;">
-				<input type="button" class="button" name="submitsave" value="<%=getTran("web","save",sWebLanguage)%>" onclick="saveForm();"/>
-				<input type="button" class="button" name="cancel" value="<%=getTran("web","cancel",sWebLanguage)%>" onclick="findDocument('<%=sUid%>')"/>
+				<input type="button" class="button" name="submitsave" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="saveForm();"/>
+				<input type="button" class="button" name="cancel" value="<%=getTranNoLink("web","cancel",sWebLanguage)%>" onclick="findDocument('<%=sUid%>')"/>
 			</div>
 			
 			<input type='hidden' name='formaction' id='formaction' value=''/>

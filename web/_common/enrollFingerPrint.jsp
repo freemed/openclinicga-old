@@ -1,27 +1,30 @@
 <%@include file="/includes/validateUser.jsp"%>
+
 <form name="frmEnrollFingerPrint" method="post">
-    <%=writeTableHeader("web","enrollFingerPrint",sWebLanguage,"")%>
-    <table width="100%" class="list">
+    <%=writeTableHeader("web","enrollFingerPrint",sWebLanguage)%>
+    <table width="100%" class="list" cellspacing="1" cellpadding="0">
         <tr>
-            <td>
-                <input type="radio" id="righthand" name="rightleft" value="R" checked/><%=getTran("web","right",sWebLanguage)%>
-                <input type="radio" id="lefthand" name="rightleft" value="L"/><%=getTran("web","left",sWebLanguage)%>
+            <td class="admin2" width="100">
+                <input type="radio" id="righthand" name="rightleft" value="R" checked/><%=getLabel("web","right",sWebLanguage,"righthand")%>
+                <input type="radio" id="lefthand" name="rightleft" value="L"/><%=getLabel("web","left",sWebLanguage,"lefthand")%>
             </td>
-            <td>
+            <td class="admin2">
                 <select name="finger" class="text">
-                    <option value="0"><%=getTran("web","thumb",sWebLanguage)%></option>
-                    <option selected value="1"><%=getTran("web","index",sWebLanguage)%></option>
-                    <option value="2"><%=getTran("web","middlefinger",sWebLanguage)%></option>
-                    <option value="3"><%=getTran("web","ringfinger",sWebLanguage)%></option>
-                    <option value="4"><%=getTran("web","littlefinger",sWebLanguage)%></option>
+                    <option value="0"><%=getTranNoLink("web","thumb",sWebLanguage)%></option>
+                    <option selected value="1"><%=getTranNoLink("web","index",sWebLanguage)%></option>
+                    <option value="2"><%=getTranNoLink("web","middlefinger",sWebLanguage)%></option>
+                    <option value="3"><%=getTranNoLink("web","ringfinger",sWebLanguage)%></option>
+                    <option value="4"><%=getTranNoLink("web","littlefinger",sWebLanguage)%></option>
                 </select>
             </td>
         </tr>
     </table>
-    <center>
-        <input type="button" class="button" name="enrollButton" value="<%=getTran("web","read",sWebLanguage)%>" onclick="doRead()"/>
-        <input type="button" class="button" name="buttonClose" value="<%=getTran("web","close",sWebLanguage)%>" onclick="window.close()"/>
-    </center>
+    
+    <%=ScreenHelper.alignButtonsStart()%>
+        <input type="button" class="button" name="enrollButton" value="<%=getTranNoLink("web","read",sWebLanguage)%>" onclick="doRead()"/>
+        <input type="button" class="button" name="buttonClose" value="<%=getTranNoLink("web","close",sWebLanguage)%>" onclick="window.close()"/>
+    <%=ScreenHelper.alignButtonsStop()%>
+    
     <table>
         <tr>
             <td>
@@ -29,7 +32,7 @@
                     <tr>
                         <td><span name='clock' id='clock'></span></td>
                         <td><label name='readerID' id='readerID'></label></td>
-                       </tr>
+                    </tr>
                 </table>
             </td>
             <td>
@@ -75,7 +78,7 @@
 
   function onEnrollmentFailureHandler(){
     if(readerActive){
-      document.getElementById("fingerprintImage").src = "<c:url value="/_img/fingerprintImageSmallWrong.jpg"/>";
+      document.getElementById("fingerprintImage").src = "<c:url value='/_img/fingerprintImageSmallWrong.jpg'/>";
       document.getElementById('readerID').innerHTML = '<%=getTranNoLink("web","error.fingerprint",sWebLanguage)%>';
       
       setTimeout("document.getElementById('fingerprintImage').src='<c:url value="/_img/fingerprintImageSmallNoPrint.jpg"/>'",2000);
@@ -155,11 +158,11 @@
       '<param name="bDebug" value="true"/>',
       '<param name="bRegistrationMode" value="true"/>',
       '<param name="onErrorScript" value="onErrorHandler"/>',
-      '<param name="onLoadScript" value="onLoadHandler" />',
+      '<param name="onLoadScript" value="onLoadHandler"/>',
       '<param name="onDisconnectedScript" value="onDisconnectedHandler"/>',
       '<param name="onConnectedScript" value="onConnectedHandler"/>',
       '<param name="bExclusivePriority" value="false"/>',
-      '<param name="separate_jvm" value="true" />',
+      '<param name="separate_jvm" value="true"/>',
       '</object>');
   }
 </script>

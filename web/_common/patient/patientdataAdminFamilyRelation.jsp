@@ -1,6 +1,5 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-
 <%=sJSSORTTABLE%>
 
 <%
@@ -9,13 +8,13 @@
 
         if(activePatient.familyRelations.size() > 0){
             %>
-                <table width="100%" id="searchresults" cellspacing="0" class="sortable">
+                <table width="100%" id="searchresults" cellspacing="0" class="sortable" style="border-top:none;">
                     <%-- HEADER --%>
                     <tr class="admin">
                         <td width="5" nowrap></td>
-                        <td width="35%"><%=getTran("web.admin","sourceperson",sWebLanguage)%></td>
-                        <td width="35%"><%=getTran("web.admin","destinationperson",sWebLanguage)%></td>
-                        <td width="30%"><%=getTran("web.admin","relationtype",sWebLanguage)%></td>
+                        <td width="20%"><%=getTran("web.admin","sourceperson",sWebLanguage)%></td>
+                        <td width="20%"><%=getTran("web.admin","destinationperson",sWebLanguage)%></td>
+                        <td width="60%"><%=getTran("web.admin","relationtype",sWebLanguage)%></td>
                     </tr>
 
                     <%
@@ -36,24 +35,11 @@
                                                sDestinationFullName = ScreenHelper.getFullPersonName(afr.destinationId+""),
                                                sRelationType        = getTran("admin.familyrelation",afr.relationType,sWebLanguage);
                                     %>
-                                    <tr class="list<%=sClass%>" >
+                                    <tr class="list<%=sClass%>">
                                         <td>&nbsp;</td>
-
-                                        <%
-                                            if(activePatient.personid.equals(afr.sourceId)){
-                                                %>
-                                                    <td><%=sSourceFullName%></td>
-                                                    <td title="<%=showDossierTran%>" onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" onClick="showDossier('<%=afr.destinationId%>');"><a href="#"><%=sDestinationFullName%></a></td>
-                                                <%
-                                            }
-                                            else{
-                                                %>
-                                                    <td><%=sDestinationFullName%></td>
-                                                    <td title="<%=showDossierTran%>" onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" onClick="showDossier('<%=afr.sourceId%>');"><a href="#"><%=sSourceFullName%></a></td>
-                                                <%
-                                            }
-                                        %>
-                                        <td><%=sRelationType%></td>
+                                        <td>&nbsp;<%=sSourceFullName%></td>
+                                        <td title="<%=showDossierTran%>">&nbsp;<a href="javascript:showDossier('<%=afr.destinationId%>');"><%=sDestinationFullName%></a></td>
+                                        <td>&nbsp;<%=sRelationType%></td>
                                     </tr>
                                 <%
                             }
@@ -64,9 +50,7 @@
         }
         else{
             // no records found
-            %>
-                <div><%=getTran("web","nofamilyrelationsfound",sWebLanguage)%></div>
-            <%
+            %><div><%=getTran("web","nofamilyrelationsfound",sWebLanguage)%></div><%
         }
     }
 %>
@@ -85,10 +69,8 @@
         %>
             <%=ScreenHelper.alignButtonsStart()%>
                 <%
-                    if (activeUser.getAccessRight("patient.administration.edit")){
-                        %>
-                            <input type="button" class="button" onclick="window.location.href='<c:url value="/patientedit.do"/>?Tab=AdminFamilyRelation&ts=<%=getTs()%>'" value="<%=getTran("Web","edit",sWebLanguage)%>">
-                        <%
+                    if(activeUser.getAccessRight("patient.administration.edit")){
+                        %><input type="button" class="button" onclick="window.location.href='<c:url value="/patientedit.do"/>?Tab=AdminFamilyRelation&ts=<%=getTs()%>'" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>"><%
                     }
                 %>
             <%=ScreenHelper.alignButtonsStop()%>
