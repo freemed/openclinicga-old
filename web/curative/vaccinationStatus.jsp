@@ -5,7 +5,7 @@
 <table width="100%" class="list" height="100%" cellspacing="0">
     <tr class="admin">
         <td colspan="3"><%=getTran("curative","vaccination.status.title",sWebLanguage)%>
-            &nbsp;<a href="<c:url value='/healthrecord/showVaccinationSummary.do'/>?ts=<%=getTs()%>"><img src="<c:url value='/_img/icon_edit.gif'/>" class="link" alt="<%=getTran("web","editVaccinations",sWebLanguage)%>" style="vertical-align:-4px;"></a>
+            &nbsp;<a href="<c:url value='/healthrecord/showVaccinationSummary.do'/>?ts=<%=getTs()%>"><img src="<c:url value='/_img/icons/icon_edit.gif'/>" class="link" alt="<%=getTranNoLink("web","editVaccinations",sWebLanguage)%>" style="vertical-align:-4px;"></a>
         </td>
     </tr>
 
@@ -43,13 +43,13 @@
 	                    out.print("<tr class='list"+sClass+"'>");
 	
 	                    if(bWarning){
-	                        %><td width="1"><img src="<c:url value='/_img/warning.gif'/>" alt=""></td><%
+	                        %><td width="1"><img src="<c:url value='/_img/icons/icon_warning.gif'/>" alt=""></td><%
 	                    }
 	                    else{
 	                        %><td width="1"/><%
 	                    }
 	
-	                    out.print("<td><b>"+getTran("web.occup",vaccInfoVO.getType(),sWebLanguage)+" ("+checkString(vaccInfoVO.getTransactionVO().getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE").getValue())+")</b></td><td>"+(nextDate.length()>0?"<img src='_img/pijl.gif'> ":"")+nextDate+"</td></tr>");
+	                    out.print("<td><b>"+getTran("web.occup",vaccInfoVO.getType(),sWebLanguage)+" ("+checkString(vaccInfoVO.getTransactionVO().getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE").getValue())+")</b></td><td>"+(nextDate.length()>0?"<img src='_img/themes/default/pijl.gif'> ":"")+nextDate+"</td></tr>");
 	                }
 	            }
 	        }

@@ -7,7 +7,7 @@
     <tr class="admin">
         <td>
             <%=getTran("curative","warning.status.title",sWebLanguage)%>&nbsp;
-            <a href="<c:url value='/healthrecord/manageAlertsPage.do'/>?ts=<%=getTs()%>"><img src="<c:url value='/_img/icon_new.gif'/>" class="link" alt="<%=getTran("web","managealerts",sWebLanguage)%>" style="vertical-align:-4px;"></a>
+            <a href="<c:url value='/healthrecord/manageAlertsPage.do'/>?ts=<%=getTs()%>"><img src="<c:url value='/_img/icons/icon_new.gif'/>" class="link" alt="<%=getTranNoLink("web","managealerts",sWebLanguage)%>" style="vertical-align:-4px;"></a>
         </td>
     </tr>
 
@@ -47,7 +47,7 @@
                     %>
                         <tr>
                             <td width='*'>
-                                <img src="<c:url value='/_img/warning.gif'/>" onClick="editWarning('<%=transactionVO.getServerId()%>','<%=transactionVO.getTransactionId()%>');" class="link" style="vertical-align:-4px;" alt="<%=getTran("web","edit",sWebLanguage)%>">
+                                <img src="<c:url value='/_img/icons/icon_warning.gif'/>" onClick="editWarning('<%=transactionVO.getServerId()%>','<%=transactionVO.getTransactionId()%>');" class="link" style="vertical-align:-4px;" alt="<%=getTranNoLink("web","edit",sWebLanguage)%>">
                                 <a href="#" onClick="editWarning('<%=transactionVO.getServerId()%>','<%=transactionVO.getTransactionId()%>');" onMouseOver="window.status='';return true;"><b><%=sLabel%></b></a><i><%=sComment%></i>
                             </td>
                         </tr>

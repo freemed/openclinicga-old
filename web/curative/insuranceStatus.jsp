@@ -15,8 +15,8 @@
     <tr class="admin">
         <td>
             <%=getTran("curative","insurance.status.title",sWebLanguage)%>&nbsp;
-            <a href="<c:url value='/main.jsp'/>?Page=financial/insurance/historyInsurances.jsp&ts=<%=getTs()%>"><img src="<c:url value='/_img/icon_history2.gif'/>" class="link" alt="<%=getTranNoLink("web","historyinsurances",sWebLanguage)%>" style="vertical-align:-4px;"></a>
-            <a href="<c:url value='/main.jsp'/>?Page=financial/insurance/editInsurance.jsp&ts=<%=getTs()%>"><img src="<c:url value='/_img/icon_new.gif'/>" class="link" alt="<%=getTranNoLink("web","newinsurance",sWebLanguage)%>" style="vertical-align:-4px;"></a>
+            <a href="<c:url value='/main.jsp'/>?Page=financial/insurance/historyInsurances.jsp&ts=<%=getTs()%>"><img src="<c:url value='/_img/icons/icon_history2.gif'/>" class="link" alt="<%=getTranNoLink("web","historyinsurances",sWebLanguage)%>" style="vertical-align:-4px;"></a>
+            <a href="<c:url value='/main.jsp'/>?Page=financial/insurance/editInsurance.jsp&ts=<%=getTs()%>"><img src="<c:url value='/_img/icons/icon_new.gif'/>" class="link" alt="<%=getTranNoLink("web","newinsurance",sWebLanguage)%>" style="vertical-align:-4px;"></a>
         </td>
     </tr>
     <%

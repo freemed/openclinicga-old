@@ -9,7 +9,7 @@
     String sRfe = "";
     Encounter encounter = Encounter.getActiveEncounter(activePatient.personid);
     if(encounter!=null){
-        sRfe=ReasonForEncounter.getReasonsForEncounterAsHtml(encounter.getUid(),sWebLanguage,"_img/icon_delete.gif","deleteRFE($serverid,$objectid)");
+        sRfe=ReasonForEncounter.getReasonsForEncounterAsHtml(encounter.getUid(),sWebLanguage,"_img/icons/icon_delete.gif","deleteRFE($serverid,$objectid)");
     }
 %>
 
@@ -19,7 +19,7 @@
             <%=getTran("openclinic.chuk","actualrfe",sWebLanguage)%>&nbsp;
             <%
                 if(encounter!=null){
-		            %><a href="javascript:showRFElist();"><img src="<c:url value='/_img/icon_edit.gif'/>" class="link" alt="<%=getTran("web","editrfelist",sWebLanguage)%>" style="vertical-align:-4px;"></a><%
+		            %><a href="javascript:showRFElist();"><img src="<c:url value='/_img/icons/icon_edit.gif'/>" class="link" alt="<%=getTranNoLink("web","editrfelist",sWebLanguage)%>" style="vertical-align:-4px;"></a><%
                 }
             %>
         </td>

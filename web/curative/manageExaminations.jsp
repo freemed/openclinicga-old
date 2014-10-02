@@ -17,7 +17,7 @@
 		
         return "<tr class='list"+sClass+"'>"
 		        +"<td>"
-		            +"<img src='"+sCONTEXTPATH+"/_img/pijl.gif'>"
+		            +"<img src='"+sCONTEXTPATH+"/_img/themes/default/pijl.gif'>"
 		            +"<button accesskey='"+counter+"' class='buttoninvisible' onclick=\"window.location.href='"+sCONTEXTPATH+"/healthrecord/createTransaction.do?be.mxs.healthrecord.createTransaction.transactionType="+sTranType+"&be.mxs.healthrecord.createTransaction.context="+activeUser.activeService.defaultContext+"&ts="+getTs()+"'\"></button>"
 		            +"<u>"+(counter)+"</u> "+sTranTitle
 		        +"</td>"
@@ -45,7 +45,7 @@
 		    </tr>
 		    <tr>
 		        <td colspan="5">
-		            <img src="<c:url value="/_img/pijl.gif"/>">&nbsp;<a onmouseover="window.status='';return true;" href="<c:url value='/healthrecord/createTransaction.do'/>?be.mxs.healthrecord.createTransaction.transactionType=be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_EXTERNAL_DOCUMENT&be.mxs.healthrecord.createTransaction.context=<%=activeUser.activeService.defaultContext%>&ts=<%=getTs()%>"><%=getTran("Web","add.new.document",sWebLanguage)%></a>
+		            <img src="<c:url value="/_img/themes/default/pijl.gif"/>">&nbsp;<a onmouseover="window.status='';return true;" href="<c:url value='/healthrecord/createTransaction.do'/>?be.mxs.healthrecord.createTransaction.transactionType=be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_EXTERNAL_DOCUMENT&be.mxs.healthrecord.createTransaction.context=<%=activeUser.activeService.defaultContext%>&ts=<%=getTs()%>"><%=getTran("Web","add.new.document",sWebLanguage)%></a>
 		        </td>
 		    </tr>
 		    
@@ -166,7 +166,7 @@
 		    <tr class="list<%=sClass%>">
 		        <%-- examination name --%>
 		        <td>
-		            <img src="<c:url value="/_img/pijl.gif"/>"><button accesskey="<%=counter%>" class="buttoninvisible" onclick="javascript:openPopup('medical/manageCarePrescriptionsPopup.jsp',700,400);"></button><u><%=counter++%></u> <a href="javascript:openPopup('medical/manageCarePrescriptionsPopup.jsp',700,400);"><%=getTran("web","careprescriptions",sWebLanguage)%></a>
+		            <img src="<c:url value="/_img/themes/default/pijl.gif"/>"><button accesskey="<%=counter%>" class="buttoninvisible" onclick="javascript:openPopup('medical/manageCarePrescriptionsPopup.jsp',700,400);"></button><u><%=counter++%></u> <a href="javascript:openPopup('medical/manageCarePrescriptionsPopup.jsp',700,400);"><%=getTran("web","careprescriptions",sWebLanguage)%></a>
 		        </td>
 		        <td/><td/><td/><td/>
 		    </tr>
@@ -182,7 +182,7 @@
 		    <tr class="list<%=sClass%>">
 		        <%-- examination name --%>
 		        <td>
-		            <img src="<c:url value="/_img/pijl.gif"/>"><button accesskey="<%=counter%>" class="buttoninvisible" onclick="javascript:openPopup('medical/managePrescriptionsPopup.jsp',700,400);"></button><u><%=counter++%></u> <a href="javascript:openPopup('medical/managePrescriptionsPopup.jsp',700,400);"><%=getTran("web","medications",sWebLanguage)%></a>
+		            <img src="<c:url value="/_img/themes/default/pijl.gif"/>"><button accesskey="<%=counter%>" class="buttoninvisible" onclick="javascript:openPopup('medical/managePrescriptionsPopup.jsp',700,400);"></button><u><%=counter++%></u> <a href="javascript:openPopup('medical/managePrescriptionsPopup.jsp',700,400);"><%=getTran("web","medications",sWebLanguage)%></a>
 		        </td>
 		        <td/><td/><td/><td/>
 		    </tr>
@@ -217,7 +217,7 @@
             %>
             <tr class="<%=(verifiedExaminationVO.getPlannedExaminationDue().equalsIgnoreCase("medwan.common.true")?"menuItemRed":"list"+sClass)%>">
                 <%-- examination name --%>
-                <td><img src="<c:url value="/_img/pijl.gif"/>"><button class='buttoninvisible'></button>  <%=ScreenHelper.uppercaseFirstLetter(examName)%></td>
+                <td><img src="<c:url value="/_img/themes/default/pijl.gif"/>"><button class='buttoninvisible'></button>  <%=ScreenHelper.uppercaseFirstLetter(examName)%></td>
                 <%-- create --%>
                 <td align="center">
                     <%
@@ -254,7 +254,7 @@
     <%-- OTHER SERVICES AND THEIR EXAMINATIONS --------------------------------------------------%>
     <tr id="otherServicesHeader" onClick="toggleOtherServices();" onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" height="15">
         <td colspan="5">
-            <img src="<c:url value="/_img/pijl.gif"/>">&nbsp;<a href="#"><b><%=getTran("Web.manage","examinationsofotherservices",sWebLanguage)%></b></a>
+            <img src="<c:url value="/_img/themes/default/pijl.gif"/>">&nbsp;<a href="#"><b><%=getTran("Web.manage","examinationsofotherservices",sWebLanguage)%></b></a>
         </td>
     </tr>
 <%
@@ -306,7 +306,7 @@
 	                    <tr class="list<%=sClass%>" id="otherServiceHeader_<%=serviceId%>" title="<%=showExamsTran%>" onclick="hideAllServiceExaminations('<%=serviceId%>');toggleServiceRow('<%=serviceId%>');" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
 	                        <%-- plus-sign and servicename --%>
 	                        <td colspan="4">
-	                            <img id="img_<%=serviceId%>" src="<%=sCONTEXTPATH%>/_img/plus.png" class="link">&nbsp;
+	                            <img id="img_<%=serviceId%>" src="<%=sCONTEXTPATH%>/_img/icons/icon_plus.png" class="link">&nbsp;
 	                            <%=getTran("Web","service",sWebLanguage)%> <%=getTran("service",serviceId,sWebLanguage)%>
 	                            (<%=examNames.size()%> <%=getTran("web.manage","examinations",sWebLanguage).toLowerCase()%>)
 	                        </td>
@@ -339,7 +339,7 @@
 	                                %>
 	                                <tr class="list<%=sInnerClass%>">
 	                                    <%-- examination name --%>
-	                                    <td><img src="<c:url value="/_img/pijl.gif"/>"><button class='buttoninvisible'></button> <%=ScreenHelper.uppercaseFirstLetter(examName)%></td>
+	                                    <td><img src="<c:url value="/_img/themes/default/pijl.gif"/>"><button class='buttoninvisible'></button> <%=ScreenHelper.uppercaseFirstLetter(examName)%></td>
 	                                    <%-- create --%>
 	                                    <td align="center">
 	                                        <%
@@ -402,7 +402,7 @@
       if(tables[i].id.indexOf("otherServiceExams_") > -1){
         if(tables[i].id != ("otherServiceExams_"+clickedService)){
           tables[i].style.display = "none";
-          document.getElementById("img_"+tables[i].id.split("_")[1]).src = "<%=sCONTEXTPATH%>/_img/plus.png";
+          document.getElementById("img_"+tables[i].id.split("_")[1]).src = "<%=sCONTEXTPATH%>/_img/icons/icon_plus.png";
         }
       }
     }
@@ -433,12 +433,12 @@
     if(divObj.style.display == "none"){
       divObj.style.display = "";
       headerObj.title = "<%=hideTran%>";
-      imgObj.src = "<%=sCONTEXTPATH%>/_img/minus.png";
+      imgObj.src = "<%=sCONTEXTPATH%>/_img/icons/icon_minus.png";
     }
     else{
       divObj.style.display = "none";
       headerObj.title = "<%=showTran%>";
-      imgObj.src = "<%=sCONTEXTPATH%>/_img/plus.png";
+      imgObj.src = "<%=sCONTEXTPATH%>/_img/icons/icon_plus.png";
     }
   }
 </script>

@@ -15,25 +15,26 @@ try{
 <table width="100%" class="list" cellspacing="0">
     <form name="transactionForm" method="post">
         <input type="hidden" name="Page" value="curative/index.jsp"/>
+        
         <%-- PAGE TITLE --%>
         <tr class="admin">
             <td>
                 <%=getTran("curative","medicalhistory.status.title",sWebLanguage)%>&nbsp;
-                <a href="javascript:newExamination();"><img src="<c:url value='/_img/icon_new.gif'/>" class="link" alt="<%=getTran("web","manageexaminations",sWebLanguage)%>" style="vertical-align:-4px;"></a>
+                <a href="javascript:newExamination();"><img src="<c:url value='/_img/icons/icon_new.gif'/>" class="link" alt="<%=getTranNoLink("web","manageExaminations",sWebLanguage)%>" style="vertical-align:-4px;"></a>
 				<%if(MedwanQuery.getInstance().getConfigString("quickTransaction1."+activeUser.userid,"").length()>0){ %>
-                    <a href="javascript:newFastTransaction('<%=MedwanQuery.getInstance().getConfigString("quickTransaction1."+activeUser.userid)%>');"><img src="<c:url value='/_img/icon_new1.gif'/>" class="link" title="<%=getTranNoLink("web.occup",MedwanQuery.getInstance().getConfigString("quickTransaction1."+activeUser.userid).split("\\&")[0],sWebLanguage)%>" style="vertical-align:-4px;"></a>
+                    <a href="javascript:newFastTransaction('<%=MedwanQuery.getInstance().getConfigString("quickTransaction1."+activeUser.userid)%>');"><img src="<c:url value='/_img/icons/icon_new1.gif'/>" class="link" title="<%=getTranNoLink("web.occup",MedwanQuery.getInstance().getConfigString("quickTransaction1."+activeUser.userid).split("\\&")[0],sWebLanguage)%>" style="vertical-align:-4px;"></a>
                 <%} %>
 				<%if(MedwanQuery.getInstance().getConfigString("quickTransaction2."+activeUser.userid,"").length()>0){ %>
-                    <a href="javascript:newFastTransaction('<%=MedwanQuery.getInstance().getConfigString("quickTransaction2."+activeUser.userid)%>');"><img src="<c:url value='/_img/icon_new2.gif'/>" class="link" title="<%=getTranNoLink("web.occup",MedwanQuery.getInstance().getConfigString("quickTransaction2."+activeUser.userid).split("\\&")[0],sWebLanguage)%>" style="vertical-align:-4px;"></a>
+                    <a href="javascript:newFastTransaction('<%=MedwanQuery.getInstance().getConfigString("quickTransaction2."+activeUser.userid)%>');"><img src="<c:url value='/_img/icons/icon_new2.gif'/>" class="link" title="<%=getTranNoLink("web.occup",MedwanQuery.getInstance().getConfigString("quickTransaction2."+activeUser.userid).split("\\&")[0],sWebLanguage)%>" style="vertical-align:-4px;"></a>
                 <%} %>
 				<%if(MedwanQuery.getInstance().getConfigString("quickTransaction3."+activeUser.userid,"").length()>0){ %>
-                    <a href="javascript:newFastTransaction('<%=MedwanQuery.getInstance().getConfigString("quickTransaction3."+activeUser.userid)%>');"><img src="<c:url value='/_img/icon_new3.gif'/>" class="link" title="<%=getTranNoLink("web.occup",MedwanQuery.getInstance().getConfigString("quickTransaction3."+activeUser.userid).split("\\&")[0],sWebLanguage)%>" style="vertical-align:-4px;"></a>
+                    <a href="javascript:newFastTransaction('<%=MedwanQuery.getInstance().getConfigString("quickTransaction3."+activeUser.userid)%>');"><img src="<c:url value='/_img/icons/icon_new3.gif'/>" class="link" title="<%=getTranNoLink("web.occup",MedwanQuery.getInstance().getConfigString("quickTransaction3."+activeUser.userid).split("\\&")[0],sWebLanguage)%>" style="vertical-align:-4px;"></a>
                 <%} %>
 				<%if(MedwanQuery.getInstance().getConfigString("quickTransaction4."+activeUser.userid,"").length()>0){ %>
-                    <a href="javascript:newFastTransaction('<%=MedwanQuery.getInstance().getConfigString("quickTransaction4."+activeUser.userid)%>');"><img src="<c:url value='/_img/icon_new4.gif'/>" class="link" title="<%=getTranNoLink("web.occup",MedwanQuery.getInstance().getConfigString("quickTransaction4."+activeUser.userid).split("\\&")[0],sWebLanguage)%>" style="vertical-align:-4px;"></a>
+                    <a href="javascript:newFastTransaction('<%=MedwanQuery.getInstance().getConfigString("quickTransaction4."+activeUser.userid)%>');"><img src="<c:url value='/_img/icons/icon_new4.gif'/>" class="link" title="<%=getTranNoLink("web.occup",MedwanQuery.getInstance().getConfigString("quickTransaction4."+activeUser.userid).split("\\&")[0],sWebLanguage)%>" style="vertical-align:-4px;"></a>
                 <%} %>
 				<%if(MedwanQuery.getInstance().getConfigString("quickTransaction5."+activeUser.userid,"").length()>0){ %>
-                    <a href="javascript:newFastTransaction('<%=MedwanQuery.getInstance().getConfigString("quickTransaction5."+activeUser.userid)%>');"><img src="<c:url value='/_img/icon_new5.gif'/>" class="link" title="<%=getTranNoLink("web.occup",MedwanQuery.getInstance().getConfigString("quickTransaction5."+activeUser.userid).split("\\&")[0],sWebLanguage)%>" style="vertical-align:-4px;"></a>
+                    <a href="javascript:newFastTransaction('<%=MedwanQuery.getInstance().getConfigString("quickTransaction5."+activeUser.userid)%>');"><img src="<c:url value='/_img/icons/icon_new5.gif'/>" class="link" title="<%=getTranNoLink("web.occup",MedwanQuery.getInstance().getConfigString("quickTransaction5."+activeUser.userid).split("\\&")[0],sWebLanguage)%>" style="vertical-align:-4px;"></a>
                 <%} %>
             </td>
         </tr>
@@ -42,11 +43,11 @@ try{
             <td style="padding:0;">
                 <%-- EXAMINATIONS OVERVIEW ------------------------------------------------------%>
                 <%
-                    if (activePatient != null) {
+                    if (activePatient != null){
                         SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
                         sessionContainerWO.init(activePatient.personid);
 
-                        if (sessionContainerWO.getTransactionsLimited() != null && sessionContainerWO.getTransactionsLimited().size() > 0) {
+                        if (sessionContainerWO.getTransactionsLimited() != null && sessionContainerWO.getTransactionsLimited().size() > 0){
                             %>
                                 <logic:present name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="healthRecordVO">
                                 <table width="100%" cellspacing="0" class="sortable" id="searchresults" style="border:0;">
@@ -72,7 +73,7 @@ try{
                                                     Service service;
                                                     for (int i=0; i<activeUser.vServices.size(); i++){
                                                         service = (Service)activeUser.vServices.elementAt(i);
-                                                        %><option value="<%=service.code%>"<%if(service.code.equals(contextSelector)){out.print(" selected");}%>><%=getTran("Service",service.code,sWebLanguage)%></option><%
+                                                        %><option value="<%=service.code%>" <%=(service.code.equals(contextSelector)?"selected":"")%>><%=getTranNoLink("Service",service.code,sWebLanguage)%></option><%
                                                     }
                                                 %>
                                             </select>
@@ -81,7 +82,7 @@ try{
                                     <%
                                         Iterator transactions = new Vector().iterator();
                                         try{
-                                            if ("1".equalsIgnoreCase(request.getParameter("showAll"))) {
+                                            if ("1".equalsIgnoreCase(request.getParameter("showAll"))){
                                                 transactions = sessionContainerWO.getHealthRecordVO().getTransactions().iterator();
                                             } 
                                             else {
@@ -109,12 +110,12 @@ try{
                                             		servicecode= encounter.getServiceUID(transactionVO.getUpdateDateTime());
                                             	}
                                             }
-                                            if(contextSelector == null || contextSelector.length() == 0 || (itemVO != null && itemVO.getValue()!=null && itemVO.getValue().equalsIgnoreCase(contextSelector))) {
+                                            if(contextSelector == null || contextSelector.length() == 0 || (itemVO != null && itemVO.getValue()!=null && itemVO.getValue().equalsIgnoreCase(contextSelector))){
                                                 activeEncounter = Encounter.getActiveEncounter(activePatient.personid);
                                                 sClass = "disabled";
 
                                                 try{
-                                                    if(activeEncounter != null && transactionVO.getUpdateTime()!=null && activeEncounter!=null && !transactionVO.getUpdateTime().before(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(activeEncounter.getBegin()))) && (activeEncounter.getEnd() == null || !transactionVO.getUpdateTime().after(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(activeEncounter.getEnd()))))) {
+                                                    if(activeEncounter != null && transactionVO.getUpdateTime()!=null && activeEncounter!=null && !transactionVO.getUpdateTime().before(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(activeEncounter.getBegin()))) && (activeEncounter.getEnd() == null || !transactionVO.getUpdateTime().after(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(activeEncounter.getEnd()))))){
                                                         sClass = "bold";
                                                     }
                                                 }
@@ -125,10 +126,11 @@ try{
                                                 // alternate row-styles
                                                 if(sList.equals("")) sList = "1";
                                                 else                 sList = "";
-                                    				%>
+                                                
+                                    			%>
                                                     <tr id="<%=sClass%>" class="list<%=sClass+sList%>" >
                                                         <td class="modal" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="deltran(<%=transactionVO.getTransactionId()%>,<%=transactionVO.getServerId()%>,<%=transactionVO.getUser().getUserId()%>)">
-                                                            <img class='hand' src="<c:url value='/_img/icon_delete.gif'/>" alt="<%=getTran("Web.Occup","medwan.common.delete",sWebLanguage)%>" border="0">
+                                                            <img class='hand' src="<c:url value='/_img/icons/icon_delete.gif'/>" alt="<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>" border="0">
                                                         </td>
                                                         <td align="center"><%=ScreenHelper.formatDate(transactionVO.getUpdateTime())%></td>
                                                         <td align="center">
@@ -240,14 +242,14 @@ try{
 
                                 if(!"1".equalsIgnoreCase(request.getParameter("showAll")) && totalTransactions > numberOfTransToList){
                                     %>
-                                        <img src='<c:url value="/_img/pijl.gif"/>'>
+                                        <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
                                         <a href="<c:url value='/main.do?Page=/curative/index.jsp'/>&showAll=1&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.common.all",sWebLanguage)%></a>
                                     <%
                                 }
 
                                 if("1".equalsIgnoreCase(request.getParameter("showAll"))){
                                     %>
-                                        <img src='<c:url value="/_img/pijl.gif"/>'>
+                                        <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
                                         <a href="<c:url value='/main.do?Page=/curative/index.jsp'/>&showAll=0&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.Occup","medwan.common.summary",sWebLanguage)%></a>
                                     <%
                                 }
@@ -266,14 +268,11 @@ try{
     var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
 
     if(userId!=<%=activeUser.userid%>){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/promptPopup.jsp&ts=<%=getTs()%>&labelType=web.occup&labelID=medwan.transaction.delete.question";
-      var answer =(window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm("<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-      if(answer=="deleteit"){
+      if(promptDialog("web.occup","medwan.transaction.delete.question")=="deleteit"){
         window.location.href = "<c:url value='/healthrecord/manageDeleteTransaction.do'/>?transactionId="+transactionId+"&serverId="+serverId+"&ts=<%=getTs()%>&be.mxs.healthrecord.updateTransaction.actionForwardKey=/main.do?Page=curative/index.jsp&ts=<%=getTs()%>";
       }
       else{
-        popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.occup&labelID=medwan.transaction.delete.wrong-password";
-        (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.occup","medwan.transaction.delete.wrong-password",sWebLanguage)%>");
+        alertDialog("web.occup","medwan.transaction.delete.wrong-password");
       }
     }
     else{
@@ -284,22 +283,22 @@ try{
   }
 
   <%-- COMPARE.. --%>
-  function compareText (option1, option2) {
+  function compareText(option1,option2){
     return option1.text < option2.text ? -1 : (option1.text > option2.text ? 1 : 0);
   }
 
-  function compareValue (option1, option2) {
+  function compareValue(option1,option2){
     return option1.value < option2.value ? -1 : (option1.value > option2.value ? 1 : 0);
   }
 
-  function compareTextAsFloat (option1, option2) {
+  function compareTextAsFloat(option1,option2){
     var value1 = parseFloat(option1.text.replace(",","."));
     var value2 = parseFloat(option2.text.replace(",","."));
 
     return value1 < value2 ? -1 : (value1 > value2 ? 1 : 0);
   }
 
-  function compareValueAsFloat (option1, option2) {
+  function compareValueAsFloat(option1,option2){
     var value1 = parseFloat(option1.value.replace(",","."));
     var value2 = parseFloat(option2.value.replace(",","."));
 
