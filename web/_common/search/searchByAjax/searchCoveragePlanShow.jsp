@@ -37,8 +37,8 @@
 	                                            else sClass = "";
 	
 	                                            results.append("<tr class='list" + sClass + "'>")
-	                                                    .append(" <td>" + objInsurar.getName().toUpperCase() + "</td>")
-	                                                    .append(" <td>" + cats + "</td>")
+	                                                    .append("<td>" + objInsurar.getName().toUpperCase() + "</td>")
+	                                                    .append("<td>" + cats + "</td>")
 	                                                    .append("</tr>");
 											}
                                         }

@@ -37,9 +37,9 @@ try{
 	                if (sClass.equals("")) sClass = "1";
 	                else sClass = "";
 	                sHtml.append("<tr class='list" + sClass + "' title='" + sSelectTran + "' onclick=\"setReagent('" + sUid + "','" + sDescr + "','"+sUnit+"');\">")
-	                        .append(" <td width='60px'>" + reagent.getUid() + "</td>")
-	                        .append(" <td>" + sDescr + "</td>")
-	                        .append(" <td>" + sUnit + "</td>")
+	                        .append("<td width='60px'>" + reagent.getUid() + "</td>")
+	                        .append("<td>" + sDescr + "</td>")
+	                        .append("<td>" + sUnit + "</td>")
 	                        .append("</tr>");
                 }
             }

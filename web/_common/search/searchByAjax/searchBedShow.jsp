@@ -115,13 +115,13 @@
 
             if (sClassOccupied.equals("")) {
                 sIcon = "";
-                results.append(" class='list" + sClass + "'><td/>");
+                results.append("class='list" + sClass + "'><td/>");
                 results.append("<td/>");
             } else {
-                sIcon = "<img src='" + sCONTEXTPATH + "/_img/menu_tee_plus.gif' onclick='toggleBedInfo(\"" + tmpBed.getUid() + "\");'"
+                sIcon = "<img src='" + sCONTEXTPATH + "/_img/themes/default/menu_tee_plus.gif' onclick='toggleBedInfo(\"" + tmpBed.getUid() + "\");'"
                         + " alt='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>";
-                results.append(" class='list" + sClassOccupied + sClass + "'><td>"
-                        + "<img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTran("Web", "edit", sWebLanguage) + "' onclick=\"editEncounter('" + sEncounterUid + "');\"></td>");
+                results.append("class='list" + sClassOccupied + sClass + "'><td>"
+                        + "<img src='" + sCONTEXTPATH + "/_img/icons/icon_edit.gif' alt='" + getTran("Web", "edit", sWebLanguage) + "' onclick=\"editEncounter('" + sEncounterUid + "');\"></td>");
                 results.append("<td>" + sIcon + "</td>");
             }
 

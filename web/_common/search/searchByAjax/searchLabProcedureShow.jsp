@@ -45,9 +45,9 @@ try{
 	                if (sClass.equals("")) sClass = "1";
 	                else sClass = "";
 	                sHtml.append("<tr class='list" + sClass + "' title='" + sSelectTran + "' onclick=\"setLabProcedure('" + sUid + "','" + sDescr + "');\">")
-	                        .append(" <td width='60px'>" + procedure.getUid() + "</td>")
-	                        .append(" <td>" + sDescr + "</td>")
-	                        .append(" <td>" + sReagent + "</td>")
+	                        .append("<td width='60px'>" + procedure.getUid() + "</td>")
+	                        .append("<td>" + sDescr + "</td>")
+	                        .append("<td>" + sReagent + "</td>")
 	                        .append("</tr>");
                 }
             }

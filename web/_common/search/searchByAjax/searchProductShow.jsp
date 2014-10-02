@@ -7,19 +7,19 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
-    String sSearchProductName = HTMLEntities.unhtmlentities(checkString(request.getParameter("SearchProductName"))),
-           sSearchSupplierUid = checkString(request.getParameter("SearchSupplierUid")),
+    String sSearchProductName     = HTMLEntities.unhtmlentities(checkString(request.getParameter("SearchProductName"))),
+           sSearchSupplierUid     = checkString(request.getParameter("SearchSupplierUid")),
            sSearchProductSubGroup = HTMLEntities.unhtmlentities(checkString(request.getParameter("SearchProductSubGroup"))),
-           sSearchProductGroup = HTMLEntities.unhtmlentities(checkString(request.getParameter("SearchProductGroup")));
+           sSearchProductGroup    = HTMLEntities.unhtmlentities(checkString(request.getParameter("SearchProductGroup")));
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n################## searchByAjax/searchProductShow.jsp #################");
+        Debug.println("\n*********** _common/search/searchByAjax/searchProductShow.jsp **********");
         Debug.println("sSearchProductName  : "+sSearchProductName);
         Debug.println("sSearchSupplierUid  : "+sSearchSupplierUid);
         Debug.println("sSearchProductGroup : "+sSearchProductGroup+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     StringBuffer sHtml = new StringBuffer();
     int iMaxRecordsToShow = MedwanQuery.getInstance().getConfigInt("maxRecordsToShow",100);
@@ -38,7 +38,7 @@
     sHtml.append("<tr class='admin'>")
           .append("<td nowrap>"+getTranNoLink("web","product",sWebLanguage)+"</td>")
           .append("<td>"+getTranNoLink("web","unit",sWebLanguage)+"</td>")
-          .append("<td>"+getTranNoLink("web","unitprice",sWebLanguage)+" </td>")
+          .append("<td>"+getTranNoLink("web","unitprice",sWebLanguage)+"</td>")
           .append("<td>"+getTranNoLink("web","supplier",sWebLanguage)+"</td>")
           .append("<td>"+getTranNoLink("web","productGroup",sWebLanguage)+"</td>")
           .append("<td>"+getTranNoLink("web","category",sWebLanguage)+"</td>")
@@ -46,6 +46,7 @@
 
     // tbody
     sHtml.append("<tbody onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\">");
+    
     Vector products = new Vector();
     if(sSearchProductName.length() > 0 || sSearchSupplierUid.length() > 0 || sSearchProductGroup.length() > 0 || sSearchProductSubGroup.length() > 0){
         products = Product.find(sSearchProductName,"","","","","",sSearchSupplierUid,sSearchProductGroup,sSearchProductSubGroup,"OC_PRODUCT_NAME","ASC");
@@ -112,19 +113,16 @@
 <%
     // display search results
     if(iTotal==0){
-        String recordsFoundMsg = getTranNoLink("web","norecordsfound",sWebLanguage);
-
-        // 'no results' message
-        %><div><%=HTMLEntities.htmlentities(recordsFoundMsg)%></div><%
+        %><%=HTMLEntities.htmlentities(getTranNoLink("web","norecordsfound",sWebLanguage))%><%
 	}
 	else{
 	    String html = HTMLEntities.unhtmlentities(sHtml.toString());
 	    html = HTMLEntities.htmlentities(html);
 
 		%>
-			<table width="100%" class="sortable" id="searchresults">
-			    <%=html.toString()%>
-			</table>
+		<table width="100%" class="sortable" id="searchresults" cellpadding="0" cellspacing="1">
+		    <%=html.toString()%>
+		</table>
 		<%
     }
 %>

@@ -87,12 +87,12 @@
                 else sClass = "";
 
                 sHtml.append("<tr class='list" + sClass + "' " + " onmouseover=\"this.style.cursor='hand';\" " + " onmouseout=\"this.style.cursor='default';\" ")
-                        .append(" onclick=\"selectInvoice('" + sInvoiceUid + "','" + sInvoiceDate + "','" + sInvoiceNr + "','" + invoice.getBalance() + "','" + sInvoiceStatus + "','" + sInsurarUid + "','" + sInsurarName + "');\">")
-                        .append(" <td>" + sInsurarName + "</td>")
-                        .append(" <td>" + sInvoiceDate + "</td>")
-                        .append(" <td>" + sInvoiceNr + "</td>")
-                        .append(" <td style='text-align:right;'>" + priceFormat.format(invoice.getBalance()) + "  </td>")
-                        .append(" <td>" + sInvoiceStatus + "</td>");
+                        .append("onclick=\"selectInvoice('" + sInvoiceUid + "','" + sInvoiceDate + "','" + sInvoiceNr + "','" + invoice.getBalance() + "','" + sInvoiceStatus + "','" + sInsurarUid + "','" + sInsurarName + "');\">")
+                        .append("<td>" + sInsurarName + "</td>")
+                        .append("<td>" + sInvoiceDate + "</td>")
+                        .append("<td>" + sInvoiceNr + "</td>")
+                        .append("<td style='text-align:right;'>" + priceFormat.format(invoice.getBalance()) + "  </td>")
+                        .append("<td>" + sInvoiceStatus + "</td>");
 
             }
 

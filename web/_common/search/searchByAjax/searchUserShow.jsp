@@ -31,8 +31,8 @@
             }
             // one row
             html.append("<tr class='list" + sClass + "' onclick=\"setPerson('" + user.get("personId") + "','" + user.get("userId") + "','" + user.get("lastName") + " " + user.get("firstName") + "');\">")
-                    .append(" <td class='hand'>" + user.get("lastName") + " " + user.get("firstName") + " (" + user.get("userId") + ")</td>")
-                    .append(" <td class='hand'>" + sServiceName + "</td>")
+                    .append("<td class='hand'>" + user.get("lastName") + " " + user.get("firstName") + " (" + user.get("userId") + ")</td>")
+                    .append("<td class='hand'>" + sServiceName + "</td>")
                     .append("</tr>");
         }
 

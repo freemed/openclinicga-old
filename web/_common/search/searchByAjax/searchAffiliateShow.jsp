@@ -54,10 +54,10 @@
                 sFirstname = sFirstname.replace('\'', '´');
 				if(!sPersonid.equalsIgnoreCase(sExclude)){
 	                results.append("<tr class='list" + sClass + "' onclick=\"setPerson(" + sPersonid + ", '" + sLastname.toUpperCase() + ", " + sFirstname + "','"+sEmployer+"','"+sInsuranceNr+"');\">")
-	                        .append(" <td><a href='#'>" + sLastname + " " + sFirstname+"</a></td>")
-	                        .append(" <td>"+sInsuranceNr+"</td>")
-	                        .append(" <td>" + ((String) hPersonInfo.get("gender")).toUpperCase() + "</td>")
-	                        .append(" <td colspan='2'>" + hPersonInfo.get("dateofbirth") + "</td>")
+	                        .append("<td><a href='#'>" + sLastname + " " + sFirstname+"</a></td>")
+	                        .append("<td>"+sInsuranceNr+"</td>")
+	                        .append("<td>" + ((String) hPersonInfo.get("gender")).toUpperCase() + "</td>")
+	                        .append("<td colspan='2'>" + hPersonInfo.get("dateofbirth") + "</td>")
 	                        .append("</tr>");
 				}
 

@@ -90,22 +90,22 @@ try{
 	                else sClass = "";
 					if(prestation.getVariablePrice()==1){
 		                sHtml.append("<tr class='list" + sClass + "' title='" + sSelectTran + "' onclick=\"setPrestationVariable('" + sUid + "','" + sCode + "','" + sDescr + "','" + sType + "','" + sPrice + "','"+sSupplement+"');\">")
-		                        .append(" <td width='60px'>" + prestation.getUid() + "</td>")
-		                        .append(" <td>" + sCode + "</td>")
-		                        .append(" <td>" + sDescr + "</td>")
-		                        .append(" <td>" + sTypeTran + "</td>")
-		                        .append(" <td nowrap>" + prestation.getPriceFormatted(category) + "</td>")
-		                        .append(" <td>" + checkString(prestation.getCategoriesFormatted(category)) + "</td>")
+		                        .append("<td width='60px'>" + prestation.getUid() + "</td>")
+		                        .append("<td>" + sCode + "</td>")
+		                        .append("<td>" + sDescr + "</td>")
+		                        .append("<td>" + sTypeTran + "</td>")
+		                        .append("<td nowrap>" + prestation.getPriceFormatted(category) + "</td>")
+		                        .append("<td>" + checkString(prestation.getCategoriesFormatted(category)) + "</td>")
 		                        .append("</tr>");
 					}
 					else {
 		                sHtml.append("<tr class='list" + sClass + "' title='" + sSelectTran + "' onclick=\"setPrestation('" + sUid + "','" + sCode + "','" + sDescr + "','" + sType + "','" + sPrice + "','"+sSupplement+"');\">")
-		                        .append(" <td width='60px'>" + prestation.getUid() + "</td>")
-		                        .append(" <td>" + sCode + "</td>")
-		                        .append(" <td>" + sDescr + "</td>")
-		                        .append(" <td>" + sTypeTran + "</td>")
-		                        .append(" <td nowrap>" + prestation.getPriceFormatted(category) + "</td>")
-		                        .append(" <td>" + checkString(prestation.getCategoriesFormatted(category)) + "</td>")
+		                        .append("<td width='60px'>" + prestation.getUid() + "</td>")
+		                        .append("<td>" + sCode + "</td>")
+		                        .append("<td>" + sDescr + "</td>")
+		                        .append("<td>" + sTypeTran + "</td>")
+		                        .append("<td nowrap>" + prestation.getPriceFormatted(category) + "</td>")
+		                        .append("<td>" + checkString(prestation.getCategoriesFormatted(category)) + "</td>")
 		                        .append("</tr>");
 					}
                 }

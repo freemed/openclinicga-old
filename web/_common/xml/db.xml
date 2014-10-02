@@ -4231,12 +4231,17 @@
 	</table>
 	<table name="ItemTypeAttributes" db="openclinic" sync="NONE">
 		<columns>
+			<column name="itemTypeAttributeId" dbtype="int" javatype="integer" primary="1"/>
 			<column name="itemType" dbtype="varchar" javatype="string" size="255"/>
 			<column name="name" dbtype="varchar" javatype="string" size="255"/>
 			<column name="value" dbtype="varchar" javatype="string" size="255"/>
 			<column name="userid" dbtype="int" javatype="integer"/>
+			<column name="updatetime" dbtype="datetime" javatype="date" version="1"/>
 		</columns>
 		<indexes>
+			<index name="itemtypeattributes_itemTypeAttributeId">
+				<indexcolumn name="itemTypeAttributeId" order="ASC"/>
+			</index>
 			<index name="itemtypeattributes_type">
 				<indexcolumn name="itemType" order="ASC"/>
 			</index>

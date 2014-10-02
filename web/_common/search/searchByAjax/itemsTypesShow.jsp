@@ -60,9 +60,9 @@
         while (it.hasNext()) {
             String itemType = (String) it.next();
             s.append("<li id='Items'>")
-                    .append("  <a href='#' onclick='delItem(\"" + itemType + "\")'>")
-                    .append("   <img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt=" + getTranNoLink("Web", "delete", sWebLanguage) + "' class='link'>")
-                    .append("  </a>")
+                    .append("<a href='#' onclick='delItem(\"" + itemType + "\")'>")
+                    .append("<img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt=" + getTranNoLink("Web", "delete", sWebLanguage) + "' class='link'>")
+                    .append("</a>")
                     .append(itemType + "</li>");
         }
         out.write(s.toString());
@@ -73,7 +73,7 @@
         /******************** SHOW ITEMS VALUES BY TYPE AND USER ********************/
 
         out.write("\n<br /><ul id=\"autocompletion\">");
-        out.write("\n<li><a href='#' id='newTypeButton'> <img src='" + sCONTEXTPATH + "/_img/icon_edit.gif' alt='" + getTranNoLink("Web", "edit", sWebLanguage) + "' border='0'></a>&nbsp;&nbsp;<span id='newItemField'>" + getTran("Web.manage", "addNewValue", sWebLanguage) + "</span> </li><br />");
+        out.write("\n<li><a href='#' id='newTypeButton'> <img src='" + sCONTEXTPATH + "/_img/icons/icon_edit.gif' alt='" + getTranNoLink("Web", "edit", sWebLanguage) + "' border='0'></a>&nbsp;&nbsp;<span id='newItemField'>" + getTran("Web.manage", "addNewValue", sWebLanguage) + "</span> </li><br />");
         Vector itemsValues = medwanQuery.getValuesByTypeItemByUser(sItemTypeSelect, sUserId, "%");
         int i = 0;
         Iterator it = itemsValues.iterator();
@@ -85,8 +85,8 @@
 
             if (!value.equals("")) {
                 out.write("\n<li>");
-                out.write("<a href='#' onclick=\"delValue('','" + itemid + "' );\" ><img src='" + sCONTEXTPATH + "/_img/icon_delete.gif' alt='" + getTranNoLink("Web", "delete", sWebLanguage) + "' class='link' /></a> ");
-                //out.write(" <img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web","edit",sWebLanguage)+"' border='0'> ");
+                out.write("<a href='#' onclick=\"delValue('','" + itemid + "' );\" ><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTranNoLink("Web", "delete", sWebLanguage) + "' class='link' /></a> ");
+                //out.write(" <img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web","edit",sWebLanguage)+"' border='0'> ");
                 out.write("&nbsp;&nbsp;<b><span  id='" + i + "_editCount'>" + counter + "</span></b>");
                 out.write("&nbsp;&nbsp;<span  id='" + i + "_edit'>" + value + "</span>");
                 out.write("</li>");

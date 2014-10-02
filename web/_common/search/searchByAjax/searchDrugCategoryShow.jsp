@@ -1,6 +1,8 @@
-<%@ page errorPage="/includes/error.jsp" %>
-<%@ include file="/includes/validateUser.jsp" %>
-<%@ page import="java.util.*,be.openclinic.pharmacy.*,be.mxs.common.util.system.HTMLEntities" %>
+<%@page errorPage="/includes/error.jsp"%>
+<%@include file="/includes/validateUser.jsp"%>
+<%@page import="java.util.*,
+                be.openclinic.pharmacy.*,
+                be.mxs.common.util.system.HTMLEntities"%>
 <%!
     //--- GET PARENT ------------------------------------------------------------------------------
     private String getParent(String sCode, String sWebLanguage) {
@@ -18,16 +20,17 @@
                 if ((sParentID != null) && (!sParentID.equals("0000")) && (sParentID.trim().length() > 0)) {
 
                     sReturn = getParent(sParentID, sWebLanguage)
-                            + "<img src='" + sCONTEXTPATH + "/_img/pijl.gif'>"
+                            + "<img src='" + sCONTEXTPATH + "/_img/themes/default/pijl.gif'>"
                             + "<a href='#' onclick='populateCategory(\"" + sCode + "\")' title='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>" + sLabel + "</a>";
                 }
             }
 
             if (sReturn.trim().length() == 0) {
-                sReturn = sReturn + "<img src='" + sCONTEXTPATH + "/_img/pijl.gif'>"
+                sReturn = sReturn + "<img src='" + sCONTEXTPATH + "/_img/themes/default/pijl.gif'>"
                         + "<a href='#' onclick='populateCategory(\"" + sCode + "\")' title='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>" + sLabel + "</a>";
             }
         }
+        
         return sReturn;
     }
 
@@ -43,31 +46,34 @@
             String sClass="";
 
             if (sIcon.length() == 0 && DrugCategory.getChildIds(sID).size()>0) {
-                sIcon = "<img src='" + sCONTEXTPATH + "/_img/menu_tee_plus.gif' onclick='populateCategory(\"" + sID + "\")' alt='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>";
+                sIcon = "<img src='" + sCONTEXTPATH + "/_img/themes/default/menu_tee_plus.gif' onclick='populateCategory(\"" + sID + "\")' alt='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>";
             }
 
             row += "<tr>" +
-                    " <td>" + sIcon + "</td><td><img src='" + sCONTEXTPATH + "/_img/icon_view.gif' alt='" + getTran("Web", "view", sWebLanguage) + "' onclick='viewCategory(\"" + sID + "\")'></td>" +
+                    " <td>" + sIcon + "</td><td><img src='" + sCONTEXTPATH + "/_img/icons/icon_view.gif' alt='" + getTran("Web", "view", sWebLanguage) + "' onclick='viewCategory(\"" + sID + "\")'></td>" +
                     " <td class='"+sClass+"'>" + sID + "</td>"+
                     "<td class='"+sClass+"'><a href='#' onclick='selectParentCategory(\"" + sID + "\",\"" + sLabel + "\")' title='" + getTran("Web", "select", sWebLanguage) + "'>" + sLabel + "</a></td>"+
                     "</tr>";
         }
+        
         return row;
     }
 %>
+
 <%
     // form data
-    String  sViewCode = checkString(request.getParameter("ViewCode")),
-            sFindText = checkString(request.getParameter("FindText")).toUpperCase(),
-            sFindCode = checkString(request.getParameter("FindCode")).toUpperCase();
+    String sViewCode = checkString(request.getParameter("ViewCode")),
+           sFindText = checkString(request.getParameter("FindText")).toUpperCase(),
+           sFindCode = checkString(request.getParameter("FindCode")).toUpperCase();
 
     // DEBUG ///////////////////////////////////////////////////////////
-    Debug.println("### sFindText : " + sFindText);
-    Debug.println("### sFindCode : " + sFindCode);
+    Debug.println(" sFindText : " + sFindText);
+    Debug.println(" sFindCode : " + sFindCode);
     ////////////////////////////////////////////////////////////////////
 
     // options
     String sFindParentCode = request.getParameter("FindParentCode");
+    
     // variables
     StringBuffer sOut = new StringBuffer();
     String sCategoryID, sNavigation = "";
@@ -110,7 +116,8 @@
         Vector vCategoryIDs;
         if (sFindParentCode == null) {
             vCategoryIDs = DrugCategory.getTopCategoryIDs();
-        } else {
+        } 
+        else {
             vCategoryIDs = DrugCategory.getCategoryIDsByParentID(sFindParentCode);
         }
         Iterator iter = vCategoryIDs.iterator();
@@ -126,60 +133,63 @@
 %>
 &nbsp;<a href="#" onclick="clearSearchFields();doFind();">Home</a>
 
-<div id="navigationMenu"><%=sNavigation%>
-</div>
+<div id="navigationMenu"><%=sNavigation%></div>
+
 <table width="100%" cellspacing="1">
     <%
-        if (sViewCode.length() > 0) {
-            if (iTotal == 0) {
+        if(sViewCode.length() > 0){
+            if(iTotal == 0){
                 sViewCode = sFindCode;
             }
             String sLabel = HTMLEntities.htmlentities(getTran("drug.category", sViewCode, sWebLanguage));
             DrugCategory category = DrugCategory.getCategory(sViewCode);
 
-            if (category != null) {
-    %>
-    <tr height="30px">
-        <td width="30%">&nbsp;</td>
-        <td>&nbsp;</td>
-    </tr>
-    <tr>
-        <td colspan="2" align="right">
-            <input type="button" class="button" value="<%=getTran("Web","select",sWebLanguage)%>" onclick="selectParentCategory('<%=sViewCode%>','<%=sLabel%>');">
-        </td>
-    </tr>
-    <%
-        }
-    } else {
-        // sorteer
-        Iterator it = set.iterator();
-        while (it.hasNext()) {
-            element = it.next();
-            sOut.append(((String) hSelected.get(element.toString())));
-        }
-
-        // display search results
-        if (iTotal > 0) {
-    %>
-    <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
-        <%=HTMLEntities.htmlentities(sOut.toString())%>
-    </tbody>
-    <%
-    } else {
-    %>
-    <tr>
-        <td colspan="3"><%=HTMLEntities.htmlentities(getTran("web", "norecordsfound", sWebLanguage))%></td>
-    </tr>
-    <%
-        }
-    %>
-    <%-- SPACER --%>
-    <tr height="1">
-        <td width="1%">&nbsp;</td>
-        <td width="1%">&nbsp;</td>
-        <td width="1%">&nbsp;</td>
-    </tr>
-    <%
+            if(category != null){
+			    %>
+			    <tr height="30px">
+			        <td width="30%">&nbsp;</td>
+			        <td>&nbsp;</td>
+			    </tr>
+			    <tr>
+			        <td colspan="2" align="right">
+			            <input type="button" class="button" value="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="selectParentCategory('<%=sViewCode%>','<%=sLabel%>');">
+			        </td>
+			    </tr>
+			    <%
+	        }
+	    } 
+	    else {
+	        // sorteer
+	        Iterator it = set.iterator();
+	        while (it.hasNext()) {
+	            element = it.next();
+	            sOut.append(((String) hSelected.get(element.toString())));
+	        }
+	
+	        // display search results
+	        if (iTotal > 0) {
+			    %>
+			    <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+			        <%=HTMLEntities.htmlentities(sOut.toString())%>
+			    </tbody>
+			    <%
+		    }
+		    else {
+			    %>
+			    <tr>
+			        <td colspan="3"><%=HTMLEntities.htmlentities(getTran("web", "norecordsfound", sWebLanguage))%></td>
+			    </tr>
+			    <%
+		    }
+	        
+			%>	    
+		    <%-- SPACER --%>
+		    <tr height="1">
+		        <td width="1%">&nbsp;</td>
+		        <td width="1%">&nbsp;</td>
+		        <td width="1%">&nbsp;</td>
+		    </tr>
+	        <%
         }
     %>
 </table>

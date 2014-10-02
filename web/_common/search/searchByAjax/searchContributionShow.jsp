@@ -85,12 +85,12 @@ try{
 	                else sClass = "";
 	
 	                sHtml.append("<tr class='list" + sClass + "' title='" + sSelectTran + "' onclick=\"setPrestation('" + sUid + "','" + sCode + "','" + sDescr + "','" + sType + "','" + sPrice + "');\">")
-	                        .append(" <td width='60px'>" + prestation.getUid() + "</td>")
-	                        .append(" <td>" + sCode + "</td>")
-	                        .append(" <td>" + sDescr + "</td>")
-	                        .append(" <td>" + sTypeTran + "</td>")
-	                        .append(" <td nowrap>" + prestation.getPriceFormatted(category) + "</td>")
-	                        .append(" <td>" + checkString(prestation.getCategoriesFormatted(category)) + "</td>")
+	                        .append("<td width='60px'>" + prestation.getUid() + "</td>")
+	                        .append("<td>" + sCode + "</td>")
+	                        .append("<td>" + sDescr + "</td>")
+	                        .append("<td>" + sTypeTran + "</td>")
+	                        .append("<td nowrap>" + prestation.getPriceFormatted(category) + "</td>")
+	                        .append("<td>" + checkString(prestation.getCategoriesFormatted(category)) + "</td>")
 	                        .append("</tr>");
                 }
             }

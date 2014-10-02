@@ -18,13 +18,13 @@
                 if ((sParentID != null) && (!sParentID.equals("0000")) && (sParentID.trim().length() > 0)) {
 
                     sReturn = getParent(sParentID, sWebLanguage)
-                            + "<img src='" + sCONTEXTPATH + "/_img/pijl.gif'>"
+                            + "<img src='" + sCONTEXTPATH + "/_img/themes/default/pijl.gif'>"
                             + "<a href='#' onclick='populateCategory(\"" + sCode + "\")' title='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>" + sLabel + "</a>";
                 }
             }
 
             if (sReturn.trim().length() == 0) {
-                sReturn = sReturn + "<img src='" + sCONTEXTPATH + "/_img/pijl.gif'>"
+                sReturn = sReturn + "<img src='" + sCONTEXTPATH + "/_img/themes/default/pijl.gif'>"
                         + "<a href='#' onclick='populateCategory(\"" + sCode + "\")' title='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>" + sLabel + "</a>";
             }
         }
@@ -43,11 +43,11 @@
             String sClass="";
 
             if (sIcon.length() == 0 && Category.getChildIds(sID).size()>0) {
-                sIcon = "<img src='" + sCONTEXTPATH + "/_img/menu_tee_plus.gif' onclick='populateCategory(\"" + sID + "\")' alt='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>";
+                sIcon = "<img src='" + sCONTEXTPATH + "/_img/themes/default/menu_tee_plus.gif' onclick='populateCategory(\"" + sID + "\")' alt='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>";
             }
 
             row += "<tr>" +
-                    " <td>" + sIcon + "</td><td><img src='" + sCONTEXTPATH + "/_img/icon_view.gif' alt='" + getTran("Web", "view", sWebLanguage) + "' onclick='viewCategory(\"" + sID + "\")'></td>" +
+                    " <td>" + sIcon + "</td><td><img src='" + sCONTEXTPATH + "/_img/icons/icon_view.gif' alt='" + getTran("Web", "view", sWebLanguage) + "' onclick='viewCategory(\"" + sID + "\")'></td>" +
                     " <td class='"+sClass+"'>" + sID + "</td>"+
                     "<td class='"+sClass+"'><a href='#' onclick='selectParentCategory(\"" + sID + "\",\"" + sLabel + "\")' title='" + getTran("Web", "select", sWebLanguage) + "'>" + sLabel + "</a></td>"+
                     "</tr>";
@@ -145,7 +145,7 @@
     </tr>
     <tr>
         <td colspan="2" align="right">
-            <input type="button" class="button" value="<%=getTran("Web","select",sWebLanguage)%>" onclick="selectParentCategory('<%=sViewCode%>','<%=sLabel%>');">
+            <input type="button" class="button" value="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="selectParentCategory('<%=sViewCode%>','<%=sLabel%>');">
         </td>
     </tr>
     <%
