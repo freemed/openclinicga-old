@@ -23,8 +23,14 @@
 	            Object[] ss = (Object[])l.get(1);
 	            Timestamp t = (Timestamp)ss[0];
 	            Hashtable u = User.getUserName((String)ss[1]);
-	            s+= "<div style='float:right'><span style='font-weight:normal'>"+getTranNoLink("web.occup","last.access",sWebLanguage)+"  "+(t==null?"?":ScreenHelper.fullDateFormat.format(t))+" "+getTranNoLink("web","by",sWebLanguage)+" <b>"+(u==null?"?":u.get("firstname")+" "+u.get("lastname"))+"</b></span>";
-	            s+=" | <a href='javascript:void(0)' onclick='getAccessHistory(20)' class='link history' title='"+getTranNoLink("web","history",sWebLanguage)+"' alt=\""+getTranNoLink("web","history",sWebLanguage)+"\">...</a><a href='javascript:void(0)' onclick='getAdminHistory(20)' class='link adminhistory' title='"+getTranNoLink("web","adminhistory",sWebLanguage)+"' alt=\""+getTranNoLink("web","history",sWebLanguage)+"\">...</a></div>";
+	            s+= "<div style='float:right'>"+
+	                 "<span style='font-weight:normal'>"+getTranNoLink("web.occup","last.access",sWebLanguage)+"  "+(t==null?"?":ScreenHelper.fullDateFormat.format(t))+" "+getTranNoLink("web","by",sWebLanguage)+" <b>"+(u==null?"?":u.get("firstname")+" "+u.get("lastname"))+"</b></span>";
+	               
+                // 2x history
+	            s+=" | <a href='javascript:void(0)' onclick='getAccessHistory(20)' class='link history' title='"+getTranNoLink("web","history",sWebLanguage)+"' alt=\""+getTranNoLink("web","history",sWebLanguage)+"\">...</a>"+
+	                  "<a href='javascript:void(0)' onclick='getAdminHistory(20)' class='link adminhistory' title='"+getTranNoLink("web","adminhistory",sWebLanguage)+"' alt=\""+getTranNoLink("web","history",sWebLanguage)+"\">...</a>";
+	                  
+	            s+= "</div>";
         	}
         	catch(Exception e){
         		e.printStackTrace();
@@ -42,17 +48,20 @@
 
 	String sVip = "";
 	if("1".equalsIgnoreCase((String)activePatient.adminextends.get("vip"))){
-	    sVip="<img border='0' src='_img/icon_vip.jpg' alt='"+getTranNoLink("web","vip",sWebLanguage)+"'/>";
+	    sVip="<img border='0' src='_img/icons/icon_vip.jpg' alt='"+getTranNoLink("web","vip",sWebLanguage)+"'/>";
 	}
 %>
 <script>
   window.document.title="<%=sWEBTITLE+" "+getWindowTitle(request,sWebLanguage)%>";
 </script>
 
-<%-- ADMINISTRATIVE DATA --%>
-<table width="100%" class="list">
+<%-- 1 : ADMINISTRATIVE DATA --%>
+<table width="100%" class="list" cellpadding="1" cellspacing="0">
     <tr>
-        <td colspan="10" class="titleadmin"><div style="float:left;vertical-align:middle"><%=getTran("web","administrative.data",sWebLanguage)+" "+sVip%></div><%=getLastAccess("A."+activePatient.personid,sWebLanguage,request)%></td>
+        <td colspan="10" class="titleadmin">
+            <div style="float:left;vertical-align:middle"><%=getTran("web","administrative.data",sWebLanguage)+" "+sVip%></div>
+            <%=getLastAccess("A."+activePatient.personid,sWebLanguage,request)%>
+        </td>
     </tr>
 	
 	<%
@@ -72,7 +81,7 @@
 			        <tr>
 			            <td class="image" style="vertical-align:top;" width="143px"><img border="0" width="100%" src='<c:url value="/"/>documents/<%=activeUser.userid%>.jpg?ts=<%=getTs()%>'/></td>
 			            <td style="vertical-align:top;">
-			                <table width="100%">
+			                <table width="100%" cellpadding="1" cellspacing="0">
 	            <%
 	        }
 	        catch(Exception e){
@@ -84,7 +93,7 @@
 
     <tr>
         <td style="vertical-align:top;" height="100%" width="50%"><%conditionalInclude("curative/financialStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
-        <td><%conditionalInclude("curative/insuranceStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
+        <td style="vertical-align:top;" height="100%" width="50%"><%conditionalInclude("curative/insuranceStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
     <tr>
 
     <tr><td colspan="2"><%conditionalInclude("curative/planningStatus.jsp",pageContext,"planning.select",activeUser);%></td><tr>
@@ -102,9 +111,9 @@
 
 <div style="height:2px;"></div>
 
-<%-- MEDICAL DATA --%>
+<%-- 2 : MEDICAL DATA --%>
 <% if(activeUser.getAccessRight("curative.select")){%>
-    <table width="100%" class="list">
+    <table width="100%" class="list" cellpadding="1" cellspacing="0">
         <tr><td colspan="6" class="titleadmin"><%=getTran("web","medical.data",sWebLanguage)%></td></tr>
         <tr>
         	<%
@@ -115,7 +124,7 @@
                     %><td colspan="3" style="vertical-align:top;" height="100%" width="50%"><table width='100%'><tr class='admin'><td>&nbsp;</td></tr></table></td><%
         		}
         		if(activeUser.getAccessRight("occup.vaccinations.select")){
-        	        %><td colspan="3"  style="vertical-align:top;" height="100%"><%conditionalInclude("curative/vaccinationStatus.jsp",pageContext,"occup.vaccinations.select",activeUser);%></td><%
+        	        %><td colspan="3" style="vertical-align:top;" height="100%"><%conditionalInclude("curative/vaccinationStatus.jsp",pageContext,"occup.vaccinations.select",activeUser);%></td><%
         		}
         		else {
                     %><td colspan="3" style="vertical-align:top;" height="100%" width="50%"><table width='100%'><tr class='admin'><td>&nbsp;</td></tr></table></td><%
