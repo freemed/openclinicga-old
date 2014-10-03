@@ -698,7 +698,7 @@ public class User extends OC_Object {
     }
 
     //--- ENCRYPT ---------------------------------------------------------------------------------
-    public byte[] encrypt(String sValue){
+    public static byte[] encrypt(String sValue){
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
             return md.digest(sValue.getBytes());
@@ -710,7 +710,7 @@ public class User extends OC_Object {
     }
 
     //--- CHECK PASSWORD --------------------------------------------------------------------------
-    public boolean checkPassword(byte[] aPassword)  {
+    public boolean checkPassword(byte[] aPassword){
         try {
             if(MessageDigest.isEqual(aPassword,this.password)){
                 return true;
@@ -769,9 +769,7 @@ public class User extends OC_Object {
                 ps.close();
             }
 
-            if(ps!=null){
-                ps.close();
-            }
+            if(ps!=null) ps.close();
             return true;
         }
         catch (Exception e){
@@ -836,12 +834,10 @@ public class User extends OC_Object {
                 ps.close();
             }
 
-            if(ps!=null){
-                ps.close();
-            }
+            if(ps!=null) ps.close();
             return true;
         }
-        catch (Exception e){
+        catch(Exception e){
             Debug.println("User updateParameter error: "+e.getMessage()+" "+sSelect);
             return false;
         }
@@ -1497,7 +1493,7 @@ public class User extends OC_Object {
             int i = 0;
 
             while(rs.next() && i<oldPwdCount){
-                if(MessageDigest.isEqual(rs.getBytes("encryptedPassword"),user.encrypt(sPassword))){
+                if(MessageDigest.isEqual(rs.getBytes("encryptedPassword"),User.encrypt(sPassword))){
                     passwordIsUsedBefore = true;
                     break;
                 }
