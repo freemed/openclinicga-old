@@ -21,7 +21,7 @@
 	        File dir;
 	        for(int i=0; i<dirs.length; i++){
 	        	dir = (File)dirs[i]; 
-	        	if(dir.isDirectory()){
+	        	if(dir.isDirectory() && !dir.isHidden()){
 	        		if(dir.listFiles().length > 0){
 	        		    themes.add(dir.getName());
 	        		}
