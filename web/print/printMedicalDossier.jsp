@@ -151,7 +151,7 @@
         <%-- 1 : administration personal --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_1" id="section_1" value="on" onClick="this.checked=true" <%=(sSection1.equals("on")?"CHECKED":"")%>><%=getLabel("web.occup","administrationPersonal",sWebLanguage,"section_1")%>
+                <input type="checkbox" name="section_1" id="section_1" value="on" class="hand" onClick="this.checked=true" <%=(sSection1.equals("on")?"CHECKED":"")%>><%=getLabel("web.occup","administrationPersonal",sWebLanguage,"section_1")%>
             </td>
         </tr>
         
@@ -160,7 +160,7 @@
             <td class="admin">
 		        <%
 		            if(Picture.exists(Integer.parseInt(activePatient.personid))){
-		           	    %><input type="checkbox" name="section_2" id="section_2" value="on" <%=(sSection2.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","photo",sWebLanguage,"section_2")%><%
+		           	    %><input type="checkbox" name="section_2" id="section_2" value="on" class="hand" <%=(sSection2.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","photo",sWebLanguage,"section_2")%><%
 		            }
 		            else{
 		                %><input type="checkbox" name="section_2" id="section_2" value="off" DISABLED>&nbsp;<%=getLabel("pdf","photo",sWebLanguage,"section_2")%><%
@@ -172,84 +172,84 @@
         <%-- 3 : administration private --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_3" id="section_3" value="on" <%=(sSection3.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","administrationPrivate",sWebLanguage,"section_3")%>
+                <input type="checkbox" name="section_3" id="section_3" value="on" class="hand" <%=(sSection3.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","administrationPrivate",sWebLanguage,"section_3")%>
             </td>
         </tr>
                 
         <%-- 4 : administration family-relations --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_3" id="section_4" value="on" <%=(sSection4.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","administrationFamilyRelation",sWebLanguage,"section_4")%>
+                <input type="checkbox" name="section_3" id="section_4" value="on" class="hand" <%=(sSection4.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","administrationFamilyRelation",sWebLanguage,"section_4")%>
             </td>
         </tr> 
          
         <%-- 5 : active insurance data --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_5" id="section_5" value="on" <%=(sSection5.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","activeInsuranceData",sWebLanguage,"section_5")%>
+                <input type="checkbox" name="section_5" id="section_5" value="on" class="hand" <%=(sSection5.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","activeInsuranceData",sWebLanguage,"section_5")%>
             </td>
         </tr>
         
         <%-- 6 : historical insurance data--%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_6" id="section_6" value="on" <%=(sSection6.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","historicalInsuranceData",sWebLanguage,"section_6")%>
+                <input type="checkbox" name="section_6" id="section_6" value="on" class="hand" <%=(sSection6.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","historicalInsuranceData",sWebLanguage,"section_6")%>
             </td>
         </tr>
          
         <%-- 7 : active drug prescriptions --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_7" id="section_7" value="on" <%=(sSection7.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","activeDrugPrescriptions",sWebLanguage,"section_7")%>
+                <input type="checkbox" name="section_7" id="section_7" value="on" class="hand" <%=(sSection7.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","activeDrugPrescriptions",sWebLanguage,"section_7")%>
             </td>
         </tr>
          
         <%-- 8 : active care prescriptions --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_8" id="section_8" value="on" <%=(sSection8.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","activeCarePrescriptions",sWebLanguage,"section_8")%>
+                <input type="checkbox" name="section_8" id="section_8" value="on" class="hand" <%=(sSection8.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","activeCarePrescriptions",sWebLanguage,"section_8")%>
             </td>
         </tr>
          
         <%-- 9 : vaccinations --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_9" id="section_9" value="on" <%=(sSection9.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","vaccinations",sWebLanguage,"section_9")%>
+                <input type="checkbox" name="section_9" id="section_9" value="on" class="hand" <%=(sSection9.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","vaccinations",sWebLanguage,"section_9")%>
             </td>
         </tr>
          
         <%-- 10 : problem list --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_10" id="section_10" value="on" <%=(sSection10.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","problemlist",sWebLanguage,"section_10")%>
+                <input type="checkbox" name="section_10" id="section_10" value="on" class="hand" <%=(sSection10.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","problemlist",sWebLanguage,"section_10")%>
             </td>
         </tr>
          
         <%-- 11 : active diagnoses --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_11" id="section_11" value="on" <%=(sSection11.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","activeDiagnoses",sWebLanguage,"section_11")%>
+                <input type="checkbox" name="section_11" id="section_11" value="on" class="hand" <%=(sSection11.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","activeDiagnoses",sWebLanguage,"section_11")%>
             </td>
         </tr>
          
         <%-- 12 : active appointments --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_12" id="section_12" value="on" <%=(sSection12.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","activeAppointments",sWebLanguage,"section_12")%>
+                <input type="checkbox" name="section_12" id="section_12" value="on" class="hand" <%=(sSection12.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","activeAppointments",sWebLanguage,"section_12")%>
             </td>
         </tr>  
          
         <%-- 13 : active encounter --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_13" id="section_13" value="on" <%=(sSection13.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","activeEncounter",sWebLanguage,"section_13")%>
+                <input type="checkbox" name="section_13" id="section_13" value="on" class="hand" <%=(sSection13.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","activeEncounter",sWebLanguage,"section_13")%>
             </td>
         </tr>  
          
         <%-- 14 : encounter history --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_14" id="section_14" value="on" <%=(sSection14.equals("on")?"CHECKED":"")%> onClick="toggleEncounterTable(this);">&nbsp;<%=getLabel("pdf","encounterHistroy",sWebLanguage,"section_14")%>
+                <input type="checkbox" name="section_14" id="section_14" value="on" class="hand" <%=(sSection14.equals("on")?"CHECKED":"")%> onClick="toggleEncounterTable(this);">&nbsp;<%=getLabel("pdf","encounterHistroy",sWebLanguage,"section_14")%>
             </td>
         </tr>   
             

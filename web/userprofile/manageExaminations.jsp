@@ -82,7 +82,7 @@
 
                 %>
                     <tr class="list<%=sClass%>">
-                        <td><input type="checkbox" name="Edit<%=sID%>"<%=sChecked%>></td><td><%=sKey%></td>
+                        <td><input type="checkbox" name="Edit<%=sID%>"<%=sChecked%> class="hand"></td><td><%=sKey%></td>
                     </tr>
                 <%
             }

@@ -210,7 +210,7 @@
                         
                         <%-- required --%>
                         <td class="admin">
-                            <input type="checkbox" name="addRequired" value="true">
+                            <input type="checkbox" name="addRequired" value="true" class="hand">
                         </td>
                         
 				        <%-- followedBy --%>

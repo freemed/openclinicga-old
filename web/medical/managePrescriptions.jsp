@@ -167,7 +167,7 @@
 
           	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
             //*** display prescription in one row ***
-            html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
+            html.append("<tr class='list"+sClass+"' onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\" title='"+detailsTran+"'>")
                  .append("<td align='center'>"+((prescr==null || (prescr!=null && prescr.getDeliveredQuantity()==0)) && (activeUser.getAccessRight("prescriptions.drugs.delete"))?"<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+prescr.getUid()+"');\">":"")+"</td>")
                  .append("<td onclick=\"doShowDetailsActive('"+prescr.getUid()+"');\">"+ScreenHelper.getFullUserName(prescr.getPrescriberUid(), ad_conn)+"</td>")
                  .append("<td onclick=\"doShowDetailsActive('"+prescr.getUid()+"');\">"+sProductName+"</td>")

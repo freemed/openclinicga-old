@@ -172,11 +172,11 @@
     <%=writeTableHeader("Web","ManageTranslations",sWebLanguage,"")%>
 
 <%-- SEARCH TABLE -------------------------------------------------------------------------------%>
-<table width="100%" cellspacing="0" class="menu" onkeydown="if(enterEvent(event,13)){doFind();}">
+<table width="100%" cellspacing="1" class="menu" onkeydown="if(enterEvent(event,13)){doFind();}">
     <%-- LABEL TYPE --%>
     <tr>
-      <td>&nbsp;<%=getTran("Web","type",sWebLanguage)%></td>
-      <td>
+      <td class="admin" width="<%=sTDAdminWidth%>">&nbsp;<%=getTran("Web","type",sWebLanguage)%></td>
+      <td class="admin2">
           <select name="FindLabelType" class="text">
               <option></option>
               <%
@@ -186,7 +186,6 @@
 
                   while(iter.hasNext()){
                       sTmpLabeltype = (String)iter.next();
-
                       %><option value="<%=sTmpLabeltype%>" <%=(sTmpLabeltype.equals(findLabelType)?"selected":"")%>><%=sTmpLabeltype%></option><%
                   }
               %>
@@ -196,23 +195,24 @@
 
   <%-- LABEL ID --%>
   <tr>
-      <td>&nbsp;<%=getTran("Web.Translations","labelid",sWebLanguage)%></td>
-      <td><input type="text" class="text" name="FindLabelID" value="<%=findLabelID%>" size="50"></td>
+      <td class="admin">&nbsp;<%=getTran("Web.Translations","labelid",sWebLanguage)%></td>
+      <td class="admin2">
+          <input type="text" class="text" name="FindLabelID" value="<%=findLabelID%>" size="50">
+      </td>
   </tr>
   
   <%-- LABEL LANGUAGE --%>
   <tr>
-      <td>&nbsp;<%=getTran("Web","Language",sWebLanguage)%></td>
-      <td>
+      <td class="admin">&nbsp;<%=getTran("Web","Language",sWebLanguage)%></td>
+      <td class="admin2">
           <select name="FindLabelLang" class="text">
               <option></option>
               <%
                   String tmpLang;
-                  StringTokenizer tokenizer = new StringTokenizer(supportedLanguages, ",");
-                  while (tokenizer.hasMoreTokens()) {
+                  StringTokenizer tokenizer = new StringTokenizer(supportedLanguages,",");
+                  while(tokenizer.hasMoreTokens()){
                       tmpLang = tokenizer.nextToken();
-
-              %><option value="<%=tmpLang%>" <%=(findLabelLang.equals(tmpLang)?"selected":"")%>><%=getTran("Web.language",tmpLang,sWebLanguage)%></option><%
+                      %><option value="<%=tmpLang%>" <%=(findLabelLang.equals(tmpLang)?"selected":"")%>><%=getTran("Web.language",tmpLang,sWebLanguage)%></option><%
                   }
               %>
           </select>
@@ -221,16 +221,16 @@
   
   <%-- LABEL VALUE --%>
   <tr>
-      <td>&nbsp;<%=getTran("Web.Translations","label",sWebLanguage)%></td>
-      <td><input type="text" class="text" name="FindLabelValue" value="<%=findLabelValue%>" size="50"></td>
+      <td class="admin">&nbsp;<%=getTran("Web.Translations","label",sWebLanguage)%></td>
+      <td class="admin2"><input type="text" class="text" name="FindLabelValue" value="<%=findLabelValue%>" size="50"></td>
   </tr>
   
   <%-- EXCLUSIONS --%>
   <tr>
-      <td>&nbsp;<%=getTran("Web.Translations","exclusion",sWebLanguage)%></td>
-      <td>
-          <input type="checkbox" class="checkbox" name="excludeFunctions" id="excludeFunctionsCB" value="true" <%=(excludeFunctions?" CHECKED":"")%>><%=getLabel("web","functions",sWebLanguage,"excludeFunctionsCB")%>&nbsp;
-          <input type="checkbox" class="checkbox" name="excludeServices" id="excludeServicesCB" value="true" <%=(excludeServices?" CHECKED":"")%>><%=getLabel("web","services",sWebLanguage,"excludeServicesCB")%>
+      <td class="admin">&nbsp;<%=getTran("Web.Translations","exclusion",sWebLanguage)%></td>
+      <td class="admin2">
+          <input type="checkbox" class="hand" name="excludeFunctions" id="excludeFunctionsCB" value="true" <%=(excludeFunctions?" CHECKED":"")%>><%=getLabel("web","functions",sWebLanguage,"excludeFunctionsCB")%>&nbsp;
+          <input type="checkbox" class="hand" name="excludeServices" id="excludeServicesCB" value="true" <%=(excludeServices?" CHECKED":"")%>><%=getLabel("web","services",sWebLanguage,"excludeServicesCB")%>
           &nbsp;&nbsp;
 
            <%-- SEARCH BUTTONS --%>
@@ -273,6 +273,7 @@
     transactionForm.excludeServices.checked = true;
   }
 </script>
+
 <%
     //***** FIND *****
     if(sAction.equals("Find")){

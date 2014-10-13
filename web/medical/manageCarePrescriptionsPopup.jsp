@@ -1,7 +1,8 @@
 <%@page import="java.text.SimpleDateFormat,
                 be.openclinic.medical.CarePrescription,
                 be.openclinic.medical.CarePrescriptionSchema,
-                java.util.*,java.util.Date" %>
+                java.util.*,
+                java.util.Date" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%=checkPermissionPopup("prescriptions.care","select",activeUser)%>
@@ -56,8 +57,8 @@
             else                  sClass = "";
 
             //*** display prescription in one row ***
-            html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
-                 .append("<td align='center'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+prescr.getUid()+"');\">")
+            html.append("<tr class='list"+sClass+"' onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\" title='"+detailsTran+"'>")
+                 .append("<td><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link' title='"+deleteTran+"' onclick=\"doDelete('"+prescr.getUid()+"');\">")
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sCareDescr+"</td>")
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sPrescriber+"</td>")
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sDateBeginFormatted+"</td>")
@@ -134,7 +135,7 @@
                 <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
                     <%-- clickable header --%>
                     <tr class="gray">
-                        <td width="22" nowrap>&nbsp;</td>
+                        <td width="20" nowrap>&nbsp;</td>
                         <td><%=getTran("Web","care_type",sWebLanguage)%></td>
                         <td width="120"><%=getTran("Web","prescriber",sWebLanguage)%></td>
                         <td width="80"><SORTTYPE:DATE><%=getTran("Web","begindate",sWebLanguage)%></SORTTYPE:DATE></td>
@@ -159,7 +160,7 @@
                 }
                 else{
                     // no records found
-                     %><script>window.location.href="<c:url value='/popup.jsp'/>?Page=medical/manageCarePrescriptionsPopupEdit.jsp&Close=true&ts=<%=getTs()%>&PopupHeight=400&PopupWidth=900";</script><%
+                    %><script>window.location.href="<c:url value='/popup.jsp'/>?Page=medical/manageCarePrescriptionsPopupEdit.jsp&Close=true&ts=<%=getTs()%>&PopupHeight=400&PopupWidth=900";</script><%
                 }
 
                 %>

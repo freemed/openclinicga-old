@@ -14,7 +14,7 @@
     private Vector getSupportedThemes() throws Exception {
 	    Vector themes = new Vector();
 	    
-	    String sThemeDir = MedwanQuery.getInstance().getConfigString("baseDirectory")+"/"+MedwanQuery.getInstance().getConfigString("themeDir");
+	    String sThemeDir = sAPPFULLDIR+"/"+MedwanQuery.getInstance().getConfigString("themeDir","/_img/themes");
 	    File themeDir = new File(sThemeDir); 
 	    if(themeDir.exists() && themeDir.isDirectory()){
 	        File[] dirs = themeDir.listFiles();

@@ -2,9 +2,9 @@
                 be.openclinic.medical.CarePrescription,
                 java.text.DecimalFormat,
                 be.openclinic.common.KeyValue,
-                be.openclinic.medical.CarePrescriptionSchema" %>
+                be.openclinic.medical.CarePrescriptionSchema"%>
+<%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-<%@include file="/_common/templateAddIns.jsp"%>
 <%=checkPermissionPopup("prescriptions.care","select",activeUser)%>
 
 <%
@@ -36,29 +36,29 @@
 
     CarePrescriptionSchema prescriptionSchema = new CarePrescriptionSchema();
     if(sTime1.length() > 0){
-        prescriptionSchema.getTimequantities().add(new KeyValue(sTime1, sQuantity1));
+        prescriptionSchema.getTimequantities().add(new KeyValue(sTime1,sQuantity1));
     }
     if(sTime2.length() > 0){
-        prescriptionSchema.getTimequantities().add(new KeyValue(sTime2, sQuantity2));
+        prescriptionSchema.getTimequantities().add(new KeyValue(sTime2,sQuantity2));
     }
     if(sTime3.length() > 0){
-        prescriptionSchema.getTimequantities().add(new KeyValue(sTime3, sQuantity3));
+        prescriptionSchema.getTimequantities().add(new KeyValue(sTime3,sQuantity3));
     }
     if(sTime4.length() > 0){
-        prescriptionSchema.getTimequantities().add(new KeyValue(sTime4, sQuantity4));
+        prescriptionSchema.getTimequantities().add(new KeyValue(sTime4,sQuantity4));
     }
     if(sTime5.length() > 0){
-        prescriptionSchema.getTimequantities().add(new KeyValue(sTime5, sQuantity5));
+        prescriptionSchema.getTimequantities().add(new KeyValue(sTime5,sQuantity5));
     }
     if(sTime6.length() > 0){
-        prescriptionSchema.getTimequantities().add(new KeyValue(sTime6, sQuantity6));
+        prescriptionSchema.getTimequantities().add(new KeyValue(sTime6,sQuantity6));
     }
 
     String sEditPrescriberFullName = checkString(request.getParameter("EditPrescriberFullName"));
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n############ medical/manageCarePrescriptionsPopupEdit.jsp #############");
+        Debug.println("\n************* medical/manageCarePrescriptionsPopupEdit.jsp *************");
         Debug.println("sAction                 : "+sAction);
         Debug.println("sEditPrescrUid          : "+sEditPrescrUid);
         Debug.println("sEditPrescriberUid      : "+sEditPrescriberUid);
@@ -76,9 +76,6 @@
            sSelectedTimeUnitCount = "", sSelectedUnitsPerTimeUnit = "", 
            sSelectedPrescriberFullName = "";
     
-    // variables
-    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
-
     //*********************************************************************************************
     //*** process actions *************************************************************************
     //*********************************************************************************************
@@ -115,7 +112,7 @@
             else{
                 // show rejected data
                 sAction = "showDetailsAfterAddReject";
-                msg = "<font color='red'>" + getTran("web.manage", "prescriptionexists", sWebLanguage) + "</font>";
+                msg = "<font color='red'>"+getTran("web.manage", "prescriptionexists", sWebLanguage)+"</font>";
             }
         }
         else{
@@ -141,15 +138,15 @@
                     // tried to update one prescription with exact the same data as an other prescription
                     // show rejected data
                     sAction = "showDetailsAfterUpdateReject";
-                    msg = "<font color='red'>" + getTran("web.manage", "prescriptionexists", sWebLanguage) + "</font>";
+                    msg = "<font color='red'>"+getTran("web.manage", "prescriptionexists", sWebLanguage)+"</font>";
                 }
             }
         }
 
         sEditPrescrUid = prescr.getUid();
         sSelectedTimeUnit = checkString(prescr.getTimeUnit());
-        sSelectedTimeUnitCount = prescr.getTimeUnitCount() + "";
-        sSelectedUnitsPerTimeUnit = prescr.getUnitsPerTimeUnit() + "";
+        sSelectedTimeUnitCount = prescr.getTimeUnitCount()+"";
+        sSelectedUnitsPerTimeUnit = prescr.getUnitsPerTimeUnit()+"";
         sSelectedPrescriberUid = prescr.getPrescriberUid();
        	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         sSelectedPrescriberFullName = ScreenHelper.getFullUserName(sSelectedPrescriberUid, ad_conn);
@@ -186,15 +183,15 @@
             
             // format begin date
             java.util.Date tmpDate = prescr.getBegin();
-            if(tmpDate != null) sSelectedDateBegin = stdDateFormat.format(tmpDate);
+            if(tmpDate != null) sSelectedDateBegin = ScreenHelper.formatDate(tmpDate);
 
             // format end date
             tmpDate = prescr.getEnd();
-            if(tmpDate != null) sSelectedDateEnd = stdDateFormat.format(tmpDate);
+            if(tmpDate != null) sSelectedDateEnd = ScreenHelper.formatDate(tmpDate);
 
             sSelectedTimeUnit = checkString(prescr.getTimeUnit());
-            sSelectedTimeUnitCount = prescr.getTimeUnitCount() + "";
-            sSelectedUnitsPerTimeUnit = prescr.getUnitsPerTimeUnit() + "";
+            sSelectedTimeUnitCount = prescr.getTimeUnitCount()+"";
+            sSelectedUnitsPerTimeUnit = prescr.getUnitsPerTimeUnit()+"";
             sSelectedPrescriberUid = prescr.getPrescriberUid();
             
             // afgeleide data
@@ -207,8 +204,8 @@
     else if(sAction.equals("")){
         // showDetailsNew : set default values
         sSelectedPrescriberUid = activeUser.userid;
-        sSelectedPrescriberFullName = activeUser.person.lastname + " " + activeUser.person.firstname;
-        sSelectedDateBegin = stdDateFormat.format(new java.util.Date());
+        sSelectedPrescriberFullName = activeUser.person.lastname+" "+activeUser.person.firstname;
+        sSelectedDateBegin = ScreenHelper.formatDate(new java.util.Date()); // now
         sSelectedTimeUnit = "type2day";
         sSelectedTimeUnitCount = "1";
     }
@@ -223,25 +220,18 @@
     		editableByPrescriber = true;
     	}
     }
-    Debug.println("--> editableByPrescriber : "+editableByPrescriber);    
+    Debug.println("--> editableByPrescriber : "+editableByPrescriber);
+    
+    
+    String sTitle = getTran("Web.manage","ManagePatientCarePrescriptions",sWebLanguage)+"&nbsp;"+activePatient.lastname+" "+activePatient.firstname;
+    
+    String sCloseAction = "window.close();";
+    if(sAction.startsWith("showDetails")){
+        sCloseAction = "doBack();";
+    }
 %>
 <form name="transactionForm" id="transactionForm" method="post">
-    <%-- page title --%>
-    <table width="100%" cellspacing="0">
-        <tr class="admin">
-            <td><%=getTran("Web.manage","ManagePatientCarePrescriptions",sWebLanguage)%>&nbsp;<%=activePatient.lastname+" "+activePatient.firstname%></td>
-            <td align="right">
-               <%
-                   if(sAction.startsWith("showDetails")){
-                       %><img class="link" onClick="doBack();" src='<%=sCONTEXTPATH%>/_img/themes/default/arrow_left.gif' alt='<%=getTranNoLink("Web","Back",sWebLanguage)%>'><%
-                   }
-                   else{
-                       %><img class="link" onClick="window.close();" src='<%=sCONTEXTPATH%>/_img/themes/default/arrow_left.gif' alt='<%=getTranNoLink("web","close",sWebLanguage)%>'><%
-                   }
-               %>
-            </td>
-        </tr>
-    </table>
+    <%=writeTableHeaderDirectText(sTitle,sWebLanguage,sCloseAction)%>
     <%
         if(activePatient==null){
             // display message
@@ -382,8 +372,8 @@
 
   function doChangeCareUID(){
     if(document.getElementById('EditCareUid').value.length>0){
-      var params = 'EditCareUid=' + document.getElementById('EditCareUid').value;
-      var url= path + '/medical/blurCareType.jsp?ts=<%=getTs()%>';
+      var params = 'EditCareUid='+document.getElementById('EditCareUid').value;
+      var url = path+'/medical/blurCareType.jsp?ts='+new Date();
       new Ajax.Request(url,{
         method: "GET",
         parameters: params,
@@ -444,8 +434,8 @@
   function isEndDateAfterBeginDate(){
     if(transactionForm.EditDateBegin.value.length > 0 && transactionForm.EditDateEnd.value.length > 0){
       if(isValidDate(transactionForm.EditDateBegin) && isValidDate(transactionForm.EditDateEnd)){
-        var dateBegin = transactionForm.EditDateBegin.value;
-        var dateEnd   = transactionForm.EditDateEnd.value;
+        var dateBegin = transactionForm.EditDateBegin.value,
+            dateEnd   = transactionForm.EditDateEnd.value;
 
         return !before(dateEnd,dateBegin);
       }
@@ -570,7 +560,28 @@
   <%-- DO BACK --%>
   function doBack(){
     if(checkSaveButton()){
-      window.location.href="<c:url value='/popup.jsp'/>?Page=medical/manageCarePrescriptionsPopup.jsp&ts=<%=getTs()%>";
+      window.location.href="<c:url value='/popup.jsp'/>?Page=medical/manageCarePrescriptionsPopup.jsp&ts="+new Date();
+    }
+  }
+  
+  <%-- The following script is used to hide the calendar whenever you click the document. --%>
+  <%-- When using it you should set the name of popup button or image to "popcal", otherwise the calendar won't show up. --%>
+  document.onmousedown = function(e){
+    var n = !e?self.event.srcElement.name:e.target.name;
+
+    if(document.layers){
+      with(gfPop) var l = pageX, t = pageY, r = l+clip.width, b = t+clip.height;
+      if(n!="popcal" && (e.pageX > r || e.pageX < l || e.pageY > b || e.pageY < t)){
+        gfPop1.fHideCal();
+        gfPop2.fHideCal();
+        gfPop3.fHideCal();
+      }
+      return routeEvent(e);
+    }
+    else if(n!="popcal"){
+      gfPop1.fHideCal();
+      gfPop2.fHideCal();
+      gfPop3.fHideCal();
     }
   }
 </script>

@@ -131,7 +131,7 @@
         <%-- 1 : administration personal --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_1" id="section_1" value="on" onClick="this.checked=true" <%=(sSection1.equals("on")?"CHECKED":"")%>><%=getLabel("web.occup","administrationPersonal",sWebLanguage,"section_1")%>
+                <input type="checkbox" name="section_1" id="section_1" value="on" class="hand" onClick="this.checked=true" <%=(sSection1.equals("on")?"CHECKED":"")%>><%=getLabel("web.occup","administrationPersonal",sWebLanguage,"section_1")%>
             </td>
         </tr>
         
@@ -140,7 +140,7 @@
             <td class="admin">
 		        <%
 		            if(Picture.exists(Integer.parseInt(activePatient.personid))){
-		           	    %><input type="checkbox" name="section_2" id="section_2" value="on" <%=(sSection2.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","photo",sWebLanguage,"section_2")%><%
+		           	    %><input type="checkbox" name="section_2" id="section_2" value="on" class="hand" <%=(sSection2.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","photo",sWebLanguage,"section_2")%><%
 		            }
 		            else{
 		                %><input type="checkbox" name="section_2" id="section_2" value="off" DISABLED>&nbsp;<%=getLabel("pdf","photo",sWebLanguage,"section_2")%><%
@@ -152,42 +152,42 @@
         <%-- 3 : administration private --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_3" id="section_3" value="on" <%=(sSection3.equals("on")?"CHECKED":"")%>><%=getLabel("pdf","administrationPrivate",sWebLanguage,"section_3")%>
+                <input type="checkbox" name="section_3" id="section_3" value="on" class="hand" <%=(sSection3.equals("on")?"CHECKED":"")%>><%=getLabel("pdf","administrationPrivate",sWebLanguage,"section_3")%>
             </td>
         </tr>
                  
         <%-- 4 : active insurance data --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_4" id="section_4" value="on" <%=(sSection4.equals("on")?"CHECKED":"")%>><%=getLabel("pdf","activeInsuranceData",sWebLanguage,"section_4")%>
+                <input type="checkbox" name="section_4" id="section_4" value="on" class="hand" <%=(sSection4.equals("on")?"CHECKED":"")%>><%=getLabel("pdf","activeInsuranceData",sWebLanguage,"section_4")%>
             </td>
         </tr>
          
         <%-- 5 : historical insurance data --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_5" id="section_5" value="on" <%=(sSection6.equals("on")?"CHECKED":"")%>><%=getLabel("pdf","historicalInsuranceData",sWebLanguage,"section_5")%>
+                <input type="checkbox" name="section_5" id="section_5" value="on" class="hand" <%=(sSection6.equals("on")?"CHECKED":"")%>><%=getLabel("pdf","historicalInsuranceData",sWebLanguage,"section_5")%>
             </td>
         </tr>
          
         <%-- 6 : patient invoices --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_6" id="section_6" value="on" <%=(sSection6.equals("on")?"CHECKED":"")%>><%=getLabel("pdf","patientInvoices",sWebLanguage,"section_6")%>
+                <input type="checkbox" name="section_6" id="section_6" value="on" class="hand" <%=(sSection6.equals("on")?"CHECKED":"")%>><%=getLabel("pdf","patientInvoices",sWebLanguage,"section_6")%>
             </td>
         </tr>
          
         <%-- 7 : patient payments --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_7" id="section_7" value="on" <%=(sSection6.equals("on")?"CHECKED":"")%>><%=getLabel("pdf","patientPayments",sWebLanguage,"section_7")%>
+                <input type="checkbox" name="section_7" id="section_7" value="on" class="hand" <%=(sSection6.equals("on")?"CHECKED":"")%>><%=getLabel("pdf","patientPayments",sWebLanguage,"section_7")%>
             </td>
         </tr> 
 
         <%-- 8 : signature
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_8" id="section_8" value="on" <%=(sSection7.equals("on")?"CHECKED":"")%>><%=getLabel("pdf","signature",sWebLanguage,"section_8")%>
+                <input type="checkbox" name="section_8" id="section_8" value="on" class="hand" <%=(sSection7.equals("on")?"CHECKED":"")%>><%=getLabel("pdf","signature",sWebLanguage,"section_8")%>
             </td>
         </tr>
         --%> 

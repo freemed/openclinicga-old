@@ -259,14 +259,14 @@
                     <tr>
                         <td class="admin"><%=getTran("web","required.invoicable",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="checkbox" class="test" name="EditRequiredInvoicable" <%=MedwanQuery.getInstance().getConfigInt(sEditTranType.split("\\&")[0]+".requiredInvoicable",0)==1?"checked":"" %>/><%=getTran("web","invoicable",sWebLanguage)%>
+                            <input type="checkbox" class="hand" name="EditRequiredInvoicable" <%=MedwanQuery.getInstance().getConfigInt(sEditTranType.split("\\&")[0]+".requiredInvoicable",0)==1?"checked":"" %>/><%=getTran("web","invoicable",sWebLanguage)%>
                         </td>
                     </tr>
                     <tr>
                         <td class="admin"><%=getTran("web","required.prestationcode",sWebLanguage)%></td>
                         <td class="admin2">
                             <input type="text" class="normal" size="20" maxLength="20" name="EditRequiredPrestation" value="<%=MedwanQuery.getInstance().getConfigString(sEditTranType.split("\\&")[0]+".requiredPrestation")%>">
-                            <input type="checkbox" class="test" name="EditRequiredPrestationInvoiced" <%=MedwanQuery.getInstance().getConfigInt(sEditTranType.split("\\&")[0]+".requiredPrestation.invoiced",0)==1?"checked":"" %>/><%=getTran("web","invoiced",sWebLanguage)%>
+                            <input type="checkbox" class="hand" name="EditRequiredPrestationInvoiced" <%=MedwanQuery.getInstance().getConfigInt(sEditTranType.split("\\&")[0]+".requiredPrestation.invoiced",0)==1?"checked":"" %>/><%=getTran("web","invoiced",sWebLanguage)%>
                         </td>
                     </tr>
                     <tr>
@@ -276,7 +276,7 @@
                         		<option value=""></option>
                         		<%=ScreenHelper.writeSelect("prestation.class", MedwanQuery.getInstance().getConfigString(sEditTranType.split("\\&")[0]+".requiredPrestationClass"), sWebLanguage, false, true) %>
                         	</select>
-                            <input type="checkbox" class="test" name="EditRequiredPrestationClassInvoiced" <%=MedwanQuery.getInstance().getConfigInt(sEditTranType.split("\\&")[0]+".requiredPrestationClass.invoiced",0)==1?"checked":"" %>/><%=getTran("web","invoiced",sWebLanguage)%>
+                            <input type="checkbox" class="hand" name="EditRequiredPrestationClassInvoiced" <%=MedwanQuery.getInstance().getConfigInt(sEditTranType.split("\\&")[0]+".requiredPrestationClass.invoiced",0)==1?"checked":"" %>/><%=getTran("web","invoiced",sWebLanguage)%>
                         </td>
                     </tr>
                     <tr>

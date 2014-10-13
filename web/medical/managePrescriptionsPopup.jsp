@@ -132,7 +132,7 @@
             }
 
             //*** display prescription in one row ***
-            html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
+            html.append("<tr class='list"+sClass+"' onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\" title='"+detailsTran+"'>")
                  .append("<td align='center'>"+(((prescr==null || (prescr!=null && prescr.getDeliveredQuantity()==0))) && (activeUser.getAccessRight("prescriptions.drugs.delete")) ? "<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+prescr.getUid()+"');\">" : "")+"</td>")
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\"><b>"+sProductName+"</b></td>")
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sDateBeginFormatted+"</td>")
@@ -483,19 +483,12 @@
     	}
     }
     Debug.println("--> editableByPrescriber : "+editableByPrescriber);  
+    
+    String sTitle = ("true".equalsIgnoreCase(request.getParameter("ServicePrescriptions"))?getTran("Web.manage","ManageServicePrescriptions",sWebLanguage)+"&nbsp;"+activeUser.activeService.getLabel(sWebLanguage):getTran("Web.manage","ManagePatientPrescriptions",sWebLanguage)+"&nbsp;"+activePatient.lastname+" "+activePatient.firstname); 
 %>
 
 <form name="transactionForm" id="transactionForm" method="post" action="<c:url value='/'/>/popup.jsp?Page=medical/managePrescriptionsPopup.jsp&PopupHeight=400&PopupWidth=900" <%=sOnKeyDown%> onClick='setSaveButton(event);clearMessage();' onKeyUp='setSaveButton(event);'>
-<%-- title --%>
-<table width="100%" cellspacing="0">
-    <tr class="admin">
-        <td><%="true".equalsIgnoreCase(request.getParameter("ServicePrescriptions"))?getTran("Web.manage","ManageServicePrescriptions",sWebLanguage)+"&nbsp;"+activeUser.activeService.getLabel(sWebLanguage):getTran("Web.manage","ManagePatientPrescriptions",sWebLanguage)+"&nbsp;"+activePatient.lastname+" "+activePatient.firstname%></td>
-        <td align="right">
-            <img class="link" onClick="doBackToOverview();" src='<%=sCONTEXTPATH%>/_img/themes/default/arrow_left.gif' alt='<%=getTranNoLink("Web","Back",sWebLanguage)%>'>     
-        </td>
-    </tr>
-</table>
-
+   <%=writeTableHeaderDirectText(sTitle,sWebLanguage," doBackToOverview();")%>        
 <%
     String onClick = "onclick=\"searchProduct('EditProductUid','EditProductName','ProductUnit','EditUnitsPerTimeUnit','UnitsPerPackage',null,'EditServiceStockUid');\"";
     if(!"true".equalsIgnoreCase(request.getParameter("ServicePrescriptions")) && activePatient==null){
@@ -1380,27 +1373,10 @@ document.onmousedown = function(e){
   }
 }
 </script>
+
 <script for="window" event="onunload">
   reloadOpener();
 </script>
-
-<%-- CALENDAR FRAMES --%>
-<% String sDateType = MedwanQuery.getInstance().getConfigString("dateType","eu"); // eu/us %>
-
-<iframe width=174 height=189 name="gToday:normal1_<%=sDateType%>:agenda.js:gfPop1" id="gToday:normal1_<%=sDateType%>:agenda.js:gfPop1"
-  src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
-  style="visibility:visible;z-index:999;position:absolute;top:-500px;left:-500px;">
-</iframe>
-
-<iframe width=174 height=189 name="gToday:normal2_<%=sDateType%>:agenda.js:gfPop2" id="gToday:normal2_<%=sDateType%>:agenda.js:gfPop2"
-  src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
-  style="visibility:visible;z-index:999;position:absolute;top:-500px;left:-500px;">
-</iframe>
-
-<iframe width=174 height=189 name="gToday:normal3_<%=sDateType%>:agenda.js:gfPop3" id="gToday:normal3_<%=sDateType%>:agenda.js:gfPop3"
-  src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
-  style="visibility:visible;z-index:999;position:absolute;top:-500px;left:-500px;">
-</iframe>
 
 <%=writeJSButtons("transactionForm","saveButton")%>
 

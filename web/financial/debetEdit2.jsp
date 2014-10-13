@@ -232,7 +232,7 @@
         </tr>
         <tr>
             <td class='admin'><%=getTran("web","canceled",sWebLanguage)%></td>
-            <td class='admin2'><input type="checkbox" name="EditCredit" <%if(debet.getCredited()>0){out.print(" checked");}%> onclick="doCredit()"></td>
+            <td class='admin2'><input type="checkbox" class="hand" name="EditCredit" <%if(debet.getCredited()>0){out.print(" checked");}%> onclick="doCredit()"></td>
         </tr>
         <tr>
             <td class="admin"/>

@@ -221,7 +221,7 @@
                 <tr>
                     <td class="admin">&nbsp;</td>
                     <td class="admin2">
-                        <input type="checkbox" name="IncludeWeekends" id="IncludeWeekendsCB" value="true"><%=getLabel("hr.salarycalculations","includeWeekends",sWebLanguage,"IncludeWeekendsCB")%>
+                        <input type="checkbox" name="IncludeWeekends" id="IncludeWeekendsCB" class="hand" value="true"><%=getLabel("hr.salarycalculations","includeWeekends",sWebLanguage,"IncludeWeekendsCB")%>
                     </td>
                 </tr>
                              

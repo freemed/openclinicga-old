@@ -10,13 +10,12 @@
 
 <%!
     //--- OBJECTS TO HTML -------------------------------------------------------------------------
-    private StringBuffer objectsToHtml(Vector objects, String sWebLanguage) {
+    private StringBuffer objectsToHtml(Vector objects, String sWebLanguage){
         StringBuffer html = new StringBuffer();
         String sClass = "1", sMedicationUid, sDateBeginFormatted = "", sProductName = "",
                sProductUid, sPreviousProductUid = "", sTimeUnit, sTimeUnitCount = "",
                sUnitsPerTimeUnit, timeUnitTran, sPrescrRule = "", sProductUnit, sPrescriberFullName = "";
         DecimalFormat unitCountDeci = new DecimalFormat("#.#");
-        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         java.util.Date tmpBeginDate;
         Product product = null;
 
@@ -32,7 +31,7 @@
 
             // format date begin
             tmpBeginDate = medication.getBegin();
-            if(tmpBeginDate!=null) sDateBeginFormatted = stdDateFormat.format(tmpBeginDate);
+            if(tmpBeginDate!=null) sDateBeginFormatted = ScreenHelper.formatDate(tmpBeginDate);
             else                   sDateBeginFormatted = "";
 
             // only search product-name when different product-UID
@@ -56,33 +55,35 @@
             sUnitsPerTimeUnit = medication.getUnitsPerTimeUnit()+"";
 
             // only compose prescription-rule if all data is available
-            if (!sTimeUnit.equals("0") && !sTimeUnitCount.equals("0") && !sUnitsPerTimeUnit.equals("0")) {
-                sPrescrRule = getTran("web.prescriptions", "prescriptionrule", sWebLanguage);
-                sPrescrRule = sPrescrRule.replaceAll("#unitspertimeunit#", unitCountDeci.format(Double.parseDouble(sUnitsPerTimeUnit)));
+            if(!sTimeUnit.equals("0") && !sTimeUnitCount.equals("0") && !sUnitsPerTimeUnit.equals("0")){
+                sPrescrRule = getTran("web.prescriptions","prescriptionrule",sWebLanguage);
+                sPrescrRule = sPrescrRule.replaceAll("#unitspertimeunit#",unitCountDeci.format(Double.parseDouble(sUnitsPerTimeUnit)));
 
                 // productunit
-                if (Double.parseDouble(sUnitsPerTimeUnit) == 1) {
-                    sProductUnit = getTran("product.unit", product.getUnit(), sWebLanguage);
-                } else {
-                    sProductUnit = getTran("product.unit", product.getUnit(), sWebLanguage);
+                if(Double.parseDouble(sUnitsPerTimeUnit)==1){
+                    sProductUnit = getTran("product.unit",product.getUnit(),sWebLanguage);
                 }
-                sPrescrRule = sPrescrRule.replaceAll("#productunit#", sProductUnit.toLowerCase());
+                else{
+                    sProductUnit = getTran("product.unit",product.getUnit(),sWebLanguage);
+                }
+                sPrescrRule = sPrescrRule.replaceAll("#productunit#",sProductUnit.toLowerCase());
 
                 // timeunitCount
-                if (Integer.parseInt(sTimeUnitCount) == 1) {
-                    sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#", "");
-                    timeUnitTran = getTran("prescription.timeunit", sTimeUnit, sWebLanguage);
-                } else {
-                    sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#", sTimeUnitCount);
-                    timeUnitTran = getTran("prescription.timeunits", sTimeUnit, sWebLanguage);
+                if(Integer.parseInt(sTimeUnitCount)==1){
+                    sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#","");
+                    timeUnitTran = getTran("prescription.timeunit",sTimeUnit,sWebLanguage);
                 }
-                sPrescrRule = sPrescrRule.replaceAll("#timeunit#", timeUnitTran.toLowerCase());
+                else{
+                    sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#",sTimeUnitCount);
+                    timeUnitTran = getTran("prescription.timeunits",sTimeUnit,sWebLanguage);
+                }
+                sPrescrRule = sPrescrRule.replaceAll("#timeunit#",timeUnitTran.toLowerCase());
             }
 
             // prescriber
             if (checkString(medication.getPrescriberUid()).length() > 0) {
                	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                sPrescriberFullName = ScreenHelper.getFullUserName(medication.getPrescriberUid(), ad_conn);
+                sPrescriberFullName = ScreenHelper.getFullUserName(medication.getPrescriberUid(),ad_conn);
                 try{
                 	ad_conn.close();
                 }
@@ -96,7 +97,7 @@
             else sClass = "";
 
             //*** display medication in one row ***
-            html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
+            html.append("<tr class='list"+sClass+"' onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" title='"+detailsTran+"'>")
                  .append("<td align='center'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link' alt='"+deleteTran+"' onclick=\"doDelete('"+sMedicationUid+"');\">")
                  .append("<td onclick=\"doShowDetails('"+sMedicationUid+"');\">"+sPrescriberFullName+"</td>")
                  .append("<td onclick=\"doShowDetails('"+sMedicationUid+"');\">"+sProductName+"</td>")
@@ -515,7 +516,7 @@
                   <%-- set setEditTimeUnitCount --%>
                   function setEditTimeUnitCount(){
                     if(transactionForm.EditTimeUnit.selectedIndex > 0){
-                      if(transactionForm.EditTimeUnitCount.value.length == 0){
+                      if(transactionForm.EditTimeUnitCount.value.length==0){
                         transactionForm.EditTimeUnitCount.value = "1";
                       }
                     }
@@ -729,8 +730,8 @@
     transactionForm.Action.value = "sort";
     transactionForm.SortCol.value = sortCol;
 
-    if(transactionForm.SortDir.value == "ASC") transactionForm.SortDir.value = "DESC";
-    else                                       transactionForm.SortDir.value = "ASC";
+    if(transactionForm.SortDir.value=="ASC") transactionForm.SortDir.value = "DESC";
+    else                                     transactionForm.SortDir.value = "ASC";
 
     transactionForm.submit();
   }
@@ -748,7 +749,7 @@
 
   <%-- popup : search prescriber --%>
   function searchPrescriber(prescriberUidField,prescriberNameField){
-	var url = "/_common/search/searchUser.jsp&ts=<%=getTs()%>"+
+	var url = "/_common/search/searchUser.jsp&ts="+new Date()+
 	          "&ReturnUserID="+prescriberUidField+
 	          "&ReturnName="+prescriberNameField+
 	          "&displayImmatNew=no";
@@ -757,7 +758,7 @@
 
   <%-- popup : search product --%>
   function searchProduct(productUidField,productNameField,productUnitField,unitsPerTimeUnitField,unitsPerPackageField,productStockUidField){
-    var url = "/_common/search/searchProduct.jsp&ts=<%=getTs()%>"+
+    var url = "/_common/search/searchProduct.jsp&ts="+new Date()+
     	      "&ReturnProductUidField="+productUidField+
     	      "&ReturnProductNameField="+productNameField;
 
@@ -782,7 +783,7 @@
 
   <%-- popup : search userProduct --%>
   function searchUserProduct(productUidField,productNameField,productUnitField,unitsPerTimeUnitField,unitsPerPackageField,productStockUidField){
-    var url = "/_common/search/searchUserProduct.jsp&ts=<%=getTs()%>"+
+    var url = "/_common/search/searchUserProduct.jsp&ts="+new Date()+
     		  "&ReturnProductUidField="+productUidField+
     		  "&ReturnProductNameField="+productNameField;
 
@@ -807,7 +808,7 @@
 
   <%-- popup : search product in service stock --%>
   function searchProductInServiceStock(productUidField,productNameField,productUnitField,unitsPerTimeUnitField,unitsPerPackageField,productStockUidField){
-    var url = "/_common/search/searchProductInStock.jsp&ts=<%=getTs()%>"+
+    var url = "/_common/search/searchProductInStock.jsp&ts="+new Date()+
               "&DisplayProductsOfPatientService=true"+
               "&ReturnProductUidField="+productUidField+
               "&ReturnProductNameField="+productNameField;
@@ -851,7 +852,7 @@
 
   <%-- DO BACK --%>
   function doBack(){
-    if(document.getElementById("popuptbl") == null){
+    if(document.getElementById("popuptbl")==null){
       window.location.href = "<c:url value="/main.do"/>?Page=medical/manageChronicMedication.jsp&ts=<%=getTs()%>";
     }
     else{

@@ -54,10 +54,10 @@
 
             // alternate row-style
             if(sClass.equals("")) sClass = "1";
-            else sClass = "";
+            else                  sClass = "";
 
             //*** display order in one row ***
-            html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
+            html.append("<tr class='list"+sClass+"' onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\" title='"+detailsTran+"'>")
                  .append("<td align='center'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+order.getUid()+"');\">")
                  .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+checkString(order.getDescription())+"</td>")
                  .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sServiceStockName+"</td>")
@@ -139,10 +139,10 @@
 
             // alternate row-style
             if(sClass.equals("")) sClass = "1";
-            else sClass = "";
+            else                  sClass = "";
 
             //*** display order in one row ***
-            html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
+            html.append("<tr class='list"+sClass+"' onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\" title='"+detailsTran+"'>")
                     .append("<td align='center'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+order.getUid()+"');\">")
                     .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+checkString(order.getDescription())+"</td>")
                     .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sServiceStockName+"</td>")

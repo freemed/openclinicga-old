@@ -37,19 +37,19 @@
     /////////////////////////////////////////////////////////////////////////////////////
 %>
 <form name="serviceStockForm" method="POST" onkeydown="if(enterEvent(event,13)){doFind();}">    
-    <%=writeTableHeader("web","searchServiceStock",sWebLanguage)%>
+    <%=writeTableHeader("web","searchServiceStock",sWebLanguage," window.close();")%>
 
     <%-- SEARCH FIELDS --%>
     <table width="100%" cellspacing="0" cellpadding="0" class="menu">
         <tr height="23">
             <%-- servicestock name --%>
-            <td class="admin2"><%=getTran("Web", "name", sWebLanguage)%></td>
+            <td class="admin2">&nbsp;<%=getTran("Web","name",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="text" name='SearchServiceStockName' class="text" value="<%=sSearchServiceStockName%>" size="20">
             </td>
 
             <%-- service --%>
-            <td class="admin2"><%=getTran("Web", "service", sWebLanguage)%></td>
+            <td class="admin2"><%=getTran("Web","service",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="hidden" name="SearchServiceUid" value="<%=sSearchServiceUid%>">
                 <input type="text" name='SearchServiceName' class="text" value="<%=sSearchServiceName%>" size="40" READONLY>

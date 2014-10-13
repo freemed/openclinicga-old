@@ -684,7 +684,7 @@
                 </select>
                 <br/>
                 
-                <input type="checkbox" name="DoAccountAccomodationDays"/><%=getTran("Web","doinvoice",sWebLanguage)%> <input type="text" class="text" name="AccountAccomodationDays" size="4" value="<%=tmpEncounter!=null?tmpEncounter.getDurationInDays()-accountedDays:0%>"/> <%=getTran("web","days",sWebLanguage)%> <%=tmpEncounter!=null?"("+getTran("web","actualencounterduration",sWebLanguage)+" = "+tmpEncounter.getDurationInDays()+" "+getTran("web","days",sWebLanguage)+")":""%>
+                <input type="checkbox" class="hand" name="DoAccountAccomodationDays"/><%=getTran("Web","doinvoice",sWebLanguage)%> <input type="text" class="text" name="AccountAccomodationDays" size="4" value="<%=tmpEncounter!=null?tmpEncounter.getDurationInDays()-accountedDays:0%>"/> <%=getTran("web","days",sWebLanguage)%> <%=tmpEncounter!=null?"("+getTran("web","actualencounterduration",sWebLanguage)+" = "+tmpEncounter.getDurationInDays()+" "+getTran("web","days",sWebLanguage)+")":""%>
             </td>
         </tr>
         

@@ -71,7 +71,7 @@
             else sClass = "";
 
             // display stock in one row
-            html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
+            html.append("<tr class='list"+sClass+"' onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\" title='"+detailsTran+"'>")
                  .append("<td onclick=\"doShowDetails('"+sStockUid+"');\" align='center'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link' alt='"+deleteTran+"' onclick=\"doDelete('"+sStockUid+"');\"></td>")
                  .append("<td onclick=\"doShowDetails('"+sStockUid+"');\">"+sServiceStockName+"</td>")
                  .append("<td onclick=\"doShowDetails('"+sStockUid+"');\">"+sProductName+"</td>");

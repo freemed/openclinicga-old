@@ -663,7 +663,7 @@
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web.manage","nosync",sWebLanguage)%> *</td>
                         <td class="admin2">
-                            <input class="text" type="checkbox" name="EditNosync" <%=sSelectedNosync!=null && sSelectedNosync.equalsIgnoreCase("1")?"checked":""%> value="1" onKeyUp="isInteger(this);">
+                            <input class="text" type="checkbox" name="EditNosync" class="hand" <%=sSelectedNosync!=null && sSelectedNosync.equalsIgnoreCase("1")?"checked":""%> value="1" onKeyUp="isInteger(this);">
                         </td>
                     </tr>
                     <%-- EDIT BUTTONS --%>

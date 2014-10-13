@@ -96,7 +96,7 @@
 
 <%
     //--- 1 - USER DEFINED ICONS ------------------------------------------------------------------
-    String sIconsDir = MedwanQuery.getInstance().getConfigString("baseDirectory")+"/_img/shortcutIcons";
+    String sIconsDir = sAPPFULLDIR+"/_img/shortcutIcons";
     Vector userParameters = activeUser.getUserParametersByType(activeUser.userid,"usershortcut$");
 
     Element menuElem;

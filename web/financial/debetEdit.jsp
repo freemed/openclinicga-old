@@ -433,7 +433,7 @@
         <tr>
             <td class='admin'><%=getTran("web","canceled",sWebLanguage)%></td>
             <td class='admin2'>
-                <input <%=(activeUser.getAccessRight("financial.debet.delete")?"":"disabled")%> type="checkbox" name="EditCredit" <%=(debet.getCredited()>0?"checked":"")%> onclick="doCredit();">
+                <input <%=(activeUser.getAccessRight("financial.debet.delete")?"":"disabled")%> type="checkbox" class="hand" name="EditCredit" <%=(debet.getCredited()>0?"checked":"")%> onclick="doCredit();">
             </td>
         </tr>
         

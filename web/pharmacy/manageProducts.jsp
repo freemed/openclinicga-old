@@ -57,7 +57,7 @@
             else sClass = "";
 
             //*** display product in one row ***
-            html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
+            html.append("<tr class='list"+sClass+"' onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\" title='"+detailsTran+"'>")
                  .append("<td align='center'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link' title='"+deleteTran+"' onclick=\"doDeleteProduct('"+sProductUid+"');\">")
                  .append("<td onclick=\"doShowDetails('"+sProductUid+"');\">"+product.getName()+"</td>")
                  .append("<td onclick=\"doShowDetails('"+sProductUid+"');\">"+sUnit+"</td>")
@@ -819,7 +819,7 @@
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","automatic.invoicing",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input class="text" type="checkbox" name="EditAutomaticInvoicing"  value="1" <%=sSelectedAutomaticInvoicing.equalsIgnoreCase("1")?"checked":"" %>>
+                            <input class="text" type="checkbox" class="hand" name="EditAutomaticInvoicing" value="1" <%=sSelectedAutomaticInvoicing.equalsIgnoreCase("1")?"checked":"" %>>
                         </td>
                     </tr>
                     <tr>
@@ -831,7 +831,7 @@
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","apply.lower.prices",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input class="text" type="checkbox" name="EditApplyLowerPrices"  value="1" <%=sSelectedApplyLowerPrices.equalsIgnoreCase("1")?"checked":"" %>>
+                            <input class="text" type="checkbox" class="hand" name="EditApplyLowerPrices" value="1" <%=sSelectedApplyLowerPrices.equalsIgnoreCase("1")?"checked":"" %>>
                         </td>
                     </tr>
                     

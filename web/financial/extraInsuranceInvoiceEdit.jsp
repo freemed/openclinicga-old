@@ -99,7 +99,7 @@
     
     <tbody id="invoicedetails" style="visibility:hidden">
         <tr>
-            <td class="admin"><%=getTran("web.finance", "invoiceid", sWebLanguage)%></td>
+            <td class="admin"><%=getTran("web.finance","invoiceid",sWebLanguage)%></td>
             <td class="admin2"><input type="text" class="text" readonly name="EditInvoiceUID" id="EditInvoiceUID" value="<%=checkString(insurarInvoice.getInvoiceUid())%>"></td>
         </tr>
         
@@ -112,22 +112,22 @@
                     activeDate = new Date();
                 }
             %>
-            <td class='admin2'><%=writeDateField("EditDate", "EditForm", ScreenHelper.getSQLDate(activeDate), sWebLanguage)%></td>
+            <td class='admin2'><%=writeDateField("EditDate","EditForm",ScreenHelper.getSQLDate(activeDate),sWebLanguage)%></td>
         </tr>
         
         <%-- STATUS --%>
         <tr>
-            <td class='admin'><%=getTran("Web.finance", "patientinvoice.status", sWebLanguage)%> *</td>
+            <td class='admin'><%=getTran("Web.finance","patientinvoice.status",sWebLanguage)%> *</td>
             <td class='admin2'>
                 <select class="text" id="EditStatus" name="EditStatus" <%=insurarInvoice.getStatus()!=null && (insurarInvoice.getStatus().equalsIgnoreCase("closed") || insurarInvoice.getStatus().equalsIgnoreCase("canceled"))?"disabled":""%>>
                     <option/>
                     <%
                         String activeStatus = checkString(insurarInvoice.getStatus());
-                        if(activeStatus.length() == 0){
+                        if(activeStatus.length()==0){
                             activeStatus = "open";
                         }
                     %>
-                    <%=ScreenHelper.writeSelect("finance.patientinvoice.status", activeStatus, sWebLanguage)%>
+                    <%=ScreenHelper.writeSelect("finance.patientinvoice.status",activeStatus,sWebLanguage)%>
                 </select>
             </td>
         </tr>
@@ -267,7 +267,7 @@
         </tr>
     </tbody>
 </table>
-<%=getTran("Web", "colored_fields_are_obligate", sWebLanguage)%>
+<%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
 
 <div id="divMessage"></div>
 
@@ -275,19 +275,19 @@
 </form>
 
 <script>
+<%-- DO SAVE --%>
 function doSave(){
   if((EditForm.EditDate.value.length > 0) && (EditForm.EditStatus.selectedIndex > -1 && EditForm.EditInsurarUID.value.length>0)){
     var sCbs = "";
     for(i=0; i<EditForm.elements.length; i++){
       elm = EditForm.elements[i];
-      if((elm.type == 'checkbox') && (elm.checked)){
-        sCbs += elm.name.split("=")[0].replace("cbDebet","d").replace("cbInsurarInvoice","c")+",";
+      if(elm.type=='checkbox' && elm.checked){
+        sCbs+= elm.name.split("=")[0].replace("cbDebet","d").replace("cbInsurarInvoice","c")+",";
       }
     }
 
     EditForm.ButtonSave.disabled = true;
-    var today = new Date();
-    var url = '<c:url value="/financial/extraInsuranceInvoiceSave.jsp"/>?ts='+today;
+    var url = '<c:url value="/financial/extraInsuranceInvoiceSave.jsp"/>?ts='+new Date();
     document.getElementById('divMessage').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Saving";
     new Ajax.Request(url, {
       method: "POST",
@@ -318,6 +318,7 @@ function doSave(){
   }
 }
 
+<%-- COUNT DEBETS --%>
 function countDebets(){
   var tot = 0;
   for(i=0; i<EditForm.elements.length; i++){
@@ -332,6 +333,7 @@ function countDebets(){
   return tot;
 }
 
+<%-- COUNT CREDITS --%>
 function countCredits(){
   var tot = 0;
   for(i=0; i<EditForm.elements.length; i++){
@@ -346,18 +348,20 @@ function countCredits(){
   return tot;
 }
 
+<%-- UPDATE BALANCE --%>
 function updateBalance(){
   EditForm.EditBalance.value = countDebets()+countCredits();
   EditForm.EditBalance.value = format_number(EditForm.EditBalance.value,<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
 }
 
+<%-- SELECT ALL --%>
 function selectAll(sStartsWith,bValue,buttonDisable,buttonEnable,bAdd){
   var tot = 0;
   for(i=0; i<EditForm.elements.length; i++){
     var elm = EditForm.elements[i];
 
     if(elm.name.indexOf(sStartsWith) > -1){
-      if((elm.type == 'checkbox') && (elm.checked != bValue)){
+      if(elm.type=='checkbox' && elm.checked!=bValue){
         elm.checked = bValue;
       }
     }
@@ -365,7 +369,8 @@ function selectAll(sStartsWith,bValue,buttonDisable,buttonEnable,bAdd){
   updateBalance();
 }
 
-function doBalance(oObject, bAdd){
+<%-- DO BALANCE --%>
+function doBalance(oObject,bAdd){
   var amount = oObject.name.split("=")[1];
 
   if(bAdd){
@@ -391,20 +396,20 @@ function doBalance(oObject, bAdd){
 function doPrintPdf(invoiceUid){
   if(EditForm.PrintModel.value=='cplrcsv2'){
 	var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid="+invoiceUid+"&ts=<%=getTs()%>&docid=invoice.cplr2";
-    window.open(url, "ExtraInsurarInvoicePdf<%=getTs()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    window.open(url,"ExtraInsurarInvoicePdf"+new Date(), "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
   else if(EditForm.PrintModel.value=='ramacsv'){
 	var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid="+invoiceUid+"&ts=<%=getTs()%>&docid=invoice.rama.extra";
-	window.open(url, "ExtraInsurarInvoicePdf<%=getTs()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+	window.open(url,"ExtraInsurarInvoicePdf"+new Date(), "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
   else{
 	var url = "<c:url value='/financial/createExtraInsurarInvoicePdf.jsp'/>?InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value+ "&PrintType="+EditForm.PrintType.value+"&PrintModel="+EditForm.PrintModel.value;
-   	window.open(url, "InsurarInvoicePdf<%=getTs()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+   	window.open(url,"InsurarInvoicePdf"+new Date(), "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
 }
 
 function searchInsurar(){
-  openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>&ReturnFieldInsurarUid=EditInsurarUID"+
+  openPopup("/_common/search/searchInsurar.jsp&ts="+new Date()+"&ReturnFieldInsurarUid=EditInsurarUID"+
 		    "&ReturnFieldInsurarName=EditInsurarText&doFunction=changeInsurar()&excludePatientSelfIsurarUID=true"+
 		    "&PopupHeight=500&PopupWith=500");
 }
@@ -460,8 +465,8 @@ function changeInsurar(){
     }
   });
 
-  var url = '<c:url value="/financial/extraInsurarInvoiceGetCredits.jsp"/>?ts='+<%=getTs()%>;
-  document.getElementById('divCredits').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading";
+  var url = '<c:url value="/financial/extraInsurarInvoiceGetCredits.jsp"/>?ts='+new Date();
+  document.getElementById('divCredits').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading..";
   new Ajax.Request(url, {
     method: "POST",
     postBody: 'InsurarUid='+EditForm.EditInsurarUID.value+

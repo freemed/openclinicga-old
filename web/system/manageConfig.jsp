@@ -1,10 +1,14 @@
 <%@page import="be.mxs.common.util.db.MedwanQuery,
-                be.openclinic.system.Config,java.util.Hashtable,java.util.Enumeration" %>
+                be.openclinic.system.Config,
+                java.util.Hashtable,
+                java.util.Enumeration"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
+
 <script src='<%=sCONTEXTPATH%>/_common/_script/prototype.js'></script>
 <script src='<%=sCONTEXTPATH%>/_common/_script/stringFunctions.js'></script>
 <%=checkPermission("system.management","all",activeUser)%>
+
 <%
     String sAction = checkString(request.getParameter("Action"));
 
@@ -40,16 +44,16 @@
     boolean keyAllreadyExists = false;
     String msg = "";
     String sSelectedOc_key = "", sSelectedOc_value = "", sSelectedComment = "", sSelectedSynchronize = "",
-            sSelectedDefaultvalue = "", sSelectedOverride = "", sSelectedSQL_value = "";
+           sSelectedDefaultvalue = "", sSelectedOverride = "", sSelectedSQL_value = "";
 
     //--- SEARCH -----------------------------------------------------------------------------------
-    if (sAction.equals("Add")) {
-        if (sEditOc_key != null && sEditOc_key.length() > 0) {
+    if(sAction.equals("Add")){
+        if(sEditOc_key != null && sEditOc_key.length() > 0){
             // check existence
             boolean bExist = Config.exists(sEditOc_key);
 
             //*** insert ***
-            if (!bExist) {
+            if(!bExist) {
                 Config objConfig = new Config();
                 objConfig.setOc_key(sEditOc_key);
                 objConfig.setOc_value(new StringBuffer(sEditOc_value));
@@ -60,20 +64,21 @@
                 objConfig.setOverride(sEditOverride.length() > 0 ? Integer.parseInt(sEditOverride) : 0);
                 objConfig.setSql_value(new StringBuffer(sEditSQLvalue));
 
-                if (sEditDeleted.equals("on")) {
+                if(sEditDeleted.equals("on")){
                     objConfig.setDeletetime(new Timestamp(new java.util.Date().getTime()));
-                } else {
+                }
+                else{
                     objConfig.setDeletetime(null);
                 }
 
                 Config.addConfig(objConfig);
 
-                msg = "Key '" + sEditOc_key + "' " + getTran("Web", "added", sWebLanguage);
+                msg = "Key '"+sEditOc_key+"' "+getTran("Web", "added", sWebLanguage);
             } 
             else {
                 // record found
                 keyAllreadyExists = true;
-                msg = "Key '" + sEditOc_key + "' " + getTran("Web", "exists", sWebLanguage);
+                msg = "Key '"+sEditOc_key+"' "+getTran("Web", "exists", sWebLanguage);
             }
 
             sFindKey = sEditOc_key;
@@ -106,7 +111,7 @@
 
             Config.saveConfig(objConfig);
 
-            msg = "Key '" + sEditOc_key + "' " + getTran("Web", "saved", sWebLanguage);
+            msg = "Key '"+sEditOc_key+"' "+getTran("Web", "saved", sWebLanguage);
             sAction = "Show";
 
             MedwanQuery.getInstance().reloadConfigValues();
@@ -120,7 +125,7 @@
             MedwanQuery.reload();
             sEditDeleted = "";
 
-            msg = "Key '" + sEditOc_key + "' " + getTran("Web", "deleted", sWebLanguage);
+            msg = "Key '"+sEditOc_key+"' "+getTran("Web", "deleted", sWebLanguage);
             sAction = "New";
 
             MedwanQuery.getInstance().reloadConfigValues();
@@ -157,19 +162,21 @@
     <input type="hidden" name="Action">
     
     <%=writeTableHeader("Web.manage","ManageConfiguration",sWebLanguage,"main.do?Page=system/menu.jsp")%>
-    <table border="0" width="100%" cellspacing="0" class="menu">
+    <table width="100%" cellspacing="1" cellpadding="0" class="menu">
         <%-- search fields --%>
         <tr>
-            <td>Key</td>
-            <td><input type="text" class="text" name="FindKey" size="40" value="<%=sFindKey%>"></td>
+            <td class="admin" width="<%=sTDAdminWidth%>">Key</td>
+            <td class="admin2"><input type="text" class="text" name="FindKey" size="40" value="<%=sFindKey%>"></td>
         </tr>
         <tr>
-            <td><%=getTran("Web","value",sWebLanguage)%></td>
-            <td><input type="text" class="text" name="FindValue" size="40" value="<%=sFindValue%>"></td>
+            <td class="admin"><%=getTran("Web","value",sWebLanguage)%></td>
+            <td class="admin2"><input type="text" class="text" name="FindValue" size="40" value="<%=sFindValue%>"></td>
         </tr>
+        
+        <%-- BUTTONS --%>
         <tr>
-            <td/>
-            <td>
+            <td class="admin">&nbsp;</td>
+            <td class="admin2">
                 <input type="button" class="button" name="SearchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onClick="doSearch();">&nbsp;
                 <input type="button" class="button" name="ClearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onClick="clearFindFields();">&nbsp;
                 <input type="button" class="button" name="NewButton" value="<%=getTranNoLink("Web","New",sWebLanguage)%>" onClick="doNew();">&nbsp;
@@ -182,7 +189,7 @@
     </table>
     <br>
     
-    <div style="height:150px;" class="searchResults" id="divFindRecords"></div>
+    <div style="height:150px;width:100%" class="searchResults" id="divFindRecords"></div>
     <%
       //  if(sAction.equals("Show") || sAction.equals("New")){
             %>
@@ -344,9 +351,9 @@
   }
 
   function doSearch(){
-    var params = 'FindKey=' + document.getElementsByName('FindKey')[0].value+
+    var params = 'FindKey='+document.getElementsByName('FindKey')[0].value+
                  "&FindValue="+ document.getElementsByName('FindValue')[0].value;
-    var url= '<c:url value="/system/manageConfigFind.jsp"/>?ts=' + new Date();
+    var url= '<c:url value="/system/manageConfigFind.jsp"/>?ts='+new Date();
     new Ajax.Request(url,{
       parameters: params,
       onSuccess: function(resp){
