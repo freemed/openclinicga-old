@@ -1,36 +1,84 @@
-<%@include file="/includes/validateUser.jsp"%>
 <%@page import="be.openclinic.finance.*,
                 java.util.Hashtable,
                 java.util.Vector,
                 java.util.Collections,
                 java.text.DecimalFormat"%>
-<table width="100%">
-<tr><td class='admin' colspan="6"><%=getTran("Web","statistics.canceledinvoicelists",sWebLanguage) %></td></tr>
+<%@include file="/includes/validateUser.jsp"%>
+
 <%
-	String activeuser="";
-	Vector invoices=PatientInvoice.searchInvoicesByStatusAndBalance(request.getParameter("start"),request.getParameter("end"),"canceled","");
-    for(int n=0;n<invoices.size();n++){
+    String sStart = checkString(request.getParameter("start")),
+           sEnd   = checkString(request.getParameter("end"));
+
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n******************* statistics/canceledInvoiceLists.jsp *****************");
+    	Debug.println("sStart : "+sStart);
+    	Debug.println("sEnd   : "+sEnd+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    
+    DecimalFormat deci = new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#"));
+    String sTitle = getTran("web","statistics.canceledinvoicelists",sWebLanguage)+"&nbsp;&nbsp;&nbsp;<i>["+sStart+" - "+sEnd+"]</i>";
+%>
+
+<%=writeTableHeaderDirectText(sTitle,sWebLanguage," closeWindow()")%>
+<div style="padding-top:5px;"/>
+
+<table width="100%" class="list" cellpadding="0" cellspacing="1">    
+<%
+	String activeuser = "";
+    int dossierCount = 0, invoiceCount = 0;
+
+    // list open invoices
+	Vector invoices = PatientInvoice.searchInvoicesByStatusAndBalance(sStart,sEnd,"canceled","");
+    for(int n=0; n<invoices.size(); n++){
     	PatientInvoice invoice = (PatientInvoice)invoices.elementAt(n);
+    	
+    	// other dossier
     	if(!activeuser.equalsIgnoreCase(invoice.getUpdateUser())){
-    		activeuser=invoice.getUpdateUser();
-    		out.println("<tr><td colspan='6' class='admin'>"+activeuser+" - "+MedwanQuery.getInstance().getUserName(Integer.parseInt(activeuser))+"</td></tr>");
-    		out.println("<tr>");
-    		out.println("<td class='admin2'>"+getTran("web","ID",sWebLanguage)+"</td>");
-    		out.println("<td class='admin2'>"+getTran("web","date",sWebLanguage)+"</td>");
-    		out.println("<td class='admin2'>"+getTran("web","lastupdate",sWebLanguage)+"</td>");
-    		out.println("<td class='admin2'>"+getTran("web","patient",sWebLanguage)+"</td>");
-    		out.println("<td class='admin2'>"+getTran("web","amount",sWebLanguage)+"</td>");
-    		out.println("<td class='admin2'>"+getTran("web","balance",sWebLanguage)+"</td>");
-    		out.println("</tr>");
+    		activeuser = invoice.getUpdateUser();
+    		dossierCount++;
+    		
+    		out.print("<tr class='gray'>"+
+    		           "<td colspan='6'>"+activeuser+" - "+MedwanQuery.getInstance().getUserName(Integer.parseInt(activeuser))+"</td>"+
+    		          "</tr>");
+    		
+    		// header
+    		out.print("<tr>");
+    		 out.print("<td class='admin'>"+getTran("web","ID",sWebLanguage)+"</td>");
+    		 out.print("<td class='admin'>"+getTran("web","date",sWebLanguage)+"</td>");
+    		 out.print("<td class='admin'>"+getTran("web","lastupdate",sWebLanguage)+"</td>");
+    		 out.print("<td class='admin'>"+getTran("web","patient",sWebLanguage)+"</td>");
+    		 out.print("<td class='admin'>"+getTran("web","amount",sWebLanguage)+"</td>");
+    		 out.print("<td class='admin'>"+getTran("web","balance",sWebLanguage)+"</td>");
+    		out.print("</tr>");
     	}
-		out.println("<tr>");
-		out.println("<td class='admin2'>"+invoice.getUid()+"</td>");
-		out.println("<td class='admin2'>"+ScreenHelper.stdDateFormat.format(invoice.getDate())+"</td>");
-		out.println("<td class='admin2'>"+ScreenHelper.fullDateFormatSS.format(invoice.getUpdateDateTime())+"</td>");
-		out.println("<td class='admin2'>"+AdminPerson.getAdminPerson(invoice.getPatientUid()).getFullName()+"</td>");
-		out.println("<td class='admin2'>"+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(invoice.getPatientAmount())+" "+MedwanQuery.getInstance().getConfigString("currency")+"</td>");
-		out.println("<td class='admin2'>"+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#")).format(invoice.getBalance())+" "+MedwanQuery.getInstance().getConfigString("currency")+"</td>");
-		out.println("</tr>");
+    	
+		out.print("<tr>");
+		 out.print("<td class='admin2'>"+invoice.getUid()+"</td>");
+		 out.print("<td class='admin2'>"+ScreenHelper.formatDate(invoice.getDate())+"</td>");
+		 out.print("<td class='admin2'>"+ScreenHelper.fullDateFormatSS.format(invoice.getUpdateDateTime())+"</td>");
+		 out.print("<td class='admin2'>"+AdminPerson.getAdminPerson(invoice.getPatientUid()).getFullName()+"</td>");
+		 out.print("<td class='admin2'>"+deci.format(invoice.getPatientAmount())+" "+MedwanQuery.getInstance().getConfigString("currency")+"</td>");
+		 out.print("<td class='admin2'>"+deci.format(invoice.getBalance())+" "+MedwanQuery.getInstance().getConfigString("currency")+"</td>");
+		out.print("</tr>");
+		
+		invoiceCount++;
     }
 %>
 </table>
+
+<%=getTran("web","patients",sWebLanguage)%>: <%=dossierCount%><br>
+<%=getTran("web","invoices",sWebLanguage)%>: <%=invoiceCount%><br>
+
+<%=ScreenHelper.alignButtonsStart()%>
+    <input type="button" class="button" name="closeButton" value="<%=getTranNoLink("web","close",sWebLanguage)%>" onclick="closeWindow();">
+<%=ScreenHelper.alignButtonsStop()%>
+
+<script>  
+  <%-- CLOSE WINDOW --%>
+  function closeWindow(){
+    window.opener = null;
+    window.close();
+  }
+</script>

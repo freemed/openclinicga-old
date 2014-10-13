@@ -3,10 +3,10 @@
 <%@include file="/includes/validateUser.jsp"%>
 <table width='100%'>
 <tr class='admin'>
-	<td><%=getTran("web","invoicenumber",sWebLanguage) %></td>
-	<td><%=getTran("web","date",sWebLanguage) %></td>
-	<td><%=getTran("web","patient",sWebLanguage) %></td>
-	<td><%=getTran("web","insurar",sWebLanguage) %></td>
+	<td><%=getTran("web","invoicenumber",sWebLanguage)%></td>
+	<td><%=getTran("web","date",sWebLanguage)%></td>
+	<td><%=getTran("web","patient",sWebLanguage)%></td>
+	<td><%=getTran("web","insurar",sWebLanguage)%></td>
 </tr>
 <%
 	String start = checkString(request.getParameter("start"));
@@ -41,7 +41,7 @@ String sSql = 	"select distinct OC_PATIENTINVOICE_OBJECTID,OC_PATIENTINVOICE_DAT
 	conn.close();
 %>
 </table>
-<center><input type='button' name='button' value='<%=getTranNoLink("web","close",sWebLanguage) %>' onclick='window.close();'/></center>
+<center><input type='button' name='button' value='<%=getTranNoLink("web","close",sWebLanguage)%>' onclick='window.close();'/></center>
 
 <script>
 	function showPatientInvoice(sInvoiceId){

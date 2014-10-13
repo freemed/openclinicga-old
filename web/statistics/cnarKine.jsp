@@ -37,13 +37,13 @@
 	ps.close();
 	%>
 	<table width="100%">
-		<tr class='admin'><td colspan='3'><%=getTran("cnar","statistics.kine.title1",sWebLanguage) %></td></tr>
+		<tr class='admin'><td colspan='3'><%=getTran("cnar","statistics.kine.title1",sWebLanguage)%></td></tr>
 		<tr class='admin'>
-			<td rowspan="2"><%=getTran("cnar","statistics.prestation.kine",sWebLanguage) %></td>
-			<td colspan="2"><%=getTran("web","total",sWebLanguage) %></td>
+			<td rowspan="2"><%=getTran("cnar","statistics.prestation.kine",sWebLanguage)%></td>
+			<td colspan="2"><%=getTran("web","total",sWebLanguage)%></td>
 		</tr>
 		<tr class='admin'>
-			<td><%=getTran("web","numberofcases",sWebLanguage) %></td>
+			<td><%=getTran("web","numberofcases",sWebLanguage)%></td>
 			<td>%</td>
 		</tr>
 	<%
@@ -53,7 +53,7 @@
 			out.println("<tr><td class='admin'>"+prestation.split(";")[1]+"</td><td class='admin2'>"+prestations.get(prestation)+"</td><td class='admin2'>"+new DecimalFormat("#0.00").format((new Double((Integer)prestations.get(prestation)))*100/total)+"</td></tr>");
 		}
 	%>
-		<tr class='admin'><td><%=getTran("web","total",sWebLanguage) %></td><td><%=total %></td><td>100%</td></tr>
+		<tr class='admin'><td><%=getTran("web","total",sWebLanguage)%></td><td><%=total %></td><td>100%</td></tr>
 	</table>
 <%
 	sQuery="select count(*) total,oc_prestation_objectid,oc_prestation_description,gender from oc_debets d,oc_encounters e, oc_prestations p, adminview a where e.oc_encounter_patientuid=a.personid and p.oc_prestation_objectid=replace(d.oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and e.oc_encounter_objectid=replace(d.oc_debet_encounteruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and oc_prestation_class='"+MedwanQuery.getInstance().getConfigString("cnarKineClass","kine")+"' and d.oc_debet_date>=? and d.oc_debet_date<=? group by oc_prestation_objectid,oc_prestation_description,gender";
@@ -86,14 +86,14 @@
 %>
 	<br/><hr/><br/>
 	<table width="100%">
-		<tr class='admin'><td colspan='6'><%=getTran("cnar","statistics.kine.title2",sWebLanguage) %></td></tr>
+		<tr class='admin'><td colspan='6'><%=getTran("cnar","statistics.kine.title2",sWebLanguage)%></td></tr>
 		<tr class='admin'>
-			<td rowspan='2'><%=getTran("cnar","statistics.prestation.kine",sWebLanguage) %></td>
-			<td colspan='2'><%= getTran("web","male",sWebLanguage) %></td><td colspan='2'><%= getTran("web","female",sWebLanguage) %></td><td rowspan='2'><%= getTran("web","total",sWebLanguage) %></td></tr>
+			<td rowspan='2'><%=getTran("cnar","statistics.prestation.kine",sWebLanguage)%></td>
+			<td colspan='2'><%= getTran("web","male",sWebLanguage)%></td><td colspan='2'><%= getTran("web","female",sWebLanguage)%></td><td rowspan='2'><%= getTran("web","total",sWebLanguage)%></td></tr>
 		<tr class='admin'>
-			<td><%= getTran("web","number.of.cases",sWebLanguage) %></td>
+			<td><%= getTran("web","number.of.cases",sWebLanguage)%></td>
 			<td>%</td>
-			<td><%= getTran("web","number.of.cases",sWebLanguage) %></td>
+			<td><%= getTran("web","number.of.cases",sWebLanguage)%></td>
 			<td>%</td>
 		</tr>
 			<%
@@ -105,7 +105,7 @@
 				}
 			%>
 		<tr class='admin'>
-			<td><%=getTran("web","totals",sWebLanguage) %></td>
+			<td><%=getTran("web","totals",sWebLanguage)%></td>
 			<td><%=new Double(totalmale).intValue()+"" %></td>
 			<td><%=totalmale+totalfemale==0?"-":new DecimalFormat("#0.00").format(totalmale*100/(totalmale+totalfemale))%>%</td>
 			<td><%=new Double(totalfemale).intValue()+"" %></td>
@@ -147,16 +147,16 @@
 %>
 	<br/><hr/><br/>
 	<table width="100%">
-		<tr class='admin'><td colspan='8'><%=getTran("cnar","statistics.kine.title3",sWebLanguage) %></td></tr>
+		<tr class='admin'><td colspan='8'><%=getTran("cnar","statistics.kine.title3",sWebLanguage)%></td></tr>
 		<tr class='admin'>
-			<td rowspan='2'><%=getTran("cnar","statistics.prestation.kine",sWebLanguage) %></td>
-			<td colspan='2'><%= getTran("web","0to5",sWebLanguage) %></td><td colspan='2'><%= getTran("web","5to15",sWebLanguage) %></td><td colspan='2'><%= getTran("web","15plus",sWebLanguage) %></td><td rowspan='2'><%= getTran("web","total",sWebLanguage) %></td></tr>
+			<td rowspan='2'><%=getTran("cnar","statistics.prestation.kine",sWebLanguage)%></td>
+			<td colspan='2'><%= getTran("web","0to5",sWebLanguage)%></td><td colspan='2'><%= getTran("web","5to15",sWebLanguage)%></td><td colspan='2'><%= getTran("web","15plus",sWebLanguage)%></td><td rowspan='2'><%= getTran("web","total",sWebLanguage)%></td></tr>
 		<tr class='admin'>
-			<td><%= getTran("web","number.of.cases",sWebLanguage) %></td>
+			<td><%= getTran("web","number.of.cases",sWebLanguage)%></td>
 			<td>%</td>
-			<td><%= getTran("web","number.of.cases",sWebLanguage) %></td>
+			<td><%= getTran("web","number.of.cases",sWebLanguage)%></td>
 			<td>%</td>
-			<td><%= getTran("web","number.of.cases",sWebLanguage) %></td>
+			<td><%= getTran("web","number.of.cases",sWebLanguage)%></td>
 			<td>%</td>
 		</tr>
 			<%
@@ -168,7 +168,7 @@
 				}
 			%>
 		<tr class='admin'>
-			<td><%=getTran("web","totals",sWebLanguage) %></td>
+			<td><%=getTran("web","totals",sWebLanguage)%></td>
 			<td><%=new Double(total0to5).intValue()+"" %></td>
 			<td><%=total0to5+total5to15+total15plus==0?"-":new DecimalFormat("#0.00").format(total0to5*100/(total0to5+total5to15+total15plus))%>%</td>
 			<td><%=new Double(total5to15).intValue()+"" %></td>

@@ -32,6 +32,9 @@
     double allbeds = 0, alloccupiedbeds = 0, totalBeds, occupiedBeds, alloccup = 0;
     Service service;
     
+    DecimalFormat deci1 = new DecimalFormat("0.00"),
+    		      deci2 = new DecimalFormat("##.#");
+    
     for(int n=0; n<services.size(); n++){
         service = (Service)services.elementAt(n);
         
@@ -47,24 +50,24 @@
                     "<a href='javascript:selectMyService(\""+service.code+"\");'>"+getTran("service",service.code,sWebLanguage)+"</a>"+
                    "</td>"+
                    "<td>"+totalBeds+"</td>"+
-                   "<td>"+occupiedBeds+" ("+new DecimalFormat("#.00").format(occup)+") </td>"+
+                   "<td>"+occupiedBeds+" ("+deci1.format(occup)+") </td>"+
                    "<td><b>"+(totalBeds-occupiedBeds)+"</b></td>"+
-                   "<td>"+new DecimalFormat("##.#").format(100*occupiedBeds/totalBeds)+"% ("+new DecimalFormat("##.#").format(100*occup/totalBeds)+"%)</td>"+
+                   "<td>"+deci2.format(100*occupiedBeds/totalBeds)+"% ("+deci2.format(100*occup/totalBeds)+"%)</td>"+
                   "</tr>");
     }
     
     out.print("</table>");
     
     // total-line
-    out.println("<table width='100%' cellspacing='1' cellpadding='0' class='list' style='border-top:none;'>"+
-                 "<tr>"+
-                  "<td class='admin'>"+getTran("web","total",sWebLanguage)+"</td>"+
-                  "<td class='admin' width='150'>"+allbeds +"</td>"+
-                  "<td class='admin' width='150'>"+alloccupiedbeds+" ("+new DecimalFormat("#.00").format(alloccup)+")</td>"+
-                  "<td class='admin' width='150'><b>"+(allbeds-alloccupiedbeds)+"</b></td>"+
-                  "<td class='admin' width='150'>"+new DecimalFormat("##.#").format(100*alloccupiedbeds/allbeds)+"% ("+new DecimalFormat("##.#").format(100*alloccup/allbeds)+"%)</td>"+
-                 "</tr>"+
-                "</table>");
+    out.print("<table width='100%' cellspacing='1' cellpadding='0' class='list' style='border-top:none;'>"+
+               "<tr>"+
+                "<td class='admin'>"+getTran("web","total",sWebLanguage)+"</td>"+
+                "<td class='admin' width='150'>"+allbeds +"</td>"+
+                "<td class='admin' width='150'>"+alloccupiedbeds+" ("+deci1.format(alloccup)+")</td>"+
+                "<td class='admin' width='150'><b>"+(allbeds-alloccupiedbeds)+"</b></td>"+
+                "<td class='admin' width='150'>"+deci2.format(100*alloccupiedbeds/allbeds)+"% ("+deci2.format(100*alloccup/allbeds)+"%)</td>"+
+               "</tr>"+
+              "</table>");
     }
     else{
 %>

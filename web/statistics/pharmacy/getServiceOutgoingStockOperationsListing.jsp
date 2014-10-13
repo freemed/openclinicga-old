@@ -1,26 +1,49 @@
-<%@ page import="be.openclinic.pharmacy.*,java.io.*,be.mxs.common.util.system.*,be.mxs.common.util.pdf.general.*,org.dom4j.*" %>
+<%@page import="be.openclinic.pharmacy.*,
+                java.io.*,
+                be.mxs.common.util.system.*,
+                be.mxs.common.util.pdf.general.*,
+                org.dom4j.*"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%
-	String sServiceStockId=checkString(request.getParameter("ServiceStockUid"));
-%>
-	<form name='transactionForm' method='post'>
-		<table width='100%'>
-			<tr>
-				<td class='admin2'>
-					<%=getTran("web","from",sWebLanguage)%> <%=writeDateField("FindBeginDate", "transactionForm", "01/01/"+(Integer.parseInt(new SimpleDateFormat("yyyy").format(new java.util.Date()))-1), sWebLanguage) %>
-					<%=getTran("web","to",sWebLanguage)%> <%=writeDateField("FindEndDate", "transactionForm", "31/12/"+(Integer.parseInt(new SimpleDateFormat("yyyy").format(new java.util.Date()))-1), sWebLanguage) %>
-				</td>
-				<td class='admin2'>
-					<input type='button' class="button" name='print' value='<%=getTranNoLink("web","print",sWebLanguage) %>' onclick='printReport();'/>
-				</td>
-			</tr>
-		</table>
-	</form>
+	String sServiceStockId = checkString(request.getParameter("ServiceStockUid"));
 
-	<script>
-		function printReport(){
-			window.open('<c:url value="pharmacy/printServiceOutgoingStockOperationsListing.jsp"/>?FindBeginDate='+document.getElementById('FindBeginDate').value+'&FindEndDate='+document.getElementById('FindEndDate').value+'&ServiceStockUid=<%=sServiceStockId%>');
-			window.close();
-		}
-	</script>
+    String sBegin = "01/01/"+(Integer.parseInt(new SimpleDateFormat("yyyy").format(new java.util.Date()))-1),
+	       sEnd   = "31/12/"+(Integer.parseInt(new SimpleDateFormat("yyyy").format(new java.util.Date()))-1);
+
+	// US-date
+	if(ScreenHelper.stdDateFormat.toPattern().equals("MM/dd/yyyy")){
+	    sEnd = "12/31/"+(Integer.parseInt(new SimpleDateFormat("yyyy").format(new java.util.Date()))-1);
+	}
+
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n******** statistics/pharmacy/getServiceOutgoingStockOperationsListing.jsp ********");
+    	Debug.println("sServiceStockId : "+sServiceStockId);
+    	Debug.println("sBegin          : "+sBegin);
+    	Debug.println("sEnd            : "+sEnd+"\n");
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+%>
+<form name='transactionForm' method='post'>
+	<table width="100%" cellpadding="0" cellspacing="1" class="list">
+	    <%-- PERIOD --%>
+		<tr>
+			<td class='admin2' width="<%=sTDAdminWidth%>">
+				<%=getTran("web","from",sWebLanguage)%> <%=writeDateField("FindBeginDate","transactionForm",sBegin,sWebLanguage)%>
+				<%=getTran("web","to",sWebLanguage)%> <%=writeDateField("FindEndDate","transactionForm",sEnd,sWebLanguage)%>
+			</td>
+			<td class='admin2'>
+				<input type='button' class="button" name='print' value='<%=getTranNoLink("web","print",sWebLanguage)%>' onclick='printReport();'/>
+			</td>
+		</tr>
+	</table>
+</form>
+
+<script>
+  function printReport(){
+	window.open('<c:url value="pharmacy/printServiceOutgoingStockOperationsListing.jsp"/>?FindBeginDate='+document.getElementById('FindBeginDate').value+'&FindEndDate='+document.getElementById('FindEndDate').value+'&ServiceStockUid=<%=sServiceStockId%>');
+	window.close();
+  }
+</script>

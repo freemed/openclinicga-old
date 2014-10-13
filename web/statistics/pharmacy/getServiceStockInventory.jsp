@@ -1,4 +1,6 @@
-<%@ page import="be.openclinic.pharmacy.*,java.io.*,be.mxs.common.util.system.*,be.mxs.common.util.pdf.general.*,org.dom4j.*" %>
+<%@page import="be.openclinic.pharmacy.*,
+                java.io.*,
+                be.mxs.common.util.system.*,be.mxs.common.util.pdf.general.*,org.dom4j.*" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%
@@ -9,11 +11,11 @@
 		<table width='100%'>
 			<tr>
 				<td class='admin2'>
-					<%=getTran("web","from",sWebLanguage)%> <%=writeDateField("FindBeginDate", "transactionForm", new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()), sWebLanguage) %>
-					<%=getTran("web","to",sWebLanguage)%> <%=writeDateField("FindEndDate", "transactionForm", new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()), sWebLanguage) %>
+					<%=getTran("web","from",sWebLanguage)%> <%=writeDateField("FindBeginDate","transactionForm",ScreenHelper.formatDate(new java.util.Date()),sWebLanguage)%>
+					<%=getTran("web","to",sWebLanguage)%> <%=writeDateField("FindEndDate","transactionForm",ScreenHelper.formatDate(new java.util.Date()),sWebLanguage)%>
 				</td>
 				<td class='admin2'>
-					<input type='button' class="button" name='print' value='<%=getTranNoLink("web","print",sWebLanguage) %>' onclick='printReport();'/>
+					<input type='button' class="button" name='print' value='<%=getTranNoLink("web","print",sWebLanguage)%>' onclick='printReport();'/>
 				</td>
 			</tr>
 		</table>

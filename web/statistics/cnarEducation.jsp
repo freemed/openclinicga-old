@@ -35,13 +35,13 @@
 	ps.close();
 %>
 	<table width="100%">
-		<tr class='admin'><td colspan='3'><%=getTran("cnar","statistics.education.title1",sWebLanguage) %></td></tr>
+		<tr class='admin'><td colspan='3'><%=getTran("cnar","statistics.education.title1",sWebLanguage)%></td></tr>
 		<tr class='admin'>
-			<td rowspan="2"><%=getTran("cnar","statistics.education.name",sWebLanguage) %></td>
-			<td colspan="2"><%=getTran("web","total",sWebLanguage) %></td>
+			<td rowspan="2"><%=getTran("cnar","statistics.education.name",sWebLanguage)%></td>
+			<td colspan="2"><%=getTran("web","total",sWebLanguage)%></td>
 		</tr>
 		<tr class='admin'>
-			<td><%=getTran("web","numberofcases",sWebLanguage) %></td>
+			<td><%=getTran("web","numberofcases",sWebLanguage)%></td>
 			<td>%</td>
 		</tr>
 	<%
@@ -51,7 +51,7 @@
 			out.println("<tr><td class='admin'>"+getTran("centerreasons",prestation,sWebLanguage)+"</td><td class='admin2'>"+prestations.get(prestation)+"</td><td class='admin2'>"+new DecimalFormat("#0.00").format((new Double((Integer)prestations.get(prestation)))*100/total)+"</td></tr>");
 		}
 	%>
-		<tr class='admin'><td><%=getTran("web","total",sWebLanguage) %></td><td><%=total %></td><td>100%</td></tr>
+		<tr class='admin'><td><%=getTran("web","total",sWebLanguage)%></td><td><%=total %></td><td>100%</td></tr>
 	</table>
 	<br/><hr/><br/>
 <%
@@ -75,13 +75,13 @@
 	ps.close();
 %>
 	<table width="100%">
-		<tr class='admin'><td colspan='3'><%=getTran("cnar","statistics.education.title2",sWebLanguage) %></td></tr>
+		<tr class='admin'><td colspan='3'><%=getTran("cnar","statistics.education.title2",sWebLanguage)%></td></tr>
 		<tr class='admin'>
-			<td rowspan="2"><%=getTran("cnar","statistics.education.province",sWebLanguage) %></td>
-			<td colspan="2"><%=getTran("web","total",sWebLanguage) %></td>
+			<td rowspan="2"><%=getTran("cnar","statistics.education.province",sWebLanguage)%></td>
+			<td colspan="2"><%=getTran("web","total",sWebLanguage)%></td>
 		</tr>
 		<tr class='admin'>
-			<td><%=getTran("web","numberofcases",sWebLanguage) %></td>
+			<td><%=getTran("web","numberofcases",sWebLanguage)%></td>
 			<td>%</td>
 		</tr>
 	<%
@@ -95,10 +95,10 @@
 			out.println("<tr><td class='admin'>"+province+"</td><td class='admin2'>"+prestations.get(prestation)+"</td><td class='admin2'>"+new DecimalFormat("#0.00").format((new Double((Integer)prestations.get(prestation)))*100/total)+"</td></tr>");
 		}
 	%>
-		<tr class='admin'><td><%=getTran("web","total",sWebLanguage) %></td><td><%=total %></td><td>100%</td></tr>
+		<tr class='admin'><td><%=getTran("web","total",sWebLanguage)%></td><td><%=total %></td><td>100%</td></tr>
 	</table>
 	<p/>
-	<center><input type='button' class='button' value='<%=getTranNoLink("web","close",sWebLanguage) %>' onclick='window.close();'/></center>
+	<center><input type='button' class='button' value='<%=getTranNoLink("web","close",sWebLanguage)%>' onclick='window.close();'/></center>
 <%
 	conn.close();
 %>

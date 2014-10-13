@@ -1,11 +1,11 @@
 <%@include file="/includes/validateUser.jsp"%>
 <table width="100%">
 	<tr class='admin'>
-		<td><%=getTran("web","personid",sWebLanguage) %></td>
-		<td><%=getTran("web","patient",sWebLanguage) %></td>
-		<td><%=getTran("web","date",sWebLanguage) %></td>
-		<td><%=getTran("web","code",sWebLanguage) %></td>
-		<td><%=getTran("web","value",sWebLanguage) %></td>
+		<td><%=getTran("web","personid",sWebLanguage)%></td>
+		<td><%=getTran("web","patient",sWebLanguage)%></td>
+		<td><%=getTran("web","date",sWebLanguage)%></td>
+		<td><%=getTran("web","code",sWebLanguage)%></td>
+		<td><%=getTran("web","value",sWebLanguage)%></td>
 	</tr>
 <%
 	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();

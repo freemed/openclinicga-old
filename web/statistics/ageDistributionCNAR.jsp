@@ -89,12 +89,12 @@
 %>
 
 <table width='100%'>
-	<tr class='admin'><td colspan='5'><%=getTran("web","statistics.agedistribution",sWebLanguage) %> <%=begin%> - <%=end %></td></tr>
+	<tr class='admin'><td colspan='5'><%=getTran("web","statistics.agedistribution",sWebLanguage)%> <%=begin%> - <%=end %></td></tr>
 	<tr class='admin'>
 		<td width='35%'></td>
-		<td><center><%=getTran("web","female",sWebLanguage) %></center></td>
-		<td><center><%=getTran("web","age",sWebLanguage) %></center></td>
-		<td><center><%=getTran("web","male",sWebLanguage) %></center></td>
+		<td><center><%=getTran("web","female",sWebLanguage)%></center></td>
+		<td><center><%=getTran("web","age",sWebLanguage)%></center></td>
+		<td><center><%=getTran("web","male",sWebLanguage)%></center></td>
 		<td width='35%'></td>
 	</tr>
 	<%

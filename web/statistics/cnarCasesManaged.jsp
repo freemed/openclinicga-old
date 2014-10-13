@@ -25,9 +25,9 @@
 	ps.close();
 %>
 	<table width="100%">
-		<tr class='admin'><td colspan='2'><%=getTran("cnar","statistics.case.management.title1",sWebLanguage) %></td></tr>
+		<tr class='admin'><td colspan='2'><%=getTran("cnar","statistics.case.management.title1",sWebLanguage)%></td></tr>
 		<tr>
-			<td class='admin'><%= getTran("web","total",sWebLanguage) %></td>
+			<td class='admin'><%= getTran("web","total",sWebLanguage)%></td>
 			<td class='admin'><%= total %></td>
 		</tr>
 	</table>
@@ -53,13 +53,13 @@ ps.close();
 %>
 	<br/><hr/><br/>
 <table width="100%">
-	<tr class='admin'><td colspan='3'><%=getTran("cnar","statistics.case.management.title2",sWebLanguage) %></td></tr>
+	<tr class='admin'><td colspan='3'><%=getTran("cnar","statistics.case.management.title2",sWebLanguage)%></td></tr>
 	<tr class='admin'>
-		<td rowspan="2"><%=getTran("cnar","statistics.service.treatment",sWebLanguage) %></td>
-		<td colspan="2"><%=getTran("web","total",sWebLanguage) %></td>
+		<td rowspan="2"><%=getTran("cnar","statistics.service.treatment",sWebLanguage)%></td>
+		<td colspan="2"><%=getTran("web","total",sWebLanguage)%></td>
 	</tr>
 	<tr class='admin'>
-		<td><%=getTran("web","numberofcases",sWebLanguage) %></td>
+		<td><%=getTran("web","numberofcases",sWebLanguage)%></td>
 		<td>%</td>
 	</tr>
 <%
@@ -74,7 +74,7 @@ ps.close();
 		out.println("<tr><td class='admin'>"+serviceuid+": "+servicename+"</td><td class='admin2'>"+services.get(serviceuid)+"</td><td class='admin2'>"+new DecimalFormat("#0.00").format((new Double((Integer)services.get(serviceuid)))*100/total)+"</td></tr>");
 	}
 %>
-	<tr class='admin'><td><%=getTran("web","total",sWebLanguage) %></td><td><%=total %></td><td>100%</td></tr>
+	<tr class='admin'><td><%=getTran("web","total",sWebLanguage)%></td><td><%=total %></td><td>100%</td></tr>
 </table>
 <%
 	conn.close();

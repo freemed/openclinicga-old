@@ -64,6 +64,7 @@
   function clearSearchFields(){
     transactionForm.FindBegin.value = "";
     transactionForm.FindEnd.value = "";
+    
     transactionForm.FindBegin.focus();
   }
 

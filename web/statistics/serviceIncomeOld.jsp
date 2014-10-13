@@ -3,16 +3,24 @@
 <%
     String sBegin = request.getParameter("begin");
     if(sBegin==null){
-        sBegin="01/01/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
+        sBegin = "01/01/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
     }
+    
     String sEnd = request.getParameter("end");
     if(sEnd==null){
-        sEnd="31/12/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
+        sEnd = "31/12/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
+
+    	// US-date
+        if(ScreenHelper.stdDateFormat.toPattern().equals("MM/dd/yyyy")){
+            sEnd = "12/31/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
+        }
     }
+    
     String service =activeUser.activeService.code;
     if(request.getParameter("statserviceid")!=null){
     	service=request.getParameter("statserviceid");
     }
+    
     String serviceName = activeUser.activeService.getLabel(sWebLanguage);
     if(request.getParameter("statserviceid")!=null){
     	serviceName=request.getParameter("statservicename");
@@ -28,10 +36,10 @@
             </td>
         </tr>
         <tr>
-        	<td><%=getTran("Web","service",sWebLanguage) %></td><td colspan='2'><input type='hidden' name='statserviceid' id='statserviceid' value='<%=service %>'>
+        	<td><%=getTran("Web","service",sWebLanguage)%></td><td colspan='2'><input type='hidden' name='statserviceid' id='statserviceid' value='<%=service %>'>
         		<input class='text' type='text' name='statservicename' id='statservicename' readonly size='40' value='<%=serviceName %>'>
-        		<img src='_img/icons/icon_search.gif' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage) %>' onclick='searchService("statserviceid","statservicename");'>
-        		<img src='_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage) %>' onclick='statserviceid.value="";statservicename.value="";'>
+        		<img src='_img/icons/icon_search.gif' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick='searchService("statserviceid","statservicename");'>
+        		<img src='_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick='statserviceid.value="";statservicename.value="";'>
         	</td>
         </tr>
     </table>

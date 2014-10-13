@@ -1,111 +1,180 @@
-<%@ page import="java.util.*,java.util.Date,java.text.DecimalFormat,be.openclinic.adt.Encounter" %>
+<%@page import="java.util.*,
+                java.util.Date,
+                java.text.DecimalFormat,
+                be.openclinic.adt.Encounter"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+<%=sJSSORTTABLE%>
+
 <%!
 	public class Line {
 		String name;
 		double total;
 		double contacts;
 		
-		public Line(String name,double total,double contacts){
-			this.name=name;
-			this.total=total;
-			this.contacts=contacts;
+		public Line(String name, double total, double contacts){
+			this.name = name;
+			this.total = total;
+			this.contacts = contacts;
 		}
 	}
 %>
+
 <%
-    String sFindBegin = checkString(request.getParameter("FindBegin"));
-    String sFindEnd = checkString(request.getParameter("FindEnd"));
+    String sFindBegin = checkString(request.getParameter("FindBegin")),
+           sFindEnd   = checkString(request.getParameter("FindEnd"));
+
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n***************** statistics/encounterCodingStats.jsp ******************");
+    	Debug.println("sFindBegin : "+sFindBegin);
+    	Debug.println("sFindEnd   : "+sFindEnd+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    
+    Vector lines = new Vector();
 %>
+
 <form name="transactionForm" method="post" onKeyDown="if(enterEvent(event,13)){doFind();}">
     <%=writeTableHeader("Web","statistics.activitystats.encountercoding",sWebLanguage," doBack();")%>
-    <table class="menu" width="100%" cellspacing="0">
-         <tr>
-            <td><%=getTran("Web","Begin",sWebLanguage)%></td>
-            <td><%=writeDateField("FindBegin","transactionForm",sFindBegin,sWebLanguage)%></td>
+    
+    <table class="menu" width="100%" cellspacing="1" cellpadding="0">
+        <tr>
+            <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","Begin",sWebLanguage)%></td>
+            <td class="admin2" width="*"><%=writeDateField("FindBegin","transactionForm",sFindBegin,sWebLanguage)%></td>
         </tr>
         <tr>
-            <td><%=getTran("Web","End",sWebLanguage)%></td>
-            <td><%=writeDateField("FindEnd","transactionForm",sFindEnd,sWebLanguage)%></td>
+            <td class="admin"><%=getTran("Web","End",sWebLanguage)%></td>
+            <td class="admin2"><%=writeDateField("FindEnd","transactionForm",sFindEnd,sWebLanguage)%></td>
         </tr>
-        <%=ScreenHelper.setSearchFormButtonsStart()%>
-            <input type="button" class="button" name="ButtonSearch" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doFind();">&nbsp;
-            <input type="button" class="button" name="ButtonClear" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearFields()">&nbsp;
-            <input type="button" class="button" name="ButtonBack" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
-        <%=ScreenHelper.setSearchFormButtonsStop()%>
+        
+        <%-- BUTTONS --%>
+        <tr>
+            <td class="admin">&nbsp;</td>
+            <td class="admin2">
+                <input type="button" class="button" name="ButtonSearch" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doFind();">&nbsp;
+                <input type="button" class="button" name="ButtonClear" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearSearchFields();">&nbsp;
+                <input type="button" class="button" name="ButtonBack" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">
+            </td>
+        </tr>
     </table>
 </form>
-<table>
+
 <%
-    if ((sFindBegin.length() > 0) || (sFindEnd.length() > 0)) {
-    	String sQuery="select count(*) total,count(distinct oc_encounter_objectid) contacts,oc_encounter_updateuid from "+
-    					" oc_encounters"+ 
-    					" where oc_encounter_updatetime between ? and ?"+
+    if(sFindBegin.length() > 0 || sFindEnd.length() > 0){
+    	%>
+	    <table width="100%" class="sortable" id="searchresults" cellspacing="1" cellpadding="0">
+	        <%-- HEADER --%>
+	        <tr class="gray">
+	           <td width="250"><%=getTran("web","patient",sWebLanguage)%></td>
+	           <td width="120"><%=getTran("web","diagnoses",sWebLanguage)%></td>
+	           <td width="*"><%=getTran("web","encounters",sWebLanguage)%></td>
+	        </tr>
+	    <%
+	
+    	String sQuery = "select count(*) total, count(distinct oc_encounter_objectid) contacts, oc_encounter_updateuid"+
+                        " from oc_encounters"+ 
+    					"  where oc_encounter_updatetime between ? and ?"+
     					" group by oc_encounter_updateuid"+
     					" order by count(*) DESC";
-    	Date begin = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new Date())), end = new Date();
-    	if(sFindBegin.length()>0){
+    	Date begin = ScreenHelper.parseDate(ScreenHelper.formatDate(new Date())),
+    	     end = new Date();
+    	if(sFindBegin.length() > 0){
     		try{
     			begin = ScreenHelper.parseDate(sFindBegin);	
     		}
-    		catch(Exception e){}
+    		catch(Exception e){
+    			// empty
+    		}
     	}
-    	if(sFindEnd.length()>0){
+    	
+    	if(sFindEnd.length() > 0){
     		try{
     			end = ScreenHelper.parseDate(sFindEnd);	
     		}
-    		catch(Exception e){}
+    		catch(Exception e){
+    			// empty
+    	    }
     	}
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+    	
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
     	PreparedStatement ps = oc_conn.prepareStatement(sQuery);
     	ps.setTimestamp(1,new Timestamp(begin.getTime()));
     	ps.setTimestamp(2,new Timestamp(end.getTime()));
     	ResultSet rs = ps.executeQuery();
-    	Vector lines=new Vector();
-    	double generaltotal=0;
+    	double generaltotal = 0;
+    	
     	while(rs.next()){
     		double total = rs.getInt("total");
     		double contacts = rs.getInt("contacts");
-    		generaltotal+=total;
+    		generaltotal+= total;
     		int userid = rs.getInt("oc_encounter_updateuid");
     		String username = MedwanQuery.getInstance().getUserName(userid);
+    		
     		lines.add(new Line(username,total,contacts));
     	}
 		rs.close();
 		ps.close();
 		oc_conn.close();
-    	for(int n=0;n<lines.size();n++){
+
+		String sClass = "1";
+		DecimalFormat deci = new DecimalFormat("#,###");
+    	for(int n=0; n<lines.size(); n++){
     		Line line = (Line)lines.elementAt(n);
-    		out.println("<tr><td class='admin2'>"+line.name.toUpperCase()+"</td><td><b>"+getTran("web","encounters",sWebLanguage)+": "+new DecimalFormat("#,###").format(line.contacts)+"</b></td></tr>");
+    		
+    		// alternate row-style
+    		if(sClass.length()==0) sClass = "1";
+    		else                   sClass = "";
+    		
+    		out.print("<tr class='list"+sClass+"'>"+
+    		           "<td>"+line.name.toUpperCase()+"</td>"+
+    		           "<td><b>"+deci.format(line.contacts)+"</b></td>"+
+    		          "</tr>");
     	}
-
+    	
+    	%></table><%
     }
+
+	if(lines.size()==0){
+		%><%=getTran("web","noRecordsFound",sWebLanguage)%><%
+	}
+	else{
+	    %>
+	        <%=lines.size()%> <%=getTran("web","recordsFound",sWebLanguage)%>
+	    
+			<%=ScreenHelper.alignButtonsStart()%>
+			    <input type="button" class="button" name="backButton" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onClick="doBack();"/>
+			<%=ScreenHelper.alignButtonsStop()%>
+	    <%
+	}
 %>
-</table>
+
 <script>
-  <%-- PRINT PDF --%>
-    function doBack(){
-        window.location.href = "<c:url value='/main.do'/>?Page=statistics/index.jsp";
-    }
+  <%-- DO BACK --%>
+  function doBack(){
+    window.location.href = "<c:url value='/main.do'/>?Page=statistics/index.jsp";
+  }
 
-    function clearFields(){
-        document.getElementById("FindBegin").value="";
-        document.getElementById("FindEnd").value="";
-        document.getElementById("FindServiceText").value="";
-        document.getElementById("FindServiceCode").value="";
-    }
-
-    function doFind(){
-        if (document.getElementById("FindBegin").value.length>0){
-            transactionForm.submit();
-        }
-        else {
-            alertDialog("web.manage","datamissing");
-        }
-    }
-
+  <%-- CLEAR SEARCH FIELDS --%>
+  function clearSearchFields(){
+    document.getElementById("FindBegin").value = "";
+    document.getElementById("FindEnd").value = "";
+    
     document.getElementById("FindBegin").focus();
+  }
+
+  <%-- DO FIND --%>
+  function doFind(){
+    if(document.getElementById("FindBegin").value.length>0){
+      transactionForm.submit();
+    }
+    else{
+      document.getElementById("FindBegin").focus();
+      alertDialog("web.manage","datamissing");
+    }
+  }
+
+  document.getElementById("FindBegin").focus();
 </script>
 
-<a href="#" name="bottom"></a>
+<a name="bottom">&nbsp;</a>
