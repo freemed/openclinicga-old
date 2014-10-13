@@ -165,7 +165,7 @@
                     %>
                 </select>
                 <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchPrestation();">
-				<%=getTran("web","prestationgroups",sWebLanguage) %>
+				<%=getTran("web","prestationgroups",sWebLanguage)%>
 				<select class="text" name="EditPrestationGroup" id="EditPrestationGroup" onchange="document.getElementById('EditPrestationName').value='';changePrestation(false)">
                     <option/>
 					<%=ScreenHelper.getPrestationGroupOptions()%>

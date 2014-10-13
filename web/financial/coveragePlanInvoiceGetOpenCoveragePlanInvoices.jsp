@@ -69,7 +69,7 @@
         <td><%=HTMLEntities.htmlentities(getTran("web","careproviders",sWebLanguage))%></td>
         <td><%=HTMLEntities.htmlentities(getTran("Web.finance","patientinvoice.status",sWebLanguage))%></td>
     </tr>
-    <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+    <tbody class="hand">
         <%=sReturn%>
     </tbody>
 </table>

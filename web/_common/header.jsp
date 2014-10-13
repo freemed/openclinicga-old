@@ -60,6 +60,7 @@
 <%
     if(!"datacenter".equalsIgnoreCase((String)session.getAttribute("edition"))){        
         String sVersion = checkString((String)session.getAttribute("ProjectVersion"));
+        //Debug.println("--> sVersion : "+sVersion);
 
         String bgi = "";
         String sEdition = MedwanQuery.getInstance().getConfigString("edition","");
@@ -77,15 +78,16 @@
         }
         else{
         	// default
-		    bgi = "/"+sAPPDIR+"_img/projectlogo.jpg";
+		    bgi = "/"+sAPPDIR+"_img/themes/"+(sUserTheme.length()==0?"default":sUserTheme)+"/logo.png";
         }
 
         %>        
-            <div style="float:right">
+            <div style="float:right;">
                 <%        		
 			        // only show logo-div when logo-file was found
 			   	    if(bgi.length() > 0){
 			   	   	    String sLogoUrl = MedwanQuery.getInstance().getConfigString("baseDirectory")+"/"+bgi;
+			   	   	    //Debug.println("--> sLogoUrl : "+sLogoUrl);
 			   	   	    
 			   	   	    java.io.File file = new java.io.File(sLogoUrl); 
 			   	   	    if(file.exists() && file.isFile()){ 
@@ -95,7 +97,7 @@
 			   	   	    else{
 			   	   	    	Debug.println("INFO : Configured project-logo-file for edition '"+sEdition+"' does not exist : '"+sLogoUrl+"'");
 			   	   	    }
-			   	    } 
+			   	    }
                 %> 
                        		    			
 				<div class="topicones">

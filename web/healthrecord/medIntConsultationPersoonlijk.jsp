@@ -9,7 +9,7 @@
     private String getLastItemValue(HttpServletRequest request, String sItemType) {
         String sReturn = "";
         ItemVO lastItem = ScreenHelper.getLastItem(request, sItemType);
-        if (lastItem != null) {
+        if (lastItem!=null) {
             sReturn = checkString(lastItem.getValue());
         }
 
@@ -58,9 +58,9 @@
 <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 <%
     String sChirurgie = "", sLetsels = "", sComment = "", sDivChirurgie = "", sDivLetsels = "", sHeelkunde = "", sDivHeelkunde = "";
-    if (transaction != null) {
+    if (transaction!=null) {
         TransactionVO tran = (TransactionVO) transaction;
-        if (tran != null) {
+        if (tran!=null) {
             sChirurgie = getItemType(tran.getItems(), sPREFIX+"ITEM_TYPE_CE_MEDISCHE_ANTECEDENTEN");
             sLetsels = getItemType(tran.getItems(), sPREFIX+"ITEM_TYPE_CE_LETSELS");
             sHeelkunde = getItemType(tran.getItems(), sPREFIX+"ITEM_TYPE_CE_HEELKUNDE");
@@ -394,13 +394,7 @@ function addChirurgie(){
     var endDate   = document.getElementById("transactionForm").ChirurgieDateEnd.value;
 
     if((beginDate!="" && endDate!="") && !before(beginDate,endDate)){
-      var popupUrl = "<<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web.Occup&labelID=endMustComeAfterBegin";
-      var modalitiesIE = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      if(window.showModalDialog){
-          window.showModalDialog(popupUrl,'',modalitiesIE);
-      }else{
-          window.confirm("<%=getTranNoLink("Web.occup","endMustComeAfterBegin",sWebLanguage)%>");
-      }
+      alertDialog("Web.Occup","endMustComeAfterBegin");
       document.getElementById("transactionForm").ChirurgieDateEnd.select();
       return false;
     }
@@ -437,9 +431,9 @@ function addChirurgie(){
 }
 
 function isAtLeastOneChirurgieFieldFilled(){
-  if(document.getElementById("transactionForm").ChirurgieDateBegin.value != "") return true;
-  if(document.getElementById("transactionForm").ChirurgieDateEnd.value != "") return true;
-  if(document.getElementById("transactionForm").ChirurgieDescription.value != "") return true;
+  if(document.getElementById("transactionForm").ChirurgieDateBegin.value!="") return true;
+  if(document.getElementById("transactionForm").ChirurgieDateEnd.value!="") return true;
+  if(document.getElementById("transactionForm").ChirurgieDescription.value!="") return true;
   return false;
 }
 
@@ -494,39 +488,32 @@ function clearChirurgieFields(){
 
 function addHeelkunde(){
   if(isAtLeastOneHeelkundeFieldFilled()){
-    var beginDate = document.getElementById("transactionForm").HeelkundeDateBegin.value;
-    var endDate   = document.getElementById("transactionForm").HeelkundeDateEnd.value;
+    var beginDate = document.getElementById("transactionForm").HeelkundeDateBegin.value,
+        endDate   = document.getElementById("transactionForm").HeelkundeDateEnd.value;
 
     if((beginDate!="" && endDate!="") && !before(beginDate,endDate)){
-      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web.Occup&labelID=endMustComeAfterBegin";
-      var modalitiesIE = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-      if(window.showModalDialog){
-          window.showModalDialog(popupUrl,'',modalitiesIE);
-      }else{
-          window.confirm("<%=getTranNoLink("Web.Occup","endMustComeAfterBegin",sWebLanguage)%>");
-      }
+      alertDialog("Web.Occup","endMustComeAfterBegin");
       document.getElementById("transactionForm").HeelkundeDateEnd.select();
       return false;
     }
     else{
-      iIndexPersoonlijk ++;
+      iIndexPersoonlijk++;
 
       sHeelkunde+="rowHeelkunde"+iIndexPersoonlijk+"="+document.getElementById("transactionForm").HeelkundeDateBegin.value+"£"+document.getElementById("transactionForm").HeelkundeDateEnd.value+"£"+document.getElementById("transactionForm").HeelkundeDescription.value+"$";
       var tr = tblHeelkunde.insertRow(tblHeelkunde.rows.length);
       tr.id = "rowHeelkunde"+iIndexPersoonlijk;
 
       var td = tr.insertCell(0);
-      td.innerHTML = "<a href='javascript:deleteHeelkunde(rowHeelkunde"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                    +"<a href='javascript:editHeelkunde(rowHeelkunde"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteHeelkunde(rowHeelkunde"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "+
+                     "<a href='javascript:editHeelkunde(rowHeelkunde"+iIndexPersoonlijk+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
-      td.innerHTML =  "&nbsp;"+document.getElementById("transactionForm").HeelkundeDateBegin.value;
+      td.innerHTML = "&nbsp;"+document.getElementById("transactionForm").HeelkundeDateBegin.value;
       tr.appendChild(td);
 
       td = tr.insertCell(2);
-      td.innerHTML =  "&nbsp;"+document.getElementById("transactionForm").HeelkundeDateEnd.value;
+      td.innerHTML = "&nbsp;"+document.getElementById("transactionForm").HeelkundeDateEnd.value;
       tr.appendChild(td);
 
       td = tr.insertCell(3);
@@ -541,9 +528,9 @@ function addHeelkunde(){
 }
 
 function isAtLeastOneHeelkundeFieldFilled(){
-  if(document.getElementById("transactionForm").HeelkundeDateBegin.value != "") return true;
-  if(document.getElementById("transactionForm").HeelkundeDateEnd.value != "") return true;
-  if(document.getElementById("transactionForm").HeelkundeDescription.value != "") return true;
+  if(document.getElementById("transactionForm").HeelkundeDateBegin.value!="") return true;
+  if(document.getElementById("transactionForm").HeelkundeDateEnd.value!="") return true;
+  if(document.getElementById("transactionForm").HeelkundeDescription.value!="") return true;
   return false;
 }
 
@@ -632,9 +619,9 @@ function addLetsels(){
 }
 
 function isAtLeastOneLetselsFieldFilled(){
-  if(document.getElementById("transactionForm").LetselsDate.value != "") return true;
-  if(document.getElementById("transactionForm").LetselsDescription.value != "") return true;
-  if(document.getElementById("transactionForm").LetselsBI.value != "") return true;
+  if(document.getElementById("transactionForm").LetselsDate.value!="") return true;
+  if(document.getElementById("transactionForm").LetselsDescription.value!="") return true;
+  if(document.getElementById("transactionForm").LetselsBI.value!="") return true;
   return false;
 }
 
@@ -671,8 +658,8 @@ function updateLetsels(){
     var sBI = formatBI(document.getElementById("transactionForm").LetselsBI.value);
 
     var row = tblLetsels.rows[editLetselsRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteLetsels("+editLetselsRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editLetsels("+editLetselsRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteLetsels("+editLetselsRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "+
+                             "<a href='javascript:editLetsels("+editLetselsRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
     row.cells[1].innerHTML = "&nbsp;"+document.getElementById("transactionForm").LetselsDate.value;
     row.cells[2].innerHTML = "&nbsp;"+document.getElementById("transactionForm").LetselsDescription.value;
     row.cells[3].innerHTML = "&nbsp;"+sBI;
@@ -690,7 +677,7 @@ function clearLetselsFields(){
 }
 
 function formatBI(sBI){
-  if(sBI.length>0){
+  if(sBI.length > 0){
     if(sBI.indexOf("%")<0){
       sBI = sBI+"%";
     }
@@ -698,4 +685,3 @@ function formatBI(sBI){
   return sBI;
 }
 </script>
-

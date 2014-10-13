@@ -59,7 +59,7 @@
 	                        	String sDocName = be.openclinic.healthrecord.Document.getName(aDocuments[i]);
 	                        	
 	                            %><img src="<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif" class="link" onClick="deleteDocument('<%=aDocuments[i]%>');" title="<%=getTranNoLink("web","delete",sWebLanguage)%>">
-	                              <a href="#" onclick="openDocument('<%=aDocuments[i]%>')"><%=sDocName%></a><br>
+	                              <a href="javascript:openDocument('<%=aDocuments[i]%>')"><%=sDocName%></a><br>
 	                              <script>docNames[docNames.length] = "<%=sDocName%>";</script><%
 	                        }
 	                    }
@@ -186,7 +186,7 @@
           %>
 	      
 	      <%-- name of document --%>
-	      document.getElementById("divDocuments").innerHTML+= "<a href='#' onclick='openDocument(\""+docIds[i]+"\")'>"+docNames[i]+"</a><br>";
+	      document.getElementById("divDocuments").innerHTML+= "<a href='javascript:openDocument(\""+docIds[i]+"\")'>"+docNames[i]+"</a><br>";
         }
 	  }
     }

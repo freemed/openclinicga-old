@@ -123,7 +123,7 @@
                                         + "<td>" + HTMLEntities.htmlentities(sDate) + "</td>"
                                         + "<td>" + HTMLEntities.htmlentities(sEncounterName) + "</td>"
                                         + "<td>" +debet.getQuantity()+" x "+ HTMLEntities.htmlentities(sPrestationDescription) + "</td>"
-                                        + "<td >" + debet.getInsurarAmount() + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
+                                        + "<td>" + debet.getInsurarAmount() + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
                                         + "</tr>");
                     }
                 }
@@ -251,7 +251,7 @@
                                         + "<td>" + HTMLEntities.htmlentities(sDate) + "</td>"
                                         + "<td>" + HTMLEntities.htmlentities(sEncounterName) + "</td>"
                                         + "<td>" +debet.getQuantity()+" x "+ HTMLEntities.htmlentities(sPrestationDescription) + "</td>"
-                                        + "<td >" + debet.getInsurarAmount() + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
+                                        + "<td>" + debet.getInsurarAmount() + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
                                         + "</tr>");
                     }
                 }

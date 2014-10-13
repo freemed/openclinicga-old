@@ -693,7 +693,7 @@
                 <%-- CORRECT --%>
                 <tr>
                     <td class="admin2">
-                        <a href="#" onClick="checkAllCorrectModel1();"><%=getTran("web.occup","healthrecord.ophtalmology.correct",sWebLanguage)%></a>
+                        <a href="javascript:checkAllCorrectModel1();"><%=getTran("web.occup","healthrecord.ophtalmology.correct",sWebLanguage)%></a>
                     </td>
                     <td class="admin2">
                         <input id="m1_co1" type="radio" onDblClick="uncheckRadio(this);" tabindex="76" value="1" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_COLOR_SENS_57" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_COLOR_SENS_57;value=1" property="value" outputString="checked"/> onclick="if(this.checked){document.all['m1_value1'].value='';}">
@@ -732,7 +732,7 @@
                 <%-- NOT CORRECT --%>
                 <tr>
                     <td class="admin2">
-                        <a href="#" onClick="checkAllIncorrectModel1();"><%=getTran("web.occup","healthrecord.ophtalmology.not-correct",sWebLanguage)%> - <%=getTran("web.occup","healthrecord.ophtalmology.value-read",sWebLanguage)%></a>
+                        <a href="javascript:checkAllIncorrectModel1();"><%=getTran("web.occup","healthrecord.ophtalmology.not-correct",sWebLanguage)%> - <%=getTran("web.occup","healthrecord.ophtalmology.value-read",sWebLanguage)%></a>
                     </td>
                     <td class="admin2">
                         <input id="m1_notco1" type="radio" onDblClick="uncheckRadio(this);" tabindex="77" value="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_COLOR_SENS_57" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_COLOR_SENS_57;value=2" property="value" outputString="checked"/>>&nbsp;-&nbsp;
@@ -799,7 +799,7 @@
                 <%-- CORRECT --%>
                 <tr>
                     <td class="admin2">
-                        <a href="#" onClick="checkAllCorrectModel2();"><%=getTran("web.occup","healthrecord.ophtalmology.correct",sWebLanguage)%></a>
+                        <a href="javascript:checkAllCorrectModel2();"><%=getTran("web.occup","healthrecord.ophtalmology.correct",sWebLanguage)%></a>
                     </td>
                     <td class="admin2">
                         <input id="m2_co1" type="radio" onDblClick="uncheckRadio(this);" tabindex="91" value="3" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_COLOR_SENS_57" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_COLOR_SENS_57;value=3" property="value" outputString="checked"/> onclick="if(this.checked){document.all['m2_valueII1'].value='';}">
@@ -848,7 +848,7 @@
                 <%-- NOT CORRECT --%>
                 <tr>
                     <td class="admin2">
-                        <a href="#" onClick="checkAllIncorrectModel2();"><%=getTran("web.occup","healthrecord.ophtalmology.not-correct",sWebLanguage)%> - <%=getTran("web.occup","healthrecord.ophtalmology.value-read",sWebLanguage)%></a>
+                        <a href="javascript:checkAllIncorrectModel2();"><%=getTran("web.occup","healthrecord.ophtalmology.not-correct",sWebLanguage)%> - <%=getTran("web.occup","healthrecord.ophtalmology.value-read",sWebLanguage)%></a>
                     </td>
                     <td class="admin2">
                        <input id="m2_notcoII1" type="radio" onDblClick="uncheckRadio(this);" tabindex="92" value="4" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_COLOR_SENS_57" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_VISION_COLOR_SENS_57;value=4" property="value" outputString="checked"/>>&nbsp;-&nbsp;

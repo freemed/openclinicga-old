@@ -1,5 +1,4 @@
-<%@ page
-        import="be.mxs.common.util.system.HTMLEntities,be.openclinic.adt.Bed,be.openclinic.adt.Encounter,java.util.Vector,java.util.Hashtable" %>
+<%@ page import="be.mxs.common.util.system.HTMLEntities,be.openclinic.adt.Bed,be.openclinic.adt.Encounter,java.util.Vector,java.util.Hashtable" %>
 <%@ page errorPage="/includes/error.jsp" %>
 <%@ include file="/includes/validateUser.jsp" %>
 <%!
@@ -12,13 +11,13 @@
         eTmp = Encounter.get(sEncounterUID);
 
         if (eTmp.getBegin() != null) {
-            sBegin = ScreenHelper.stdDateFormat.format(eTmp.getBegin());
+            sBegin = ScreenHelper.formatDate(eTmp.getBegin());
         } else {
             sBegin = "";
         }
 
         if (eTmp.getEnd() != null) {
-            sEnd = ScreenHelper.stdDateFormat.format(eTmp.getEnd());
+            sEnd = ScreenHelper.formatDate(eTmp.getEnd());
         } else {
             sEnd = "";
         }
@@ -151,7 +150,7 @@
         <td><%=HTMLEntities.htmlentities(getTran("Web", "patient", sWebLanguage))%>
         </td>
     </tr>
-    <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+    <tbody class="hand">
         <%=HTMLEntities.htmlentities(results.toString())%>
     </tbody>
     <%

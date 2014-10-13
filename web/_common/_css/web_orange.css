@@ -208,19 +208,19 @@ div.logo {
  top:2px;
  width:160px;
  height:80px;
- background-color:#DDEDFF;
- background-repeat:no-repeat;
- background-position:top left;
 }
 
 div.version{
  position:absolute;
- right:5px;
- top:70px;
- width:150px;
- height:20px;
+ top:61px;
+ right:1px;
+ width:200px;
+ height:10px;
+ font-size:8px;
+ font-family:Verdana;
+ color:#777;
  text-align:right;
- color:#FC923C;
+ padding-right:15px;
 }
 
 div.topicones {
@@ -1345,7 +1345,7 @@ a.closeButton:hover {
 a.topbutton {
  width:16px;
  height:16px;
- background:url( "../../_img/themes/orange/arrow-up-top.png" ) left top no-repeat;
+ background:url( "../../_img/themes/default/arrow-up-top.png" ) left top no-repeat;
  text-decoration:none;
  filter:alpha( opacity = 80 );
  -moz-opacity:0.8;
@@ -1362,7 +1362,7 @@ a.topbutton:hover {
 a.bottombutton {
  width:16px;
  height:16px;
- background:url( "../../_img/themes/orange/arrow-down-bottom.png" ) left top no-repeat;
+ background:url( "../../_img/themes/default/arrow-down-bottom.png" ) left top no-repeat;
  text-decoration:none;
  filter:alpha( opacity = 80 );
  -moz-opacity:0.8;

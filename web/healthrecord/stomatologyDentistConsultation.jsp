@@ -344,22 +344,14 @@ function addTooth(displayAlert){
   }
   else{
     if(displayAlert){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      transactionForm.toothNr.focus();
-
-      if(window.showModalDialog){
-        window.showModalDialog(popupUrl,"",modalities);
-      }
-      else{
-        window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
-      }
+      alertDialog("web.manage","datamissing");
     }
   }
 
   return true;
 }
 
+<%-- UPDATE TOOTH --%>
 function updateTooth(){
   if(isAtLeastOneToothFieldFilled()){
     <%-- update arrayString --%>
@@ -403,10 +395,10 @@ function updateTooth(){
 }
 
 function isAtLeastOneToothFieldFilled(){
-  if(transactionForm.toothNr.value != "")          return true;
-  if(transactionForm.toothDescription.value != "") return true;
-  if(transactionForm.toothTreatment.value != "")   return true;
-  if(transactionForm.toothStatus.value != "")      return true;
+  if(transactionForm.toothNr.value!="")          return true;
+  if(transactionForm.toothDescription.value!="") return true;
+  if(transactionForm.toothTreatment.value!="")   return true;
+  if(transactionForm.toothStatus.value!="")      return true;
   return false;
 }
 

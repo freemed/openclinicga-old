@@ -2,9 +2,9 @@
                 be.openclinic.finance.PatientCredit,
                 java.util.Vector,java.text.*,
                 be.openclinic.finance.Wicket,
-                be.openclinic.finance.WicketCredit"%>
-<%@ page import="be.openclinic.finance.PatientInvoice" %>
-<%@ page import="be.mxs.common.util.system.HTMLEntities" %>
+                be.openclinic.finance.WicketCredit,
+                be.openclinic.finance.PatientInvoice,
+                be.mxs.common.util.system.HTMLEntities"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("financial.patientCreditEdit","select",activeUser)%>
 <%=sJSSTRINGFUNCTIONS%>
@@ -12,12 +12,12 @@
 
 <%
 	String sFindPatientCreditUID = checkString(request.getParameter("FindPatientCreditUID"));
-	PatientCredit credit=null;
-	String sPatientId="";
+	PatientCredit credit = null;
+	String sPatientId = "";
 	
 	if(sFindPatientCreditUID.length() > 0){
 	    credit = PatientCredit.get(MedwanQuery.getInstance().getConfigString("serverId")+"."+sFindPatientCreditUID);
-	    if (credit!=null && credit.getDate()!=null){
+	    if(credit!=null && credit.getDate()!=null){
 	        sPatientId = credit.getEncounter().getPatientUID();
 	        if(request.getParameter("LoadPatientId")!=null && (activePatient==null || !sPatientId.equalsIgnoreCase(activePatient.personid))){
 	        	if(activePatient==null){
@@ -28,14 +28,14 @@
 	        }
 	    	%>
 	    	<script>
-	    		url='<c:url value="/main.do"/>?Page=financial/patientCreditEdit.jsp&ts=<%=ScreenHelper.getTs()%>&EditCreditUid=<%=credit.getUid()%>';
-	    		window.location.href=url;
+	    	  url = '<c:url value="/main.do"/>?Page=financial/patientCreditEdit.jsp&ts=<%=ScreenHelper.getTs()%>&EditCreditUid=<%=credit.getUid()%>';
+	    	  window.location.href = url;
 	    	</script>
 	    	<%
 	    	out.flush();
 	    }
 	    else{
-	    	out.println(getTran("web","credit.does.not.exist",sWebLanguage)+": "+sFindPatientCreditUID);
+	    	out.print(getTran("web","credit.does.not.exist",sWebLanguage)+": "+sFindPatientCreditUID);
 	    }	
 	} 
 
@@ -60,7 +60,7 @@
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n#################### financial/patientCreditEdit.jsp ##################");
+        Debug.println("\n******************** financial/patientCreditEdit.jsp ******************");
         Debug.println("sAction               : "+sAction);
         Debug.println("sEditCreditUid        : "+sEditCreditUid);
         Debug.println("sEditCreditDate       : "+sEditCreditDate);
@@ -165,7 +165,7 @@
 
         //sEditCreditUid = ""; // do not load the just saved credit
 
-        if (sScreenType.length()>0){
+        if(sScreenType.length() > 0){
             %>
             <script>
               window.opener.doFind();
@@ -196,19 +196,19 @@
             sEditCreditEncName = encounter.getPatient().lastname+" "+encounter.getPatient().firstname;
         }
     }
-    else if ((!sScreenType.equals(""))&&(sEditCreditInvoiceUid.length()>0)){
+    else if(!sScreenType.equals("") && sEditCreditInvoiceUid.length()>0){
         PatientInvoice patientInvoice = PatientInvoice.get(sEditCreditInvoiceUid);
         if(sEditCreditAmount.length()==0 && sEditBalance.length()>0){
-        	sEditCreditAmount=sEditBalance;
+        	sEditCreditAmount = sEditBalance;
         }
         sEditCreditInvoiceNr = patientInvoice.getInvoiceUid();
         sEditCreditDate = checkString(ScreenHelper.stdDateFormat.format(new java.util.Date()));
 
-        if (sScreenType.equalsIgnoreCase("doCancellation")){
+        if(sScreenType.equalsIgnoreCase("doCancellation")){
             sEditCreditType = "correction";
             sEditCreditDescr = getTran("web","canceled",sWebLanguage);
         }
-        else {
+        else{
             sEditCreditType = "patient.payment";
         }
 
@@ -260,7 +260,7 @@
 %>
 <form name="EditForm" id="EditForm" method="POST" onClick="checkForMaxAmount(EditForm.EditCreditAmount);">
 <%
-    if(sScreenType.equals("")){
+    if(sScreenType.length()==0){
 %>
     <%ScreenHelper.setIncludePage(customerInclude("financial/financialStatusPatient.jsp"),pageContext);%>
     <table class="list" width="100%" cellspacing="1" cellpadding="0">
@@ -356,7 +356,7 @@
         
         <%
             Vector userWickets = Wicket.getWicketsForUser(activeUser.userid);
-            if((userWickets.size() > 0)&&(!sScreenType.equalsIgnoreCase("doCancellation"))){
+            if(userWickets.size() > 0 && !sScreenType.equalsIgnoreCase("doCancellation")){
                 %>
                     <tr>
                         <td class="admin"><%=getTran("wicket","wicket",sWebLanguage)%>&nbsp;*</td>
@@ -368,7 +368,7 @@
                                     Wicket wicket;
 
                                     while(iter.hasNext()){
-                                        wicket = (Wicket) iter.next();
+                                        wicket = (Wicket)iter.next();
 
                                         %>
                                           <option value="<%=wicket.getUid()%>" <%=sAction.length()==0 && sEditCreditWicketUid.equals(wicket.getUid())?" selected":""%>>
@@ -477,7 +477,7 @@
 
   function doPrintPatientReceiptPdf(){
     var url = "<c:url value='/financial/createPatientPaymentReceiptPdf.jsp'/>?creditUid="+EditForm.EditCreditUid.value+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value;
-    window.open(url,"PatientPaymentPdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    window.open(url,"PatientPaymentPdf<%=getTs()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
 
   function checkForMaxAmount(amountField){
@@ -572,7 +572,7 @@
 
   function loadUnassignedCredits(){
 	<%
-	    if(sScreenType.equals("")){
+	    if(sScreenType.length()==0){
 	%>
 	    if(document.getElementById("EditCreditEncounterUid").value.length==0){
 	      alertDialog("medical","no_encounter");
@@ -670,7 +670,7 @@
 
   function doPrintPdf(creditUid){
     var url = "<c:url value='/financial/createPaymentReceiptPdf.jsp'/>?CreditUid="+creditUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value;
-    window.open(url,"PaymentReceiptPdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    window.open(url,"PaymentReceiptPdf<%=getTs()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
 
   function doBack(){

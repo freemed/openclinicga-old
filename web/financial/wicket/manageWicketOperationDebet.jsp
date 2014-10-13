@@ -106,7 +106,7 @@
 
                         String sSelected;
                         while(iter.hasNext()){
-                            wicket = (Wicket) iter.next();
+                            wicket = (Wicket)iter.next();
                             if(sEditWicketOperationWicket.equals(wicket.getUid())){
                                 sSelected = " selected";
                             }
@@ -203,10 +203,10 @@
   <%-- DO SEARCH BACK --%>
   function doSearchBack(){
     if(EditForm.EditWicketOperationWicket.value!=""){
-      window.location.href="<c:url value='/main.do'/>?Page=financial/wicket/wicketOverview.jsp&WicketUID="+EditForm.EditWicketOperationWicket.value+"&ts=<%=getTs()%>";
+      window.location.href = "<c:url value='/main.do'/>?Page=financial/wicket/wicketOverview.jsp&WicketUID="+EditForm.EditWicketOperationWicket.value+"&ts=<%=getTs()%>";
     }
     else{
-      window.location.href="<c:url value='/main.do'/>?Page=financial/wicket/findWickets.jsp&ts=<%=getTs()%>";
+      window.location.href = "<c:url value='/main.do'/>?Page=financial/wicket/findWickets.jsp&ts=<%=getTs()%>";
     }
   }
 
@@ -239,8 +239,7 @@
     }
     else{
       EditForm.EditSaveButton.disabled = true;
-      var today = new Date();
-      var url = '<c:url value="/financial/wicket/manageWicketOperationDebetSave.jsp"/>?ts='+today;
+      var url = '<c:url value="/financial/wicket/manageWicketOperationDebetSave.jsp"/>?ts='+new Date();
       new Ajax.Request(url,{
         method: "POST",
         postBody: 'EditWicketOperationUID='+EditForm.EditWicketOperationUID.value+
@@ -312,7 +311,6 @@
         dotCount++;
         if(dotCount > 1){
           sObject.value = "";
-          //sObject.focus();
           return false;
         }
       }
@@ -346,7 +344,7 @@
   <%-- DO PRINT PDF --%>
   function doPrintPdf(creditUid){
     var url = "<c:url value='/financial/createWicketDebetProofPdf.jsp'/>?CreditUid="+creditUid+"&ts=<%=getTs()%>&PrintLanguage=<%=sWebLanguage%>";
-    window.open(url,"WicketDebetProofPdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    window.open(url,"WicketDebetProofPdf<%=getTs()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
 
   loadTodayDebets();

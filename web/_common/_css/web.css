@@ -208,17 +208,19 @@ div.logo {
  top:-15px;
  width:160px;
  height:80px;
- background-color:#DDEDFF;
- background-repeat:no-repeat;
- background-position:top left;
 }
 
-div.version{
+div.version {
  position:absolute;
- right:7px;
- top:50px;
- width:150px;
- height:20px;
+ top:43px;
+ right:9px;
+ width:200px;
+ height:10px;
+ font-size:8px;
+ font-family:Verdana;
+ color:#777;
+ text-align:right;
+ padding-right:15px;
 }
 
 div.topicones {

@@ -1,6 +1,6 @@
-<%@page import="java.text.DecimalFormat" %>
-<%@page errorPage="/includes/error.jsp" %>
-<%@include file="/includes/validateUser.jsp" %>
+<%@page import="java.text.DecimalFormat"%>
+<%@page errorPage="/includes/error.jsp"%>
+<%@include file="/includes/validateUser.jsp"%>
 <%=sJSSORTTABLE%>
 <%=sJSDROPDOWNMENU%>
 <%=sJSNUMBER%>
@@ -46,17 +46,13 @@
     }    
     ///////////////////////////////////////////////////////////////////////////////////////////////
     
-    String sCurrency = MedwanQuery.getInstance().getConfigParam("currency", "€");
+    String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
 %>
-<form name="SearchForm" method="POST" onsubmit="searchInvoices();return false;" onkeydown="if(enterEvent(event,13)){searchInvoices();}" action="<c:url value='/popup.jsp'/>?Page=_common/search/searchExtraInsurarInvoice.jsp&ts=<%=getTs()%>">
+<form name="SearchForm" method="POST" onsubmit="searchInvoices();return false;" onkeydown="if(enterKeyPressed(event)){searchInvoices();}" action="<c:url value='/popup.jsp'/>?Page=_common/search/searchExtraInsurarInvoice.jsp&ts=<%=getTs()%>">
     <input type="hidden" name="Action">
 
-    <table width="100%" cellspacing="1" cellpadding="0" class="list">
-        <%-- TITLE --%>
-        <tr class="admin">
-            <td colspan="4"><%=getTran("web","searchinsurarinvoice",sWebLanguage)%></td>
-        </tr>
-        
+    <%=writeTableHeader("web","searchinsurarinvoice",sWebLanguage," window.close();")%>
+    <table width="100%" cellspacing="1" cellpadding="0" class="list">        
         <%-- INSURANCE COMPANY --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("medical.accident","insurancecompany",sWebLanguage)%></td>
@@ -138,13 +134,16 @@
 </form>
 
 <script>
-  window.resizeTo(700, 600);
+  window.resizeTo(700,600);
   getOpenerInsurance();
-  
+
+  <%-- SEARCH INSURAR --%>
   function searchInsurar(){
-    openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>&ReturnFieldInsurarUid=FindInvoiceInsurarUID&ReturnFieldInsurarName=FindInvoiceInsurarText");
+    openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>&ReturnFieldInsurarUid=FindInvoiceInsurarUID"+
+    		  "&ReturnFieldInsurarName=FindInvoiceInsurarText");
   }
 
+  <%-- DO CLEAR INSURAR --%>
   function doClearInsurar(){
     SearchForm.FindInvoiceInsurarUID.value = "";
     SearchForm.FindInvoiceInsurarText.value = "";
@@ -157,18 +156,18 @@
     SearchForm.FindInvoiceBalanceMin.value = "";
     SearchForm.FindInvoiceBalanceMax.value = "";
     SearchForm.FindInvoiceStatus.value = "";
-    SearchForm.FindInvoiceInsurarUID.value = "";
-    SearchForm.FindInvoiceInsurarText.value = "";
+    doClearInsurar();
+    
     SearchForm.FindInvoiceDate.focus();
   }
 
   <%-- SEARCH PRESTATIONS --%>
   function searchInvoices(){
     SearchForm.Action.value = "search";
-    ajaxChangeSearchResults('_common/search/searchByAjax/searchExtraInsurarInvoiceShow.jsp', SearchForm);
+    ajaxChangeSearchResults('_common/search/searchByAjax/searchExtraInsurarInvoiceShow.jsp',SearchForm);
   }
 
-  <%-- GET OPENER ASSURANCE --%>
+  <%-- GET OPENER INSURANCE --%>
   function getOpenerInsurance(){
     var form = window.opener.document.forms["EditForm"];
     var InsuranceId = form['EditCreditInsurarUid'];
@@ -183,7 +182,7 @@
   }
 
   <%-- SELECT INVOICE --%>
-  function selectInvoice(sInvoiceUid, sInvoiceDate, sInvoiceNr, sInvoiceBalance, sInvoiceStatus, sInsurarUid, sInsurarName){
+  function selectInvoice(sInvoiceUid,sInvoiceDate,sInvoiceNr,sInvoiceBalance,sInvoiceStatus,sInsurarUid,sInsurarName){
     if("<%=sReturnFieldInvoiceUid%>".length > 0){
       window.opener.document.getElementsByName("<%=sReturnFieldInvoiceUid%>")[0].value = sInvoiceUid;
     }
@@ -193,7 +192,7 @@
     }
     if("<%=sReturnFieldInvoiceBalance%>".length > 0){
       if(sInvoiceBalance > 0 && window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")){
-        window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value = format_number(sInvoiceBalance*1, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+        window.opener.document.getElementsByName("<%=sReturnFieldInvoiceBalance%>")[0].value = format_number(sInvoiceBalance*1,<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
       }
     }
     if("<%=sReturnFieldInvoiceStatus%>".length > 0){
@@ -212,25 +211,9 @@
         }
     %>
     
-    if(window.opener.loadUnassignedCredits != null){
+    if(window.opener.loadUnassignedCredits!=null){
       window.opener.loadUnassignedCredits(sInsurarUid);
     }
     window.close();
   }
 </script>
-
-<%-- CALENDAR FRAMES --%>
-<% String sDateType = MedwanQuery.getInstance().getConfigString("dateType","eu"); // eu/us %>
-
-<iframe width="174" height="189" name="gToday:normal1_<%=sDateType%>:agenda.js:gfPop1" id="gToday:normal1_<%=sDateType%>:agenda.js:gfPop1"
-        src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
-        style="visibility:visible;z-index:999;position:absolute;top:-500px;left:-500px;">
-</iframe>
-<iframe width="174" height="189" name="gToday:normal2_<%=sDateType%>:agenda.js:gfPop2" id="gToday:normal2_<%=sDateType%>:agenda.js:gfPop2"
-        src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
-        style="visibility:visible;z-index:999;position:absolute;top:-500px;left:-500px;">
-</iframe>
-<iframe width="174" height="189" name="gToday:normal3_<%=sDateType%>:agenda.js:gfPop3" id="gToday:normal3_<%=sDateType%>:agenda.js:gfPop3"
-        src="<c:url value='/_common/_script/ipopeng.htm'/>" scrolling="no" frameborder="0"
-        style="visibility:visible;z-index:999;position:absolute;top:-500px;left:-500px;">
-</iframe>

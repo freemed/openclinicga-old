@@ -74,7 +74,7 @@
     }
 %>
 
-<%=writeTableHeader("terminology","manage_terminology",sWebLanguage,"")%>
+<%=writeTableHeader("terminology","manage_terminology",sWebLanguage," window.close();")%>
 
 <%-- EDIT TABLE ---------------------------------------------------------------------------------%>
 <div id="EditBlock">

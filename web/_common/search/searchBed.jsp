@@ -6,10 +6,20 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%
-    String sFindBedName = checkString(request.getParameter("FindBedName"));
-    String sVarCode = checkString(request.getParameter("VarCode"));
-    String sVarText = checkString(request.getParameter("VarText"));
-    String sServiceUID = checkString(request.getParameter("ServiceUID"));
+    String sFindBedName = checkString(request.getParameter("FindBedName")),
+           sVarCode     = checkString(request.getParameter("VarCode")),
+           sVarText     = checkString(request.getParameter("VarText")),
+           sServiceUID  = checkString(request.getParameter("ServiceUID"));
+    
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n********************* _common/search/searchBed.jsp *********************");
+    	Debug.println("sFindBedName : "+sFindBedName);
+    	Debug.println("sVarCode     : "+sVarCode);
+    	Debug.println("sVarText     : "+sVarText);
+    	Debug.println("sServiceUID  : "+sServiceUID+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 %>
 <form name='SearchForm' method="POST" onSubmit="doFind();" onkeydown="if(enterEvent(event,13)){doFind();}">
     <input type="hidden" name="VarCode" value="<%=sVarCode%>">
@@ -26,18 +36,20 @@
                 <select class='text' name='ServiceUID' id='ServiceUid' onchange='doFind();'>
                 	<option/>
                 	<%
-                		//We maken een lijst van alle diensten met hospitalisatie
+                		// lijst van alle diensten met hospitalisatie
                 		Vector services = Service.getServicesWithBeds();
 	                	for(int n=0; n<services.size(); n++){
 							Service service = (Service)services.elementAt(n);
-	                		out.println("<option value='"+service.code+"'"+(service.code.equalsIgnoreCase(sServiceUID)?" selected ":"")+">"+service.code+": "+service.getLabel(sWebLanguage)+"</option>");								                		
+	                		out.print("<option value='"+service.code+"'"+(service.code.equalsIgnoreCase(sServiceUID)?" selected ":"")+">"+service.code+": "+service.getLabel(sWebLanguage)+"</option>");								                		
 	                	}
                 	%>
                 </select>
-                <br/><input type="text" name='FindBedName' class="text" value="<%=sFindBedName%>" onblur='limitLength(this);' size="50">
+                <br/>
+                
+                <input type="text" name='FindBedName' class="text" value="<%=sFindBedName%>" onblur='limitLength(this);' size="50">
             </td>
+            <%-- BUTTONS --%>
             <td style='text-align:right'>
-                <%-- BUTTONS --%>
                 <input class="button" type="button" onClick="doFind();" name="findButton" value="<%=getTranNoLink("Web","find",sWebLanguage)%>">
                 <input class="button" type="button" onClick="clearFields();" name="clearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>">&nbsp;
             </td>
@@ -54,7 +66,7 @@
 
     <%-- CLOSE BUTTON --%>
     <center>
-        <input type="button" class="button" name="buttonclose" value='<%=getTranNoLink("Web","Close",sWebLanguage)%>' onclick='window.close()'>
+        <input type="button" class="button" name="buttonclose" value='<%=getTranNoLink("Web","close",sWebLanguage)%>' onclick='window.close()'>
     </center>
 </form>
 
@@ -71,7 +83,7 @@
 
   <%-- DO FIND --%>
   function doFind(){
-    ajaxChangeSearchResults('_common/search/searchByAjax/searchBedShow.jsp', SearchForm);
+    ajaxChangeSearchResults('_common/search/searchByAjax/searchBedShow.jsp',SearchForm);
   }
 
   <%-- SET BED --%>
@@ -87,7 +99,7 @@
   
   <%-- OPEN ENCOUNTER WHERE BED IS OCCUPIED --%>
   function editEncounter(encounterUid){
-    openPopup("adt/editEncounter.jsp&EditEncounterUID="+encounterUid+"&Popup=yes&ts=<%=getTs()%>", "editEncounterPopup<%=new java.util.Date().getTime()%>");
+    openPopup("adt/editEncounter.jsp&EditEncounterUID="+encounterUid+"&Popup=yes&ts=<%=getTs()%>","editEncounterPopup<%=getTs()%>");
   }
 
   <%-- search service --%>
@@ -97,7 +109,7 @@
 
   <%-- TOGGLE BED INFO --%>
   function toggleBedInfo(id){
-    if(document.getElementById(id).style.display == "none"){
+    if(document.getElementById(id).style.display=="none"){
       document.getElementById(id).style.display = "";
     }
     else{

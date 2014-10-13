@@ -130,10 +130,10 @@
 	    	<table id="tblPsychology" width="100%">
 	    		<tr>
 	                <td class="admin" width="36">&nbsp;</td>
-	  	     		<td class="admin"><%=getTran("web","date",sWebLanguage) %></td>
-	  	     		<td class="admin"><%=getTran("web","hour",sWebLanguage) %></td>
-		     		<td class="admin"><%=getTran("web","session.report",sWebLanguage) %></td>
-		     		<td class="admin"><%=getTran("web","evolution",sWebLanguage) %></td>
+	  	     		<td class="admin"><%=getTran("web","date",sWebLanguage)%></td>
+	  	     		<td class="admin"><%=getTran("web","hour",sWebLanguage)%></td>
+		     		<td class="admin"><%=getTran("web","session.report",sWebLanguage)%></td>
+		     		<td class="admin"><%=getTran("web","evolution",sWebLanguage)%></td>
 	                <td class="admin">&nbsp;</td>
 		     	</tr>
 		     	<tr>

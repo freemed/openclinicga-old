@@ -10,7 +10,14 @@
     }
     String sEnd = request.getParameter("end");
     if(sEnd==null){
-        sEnd="31/12/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
+        //sEnd = ScreenHelper.stdDateFormat.format(new java.util.Date()); // now
+        
+	    if(ScreenHelper.stdDateFormat.toPattern().equals("dd/MM/yyyy")){
+            sEnd = "31/12/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
+	    }
+	    else{
+            sEnd = "12/31/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
+	    }
     }
 
     String sql = "select firstname,lastname,dateofbirth,oc_begindate,oc_serviceuid,oc_encounteruid,personid,oc_insurar"+

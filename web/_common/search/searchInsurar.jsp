@@ -44,12 +44,13 @@
     <input type="hidden" name="doFunction" value="<%=sFunction%>">
     <input type="hidden" name="ExcludeCoverageplans" value="<%=sExcludeCoverageplans%>">
       
-    <%=writeTableHeader("financial","searchInsurar",sWebLanguage)%>
+    <%=writeTableHeader("financial","searchInsurar",sWebLanguage," window.close();")%>
     
     <%-- SEARCH FIELDS --%>
     <table width="100%" class="menu" cellspacing="0">
         <tr height="22">
             <td class="admin2">
+                <%-- INSURAR NAME --%>
                 &nbsp;<%=getTran("web","insurar",sWebLanguage)%>&nbsp;&nbsp;<input type="text" class="text" name="FindInsurarName" size="30" maxChars="255" value="<%=sFindInsurarName%>">
 
                 <%-- BUTTONS --%>
@@ -70,16 +71,19 @@
 <script>
   window.resizeTo(600,525);
 
+  <%-- SEARCH INSURAR --%>
   function searchInsurar(){
     SearchForm.Action.value = "search";
     ajaxChangeSearchResults("_common/search/searchByAjax/searchInsurarShow.jsp",SearchForm);
   }
 
+  <%-- CLEAR SEARCH FIELDS --%>
   function clearSearchFields(){
     SearchForm.FindInsurarName.value = "";
     SearchForm.FindInsurarName.focus();
   }
 
+  <%-- SELECT INSURAR --%>
   function selectInsurar(uid,name,contact){
     if("<%=sReturnFieldUid%>".length > 0){
       window.opener.document.getElementsByName("<%=sReturnFieldUid%>")[0].value = uid;
@@ -100,5 +104,5 @@
     window.close();
   }
   
-  window.setTimeout("SearchForm.FindInsurarName.focus();",1000);
+  window.setTimeout("SearchForm.FindInsurarName.focus();",500);
 </script>

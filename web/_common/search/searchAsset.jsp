@@ -58,7 +58,7 @@
     // search fields 
     %>
         <form name="SearchForm" id="SearchForm" method="POST">          
-            <%=writeTableHeader("web","searchAssets",sWebLanguage,"")%>
+            <%=writeTableHeader("web","searchAssets",sWebLanguage," window.close();")%>
             <input type="hidden" name="Action" value="search">
                             
             <table class="list" border="0" width="100%" cellspacing="1">
@@ -138,7 +138,7 @@
 	       sSupplierUid.length() > 0 || sPurchasePeriodBegin.length() > 0 || sPurchasePeriodEnd.length() > 0 || showAllAssetsOnEmptySearch){
 		    Asset findItem = new Asset();
 		    findItem.code = sCode;
-		    findItem.description = sDescription;
+		    findItem.description = sDescription;		    
 		    findItem.serialnumber = sSerialnumber;
 		    findItem.assetType = sAssetType;
 		    findItem.supplierUid = sSupplierUid;
@@ -170,7 +170,11 @@
 		                        
 		                        for(int i=0; i<foundAssets.size(); i++){
 		                            asset = (Asset)foundAssets.get(i);
-		                            
+		                		    
+		                		    if(asset.description.length() > 100){
+		                		    	asset.description = asset.description.substring(0,100)+"...";
+		                		    }
+		                		    
 		                            // alternate row-style
 		                            if(sClass.length()==0) sClass = "1";
 		                            else                   sClass = "";

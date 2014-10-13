@@ -3,6 +3,7 @@
                be.mxs.common.util.system.HTMLEntities"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+
 <%
     String sAction = checkString(request.getParameter("Action"));
 
@@ -61,7 +62,8 @@
             for(int i=0; i<foundInsurars.size(); i++){
                 insurar = (Insurar) foundInsurars.get(i);
                 
-                if("true".equalsIgnoreCase(request.getParameter("excludePatientSelfInsurarUID")) && insurar.getUid().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("patientSelfInsurarUID", "none"))) {
+                if("true".equalsIgnoreCase(request.getParameter("excludePatientSelfInsurarUID")) && 
+                   insurar.getUid().equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("patientSelfInsurarUID","none"))){
                     continue;
                 }
                 if(sExcludeCoverageplans.equalsIgnoreCase("true") && insurar.getContact().equalsIgnoreCase("plan.openinsurance")){

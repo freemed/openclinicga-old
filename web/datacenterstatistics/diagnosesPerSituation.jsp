@@ -1,16 +1,34 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+<%=sJSDATE%>
+
 <%
     String sBegin = request.getParameter("begin");
     if(sBegin==null){
         sBegin="01/01/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
     }
+    
     String sEnd = request.getParameter("end");
     if(sEnd==null){
-        sEnd="31/12/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
+	    //sEnd = ScreenHelper.stdDateFormat.format(new java.util.Date()); // now
+	    
+	    if(ScreenHelper.stdDateFormat.toPattern().equals("dd/MM/yyyy")){
+	        sEnd = "31/12/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
+	    }
+	    else{
+	        sEnd = "12/31/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
+	    }
     }
+
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n************ datacenterstatistics/diagnosesPerSituation.jsp ***********");
+    	Debug.println("sBegin : "+sBegin);
+    	Debug.println("sEnd   : "+sEnd+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    
 %>
-<%=sJSDATE%>
 <form method="post" name="statForm" id="serviceIncome">
     <table>
         <tr>
@@ -45,6 +63,7 @@
         </tr>
     </table>
 </form>
+
 <table width="100%">
 <%
     if(request.getParameter("find")!=null){
@@ -85,8 +104,9 @@
     }
 %>
 </table>
+
 <script>
-    function openpatientrecord(personid) {
-        window.open("<c:url value='main.jsp?Page=curative/index.jsp'/>&ts=<%=getTs()%>&PersonID="+personid, "Popup" + new Date().getTime(), "toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=800,height=600,menubar=no").moveTo((screen.width - 800) / 2, (screen.height - 600) / 2);
-    }
+  function openpatientrecord(personid) {
+    window.open("<c:url value='main.jsp?Page=curative/index.jsp'/>&ts=<%=getTs()%>&PersonID="+personid, "Popup" + new Date().getTime(), "toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=800,height=600,menubar=no").moveTo((screen.width - 800) / 2, (screen.height - 600) / 2);
+  }
 </script>

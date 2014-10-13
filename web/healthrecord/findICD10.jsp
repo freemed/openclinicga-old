@@ -36,7 +36,7 @@
                 Vector codes = MedwanQuery.getInstance().findICD10Codes(request.getParameter("keywords"), sWebLanguage);
                 ICPCCode code;
 
-        %><tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'><%
+        %><tbody class="hand"><%
 
                 for (int n=0; n<codes.size(); n++){
                     foundRecords++;

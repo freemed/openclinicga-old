@@ -20,12 +20,12 @@
 	<input type='hidden' name='invoiceuid' value='<%=checkString(request.getParameter("invoiceuid")) %>'/>
 	<table width='100%'>
 		<tr>
-			<td class='admin'><%=getTran("web","reason",sWebLanguage) %></td>
+			<td class='admin'><%=getTran("web","reason",sWebLanguage)%></td>
 			<td class='admin2'><textarea name='reason' id='reason' cols='60' rows='8' maxlength='240'></textarea></td>
 		</tr>
 		<tr>
-			<td><input class='button' type='submit' name='novalidate' value='<%=getTranNoLink("web","save",sWebLanguage) %>'/></td>
-			<td><input class='button' type='button' name='close' onclick='window.close();' value='<%=getTranNoLink("web","close",sWebLanguage) %>'/></td>
+			<td><input class='button' type='submit' name='novalidate' value='<%=getTranNoLink("web","save",sWebLanguage)%>'/></td>
+			<td><input class='button' type='button' name='close' onclick='window.close();' value='<%=getTranNoLink("web","close",sWebLanguage)%>'/></td>
 		</tr>
 	</table>
 </form>

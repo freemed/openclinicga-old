@@ -21,7 +21,7 @@
             <td class="tabunselected" width="1%" onclick="activateTab('AdminFamilyRelation')" id="td3" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' nowrap>&nbsp;<b><%=getTran("Web","AdminFamilyRelation",sWebLanguage)%></b>&nbsp;</td>
             <td class="tabs">&nbsp;</td>
             <td class="tabunselected" width="1%" onclick="activateTab('AdminResource')" id="td4" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' nowrap>&nbsp;<b><%=getTran("Web","AdminResource",sWebLanguage)%></b>&nbsp;</td>
-            <td width="100%" class='tabs'>&nbsp;</td>
+            <td class="tabs" width="100%">&nbsp;</td>
         </tr>
     </table>
     
@@ -101,7 +101,7 @@
     }
 
     document.getElementById("tr3-view").style.display = "none";
-    td3.className="tabunselected";
+    td3.className = "tabunselected";
     if(sTab=="AdminFamilyRelation"){
       document.getElementById("tr3-view").style.display = "";
       td3.className = "tabselected";
@@ -109,7 +109,7 @@
     }
 
     document.getElementById("tr4-view").style.display = "none";
-    td4.className="tabunselected";
+    td4.className = "tabunselected";
     if(sTab=="AdminResource"){
       document.getElementById("tr4-view").style.display = "";
       td4.className = "tabselected";

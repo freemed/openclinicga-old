@@ -13,19 +13,19 @@
     String sReturnFieldContractUid = checkString(request.getParameter("ReturnFieldContractUid")),
     	   sReturnFieldContractId  = checkString(request.getParameter("ReturnFieldContractId"));
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n**************** searchContract.jsp ****************");
+        Debug.println("\n******************** _common/search/searchContract.jsp *****************");
         Debug.println("sPersonId               : "+sPersonId);
         Debug.println("sFunction               : "+sFunction);
         Debug.println("sReturnFieldContractUid : "+sReturnFieldContractUid);
         Debug.println("sReturnFieldContractId  : "+sReturnFieldContractId+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     
     String msg = "";
   
-    out.println(writeTableHeader("web","contracts",sWebLanguage,""));
+    out.print(writeTableHeader("web","contracts",sWebLanguage," window.close();"));
    
     List foundContracts = Contract.getContractsForPerson(Integer.parseInt(sPersonId));
     if(foundContracts.size() > 0){

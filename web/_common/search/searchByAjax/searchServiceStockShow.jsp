@@ -23,9 +23,8 @@
     String sReturnServiceStockUidField  = checkString(request.getParameter("ReturnServiceStockUidField")),
            sReturnServiceStockNameField = checkString(request.getParameter("ReturnServiceStockNameField"));
 
-    StringBuffer sOut = new StringBuffer();
+    StringBuffer sOut = new StringBuffer("");
     int iTotal = 0;
-    sOut.append("");
     
     //--- FIND ------------------------------------------------------------------------------------
     if(sAction.equals("find")){
@@ -50,17 +49,16 @@
             serviceStock = (ServiceStock)serviceStocks.get(i);
             
             if(!serviceStock.getUid().equalsIgnoreCase(sExcludeServiceStockUid)){
-
-                sServiceName = getTranNoLink("Service", serviceStock.getServiceUid(), sWebLanguage);
+                sServiceName = getTranNoLink("Service", serviceStock.getServiceUid(),sWebLanguage);
                 sManagerName = serviceStock.getStockManager().lastname+" "+serviceStock.getStockManager().firstname;
 
                 // supplyingService
 
-                if(serviceStock.getService() != null){
-                    if(serviceStock.getService().code != null){
+                if(serviceStock.getService()!=null){
+                    if(serviceStock.getService().code!=null){
                         sSupplyingServiceUid = serviceStock.getService().code;
 
-                        if(sSupplyingServiceUid.length() > 0) sSupplyingServiceName = getTran("service", serviceStock.getService().code, sWebLanguage);
+                        if(sSupplyingServiceUid.length() > 0) sSupplyingServiceName = getTran("service",serviceStock.getService().code,sWebLanguage);
                         else                                  sSupplyingServiceName = "";
 
                         // alternate row-style
@@ -70,11 +68,11 @@
                         String cellClass = "", level = "";
                         if(sSearchProductUid.length() > 0){
                             ProductStock productStock = serviceStock.getProductStock(sSearchProductUid);
-                            if(productStock == null || (sSearchProductLevel.length() > 0 && productStock.getLevel() < Integer.parseInt(sSearchProductLevel))){
+                            if(productStock==null || (sSearchProductLevel.length() > 0 && productStock.getLevel() < Integer.parseInt(sSearchProductLevel))){
                                 cellClass = " class='strike'";
                             }
-                            if(productStock != null){
-                                level = " <i>("+getTran("web", "level", sWebLanguage)+" = "+productStock.getLevel()+")</i>";
+                            if(productStock!=null){
+                                level = " <i>("+getTran("web","level",sWebLanguage)+" = "+productStock.getLevel()+")</i>";
                             }
                         }
 

@@ -48,7 +48,7 @@
                         <tr>
                             <td width='*'>
                                 <img src="<c:url value='/_img/icons/icon_warning.gif'/>" onClick="editWarning('<%=transactionVO.getServerId()%>','<%=transactionVO.getTransactionId()%>');" class="link" style="vertical-align:-4px;" alt="<%=getTranNoLink("web","edit",sWebLanguage)%>">
-                                <a href="#" onClick="editWarning('<%=transactionVO.getServerId()%>','<%=transactionVO.getTransactionId()%>');" onMouseOver="window.status='';return true;"><b><%=sLabel%></b></a><i><%=sComment%></i>
+                                <a href="javascript:editWarning('<%=transactionVO.getServerId()%>','<%=transactionVO.getTransactionId()%>');" onMouseOver="window.status='';return true;"><b><%=sLabel%></b></a><i><%=sComment%></i>
                             </td>
                         </tr>
                     <%

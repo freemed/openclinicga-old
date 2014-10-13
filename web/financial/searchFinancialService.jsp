@@ -20,13 +20,13 @@
 
                     sReturn = getParent(sParentID,sWebLanguage)
                         +"&nbsp;<img src='"+sCONTEXTPATH+"/_img/themes/default/pijl.gif'>&nbsp;"
-                        +"<a href='#' onclick='populateService(\""+sCode+"\")' title='"+getTranNoLink("Web.Occup","medwan.common.open",sWebLanguage)+"'>"+sLabel+"</a>";
+                        +"<a href='javascript:populateService(\""+sCode+"\")' title='"+getTranNoLink("Web.Occup","medwan.common.open",sWebLanguage)+"'>"+sLabel+"</a>";
                 }
             }
 
             if (sReturn.trim().length()==0) {
                 sReturn = sReturn+"&nbsp;<img src='"+sCONTEXTPATH+"/_img/themes/default/pijl.gif'>&nbsp;"
-                    +"<a href='#' onclick='populateService(\""+sCode+"\")' title='"+getTranNoLink("Web.Occup","medwan.common.open",sWebLanguage)+"'>"+sLabel+"</a>";
+                    +"<a href='javascript:populateService(\""+sCode+"\")' title='"+getTranNoLink("Web.Occup","medwan.common.open",sWebLanguage)+"'>"+sLabel+"</a>";
             }
         }
 
@@ -44,7 +44,7 @@
         return "<tr><td>"
             +sIcon+"&nbsp;<img src='"+sCONTEXTPATH+"/_img/icons/icon_view.gif' alt='"+getTranNoLink("Web","view",sWebLanguage)+"'"
             +" onclick='viewService(\""+sID+"\")'></td><td>"+sID+"</td>"
-            +"<td><a href='#' onclick='selectParentService(\""+sID+"\",\""+sLabel+"\")' title='"+getTranNoLink("Web","select",sWebLanguage)+"'>"+sLabel+"</a></td></tr>";
+            +"<td><a href='javascript:selectParentService(\""+sID+"\",\""+sLabel+"\")' title='"+getTranNoLink("Web","select",sWebLanguage)+"'>"+sLabel+"</a></td></tr>";
     }
 %>
 
@@ -204,7 +204,7 @@
             <%-- menubar --%>
             <tr>
                 <td class="menu_bar">
-                    &nbsp;<a href='#' onclick='ClearButton.click();SearchForm.submit();'>Home</a><%=sNavigation%>
+                    &nbsp;<a href='javascript:ClearButton.click();SearchForm.submit();'>Home</a><%=sNavigation%>
                 </td>
             </tr>
 
@@ -275,7 +275,7 @@
                                         }
                                         else{
                                             %>
-                                                <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                                                <tbody class="hand">
                                                     <%out.print(sOut.toString());%>
                                                 </tbody>
                                             <%

@@ -183,6 +183,16 @@ function enterEvent(e,targetKey){
   return (eventKey==targetKey);
 }
 
+function enterKeyPressed(e){
+  var eventKey = e.which?e.which:window.event.keyCode;
+  return (eventKey==13);
+}
+
+function deleteKeyPressed(e){
+  var eventKey = e.which?e.which:window.event.keyCode;
+  return (eventKey==46);	
+}
+
 function centerPopup(element){
   var height = $(element).offsetHeight;
   var width = $(element).offsetWidth;

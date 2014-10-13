@@ -139,7 +139,7 @@
                                         <input <%=setRightClick("ITEM_TYPE_OPTHALMOLOGY_SCREEN_ERGOVISION_CORRECTION_BIFOCAL")%> type="checkbox" id="mov_c11" tabindex="11" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_SCREEN_ERGOVISION_CORRECTION_BIFOCAL" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_SCREEN_ERGOVISION_CORRECTION_BIFOCAL;value=healthrecord.ophtalmology.bifocal" property="value" outputString="checked"/> value="healthrecord.ophtalmology.bifocal">
                                         <%=getLabel("Web.Occup","healthrecord.ophtalmology.bifocal",sWebLanguage,"mov_c11")%>
                                     </td>
-                                    <td >
+                                    <td>
                                         <input <%=setRightClick("ITEM_TYPE_OPTHALMOLOGY_SCREEN_ERGOVISION_CORRECTION_TRIFOCAL")%> type="checkbox" id="mov_c12" tabindex="12" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_SCREEN_ERGOVISION_CORRECTION_TRIFOCAL" property="itemId"/>]>.value" <mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPTHALMOLOGY_SCREEN_ERGOVISION_CORRECTION_TRIFOCAL;value=healthrecord.ophtalmology.trifocal" property="value" outputString="checked"/> value="healthrecord.ophtalmology.trifocal">
                                         <%=getLabel("Web.Occup","healthrecord.ophtalmology.trifocal",sWebLanguage,"mov_c12")%>
                                     </td>
@@ -863,8 +863,8 @@
 </table> 
 
     <%-- SHOW/HIDE ALL SECTIONS --%>
-    <a href="#" onclick="expandAllSections(<%=sectionCount+4%>);"><%=getTran("web","expand_all",sWebLanguage)%></a>
-    <a href="#" onclick="collapseAllSections(<%=sectionCount+4%>);"><%=getTran("web","close_all",sWebLanguage)%></a>
+    <a href="javascript:expandAllSections(<%=sectionCount+4%>);"><%=getTran("web","expand_all",sWebLanguage)%></a>
+    <a href="javascript:collapseAllSections(<%=sectionCount+4%>);"><%=getTran("web","close_all",sWebLanguage)%></a>
         
 	<%-- BUTTONS --%>
 	<%=ScreenHelper.alignButtonsStart()%>

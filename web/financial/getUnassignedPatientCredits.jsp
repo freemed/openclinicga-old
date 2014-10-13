@@ -5,6 +5,7 @@
                 be.mxs.common.util.system.HTMLEntities"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+
 <%!
     DecimalFormat priceFormat = new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#,##0.00"));
 
@@ -25,8 +26,7 @@
 
                 if(sCreditUid.length() > 0){
                     credit = PatientCredit.get(sCreditUid);
-
-                    if(credit != null){
+                    if(credit!=null){
                         // type
                         if(checkString(credit.getType()).length() > 0){
                             sCreditType = getTranNoLink("credit.type",credit.getType(),sWebLanguage);
@@ -66,8 +66,7 @@
                 if(sClass.equals("")) sClass = "1";
                 else                  sClass = "";
 
-                sHtml+= "<tr class='list"+sClass+"' " +
-                          hSort.get(iter.next());
+                sHtml+= "<tr class='list"+sClass+"' "+hSort.get(iter.next());
             }
         }
         
@@ -91,7 +90,7 @@
                     <td width="*"><%=HTMLEntities.htmlentities(getTran("web","description",sWebLanguage))%></td>
                 </tr>
 
-                <tbody onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';">
+                <tbody class="hand">
                     <%=addUnassignedCredits(vCredits,sWebLanguage)%>
                 </tbody>
             </table>

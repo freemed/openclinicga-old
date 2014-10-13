@@ -568,16 +568,7 @@
   <%-- CONFIRM LOGOUT --%>
   function confirmLogout(){
     if(verifyPrestationCheck()){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelType=Web.occup&labelID=confirm.logout";
-      var modalitiesIE = "dialogWidth:250px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      var answer;
-      if(window.showModalDialog){
-        answer = window.showModalDialog(popupUrl,'',modalitiesIE);
-      }
-      else{
-        answer = window.confirm("<%=getTranNoLink("Web.occup","confirm.logout",sWebLanguage)%>");
-      }
-      if(answer==1){
+      if(yesnoDialog("Web.occup","confirm.logout")){
         document.location.href = '<c:url value='/logout.do'/>?ts=<%=getTs()%>';
       }
     }

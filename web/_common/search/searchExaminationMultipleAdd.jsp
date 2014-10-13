@@ -136,7 +136,7 @@
 
                             if (displayedExamCounter > 0) {
                                 %>
-                                    <tbody onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';">
+                                    <tbody class="hand">
                                         <%=examsHtml%>
                                     </tbody>
                                 <%
@@ -179,17 +179,17 @@
         <tr>
             <%-- UN/CHECK ALL --%>
             <td>
-                <a href="#" onclick="checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
-                <a href="#" onclick="checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
+                <a href="javascript:checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
+                <a href="javascript:checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
             </td>
 
             <%
                 // show all examinations or just examinations of user
                 if(sAction.equalsIgnoreCase("showAllExaminations")){
-                    %><td align="right"><a href="#" onclick="showUserExaminations()"><%=getTran("web.manage","showonlyuserexaminations",sWebLanguage)%></a></td><%
+                    %><td align="right"><a href="javascript:showUserExaminations()"><%=getTran("web.manage","showonlyuserexaminations",sWebLanguage)%></a></td><%
                 }
                 else{
-                    %><td align="right"><a href="#" onclick="showAllExaminations()"><%=getTran("web.manage","showallexaminations",sWebLanguage)%></a></td><%
+                    %><td align="right"><a href="javascript:showAllExaminations()"><%=getTran("web.manage","showallexaminations",sWebLanguage)%></a></td><%
                 }
             %>
         </tr>

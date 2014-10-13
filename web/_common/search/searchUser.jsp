@@ -11,12 +11,13 @@
         Document document;
 
         SAXReader xmlReader = new SAXReader();
-        String sXmlFile = MedwanQuery.getInstance().getConfigString("servicesXMLFile"), xmlFileUrl;
+        String sXmlFile = MedwanQuery.getInstance().getConfigString("servicesXMLFile"),
+        	   xmlFileUrl;
 
         if((sXmlFile!=null) && (sXmlFile.length() > 0)){
             // Check if xmlFile exists, else use file at templateSource location.
             try{
-                xmlFileUrl = "http://"+request.getServerName()+request.getRequestURI().replaceAll(request.getServletPath(), "")+"/"+sAPPDIR+"/_common/xml/"+sXmlFile;
+                xmlFileUrl = "http://"+request.getServerName()+request.getRequestURI().replaceAll(request.getServletPath(),"")+"/"+sAPPDIR+"/_common/xml/"+sXmlFile;
                 document = xmlReader.read(new URL(xmlFileUrl));
                 Debug.println("Using custom services file : "+xmlFileUrl);
             }
@@ -52,7 +53,7 @@
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-    	Debug.println("\n#################### _common/search/searchUser.jsp ####################");
+    	Debug.println("\n********************* _common/search/searchUser.jsp *******************");
     	Debug.println("sFindLastname   : "+sFindLastname);
     	Debug.println("sFindFirstname  : "+sFindFirstname);
     	Debug.println("sReturnPersonID : "+sReturnPersonID);
@@ -65,6 +66,8 @@
     Vector xmlServiceIds = getServiceIdsFromXML(request);
 %>
 <form name="SearchForm" method="POST" onkeydown="if(enterEvent(event,13)){doFind();};">
+    <%=writeTableHeader("web","searchUser",sWebLanguage," window.close()")%>
+    
     <table width="100%" cellspacing="0" cellpadding="0" class="menu">
         <tr height="25">
             <%-- lastname --%>
@@ -122,7 +125,7 @@
 
   <%-- DO FIND --%>
   function doFind(){
-    ajaxChangeSearchResults('_common/search/searchByAjax/searchUserShow.jsp', SearchForm);
+    ajaxChangeSearchResults('_common/search/searchByAjax/searchUserShow.jsp',SearchForm);
   }
 
   <%-- SET PERSON --%>
@@ -189,7 +192,7 @@
     openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
   }
 
-  <%-- activate tab --%>
+  <%-- ACTIVATE TAB --%>
   function activateTab(sTab){
     <% 
       // hide all TRs

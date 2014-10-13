@@ -40,7 +40,7 @@
             <td><%=getTran("Web.Occup","medwan.common.contacttype",sWebLanguage)%></td>
         </tr>
        
-        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+        <tbody class="hand">
         <%
             if(hTrans!=null){
                 Iterator it = set.iterator();

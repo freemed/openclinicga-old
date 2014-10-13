@@ -13,12 +13,12 @@
 <script src="<%=sCONTEXTPATH%>/assets/includes/commonFunctions.js"></script> 
 
 <%
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n**************** manage_assets.jsp ****************");
-        Debug.println("no parameters\n");
+        Debug.println("\n************************** hr/manage_assets.jsp ***********************");
+        Debug.println("No parameters\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 %> 
 
 <form name="SearchForm" id="SearchForm" method="POST">
@@ -116,7 +116,7 @@
     }
     
     if(okToSubmit){
-      document.getElementById("divAssets").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Searching";
+      document.getElementById("divAssets").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Searching..";
   
       var url = "<c:url value='/assets/ajax/asset/getAssets.jsp'/>?ts="+new Date().getTime();
 
@@ -192,7 +192,7 @@
         <tr>
             <td class="admin"><%=getTran("web","description",sWebLanguage)%>&nbsp;*&nbsp;</td>
             <td class="admin2">
-                <textarea class="text" name="description" id="description" cols="80" rows="4" onKeyup="resizeTextarea(this,8);limitChars(this,255);"></textarea>
+                <textarea class="text" name="description" id="description" cols="80" rows="4" onKeyup="resizeTextarea(this,8);limitChars(this,245);"></textarea>
             </td>
         </tr>    
         
@@ -267,7 +267,7 @@
                 <input type="hidden" id="purchaseDocuments" name="purchaseDocuments" value="">
                                     
                 <div id="pdScroller" style="overflow:none;width:263px;height:50px;border:none;">   
-                    <table width="23%" class="sortable" id="tblPD" cellspacing="1" headerRowCount="2" bottomRowCount="1"> 
+                    <table width="23%" class="sortable" id="tblPD" cellspacing="1" headerRowCount="2"> 
                         <%-- header --%>                        
                         <tr class="admin">
                             <%-- 0 - empty --%>
@@ -279,8 +279,6 @@
                             <%-- 2 - empty --%>
                             <td width="*" nowrap>&nbsp;</td>      
                         </tr>
-            
-                        <%-- content by ajax and javascript --%>
                         
                         <%-- add-row --%>                          
                         <tr>
@@ -288,7 +286,7 @@
                             <td class="admin"/>
                             <%-- 1 - documentId --%>
                             <td class="admin"> 
-                                <input type="text" class="text" id="pdID" name="pdID" size="15" maxLength="12" value="">
+                                <input type="text" class="text" id="pdID" name="pdID" size="15" maxLength="12" value="" onKeyDown="if(enterEvent(event,13)){if(isValidDocumentId(document.getElementById('pdID')))addPD();}">
                             </td>
                             <%-- 2 - buttons --%>
                             <td class="admin" nowrap>
@@ -296,6 +294,8 @@
                                 <input type="button" class="button" name="ButtonUpdatePD" id="ButtonUpdatePD" value="<%=getTranNoLink("web","edit",sWebLanguage)%>" onclick="updatePD();" disabled>&nbsp;
                             </td>    
                         </tr>
+            
+                        <%-- content by ajax and javascript --%>
                     </table>
                     
                     <div id="purchaseDocumentMsgDiv" style="padding-top:10px;"></div>
@@ -355,7 +355,7 @@
             <td class="admin2">
                 <input type="hidden" id="gains" name="gains" value="">
                                      
-                <table width="45%" class="sortable" id="tblGA" cellspacing="1" headerRowCount="2" bottomRowCount="1"> 
+                <table width="45%" class="sortable" id="tblGA" cellspacing="1" headerRowCount="2"> 
                     <%-- header --%>                        
                     <tr class="admin">
                         <%-- 0 - empty --%>
@@ -402,7 +402,7 @@
             <td class="admin2">
                 <input type="hidden" id="losses" name="losses" value="">
                                      
-                <table width="45%" class="sortable" id="tblLO" cellspacing="1" headerRowCount="2" bottomRowCount="1"> 
+                <table width="45%" class="sortable" id="tblLO" cellspacing="1" headerRowCount="2"> 
                     <%-- header --%>                        
                     <tr class="admin">
                         <%-- 0 - empty --%>
@@ -457,7 +457,7 @@
         <tr>
             <td class="admin" nowrap><%=getTran("web.assets","loan",sWebLanguage)%>&nbsp;</td>
             <td class="admin2" style="padding:5px;">
-                <table style="border:1px solid #ddd;" cellspacing="0">
+                <table class="list" cellspacing="1" cellpadding="0">
                 
             <%-- subtitle : loan --%>
             <tr class="admin">
@@ -566,7 +566,7 @@
                     <input type="hidden" id="loanDocuments" name="loanDocuments" value="">
                               
                     <div id="ldScroller" style="overflow:none;width:270px;height:50px;border:none;">           
-                        <table width="45%" class="sortable" id="tblLD" cellspacing="1" headerRowCount="2" bottomRowCount="1"> 
+                        <table width="45%" class="sortable" id="tblLD" cellspacing="1" headerRowCount="2"> 
                             <%-- header --%>                        
                             <tr class="admin">
                                 <%-- 0 - empty --%>
@@ -578,8 +578,6 @@
                                 <%-- 2 - empty --%>
                                 <td width="*" nowrap>&nbsp;</td>      
                             </tr>
-                
-                            <%-- content by ajax and javascript --%>
                             
                             <%-- add-row --%>                          
                             <tr>
@@ -587,7 +585,7 @@
                                 <td class="admin"/>
                                 <%-- 1 - documentId --%>
                                 <td class="admin"> 
-                                    <input type="text" class="text" id="ldID" name="ldID" size="15" maxLength="12" value="">&nbsp;
+                                    <input type="text" class="text" id="ldID" name="ldID" size="15" maxLength="12" value="" onKeyDown="if(enterEvent(event,13)){if(isValidDocumentId(document.getElementById('ldID')))addLD();}">&nbsp;
                                 </td>
                                 <%-- 2 - buttons --%>
                                 <td class="admin" nowrap>
@@ -595,6 +593,8 @@
                                     <input type="button" class="button" name="ButtonUpdateLD" id="ButtonUpdateLD" value="<%=getTranNoLink("web","edit",sWebLanguage)%>" onclick="updateLD();" disabled>&nbsp;
                                 </td>    
                             </tr>
+                
+                            <%-- content by ajax and javascript --%>
                         </table>
                     
                         <div id="loanDocumentMsgDiv" style="padding-top:10px;"></div>      
@@ -626,7 +626,7 @@
         <tr>
             <td class="admin" nowrap><%=getTran("web.assets","saleClient",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
-                <textarea class="text" name="saleClient" id="saleClient" cols="80" rows="4" onKeyup="resizeTextarea(this,8);limitChars(this,255);"></textarea>
+                <textarea class="text" name="saleClient" id="saleClient" cols="80" rows="4" onKeyup="resizeTextarea(this,8);limitChars(this,245);"></textarea>
             </td>
         </tr>        
                     
@@ -729,7 +729,7 @@
     <%-- check required fields --%>
     if(requiredFieldsProvided()){    
       if(okToSubmit==true){
-        document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Saving";  
+        document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Saving..";  
         var url = "<c:url value='/assets/ajax/asset/saveAsset.jsp'/>?ts="+new Date().getTime();
         disableButtons();
         
@@ -807,22 +807,20 @@
                       "&saleValue="+document.getElementById("saleValue").value+
                       "&saleClient="+document.getElementById("saleClient").value;
         
-        new Ajax.Request(url,
-          {   
-            method: "POST",
-            postBody: sParams,
-            onSuccess: function(resp){
-              var data = eval("("+resp.responseText+")");
-              $("divMessage").innerHTML = data.message;
+        new Ajax.Request(url,{   
+          method:"POST",
+          postBody:sParams,
+          onSuccess:function(resp){
+            var data = eval("("+resp.responseText+")");
+            $("divMessage").innerHTML = data.message;
               
-              enableButtons();
-              searchAssets();   
-            },
-            onFailure: function(resp){
-              $("divMessage").innerHTML = "Error in 'assets/ajax/asset/saveAsset.jsp' : "+resp.responseText.trim();
-            }
+            enableButtons();
+            searchAssets();   
+          },
+          onFailure:function(resp){
+            $("divMessage").innerHTML = "Error in 'assets/ajax/asset/saveAsset.jsp' : "+resp.responseText.trim();
           }
-        );
+        });
       }
     }
     else{
@@ -846,22 +844,20 @@
     
   <%-- LOAD (all) ASSETS --%>
   function loadAssets(){
-    document.getElementById("divAssets").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";
+    document.getElementById("divAssets").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading..";
     
     var url = "<c:url value='/assets/ajax/asset/getAssets.jsp'/>?ts="+new Date().getTime();
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "",
-        onSuccess: function(resp){
-          $("divAssets").innerHTML = resp.responseText;
-          sortables_init();
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'assets/ajax/asset/getAssets.jsp' : "+resp.responseText.trim();
-        }
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "",
+      onSuccess: function(resp){
+        $("divAssets").innerHTML = resp.responseText;
+        sortables_init();
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'assets/ajax/asset/getAssets.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
 
   <%-- DISPLAY ASSET --%>
@@ -875,82 +871,80 @@
     document.getElementById("ldScroller").style.height = "160px";
     document.getElementById("ldScroller").style.overflow = "auto";
     
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "AssetUID="+assetUID,
-        onSuccess: function(resp){
-          var data = eval("("+resp.responseText+")");
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "AssetUID="+assetUID,
+      onSuccess: function(resp){
+        var data = eval("("+resp.responseText+")");
 
-          $("EditAssetUID").value = assetUID.unhtmlEntities();
-          $("code").value = data.code.unhtmlEntities();
-          $("parentUID").value = data.parentUID.unhtmlEntities();
-          $("parentCode").value = data.parentCode.unhtmlEntities();
-          $("description").value = replaceAll(data.description.unhtmlEntities(),"<br>","\n");
-          $("serialnumber").value = data.serialnumber.unhtmlEntities();
-          $("quantity").value = data.quantity.unhtmlEntities();
-          $("assetType").value = data.assetType.unhtmlEntities();
-          $("supplierUID").value = data.supplierUID.unhtmlEntities();
-          $("supplierName").value = data.supplierName.unhtmlEntities();
-          $("purchaseDate").value = data.purchaseDate.unhtmlEntities();
-          $("purchasePrice").value = data.purchasePrice.unhtmlEntities();
-          $("receiptBy").value = data.receiptBy.unhtmlEntities();
-          $("purchaseDocuments").value = data.purchaseDocuments.unhtmlEntities();
-          displayPurchaseDocuments();
-          $("writeOffMethod").value = data.writeOffMethod.unhtmlEntities();
-          $("writeOffPeriod").value = data.writeOffPeriod;
-          $("annuity").value = data.annuity.unhtmlEntities();
-          $("characteristics").value = replaceAll(data.characteristics.unhtmlEntities(),"<br>","\n");
-          $("accountingCode").value = data.accountingCode.unhtmlEntities();
+        $("EditAssetUID").value = assetUID.unhtmlEntities();
+        $("code").value = data.code.unhtmlEntities();
+        $("parentUID").value = data.parentUID.unhtmlEntities();
+        $("parentCode").value = data.parentCode.unhtmlEntities();
+        $("description").value = replaceAll(data.description.unhtmlEntities(),"<br>","\n");
+        $("serialnumber").value = data.serialnumber.unhtmlEntities();
+        $("quantity").value = data.quantity.unhtmlEntities();
+        $("assetType").value = data.assetType.unhtmlEntities();
+        $("supplierUID").value = data.supplierUID.unhtmlEntities();
+        $("supplierName").value = data.supplierName.unhtmlEntities();
+        $("purchaseDate").value = data.purchaseDate.unhtmlEntities();
+        $("purchasePrice").value = data.purchasePrice.unhtmlEntities();
+        $("receiptBy").value = data.receiptBy.unhtmlEntities();
+        $("purchaseDocuments").value = data.purchaseDocuments.unhtmlEntities();
+        displayPurchaseDocuments();
+        $("writeOffMethod").value = data.writeOffMethod.unhtmlEntities();
+        $("writeOffPeriod").value = data.writeOffPeriod;
+        $("annuity").value = data.annuity.unhtmlEntities();
+        $("characteristics").value = replaceAll(data.characteristics.unhtmlEntities(),"<br>","\n");
+        $("accountingCode").value = data.accountingCode.unhtmlEntities();
+         
+        $("gains").value = data.gains.unhtmlEntities();
+        displayGains();
+        $("losses").value = data.losses.unhtmlEntities();
+        displayLosses();
           
-          $("gains").value = data.gains.unhtmlEntities();
-          displayGains();
-          $("losses").value = data.losses.unhtmlEntities();
-          displayLosses();
-          
-          if(data.residualValueHistory.length > 0){
-            <%
-                if(sAgent.contains("msie")){
-                    %>$("residualValueHistoryDiv").style.display = "block";<%
-                }
-            %>
-            $("residualValueHistory").innerHTML = data.residualValueHistory.unhtmlEntities();
-          }
-          
-          //*** loan ***
-          $("loanDate").value = data.loanDate.unhtmlEntities();
-          $("loanAmount").value = data.loanAmount.unhtmlEntities();
-          $("loanInterestRate").value = data.loanInterestRate.unhtmlEntities();
-          $("loanReimbursementPlan").value = data.loanReimbursementPlan.unhtmlEntities();
-          displayReimbursementPlans();
-          $("loanReimbursementCapitalTotal").innerHTML = data.loanReimbursementCapitalTotal.unhtmlEntities();
-          $("loanReimbursementInterestTotal").innerHTML = data.loanReimbursementInterestTotal.unhtmlEntities();
-          $("loanReimbursementAmount").innerHTML = data.loanReimbursementAmount.unhtmlEntities();
-          //calculateReimbursementTotals();
-          $("loanComment").value = replaceAll(data.loanComment.unhtmlEntities(),"<br>","\n");
-          $("loanDocuments").value = data.loanDocuments.unhtmlEntities();
-          displayLoanDocuments();
-          
-          $("saleDate").value = data.saleDate.unhtmlEntities();
-          $("saleValue").value = data.saleValue.unhtmlEntities();
-          $("saleClient").value = replaceAll(data.saleClient.unhtmlEntities(),"<br>","\n");
-          
-          document.getElementById("divMessage").innerHTML = ""; 
-          resizeAllTextareas(8);
-
-          <%-- display hidden buttons --%>
-          document.getElementById("buttonDelete").style.visibility = "visible";
-          document.getElementById("buttonNew").style.visibility = "visible";
-          
-          enableButtons();
-          setTimeout("sortPurchaseDocuments()",700);
-          setTimeout("sortLoanDocuments()",700);
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'assets/ajax/asset/getAsset.jsp' : "+resp.responseText.trim();
+        if(data.residualValueHistory.length > 0){
+          <%
+              if(sAgent.contains("msie")){
+                  %>$("residualValueHistoryDiv").style.display = "block";<%
+              }
+          %>
+          $("residualValueHistory").innerHTML = data.residualValueHistory.unhtmlEntities();
         }
+          
+        //*** loan ***
+        $("loanDate").value = data.loanDate.unhtmlEntities();
+        $("loanAmount").value = data.loanAmount.unhtmlEntities();
+        $("loanInterestRate").value = data.loanInterestRate.unhtmlEntities();
+        $("loanReimbursementPlan").value = data.loanReimbursementPlan.unhtmlEntities();
+        displayReimbursementPlans();
+        $("loanReimbursementCapitalTotal").innerHTML = data.loanReimbursementCapitalTotal.unhtmlEntities();
+        $("loanReimbursementInterestTotal").innerHTML = data.loanReimbursementInterestTotal.unhtmlEntities();
+        $("loanReimbursementAmount").innerHTML = data.loanReimbursementAmount.unhtmlEntities();
+        //calculateReimbursementTotals();
+        $("loanComment").value = replaceAll(data.loanComment.unhtmlEntities(),"<br>","\n");
+        $("loanDocuments").value = data.loanDocuments.unhtmlEntities();
+        displayLoanDocuments();
+          
+        $("saleDate").value = data.saleDate.unhtmlEntities();
+        $("saleValue").value = data.saleValue.unhtmlEntities();
+        $("saleClient").value = replaceAll(data.saleClient.unhtmlEntities(),"<br>","\n");
+          
+        document.getElementById("divMessage").innerHTML = ""; 
+        resizeAllTextareas(8);
+
+        <%-- display hidden buttons --%>
+        document.getElementById("buttonDelete").style.visibility = "visible";
+        document.getElementById("buttonNew").style.visibility = "visible";
+          
+        enableButtons();
+        setTimeout("sortPurchaseDocuments()",700);
+        setTimeout("sortLoanDocuments()",700);
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'assets/ajax/asset/getAsset.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
 
   <%-- SORT PURCHASE DOCUMENTS --%>
@@ -979,22 +973,20 @@
       var url = "<c:url value='/assets/ajax/asset/deleteAsset.jsp'/>?ts="+new Date().getTime();
       disableButtons();
     
-      new Ajax.Request(url,
-        {
-          method: "GET",
-          parameters: "AssetUID="+document.getElementById("EditAssetUID").value,
-          onSuccess: function(resp){
-            var data = eval("("+resp.responseText+")");
-            $("divMessage").innerHTML = data.message;
+      new Ajax.Request(url,{
+        method: "GET",
+        parameters: "AssetUID="+document.getElementById("EditAssetUID").value,
+        onSuccess: function(resp){
+          var data = eval("("+resp.responseText+")");
+          $("divMessage").innerHTML = data.message;
 
-            enableButtons();
-            searchAssets();
-          },
-          onFailure: function(resp){
-            $("divMessage").innerHTML = "Error in 'assets/ajax/asset/deleteAsset.jsp' : "+resp.responseText.trim();
-          }  
-        }
-      );
+          enableButtons();
+          searchAssets();
+        },
+        onFailure: function(resp){
+          $("divMessage").innerHTML = "Error in 'assets/ajax/asset/deleteAsset.jsp' : "+resp.responseText.trim();
+        }  
+      });
     }
   }
   
@@ -1111,7 +1103,7 @@
       var sTmpRP = sPlans;
       
       var sTmpDate, sTmpCapital, sTmpInterest;
- 
+      
       while(sTmpRP.indexOf("|") > -1){
         sTmpDate = "";
         sTmpCapital = "";
@@ -1218,7 +1210,8 @@
   
   <%-- ADD GAIN --%>
   function addGA(){
-    if(countSelectedGains() <= 20){
+	var maxGains = <%=ScreenHelper.getConfigString("maxGains","20")%>;
+    if(countSelectedGains() <= maxGains){
       if(areRequiredGAFieldsFilled()){
         var okToAdd = true;
           
@@ -1272,17 +1265,7 @@
       return true;
     }
     else{
-      //alertDialog("web.assets","reachedMaximumGains");
-      
-      if(window.showModalDialog){
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=ScreenHelper.getTs()%>&labelValue=<%=getTranNoLink("web.assets","reachedMaximumGains",sWebLanguage).replaceAll("#maxGains#","20")%>";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        window.showModalDialog(popupUrl,"",modalities);
-      }
-      else{
-        alert(labelId);          
-      }
-      
+      alertDialogDirectText(replaceAll("<%=getTranNoLink("web.assets","reachedMaximumGains",sWebLanguage)%>","#maxGains#",maxGains));
       return false;
     }
   }
@@ -1447,7 +1430,8 @@
   
   <%-- ADD LOSS --%>
   function addLO(){
-    if(countSelectedLosses() <= 20){
+	var maxLosses = <%=ScreenHelper.getConfigString("maxLosses","20")%>;
+    if(countSelectedLosses() <= maxLosses){
       if(areRequiredLOFieldsFilled()){
         var okToAdd = true;
           
@@ -1501,17 +1485,7 @@
       return true;
     }
     else{
-      //alertDialog("web.assets","reachedMaximumLosses");
-
-      if(window.showModalDialog){
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=ScreenHelper.getTs()%>&labelValue=<%=getTranNoLink("web.assets","reachedMaximumLosses",sWebLanguage).replaceAll("#maxLosses#","20")%>";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        window.showModalDialog(popupUrl,"",modalities);
-      }
-      else{
-        alert(labelId);          
-      }
-      
+      alertDialogDirectText(replaceAll("<%=getTranNoLink("web.assets","reachedMaximumLosses",sWebLanguage)%>","#maxLosses#",maxLosses));
       return false;
     }
   }
@@ -1621,25 +1595,22 @@
             %>
               var url = "<c:url value='/assets/ajax/asset/getDocumentInfo.jsp'/>?ts="+new Date().getTime();
             
-              new Ajax.Request(url,
-                {
-                  method: "GET",
-                  parameters: "DocumentId="+documentId,
-                  onSuccess: function(resp){
-                    var data = eval("("+resp.responseText+")");
-
-                    if(data.message=="ok"){
-                      openPopup("<%=sDocumentBase%>/"+data.documentName);
-                    }
-                    else{
-                      $(msgDivId).innerHTML = data.message;
-                    }
-                  },
-                  onFailure: function(resp){
-                    $(msgDivId).innerHTML = "Error in 'assets/ajax/asset/getDocumentInfo.jsp' : "+resp.responseText.trim();
-                  }  
-                }
-              );
+              new Ajax.Request(url,{
+                method: "GET",
+                parameters: "DocumentId="+documentId,
+                onSuccess: function(resp){
+                  var data = eval("("+resp.responseText+")");
+                  if(data.message=="ok"){
+                    openPopup("<%=sDocumentBase%>/"+data.documentName);
+                  }
+                  else{
+                    $(msgDivId).innerHTML = data.message;
+                  }
+                },
+                onFailure: function(resp){
+                  $(msgDivId).innerHTML = "Error in 'assets/ajax/asset/getDocumentInfo.jsp' : "+resp.responseText.trim();
+                }  
+              });
             <%
         }
         else{
@@ -1766,17 +1737,7 @@
       return true; 
     }
     else{
-      //alertDialog("web.assets","reachedMaximumDocuments");
-
-      if(window.showModalDialog){
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=ScreenHelper.getTs()%>&labelValue=<%=getTranNoLink("web.assets","reachedMaximumDocuments",sWebLanguage).replaceAll("#maxDocuments#","20")%>";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        window.showModalDialog(popupUrl,"",modalities);
-      }
-      else{
-        alert(labelId);          
-      }
-      
+      alertDialog("<%=getTranNoLink("web.assets","reachedMaximumDocuments",sWebLanguage).replaceAll("#maxDocuments#","20")%>");
       return false;
     }
   }
@@ -2001,7 +1962,8 @@
   
   <%-- ADD REIMBURSEMENT PLAN --%>
   function addRP(){
-    if(countSelectedRPs() <= 20){
+	var maxReimbursements = <%=ScreenHelper.getConfigString("maxReimbursementPlans","20")%>;
+    if(countSelectedRPs() <= maxReimbursements){
       if(areRequiredRPFieldsFilled()){
         iRPIndex++;
 
@@ -2063,17 +2025,7 @@
       return true;
     }
     else{
-      //alertDialog("web.assets","reachedMaximumReimbursementPlans");
-
-      if(window.showModalDialog){
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=ScreenHelper.getTs()%>&labelValue=<%=getTranNoLink("web.assets","reachedMaximumReimbursementPlans",sWebLanguage).replaceAll("#maxReimbursements#","20")%>";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        window.showModalDialog(popupUrl,"",modalities);
-      }
-      else{
-        alert(labelId);          
-      }
-      
+      alertDialogDirectText(replaceAll("<%=getTranNoLink("web.assets","reachedMaximumReimbursementPlans",sWebLanguage)%>","#maxReimbursements#",maxReimbursements));      
       return false;
     }
   }
@@ -2299,17 +2251,7 @@
       return true;
     }
     else{
-      //alertDialog("web.assets","reachedMaximumDocuments");
-
-      if(window.showModalDialog){
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=ScreenHelper.getTs()%>&labelValue=<%=getTranNoLink("web.assets","reachedMaximumDocuments",sWebLanguage).replaceAll("#maxDocuments#","20")%>";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        window.showModalDialog(popupUrl,"",modalities);
-      }
-      else{
-        alert(labelId);          
-      }
-      
+      alertDialog("<%=getTranNoLink("web.assets","reachedMaximumDocuments",sWebLanguage).replaceAll("#maxDocuments#","20")%>");
       return false;
     }
   }  

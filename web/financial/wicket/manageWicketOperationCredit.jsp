@@ -367,7 +367,7 @@
   <%-- DO PRINT PDF --%>
   function doPrintPdf(creditUid){
     var url = "<c:url value='/financial/createWicketPaymentReceiptPdf.jsp'/>?CreditUid="+creditUid+"&ts=<%=getTs()%>&PrintLanguage=<%=sWebLanguage%>";
-    window.open(url,"WicketPaymentReceiptPdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    window.open(url,"WicketPaymentReceiptPdf<%=getTs()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
 
   loadTodayCredits();

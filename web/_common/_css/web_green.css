@@ -208,19 +208,19 @@ div.logo {
  top:2px;
  width:160px;
  height:80px;
- background-color:#DDEDFF;
- background-repeat:no-repeat;
- background-position:top left;
 }
 
 div.version{
  position:absolute;
- right:5px;
- top:70px;
- width:150px;
- height:20px;
+ top:61px;
+ right:1px;
+ width:200px;
+ height:10px;
+ font-size:8px;
+ font-family:Verdana;
+ color:#777;
  text-align:right;
- color:#086E17;
+ padding-right:15px;
 }
 
 div.topicones {
@@ -1188,7 +1188,7 @@ TR.White {
  padding-bottom:1px;
 }
 
-TD.Title {
+td.title {
  font-size:11px;
  background-color:#cccccc;
 }
@@ -1342,7 +1342,7 @@ a.closeButton:hover {
 a.topbutton {
  width:16px;
  height:16px;
- background:url( "../../_img/themes/green/arrow-up-top.png" ) left top no-repeat;
+ background:url( "../../_img/themes/default/arrow-up-top.png" ) left top no-repeat;
  text-decoration:none;
  filter:alpha( opacity = 80 );
  -moz-opacity:0.8;
@@ -1359,7 +1359,7 @@ a.topbutton:hover {
 a.bottombutton {
  width:16px;
  height:16px;
- background:url( "../../_img/themes/green/arrow-down-bottom.png" ) left top no-repeat;
+ background:url( "../../_img/themes/default/arrow-down-bottom.png" ) left top no-repeat;
  text-decoration:none;
  filter:alpha( opacity = 80 );
  -moz-opacity:0.8;
@@ -1377,6 +1377,7 @@ table.sortable a.sortheader {
  font-weight:bold;
  font-size:9px;
  text-decoration:underline;
+ color:#fff;
 }
 
 table.sortable {
@@ -1390,9 +1391,7 @@ table.sortable span.sortarrow {
 }
 
 div#wait {
- background:url( "../../_img/themes/green/ajax-loader.gif" ) center center no-repeat;
- width:100%;
- float:left;
+ background:url( "../../_img/themes/green/ajax-loader.gif" ) no-repeat;
  height:20px;
 }
 

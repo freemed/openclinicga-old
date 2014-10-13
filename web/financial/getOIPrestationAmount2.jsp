@@ -115,7 +115,7 @@
         }
       	pa=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dPatientAmount);
       	pi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dInsurarAmount);
-        prestationcontent ="<table width='100%' id='mytable'>";
+        prestationcontent ="<table width='100%'>";
         prestationcontent+="<tr><td width='50%'><b>"+getTran("web","prestation",sWebLanguage)+
         "</b></td><td width='25%'><b>"+getTran("web.finance","amount.patient",sWebLanguage)+
         "</b></td><td><b>"+getTran("web.finance","amount.insurar",sWebLanguage)+"</b></td></tr>";

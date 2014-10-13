@@ -21,13 +21,13 @@
 
                     sReturn = getParent(sParentID, sWebLanguage)
                             + "<img src='" + sCONTEXTPATH + "/_img/themes/default/pijl.gif'>"
-                            + "<a href='#' onclick='populateCategory(\"" + sCode + "\")' title='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>" + sLabel + "</a>";
+                            + "<a href='javascript:populateCategory(\"" + sCode + "\")' title='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>" + sLabel + "</a>";
                 }
             }
 
             if (sReturn.trim().length() == 0) {
                 sReturn = sReturn + "<img src='" + sCONTEXTPATH + "/_img/themes/default/pijl.gif'>"
-                        + "<a href='#' onclick='populateCategory(\"" + sCode + "\")' title='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>" + sLabel + "</a>";
+                        + "<a href='javascript:populateCategory(\"" + sCode + "\")' title='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>" + sLabel + "</a>";
             }
         }
         
@@ -52,7 +52,7 @@
             row += "<tr>" +
                     " <td>" + sIcon + "</td><td><img src='" + sCONTEXTPATH + "/_img/icons/icon_view.gif' alt='" + getTran("Web", "view", sWebLanguage) + "' onclick='viewCategory(\"" + sID + "\")'></td>" +
                     " <td class='"+sClass+"'>" + sID + "</td>"+
-                    "<td class='"+sClass+"'><a href='#' onclick='selectParentCategory(\"" + sID + "\",\"" + sLabel + "\")' title='" + getTran("Web", "select", sWebLanguage) + "'>" + sLabel + "</a></td>"+
+                    "<td class='"+sClass+"'><a href='javascript:selectParentCategory(\"" + sID + "\",\"" + sLabel + "\")' title='" + getTran("Web", "select", sWebLanguage) + "'>" + sLabel + "</a></td>"+
                     "</tr>";
         }
         
@@ -131,7 +131,7 @@
         sNavigation = getParent(sFindCode, sWebLanguage);
     }
 %>
-&nbsp;<a href="#" onclick="clearSearchFields();doFind();">Home</a>
+&nbsp;<a href="javascript:clearSearchFields();doFind();">Home</a>
 
 <div id="navigationMenu"><%=sNavigation%></div>
 
@@ -169,7 +169,7 @@
 	        // display search results
 	        if (iTotal > 0) {
 			    %>
-			    <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+			    <tbody class="hand">
 			        <%=HTMLEntities.htmlentities(sOut.toString())%>
 			    </tbody>
 			    <%

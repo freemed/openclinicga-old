@@ -72,7 +72,7 @@
     <%-- ANALYSIS NAME (uneditable) --%>
     <tr>
         <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web.manage","labanalysis.cols.name",sWebLanguage)%></td>
-        <td class="admin2"><%=LabAnalysis.labelForCode(analysis.getAnalysisCode(), sWebLanguage) %></td>
+        <td class="admin2"><%=LabAnalysis.labelForCode(analysis.getAnalysisCode(), sWebLanguage)%></td>
     </tr>
     <%-- ANALYSIS MONSTER (uneditable) --%>
     <tr>

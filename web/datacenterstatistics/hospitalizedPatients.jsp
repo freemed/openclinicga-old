@@ -232,7 +232,7 @@
               "&BeginDate="+sBeginDate+
               "&EndDate="+sEndDate+
               "&ts=<%=getTs()%>";
-    window.open(url,"HospitalizedPatientsPdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    window.open(url,"HospitalizedPatientsPdf<%=getTs()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
 
   function doBack(){

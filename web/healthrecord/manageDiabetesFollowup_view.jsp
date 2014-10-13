@@ -45,10 +45,7 @@
       var max = <%=maxGlycemy%>;
 
       if(isNaN(inputObj.value) || inputObj.value < min || inputObj.value > max){
-        var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=<%=getTs()%>&labelValue=<%=glycemyMsg%>";
-        var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        window.showModalDialog(popupUrl,'',modalities);
-
+        alertDialogDirectText("<%=glycemyMsg%>");
         inputObj.focus();
       }
     }
@@ -62,10 +59,7 @@
       var max = <%=maxInsuline%>;
 
       if(isNaN(inputObj.value) || inputObj.value < min || inputObj.value > max){
-        var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=<%=getTs()%>&labelValue=<%=insulineMsg%>";
-        var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        window.showModalDialog(popupUrl,'',modalities);
-
+    	alertDialogDirectText("<%=insulineMsg%>");
         inputObj.focus();
       }
     }

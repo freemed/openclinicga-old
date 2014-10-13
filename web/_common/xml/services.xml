@@ -1,5 +1,5 @@
 <ServiceIds>
-	<ServiceId value="INT" comment="interne"/>
-	<ServiceId value="GAST"/>
-	<ServiceId value="CAR"/>
+	<ServiceId value="CLI.int" comment="interne"/>
+	<ServiceId value="CLI.int.GAST"/>
+	<ServiceId value="CLI.int.CAR"/>
 </ServiceIds>

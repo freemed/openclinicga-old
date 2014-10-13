@@ -114,7 +114,7 @@
                 if(foundRecordsICPC2 > 0){
                     out.print("<tr class='admin'><td colspan='2'>"+getTran("Web.Occup","ICPC-2",sWebLanguage)+"</td></tr>");
                 }
-            %><tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'><%
+            %><tbody class="hand"><%
 
             out.print(sbResultsICPC2.toString());
 
@@ -124,7 +124,7 @@
                 out.print("<table class='menu' width='100%' cellspacing='0' border='0'>"+
                            "<tr class='admin'><td colspan='2'>"+getTran("web.occup","ICD-10",sWebLanguage)+"</td></tr>");
             }
-            %><tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'><%
+            %><tbody class="hand"><%
 
             out.print(sbResultsICd10.toString());
 
@@ -161,7 +161,7 @@
                     out.print("<tr class='admin'><td colspan='2'>"+getTran("Web.Occup","ICPC-2",sWebLanguage)+"</td></tr>");
                 }
 
-                %><tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'><%
+                %><tbody class="hand"><%
 
                 for(int n=0; n<codes.size(); n++){
                     code = (ICPCCode)codes.elementAt(n);

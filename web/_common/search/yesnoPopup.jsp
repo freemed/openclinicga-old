@@ -21,8 +21,7 @@
 <table width="100%" height="100%">
     <tr>
         <td align="center">
-            <br>
-            <%=questionTran%>
+            <br><%=questionTran%>
             <br><br><br>
 
             <input type="button" name="buttonYes" class="button" value="&nbsp;&nbsp;<%=getTranNoLink("web.occup","medwan.common.yes",sWebLanguage)%>&nbsp;&nbsp;" onclick="doClose(1);"/>&nbsp;
@@ -34,7 +33,7 @@
 
 <script>
   <%=sCenterWindow%>
-  //document.getElementById("buttonYes").focus();
+  setTimeout("document.getElementById('buttonNo').focus()",100);
   //window.resizeTo(400,300);
 
   <%-- DO CLOSE --%>

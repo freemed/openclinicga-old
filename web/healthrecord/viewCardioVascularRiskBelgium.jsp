@@ -613,7 +613,7 @@
                                         <a href="javascript:recalculate('50');">50</a>
                                         <a href="javascript:recalculate('60');">60</a>
                                         <a href="javascript:recalculate('70');">70</a>
-                                        <a href="#" onclick="doPrint();">Print</a>
+                                        <a href="javascript:doPrint();">Print</a>
                                     </td>
                                 </tr>
                             </table>

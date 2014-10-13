@@ -11,9 +11,9 @@
 <table width='100%' class="list" cellpadding="0" cellspacing="1">
     <%-- header --%>
 	<tr class='admin'>
-		<td width="10%"><%=getTran("web","version",sWebLanguage) %></td>
-		<td width="20%"><%=getTran("web","date",sWebLanguage) %></td>
-		<td width="70%"><%=getTran("web","user",sWebLanguage) %></td>
+		<td width="10%"><%=getTran("web","version",sWebLanguage)%></td>
+		<td width="20%"><%=getTran("web","date",sWebLanguage)%></td>
+		<td width="70%"><%=getTran("web","user",sWebLanguage)%></td>
 	</tr>
 <%
 	String transactionid = checkString(request.getParameter("transactionid"));

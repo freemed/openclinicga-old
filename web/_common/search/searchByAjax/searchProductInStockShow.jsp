@@ -4,7 +4,7 @@
                 be.openclinic.pharmacy.Product,
                 java.util.Vector,
                 be.mxs.common.util.system.HTMLEntities,
-                java.util.Collections" %>
+                java.util.Collections"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
@@ -44,7 +44,7 @@
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n####### _common/search/searchByAjax/searchProductInStockShow.jsp #######");
+        Debug.println("\n******* _common/search/searchByAjax/searchProductInStockShow.jsp *******");
         Debug.println("sAction             : "+sAction);
         Debug.println("sSearchProductName  : "+sSearchProductName);
         Debug.println("sSearchServiceUid   : "+sSearchServiceUid);
@@ -67,23 +67,23 @@
     // display products of user-service by default (on first page load)
     boolean displayProductsOfDoctorService = checkString(request.getParameter("DisplayProductsOfDoctorService")).equals("true");
 
-    if(sAction.length() == 0) {
-        if(displayProductsOfDoctorService) {
+    if(sAction.length()==0){
+        if(displayProductsOfDoctorService){
             sSearchServiceUid = activeUser.activeService.code;
-            sSearchServiceName = getTranNoLink("service", sSearchServiceUid, sWebLanguage);
+            sSearchServiceName = getTranNoLink("service",sSearchServiceUid,sWebLanguage);
         }
     }
 
     // display products of patient-service by default (on first page load)
     boolean displayProductsOfPatientService = checkString(request.getParameter("DisplayProductsOfPatientService")).equals("true");
 
-    if(sAction.length() == 0) {
-        if(displayProductsOfPatientService) {
-            if(activePatient.isHospitalized()) {
+    if(sAction.length()==0){
+        if(displayProductsOfPatientService){
+            if(activePatient.isHospitalized()){
                 sSearchServiceUid = activePatient.getActiveDivision().code;
-                sSearchServiceName = getTranNoLink("service", sSearchServiceUid, sWebLanguage);
+                sSearchServiceName = getTranNoLink("service",sSearchServiceUid,sWebLanguage);
             }
-            else {
+            else{
                 // search central pharmacy by default if user is not hospitalized
                 sSearchServiceUid = centralPharmacyCode;
                 sSearchServiceName = centralPharmacyName;
@@ -102,15 +102,15 @@
     
     //--- FIND ------------------------------------------------------------------------------------
     Vector serviceStocks = null;
-    if(sAction.equals("find")) {
+    if(sAction.equals("find")){
         serviceStocks = Service.getActiveServiceStocks(sSearchServiceUid);
 
         if(serviceStocks.size() > 0){
 	        // run thru found serviceStocks collecting all belonging productStocks
 	        Vector allProductStocks = new Vector();
 	        ServiceStock serviceStock;
-	        for(int i = 0; i < serviceStocks.size(); i++){
-	            serviceStock = (ServiceStock) serviceStocks.get(i);
+	        for(int i=0; i<serviceStocks.size(); i++){
+	            serviceStock = (ServiceStock)serviceStocks.get(i);
 	            allProductStocks.addAll(serviceStock.getProductStocks());
 	        }
 	
@@ -124,18 +124,18 @@
 	        Product product;
 	
 	        // frequently used translations
-	        String sCurrency = MedwanQuery.getInstance().getConfigParam("currency", "€"),
-	               chooseTran = getTranNoLink("web", "choose", sWebLanguage);
+	        String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€"),
+	               chooseTran = getTranNoLink("web","choose",sWebLanguage);
 	
 	        // header
 	        sOut.append("<tr class='admin'>")
-	             .append("<td width='20%'>"+getTran("web", "product", sWebLanguage)+"</td>")
-	             .append("<td width='10%'>"+getTran("web", "unit", sWebLanguage)+"</td>")
-	             .append("<td width='10%' style='text-align:right;'>"+getTran("web", "unitprice", sWebLanguage)+" </td>")
-	             .append("<td width='27%'>"+getTran("web", "service", sWebLanguage)+"</td>")
-	             .append("<td width='12%'>"+getTran("web", "servicestock", sWebLanguage)+"</td>")
-	             .append("<td align='right' width='6%'>"+getTran("web", "level", sWebLanguage)+"  </td>")
-	             .append("<td width='15%'>"+getTran("web", "productGroup", sWebLanguage)+"</td>")
+	             .append("<td width='20%'>"+getTran("web","product",sWebLanguage)+"</td>")
+	             .append("<td width='10%'>"+getTran("web","unit",sWebLanguage)+"</td>")
+	             .append("<td width='10%' style='text-align:right;'>"+getTran("web","unitprice",sWebLanguage)+" </td>")
+	             .append("<td width='27%'>"+getTran("web","service",sWebLanguage)+"</td>")
+	             .append("<td width='12%'>"+getTran("web","servicestock",sWebLanguage)+"</td>")
+	             .append("<td align='right' width='6%'>"+getTran("web","level",sWebLanguage)+" </td>")
+	             .append("<td width='15%'>"+getTran("web","productGroup",sWebLanguage)+"</td>")
 	            .append("</tr>");
 	
 	        // tbody
@@ -160,51 +160,54 @@
 	                }
 	
 	                // only display products complying the searched productName AND/OR the searched productGroup
-	                if(product.getName().toLowerCase().startsWith(sSearchProductName.toLowerCase()) && productGroupOK){
-	                    serviceStock = productStock.getServiceStock();
-	                    sUnitsPerPackage = product.getPackageUnits()+"";
-	                    sProductStockUid = productStock.getUid();
-	
-	                    // translate unit
-	                    sUnitTran = getTranNoLink("product.unit", product.getUnit(), sWebLanguage);
-	
-	                    // supplyingService
-	                    supplyingServiceUid = serviceStock.getService().code;
-	                    if(supplyingServiceUid.length() > 0) {
-	                        supplyingServiceName = getTranNoLink("service", supplyingServiceUid, sWebLanguage);
-	                    }
-	
-	                    // productGroup
-	                    sProductGroup = checkString(product.getProductGroup());
-	                    if(sProductGroup.length() > 0) {
-	                        sProductGroup = getTran("product.productgroup", sProductGroup, sWebLanguage);
-	                    }
-	
-	                    // supplier
-	                    sSupplierUid = checkString(product.getSupplierUid());
-	                    if(sSupplierUid.length() > 0){
-	                        sSupplierName = getTranNoLink("service",sSupplierUid,sWebLanguage);
-	                    }
-	
-	                    // units per time unit
-	                    sUnitsPerTimeUnit = unitCountDeci.format(product.getUnitsPerTimeUnit());
-	
-	                    // alternate row-style
-	                    if(sClass.equals("")) sClass = "1";
-	                    else                  sClass = "";
-	
-	                    //*** display product in one row ***
-	                    sOut.append("<tr title='"+chooseTran+"' class='list"+sClass+"' onMouseOver=\"this.className='list_select'\" onMouseOut=\"this.className='list"+sClass+"'\" onClick=\"selectProduct('"+product.getUid()+"','"+product.getName()+"','"+product.getUnit()+"','"+sUnitsPerTimeUnit+"','"+supplyingServiceUid+"','"+supplyingServiceName+"','"+sSupplierUid+"','"+sSupplierName+"','"+sUnitsPerPackage+"','"+sProductStockUid+"','"+serviceStock.getUid()+"','"+serviceStock.getName()+"');\">")
-	                         .append("<td>"+product.getName()+"</td>")
-	                         .append("<td>"+sUnitTran+"</td>")
-	                         .append("<td align='right'>"+priceDeci.format(product.getUnitPrice())+" "+sCurrency+" </td>")
-	                         .append("<td>"+getTranNoLink("service", serviceStock.getServiceUid(), sWebLanguage)+"</td>")
-	                         .append("<td>"+serviceStock.getName()+"</td>")
-	                         .append("<td align='right'>"+(productStock.getLevel() < 0 ? "<font color='red'>"+productStock.getLevel()+"</font>" : productStock.getLevel()+"")+"  </td>")
-	                         .append("<td>"+sProductGroup+"</td>")
-	                        .append("</tr>");
-	
-	                    iTotal++;
+	                if(productGroupOK){
+	                    if(product.getName().toLowerCase().startsWith(sSearchProductName.toLowerCase()) ||
+	                       ScreenHelper.isLike(sSearchProductName,product.getName().toLowerCase())){
+		                    serviceStock = productStock.getServiceStock();
+		                    sUnitsPerPackage = product.getPackageUnits()+"";
+		                    sProductStockUid = productStock.getUid();
+		
+		                    // translate unit
+		                    sUnitTran = getTranNoLink("product.unit",product.getUnit(),sWebLanguage);
+		
+		                    // supplyingService
+		                    supplyingServiceUid = serviceStock.getService().code;
+		                    if(supplyingServiceUid.length() > 0) {
+		                        supplyingServiceName = getTranNoLink("service",supplyingServiceUid,sWebLanguage);
+		                    }
+		
+		                    // productGroup
+		                    sProductGroup = checkString(product.getProductGroup());
+		                    if(sProductGroup.length() > 0) {
+		                        sProductGroup = getTran("product.productgroup",sProductGroup,sWebLanguage);
+		                    }
+		
+		                    // supplier
+		                    sSupplierUid = checkString(product.getSupplierUid());
+		                    if(sSupplierUid.length() > 0){
+		                        sSupplierName = getTranNoLink("service",sSupplierUid,sWebLanguage);
+		                    }
+		
+		                    // units per time unit
+		                    sUnitsPerTimeUnit = unitCountDeci.format(product.getUnitsPerTimeUnit());
+		
+		                    // alternate row-style
+		                    if(sClass.equals("")) sClass = "1";
+		                    else                  sClass = "";
+		
+		                    //*** display product in one row ***
+		                    sOut.append("<tr title='"+chooseTran+"' class='list"+sClass+"' onMouseOver=\"this.className='list_select'\" onMouseOut=\"this.className='list"+sClass+"'\" onClick=\"selectProduct('"+product.getUid()+"','"+product.getName()+"','"+product.getUnit()+"','"+sUnitsPerTimeUnit+"','"+supplyingServiceUid+"','"+supplyingServiceName+"','"+sSupplierUid+"','"+sSupplierName+"','"+sUnitsPerPackage+"','"+sProductStockUid+"','"+serviceStock.getUid()+"','"+serviceStock.getName()+"');\">")
+		                         .append("<td>"+product.getName()+"</td>")
+		                         .append("<td>"+sUnitTran+"</td>")
+		                         .append("<td align='right'>"+priceDeci.format(product.getUnitPrice())+" "+sCurrency+" </td>")
+		                         .append("<td>"+getTranNoLink("service",serviceStock.getServiceUid(),sWebLanguage)+"</td>")
+		                         .append("<td>"+serviceStock.getName()+"</td>")
+		                         .append("<td align='right'>"+(productStock.getLevel()<0?"<font color='red'>"+productStock.getLevel()+"</font>":productStock.getLevel()+"")+" </td>")
+		                         .append("<td>"+sProductGroup+"</td>")
+		                        .append("</tr>");
+		
+		                    iTotal++;
+		                }
 	                }
 	            }
 	        }
@@ -212,18 +215,17 @@
 	        sOut.append("</tbody>");
         }
     }
-%>
-
-<%
+    
     if(sAction.equals("find")){
         if(iTotal==0){
-            %><%=HTMLEntities.htmlentities(getTran("web","norecordsfound",sWebLanguage))%><%
+            %><%=HTMLEntities.htmlentities(getTran("web","noRecordsFound",sWebLanguage))%><%
         }
         else{
             %>
                 <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
                     <%=HTMLEntities.htmlentities(sOut.toString())%>
                 </table>
+                <%=iTotal%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
             <%
         }
     }

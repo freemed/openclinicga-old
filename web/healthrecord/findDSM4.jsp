@@ -209,8 +209,8 @@ String sPatientUid=request.getParameter("patientuid");
                 // display 'no results' message
                 %>
                     <tr class="label2">
-                                <td colspan='3'><%=getTran("web","norecordsfound",sWebLanguage)%> (<a href='javascript:addnewlocalcode("<%=keywords%>")'><%=getTran("web","managelocalcodes",sWebLanguage) %></a>)</td>
-                                <td colspan='3'><a href='javascript:addnewkeyword()'><%=getTran("web","addDSM4code",sWebLanguage) %></a></td>
+                                <td colspan='3'><%=getTran("web","norecordsfound",sWebLanguage)%> (<a href='javascript:addnewlocalcode("<%=keywords%>")'><%=getTran("web","managelocalcodes",sWebLanguage)%></a>)</td>
+                                <td colspan='3'><a href='javascript:addnewkeyword()'><%=getTran("web","addDSM4code",sWebLanguage)%></a></td>
                     </tr>
                 <%
             }

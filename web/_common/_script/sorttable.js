@@ -30,7 +30,7 @@ function ts_makeSortable(table){
 
   var firstRow;
   if(table.rows && table.rows.length > 0){
-    firstRow = table.rows[headerRowCount-1];
+    firstRow = table.rows[0];
   }
   if(!firstRow) return;
   
@@ -134,45 +134,44 @@ function ts_resortTable(lnk,clid,changeDirection,headerRowCount,bottomRowCount,s
   var td = lnk.parentNode;
   var column = clid || td.cellIndex;
   var table = getParent(td,"TABLE");
+    
+  var contentRows = table.rows.length-headerRowCount-bottomRowCount;
+  if(contentRows==0) return; /* no content to sort */
 
+  /* identify bottom rows and keep them apart */
   var bottomRows = new Array(bottomRowCount);
   for(var i=0; i<bottomRows.length; i++){
-    var bottomRow = table.rows[table.rows.length-1];
-    bottomRows[i] = bottomRow;
-    table.tBodies[0].removeChild(bottomRow);
+    var lastRow = table.rows[table.rows.length-1];
+    bottomRows[i] = lastRow;
+    table.tBodies[0].removeChild(lastRow);
   }
-    
-  if(table.rows.length <= 1) return;
-
+  
   var sortfn;
   if(sortType.length > 0){
          if(sortType=="TEXT") sortfn = ts_sort_caseinsensitive;
     else if(sortType=="DATE") sortfn = ts_sort_date;
-    else if(sortType=="NUM")  sortfn = ts_sort_numeric;
     else if(sortType=="CURR") sortfn = ts_sort_currency;
+    else if(sortType=="NUM")  sortfn = ts_sort_numeric;
   }
   else{
+	/* find out the sort type ourselves */
     var itm = ts_getInnerText(table.rows[1].cells[column]);
     itm = trim(itm);
 
     sortfn = ts_sort_caseinsensitive;
-    if(itm.match(/^\d\d[\/-]\d\d[\/-]\d\d\d\d$/)) sortfn = ts_sort_date;
-    if(itm.match(/^\d\d[\/-]\d\d[\/-]\d\d$/)) sortfn = ts_sort_date;
-    if(itm.match(/^[£$]/)) sortfn = ts_sort_currency;
-    if(itm.match(/^[\d\.]+$/)) sortfn = ts_sort_numeric;
+    sortType = "TEXT";
+         if(itm.match(/^\d\d[\/-]\d\d[\/-]\d\d\d\d$/)){ sortfn = ts_sort_date; sortType = "DATE"; }
+    else if(itm.match(/^\d\d[\/-]\d\d[\/-]\d\d$/)){ sortfn = ts_sort_date; sortType = "DATE"; }
+    else if(itm.match(/^[£$]/)){ sortfn = ts_sort_currency; sortType = "CURR"; }
+    else if(itm.match(/^[\d\.]+$/)){ sortfn = ts_sort_numeric; sortType = "NUM"; }
   }
 
   SORT_COLUMN_INDEX = column;
-  var firstRow = new Array();
-  for(var i=0; i<table.rows[headerRowCount-1].length; i++){
-    firstRow[i] = table.rows[headerRowCount-1][i];
-  }
-  var rowCount = parseInt(table.rows.length);
-
   var newRows = new Array();
   var idx = 0;
-  var endIdx = (bottomRowCount>0?(rowCount-bottomRowCount+1):(rowCount-bottomRowCount));
-  for(var j=headerRowCount; j<endIdx; j++){
+  var rowCount = parseInt(table.rows.length);
+  var endIdx = (bottomRowCount>0?(rowCount-bottomRowCount):rowCount);
+  for(var j=headerRowCount; j<rowCount; j++){
     newRows[idx++] = table.rows[j];
   }
 
@@ -195,9 +194,6 @@ function ts_resortTable(lnk,clid,changeDirection,headerRowCount,bottomRowCount,s
     ARROW = "&uarr;";
     if(changeDirection==true){
       span.setAttribute("sortdir","up");
-    }
-    else{
-      newRows.reverse();
     }
   }
 

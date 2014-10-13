@@ -23,7 +23,7 @@
 	}
 %>
 </table>
-<input type='button' class='button' value='<%=getTranNoLink("web","close",sWebLanguage) %>' onclick='window.close();'/>
+<input type='button' class='button' value='<%=getTranNoLink("web","close",sWebLanguage)%>' onclick='window.close();'/>
 <script>
 	function selectbatch(number,enddate,comment){
 		if(window.opener.<%=sReturnNumber%>){

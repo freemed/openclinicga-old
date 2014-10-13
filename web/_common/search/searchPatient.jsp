@@ -21,7 +21,7 @@
     
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-    	Debug.println("\n");
+    	Debug.println("\n******************* _common/search/searchPatient.jsp *******************");
     	Debug.println("sFindLastname   : "+sFindLastname);
     	Debug.println("sFindFirstname  : "+sFindFirstname);
     	Debug.println("sFindDOB        : "+sFindDOB);

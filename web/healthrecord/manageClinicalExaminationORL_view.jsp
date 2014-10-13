@@ -28,7 +28,7 @@
 
 <table width="100%" class="list" cellspacing="0">
     <tr class="admin">
-        <td ><%=getTran("Web.Occup","medwan.healthrecord.ORL",sWebLanguage)%></td>
+        <td><%=getTran("Web.Occup","medwan.healthrecord.ORL",sWebLanguage)%></td>
         <td align="right" width="20%">
             <%=getLabel("Web.Occup","medwan.common.nothing-to-mention",sWebLanguage,"orl-c1")%>&nbsp;<input name="orl-ras" type="checkbox" id="orl-c1" value="medwan.common.true" onclick="if (this.checked == true) {hide('ORL-details');setTrue('<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORL_RAS" property="itemId"/>'); } else {show('ORL-details');setFalse('<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ORL_RAS" property="itemId"/>'); }">
         </td>

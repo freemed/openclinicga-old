@@ -12,12 +12,12 @@
 <%=sJSEMAIL%>
 
 <%
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n************ manage_maintenancePlans.jsp ***********");
+        Debug.println("\n****************** assets/manage_maintenancePlans.jsp *****************");
         Debug.println("no parameters\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 %>            
 
 <form name="SearchForm" id="SearchForm" method="POST">
@@ -71,22 +71,20 @@
   function searchMaintenancePlans(){
     document.getElementById("divMaintenancePlans").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Searching";            
     var url = "<c:url value='/assets/ajax/maintenancePlan/getMaintenancePlans.jsp'/>?ts="+new Date().getTime();
-    new Ajax.Request(url,
-      {        
-        method: "GET",
-        parameters: "name="+encodeURIComponent(SearchForm.searchName.value)+
-                    "&assetUID="+encodeURIComponent(SearchForm.searchAssetUID.value)+
-                    //"&assetCode="+encodeURIComponent(SearchForm.searchAssetCode.value)+
-                    "&operator="+encodeURIComponent(SearchForm.searchOperator.value),
-        onSuccess: function(resp){
-          $("divMaintenancePlans").innerHTML = resp.responseText;
-          sortables_init();
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'assets/ajax/maintenancePlan/getMaintenancePlans.jsp' : "+resp.responseText.trim();
-        }
+    new Ajax.Request(url,{       
+      method: "GET",
+      parameters: "name="+encodeURIComponent(SearchForm.searchName.value)+
+                  "&assetUID="+encodeURIComponent(SearchForm.searchAssetUID.value)+
+                  //"&assetCode="+encodeURIComponent(SearchForm.searchAssetCode.value)+
+                  "&operator="+encodeURIComponent(SearchForm.searchOperator.value),
+      onSuccess: function(resp){
+        $("divMaintenancePlans").innerHTML = resp.responseText;
+        sortables_init();
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'assets/ajax/maintenancePlan/getMaintenancePlans.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
 
   <%-- CLEAR SEARCH FIELDS --%>
@@ -223,24 +221,22 @@
                       "&instructions="+EditForm.instructions.value;
 
         var url = "<c:url value='/assets/ajax/maintenancePlan/saveMaintenancePlan.jsp'/>?ts="+new Date().getTime();
-        new Ajax.Request(url,
-          {
-            method: "POST",
-            postBody: sParams,                   
-            onSuccess: function(resp){
-              var data = eval("("+resp.responseText+")");
-              $("divMessage").innerHTML = data.message;
+        new Ajax.Request(url,{
+          method: "POST",
+          postBody: sParams,                   
+          onSuccess: function(resp){
+            var data = eval("("+resp.responseText+")");
+            $("divMessage").innerHTML = data.message;
 
-              //loadMaintenancePlan();
-              searchMaintenancePlans();
-              newMaintenancePlan();
-              enableButtons();
-            },
-            onFailure: function(resp){
-              $("divMessage").innerHTML = "Error in 'assets/ajax/maintenancePlan/saveMaintenancePlan.jsp' : "+resp.responseText.trim();
-            }
+            //loadMaintenancePlan();
+            searchMaintenancePlans();
+            newMaintenancePlan();
+            enableButtons();
+          },
+          onFailure: function(resp){
+            $("divMessage").innerHTML = "Error in 'assets/ajax/maintenancePlan/saveMaintenancePlan.jsp' : "+resp.responseText.trim();
           }
-        );
+        });
       }
     }
     else{
@@ -260,83 +256,75 @@
   
   <%-- LOAD MAINTENANCEPLANS --%>
   function loadMaintenancePlans(){
-    document.getElementById("divMaintenancePlans").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
+    document.getElementById("divMaintenancePlans").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading..";            
     var url = "<c:url value='/assets/ajax/maintenancePlan/getMaintenancePlans.jsp'/>?ts="+new Date().getTime();
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "",
-        onSuccess: function(resp){
-          $("divMaintenancePlans").innerHTML = resp.responseText;
-          sortables_init();
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'assets/ajax/maintenancePlan/getMaintenancePlans.jsp' : "+resp.responseText.trim();
-        }
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "",
+      onSuccess: function(resp){
+        $("divMaintenancePlans").innerHTML = resp.responseText;
+        sortables_init();
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'assets/ajax/maintenancePlan/getMaintenancePlans.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
 
   <%-- DISPLAY MAINTENANCEPLAN --%>
   function displayMaintenancePlan(planUID){
     var url = "<c:url value='/assets/ajax/maintenancePlan/getMaintenancePlan.jsp'/>?ts="+new Date().getTime();
-    
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "planUID="+planUID,
-        onSuccess: function(resp){
-          var data = eval("("+resp.responseText+")");
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "planUID="+planUID,
+      onSuccess: function(resp){
+        var data = eval("("+resp.responseText+")");
+         
+        $("EditPlanUID").value = data.planUID;
+        $("name").value = data.name.unhtmlEntities();
+        $("assetUID").value = data.assetUID;
+        $("assetCode").value = data.assetCode;
+        $("startDate").value = data.startDate.unhtmlEntities();
+        $("frequency").value = data.frequency;
+        $("operator").value = data.operator.unhtmlEntities();
+        $("planManager").value = data.planManager.unhtmlEntities();
+        $("instructions").value = replaceAll(data.instructions.unhtmlEntities(),"<br>","\n");
           
-          $("EditPlanUID").value = data.planUID;
-          $("name").value = data.name.unhtmlEntities();
-          $("assetUID").value = data.assetUID;
-          $("assetCode").value = data.assetCode;
-          $("startDate").value = data.startDate.unhtmlEntities();
-          $("frequency").value = data.frequency;
-          $("operator").value = data.operator.unhtmlEntities();
-          $("planManager").value = data.planManager.unhtmlEntities();
-          $("instructions").value = replaceAll(data.instructions.unhtmlEntities(),"<br>","\n");
-          
-          document.getElementById("divMessage").innerHTML = ""; 
-          resizeAllTextareas(8);
+        document.getElementById("divMessage").innerHTML = ""; 
+        resizeAllTextareas(8);
 
-          <%-- display hidden buttons --%>
-          document.getElementById("buttonDelete").style.visibility = "visible";
-          document.getElementById("buttonNew").style.visibility = "visible";
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'assets/ajax/maintenancePlan/getMaintenancePlan.jsp' : "+resp.responseText.trim();
-        }
+        <%-- display hidden buttons --%>
+        document.getElementById("buttonDelete").style.visibility = "visible";
+        document.getElementById("buttonNew").style.visibility = "visible";
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'assets/ajax/maintenancePlan/getMaintenancePlan.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
   
   <%-- DELETE MAINTENACEPLAN --%>
-  function deleteMaintenancePlan(){ 
-    var answer = yesnoDialog("web","areYouSureToDelete");
-    if(answer==1){                 
+  function deleteMaintenancePlan(){
+    if(yesnoDialog("web","areYouSureToDelete")){                 
       disableButtons();
       
       var url = "<c:url value='/assets/ajax/maintenancePlan/deleteMaintenancePlan.jsp'/>?ts="+new Date().getTime();
-      new Ajax.Request(url,
-        {
-          method: "GET",
-          parameters: "PlanUID="+document.getElementById("EditPlanUID").value,
-          onSuccess: function(resp){
-            var data = eval("("+resp.responseText+")");
-            $("divMessage").innerHTML = data.message;
+      new Ajax.Request(url,{
+        method: "GET",
+        parameters: "PlanUID="+document.getElementById("EditPlanUID").value,
+        onSuccess: function(resp){
+          var data = eval("("+resp.responseText+")");
+          $("divMessage").innerHTML = data.message;
 
-            newMaintenancePlan();
-            //loadMaintenancePlan();
-            searchMaintenancePlans();
-            enableButtons();
-          },
-          onFailure: function(resp){
-            $("divMessage").innerHTML = "Error in 'assets/ajax/maintenancePlan/deleteMaintenancePlan.jsp' : "+resp.responseText.trim();
-          }  
-        }
-      );
+          newMaintenancePlan();
+          //loadMaintenancePlan();
+          searchMaintenancePlans();
+          enableButtons();
+        },
+        onFailure: function(resp){
+          $("divMessage").innerHTML = "Error in 'assets/ajax/maintenancePlan/deleteMaintenancePlan.jsp' : "+resp.responseText.trim();
+        }  
+      });
     }
   }
 

@@ -1,7 +1,6 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page import="be.openclinic.pharmacy.*" %>
-
 <%=checkPermission("pharmacy.manageproductstockdocuments","all",activeUser)%>
 <%=sJSSORTTABLE%>
 
@@ -9,36 +8,36 @@
 	String sAction = checkString(request.getParameter("formaction"));
 	String sDoAction = checkString(request.getParameter("doaction"));
 	if(sAction.length()==0 && sDoAction.length()>0){
-		sAction=sDoAction;
+		sAction = sDoAction;
 	}
 	
-	String sUid = checkString(request.getParameter("documentuid")),
-		   sType = checkString(request.getParameter("documenttype")),
-		   sSource = checkString(request.getParameter("documentsource")),
+	String sUid         = checkString(request.getParameter("documentuid")),
+		   sType        = checkString(request.getParameter("documenttype")),
+		   sSource      = checkString(request.getParameter("documentsource")),
 		   sDestination = checkString(request.getParameter("documentdestination")),
-		   sDate = checkString(request.getParameter("documentdate")),
-		   sComment = checkString(request.getParameter("documentcomment")),
-		   sReference = checkString(request.getParameter("documentreference"));
+		   sDate        = checkString(request.getParameter("documentdate")),
+		   sComment     = checkString(request.getParameter("documentcomment")),
+		   sReference   = checkString(request.getParameter("documentreference"));
 	
-	String sFindType = checkString(request.getParameter("finddocumenttype")),
-		   sFindSource = checkString(request.getParameter("finddocumentsource")),
+	String sFindType        = checkString(request.getParameter("finddocumenttype")),
+		   sFindSource      = checkString(request.getParameter("finddocumentsource")),
 		   sFindDestination = checkString(request.getParameter("finddocumentdestination")),
-		   sFindSourceText = checkString(request.getParameter("finddocumentsourcetext")),
+		   sFindSourceText  = checkString(request.getParameter("finddocumentsourcetext")),
 		   sFindDestinationText = checkString(request.getParameter("finddocumentdestinationtext")),
-		   sFindMinDate = checkString(request.getParameter("finddocumentmindate")),
-		   sFindMaxDate = checkString(request.getParameter("finddocumentmaxdate")),
-		   sFindReference = checkString(request.getParameter("finddocumentreference"));
+		   sFindMinDate     = checkString(request.getParameter("finddocumentmindate")),
+		   sFindMaxDate     = checkString(request.getParameter("finddocumentmaxdate")),
+		   sFindReference   = checkString(request.getParameter("finddocumentreference"));
 	
-	String sReturnDocumentID = checkString(request.getParameter("ReturnDocumentID")),
-		   sReturnDocumentName = checkString(request.getParameter("ReturnDocumentName")),
+	String sReturnDocumentID    = checkString(request.getParameter("ReturnDocumentID")),
+		   sReturnDocumentName  = checkString(request.getParameter("ReturnDocumentName")),
 		   sReturnDestinationID = checkString(request.getParameter("ReturnDestinationID")),
 		   sReturnDestinationName = checkString(request.getParameter("ReturnDestinationName")),
-		   sReturnSourceName = checkString(request.getParameter("ReturnSourceName"));
+		   sReturnSourceName    = checkString(request.getParameter("ReturnSourceName"));
 
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n############ _common/search/searchStockOperationDocument.jsp ############");
+        Debug.println("\n************ _common/search/searchStockOperationDocument.jsp ***********");
         Debug.println("sAction      : "+sAction);
         Debug.println("sUid         : "+sUid);
         Debug.println("sType        : "+sType);
@@ -48,52 +47,60 @@
         Debug.println("sComment     : "+sComment);
         Debug.println("sReference   : "+sReference+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
 	OperationDocument operationDocument = new OperationDocument();
 
+    //*** SAVE ****************************************************************
 	if(sAction.equalsIgnoreCase("save")){
 		operationDocument.setUid(sUid);
 		operationDocument.setType(sType);
 		operationDocument.setSourceuid(sSource);
 		operationDocument.setDestinationuid(sDestination);
+		
 		java.util.Date d = null;
 		try{
-			d=ScreenHelper.parseDate(sDate);
+			d = ScreenHelper.parseDate(sDate);
 		}
-		catch(Exception e){};
+		catch(Exception e){
+			// empty
+		};
 		operationDocument.setDate(d);
+		
 		operationDocument.setComment(sComment);
 		operationDocument.setReference(sReference);
 		operationDocument.store();
-		sAction="find";
-		sFindType=sType;
-		sFindSource=sSource;
-		sFindSourceText=operationDocument.getSourceName(sWebLanguage);
-		sFindDestination=sDestination;
-		sFindDestinationText=operationDocument.getDestination().getName();
-		sFindMinDate=sDate;
-		sFindMaxDate=sDate;
-		sFindReference=sReference;
+		
+		sAction = "find";
+		sFindType = sType;
+		sFindSource = sSource;
+		sFindSourceText = operationDocument.getSourceName(sWebLanguage);
+		sFindDestination = sDestination;
+		sFindDestinationText = operationDocument.getDestination().getName();
+		sFindMinDate = sDate;
+		sFindMaxDate = sDate;
+		sFindReference = sReference;
 	}
 	
+    //*** FIND ****************************************************************
 	if(sAction.length()==0 || sAction.equalsIgnoreCase("find")){
-		if(sUid.length()>0){
-			operationDocument=OperationDocument.get(sUid);
-			sFindType=operationDocument.getType();
-			sFindSource=operationDocument.getSourceuid();
-			sFindSourceText=operationDocument.getSourceName(sWebLanguage);
-			sFindDestination=operationDocument.getDestinationuid();
-			sFindDestinationText=operationDocument.getDestination().getName();
-			sFindMinDate=ScreenHelper.stdDateFormat.format(operationDocument.getDate());
-			sFindMaxDate=ScreenHelper.stdDateFormat.format(operationDocument.getDate());
-			sFindReference=operationDocument.getReference();
+		if(sUid.length() > 0){
+			operationDocument = OperationDocument.get(sUid);
+			sFindType = operationDocument.getType();
+			sFindSource = operationDocument.getSourceuid();
+			sFindSourceText = operationDocument.getSourceName(sWebLanguage);
+			sFindDestination = operationDocument.getDestinationuid();
+			sFindDestinationText = operationDocument.getDestination().getName();
+			sFindMinDate = ScreenHelper.stdDateFormat.format(operationDocument.getDate());
+			sFindMaxDate = ScreenHelper.stdDateFormat.format(operationDocument.getDate());
+			sFindReference = operationDocument.getReference();
 		}
-		else if(sFindType.length()==0 && sFindSource.length()==0 && sFindDestination.length()==0 && sFindMinDate.length()==0 && sFindMaxDate.length()==0 && sFindReference.length()==0){
+		else if(sFindType.length()==0 && sFindSource.length()==0 && sFindDestination.length()==0 &&
+				sFindMinDate.length()==0 && sFindMaxDate.length()==0 && sFindReference.length()==0){
 			sFindMinDate=ScreenHelper.stdDateFormat.format(new java.util.Date().getTime()-7*24*3600*1000);			
 		}
 		
-		//First show search header
+		// search header
 		%>
 			<table width="100%" cellpadding="0" cellspacing="0">
 				<tr>
@@ -106,40 +113,46 @@
 							<input type="hidden" name="Page" value="/_common/search/searchStockOperationDocument.jsp"/>
 							
 			                <table class="list" width="100%" cellpadding="0" cellspacing="1">
+								<%-- OPERATION DOCUMENTS --%>
 								<tr class="admin" style="padding-left:0">
-									<td colspan="2"><%=getTran("web","findoperationdocuments",sWebLanguage) %>&nbsp;</td>
+									<td colspan="2"><%=getTran("web","findoperationdocuments",sWebLanguage)%>&nbsp;</td>
 								</tr>
+								<%-- TYPE --%>
 								<tr>
-									<td class="admin" width="1%" nowrap><%=getTran("web","type",sWebLanguage) %>&nbsp;</td>
+									<td class="admin" width="1%" nowrap><%=getTran("web","type",sWebLanguage)%>&nbsp;</td>
 									<td class="admin2">
 										<select name="finddocumenttype" id="finddocumenttype" class="text">
 											<option value=""></option>
-											<%=ScreenHelper.writeSelect("operationdocumenttypes", sFindType, sWebLanguage) %>
+											<%=ScreenHelper.writeSelect("operationdocumenttypes",sFindType,sWebLanguage)%>
 										</select>
 									</td>
 								</tr>
+								<%-- SOURCE --%>
 								<tr>
-									<td class="admin" width="1%" nowrap><%=getTran("web","source",sWebLanguage) %>&nbsp;</td>
+									<td class="admin" width="1%" nowrap><%=getTran("web","source",sWebLanguage)%>&nbsp;</td>
 									<td class="admin2">
 						                <input class='text' type="text" name="finddocumentsourcetext" id="finddocumentsourcetext" readonly size="50" TITLE="" VALUE="<%=sFindSourceText %>" onchange="">
-						                <img src='/openclinic/_img/icons/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='findsearchsource("finddocumentsource","finddocumentsourcetext");'>&nbsp;<img src='/openclinic/_img/icons/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('finddocumentsource')[0].value='';document.getElementsByName('finddocumentsourcetext')[0].value='';">
+						                <img src='/openclinic/_img/icons/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='findServiceSource("finddocumentsource","finddocumentsourcetext");'>&nbsp;<img src='/openclinic/_img/icons/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('finddocumentsource')[0].value='';document.getElementsByName('finddocumentsourcetext')[0].value='';">
 						                <input type="hidden" name="finddocumentsource" id="finddocumentsource" VALUE="">
 									</td>
 								</tr>
+								<%-- DESTINATION --%>
 								<tr>
-									<td class="admin" width="1%" nowrap><%=getTran("web","destination",sWebLanguage) %>&nbsp;</td>
+									<td class="admin" width="1%" nowrap><%=getTran("web","destination",sWebLanguage)%>&nbsp;</td>
 									<td class="admin2">
 						                <input class='text' type="text" name="finddocumentdestinationtext" id="finddocumentdestinationtext" readonly size="50" TITLE="" VALUE="<%=sFindDestinationText %>" onchange="">
 						                <img src='/openclinic/_img/icons/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=finddocumentdestination&ReturnServiceStockNameField=finddocumentdestinationtext");'>&nbsp;<img src='/openclinic/_img/icons/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('finddocumentdestination')[0].value='';document.getElementsByName('finddocumentdestinationtext')[0].value='';">
 						                <input type="hidden" name="finddocumentdestination" id="finddocumentdestination" VALUE="">
 									</td>
 								</tr>
+								<%-- PERIOD --%>
 								<tr>
-									<td class="admin" width="1%" nowrap><%=getTran("web","period",sWebLanguage) %>&nbsp;</td>
-									<td class="admin2"><%=getTran("web", "from", sWebLanguage) %> <%=writeDateField("finddocumentmindate","searchForm",sFindMinDate,sWebLanguage) %> <%=getTran("web", "to", sWebLanguage) %> <%=writeDateField("finddocumentmaxdate","searchForm",sFindMaxDate,sWebLanguage) %></td>
+									<td class="admin" width="1%" nowrap><%=getTran("web","period",sWebLanguage)%>&nbsp;</td>
+									<td class="admin2"><%=getTran("web","from",sWebLanguage)%> <%=writeDateField("finddocumentmindate","searchForm",sFindMinDate,sWebLanguage)%> <%=getTran("web","to",sWebLanguage)%> <%=writeDateField("finddocumentmaxdate","searchForm",sFindMaxDate,sWebLanguage)%></td>
 								</tr>
+								<%-- DOCUMENT REFERENCE --%>
 								<tr>
-									<td class="admin" width="1%" nowrap><%=getTran("web","documentreference",sWebLanguage) %>&nbsp;</td>
+									<td class="admin" width="1%" nowrap><%=getTran("web","documentreference",sWebLanguage)%>&nbsp;</td>
 									<td class="admin2"><input type="text" class="text" name="finddocumentreference" id="finddocumentreference" value="<%=sFindReference%>" size="50"/></td>
 								</tr>
 							</table>
@@ -162,8 +175,9 @@
 					    <br>
 						<table class="list" width="100%" cellpadding="0" cellspacing="1">
 						<%
-							Vector documents = OperationDocument.find(sFindType,sFindSource,sFindDestination,sFindMinDate,sFindMaxDate,sFindReference,"OC_DOCUMENT_DATE DESC, OC_DOCUMENT_OBJECTID DESC");
-							if(documents.size()>0){
+							Vector documents = OperationDocument.find(sFindType,sFindSource,sFindDestination,sFindMinDate,sFindMaxDate,
+									                                  sFindReference,"OC_DOCUMENT_DATE DESC, OC_DOCUMENT_OBJECTID DESC");
+							if(documents.size() > 0){
 								%>
 									<tr class='admin' style="padding-left:0">
 										<td></td>
@@ -177,44 +191,44 @@
 								<%
 							}
 						
-							for(int n=0;n<documents.size();n++){
+							for(int n=0; n<documents.size(); n++){
 								OperationDocument document = (OperationDocument)documents.elementAt(n);
-								sType=checkString(document.getType());
+								sType = checkString(document.getType());
 								
-								if(document.getSourceuid().length()>0){
-									sSource=document.getSourceName(sWebLanguage);
+								if(document.getSourceuid().length() > 0){
+									sSource = document.getSourceName(sWebLanguage);
 								}
-								else {
-									sSource="";
+								else{
+									sSource = "";
 								}
 								
-								if(document.getDestinationuid().length()>0){
-									sDestination=document.getDestination().getName();
+								if(document.getDestinationuid().length() > 0){
+									sDestination = document.getDestination().getName();
 								}
-								else {
-									sDestination="";
+								else{
+									sDestination = "";
 								}
 								
 								if(document.getDate()!=null){
-									sDate=ScreenHelper.stdDateFormat.format(document.getDate());
+									sDate = ScreenHelper.stdDateFormat.format(document.getDate());
 								}
-								else {
-									sDate="";
+								else{
+									sDate = "";
 								}
 								
-								sComment=checkString(document.getComment());
-								sReference=checkString(document.getReference());
+								sComment = checkString(document.getComment());
+								sReference = checkString(document.getReference());
 								
 								// display one document
-								out.println("<tr class='listText'>"+
-								             "<td><input type='button' class='button' value='"+getTranNoLink("web","select",sWebLanguage)+"' onclick='selectDocument(\""+document.getUid()+"\",\""+getTran("operationdocumenttypes",sType,sWebLanguage)+"\",\""+document.getDestinationuid()+"\",\""+sDestination+"\",\""+sSource+"\");'/></td>"+
-								             "<td>"+document.getUid()+"</td>"+
-								             "<td><a href='javascript:editDocument(\""+document.getUid()+"\");'>"+sDate+"</a></td>"+
-								             "<td>"+getTran("operationdocumenttypes",sType,sWebLanguage)+"</td>"+
-								             "<td>"+sSource+"</td>"+
-								             "<td>"+sDestination+"</td>"+
-								             "<td>"+sReference+"</td>"+
-								            "</tr>");
+								out.print("<tr class='listText'>"+
+								           "<td><input type='button' class='button' value='"+getTranNoLink("web","select",sWebLanguage)+"' onclick='selectDocument(\""+document.getUid()+"\",\""+getTran("operationdocumenttypes",sType,sWebLanguage)+"\",\""+document.getDestinationuid()+"\",\""+sDestination+"\",\""+sSource+"\");'/></td>"+
+								           "<td>"+document.getUid()+"</td>"+
+								           "<td><a href='javascript:editDocument(\""+document.getUid()+"\");'>"+sDate+"</a></td>"+
+								           "<td>"+getTran("operationdocumenttypes",sType,sWebLanguage)+"</td>"+
+								           "<td>"+sSource+"</td>"+
+								           "<td>"+sDestination+"</td>"+
+								           "<td>"+sReference+"</td>"+
+								          "</tr>");
 							}
 						%>
 						</table>
@@ -223,6 +237,7 @@
 			</table>
 		<%		
 	}
+    //*** EDIT ****************************************************************
 	else if(sAction.equalsIgnoreCase("new") || sAction.equalsIgnoreCase("edit")){ 
 		if(sAction.equalsIgnoreCase("edit")){
 			operationDocument = OperationDocument.get(sUid);
@@ -239,18 +254,18 @@
 			
 		    <table class="list" width="100%" cellpadding="0" cellspacing="1">
 				<tr class="admin" style="padding-left:0">
-					<td colspan="2"><%=getTran("web","editoperationdocument",sWebLanguage) %></td>
+					<td colspan="2"><%=getTran("web","editoperationdocument",sWebLanguage)%></td>
 				</tr>
 				<tr>
-					<td class="admin"><%=getTran("web","type",sWebLanguage) %> *</td>
+					<td class="admin"><%=getTran("web","type",sWebLanguage)%> *</td>
 					<td class="admin2">
 						<select name="documenttype" id="documenttype" class="text">
-							<%=ScreenHelper.writeSelect("operationdocumenttypes", operationDocument.getType(), sWebLanguage) %>
+							<%=ScreenHelper.writeSelect("operationdocumenttypes",operationDocument.getType(),sWebLanguage)%>
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td class="admin"><%=getTran("web","source",sWebLanguage) %> *</td>
+					<td class="admin"><%=getTran("web","source",sWebLanguage)%> *</td>
 					<td class="admin2">
 		                <input class='text' type="text" name="documentsourcetext" readonly size="50" TITLE="" VALUE="<%=operationDocument.getSourceuid().length()>0?operationDocument.getSourceName(sWebLanguage):"" %>" onchange="">
 		                <img src='/openclinic/_img/icons/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='findsource("documentsource","documentsourcetext");'>&nbsp;<img src='/openclinic/_img/icons/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('documentsource')[0].value='';document.getElementsByName('documentsourcetext')[0].value='';">
@@ -258,7 +273,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="admin"><%=getTran("web","destination",sWebLanguage) %> *</td>
+					<td class="admin"><%=getTran("web","destination",sWebLanguage)%> *</td>
 					<td class="admin2">
 		                <input class='text' type="text" name="documentdestinationtext" readonly size="50" TITLE="" VALUE="<%=operationDocument.getDestinationuid().length()>0?operationDocument.getDestination().getName():"" %>" onchange="">
 		                <img src='/openclinic/_img/icons/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=documentdestination&ReturnServiceStockNameField=documentdestinationtext");'>&nbsp;<img src='/openclinic/_img/icons/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('documentdestination')[0].value='';document.getElementsByName('documentdestinationtext')[0].value='';">
@@ -266,15 +281,15 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="admin"><%=getTran("web","date",sWebLanguage) %> *</td>
-					<td class="admin2"><%=writeDateField("documentdate","editForm",operationDocument.getDate()!=null?ScreenHelper.stdDateFormat.format(operationDocument.getDate()):"",sWebLanguage) %></td>
+					<td class="admin"><%=getTran("web","date",sWebLanguage)%> *</td>
+					<td class="admin2"><%=writeDateField("documentdate","editForm",operationDocument.getDate()!=null?ScreenHelper.stdDateFormat.format(operationDocument.getDate()):"",sWebLanguage)%></td>
 				</tr>
 				<tr>
-					<td class="admin"><%=getTran("web","documentcomment",sWebLanguage) %>&nbsp;</td>
+					<td class="admin"><%=getTran("web","documentcomment",sWebLanguage)%>&nbsp;</td>
 					<td class="admin2"><textarea class="text" name="documentcomment" id="documentcomment" cols="50"><%=operationDocument.getComment()%></textarea></td>
 				</tr>
 				<tr>
-					<td class="admin"><%=getTran("web","documentreference",sWebLanguage) %>&nbsp;</td>
+					<td class="admin"><%=getTran("web","documentreference",sWebLanguage)%>&nbsp;</td>
 					<td class="admin2"><input type="text" class="text" name="documentreference" id="documentreference" value="<%=operationDocument.getReference()%>" size="50"/></td>
 				</tr>
 			</table>
@@ -294,69 +309,76 @@
 <script>
   resizeTo(600,400);
   
-	function saveForm(){
-		if(document.getElementById("documentdate").value.length>0 && document.getElementById("documentsource").value.length>0 && document.getElementById("documentdestination").value.length>0 ){
-			document.getElementById('formaction').value='save';
-			editForm.submit();
-		}
-		else {
-            alertDialog("web.manage","datamissing");
-		}
-	}
-	
-	function editDocument(uid){
-		window.location.href='<c:url value="/popup.jsp"/>?Page=_common/search/searchStockOperationDocument.jsp&ts=<%=getTs()%>&doaction=edit&documentuid='+uid+'&ReturnDocumentID=<%=sReturnDocumentID%>&ReturnDocumentName=<%=sReturnDocumentName%>&ReturnDestinationID=<%=sReturnDestinationID%>&ReturnDestinationName=<%=sReturnDestinationName%>&ReturnSourceName=<%=sReturnSourceName%>';	
-	}
-	
-	function findDocument(uid){
-		window.location.href='<c:url value="/popup.jsp"/>?Page=_common/search/searchStockOperationDocument.jsp&ts=<%=getTs()%>&doaction=find&documentuid='+uid+'&ReturnDocumentID=<%=sReturnDocumentID%>&ReturnDocumentName=<%=sReturnDocumentName%>&ReturnDestinationID=<%=sReturnDestinationID%>&ReturnDestinationName=<%=sReturnDestinationName%>&ReturnSourceName=<%=sReturnSourceName%>';	
-	}
-	
-	function selectDocument(documentuid,documentuidtext,destinationuid,destinationuidtext,sourceuidtext){
-		if('<%=sReturnDocumentID%>'.length>0){
-			window.opener.document.getElementById('<%=sReturnDocumentID%>').value=documentuid;
-		}
-		if('<%=sReturnDocumentName%>'.length>0){
-			window.opener.document.getElementById('<%=sReturnDocumentName%>').innerHTML=documentuidtext;
-		}
-		if('<%=sReturnDestinationID%>'.length>0){
-			window.opener.document.getElementById('<%=sReturnDestinationID%>').value=destinationuid;
-		}
-		if('<%=sReturnDestinationName%>'.length>0){
-			window.opener.document.getElementById('<%=sReturnDestinationName%>').value=destinationuidtext;
-		}
-		if('<%=sReturnSourceName%>'.length>0){
-			window.opener.document.getElementById('<%=sReturnSourceName%>').value=sourceuidtext;
-		}
-		window.close();
-	}
-	
-    function findsource(sourceid,sourcename){
-    	if('<%=MedwanQuery.getInstance().getConfigString("stockOperationDocumentServiceSources","")%>'.indexOf('*'+document.getElementById("documenttype").options[document.getElementById("documenttype").selectedIndex].value+'*')>-1){
-			openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+sourceid+"&VarText="+sourcename);
-		}
-		else {
-			openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField="+sourceid+"&ReturnServiceStockNameField="+sourcename);
-		}
+  <%-- SAVE FORM --%>
+  function saveForm(){
+    if(document.getElementById("documentdate").value.length>0 && document.getElementById("documentsource").value.length>0 && document.getElementById("documentdestination").value.length>0 ){
+      document.getElementById('formaction').value = 'save';
+      editForm.submit();
     }
+    else{
+      alertDialog("web.manage","datamissing");
+	}
+  }
 
-    function findsearchsource(sourceid,sourcename){
-    	if('<%=MedwanQuery.getInstance().getConfigString("stockOperationDocumentServiceSources","")%>'.indexOf('*'+document.getElementById("finddocumenttype").options[document.getElementById("finddocumenttype").selectedIndex].value+'*')>-1){
-			openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+sourceid+"&VarText="+sourcename);
-		}
-		else {
-			openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField="+sourceid+"&ReturnServiceStockNameField="+sourcename);
-		}
-    }
-    
-	function clearFindFields(){
-		document.getElementById("finddocumenttype").selectedIndex=0;
-		document.getElementById("finddocumentsourcetext").value='';
-		document.getElementById("finddocumentsource").value='';
-		document.getElementById("finddocumentdestinationtext").value='';
-		document.getElementById("finddocumentdestination").value='';
-		document.getElementById("finddocumentmindate").value='';
-		document.getElementById("finddocumentmaxdate").value='';
-		document.getElementById("finddocumentreference").value='';
+  <%-- EDIT DOCUMENT --%>
+  function editDocument(uid){
+	window.location.href = '<c:url value="/popup.jsp"/>?Page=_common/search/searchStockOperationDocument.jsp&ts=<%=getTs()%>&doaction=edit&documentuid='+uid+'&ReturnDocumentID=<%=sReturnDocumentID%>&ReturnDocumentName=<%=sReturnDocumentName%>&ReturnDestinationID=<%=sReturnDestinationID%>&ReturnDestinationName=<%=sReturnDestinationName%>&ReturnSourceName=<%=sReturnSourceName%>';	
+  }
+
+  <%-- FIND DOCUMENT --%>
+  function findDocument(uid){
+	window.location.href = '<c:url value="/popup.jsp"/>?Page=_common/search/searchStockOperationDocument.jsp&ts=<%=getTs()%>&doaction=find&documentuid='+uid+'&ReturnDocumentID=<%=sReturnDocumentID%>&ReturnDocumentName=<%=sReturnDocumentName%>&ReturnDestinationID=<%=sReturnDestinationID%>&ReturnDestinationName=<%=sReturnDestinationName%>&ReturnSourceName=<%=sReturnSourceName%>';	
+  }
+	
+  <%-- SELECT DOCUMENT --%>
+  function selectDocument(documentuid,documentuidtext,destinationuid,destinationuidtext,sourceuidtext){
+	if('<%=sReturnDocumentID%>'.length>0){
+	  window.opener.document.getElementById('<%=sReturnDocumentID%>').value=documentuid;
 	}
+	if('<%=sReturnDocumentName%>'.length>0){
+	  window.opener.document.getElementById('<%=sReturnDocumentName%>').innerHTML=documentuidtext;
+	}
+	if('<%=sReturnDestinationID%>'.length>0){
+	  window.opener.document.getElementById('<%=sReturnDestinationID%>').value=destinationuid;
+	}
+	if('<%=sReturnDestinationName%>'.length>0){
+      window.opener.document.getElementById('<%=sReturnDestinationName%>').value=destinationuidtext;
+	}
+	if('<%=sReturnSourceName%>'.length>0){
+      window.opener.document.getElementById('<%=sReturnSourceName%>').value=sourceuidtext;
+	}
+	window.close();
+  }
+	
+  <%-- FIND SOURCE --%>
+  function findsource(sourceid,sourcename){
+  	if('<%=MedwanQuery.getInstance().getConfigString("stockOperationDocumentServiceSources","")%>'.indexOf('*'+document.getElementById("documenttype").options[document.getElementById("documenttype").selectedIndex].value+'*')>-1){
+	  openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+sourceid+"&VarText="+sourcename);
+	}
+	else{
+	  openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField="+sourceid+"&ReturnServiceStockNameField="+sourcename);
+	}
+  }
+
+  <%-- FINS SERVICE SOURCE --%>
+  function findServiceSource(sourceid,sourcename){
+  	if('<%=MedwanQuery.getInstance().getConfigString("stockOperationDocumentServiceSources","")%>'.indexOf('*'+document.getElementById("finddocumenttype").options[document.getElementById("finddocumenttype").selectedIndex].value+'*')>-1){
+      openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+sourceid+"&VarText="+sourcename);
+	}
+	else{
+	  openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField="+sourceid+"&ReturnServiceStockNameField="+sourcename);
+	}
+  }
+  
+  <%-- CLEAR FIND FIELDS --%>
+  function clearFindFields(){
+	document.getElementById("finddocumenttype").selectedIndex = 0;
+	document.getElementById("finddocumentsourcetext").value = '';
+	document.getElementById("finddocumentsource").value = '';
+	document.getElementById("finddocumentdestinationtext").value = '';
+	document.getElementById("finddocumentdestination").value = '';
+	document.getElementById("finddocumentmindate").value = '';
+	document.getElementById("finddocumentmaxdate").value = '';
+	document.getElementById("finddocumentreference").value = '';
+  }
 </script>

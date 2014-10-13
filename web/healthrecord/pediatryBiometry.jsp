@@ -473,8 +473,8 @@ function updateBio(){
 
     <%-- update table object --%>
     row = tblBio.rows[editBioRowid.rowIndex];
-    row.cells[0].innerHTML = "<a href='javascript:deleteBio("+editBioRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
-                            +"<a href='javascript:editBio("+editBioRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
+    row.cells[0].innerHTML = "<a href='javascript:deleteBio("+editBioRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "+
+                             "<a href='javascript:editBio("+editBioRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
 
     row.cells[1].innerHTML = "&nbsp;"+transactionForm.EditDate.value;
     row.cells[2].innerHTML = "&nbsp;"+transactionForm.EditWeight.value;
@@ -545,28 +545,28 @@ function deleteRowFromArrayString(sArray,rowid){
   return array.join("$");
 }
 
-function getRowFromArrayString(sArray, rowid) {
+function getRowFromArrayString(sArray,rowid){
   var array = sArray.split("$");
   var row = "";
-  for (var i = 0; i < array.length; i++) {
-    if (array[i].indexOf(rowid) > -1) {
-      row = array[i].substring(array[i].indexOf("=") + 1);
+  for(var i=0; i<array.length; i++){
+    if(array[i].indexOf(rowid) > -1){
+      row = array[i].substring(array[i].indexOf("=")+1);
       break;
     }
   }
   return row;
 }
 
-function getCelFromRowString(sRow, celid) {
+function getCelFromRowString(sRow,celid){
   var row = sRow.split("£");
   return row[celid];
 }
 
-function replaceRowInArrayString(sArray, newRow, rowid) {
+function replaceRowInArrayString(sArray,newRow,rowid){
   var array = sArray.split("$");
-  for (var i = 0; i < array.length; i++) {
-    if (array[i].indexOf(rowid) > -1) {
-      array.splice(i, 1, newRow);
+  for(var i=0; i<array.length; i++){
+    if(array[i].indexOf(rowid) > -1){
+      array.splice(i,1,newRow);
       break;
     }
   }
@@ -595,21 +595,14 @@ function setCellStyle(row){
     if(tblBio.rows.length > 1){
       if(printDocument==true){
         document.getElementsByName('be.mxs.healthrecord.updateTransaction.actionForwardKey')[0].value = "/healthrecord/editTransaction.do?ForwardUpdateTransactionId=true&printPDF=true&ts=<%=getTs()%>&PrintLanguage="+transactionForm.PrintLanguage.value;
-        window.open("","newwindow","height=600, width=850, toolbar=yes, status=yes, scrollbars=yes, resizable=yes, menubar=yes");
+        window.open("","newwindow","height=600,width=850,toolbar=yes,status=yes,scrollbars=yes,resizable=yes,menubar=yes");
         document.transactionForm.target = "newwindow";
       }
 
       submitForm();
     }
     else{
-      if(window.showModalDialog){
-        var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=addAtLeastOneRecord";
-        var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        window.showModalDialog(popupUrl,"",modalities);
-      }
-      else{
-        window.confirm("<%=getTranNoLink("web.manage","addAtLeastOneRecord",sWebLanguage)%>");
-      }
+      alertDialog("web.manage","addAtLeastOneRecord");
     }
   }
 

@@ -23,13 +23,13 @@
 
                         sReturn = getParent(sParentID, sWebLanguage)
                                 + "&nbsp;<img src='" + sCONTEXTPATH + "/_img/themes/default/pijl.gif'>&nbsp;"
-                                + "<a href='#' onclick='populateService(\"" + sCode + "\")' title='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>" + sLabel + "</a>";
+                                + "<a href='javascript:populateService(\"" + sCode + "\")' title='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>" + sLabel + "</a>";
                     }
                 }
 
                 if (sReturn.trim().length() == 0) {
                     sReturn = sReturn + "&nbsp;<img src='" + sCONTEXTPATH + "/_img/themes/default/pijl.gif'>&nbsp;"
-                            + "<a href='#' onclick='populateService(\"" + sCode + "\")' title='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>" + sLabel + "</a>";
+                            + "<a href='javascript:populateService(\"" + sCode + "\")' title='" + getTran("Web.Occup", "medwan.common.open", sWebLanguage) + "'>" + sLabel + "</a>";
                 }
             }
         }
@@ -58,7 +58,7 @@
 
         sReturn.append("</td>")
                 .append("<td>" + sID + "</td>")
-                .append("<td><a href='#' onclick='checkService(\"cb_" + rowIdx + "\");' title='" + getTran("Web", "select", sWebLanguage) + "'>" + sLabel + "</a></td>")
+                .append("<td><a href='javascript:checkService(\"cb_" + rowIdx + "\");' title='" + getTran("Web", "select", sWebLanguage) + "'>" + sLabel + "</a></td>")
                 .append("</tr>");
 
         return sReturn.toString();
@@ -207,7 +207,7 @@
 
             <tr>
                 <td height="20" class="menu_bar">
-                    &nbsp;<a href="#" onclick="doHome();">Home</a><%=sNavigation%>
+                    &nbsp;<a href="javascript:doHome();">Home</a><%=sNavigation%>
                 </td>
             </tr>
 

@@ -19,7 +19,7 @@
         else if (sType.equals("7")) sType = getTran("Web.occup", "labanalysis.type.liquid", sWebLanguage);
 
         return "<tr>"+
-               " <td class='admin' width='60'><a href='#' onclick='selectLabAnalysis(\""+sID+"\",\""+sType+"\",\""+sCode+"\",\""+sLabel+"\")' title='"+getTranNoLink("web","select",sWebLanguage)+"'>"+sCode+"</a></td>"+
+               " <td class='admin' width='60'><a href='javascript:selectLabAnalysis(\""+sID+"\",\""+sType+"\",\""+sCode+"\",\""+sLabel+"\")' title='"+getTranNoLink("web","select",sWebLanguage)+"'>"+sCode+"</a></td>"+
                " <td class='admin2' width='70'>"+sType+"</td>"+
                " <td class='admin2'>"+sLabel+"</td>"+
                "</tr>";

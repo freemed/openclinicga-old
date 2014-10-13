@@ -40,9 +40,7 @@
         StringBuffer buf = new StringBuffer();
         buf.append("<tr id='rowLA"+iTotal+"' class='"+sClass+"' title='"+detailsTran+"' onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\">")
             .append("<td align='center'>")
-             .append("<a href='#' onclick=\"deleteLA(rowLA"+iTotal+",'"+sMonster+"');\">")
-              .append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='").append(getTran("Web","delete",sWebLanguage)).append("' border='0'>")
-             .append("</a>")
+             .append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' onclick=\"deleteLA(rowLA"+iTotal+",'"+sMonster+"');\" class='link' alt='").append(getTranNoLink("Web","delete",sWebLanguage)).append("'>")
             .append("</td>")
             .append("<td onClick=\"showResultDetails('"+serverId+"','"+transactionId+"','"+sCode+"');\">&nbsp;"+sCode+"</td>")
             .append("<td onClick=\"showResultDetails('"+serverId+"','"+transactionId+"','"+sCode+"');\">&nbsp;"+sType+"</td>")
@@ -193,7 +191,7 @@
 </table>
 
 <%-- delete all --%>
-<a href="#" onclick="deleteAllLA();"><%=getTran("Web.manage","deleteAllLabAnalysis",sWebLanguage)%></a>
+<a href="javascript:deleteAllLA();"><%=getTran("Web.manage","deleteAllLabAnalysis",sWebLanguage)%></a>
 
 <br><br>
 

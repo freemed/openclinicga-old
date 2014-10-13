@@ -81,7 +81,7 @@
 
                                     if (recsFound) {
                             %>
-                                            <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                                            <tbody class="hand">
                                                 <tr class="admin">
                                                     <td width='*' nowrap><%=getTran("Web","name",sWebLanguage)%></td>
                                                     <td width='50' nowrap><%=getTran("Web","date",sWebLanguage)%></td>

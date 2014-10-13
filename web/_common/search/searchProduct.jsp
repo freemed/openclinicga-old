@@ -153,11 +153,10 @@
 
     <%-- SEARCH RESULTS --%>
     <div id="divFindRecords" style="padding-top:2px;"></div>
-
     <br>
     
-    <%-- link to searchProductInStock popup --%>
-    <%
+    <%    
+        // link to searchProductInStock popup
         if(displaySearchProductInStockLink){
 		    %>
 		    <div>
@@ -165,10 +164,8 @@
 		    </div>
 		    <%
         }
-    %>
-
-    <%-- link to searchUserProduct popup --%>
-    <%
+    
+        // link to searchUserProduct popup
         if(displaySearchUserProductsLink){
 		    %>
 		    <div>
@@ -191,7 +188,7 @@
 
   <%-- SEARCH CATEGORY --%>
   function searchCategory(CategoryUidField,CategoryNameField){
-    openPopup("/_common/search/searchDrugCategory.jsp&ts=<%=getTs()%>&VarCode="+CategoryUidField+"&VarText="+CategoryNameField);
+    openPopup("/_common/search/searchDrugCategory.jsp&ts="+new Date()+"&VarCode="+CategoryUidField+"&VarText="+CategoryNameField);
   }
 
   var timerId = 0;
@@ -202,7 +199,7 @@
     var foundRecs = $("searchresults").rows.length - 1;
     if(foundRecs > 0){
       var maxRecsToShow = <%=MedwanQuery.getInstance().getConfigInt("maxRecordsToShow",100)%>;
-      if(foundRecs == maxRecsToShow){
+      if(foundRecs==maxRecsToShow){
         $("divFindRecords").innerHTML+= ">"+foundRecs+" <%=getTranNoLink("web","recordsFound",sWebLanguage)%>";
       }
       else{
@@ -213,7 +210,7 @@
   
   <%-- SELECT PRODUCT --%>
   function selectProduct(productUid,productName,productUnit,unitsPerTimeUnit,
-		                 productSupplierUid,productSupplierName,unitsPerPackage,productStockUid) {
+		                 productSupplierUid,productSupplierName,unitsPerPackage,productStockUid){
     var closeWindow = true;
 
     window.opener.document.getElementsByName("<%=sReturnProductUidField%>")[0].value = productUid;
@@ -240,14 +237,14 @@
 		String serviceStockUid = "", serviceStockName = "";
 		Service service = Service.getService(centralPharmacyCode);
 		Vector stocks;
-		if(service !=null){
+		if(service!=null){
 			stocks = ServiceStock.find(service.code);
 			
-			for(int n=0;n<stocks.size();n++){
-			    ServiceStock serviceStock=(ServiceStock)stocks.elementAt(n);
+			for(int n=0; n<stocks.size(); n++){
+			    ServiceStock serviceStock = (ServiceStock)stocks.elementAt(n);
 			    if(serviceStock.isActive()){
-			        serviceStockUid=serviceStock.getUid();
-			        serviceStockName=serviceStock.getName();
+			        serviceStockUid = serviceStock.getUid();
+			        serviceStockName = serviceStock.getName();
 			        break;
 			    }
 			}
@@ -259,11 +256,11 @@
 			    service = encounter.getService();
 			    stocks = ServiceStock.find(service.code);
 			    
-			    for(int n=0;n<stocks.size();n++){
+			    for(int n=0; n<stocks.size(); n++){
 			        ServiceStock serviceStock = (ServiceStock)stocks.elementAt(n);
 			        if(serviceStock.isActive()){
-			            serviceStockUid=serviceStock.getUid();
-			            serviceStockName=serviceStock.getName();
+			            serviceStockUid = serviceStock.getUid();
+			            serviceStockName = serviceStock.getName();
 			            break;
 			        }
 			    }
@@ -280,9 +277,9 @@
 		    }
 			<%
 		}
-	
-		// CLEAR SupplyingService
 	%>
+	
+	// CLEAR SupplyingService
     var suppServUidField = window.opener.document.getElementsByName("EditSupplyingServiceUid")[0];
     var suppServNameField = window.opener.document.getElementsByName("EditSupplyingServiceUid")[0];
 
@@ -295,7 +292,7 @@
 // set productSupplier
 if(sReturnSupplierUidField.length() > 0 && sReturnSupplierNameField.length() > 0){
 	%>
-	  if(productSupplierUid.length == 0){
+	  if(productSupplierUid.length==0){
 	    productSupplierUid = "<%=centralPharmacyCode%>";
 	    productSupplierName = "<%=centralPharmacyName%>";
 	  }
@@ -321,7 +318,7 @@ if(sReturnUnitsPerTimeUnitField.length() > 0){
 // set unitsPerPackage
 if(sReturnUnitsPerPackageField.length() > 0){
 	%>
-	    if(unitsPerPackage == 0) unitsPerPackage = 1;
+	    if(unitsPerPackage==0) unitsPerPackage = 1;
 	
 	    window.opener.document.getElementsByName("<%=sReturnUnitsPerPackageField%>")[0].value = unitsPerPackage;
 	    isNumber(window.opener.document.getElementsByName("<%=sReturnUnitsPerTimeUnitField%>")[0]);
@@ -348,7 +345,7 @@ if(sReturnProductStockUidField.length() > 0){
 }
 %>
 
-    if("true" == "<%=checkString(request.getParameter("loadschema"))%>") {
+    if("true" == "<%=checkString(request.getParameter("loadschema"))%>"){
       window.opener.loadSchema();
     }
 
@@ -357,7 +354,7 @@ if(sReturnProductStockUidField.length() > 0){
 
 <%-- popup : search supplier --%>
 function searchSupplier(serviceUidField, serviceNameField){
-  openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField="+serviceUidField+"&ReturnServiceStockNameField="+serviceNameField);
+  openPopup("/_common/search/searchServiceStock.jsp&ts="+new Date()+"&ReturnServiceStockUidField="+serviceUidField+"&ReturnServiceStockNameField="+serviceNameField);
 }
 
 <%-- popup : search userProduct --%>

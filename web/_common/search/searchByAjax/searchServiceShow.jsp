@@ -1,7 +1,8 @@
-<%@page errorPage="/includes/error.jsp"%>
-<%@include file="/includes/validateUser.jsp"%>
 <%@page import="java.util.*,
                 be.mxs.common.util.system.HTMLEntities"%>
+<%@page errorPage="/includes/error.jsp"%>
+<%@include file="/includes/validateUser.jsp"%>
+
 <%!
     boolean needsbeds = false;
 	boolean needsvisits = false;
@@ -10,27 +11,26 @@
     //--- GET PARENT ------------------------------------------------------------------------------
     private String getParent(String sCode, String sWebLanguage){
         String sReturn = "";
-        if((sCode != null) && (sCode.trim().length() > 0)){
-            String sLabel = getTran("Service", sCode, sWebLanguage);
+        if(sCode!=null && (sCode.trim().length()>0)){
+            String sLabel = getTran("Service",sCode,sWebLanguage);
 
             Vector vParentIDs = Service.getParentIds(sCode);
             Iterator iter = vParentIDs.iterator();
-
             String sParentID;
 
-            while (iter.hasNext()){
-                sParentID = (String) iter.next();
-                if((sParentID != null) && (!sParentID.equals("0000")) && (sParentID.trim().length() > 0)){
+            while(iter.hasNext()){
+                sParentID = (String)iter.next();
+                if(sParentID!=null && (!sParentID.equals("0000")) && (sParentID.trim().length() > 0)){
 
-                    sReturn = getParent(sParentID, sWebLanguage)+
+                    sReturn = getParent(sParentID,sWebLanguage)+
                               "<img src='"+sCONTEXTPATH+"/_img/themes/default/pijl.gif'>&nbsp;"+
-                              "<a href='#' onclick='populateService(\""+sCode+"\")' title='"+getTranNoLink("Web.Occup", "medwan.common.open", sWebLanguage)+"'>"+sLabel+"</a>";
+                              "<a href='javascript:populateService(\""+sCode+"\")' title='"+getTranNoLink("Web.Occup","medwan.common.open",sWebLanguage)+"'>"+sLabel+"</a>";
                 }
             }
 
-            if(sReturn.trim().length() == 0){
+            if(sReturn.trim().length()==0){
                 sReturn = sReturn+"<img src='"+sCONTEXTPATH+"/_img/themes/default/pijl.gif'>&nbsp;"+
-                          "<a href='#' onclick='populateService(\""+sCode+"\")' title='"+getTranNoLink("Web.Occup", "medwan.common.open", sWebLanguage)+"'>"+sLabel+"</a>";
+                          "<a href='javascript:populateService(\""+sCode+"\")' title='"+getTranNoLink("Web.Occup","medwan.common.open",sWebLanguage)+"'>"+sLabel+"</a>";
             }
         }
         
@@ -50,25 +50,26 @@
             boolean isactive = showinactive || !service.inactive.equalsIgnoreCase("1");
 
             if(isactive){
-                //Set display class
-                String sClass="";
+                // Set display class
+                String sClass = "";
                 if(service.inactive.equalsIgnoreCase("1")){
-                    sClass="strikeonly";
+                    sClass = "strikeonly";
                 }
 
-                if(sIcon.length() == 0 && MedwanQuery.getInstance().existSubServices(sID)){
+                if(sIcon.length()==0 && MedwanQuery.getInstance().existSubServices(sID)){
                     sIcon = "<img src='"+sCONTEXTPATH+"/_img/themes/default/menu_tee_plus.gif' onclick='populateService(\""+sID+"\")' alt='"+getTranNoLink("Web.Occup", "medwan.common.open", sWebLanguage)+"'>";
                 }
 
-                row += "<tr>" +
-                        " <td>"+sIcon+"</td><td><img src='"+sCONTEXTPATH+"/_img/icons/icon_view.gif' alt='"+getTranNoLink("Web", "view", sWebLanguage)+"' onclick='viewService(\""+sID+"\")'></td>" +
-                        " <td class='"+sClass+"'>"+sID+"</td>";
+                row+= "<tr>"+
+                       " <td>"+sIcon+"</td><td><img src='"+sCONTEXTPATH+"/_img/icons/icon_view.gif' alt='"+getTranNoLink("Web", "view", sWebLanguage)+"' onclick='viewService(\""+sID+"\")'></td>" +
+                       " <td class='"+sClass+"'>"+sID+"</td>";
 
                 if(sLabel.indexOf("<a") > -1){
                     // label is a link to manageTranslations
-                    row += "<td class='"+sClass+"'>"+sLabel+"</td>";
-                } else {
-                    row += "<td class='"+sClass+"'>"+(hasBeds && acceptsvisits ? "<a href='#' onclick='selectParentService(\""+sID+"\",\""+sLabel+"\")' title='"+getTranNoLink("Web", "select", sWebLanguage)+"'>" : "")+sLabel+(hasBeds && acceptsvisits? "</a>" : "")+"</td>";
+                    row+= "<td class='"+sClass+"'>"+sLabel+"</td>";
+                }
+                else{
+                    row+= "<td class='"+sClass+"'>"+(hasBeds && acceptsvisits ? "<a href='javascript:selectParentService(\""+sID+"\",\""+sLabel+"\")' title='"+getTranNoLink("Web", "select", sWebLanguage)+"'>" : "")+sLabel+(hasBeds && acceptsvisits? "</a>" : "")+"</td>";
                 }
 
                 row += "</tr>";
@@ -105,7 +106,7 @@
 
     /// DEBUG ///////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-    	Debug.println("\n#################### searchServiceShow.jsp ###################");
+    	Debug.println("\n******************* searchServiceShow.jsp *******************");
 	    Debug.println("sViewCode       : "+sViewCode);
 	    Debug.println("sFindText       : "+sFindText);
 	    Debug.println("sFindCode       : "+sFindCode);
@@ -129,36 +130,37 @@
         Vector vServiceIDs = Service.getServiceIDsByParentID(sFindCode);
         Iterator iter = vServiceIDs.iterator();
 
-        while (iter.hasNext()){
-            sServiceID = (String) iter.next();
+        while(iter.hasNext()){
+            sServiceID = (String)iter.next();
             set.add(sServiceID);
-            hSelected.put(sServiceID, writeMyRow("Service", sServiceID, sWebLanguage, ""));
+            hSelected.put(sServiceID,writeMyRow("Service",sServiceID,sWebLanguage,""));
 
             iTotal++;
         }
 
-        sNavigation = getParent(sFindCode, sWebLanguage);
+        sNavigation = getParent(sFindCode,sWebLanguage);
     }
     //*** search on findText **********************************************************************
     else if(sFindText != null && sFindText.length() > 0){
-        Vector vServiceIDs = Service.getServiceIDsByText(sWebLanguage, sFindText);
+        Vector vServiceIDs = Service.getServiceIDsByText(sWebLanguage,sFindText);
         Iterator iter = vServiceIDs.iterator();
         String labelid;
         boolean displayLabel;
 
-        while (iter.hasNext()){
+        while(iter.hasNext()){
             labelid = (String) iter.next();
+            
             // decide wether to display internal and or external services
             displayLabel = false;
-            if(sFindParentCode == null && searchInternalServices && searchExternalServices){
+            if(sFindParentCode==null && searchInternalServices && searchExternalServices){
                 displayLabel = true;
             }
-            else if(sFindParentCode == null && searchInternalServices){
+            else if(sFindParentCode==null && searchInternalServices){
                 if(!Service.isExternalService(labelid)){
                     displayLabel = true;
                 }
             }
-            else if(sFindParentCode == null && searchExternalServices){
+            else if(sFindParentCode==null && searchExternalServices){
                 if(Service.isExternalService(labelid)){
                     displayLabel = true;
                 }
@@ -170,7 +172,7 @@
             // add label to labels that will be displayed
             if(displayLabel){
                 set.add(labelid);
-                hSelected.put(labelid, writeMyRow("service", labelid, sWebLanguage, ""));
+                hSelected.put(labelid,writeMyRow("service",labelid,sWebLanguage,""));
                 iTotal++;
             }
         }
@@ -179,7 +181,7 @@
     else{
         if(MedwanQuery.getInstance().getConfigString("fillUpSearchServiceScreens").equalsIgnoreCase("on")){
             Vector vServiceIDs;
-            if(sFindParentCode == null){
+            if(sFindParentCode==null){
                 vServiceIDs = Service.getTopServiceIDs();
             } 
             else{
@@ -190,30 +192,30 @@
             boolean displayService;
 
             while(iter.hasNext()){
-                sServiceID = (String) iter.next();
+                sServiceID = (String)iter.next();
                 
                 // decide wether to display internal and or external services
                 displayService = false;
-                if(sFindParentCode == null && searchInternalServices && searchExternalServices){
+                if(sFindParentCode==null && searchInternalServices && searchExternalServices){
                     displayService = true;
                 } 
-                else if(sFindParentCode == null && searchInternalServices){
+                else if(sFindParentCode==null && searchInternalServices){
                     if(!Service.isExternalService(sServiceID)){
                         displayService = true;
                     }
                 } 
-                else if(sFindParentCode == null && searchExternalServices){
+                else if(sFindParentCode==null && searchExternalServices){
                     if(Service.isExternalService(sServiceID)){
                         displayService = true;
                     }
                 }
-                else if(sFindParentCode != null){
+                else if(sFindParentCode!=null){
                     displayService = true;
                 }
 
                 if(displayService){
                     set.add(sServiceID);
-                    hSelected.put(sServiceID, writeMyRow("service", sServiceID, sWebLanguage, ""));
+                    hSelected.put(sServiceID,writeMyRow("service",sServiceID,sWebLanguage,""));
                     iTotal++;
                 }
             }
@@ -224,7 +226,7 @@
 %>
 
 <div style="padding:2px;">
-    &nbsp;<a href="#" onclick="clearSearchFields();doFind();">Home</a>
+    &nbsp;<a href="javascript:clearSearchFields();doFind();">Home</a>
 </div>
 
 <div id="navigationMenu"><%=sNavigation%></div>
@@ -232,7 +234,7 @@
 <table width="100%" cellspacing="1">
     <%
         if(sViewCode.length() > 0){
-            if(iTotal == 0){
+            if(iTotal==0){
                 sViewCode = sFindCode;
             }
             
@@ -245,17 +247,17 @@
                     sCountry = HTMLEntities.htmlentities(getTran("Country",sCountry,sWebLanguage));
                 }
 
-                out.print(HTMLEntities.htmlentities(setRow("Web","Address",checkString(sService.address), sWebLanguage)));
-                out.print(HTMLEntities.htmlentities(setRow("Web","zipcode",checkString(sService.zipcode), sWebLanguage)));
-                out.print(HTMLEntities.htmlentities(setRow("Web","city",checkString(sService.city), sWebLanguage)));
-                out.print(HTMLEntities.htmlentities(setRow("Web","country",sCountry, sWebLanguage)));
-                out.print(HTMLEntities.htmlentities(setRow("Web","telephone",checkString(sService.telephone), sWebLanguage)));
-                out.print(HTMLEntities.htmlentities(setRow("Web","fax",checkString(sService.fax), sWebLanguage)));
-                out.print(HTMLEntities.htmlentities(setRow("Web","contract",checkString(sService.contract), sWebLanguage)));
-                out.print(HTMLEntities.htmlentities(setRow("Web","contracttype",checkString(sService.contracttype), sWebLanguage)));
-                out.print(HTMLEntities.htmlentities(setRow("Web","contactperson",checkString(sService.contactperson), sWebLanguage)));
-                out.print(HTMLEntities.htmlentities(setRow("Web","comment",checkString(sService.comment), sWebLanguage)));
-                out.print(HTMLEntities.htmlentities(setRow("Web","medicalcentre",checkString(sService.code5), sWebLanguage)));
+                out.print(HTMLEntities.htmlentities(setRow("Web","Address",checkString(sService.address),sWebLanguage)));
+                out.print(HTMLEntities.htmlentities(setRow("Web","zipcode",checkString(sService.zipcode),sWebLanguage)));
+                out.print(HTMLEntities.htmlentities(setRow("Web","city",checkString(sService.city),sWebLanguage)));
+                out.print(HTMLEntities.htmlentities(setRow("Web","country",sCountry,sWebLanguage)));
+                out.print(HTMLEntities.htmlentities(setRow("Web","telephone",checkString(sService.telephone),sWebLanguage)));
+                out.print(HTMLEntities.htmlentities(setRow("Web","fax",checkString(sService.fax),sWebLanguage)));
+                out.print(HTMLEntities.htmlentities(setRow("Web","contract",checkString(sService.contract),sWebLanguage)));
+                out.print(HTMLEntities.htmlentities(setRow("Web","contracttype",checkString(sService.contracttype),sWebLanguage)));
+                out.print(HTMLEntities.htmlentities(setRow("Web","contactperson",checkString(sService.contactperson),sWebLanguage)));
+                out.print(HTMLEntities.htmlentities(setRow("Web","comment",checkString(sService.comment),sWebLanguage)));
+                out.print(HTMLEntities.htmlentities(setRow("Web","medicalcentre",checkString(sService.code5),sWebLanguage)));
 
 			    %>
 			    <tr height="30px">
@@ -271,8 +273,8 @@
 			    <%
 	        }
 	    }
-        else {
-	        // sorteer
+        else{
+	        // sort
 	        Iterator it = set.iterator();
 	        while(it.hasNext()){
 	            element = it.next();
@@ -282,7 +284,7 @@
 	        // display search results
 	        if(iTotal > 0){
 			    %>
-			    <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+			    <tbody class="hand">
 			        <%=HTMLEntities.htmlentities(sOut.toString())%>
 			    </tbody>
 			    <%
@@ -294,14 +296,14 @@
 		            serviceType = "services";
 		        }
 		        else{
-		                 if(sFindParentCode == null && searchExternalServices) serviceType = "externalservices";
-		            else if(sFindParentCode == null && searchInternalServices) serviceType = "internalservices";
+		                 if(sFindParentCode==null && searchExternalServices) serviceType = "externalservices";
+		            else if(sFindParentCode==null && searchInternalServices) serviceType = "internalservices";
 		            else serviceType = "services";
 		        }
 	        
 			    %>
 			    <tr>
-			        <td colspan="3"><%=HTMLEntities.htmlentities(getTran("web", "no"+serviceType+"found", sWebLanguage))%>
+			        <td colspan="3"><%=HTMLEntities.htmlentities(getTran("web","no"+serviceType+"found",sWebLanguage))%>
 			        </td>
 			    </tr>
 			    <%

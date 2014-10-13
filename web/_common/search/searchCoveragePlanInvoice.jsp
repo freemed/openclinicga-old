@@ -1,6 +1,6 @@
-<%@ page import="java.text.DecimalFormat" %>
-<%@ page errorPage="/includes/error.jsp" %>
-<%@ include file="/includes/validateUser.jsp" %>
+<%@page import="java.text.DecimalFormat"%>
+<%@page errorPage="/includes/error.jsp"%>
+<%@include file="/includes/validateUser.jsp"%>
 <%=sJSSORTTABLE%>
 <%=sJSDROPDOWNMENU%>
 <%=sJSNUMBER%>
@@ -9,22 +9,21 @@
     String sAction = checkString(request.getParameter("Action"));
 
     String sFindInvoiceDate = checkString(request.getParameter("FindInvoiceDate")),
-            sFindInvoiceNr = checkString(request.getParameter("FindInvoiceNr")),
-            sFindInvoiceBalanceMin = checkString(request.getParameter("FindInvoiceBalanceMin")),
-            sFindInvoiceBalanceMax = checkString(request.getParameter("FindInvoiceBalanceMax")),
-            sFindInvoiceInsurarUID = checkString(request.getParameter("FindInvoiceInsurarUID")),
-            sFindInvoiceInsurarText = checkString(request.getParameter("FindInvoiceInsurarText")),
-            sFindInvoiceStatus = checkString(request.getParameter("FindInvoiceStatus"));
+           sFindInvoiceNr = checkString(request.getParameter("FindInvoiceNr")),
+           sFindInvoiceBalanceMin = checkString(request.getParameter("FindInvoiceBalanceMin")),
+           sFindInvoiceBalanceMax = checkString(request.getParameter("FindInvoiceBalanceMax")),
+           sFindInvoiceInsurarUID = checkString(request.getParameter("FindInvoiceInsurarUID")),
+           sFindInvoiceInsurarText = checkString(request.getParameter("FindInvoiceInsurarText")),
+           sFindInvoiceStatus = checkString(request.getParameter("FindInvoiceStatus"));
 
     String sFunction = checkString(request.getParameter("doFunction"));
 
     String sReturnFieldInvoiceUid = checkString(request.getParameter("ReturnFieldInvoiceUid")),
-            sReturnFieldInvoiceNr = checkString(request.getParameter("ReturnFieldInvoiceNr")),
-            sReturnFieldInvoiceBalance = checkString(request.getParameter("ReturnFieldInvoiceBalance")),
-            sReturnFieldInvoiceStatus = checkString(request.getParameter("ReturnFieldInvoiceStatus")),
-            sReturnFieldInsurarUid = checkString(request.getParameter("ReturnFieldInsurarUid")),
-            sReturnFieldInsurarName = checkString(request.getParameter("ReturnFieldInsurarName"));
-
+           sReturnFieldInvoiceNr = checkString(request.getParameter("ReturnFieldInvoiceNr")),
+           sReturnFieldInvoiceBalance = checkString(request.getParameter("ReturnFieldInvoiceBalance")),
+           sReturnFieldInvoiceStatus = checkString(request.getParameter("ReturnFieldInvoiceStatus")),
+           sReturnFieldInsurarUid = checkString(request.getParameter("ReturnFieldInsurarUid")),
+           sReturnFieldInsurarName = checkString(request.getParameter("ReturnFieldInsurarName"));
 
     String sCurrency = MedwanQuery.getInstance().getConfigParam("currency", "€");
 

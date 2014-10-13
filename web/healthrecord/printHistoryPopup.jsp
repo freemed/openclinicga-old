@@ -321,8 +321,8 @@
 <%
     if(itemCount > 0){
         %>
-            <a href="#" onclick="expandAll();"><%=getTranNoLink("web","expand_all",sWebLanguage)%></a>&nbsp;
-            <a href="#" onclick="collapseAll();"><%=getTranNoLink("web","close_all",sWebLanguage)%></a>
+            <a href="javascript:expandAll();"><%=getTranNoLink("web","expand_all",sWebLanguage)%></a>&nbsp;
+            <a href="javascript:collapseAll();"><%=getTranNoLink("web","close_all",sWebLanguage)%></a>
         <%
     }
     else{

@@ -1,6 +1,7 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page import="java.util.*"%>
+
 <%    
     // form data
 	boolean needsbeds    = "1".equalsIgnoreCase(request.getParameter("needsbeds")),
@@ -15,7 +16,7 @@
     
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-    	Debug.println("\n################### _common/search/searchService.jsp ###################");
+    	Debug.println("\n****************** _common/search/searchService.jsp *******************");
     	Debug.println("needsbeds    : "+needsbeds);
     	Debug.println("needsvisits  : "+needsvisits);
     	Debug.println("showinactive : "+showinactive+"\n");
@@ -38,13 +39,9 @@
     <input type="hidden" name="needsbeds" value="<%=checkString(request.getParameter("needsbeds"))%>"/>
     <input type="hidden" name="needsvisits" value="<%=checkString(request.getParameter("needsvisits"))%>"/>
 
-    <table width="100%" cellspacing="0" cellpadding="0" class="menu">
-        <%-- TITLE --%>
-        <tr class="admin">
-            <td class="title"><%=getTran("web","searchService",sWebLanguage)%></td>
-        </tr>
-        
-        <%-- SEARCH CONTROLS --%>
+    <%=writeTableHeader("web","searchService",sWebLanguage," window.close()")%>
+    <table width="100%" cellspacing="0" cellpadding="0" class="menu">        
+        <%-- SEARCH FIELDS --%>
         <tr>
             <td height="25" class="admin2">
                 <%=getTran("Web","Find",sWebLanguage)%>&nbsp;&nbsp;

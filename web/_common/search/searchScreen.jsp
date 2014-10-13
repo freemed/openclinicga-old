@@ -172,7 +172,7 @@
 
                                         // search-results
                                         %>
-                                            <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                                            <tbody class="hand">
                                                 <%=sOut%>
                                             </tbody>
                                         <%

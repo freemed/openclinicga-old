@@ -3,6 +3,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%@include file="/includes/ajaxRequirements.jsp"%>
 <%=checkPermission("financial.insurarCreditEdit","edit",activeUser)%>
+
 <%
     String sAction = checkString(request.getParameter("Action"));
 
@@ -152,16 +153,18 @@
     <%=writeTableHeader("financial","insurarCreditEdit",sWebLanguage," doBack();")%>
     
     <table class="menu" width="100%" cellspacing="1" cellpadding="0">
+        <%-- INSURAR --%>
         <tr>
             <td class="admin"><%=getTran("web","insurar",sWebLanguage)%>&nbsp;*</td>
             <td class="admin2" colspan="4">
-                <input type="hidden" name="FindCreditInsurarUid" id="FindCreditInsurarUid" value="<%=sFindCreditInsurarUid%>">
-               
+                <input type="hidden" name="FindCreditInsurarUid" id="FindCreditInsurarUid" value="<%=sFindCreditInsurarUid%>">                    
                 <input class="text" type="text" name="FindCreditInsurarName" id="FindCreditInsurarName" readonly size="60" value="<%=sFindCreditInsurarName%>">
+                
                 <img src="<c:url value='/_img/icons/icon_search.gif'/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchInsurar('FindCreditInsurarUid','FindCreditInsurarName');">
                 <img src="<c:url value='/_img/icons/icon_delete.gif'/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditForm.FindCreditInsurarUid.value='';EditForm.FindCreditInsurarName.value='';">
             </td>
         </tr>
+        <%-- PERIOD --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web.occup","medwan.common.date",sWebLanguage)%></td>
             <td class="admin2" width="100"><%=getTran("Web","Begin",sWebLanguage)%></td>
@@ -169,6 +172,7 @@
             <td class="admin2" width="100"><%=getTran("Web","end",sWebLanguage)%></td>
             <td class="admin2"><%=writeDateField("FindDateEnd","EditForm",sFindDateEnd,sWebLanguage)%></td>
         </tr>
+        <%-- AMOUNT min/MAX --%>
         <tr>
             <td class="admin"><%=getTran("web","amount",sWebLanguage)%></td>
             <td class="admin2"><%=getTran("Web","min",sWebLanguage)%></td>
@@ -183,7 +187,7 @@
             <td class="admin2" colspan="4">
                 <input type="button" class="button" name="ButtonSearch" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="loadUnassignedCredits(EditForm.FindCreditInsurarUid.value)">&nbsp;
                 <input type="button" class="button" name="ButtonClear" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearFindFields()">&nbsp;
-                <input type="button" class="button" name="ButtonNew" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="clearEditFields();">&nbsp;
+                <input type="button" class="button" name="ButtonNew" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">&nbsp;
             </td>
         </tr>
     </table>
@@ -200,10 +204,12 @@
     
     <%-- EDIT FIELDS ----------------------------------------------------------------------------%>
     <table class="list"width="100%" cellspacing="1">
+        <%-- DATE --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","date",sWebLanguage)%>&nbsp;*</td>
             <td class="admin2"><%=writeDateField("EditCreditDate","EditForm",sEditCreditDate,sWebLanguage)%></td>
         </tr>
+        <%-- INSURAR --%>
         <tr>
             <td class="admin"><%=getTran("web","insurar",sWebLanguage)%>&nbsp;*</td>
             <td class="admin2">
@@ -215,6 +221,7 @@
                 <img src="<c:url value='/_img/icons/icon_delete.gif'/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditForm.EditCreditInsurarUid.value='';EditForm.EditCreditInsurarName.value='';">
             </td>
         </tr>
+        <%-- INVOICE --%>
         <tr>
             <td class="admin"><%=getTran("web","invoice",sWebLanguage)%>&nbsp;*</td>
             <td class="admin2">
@@ -226,12 +233,14 @@
                 <img src="<c:url value='/_img/icons/icon_delete.gif'/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditForm.EditCreditInvoiceUid.value='';EditForm.EditCreditInvoiceNr.value='';">
             </td>
         </tr>
+        <%-- AMOUNT --%>
         <tr>
             <td class="admin"><%=getTran("web","amount",sWebLanguage)%>&nbsp;*</td>
             <td class="admin2">
                 <input class="text" type="text" name="EditCreditAmount" value="<%=sEditCreditAmount%>" size="10" maxLength="9" onKeyUp="isNumberNegativeAllowed(this)">&nbsp;<%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
             </td>
         </tr>
+        <%-- TYPE --%>
         <tr>
             <td class="admin"><%=getTran("web","type",sWebLanguage)%>&nbsp;*</td>
             <td class="admin2">
@@ -241,6 +250,7 @@
                 </select>
             </td>
         </tr>
+        <%-- DESCRIPTION --%>
         <tr>
             <td class="admin"><%=getTran("web","description",sWebLanguage)%></td>
             <td class="admin2"><%=writeTextarea("EditCreditDescription","","","",sEditCreditDescr)%></td>
@@ -316,8 +326,7 @@
                     	if(MedwanQuery.getInstance().getConfigInt("javaPOSenabled",0)==1){
                             %><input class="button" type="button" name="buttonPrintPOS" value="<%=getTranNoLink("web","print.receipt",sWebLanguage)%>" onclick="doPrintPatientPaymentReceipt();"><%
                     	}
-                    %>
-                    
+                    %>                    
                 </span>
             </td>
         </tr>
@@ -329,6 +338,7 @@
 </form>
 
 <script>
+  <%-- CLEAR MESSAGE --%>
   function clearMessage(){
     <%
         if(msg.length() > 0){
@@ -337,6 +347,7 @@
     %>
   }
 
+  <%-- DO SAVE --%>
   function doSave(){
     if(EditForm.EditCreditDate.value.length > 0 &&
        EditForm.EditCreditInsurarUid.value.length > 0 &&
@@ -372,12 +383,14 @@
     }
   }
 
+  <%-- SEARCH INSURAR --%>
   function searchInsurar(insurarUidField,insurarNameField){
     openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>"+
               "&ReturnFieldInsurarUid="+insurarUidField+
               "&ReturnFieldInsurarName="+insurarNameField);
   }
 
+  <%-- SEARCH INVOICE --%>
   function searchInvoice(invoiceUidField,invoiceNrField,invoiceBalanceField,insurarUidField,insurarNameField){
     var url = "/_common/search/searchInsurarInvoice.jsp&ts=<%=getTs()%>"+
               "&ReturnFieldInvoiceUid="+invoiceUidField+
@@ -402,6 +415,7 @@
     openPopup(url);
   }             
 
+  <%-- LOAD UNASSIGNED CREDITS --%>
   function loadUnassignedCredits(sInsurarUid){
     if(EditForm.FindCreditInsurarUid.value.length>0){
       $("divCredits").innerHTML = "<br><br><br><div id='ajaxLoader' style='display:block;text-align:center;'>"+
@@ -423,8 +437,9 @@
     }
   }
 
+  <%-- SELECT CREDIT --%>
   function selectCredit(creditUid,creditDate,amount,type,descr,invoiceUid,wicketuid){
-    EditForm.EditCreditWicketUid.value=wicketuid;
+    EditForm.EditCreditWicketUid.value = wicketuid;
     EditForm.EditCreditUid.value = creditUid;
     EditForm.EditCreditDate.value = creditDate;
     EditForm.EditCreditAmount.value = amount;
@@ -432,21 +447,24 @@
     EditForm.EditCreditDescription.value = descr;
     EditForm.EditCreditInvoiceUid.value = invoiceUid;
 
-    if(invoiceUid.indexOf(".")>-1){
+    if(invoiceUid.indexOf(".") > -1){
       EditForm.EditCreditInvoiceNr.value = invoiceUid.split(".")[1];
     }
     else{
       EditForm.EditCreditInvoiceNr.value = "";
     }
+    
     EditForm.EditCreditInsurarUid.value = EditForm.FindCreditInsurarUid.value;
     EditForm.EditCreditInsurarName.value = EditForm.FindCreditInsurarName.value;
+    
     document.getElementById('printsection').style.visibility = 'visible';
     document.getElementById('PrintLanguage').show();
   }
 
-  function clearEditFields(){
-    EditForm.EditCreditUid.value = "";
+  <%-- DO NEW --%>
+  function doNew(){
     EditForm.EditCreditDate.value = "<%=getDate()%>";
+    EditForm.EditCreditUid.value = "";
     EditForm.EditCreditInsurarUid.value = "";
     EditForm.EditCreditInsurarName.value = "";
     EditForm.EditCreditInvoiceUid.value = "";
@@ -454,22 +472,32 @@
     EditForm.EditCreditAmount.value = "";
     EditForm.EditCreditType.value = "<%=MedwanQuery.getInstance().getConfigString("defaultInsurarCreditType","insurance.payment")%>";
     EditForm.EditCreditDescription.value = "";
+    
     document.getElementById('printsection').style.visibility = "hidden";
     document.getElementById('PrintLanguage').style.visibility = "hidden";
+    EditForm.EditCreditDate.focus();
   }
 
+  <%-- CLEAR FIND FIELDS --%>
   function clearFindFields(){
+    EditForm.FindCreditInsurarUid.value = "";
+    EditForm.FindCreditInsurarName.value = "";
+		
     EditForm.FindDateBegin.value = "";
     EditForm.FindDateEnd.value = "";
     EditForm.FindAmountMin.value = "";
     EditForm.FindAmountMax.value = "";
+    
+    EditForm.FindCreditInsurarName.focus();
   }
   
+  <%-- DO PRINT PDF --%>
   function doPrintPdf(creditUid){
     var url = "<c:url value='/financial/createInsurarPaymentReceiptPdf.jsp'/>?CreditUid="+creditUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value;
-    window.open(url,"PaymentReceiptPdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    window.open(url,"PaymentReceiptPdf<%=getTs()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
 
+  <%-- DO PRINT PATIENT PAYMENT RECEIPT --%>
   function doPrintPatientPaymentReceipt(){
     var url = '<c:url value="/financial/printInsurarPaymentReceiptOffline.jsp"/>'+
               '?credituid='+document.getElementById('EditCreditUid').value+'&ts='+new Date()+
@@ -488,13 +516,14 @@
       }
     });
   }
-  
-  EditForm.EditCreditDate.focus();
-  loadUnassignedCredits(EditForm.FindCreditInsurarUid.value);
 
+  <%-- DO BACK --%>
   function doBack(){
     window.location.href = "<c:url value='/main.do'/>?Page=financial/historyBalance.jsp&ts=<%=getTs()%>";
   }
+  
+  EditForm.EditCreditDate.focus();
+  loadUnassignedCredits(EditForm.FindCreditInsurarUid.value);
   
   if(document.getElementById('EditCreditUid').value.length > 0){
     document.getElementById('printsection').style.visibility = "visible";

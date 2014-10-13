@@ -48,7 +48,7 @@
             insurance = Insurance.get(sInsuranceUID);
         }
 		String[] prestations = sPrestationUIDs.split(";");
-        prestationcontent ="<table width='100%' id='mytable'>";
+        prestationcontent ="<table width='100%'>";
         prestationcontent+="<tr><td><b>"+getTran("web","prestation",sWebLanguage)+"</b></td>"+
         "<td><b>"+getTran("web.finance","amount.patient",sWebLanguage)+"</b></td>"+
         "<td><b>"+getTran("web.finance","amount.insurar",sWebLanguage)+"</b></td>";
@@ -354,7 +354,7 @@
       	}
       	pc1=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dCoverage1);
       	pc2=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(dCoverage2);
-        prestationcontent ="<table width='100%' id='mytable'>";
+        prestationcontent ="<table width='100%'>";
         prestationcontent+="<tr><td><b>"+getTran("web","prestation",sWebLanguage)+"</b></td>"+
         "<td><b>"+getTran("web.finance","amount.patient",sWebLanguage)+"</b></td>"+
         "<td><b>"+getTran("web.finance","amount.insurar",sWebLanguage)+"</b></td>";
@@ -495,7 +495,7 @@
 		PreparedStatement ps=oc_conn.prepareStatement(sSql);
 		ps.setString(1,sPrestationGroupUID);
 		ResultSet rs = ps.executeQuery();
-        prestationcontent ="<table width='100%' id='mytable'>";
+        prestationcontent ="<table width='100%'>";
         prestationcontent+="<tr><td><b>"+getTran("web","prestation",sWebLanguage)+"</b></td>"+
         "<td><b>"+getTran("web.finance","amount.patient",sWebLanguage)+"</b></td>"+
         "<td><b>"+getTran("web.finance","amount.insurar",sWebLanguage)+"</b></td>";

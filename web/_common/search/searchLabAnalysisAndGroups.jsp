@@ -19,7 +19,7 @@ private String writeRow(String sID, String sType, String sCode, String sLabel, S
     else if (sType.equals("7")) sType = getTran("Web.occup", "labanalysis.type.liquid", sWebLanguage);
 
     return "<tr>"+
-           " <td class='admin' width='60'><a href='#' onclick='selectLabAnalysis(\""+sID+"\",\""+sType+"\",\""+sCode+"\",\""+sLabel+"\")' title='"+getTranNoLink("web","select",sWebLanguage)+"'>"+sCode+"</a></td>"+
+           " <td class='admin' width='60'><a href='javascript:selectLabAnalysis(\""+sID+"\",\""+sType+"\",\""+sCode+"\",\""+sLabel+"\")' title='"+getTranNoLink("web","select",sWebLanguage)+"'>"+sCode+"</a></td>"+
            " <td class='admin2' width='70'>"+sType+"</td>"+
            " <td class='admin2'>"+sLabel+"</td>"+
            "</tr>";
@@ -32,7 +32,7 @@ private String writeRow(String sID, String sType, String sCode, String sLabel, S
 
 
         return "<tr>"+
-               " <td class='admin' width='60'><a href='#' onclick='selectLabAnalysisGroup(\""+sId+"\",\""+sCode+"\",\""+sLabel+"\")' title='"+getTranNoLink("web","select",sWebLanguage)+"'>"+sCode+"</a></td>"+
+               " <td class='admin' width='60'><a href='javascript:selectLabAnalysisGroup(\""+sId+"\",\""+sCode+"\",\""+sLabel+"\")' title='"+getTranNoLink("web","select",sWebLanguage)+"'>"+sCode+"</a></td>"+
                " <td class='admin2' width='250'><img width='16px' src='_img/multiple.gif'/> - "+sLabel+"</td>"+
                "</tr>";
     }

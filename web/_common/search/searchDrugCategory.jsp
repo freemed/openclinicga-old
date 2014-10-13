@@ -1,22 +1,24 @@
+<%@page import="java.util.*"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@page import="java.util.*"%>
 
 <%
     String sVarCode  = checkString(request.getParameter("VarCode")),
            sVarText  = checkString(request.getParameter("VarText")),
            sFindText = checkString(request.getParameter("FindText")).toUpperCase();
 
-    /// DEBUG ////////////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-    	Debug.println("\n############## _common/search/searchDrugCategory.jsp ##############");
+    	Debug.println("\n***************** _common/search/searchDrugCategory.jsp ***************");
     	Debug.println("sVarCode  : "+sVarCode);
     	Debug.println("sVarText  : "+sVarText);
     	Debug.println("sFindText : "+sFindText+"\n");
     }
-    //////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 %>
 <form name="SearchForm" method="POST" onSubmit="doFind();return false;" onkeydown="if(enterEvent(event,13)){doFind();}">
+    <%=writeTableHeader("web","searchDrugCategory",sWebLanguage," window.close();")%>
+
     <%-- hidden fields --%>
     <input type="hidden" name="VarCode" value="<%=sVarCode%>">
     <input type="hidden" name="VarText" value="<%=sVarText%>">
@@ -26,7 +28,7 @@
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="menu">
         <tr>
             <td height="25" class="admin2">
-                <%=getTran("Web", "Find", sWebLanguage)%>&nbsp;
+                <%=getTran("Web","Find",sWebLanguage)%>&nbsp;
                 <input type="text" name="FindText" class="text" value="<%=sFindText%>" size="40">
 
                 <%-- buttons --%>

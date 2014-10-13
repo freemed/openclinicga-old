@@ -466,7 +466,7 @@
         document.write("<table border='0' cellspacing='0' cellpadding='1'>");
         for(var i=0; i<parseInt((data.services.length+1)/2); i++){
           document.write("<tr>"+
-                          "<td>[<a href='#' onClick='javascript:locateMarker("+i+");'>"+(i+1)+"</a>] "+data.services[i].location+"</td>"+
+                          "<td>[<a href='javascript:javascript:locateMarker("+i+");'>"+(i+1)+"</a>] "+data.services[i].location+"</td>"+
                           "<td style='padding-left:10px;text-align:right;' title='"+thousandSeparator(data.services[i].value)+"'>"+formatValue(data.services[i].value)+"</td>"+
                          "</tr>");
         }
@@ -479,7 +479,7 @@
         document.write("<table border='0' cellspacing='0' cellpadding='1'>");
         for(var i=parseInt((data.services.length+1)/2); i<data.services.length; i++){
           document.write("<tr>"+
-                          "<td>[<a href='#' onClick='javascript:locateMarker("+i+");'>"+(i+1)+"</a>] "+data.services[i].location+"</td>"+
+                          "<td>[<a href='javascript:javascript:locateMarker("+i+");'>"+(i+1)+"</a>] "+data.services[i].location+"</td>"+
                           "<td style='padding-left:10px;text-align:right;' title='"+thousandSeparator(data.services[i].value)+"'>"+formatValue(data.services[i].value)+"</td>"+
                          "</tr>");
         }

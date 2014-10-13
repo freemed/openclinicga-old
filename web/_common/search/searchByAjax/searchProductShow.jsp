@@ -108,9 +108,7 @@
     }
 
     sHtml.append("</tbody>");
-%>
 
-<%
     // display search results
     if(iTotal==0){
         %><%=HTMLEntities.htmlentities(getTranNoLink("web","norecordsfound",sWebLanguage))%><%
@@ -122,7 +120,8 @@
 		%>
 		<table width="100%" class="sortable" id="searchresults" cellpadding="0" cellspacing="1">
 		    <%=html.toString()%>
-		</table>
+		</table>        
+		<%=iTotal%> <%=HTMLEntities.htmlentities(getTranNoLink("web","recordsfound",sWebLanguage))%>
 		<%
     }
 %>

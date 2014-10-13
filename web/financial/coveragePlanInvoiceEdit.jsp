@@ -237,8 +237,7 @@ function doSave(){
             }
         }
         EditForm.ButtonSave.disabled = true;
-        var today = new Date();
-        var url = '<c:url value="/financial/coveragePlanInvoiceSave.jsp"/>?ts=' + today;
+        var url = '<c:url value="/financial/coveragePlanInvoiceSave.jsp"/>?ts=' + new Date();
         document.getElementById('divMessage').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Saving";
         new Ajax.Request(url, {
             method: "POST",
@@ -342,7 +341,7 @@ function doBalance(oObject, bAdd){
 <%-- PRINT PDF --%>
 function doPrintPdf(invoiceUid){
   var url = "<c:url value='/financial/createCoveragePlanInvoicePdf.jsp'/>?InvoiceUid=" + invoiceUid + "&ts=<%=getTs()%>&PrintLanguage=" + EditForm.PrintLanguage.value+ "&PrintType="+EditForm.PrintType.value+"&PrintModel="+EditForm.PrintModel.value;
-  window.open(url, "coveragePlanInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+  window.open(url, "coveragePlanInvoicePdf<%=getTs()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
 }
 
 function searchInsurar(){
@@ -358,12 +357,10 @@ function doStatus(){
 }
 
 function loadOpenCoveragePlanInvoices(){
-  var params = '';
-  var today = new Date();
-  var url = '<c:url value="/financial/coveragePlanInvoiceGetOpenCoveragePlanInvoices.jsp"/>?ts=' + today;
+  var url = '<c:url value="/financial/coveragePlanInvoiceGetOpenCoveragePlanInvoices.jsp"/>?ts=' + new Date();
   new Ajax.Request(url, {
     method: "GET",
-    parameters: params,
+    parameters: "",
     onSuccess: function(resp){
       $('divOpenCoveragePlanInvoices').innerHTML = resp.responseText;
     }
@@ -376,17 +373,19 @@ function setCoveragePlanInvoice(sUid){
 }
 
 function changeCoveragePlan(){
-  var tot=0;
+  var tot = 0;
   if(EditForm.EditInsurarUID.value.length>0){
     document.getElementById("invoicedetails").style.visibility="visible";
     document.getElementById("invoicedetailstable").style.visibility="visible";
   }
-  else {
+  else{
     document.getElementById("invoicedetails").style.visibility="hidden";
     document.getElementById("invoicedetailstable").style.visibility="hidden";
   }
-  var url = '<c:url value="/financial/coveragePlanInvoiceGetPrestations.jsp"/>?ts=' + <%=getTs()%>;
+  
+  var url = '<c:url value="/financial/coveragePlanInvoiceGetPrestations.jsp"/>?ts='+new Date();
   document.getElementById('divPrestations').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading";
+  
   var pb= 'InsurarUid=' + EditForm.EditInsurarUID.value
           + '&EditBegin=' + EditForm.EditBegin.value
           + '&EditEnd=' + EditForm.EditEnd.value

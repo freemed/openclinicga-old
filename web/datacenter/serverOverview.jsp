@@ -16,25 +16,25 @@
  <!-- Server identification -->
 <div class="wrap-smallcontainer leftcontainer">
     <div id="identification" class="container identification">
-        <h3 id="identification_title"><span class="icon server"><%=getTranNoLink("datacenter","server.identification",sWebLanguage) %></span></h3>
+        <h3 id="identification_title"><span class="icon server"><%=getTranNoLink("datacenter","server.identification",sWebLanguage)%></span></h3>
         <div class="subcontent">
             <table width="100%" class="" cellpadding="0" cellspacing="0">
 
 
                 <tr>
-                    <td class='admin2'><%=getTranNoLink("web","serverid",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","serverid",sWebLanguage)%></td>
                     <td class='admin'><b><%=serverid %></b></td>
                 </tr>
                 <tr>
-                    <td class='admin2'><%=getTranNoLink("web","servername",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","servername",sWebLanguage)%></td>
                     <td class='admin'><b><%=request.getParameter("label")!=null?request.getParameter("label"):getTranNoLink("datacenterServer",serverid,sWebLanguage).toUpperCase() %></b></td>
                 </tr>
                 <tr>
-                    <td class='admin2'><%=getTranNoLink("web","memberofservergroups",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","memberofservergroups",sWebLanguage)%></td>
                     <td class='admin'><b><%=DatacenterHelper.getGroupsForServer(Integer.parseInt(serverid),sWebLanguage).toUpperCase() %></b></td>
                 </tr>
                 <tr class="last">
-                    <td class='admin2'><%=getTranNoLink("web","location",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","location",sWebLanguage)%></td>
                     <td class='admin' colspan="5"><b><a href="http://maps.google.com/maps?iwloc=A&output=embed&q=<%=location%>" onclick="setMapInModal(this);return false;" title="<%=location %>"><%=location %></a></b></td>
                 </tr>
             </table>
@@ -46,28 +46,28 @@
 <!-- Server information -->
 <div class="wrap-smallcontainer">
     <div id="information" class="container information">
-        <h3 id="information_title"><span class="icon system"><%=getTranNoLink("datacenter","server.information",sWebLanguage) %></span></h3>
+        <h3 id="information_title"><span class="icon system"><%=getTranNoLink("datacenter","server.information",sWebLanguage)%></span></h3>
 
         <div class="subcontent">
             <table width="100%" class="" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td class='admin2'><%=getTranNoLink("web","os",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","os",sWebLanguage)%></td>
                     <td class='admin'><b><%=DatacenterHelper.getLastSimpleValue(Integer.parseInt(serverid),"system.1",DatacenterHelper.getLastvalues()) %></b></td>
                  </tr>
                 <tr>
-                    <td class='admin2'><%=getTranNoLink("web","javaversion",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","javaversion",sWebLanguage)%></td>
                     <td class='admin' colspan="3"><b><%=DatacenterHelper.getLastSimpleValue(Integer.parseInt(serverid),"system.2",DatacenterHelper.getLastvalues()) %></b></td>
                 </tr>
                 <tr>
-                    <td class='admin2'><%=getTranNoLink("web","diskspace",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","diskspace",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","system.3");'><%=DatacenterHelper.getLastSimpleValue(Integer.parseInt(serverid),"system.3",DatacenterHelper.getLastvalues()).equals("?")?"?":new java.text.DecimalFormat("#,###").format(Long.parseLong(DatacenterHelper.getLastSimpleValue(Integer.parseInt(serverid),"system.3",DatacenterHelper.getLastvalues()))/1048576)%> Mb</a></b></td>
                 </tr>
                 <tr>
-                    <td class='admin2'><%=getTranNoLink("web","processors",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","processors",sWebLanguage)%></td>
                     <td class='admin'><b><%=DatacenterHelper.getLastSimpleValue(Integer.parseInt(serverid),"system.4",DatacenterHelper.getLastvalues()) %></b></td>
                 </tr>
                 <tr class="last">
-                    <td class='admin2'><%=getTranNoLink("web","runtimememory",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","runtimememory",sWebLanguage)%></td>
                     <td class='admin'><b><%=DatacenterHelper.getLastSimpleValue(Integer.parseInt(serverid),"system.5",DatacenterHelper.getLastvalues()).equals("?")?"?":new java.text.DecimalFormat("#,###").format(Long.parseLong(DatacenterHelper.getLastSimpleValue(Integer.parseInt(serverid),"system.5",DatacenterHelper.getLastvalues()))/1048576)%> Mb</b></td>
                 </tr>
             </table>
@@ -78,13 +78,13 @@
 <!-- Table sizes -->
 <div class="wrap-container">
     <div id="tables" class="container tables">
-        <h3 id="tables_title"><span class="icon lists"><%=getTranNoLink("datacenter","server.table.sizes",sWebLanguage) %></span></h3>
+        <h3 id="tables_title"><span class="icon lists"><%=getTranNoLink("datacenter","server.table.sizes",sWebLanguage)%></span></h3>
 
         <div class="subcontent">
             <table width="100%" class="" cellpadding="0" cellspacing="0">
 
                 <tr>
-                    <td class='admin2'><%=getTranNoLink("web","patients",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","patients",sWebLanguage)%></td>
                     <%
                         String totalPatients = DatacenterHelper.getLastSimpleValue(Integer.parseInt(serverid),"core.1",DatacenterHelper.getLastvalues());
                     	String totpat=totalPatients;
@@ -94,21 +94,21 @@
                     	catch(Exception e){}
                     %>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.1");'><%=totpat %></a></b></td>
-                    <td class='admin2'><%=getTranNoLink("web","users",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","users",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.2");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.2",DatacenterHelper.getLastvalues()) %></a></b></td>
-                    <td class='admin2'><%=getTranNoLink("web","services",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","services",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.3");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.3",DatacenterHelper.getLastvalues()) %></a></b></td>
                 </tr>
                 <tr>
-                    <td class='admin2'><%=getTranNoLink("web","encounters",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","encounters",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.4");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.4",DatacenterHelper.getLastvalues()) %></a></b></td>
-                    <td class='admin2'><%=getTranNoLink("web","admissions",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","admissions",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.4.1");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.4.1",DatacenterHelper.getLastvalues()) %></a></b></td>
-                    <td class='admin2'><%=getTranNoLink("web","consultations",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","consultations",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.4.2");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.4.2",DatacenterHelper.getLastvalues()) %></a></b></td>
                 </tr>
                 <tr>
-                    <td class='admin2'><%=getTranNoLink("web","diagnoses",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","diagnoses",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.8");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.8",DatacenterHelper.getLastvalues()) %></a></b></td>
                     <td class='admin2'>ICD-10</td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.8.1");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.8.1",DatacenterHelper.getLastvalues()) %></a></b></td>
@@ -116,7 +116,7 @@
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.8.2");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.8.2",DatacenterHelper.getLastvalues()) %></a></b></td>
                 </tr>
                 <tr>
-                    <td class='admin2'><%=getTranNoLink("web","rfes",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","rfes",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.9");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.9",DatacenterHelper.getLastvalues()) %></a></b></td>
                     <td class='admin2'>ICD-10</td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.9.1");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.9.1",DatacenterHelper.getLastvalues()) %></a></b></td>
@@ -124,35 +124,35 @@
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.9.2");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.9.2",DatacenterHelper.getLastvalues()) %></a></b></td>
                 </tr>
                 <tr>
-                    <td class='admin2'><%=getTranNoLink("web","transactions",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","transactions",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.6");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.6",DatacenterHelper.getLastvalues()) %></a></b></td>
-                    <td class='admin2'><%=getTranNoLink("web","items",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","items",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.7");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.7",DatacenterHelper.getLastvalues()) %></a></b></td>
-                    <td class='admin2'><%=getTranNoLink("web","problems",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","problems",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.10");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.10",DatacenterHelper.getLastvalues()) %></a></b></td>
                 </tr>
                 <tr>
-                    <td class='admin2'><%=getTranNoLink("web","insurars",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","insurars",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.14");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.14",DatacenterHelper.getLastvalues()) %></a></b></td>
-                    <td class='admin2'><%=getTranNoLink("web","insurarpayments",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","insurarpayments",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.15");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.15",DatacenterHelper.getLastvalues()) %></a></b></td>
-                    <td class='admin2'><%=getTranNoLink("web","insurarinvoices",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","insurarinvoices",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.12");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.12",DatacenterHelper.getLastvalues()) %></a></b></td>
                 </tr>
                 <tr>
-                    <td class='admin2'><%=getTranNoLink("web","debets",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","debets",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.5");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.5",DatacenterHelper.getLastvalues()) %></a></b></td>
-                    <td class='admin2'><%=getTranNoLink("web","patientinvoices",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","patientinvoices",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.11");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.11",DatacenterHelper.getLastvalues()) %></a></b></td>
-                    <td class='admin2'><%=getTranNoLink("web","patientpayments",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","patientpayments",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.13");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.13",DatacenterHelper.getLastvalues()) %></a></b></td>
                 </tr>
                 <tr class="last">
-                    <td class='admin2'><%=getTranNoLink("web","labanalyses",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","labanalyses",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.16");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.16",DatacenterHelper.getLastvalues()) %></a></b></td>
-                    <td class='admin2'><%=getTranNoLink("web","requestedlabanalyses",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","requestedlabanalyses",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.17");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.17",DatacenterHelper.getLastvalues()) %></a></b></td>
-                    <td class='admin2'><%=getTranNoLink("web","labprofiles",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","labprofiles",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.18");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.18",DatacenterHelper.getLastvalues()) %></a></b></td>
                 </tr>
             </table>
@@ -163,7 +163,7 @@
  <!-- Demographics -->
 <div class="wrap-smallcontainer leftcontainer">
     <div id="demographics" class="container demographics">
-        <h3 id="demographics_title"><span class="icon geo"><%=getTranNoLink("datacenter","server.demographics",sWebLanguage) %></span></h3>
+        <h3 id="demographics_title"><span class="icon geo"><%=getTranNoLink("datacenter","server.demographics",sWebLanguage)%></span></h3>
         <div class="subcontent">
             <table width="100%" class="" cellpadding="0" cellspacing="0">
 
@@ -194,15 +194,15 @@
                             }
                         }
                     %>
-                    <td class='admin2'><%=getTranNoLink("web","men",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","men",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.1.1");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.1.1",DatacenterHelper.getLastvalues())+malepct %></a></b></td>
                 </tr>
                 <tr>
-                    <td class='admin2'><%=getTranNoLink("web","women",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","women",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.1.2");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.1.2",DatacenterHelper.getLastvalues())+femalepct %></a></b></td>
                  </tr>
                 <tr class="last">
-                    <td class='admin2'><%=getTranNoLink("web","childrenyoungerthan5",sWebLanguage) %></td>
+                    <td class='admin2'><%=getTranNoLink("web","childrenyoungerthan5",sWebLanguage)%></td>
                     <td class='admin'><b><a href='javascript:simpleValueGraph("<%=serverid%>","core.1.3");'><%=DatacenterHelper.getLastSimpleValueFormatted(Integer.parseInt(serverid),"core.1.3",DatacenterHelper.getLastvalues())+childrenpct %></a></b></td>
                 </tr>
             </table>
@@ -222,7 +222,7 @@
 <div class="wrap-smallcontainer">
    <div id="financial" class="container bedoccupancy">
        <h3 id="financial_title">
-           <span class="icon financial"><%=getTranNoLink("datacenter","server.financial",sWebLanguage) %></span>
+           <span class="icon financial"><%=getTranNoLink("datacenter","server.financial",sWebLanguage)%></span>
        </h3>
        <div class="subcontent">
            <a class="togglecontent" href="javascript:void(0)" onclick="togglecontent(this,'financial')"><span class="icon down">&nbsp;</span></a>
@@ -236,7 +236,7 @@
 <div class="wrap-smallcontainer">
     <div id="diagnostics" class="container diagnostics">
         <h3 id="diagnostics_title">
-            <span class="icon diagnostics"><%=getTranNoLink("datacenter","server.diagnostics",sWebLanguage) %></span>
+            <span class="icon diagnostics"><%=getTranNoLink("datacenter","server.diagnostics",sWebLanguage)%></span>
         </h3>
         <%
                 sb = new StringBuffer("");
@@ -250,16 +250,16 @@
         <div class="subcontent">
             <a class="togglecontent" href="javascript:void(0)" onclick="togglecontent(this,'diagnostics')"><span class="icon down">&nbsp;</span></a>
             <select name="diagtype" id="diagtype" class="text" onchange="loadDiagnoses('<%=serverid %>',document.getElementById('diagmonth').value);">
-                <option value='ALL'><%=getTranNoLink("web","all",sWebLanguage) %></option>
+                <option value='ALL'><%=getTranNoLink("web","all",sWebLanguage)%></option>
                 <%
                     if(DatacenterHelper.hasEncounterDiagnosticMonths(Integer.parseInt(serverid),"admission")){
                 %>
-                <option value='admission'><%=getTranNoLink("web","admissions",sWebLanguage) %></option>
+                <option value='admission'><%=getTranNoLink("web","admissions",sWebLanguage)%></option>
                 <%
                     }
                     if(DatacenterHelper.hasEncounterDiagnosticMonths(Integer.parseInt(serverid),"visit")){
                 %>
-                <option value='visit'><%=getTranNoLink("web","consultations",sWebLanguage) %></option>
+                <option value='visit'><%=getTranNoLink("web","consultations",sWebLanguage)%></option>
                 <%
                     }
                 %>
@@ -274,7 +274,7 @@
 <div class="wrap-smallcontainer leftcontainer">
     <div id="hr" class="container bedoccupancy">
         <h3 id="hr_title">
-        	<span class="icon system"><%=getTranNoLink("datacenter","human.resources",sWebLanguage) %></span>
+        	<span class="icon system"><%=getTranNoLink("datacenter","human.resources",sWebLanguage)%></span>
         </h3>
         <%
                 sb = new StringBuffer("");
@@ -296,7 +296,7 @@
 <div class="wrap-smallcontainer">
     <div id="mortality" class="container bedoccupancy">
         <h3 id="mortality_title">
-            <span class="icon mortality"><%=getTranNoLink("datacenter","server.mortality",sWebLanguage) %></span>
+            <span class="icon mortality"><%=getTranNoLink("datacenter","server.mortality",sWebLanguage)%></span>
         </h3>
         <%
                 sb = new StringBuffer("");
@@ -318,7 +318,7 @@
 <div class="wrap-smallcontainer">
     <div id="bedoccupancy" class="container bedoccupancy">
         <h3 id="bedoccupancy_title">
-            <span class="icon bedoccupancy" ><%=getTranNoLink("datacenter","server.bedoccupancy",sWebLanguage) %></span>
+            <span class="icon bedoccupancy" ><%=getTranNoLink("datacenter","server.bedoccupancy",sWebLanguage)%></span>
         </h3>
 
         <div class="subcontent">

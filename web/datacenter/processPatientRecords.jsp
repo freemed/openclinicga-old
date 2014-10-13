@@ -24,8 +24,8 @@
 			}
 		%>
 		<tr><td colspan='4'>
-			<input class='button' type='button' name='printcards' value='<%=getTranNoLink("web","printcards",sWebLanguage) %>' onclick='printcardsfunction();'/>
-			<input class='button' type='button' name='setprocessed' value='<%=getTranNoLink("web","setprocessed",sWebLanguage) %>' onclick='setprocessedfunction();'/>
+			<input class='button' type='button' name='printcards' value='<%=getTranNoLink("web","printcards",sWebLanguage)%>' onclick='printcardsfunction();'/>
+			<input class='button' type='button' name='setprocessed' value='<%=getTranNoLink("web","setprocessed",sWebLanguage)%>' onclick='setprocessedfunction();'/>
 		</td></tr>
 	</table>
 	<input type='hidden' name='serverid' value='<%=request.getParameter("serverid") %>'/>

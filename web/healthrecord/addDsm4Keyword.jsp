@@ -30,14 +30,14 @@
 <form name="addKeywordForm" method="post">
 	<table width='100%'>
 		<tr class='admin'>
-			<td colspan='2'><%=getTran("web","add.dsm4.keyword",sWebLanguage) %></td>
+			<td colspan='2'><%=getTran("web","add.dsm4.keyword",sWebLanguage)%></td>
 		</tr>
 		<tr>
-			<td class='admin'><%=getTran("web","keyword",sWebLanguage) %></td>
+			<td class='admin'><%=getTran("web","keyword",sWebLanguage)%></td>
 			<td class='admin2'><input type='text' class='text' size='50' name='keyword' id='keyword'/></td>
 		</tr>
 		<tr>
-			<td class='admin'><%=getTran("web","code",sWebLanguage) %></td>
+			<td class='admin'><%=getTran("web","code",sWebLanguage)%></td>
 			<td class='admin2'>
 				<select class='text' name='code' id='code'>
 					<%
@@ -57,7 +57,7 @@
 			</td>
 		</tr>
 	</table>
-	<input type='submit' class='button' name='save' value='<%=getTranNoLink("web","save",sWebLanguage) %>'/>
+	<input type='submit' class='button' name='save' value='<%=getTranNoLink("web","save",sWebLanguage)%>'/>
 </form>
 
 <script>

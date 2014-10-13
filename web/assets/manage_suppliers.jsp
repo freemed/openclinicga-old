@@ -12,12 +12,12 @@
 <%=sJSEMAIL%>
 
 <%
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n*************** manage_suppliers.jsp ***************");
+        Debug.println("\n******************** assets/manage_suppliers.jsp **********************");
         Debug.println("no parameters\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 %>            
 
 <form name="SearchForm" id="SearchForm" method="POST">
@@ -66,21 +66,19 @@
   function searchSuppliers(){
     document.getElementById("divSuppliers").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Searching";            
     var url = "<c:url value='/assets/ajax/supplier/getSuppliers.jsp'/>?ts="+new Date().getTime();
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "code="+SearchForm.searchCode.value+
-                    "&name="+SearchForm.searchName.value+
-                    "&vatNumber="+SearchForm.searchVatNumber.value,
-        onSuccess: function(resp){
-          $("divSuppliers").innerHTML = resp.responseText;
-          sortables_init();
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'assets/ajax/supplier/getSuppliers.jsp' : "+resp.responseText.trim();
-        }
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "code="+SearchForm.searchCode.value+
+                  "&name="+SearchForm.searchName.value+
+                  "&vatNumber="+SearchForm.searchVatNumber.value,
+      onSuccess: function(resp){
+        $("divSuppliers").innerHTML = resp.responseText;
+        sortables_init();
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'assets/ajax/supplier/getSuppliers.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
 
   <%-- CLEAR SEARCH FIELDS --%>
@@ -262,24 +260,22 @@
                       "&comment="+EditForm.comment.value;
 
         var url = "<c:url value='/assets/ajax/supplier/saveSupplier.jsp'/>?ts="+new Date().getTime();
-        new Ajax.Request(url,
-          {
-            method: "POST",
-            postBody: sParams,                   
-            onSuccess: function(resp){
-              var data = eval("("+resp.responseText+")");
-              $("divMessage").innerHTML = data.message;
+        new Ajax.Request(url,{
+          method: "POST",
+          postBody: sParams,                   
+          onSuccess: function(resp){
+            var data = eval("("+resp.responseText+")");
+            $("divMessage").innerHTML = data.message;
 
-              //loadSuppliers();
-              searchSuppliers();
-              newSupplier();
-              enableButtons();
-            },
-            onFailure: function(resp){
-              $("divMessage").innerHTML = "Error in 'assets/ajax/supplier/saveSupplier.jsp' : "+resp.responseText.trim();
-            }
+            //loadSuppliers();
+            searchSuppliers();
+            newSupplier();
+            enableButtons();
+          },
+          onFailure: function(resp){
+            $("divMessage").innerHTML = "Error in 'assets/ajax/supplier/saveSupplier.jsp' : "+resp.responseText.trim();
           }
-        );
+        });
       }
     }
     else{
@@ -297,89 +293,82 @@
   
   <%-- LOAD SUPPLIERS --%>
   function loadSuppliers(){
-    document.getElementById("divSuppliers").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
+    document.getElementById("divSuppliers").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading..";            
     var url = "<c:url value='/assets/ajax/supplier/getSuppliers.jsp'/>?ts="+new Date().getTime();
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "",
-        onSuccess: function(resp){
-          $("divSuppliers").innerHTML = resp.responseText;
-          sortables_init();
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'assets/ajax/supplier/getSuppliers.jsp' : "+resp.responseText.trim();
-        }
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "",
+      onSuccess: function(resp){
+        $("divSuppliers").innerHTML = resp.responseText;
+        sortables_init();
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'assets/ajax/supplier/getSuppliers.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
 
   <%-- DISPLAY SUPPLIER --%>
   function displaySupplier(supplierUID){
     var url = "<c:url value='/assets/ajax/supplier/getSupplier.jsp'/>?ts="+new Date().getTime();
     
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "SupplierUID="+supplierUID,
-        onSuccess: function(resp){
-          var data = eval("("+resp.responseText+")");
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "SupplierUID="+supplierUID,
+      onSuccess: function(resp){
+        var data = eval("("+resp.responseText+")");
           
-          $("EditSupplierUID").value = supplierUID.unhtmlEntities();
-          $("code").value = data.code.unhtmlEntities();
-          $("name").value = data.name.unhtmlEntities();
-          $("address").value = data.address.unhtmlEntities();
-          $("city").value = data.city.unhtmlEntities();
-          $("zipcode").value = data.zipcode.unhtmlEntities();
-          $("country").value = data.country.unhtmlEntities();
-          $("countryCode").value = data.countryCode.unhtmlEntities();
-          $("vatNumber").value = data.vatNumber.unhtmlEntities();
-          $("taxIDNumber").value = data.taxIDNumber.unhtmlEntities();
-          $("contactPerson").value = data.contactPerson.unhtmlEntities();
-          $("telephone").value = data.telephone.unhtmlEntities();
-          $("email").value = data.email.unhtmlEntities();
-          $("accountingCode").value = data.accountingCode.unhtmlEntities();
-          $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
-          
-          document.getElementById("divMessage").innerHTML = ""; 
-          resizeAllTextareas(8);
+        $("EditSupplierUID").value = supplierUID.unhtmlEntities();
+        $("code").value = data.code.unhtmlEntities();
+        $("name").value = data.name.unhtmlEntities();
+        $("address").value = data.address.unhtmlEntities();
+        $("city").value = data.city.unhtmlEntities();
+        $("zipcode").value = data.zipcode.unhtmlEntities();
+        $("country").value = data.country.unhtmlEntities();
+        $("countryCode").value = data.countryCode.unhtmlEntities();
+        $("vatNumber").value = data.vatNumber.unhtmlEntities();
+        $("taxIDNumber").value = data.taxIDNumber.unhtmlEntities();
+        $("contactPerson").value = data.contactPerson.unhtmlEntities();
+        $("telephone").value = data.telephone.unhtmlEntities();
+        $("email").value = data.email.unhtmlEntities();
+        $("accountingCode").value = data.accountingCode.unhtmlEntities();
+        $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
+         
+        document.getElementById("divMessage").innerHTML = ""; 
+        resizeAllTextareas(8);
 
-          <%-- display hidden buttons --%>
-          document.getElementById("buttonDelete").style.visibility = "visible";
-          document.getElementById("buttonNew").style.visibility = "visible";
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'assets/ajax/supplier/getSupplier.jsp' : "+resp.responseText.trim();
-        }
+        <%-- display hidden buttons --%>
+        document.getElementById("buttonDelete").style.visibility = "visible";
+        document.getElementById("buttonNew").style.visibility = "visible";
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'assets/ajax/supplier/getSupplier.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
   
   <%-- DELETE SUPPLIER --%>
   function deleteSupplier(){ 
-    var answer = yesnoDialog("web","areYouSureToDelete");
-    if(answer==1){                 
+    if(yesnoDialog("web","areYouSureToDelete")){                 
       disableButtons();
       
       var url = "<c:url value='/assets/ajax/supplier/deleteSupplier.jsp'/>?ts="+new Date().getTime();
-      new Ajax.Request(url,
-        {
-          method: "GET",
-          parameters: "SupplierUID="+document.getElementById("EditSupplierUID").value,
-          onSuccess: function(resp){
-            var data = eval("("+resp.responseText+")");
-            $("divMessage").innerHTML = data.message;
+      new Ajax.Request(url,{
+        method: "GET",
+        parameters: "SupplierUID="+document.getElementById("EditSupplierUID").value,
+        onSuccess: function(resp){
+          var data = eval("("+resp.responseText+")");
+          $("divMessage").innerHTML = data.message;
 
-            newSupplier();
-            //loadSuppliers();
-            searchSuppliers();
-            enableButtons();
-          },
-          onFailure: function(resp){
-            $("divMessage").innerHTML = "Error in 'assets/ajax/supplier/deleteSupplier.jsp' : "+resp.responseText.trim();
-          }  
-        }
-      );
+          newSupplier();
+          //loadSuppliers();
+          searchSuppliers();
+          enableButtons();
+        },
+        onFailure: function(resp){
+          $("divMessage").innerHTML = "Error in 'assets/ajax/supplier/deleteSupplier.jsp' : "+resp.responseText.trim();
+        }  
+      });
     }
   }
 

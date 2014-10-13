@@ -31,7 +31,7 @@
     <tr>
         <td class="title" colspan="2">
             <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
-            <a href="#" onclick="toggle_id('medwan.healthrecord.dermatologie-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
+            <a href="javascript:toggle_id('medwan.healthrecord.dermatologie-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
         </td>
     </tr>
     <tr id="medwan.healthrecord.dermatologie-details" style="display:none">
@@ -98,7 +98,7 @@
     <tr>
         <td class="title" colspan="2">
             <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
-            <a href="#" onclick="toggle_id('medwan.healthrecord.orl-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
+            <a href="javascript:toggle_id('medwan.healthrecord.orl-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
         </td>
     </tr>
     <tr id="medwan.healthrecord.orl-details" style="display:none">
@@ -198,7 +198,7 @@
     <tr>
         <td class="title" colspan="2">
             <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
-            <a href="#" onclick="toggle_id('medwan.healthrecord.visus-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
+            <a href="javascript:toggle_id('medwan.healthrecord.visus-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
         </td>
     </tr>
     <tr id="medwan.healthrecord.visus-details" style="display:none">
@@ -314,7 +314,7 @@
     <tr>
         <td class="title" colspan="2">
             <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
-            <a href="#" onclick="toggle_id('medwan.healthrecord.cardial-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
+            <a href="javascript:toggle_id('medwan.healthrecord.cardial-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
         </td>
     </tr>
     <tr id="medwan.healthrecord.cardial-details" style="display:none">

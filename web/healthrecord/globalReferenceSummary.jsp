@@ -69,7 +69,7 @@
             <td width="100"><%=getTran("openclinic.chuk","reference.execution.date",sWebLanguage)%></td>
             <td width="200"><%=getTran("openclinic.chuk","reference.createdby",sWebLanguage)%></td>
         </tr>
-        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+        <tbody class="hand">
         <%
             Vector vReferences = Reference.searchByRequestServiceUID(sFindBegin,sFindEnd,sFindServiceID);
             String sClass = "", sPatientID, sPatientName, sServiceUID, sServiceName, sCreatedByUID, sCreatedByName;
@@ -143,7 +143,7 @@
             <td width="100"><%=getTran("openclinic.chuk","reference.execution.date",sWebLanguage)%></td>
             <td width="200"><%=getTran("openclinic.chuk","reference.createdby",sWebLanguage)%></td>
         </tr>
-        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+        <tbody class="hand">
         <%
             iCounter = 0;
             sClass = "";

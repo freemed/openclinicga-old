@@ -1,8 +1,8 @@
-<%@page import="be.openclinic.medical.Prescription"%>
-<%@page import="be.openclinic.medical.ChronicMedication"%>
-<%@page import="java.util.Vector"%>
-<%@page import="be.openclinic.medical.PaperPrescription"%>
-<%@page import="be.openclinic.pharmacy.*"%>
+<%@page import="be.openclinic.medical.Prescription,
+                be.openclinic.medical.ChronicMedication,
+                java.util.Vector,
+                be.openclinic.medical.PaperPrescription,
+                be.openclinic.pharmacy.*"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
@@ -31,17 +31,17 @@
 
             // productunits
             if(chronicMedication.getUnitsPerTimeUnit()==1){
-                sProductUnit = getTran("product.unit", chronicMedication.getProduct().getUnit(),sWebLanguage);
+                sProductUnit = getTran("product.unit",chronicMedication.getProduct().getUnit(),sWebLanguage);
             }
-            else {
-                sProductUnit = getTran("product.unit", chronicMedication.getProduct().getUnit(),sWebLanguage);
+            else{
+                sProductUnit = getTran("product.unit",chronicMedication.getProduct().getUnit(),sWebLanguage);
             }
-            sPrescrRule = sPrescrRule.replaceAll("#productunit#", sProductUnit.toLowerCase());
+            sPrescrRule = sPrescrRule.replaceAll("#productunit#",sProductUnit.toLowerCase());
 
             // timeunits
-            if(chronicMedication.getTimeUnitCount() == 1){
-                sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#", "");
-                timeUnitTran = getTran("prescription.timeunit", chronicMedication.getTimeUnit(),sWebLanguage);
+            if(chronicMedication.getTimeUnitCount()==1){
+                sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#","");
+                timeUnitTran = getTran("prescription.timeunit",chronicMedication.getTimeUnit(),sWebLanguage);
             }
             else{
                 sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#",chronicMedication.getTimeUnitCount()+"");
@@ -49,10 +49,10 @@
             }
             
             sPrescrRule = sPrescrRule.replaceAll("#timeunit#",timeUnitTran.toLowerCase());
-            out.print("<tr><td><b><a href='javascript:showChronicPrescription("+chronicMedication.getUid()+");'>"+chronicMedication.getProduct().getName() + "</a></b><i> (" + sPrescrRule + ")</i></td></tr>");
+            out.print("<tr><td><b><a href='javascript:showChronicPrescription("+chronicMedication.getUid()+");'>"+chronicMedication.getProduct().getName()+"</a></b><i> ("+sPrescrRule+")</i></td></tr>");
         }
 
-        if(chronicMedications.size()>0){
+        if(chronicMedications.size() > 0){
 		    %>
 		            </table>
 		        </td>
@@ -62,8 +62,8 @@
         //--- 2:ACTIVE ----------------------------------------------------------------------------
         Vector activePrescriptions = Prescription.getActivePrescriptions(activePatient.personid);
         if(activePrescriptions!=null && activePrescriptions.size()>0){
-            long latencydays=1000*MedwanQuery.getInstance().getConfigInt("activeMedicationLatency",60);
-            latencydays*=24*3600;
+            long latencydays = 1000*MedwanQuery.getInstance().getConfigInt("activeMedicationLatency",60);
+            latencydays*= 24*3600;
         	Timestamp ts = new Timestamp(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new java.util.Date())).getTime()-latencydays);
 
 		    %>
@@ -73,7 +73,7 @@
 		    <%
 		    
 	        Prescription prescription;	    
-	        for(int n=0;n<activePrescriptions.size();n++){
+	        for(int n=0; n<activePrescriptions.size(); n++){
 	            prescription = (Prescription)activePrescriptions.elementAt(n);
 	            
 	            if(prescription!=null && prescription.getProduct()!=null){
@@ -119,31 +119,34 @@
     time -= month;
     
     Vector paperprescriptions = PaperPrescription.find(activePatient.personid,"",ScreenHelper.stdDateFormat.format(new java.util.Date(time)),"","","DESC");
-    if(paperprescriptions.size()>0){
+    if(paperprescriptions.size() > 0){
         %>
         <tr>
             <td class="admin2" style="vertical-align:top;border-bottom:1px solid #fff;"><b><%=getTran("curative","medication.paperprescriptions",sWebLanguage)%><br/> &lt;3 <%=getTran("web","months",sWebLanguage).toLowerCase()%></b></td>
             <td colspan="3">
                 <table width="100%">
                     <%
-                        String hiddenprescriptions ="";
+                        String hiddenprescriptions = "";
                         String sClass = "";
+                        
                         for(int n=0; n<paperprescriptions.size(); n++){
+                        	// alternate row-style
                             if(sClass.length()==0) sClass = "1";
                             else                   sClass = "";
                             
                             PaperPrescription paperPrescription = (PaperPrescription)paperprescriptions.elementAt(n);
-                            if(n<3){
-                                out.println("<tr class='list"+sClass+"' id='pp"+paperPrescription.getUid()+"'>"+
-                                             "<td valign='top' width='90px'>"+
-                                              "<img src='_img/icons/icon_delete.gif' class='link' onclick='deletepaperprescription(\""+paperPrescription.getUid()+"\");'/> <b>"+ScreenHelper.stdDateFormat.format(paperPrescription.getBegin())+"</b>"+
-                                             "</td>"+
-                                             "<td><i>");
-                                Vector products =paperPrescription.getProducts();
+                            if(n < 3){
+                                out.print("<tr class='list"+sClass+"' id='pp"+paperPrescription.getUid()+"'>"+
+                                           "<td valign='top' width='90px'>"+
+                                            "<img src='_img/icons/icon_delete.gif' class='link' onclick='deletepaperprescription(\""+paperPrescription.getUid()+"\");'/> <b>"+ScreenHelper.stdDateFormat.format(paperPrescription.getBegin())+"</b>"+
+                                           "</td>"+
+                                           "<td><i>");
+                                Vector products = paperPrescription.getProducts();
                                 for(int i=0; i<products.size(); i++){
                                     out.print(products.elementAt(i)+"<br/>");
                                 }
-                                out.println("</i></td></tr>");
+                                out.print("</i></td>"+
+                                         "</tr>");
                             }
                             else {
                                 hiddenprescriptions+= "<tr class='list"+sClass+"' id='pp"+paperPrescription.getUid()+"'>"+

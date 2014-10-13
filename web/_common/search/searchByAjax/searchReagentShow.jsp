@@ -58,7 +58,7 @@ try{
             </td>
         </tr>
 
-        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+        <tbody class="hand">
             <%=HTMLEntities.htmlentities(sHtml.toString())%>
         </tbody>
     </table>

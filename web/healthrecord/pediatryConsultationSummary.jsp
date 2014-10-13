@@ -324,11 +324,10 @@
                                 String sClass = "1";
 
                                 for(int n=0;n<activeProblems.size();n++){
-                                    if(sClass.equals("")){
-                                        sClass = "1";
-                                    }else{
-                                        sClass = "";
-                                    }
+                                	// alternate row-style
+                                    if(sClass.equals("")) sClass = "1";
+                                    else                  sClass = "";
+
                                     Problem activeProblem = (Problem)activeProblems.elementAt(n);
                                     String comment="";
                                     if(activeProblem.getComment().trim().length()>0){
@@ -375,7 +374,7 @@
                                     <td width="40%"><%=getTran("Web","prescriptionrule",sWebLanguage)%></td>
                                 </tr>
 
-                                <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                                <tbody class="hand">
                                     <%=prescriptions%>
                                 </tbody>
                             </table>

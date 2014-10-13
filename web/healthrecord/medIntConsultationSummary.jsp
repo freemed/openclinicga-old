@@ -75,7 +75,7 @@
                     sProductName = "";
                 }
                 if (sProductName.length() == 0) {
-                    sProductName = "<font color='red'>" + getTran("web", "nonexistingproduct", sWebLanguage) + "</font>";
+                    sProductName = "<font color='red'>"+getTran("web", "nonexistingproduct", sWebLanguage)+"</font>";
                 }
             }
 
@@ -114,12 +114,12 @@
             }
 
             //*** display prescription in one row ***
-            prescriptions.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
-                    .append("<td align='center'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + sPrescriptionUid + "');\">")
-                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sProductName + "</td>")
-                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateBeginFormatted + "</td>")
-                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateEndFormatted + "</td>")
-                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sPrescrRule.toLowerCase() + "</td>")
+            prescriptions.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
+                    .append("<td align='center'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+sPrescriptionUid+"');\">")
+                    .append("<td onclick=\"doShowDetails('"+sPrescriptionUid+"');\" >"+sProductName+"</td>")
+                    .append("<td onclick=\"doShowDetails('"+sPrescriptionUid+"');\" >"+sDateBeginFormatted+"</td>")
+                    .append("<td onclick=\"doShowDetails('"+sPrescriptionUid+"');\" >"+sDateEndFormatted+"</td>")
+                    .append("<td onclick=\"doShowDetails('"+sPrescriptionUid+"');\" >"+sPrescrRule.toLowerCase()+"</td>")
                     .append("</tr>");
         }
         return idsVector;
@@ -468,17 +468,16 @@
                                 String sClass = "1";
 
                                 for(int n=0;n<activeProblems.size();n++){
-                                    if(sClass.equals("")){
-                                        sClass = "1";
-                                    }else{
-                                        sClass = "";
-                                    }
+                                	// alternate row-style
+                                    if(sClass.equals("")) sClass = "1";
+                                    else                  sClass = "";
+                                	
                                     Problem activeProblem = (Problem)activeProblems.elementAt(n);
                                     String comment="";
                                     if(activeProblem.getComment().trim().length()>0){
                                         comment=":&nbsp;<i>"+activeProblem.getComment().trim()+"</i>";
                                     }
-                                    out.print("<tr class='list" + sClass + "'><td><b>"+(activeProblem.getCode()+" "+MedwanQuery.getInstance().getCodeTran(activeProblem.getCodeType()+"code"+activeProblem.getCode(),sWebLanguage)+"</b>"+comment)+"</td><td>"+ScreenHelper.stdDateFormat.format(activeProblem.getBegin())+"</td></tr>");
+                                    out.print("<tr class='list"+sClass+"'><td><b>"+(activeProblem.getCode()+" "+MedwanQuery.getInstance().getCodeTran(activeProblem.getCodeType()+"code"+activeProblem.getCode(),sWebLanguage)+"</b>"+comment)+"</td><td>"+ScreenHelper.stdDateFormat.format(activeProblem.getBegin())+"</td></tr>");
                                 }
                                 out.print("</table>");
                             }
@@ -487,6 +486,7 @@
                 </tr>
             </table>
             <br/>
+            
             <table width="100%" class="list" cellspacing="1">
                 <tr class="admin">
                     <td align="center"><%=getTran("Web.Occup","medwan.healthrecord.medication",sWebLanguage)%></td>
@@ -503,7 +503,7 @@
                     int foundPrescrCount = idsVector.size();
 
                     if (foundPrescrCount > 0) {
-                %>
+                        %>
                             <table width="100%" cellspacing="0" cellpadding="0" class="list">
                                 <%-- clickable header (current sort-col in italic) --%>
                                 <tr class="admin">
@@ -514,7 +514,7 @@
                                     <td width="40%"><%=getTran("Web","prescriptionrule",sWebLanguage)%></td>
                                 </tr>
 
-                                <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                                <tbody class="hand">
                                     <%=prescriptions%>
                                 </tbody>
                             </table>

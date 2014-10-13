@@ -22,27 +22,27 @@
         double dUnitPrice;
 
         // frequently used translations
-        String chooseTran = getTranNoLink("web", "choose", sWebLanguage);
-        String sCurrency = MedwanQuery.getInstance().getConfigParam("currency", "€");
+        String chooseTran = getTranNoLink("web","choose",sWebLanguage);
+        String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
 
         // add found products in vector
         UserProduct userProduct;
         for(int i=0; i<objects.size(); i++){
-            userProduct = (UserProduct) objects.get(i);
+            userProduct = (UserProduct)objects.get(i);
 
             // filter out products depending on their productGroup ?
             boolean productGroupOK = false;
-            if(sSearchProductGroup.length() == 0){
+            if(sSearchProductGroup.length()==0){
                 productGroupOK = true;
             } 
             else{
-                if(userProduct.getProduct() != null){
+                if(userProduct.getProduct()!=null){
                     productGroupOK = (checkString(userProduct.getProduct().getProductGroup()).equals(sSearchProductGroup));
                 }
             }
 
             // only display products complying the searched productName AND/OR the searched productGroup
-            if(userProduct.getProduct() != null){
+            if(userProduct.getProduct()!=null){
                 if(userProduct.getProduct().getName().toLowerCase().startsWith(sSearchProductName.toLowerCase()) && productGroupOK){
                     foundProducts.add(userProduct);
                 }
@@ -55,13 +55,13 @@
         // run thru sorted found products
         Product product;
         for(int i=0; i<foundProducts.size(); i++){
-            userProduct = ((UserProduct) foundProducts.get(i));
+            userProduct = ((UserProduct)foundProducts.get(i));
             product = userProduct.getProduct();
 
             // translate unit
             sUnit = checkString(product.getUnit());
             if(sUnit.length() > 0){
-                sUnit = getTran("product.unit", sUnit, sWebLanguage);
+                sUnit = getTran("product.unit",sUnit,sWebLanguage);
             }
 
             // line unit price out
@@ -79,17 +79,17 @@
                 sSupplierUid = checkString(product.getSupplierUid());
 
                 if(sSupplierUid.length() > 0){
-                    sSupplierName = getTran("service", sSupplierUid, sWebLanguage);
+                    sSupplierName = getTran("service",sSupplierUid,sWebLanguage);
                 } 
                 else{
                     sSupplierUid = checkString(product.getSupplierUid());
                     if(sSupplierUid.length() > 0){
-                        sSupplierName = getTran("service", sSupplierUid, sWebLanguage);
+                        sSupplierName = getTran("service",sSupplierUid,sWebLanguage);
                     } 
                     else{
                         sSupplierUid = checkString(productStock.getServiceStock().getDefaultSupplierUid());
                         if(sSupplierUid.length() > 0){
-                            sSupplierName = getTran("service", sSupplierUid, sWebLanguage);
+                            sSupplierName = getTran("service",sSupplierUid,sWebLanguage);
                         }
                         else{
                             sSupplierName = "";
@@ -103,7 +103,7 @@
 
                 sSupplierUid = checkString(product.getSupplierUid());
                 if(sSupplierUid.length() > 0){
-                    sSupplierName = getTran("service", sSupplierUid, sWebLanguage);
+                    sSupplierName = getTran("service",sSupplierUid,sWebLanguage);
                 } 
                 else{
                     sSupplierName = "";
@@ -113,7 +113,7 @@
             // productGroup
             sProductGroup = checkString(product.getProductGroup());
             if(sProductGroup.length() > 0){
-                sProductGroup = getTran("product.productgroup", sProductGroup, sWebLanguage);
+                sProductGroup = getTran("product.productgroup",sProductGroup,sWebLanguage);
             }
 
             // units per time unit
@@ -122,7 +122,7 @@
             // supplyingService & serviceStock
             if(productStock != null){
                 supplyingServiceUid = productStock.getSupplierUid();
-                supplyingServiceName = getTranNoLink("service", supplyingServiceUid, sWebLanguage);
+                supplyingServiceName = getTranNoLink("service",supplyingServiceUid,sWebLanguage);
 
                 serviceStockUid = productStock.getServiceStockUid();
                 serviceStockName = productStock.getServiceStock().getName();
@@ -137,7 +137,7 @@
 
             // alternate row-style
             if(sClass.equals("")) sClass = "1";
-            else sClass = "";
+            else                  sClass = "";
 
             //*** display product in one row ***
             html.append("<tr title='"+chooseTran+"' class='list"+sClass+"' onClick=\"selectProduct('"+product.getUid()+"','"+product.getName()+"','"+product.getUnit()+"','"+sUnitsPerTimeUnit+"','"+supplyingServiceUid+"','"+supplyingServiceName+"','"+sSupplierUid+"','"+sSupplierName+"','"+product.getPackageUnits()+"','"+sProductStockUid+"','"+serviceStockUid+"','"+serviceStockName+"');\">")
@@ -145,7 +145,7 @@
                  .append("<td>"+sUnit+"</td>")
                  .append("<td style='text-align:right;'>"+sUnitPrice+"&nbsp;"+sCurrency+"&nbsp;</td>")
                  .append("<td>"+sSupplierName+"</td>")
-                 .append("<td>"+(productStock == null ? "" : productStock.getServiceStock().getName())+"</td>")
+                 .append("<td>"+(productStock==null?"":productStock.getServiceStock().getName())+"</td>")
                  .append("<td>"+sProductGroup+"&nbsp;</td>")
                 .append("</tr>");
         }
@@ -156,7 +156,7 @@
 
 <%
     String sAction = checkString(request.getParameter("Action"));
-    if(sAction.length() == 0) sAction = "find"; // default action
+    if(sAction.length()==0) sAction = "find"; // default action
 
     String sOpenerAction = checkString(request.getParameter("OpenerAction"));
 
@@ -181,7 +181,7 @@
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n################# _common/search/searchUserProduct.jsp ################");
+        Debug.println("\n****************** _common/search/searchUserProduct.jsp ****************");
         Debug.println("sAction             : "+sAction);
         Debug.println("sSearchProductName  : "+sSearchProductName);
         Debug.println("sSearchProductGroup : "+sSearchProductGroup);
@@ -198,35 +198,19 @@
         Debug.println("sReturnProductStockUidField  : "+sReturnProductStockUidField+"\n");
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
-
-    int foundProductCount = 0;
-    StringBuffer productsHtml = null;
-
-    //#############################################################################################
-    //### ACTIONS #################################################################################
-    //#############################################################################################
-    
-    //--- FIND ------------------------------------------------------------------------------------
-    Vector userProducts = null;
-    if(sAction.equals("find")){
-        userProducts = UserProduct.find(activeUser.userid);
-
-        productsHtml = objectsToHtml(userProducts, sSearchProductName, sSearchProductGroup, sWebLanguage);
-        foundProductCount = userProducts.size();
-    }
 %>
 
 <form name="productForm" method="POST" onkeydown="if(enterEvent(event,13)){doFind();}">
     <table width="100%" cellspacing="0" cellpadding="0" class="menu">
         <%-- TITLE --%>
         <tr class="admin">
-            <td colspan="7"><%=getTran("web", "searchuserproduct", sWebLanguage)%></td>
+            <td colspan="7"><%=getTran("web", "searchuserproduct",sWebLanguage)%></td>
         </tr>
 
         <%-- SEARCH FIELDS --%>
         <tr height="25">
             <%-- productname --%>
-            <td nowrap class="admin2"><%=getTran("Web", "product", sWebLanguage)%>&nbsp;</td>
+            <td nowrap class="admin2"><%=getTran("Web","product",sWebLanguage)%>&nbsp;</td>
             <td nowrap class="admin2">
                 <input type="text" name="SearchProductName" class="text" value="<%=sSearchProductName%>" size="30">&nbsp;
             </td>
@@ -243,11 +227,11 @@
             --%>
 
             <%-- productgroup --%>
-            <td nowrap class="admin2"><%=getTran("Web", "productgroup", sWebLanguage)%>&nbsp;</td>
+            <td nowrap class="admin2"><%=getTran("Web","productgroup",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
                 <select class="text" name="SearchProductGroup">
                     <option value=""></option>
-                    <%=ScreenHelper.writeSelectUnsorted("product.productgroup", sSearchProductGroup, sWebLanguage)%>
+                    <%=ScreenHelper.writeSelectUnsorted("product.productgroup",sSearchProductGroup,sWebLanguage)%>
                 </select>
             </td>
 
@@ -261,15 +245,6 @@
 
     <%-- SEARCH RESULTS --%>
     <div id="divFindRecords" style="padding-top:2px;"></div>
-
-    <%
-        // records found messsage
-        if(sAction.equals("find")){
-            if(foundProductCount > 0){
-			    %><div><%=foundProductCount%> <%=getTran("web", "recordsfound", sWebLanguage)%></div><%
-            }
-        }
-    %>
     <br>
 
     <%-- link to searchProduct popup --%>
@@ -293,13 +268,13 @@
 </form>
 
 <script>
-window.resizeTo(1000, 550);
+window.resizeTo(1000,550);
 document.productForm.SearchProductName.focus();
 doFind();
 
 <%-- select product --%>
-function selectProduct(productUid, productName, productUnit, unitsPerTimeUnit, supplyingServiceUid, supplyingServiceName,
-                       productSupplierUid, productSupplierName, unitsPerPackage, productStockUid, serviceStockUid, serviceStockName){
+function selectProduct(productUid,productName,productUnit,unitsPerTimeUnit,supplyingServiceUid,supplyingServiceName,
+                       productSupplierUid,productSupplierName,unitsPerPackage,productStockUid,serviceStockUid,serviceStockName){
     var closeWindow = true;
 
     window.opener.document.getElementsByName('<%=sReturnProductUidField%>')[0].value = productUid;
@@ -311,7 +286,7 @@ if(sReturnProductUnitField.length() > 0){
 	%>
 	    if(productUnit.length > 0){
 	      window.opener.document.getElementsByName("<%=sReturnProductUnitField%>")[0].value = productUnit;
-	      if(window.opener.setEditUnitsPerTimeUnitLabel != null){
+	      if(window.opener.setEditUnitsPerTimeUnitLabel!=null){
 	        window.opener.setEditUnitsPerTimeUnitLabel(productUid);
 	      }
 	    }
@@ -338,7 +313,7 @@ if(sReturnProductUnitField.length() > 0){
     var suppServUidField = window.opener.document.getElementsByName('EditSupplyingServiceUid')[0];
     var suppServNameField = window.opener.document.getElementsByName('EditSupplyingServiceName')[0];
 
-    if(suppServUidField != undefined && suppServNameField != undefined){
+    if(suppServUidField!=undefined && suppServNameField!=undefined){
       window.opener.document.getElementsByName('EditSupplyingServiceUid')[0].value = supplyingServiceUid;
       window.opener.document.getElementsByName('EditSupplyingServiceName')[0].value = supplyingServiceName;
     }
@@ -426,7 +401,6 @@ function searchProductInStock(productUidField,productNameField,productUnitField,
 
 <%-- do find --%>
 function doFind(){
-  productForm.Action.value = "find";
   ajaxChangeSearchResults('_common/search/searchByAjax/searchUserProductShow.jsp',productForm);
 }
 
@@ -456,85 +430,4 @@ function openEditProductUnitPopup(productUid){
 
   openPopup(url,"500","250","EditProductUnit");
 }
-
-<%
-	// select product specified by "editProductUnit.jsp", which just added some missing data to the product.
-	if(userProducts!=null){
-		if(sOpenerAction.equals("selectProduct")){
-			// add found products in vector
-			UserProduct userProduct = null;
-			for(int i=0; i<userProducts.size(); i++){
-				userProduct = (UserProduct) userProducts.get(i);
-				if(userProduct.getProduct().getUid().equals(sSelectProductUid)){
-				    break;
-				}
-			}
-	
-			if(userProduct!=null){
-				Product product = userProduct.getProduct();
-				ProductStock productStock;
-				String sSupplierUid;
-				
-				//*** supplier ***
-				String sProductStockUid = checkString(userProduct.getProductStockUid());
-				String sSupplierName;
-				if(sProductStockUid.length() > 0){
-				    // processing product from product-catalog, productStock available
-				    productStock = ProductStock.get(sProductStockUid);
-				    sSupplierUid = checkString(product.getSupplierUid());
-				
-				    if(sSupplierUid.length() > 0){
-				        sSupplierName = getTran("service",sSupplierUid,sWebLanguage);
-				    }
-				    else{
-				        sSupplierUid = checkString(product.getSupplierUid());
-				        if(sSupplierUid.length() > 0){
-				            sSupplierName = getTran("service",sSupplierUid,sWebLanguage);
-				        }
-				        else{
-				            sSupplierUid = checkString(productStock.getServiceStock().getDefaultSupplierUid());
-				            if(sSupplierUid.length() > 0){
-				                sSupplierName = getTran("service",sSupplierUid,sWebLanguage);
-				            }
-				            else{
-				                sSupplierName = "";
-				            }
-				        }
-				    }
-				}
-				else{
-				    // processing product from product-catalog, NO productStock available
-				    productStock = null;
-				
-				    sSupplierUid = checkString(product.getSupplierUid());
-				    if(sSupplierUid.length() > 0){
-				        sSupplierName = getTran("service",sSupplierUid,sWebLanguage);
-				    }
-				    else{
-				        sSupplierName = "";
-				    }
-				}
-				
-				// supplyingService & serviceStock
-				String supplyingServiceUid, supplyingServiceName, serviceStockUid, serviceStockName;
-				if(productStock != null){
-				    supplyingServiceUid = productStock.getSupplierUid();
-				    supplyingServiceName = getTranNoLink("service",supplyingServiceUid,sWebLanguage);
-				
-				    serviceStockUid = productStock.getServiceStockUid();
-				    serviceStockName = productStock.getServiceStock().getName();
-				}
-				else{
-				    supplyingServiceUid = "";
-				    supplyingServiceName = "";
-				
-				    serviceStockUid = "";
-				    serviceStockName = "";
-				}
-	
-	            %>selectProduct("<%=product.getUid()%>", "<%=checkString(product.getName())%>", "<%=checkString(product.getUnit())%>", "<%=product.getUnitsPerTimeUnit()%>", "<%=supplyingServiceUid%>", "<%=supplyingServiceName%>", "<%=sSupplierUid%>", "<%=sSupplierName%>", "<%=product.getPackageUnits()%>", "<%=sProductStockUid%>", "<%=serviceStockUid%>", "<%=serviceStockName%>");<%
-            }
-        }
-    }
-%>
 </script>

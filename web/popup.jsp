@@ -22,7 +22,8 @@
     ///////////////////////////////////////////////////////////////////////////////////////////////
 %>
 <script>  
-	var dateFormat = "<%=ScreenHelper.stdDateFormat.toPattern()%>";
+  var dateFormat = "<%=ScreenHelper.stdDateFormat.toPattern()%>";
+	
   <%-- ALERT DIALOG --%>
   function alertDialog(labelType,labelId){
     if(window.showModalDialog){
@@ -45,22 +46,6 @@
     else{
       alert(labelId); // FF          
     }
-  }
-
-  <%-- CONFIRM DIALOG --%>
-  function confirmDialog(labelType,labelId){
-    var answer = "";
-    
-    if(window.showModalDialog){
-      var popupUrl = "<c:url value='/_common/search/okPopup.jsp'/>?ts=<%=ScreenHelper.getTs()%>&labelType="+labelType+"&labelID="+labelId;
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      answer = window.showModalDialog(popupUrl,"",modalities);
-    }
-    else{
-      answer = window.confirm(labelId);          
-    }
-    
-    return answer; // FF
   }
 
   <%-- YESNO DIALOG --%>
@@ -103,22 +88,23 @@
   <%-- OPEN POPUP --%>
   function openPopup(page,width,height,title){
     var url = "<c:url value="/popup.jsp"/>?Page="+page;
-    if(width != undefined) url += "&PopupWidth="+width;
-    if(height != undefined) url += "&PopupHeight="+height;
-    if(title == undefined){
-      if(page.indexOf("&") < 0) {
-        title = page.replace("/", "_");
+    if(width!=undefined) url+= "&PopupWidth="+width;
+    if(height!=undefined) url+= "&PopupHeight="+height;
+    if(title==undefined){
+      if(page.indexOf("&") < 0){
+        title = page.replace("/","_");
       }
       else{
-        title = replaceAll(page.substring(1, page.indexOf("&")), "/", "_");
-        title = replaceAll(title, ".", "_");
+        title = replaceAll(page.substring(1,page.indexOf("&")),"/", "_");
+        title = replaceAll(title,".", "_");
       }
     }
         
     var w = window.open(url,title,"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=1,height=1,menubar=no");
-    w.moveBy(2000, 2000);
+    w.moveBy(2000,2000);
   }
 
+  <%-- REPLACE ALL --%>
   function replaceAll(s,s1,s2){
     while(s.indexOf(s1) > -1){
       s = s.replace(s1,s2);
@@ -131,17 +117,29 @@
 	var eventKey = e.which?e.which:window.event.keyCode;
 	return (eventKey==targetKey);
   }
+  
+  <%-- ENTER KEY PRESSED --%>
+  function enterKeyPressed(e){
+    var eventKey = e.which?e.which:window.event.keyCode;
+	return (eventKey==13);
+  }
+
+  <%-- DELETE KEY PRESSED --%>
+  function deleteKeyPressed(e){
+	var eventKey = e.which?e.which:window.event.keyCode;
+	return (eventKey==46);	
+  }
 
   <%-- AJAX CHANGE SEARCH RESULTS --%>
   function ajaxChangeSearchResults(urlForm,SearchForm,moreParams){
-    document.getElementById('divFindRecords').innerHTML = "<div style='text-align:center;padding-top:2px;'><img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading</div>";
+    document.getElementById('divFindRecords').innerHTML = "<div style='text-align:center;padding-top:2px;'><img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading..</div>";
     var url = urlForm;
     var params = Form.serialize(SearchForm)+moreParams;
     var myAjax = new Ajax.Updater("divFindRecords",url,{
-      evalScripts:true,
-      method: "post",
-      parameters: params,
-      onSuccess: function(resp){
+      method: "POST",
+      evalScripts: true,
+      parameters:params,
+      onSuccess:function(resp){
         document.getElementById("divFindRecords").innerHTML = trim(resp.responseText);
       },
       onFailure:function(){
@@ -226,7 +224,7 @@
     window.moveTo((screen.width-w)/2,(screen.height-h)/2);
   }
   
-  if(typeof focusfield != "undefined") focusfield.focus();
+  if(typeof focusfield!="undefined") focusfield.focus();
   window.setTimeout('resizeMe();',200);
 </script>
 </body>

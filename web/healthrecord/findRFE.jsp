@@ -149,7 +149,7 @@
 	                            <td colspan='3'><%=getTran("web","norecordsfound",sWebLanguage)%> 
 	                            <%
 	                                if(bManageLocalCodes){
-	                                    %> (<a href='javascript:addnewlocalcode("<%=keywords%>")'><%=getTran("web","managelocalcodes",sWebLanguage) %></a>)</td><%
+	                                    %> (<a href='javascript:addnewlocalcode("<%=keywords%>")'><%=getTran("web","managelocalcodes",sWebLanguage)%></a>)</td><%
 	                                }
 	                            %>
 	                        </tr>

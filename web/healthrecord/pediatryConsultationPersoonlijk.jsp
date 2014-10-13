@@ -391,14 +391,7 @@ function addChirurgie(){
     var endDate   = document.getElementById("transactionForm").ChirurgieDateEnd.value;
 
     if((beginDate!="" && endDate!="") && !before(beginDate,endDate)){
-      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&tts=<%=getTs()%>&labelType=Web.Occup&labelID=endMustComeAfterBegin";
-      var modalitiesIE = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      if(window.showModalDialog){
-        window.showModalDialog(popupUrl,'',modalitiesIE);
-      }
-      else{
-        window.confirm("<%=getTranNoLink("Web.occup","endMustComeAfterBegin",sWebLanguage)%>");
-      }
+      alertDialog("Web.Occup","endMustComeAfterBegin");
       document.getElementById("transactionForm").ChirurgieDateEnd.select();
       return false;
     }
@@ -493,15 +486,7 @@ function addHeelkunde(){
         endDate   = document.getElementById("transactionForm").HeelkundeDateEnd.value;
 
     if((beginDate!="" && endDate!="") && !before(beginDate,endDate)){
-      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web.Occup&labelID=endMustComeAfterBegin";
-      var modalitiesIE = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-      if(window.showModalDialog){
-        window.showModalDialog(popupUrl,'',modalitiesIE);
-      }
-      else{
-        window.confirm("<%=getTranNoLink("Web.Occup","endMustComeAfterBegin",sWebLanguage)%>");
-      }
+      alertDialog("Web.Occup","endMustComeAfterBegin");
       document.getElementById("transactionForm").HeelkundeDateEnd.select();
       return false;
     }

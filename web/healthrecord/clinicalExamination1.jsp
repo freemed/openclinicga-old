@@ -37,7 +37,7 @@
     <tr>
         <td colspan="2" class="title">
             <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
-            <a href="#" onclick="toggle_id('medwan.healthrecord.orthopedie-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
+            <a href="javascript:toggle_id('medwan.healthrecord.orthopedie-details');"><%=getTran("Web.Occup","medwan.healthrecord.clinical-examination",sWebLanguage)%> & <%=getTran("Web.Occup","medwan.healthrecord.diagnose",sWebLanguage)%></a>
         </td>
     </tr>
     <tr id="medwan.healthrecord.orthopedie-details" style="display:none">

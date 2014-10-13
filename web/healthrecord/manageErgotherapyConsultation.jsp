@@ -143,42 +143,42 @@
         <td class="admin2">
 			<table>
 				<tr>
-					<td><%=getTran("web","monday",sWebLanguage) %></td>
-					<td><%=getTran("web","tuesday",sWebLanguage) %></td>
-					<td><%=getTran("web","wednesday",sWebLanguage) %></td>
-					<td><%=getTran("web","thursday",sWebLanguage) %></td>
-					<td><%=getTran("web","friday",sWebLanguage) %></td>
-					<td><%=getTran("web","saturday",sWebLanguage) %></td>
+					<td><%=getTran("web","monday",sWebLanguage)%></td>
+					<td><%=getTran("web","tuesday",sWebLanguage)%></td>
+					<td><%=getTran("web","wednesday",sWebLanguage)%></td>
+					<td><%=getTran("web","thursday",sWebLanguage)%></td>
+					<td><%=getTran("web","friday",sWebLanguage)%></td>
+					<td><%=getTran("web","saturday",sWebLanguage)%></td>
 				</tr>
 				<tr>
 					<td>
 						<select name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_MONDAY" property="itemId"/>]>.value">
-							<%=ScreenHelper.writeSelect("ergotherapy.activity",tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_MONDAY"),sWebLanguage) %>
+							<%=ScreenHelper.writeSelect("ergotherapy.activity",tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_MONDAY"),sWebLanguage)%>
 						</select>
 					</td>
 					<td>
 						<select name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_TUESDAY" property="itemId"/>]>.value">
-							<%=ScreenHelper.writeSelect("ergotherapy.activity",tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_TUESDAY"),sWebLanguage) %>
+							<%=ScreenHelper.writeSelect("ergotherapy.activity",tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_TUESDAY"),sWebLanguage)%>
 						</select>
 					</td>
 					<td>
 						<select name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_WEDNESDAY" property="itemId"/>]>.value">
-							<%=ScreenHelper.writeSelect("ergotherapy.activity",tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_WEDNESDAY"),sWebLanguage) %>
+							<%=ScreenHelper.writeSelect("ergotherapy.activity",tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_WEDNESDAY"),sWebLanguage)%>
 						</select>
 					</td>
 					<td>
 						<select name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_THURSDAY" property="itemId"/>]>.value">
-							<%=ScreenHelper.writeSelect("ergotherapy.activity",tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_THURSDAY"),sWebLanguage) %>
+							<%=ScreenHelper.writeSelect("ergotherapy.activity",tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_THURSDAY"),sWebLanguage)%>
 						</select>
 					</td>
 					<td>
 						<select name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_FRIDAY" property="itemId"/>]>.value">
-							<%=ScreenHelper.writeSelect("ergotherapy.activity",tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_FRIDAY"),sWebLanguage) %>
+							<%=ScreenHelper.writeSelect("ergotherapy.activity",tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_FRIDAY"),sWebLanguage)%>
 						</select>
 					</td>
 					<td>
 						<select name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_SATURDAY" property="itemId"/>]>.value">
-							<%=ScreenHelper.writeSelect("ergotherapy.activity",tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_SATURDAY"),sWebLanguage) %>
+							<%=ScreenHelper.writeSelect("ergotherapy.activity",tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ERGOTHERAPY_SATURDAY"),sWebLanguage)%>
 						</select>
 					</td>
 				</tr>
@@ -193,9 +193,9 @@
 	    	<table id="tblErgotherapy" width="100%">
 	    		<tr>
 	                <td class="admin" width="36">&nbsp;</td>
-	  	     		<td class="admin"><%=getTran("web","date",sWebLanguage) %></td>
-		     		<td class="admin"><%=getTran("web","observation",sWebLanguage) %></td>
-		     		<td class="admin"><%=getTran("web","conclusion",sWebLanguage) %></td>
+	  	     		<td class="admin"><%=getTran("web","date",sWebLanguage)%></td>
+		     		<td class="admin"><%=getTran("web","observation",sWebLanguage)%></td>
+		     		<td class="admin"><%=getTran("web","conclusion",sWebLanguage)%></td>
 	                <td class="admin">&nbsp;</td>
 		     	</tr>
 		     	<tr>

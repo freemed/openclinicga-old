@@ -1390,67 +1390,67 @@
 
                 /*
                 if(sContinent.equalsIgnoreCase("Auto")){
-                    writer.write("<li><b><a href='#' onClick=\"javascript:showContinent('Auto');\">Auto</a></b>\n");
+                    writer.write("<li><b><a href=\"javascript:javascript:showContinent('Auto');\">Auto</a></b>\n");
                 }
                 else{
-                    writer.write("<li><a href='#' onClick=\"javascript:showContinent('Auto');\">Auto</a>\n");
+                    writer.write("<li><a href=\"javascript:javascript:showContinent('Auto');\">Auto</a>\n");
                 }
                 */
                 
                 if(sContinent.equalsIgnoreCase("World")){
-                    writer.write("<li><b><a href='#' onClick=\"javascript:showContinent('World');\">"+HTMLEntities.htmlentities(getTran("web","world",sWebLanguage))+"</a></b>\n");
+                    writer.write("<li><b><a href=\"javascript:javascript:showContinent('World');\">"+HTMLEntities.htmlentities(getTran("web","world",sWebLanguage))+"</a></b>\n");
                 }
                 else{
-                    writer.write("<li><a href='#' onClick=\"javascript:showContinent('World');\">"+HTMLEntities.htmlentities(getTran("web","world",sWebLanguage))+"</a>\n");
+                    writer.write("<li><a href=\"javascript:javascript:showContinent('World');\">"+HTMLEntities.htmlentities(getTran("web","world",sWebLanguage))+"</a>\n");
                 }
                 
                 if(sContinent.equalsIgnoreCase("Africa")){
-                    writer.write("<li><b><a href='#' onClick=\"javascript:showContinent('Africa');\">"+HTMLEntities.htmlentities(getTran("web","africa",sWebLanguage))+"</a></b>\n");
+                    writer.write("<li><b><a href=\"javascript:javascript:showContinent('Africa');\">"+HTMLEntities.htmlentities(getTran("web","africa",sWebLanguage))+"</a></b>\n");
                 }
                 else{
-                    writer.write("<li><a href='#' onClick=\"javascript:showContinent('Africa');\">"+HTMLEntities.htmlentities(getTran("web","africa",sWebLanguage))+"</a>\n");
+                    writer.write("<li><a href=\"javascript:javascript:showContinent('Africa');\">"+HTMLEntities.htmlentities(getTran("web","africa",sWebLanguage))+"</a>\n");
                 }
                 
                 if(sContinent.equalsIgnoreCase("Middle-East")){
-                    writer.write("<li><b><a href='#' onClick=\"javascript:showContinent('Middle-East');\">"+HTMLEntities.htmlentities(getTran("web","middle-east",sWebLanguage))+"</a></b>\n");
+                    writer.write("<li><b><a href=\"javascript:javascript:showContinent('Middle-East');\">"+HTMLEntities.htmlentities(getTran("web","middle-east",sWebLanguage))+"</a></b>\n");
                 }
                 else{
-                    writer.write("<li><a href='#' onClick=\"javascript:showContinent('Middle-East');\">"+HTMLEntities.htmlentities(getTran("web","middle-east",sWebLanguage))+"</a>\n");
+                    writer.write("<li><a href=\"javascript:javascript:showContinent('Middle-East');\">"+HTMLEntities.htmlentities(getTran("web","middle-east",sWebLanguage))+"</a>\n");
                 }
                 
                 if(sContinent.equalsIgnoreCase("Europe")){
-                    writer.write("<li><b><a href='#' onClick=\"javascript:showContinent('Europe');\">"+HTMLEntities.htmlentities(getTran("web","europe",sWebLanguage))+"</a></b>\n");
+                    writer.write("<li><b><a href=\"javascript:javascript:showContinent('Europe');\">"+HTMLEntities.htmlentities(getTran("web","europe",sWebLanguage))+"</a></b>\n");
                 }
                 else{
-                    writer.write("<li><a href='#' onClick=\"javascript:showContinent('Europe');\">"+HTMLEntities.htmlentities(getTran("web","europe",sWebLanguage))+"</a>\n");
+                    writer.write("<li><a href=\"javascript:javascript:showContinent('Europe');\">"+HTMLEntities.htmlentities(getTran("web","europe",sWebLanguage))+"</a>\n");
                 }
                 
                 if(sContinent.equalsIgnoreCase("North-America")){
-                    writer.write("<li><b><a href='#' onClick=\"javascript:showContinent('North-America');\">"+HTMLEntities.htmlentities(getTran("web","north-america",sWebLanguage))+"</a></b>\n");
+                    writer.write("<li><b><a href=\"javascript:javascript:showContinent('North-America');\">"+HTMLEntities.htmlentities(getTran("web","north-america",sWebLanguage))+"</a></b>\n");
                 }
                 else{
-                    writer.write("<li><a href='#' onClick=\"javascript:showContinent('North-America');\">"+HTMLEntities.htmlentities(getTran("web","north-america",sWebLanguage))+"</a>\n");
+                    writer.write("<li><a href=\"javascript:javascript:showContinent('North-America');\">"+HTMLEntities.htmlentities(getTran("web","north-america",sWebLanguage))+"</a>\n");
                 }
                 
                 if(sContinent.equalsIgnoreCase("South-America")){
-                    writer.write("<li><b><a href='#' onClick=\"javascript:showContinent('South-America');\">"+HTMLEntities.htmlentities(getTran("web","south-america",sWebLanguage))+"</a></b>\n");
+                    writer.write("<li><b><a href=\"javascript:javascript:showContinent('South-America');\">"+HTMLEntities.htmlentities(getTran("web","south-america",sWebLanguage))+"</a></b>\n");
                 }
                 else{
-                    writer.write("<li><a href='#' onClick=\"javascript:showContinent('South-America');\">"+HTMLEntities.htmlentities(getTran("web","south-america",sWebLanguage))+"</a>\n");
+                    writer.write("<li><a href=\"javascript:javascript:showContinent('South-America');\">"+HTMLEntities.htmlentities(getTran("web","south-america",sWebLanguage))+"</a>\n");
                 }
                 
                 if(sContinent.equalsIgnoreCase("Asia")){
-                    writer.write("<li><b><a href='#' onClick=\"javascript:showContinent('Asia');\">"+HTMLEntities.htmlentities(getTran("web","asia",sWebLanguage))+"</a></b>\n");
+                    writer.write("<li><b><a href=\"javascript:javascript:showContinent('Asia');\">"+HTMLEntities.htmlentities(getTran("web","asia",sWebLanguage))+"</a></b>\n");
                 }
                 else{
-                    writer.write("<li><a href='#' onClick=\"javascript:showContinent('Asia');\">"+HTMLEntities.htmlentities(getTran("web","asia",sWebLanguage))+"</a>\n");
+                    writer.write("<li><a href=\"javascript:javascript:showContinent('Asia');\">"+HTMLEntities.htmlentities(getTran("web","asia",sWebLanguage))+"</a>\n");
                 }
                 
                 if(sContinent.equalsIgnoreCase("Oceania")){
-                    writer.write("<li><b><a href='#' onClick=\"javascript:showContinent('Oceania');\">"+HTMLEntities.htmlentities(getTran("web","oceania",sWebLanguage))+"</a></b>\n");
+                    writer.write("<li><b><a href=\"javascript:javascript:showContinent('Oceania');\">"+HTMLEntities.htmlentities(getTran("web","oceania",sWebLanguage))+"</a></b>\n");
                 }
                 else{
-                    writer.write("<li><a href='#' onClick=\"javascript:showContinent('Oceania');\">"+HTMLEntities.htmlentities(getTran("web","oceania",sWebLanguage))+"</a>\n");
+                    writer.write("<li><a href=\"javascript:javascript:showContinent('Oceania');\">"+HTMLEntities.htmlentities(getTran("web","oceania",sWebLanguage))+"</a>\n");
                 }
                 
                 // legend

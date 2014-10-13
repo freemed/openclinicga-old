@@ -525,7 +525,7 @@
                                     <td width="40%"><%=getTran("Web","prescriptionrule",sWebLanguage)%></td>
                                 </tr>
 
-                                <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                                <tbody class="hand">
                                     <%=prescriptions%>
                                 </tbody>
                             </table>

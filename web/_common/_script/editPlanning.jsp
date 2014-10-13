@@ -168,7 +168,7 @@
         setDates(planning, request, fullDateFormat);
         // appointment date
         if (planning.getPlannedDate() != null) {
-            appointmentDateDay = ScreenHelper.stdDateFormat.format(planning.getPlannedDate());
+            appointmentDateDay = ScreenHelper.formatDate(planning.getPlannedDate());
             appointmentDateHour = new SimpleDateFormat("HH").format(planning.getPlannedDate());
             appointmentDateMinutes = new SimpleDateFormat("mm").format(planning.getPlannedDate());
         } else {
@@ -179,7 +179,7 @@
         // appointment edn date
         planning.setPlannedEndDate();
         if (planning.getPlannedEndDate() != null) {
-            appointmentDateEndDay = ScreenHelper.stdDateFormat.format(planning.getPlannedEndDate());
+            appointmentDateEndDay = ScreenHelper.formatDate(planning.getPlannedEndDate());
             appointmentDateEndHour = new SimpleDateFormat("HH").format(planning.getPlannedEndDate());
             appointmentDateEndMinutes = new SimpleDateFormat("mm").format(planning.getPlannedEndDate());
         } else {
@@ -193,7 +193,7 @@
         planning = Planning.get(sFindPlanningUID);
         // appointment date
         if (planning.getPlannedDate() != null) {
-            appointmentDateDay = ScreenHelper.stdDateFormat.format(planning.getPlannedDate());
+            appointmentDateDay = ScreenHelper.formatDate(planning.getPlannedDate());
             appointmentDateHour = new SimpleDateFormat("HH").format(planning.getPlannedDate());
             appointmentDateMinutes = new SimpleDateFormat("mm").format(planning.getPlannedDate());
         } else {
@@ -203,7 +203,7 @@
         }
         // appointment edn date
         if (planning.getPlannedEndDate() != null) {
-            appointmentDateEndDay = ScreenHelper.stdDateFormat.format(planning.getPlannedEndDate());
+            appointmentDateEndDay = ScreenHelper.formatDate(planning.getPlannedEndDate());
             appointmentDateEndHour = new SimpleDateFormat("HH").format(planning.getPlannedEndDate());
             appointmentDateEndMinutes = new SimpleDateFormat("mm").format(planning.getPlannedEndDate());
         } else {
@@ -308,7 +308,7 @@
         </td>
         <td class='admin2'>
             <input type="text" id="EditTransactionUID" name="EditTransactionUID" value="<%=planning.getTransactionUID()%>"/>
-            <input class="text" type="text" readonly size="<%=sTextWidth%>" value="<%=ScreenHelper.stdDateFormat.format(transaction.getUpdateTime())+": "+sTransactionType%>"/>
+            <input class="text" type="text" readonly size="<%=sTextWidth%>" value="<%=ScreenHelper.formatDate(transaction.getUpdateTime())+": "+sTransactionType%>"/>
         </td>
     </tr>
     <%}%>

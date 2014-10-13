@@ -471,17 +471,9 @@
     <%-- CONFIRM LOGOUT --%>
     function confirmLogout(){
       if(verifyPrestationCheck()){
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=999999999&labelType=Web.occup&labelID=confirm.logout";
-        var modalitiesIE = "dialogWidth:250px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        var answer;
-
-      if(window.showModalDialog){
-        answer = window.showModalDialog(popupUrl,'',modalitiesIE);
-      } else{
-        answer = window.confirm("<%=getTranNoLink("Web.occup","confirm.logout",sWebLanguage)%>");
-      }
-      if(answer==1){
-        document.location.href = '<c:url value='/logout.do'/>?ts=<%=getTs()%>';
+        if(yesnoDialog("Web.occup","confirm.logout")){
+          document.location.href = "<c:url value='/logout.do'/>?ts=<%=getTs()%>";
+        }
       }
     }
   }
@@ -506,9 +498,9 @@
 
   <%-- OPEN POPUP --%>
   function openPopup(page, width, height, title){
-    var url = "<c:url value="/popup.jsp"/>?Page="+page;
-    if(width!=undefined) url += "&PopupWidth="+width;
-    if(height!=undefined) url += "&PopupHeight="+height;
+    var url = "<c:url value='/popup.jsp'/>?Page="+page;
+    if(width!=undefined) url+= "&PopupWidth="+width;
+    if(height!=undefined) url+= "&PopupHeight="+height;
     if(title==undefined){
       if(page.indexOf("&") < 0){
         title = page.replace("/","_");
@@ -523,12 +515,14 @@
     w.moveBy(2000,2000);
   }
     
+  <%-- REPLACE ALL --%>
   function replaceAll(s,s1,s2){
     while(s.indexOf(s1) > -1){
       s = s.replace(s1, s2);
     }
     return s;
   }
+  
   <%-- open search in progress popup --%>
   function openSearchInProgressPopup(){
     var popupWidth = 250;
@@ -602,12 +596,10 @@
     }
     
     function checkNationalBarcodeIdRedirect(){
-      var params = '';
-      var today = new Date();
-      var url = '<c:url value="/adt/ajaxActions/checkNationalBarcodeId.jsp"/>?natreg=<%=activePatient==null?"":activePatient.getID("natreg")%>&ts='+new Date().getTime();
+      var url = '<c:url value="/adt/ajaxActions/checkNationalBarcodeId.jsp"/>?natreg=<%=activePatient==null?"":activePatient.getID("natreg")%>&ts='+new Date();
       new Ajax.Request(url, {
         method: "GET",
-        parameters: params,
+        parameters: "",
         onSuccess: function(resp){
           var data = resp.responseText.split("$");
           if(data.length > 1){

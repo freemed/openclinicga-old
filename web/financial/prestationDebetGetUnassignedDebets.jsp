@@ -86,7 +86,7 @@
         <td><%=HTMLEntities.htmlentities(getTran("web","amounttoreimburse",sWebLanguage))%></td>
         <td><%=HTMLEntities.htmlentities(getTran("web","canceled",sWebLanguage))%></td>
     </tr>
-    <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+    <tbody class="hand">
 <%
     String sFindDateBegin = checkString(request.getParameter("FindDateBegin")),
            sFindDateEnd = checkString(request.getParameter("FindDateEnd")),

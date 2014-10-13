@@ -670,14 +670,14 @@
                     <%
                     	String defaultStay = "";
 	                    if(tmpEncounter!=null && tmpEncounter.getService()!=null && tmpEncounter.getService().stayprestationuid!=null) {
-	                    	defaultStay=tmpEncounter.getService().stayprestationuid;
+	                    	defaultStay = tmpEncounter.getService().stayprestationuid;
 	                    }
                     
                         Vector prestations = Prestation.getPrestationsByClass(MedwanQuery.getInstance().getConfigString("stayclass","stay"));
-                        for (int n=0; n<prestations.size(); n++){
+                        for(int n=0; n<prestations.size(); n++){
                             Prestation prestation = (Prestation)prestations.elementAt(n);
                             if(prestation!=null){
-                                out.println("<option value='"+prestation.getUid()+"' "+(defaultStay.equalsIgnoreCase(prestation.getUid())?"selected":"")+">"+prestation.getCode()+": "+prestation.getDescription()+"</option>");
+                                out.print("<option value='"+prestation.getUid()+"' "+(defaultStay.equalsIgnoreCase(prestation.getUid())?"selected":"")+">"+prestation.getCode()+": "+prestation.getDescription()+"</option>");
                             }
                         }
                     %>
@@ -900,7 +900,7 @@
   function categoryCheck(){
     <%
         if(MedwanQuery.getInstance().getConfigInt("encounterDiseaseCategoryMandatory",0)==0){
-    	  out.println("return true;");
+    	  out.print("return true;");
     	}
     %>
     for(var n=0; n<EditEncounterForm.EditEncounterCategories.length; n++){

@@ -18,7 +18,7 @@
 %>
 
 <body class="Geenscroll" onLoad="document.getElementById("buttonOk").focus();" onBlur="self.focus();document.getElementById("buttonOk").focus();">
-<form name="promptForm" method="POST" onkeydown="if(enterEvent(event,13)){doClose(document.getElementById('promptField').value);}">
+<form name="promptForm" method="POST" onkeydown="if(enterKeyPressed(event)){doClose(document.getElementById('promptField').value);}">
     <table width="260" height="120">
         <tr>
             <td align="center">
@@ -45,10 +45,10 @@
     window.close();
   }
   
-  <%-- ENTEREVENT --%>
-  function enterEvent(e,targetKey){
-	var eventKey = e.which?e.which:window.event.keyCode;
-    return (eventKey==targetKey);
+  <%-- ENTER KEY PRESSED --%>
+  function enterKeyPressed(e){
+    var eventKey = e.which?e.which:window.event.keyCode;
+	return (eventKey==13);
   }
 </script>
 </body>

@@ -2,13 +2,13 @@
 <%@include file="/includes/validateUser.jsp"%>
 <table width='100%'>
 	<tr class='admin'>
-		<td><%=getTran("web","version",sWebLanguage) %></td>
-		<td><%=getTran("web","updatetime",sWebLanguage) %></td>
-		<td><%=getTran("web","wicket",sWebLanguage) %></td>
-		<td><%=getTran("web","amount",sWebLanguage) %></td>
-		<td><%=getTran("web","type",sWebLanguage) %></td>
-		<td><%=getTran("web","comment",sWebLanguage) %></td>
-		<td><%=getTran("web","user",sWebLanguage) %></td>
+		<td><%=getTran("web","version",sWebLanguage)%></td>
+		<td><%=getTran("web","updatetime",sWebLanguage)%></td>
+		<td><%=getTran("web","wicket",sWebLanguage)%></td>
+		<td><%=getTran("web","amount",sWebLanguage)%></td>
+		<td><%=getTran("web","type",sWebLanguage)%></td>
+		<td><%=getTran("web","comment",sWebLanguage)%></td>
+		<td><%=getTran("web","user",sWebLanguage)%></td>
 	</tr>
 <%
 	WicketCredit credit = WicketCredit.get(request.getParameter("uid"));

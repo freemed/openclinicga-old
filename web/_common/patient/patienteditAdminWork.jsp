@@ -190,11 +190,7 @@
       if(!validEmailAddress(PatientEditForm.WEmail.value)){
         maySubmit = false;
         displayGenericAlert = false;
-
-        var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=999999999&labelType=Web&labelID=invalidemailaddress";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        window.showModalDialog(popupUrl,'',modalities);
-
+        alertDialog("Web","invalidemailaddress");
         activateTab('AdminWork');
         PatientEditForm.WEmail.focus();
       }
@@ -237,10 +233,7 @@
     var endDate   = PatientEditForm.WCompanyEnd.value;
 
     if((beginDate!="" && endDate!="") && !before(beginDate,endDate)){
-      var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=999999999&labelType=Web.Occup&labelID=endMustComeAfterBegin";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      window.showModalDialog(popupUrl,'',modalities);
-
+      alertDialog("Web.Occup","endMustComeAfterBegin");
       activateTab('AdminWork');
       PatientEditForm.WCompanyEnd.focus();
       maySubmit = false;

@@ -62,7 +62,7 @@
 		            <td><%=HTMLEntities.htmlentities(getTran("web","comment",sWebLanguage))%></td>
 		        </tr>
 		        
-		        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+		        <tbody class="hand">
 			        <%=addTodayWickets(vWicketsToday,sWebLanguage)%>
 		        </tbody>
 		    </table>

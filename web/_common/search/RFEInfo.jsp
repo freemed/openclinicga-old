@@ -24,8 +24,8 @@
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
 %>
-<form name="RFEInfoForm" id="RFEInfoForm" action="" method="">
-    <%=writeTableHeader("Web","diagnosegravityandcertainty",sWebLanguage,"")%>
+<form name="RFEInfoForm" id="RFEInfoForm">
+    <%=writeTableHeader("Web","diagnosegravityandcertainty",sWebLanguage," window.close();")%>
     
     <table class="list" width="100%" cellspacing="1">
         <!-- Diagnose code -->

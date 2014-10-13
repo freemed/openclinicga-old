@@ -1,7 +1,7 @@
-<%@ page import="be.openclinic.medical.Problem"%>
-<%@ page import="java.util.Vector"%>
-<%@ page import="be.openclinic.medical.ReasonForEncounter"%>
-<%@ page import="be.openclinic.adt.Encounter"%>
+<%@page import="be.openclinic.medical.Problem,
+                java.util.Vector,
+                be.openclinic.medical.ReasonForEncounter,
+                be.openclinic.adt.Encounter"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
@@ -9,7 +9,7 @@
     String sRfe = "";
     Encounter encounter = Encounter.getActiveEncounter(activePatient.personid);
     if(encounter!=null){
-        sRfe=ReasonForEncounter.getReasonsForEncounterAsHtml(encounter.getUid(),sWebLanguage,"_img/icons/icon_delete.gif","deleteRFE($serverid,$objectid)");
+        sRfe = ReasonForEncounter.getReasonsForEncounterAsHtml(encounter.getUid(),sWebLanguage,"_img/icons/icon_delete.gif","deleteRFE($serverid,$objectid)");
     }
 %>
 
@@ -39,13 +39,12 @@
   function deleteRFE(serverid,objectid){
     if(yesnoDialog("Web","areYouSureToDelete")){
       var params = "serverid="+serverid+"&objectid="+objectid+"&encounterUid=<%=encounter.getUid()%>&language=<%=sWebLanguage%>";
-      var today = new Date();
-      var url= '<c:url value="/healthrecord/deleteRFE.jsp"/>?ts='+today;
+      var url = '<c:url value="/healthrecord/deleteRFE.jsp"/>?ts='+new Date();
       new Ajax.Request(url,{
         method: "GET",
         parameters: params,
         onSuccess: function(resp){
-          document.getElementById("rfe").innerHTML=resp.responseText;
+          document.getElementById("rfe").innerHTML = resp.responseText;
         }
       });
     }

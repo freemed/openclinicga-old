@@ -48,14 +48,12 @@
     ///////////////////////////////////////////////////////////////////////////////////////////////
     
 %>
-<form name="SearchForm" method="POST" onsubmit="searchInvoices();return false;" onkeydown="if(enterEvent(event,13)){searchInvoices();}" action="<c:url value='/popup.jsp'/>?Page=_common/search/searchInsurarInvoice.jsp&ts=<%=getTs()%>">
+<form name="SearchForm" method="POST" onsubmit="searchInvoices();return false;" onkeydown="if(enterKeyPressed(event)){searchInvoices();}" action="<c:url value='/popup.jsp'/>?Page=_common/search/searchInsurarInvoice.jsp&ts=<%=getTs()%>">
     <input type="hidden" name="Action">
 
+    <%=writeTableHeader("web","searchInsurarInvoice",sWebLanguage," window.close();")%>
     <table width="100%" cellspacing="1" cellpadding="0" class="list">
-        <%-- TITLE --%>
-        <tr class="admin">
-            <td colspan="4"><%=getTran("web","searchinsurarinvoice",sWebLanguage)%></td>
-        </tr>
+        <%-- INSURAR --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("medical.accident","insurancecompany",sWebLanguage)%></td>
             <td class="admin2">
@@ -66,16 +64,19 @@
                 <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="doClearInsurar()">
             </td>
         </tr>
+        <%-- INVOICE DATE --%>
         <tr>
             <td class="admin"><%=getTran("Web","date",sWebLanguage)%>&nbsp;</td>
             <td class="admin2"><%=writeDateField("FindInvoiceDate","SearchForm",sFindInvoiceDate,sWebLanguage)%></td>
         </tr>
+        <%-- INVOICE NR --%>
         <tr>
             <td class="admin"><%=getTran("web","number",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="text" class="text" name="FindInvoiceNr" size="12" maxlength="12" onKeyUp="if(!isNumber(this)){this.value='';}" value="<%=sFindInvoiceNr%>">
             </td>
         </tr>
+        <%-- BALANCE MIN/MAX --%>
         <tr>
             <td class="admin"><%=getTran("web","balance",sWebLanguage)%></td>
             <td class="admin2">
@@ -83,6 +84,7 @@
                 <%=getTran("web","max",sWebLanguage)%>: <input type="text" class="text" name="FindInvoiceBalanceMax" size="10" maxlength="8" onKeyUp="if(!isNumberNegativeAllowed(this)){this.value='';}" value="<%=sFindInvoiceBalanceMax%>">&nbsp;<%=sCurrency%>
             </td>
         </tr>
+        <%-- STATUS --%>
         <tr>
             <td class="admin"><%=getTran("web.finance","patientinvoice.status",sWebLanguage)%></td>
             <td class="admin2">
@@ -125,10 +127,13 @@
   window.resizeTo(700,600);
   getOpenerInsurance();
     
+  <%-- SEARCH INSURAR --%>
   function searchInsurar(){
-    openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>&ReturnFieldInsurarUid=FindInvoiceInsurarUID&ReturnFieldInsurarName=FindInvoiceInsurarText");
+    openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>&ReturnFieldInsurarUid=FindInvoiceInsurarUID"+
+    		  "&ReturnFieldInsurarName=FindInvoiceInsurarText");
   }
 
+  <%-- DO CLEAR INSURAR --%>
   function doClearInsurar(){
     SearchForm.FindInvoiceInsurarUID.value = "";
     SearchForm.FindInvoiceInsurarText.value = "";
@@ -167,7 +172,7 @@
   }
 
   <%-- SELECT INVOICE --%>
-  function selectInvoice(sInvoiceUid,sInvoiceDate,sInvoiceNr,sInvoiceBalance,sInvoiceStatus,sInsurarUid,ssurarName){
+  function selectInvoice(sInvoiceUid,sInvoiceDate,sInvoiceNr,sInvoiceBalance,sInvoiceStatus,sInsurarUid,sInsurarName){
 	if("<%=sReturnFieldInvoiceUid%>".length > 0){
       window.opener.document.getElementsByName("<%=sReturnFieldInvoiceUid%>")[0].value = sInvoiceUid;
     }
@@ -200,7 +205,7 @@
 	    }
     %>
 
-    if(window.opener.loadUnassignedCredits != null){
+    if(window.opener.loadUnassignedCredits!=null){
       window.opener.loadUnassignedCredits(sInsurarUid);
     }
 

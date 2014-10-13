@@ -46,7 +46,7 @@
 <div style="width:100%;float:left;padding:0 0 3px 0"><%=getBack()%></div>
 
 <div class='landlist' >
-    <h3><%=getTran("datacenter","manual.data.entry",sWebLanguage) %></h3>
+    <h3><%=getTran("datacenter","manual.data.entry",sWebLanguage)%></h3>
 
     <form name='transactionForm' id="transactionForm" method='POST'>
         <input type="hidden" name="serverid" value="<%=serverid %>"/>
@@ -54,118 +54,118 @@
        <div class='subcontent'>
         <table width="100%" class="content" cellpadding="0" cellspacing="0">
             <tr>
-                <td class='admin' colspan='2'><%=getTran("datacenter","core",sWebLanguage) %></td>
+                <td class='admin' colspan='2'><%=getTran("datacenter","core",sWebLanguage)%></td>
             </tr>
             <tr>
-                <td class='admin'><%=getTran("datacenter","date.core",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","date.core",sWebLanguage)%></td>
                 <td class='admin2'><%=writeDateField("date.core","transactionForm",ScreenHelper.stdDateFormat.format(new java.util.Date()),sWebLanguage)%></td>
             </tr>
             <tr>
-                <td class='admin'><%=getTran("datacenter","core.1",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.1",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.1' id='core.1' size='10' class='text' type='text'></td>
             </tr>
             <tr>
-                <td class='admin'><%=getTran("datacenter","core.1.1",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.1.1",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.1.1' id='core.1.1' size='10' class='text' type='text'></td>
             </tr>
             <tr>
-                <td class='admin'><%=getTran("datacenter","core.1.2",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.1.2",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.1.2' id='core.1.2' size='10' class='text' type='text'></td>
             </tr>
             <tr>
-                <td class='admin'><%=getTran("datacenter","core.1.3",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.1.3",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.1.3' id='core.1.3' size='10' class='text' type='text'></td>
             </tr>
             <tr>
-                <td class='admin'><%=getTran("datacenter","core.2",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.2",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.2' id='core.2' size='10' class='text' type='text'></td>
             </tr>
             <tr>
-                <td class='admin'><%=getTran("datacenter","core.3",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.3",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.3' id='core.3' size='10' class='text' type='text'></td>
             </tr>
             <tr>
-                <td class='admin'><%=getTran("datacenter","core.4",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.4",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.4' id='core.4' size='10' class='text' type='text'></td>
             </tr>
             <tr>
-                <td class='admin'><%=getTran("datacenter","core.4.1",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.4.1",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.4.1' id='core.4.1' size='10' class='text' type='text'></td>
             </tr>
             <tr>
-                <td class='admin'><%=getTran("datacenter","core.4.2",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.4.2",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.4.2' id='core.4.2' size='10' class='text' type='text'></td>
             </tr>
             <tr>
-                <td class='admin'><%=getTran("datacenter","core.5",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.5",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.5' id='core.5' size='10' class='text' type='text'></td>
             </tr>
             <tr>
-                <td class='admin'><%=getTran("datacenter","core.6",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.6",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.6' id='core.6' size='10' class='text' type='text'></td>
             </tr>
             <tr>
-                <td class='admin'><%=getTran("datacenter","core.7",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.7",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.7' id='core.7' size='10' class='text' type='text'></td>
             </tr>
             <tr>
-                <td class='admin'><%=getTran("datacenter","core.8",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.8",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.8' id='core.8' size='10' class='text' type='text'></td>
             </tr>
             <tr>
-                <td class='admin'><%=getTran("datacenter","core.8.1",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.8.1",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.8.1' id='core.8.1' size='10' class='text' type='text'></td>
             </tr>
             <tr>
-                <td class='admin'><%=getTran("datacenter","core.8.2",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.8.2",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.8.2' id='core.8.2' size='10' class='text' type='text'></td>
             </tr>
             <tr>
-                <td class='admin'><%=getTran("datacenter","core.9",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.9",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.9' id='core.9' size='10' class='text' type='text'></td>
             </tr>
                 <tr>
-                <td class='admin'><%=getTran("datacenter","core.9.1",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.9.1",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.9.1' id='core.9.1' size='10' class='text' type='text'></td>
             </tr>
                 <tr>
-                <td class='admin'><%=getTran("datacenter","core.9.2",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.9.2",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.9.2' id='core.9.2' size='10' class='text' type='text'></td>
             </tr>
                 <tr>
-                <td class='admin'><%=getTran("datacenter","core.10",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.10",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.10' id='core.10' size='10' class='text' type='text'></td>
             </tr>
                 <tr>
-                <td class='admin'><%=getTran("datacenter","core.11",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.11",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.11' id='core.11' size='10' class='text' type='text'></td>
             </tr>
                 <tr>
-                <td class='admin'><%=getTran("datacenter","core.12",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.12",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.12' id='core.12' size='10' class='text' type='text'></td>
             </tr>
                 <tr>
-                <td class='admin'><%=getTran("datacenter","core.13",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.13",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.13' id='core.13' size='10' class='text' type='text'></td>
             </tr>
                 <tr>
-                <td class='admin'><%=getTran("datacenter","core.14",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.14",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.14' id='core.14' size='10' class='text' type='text'></td>
             </tr>
                 <tr>
-                <td class='admin'><%=getTran("datacenter","core.15",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.15",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.15' id='core.15' size='10' class='text' type='text'></td>
             </tr>
                 <tr>
-                <td class='admin'><%=getTran("datacenter","core.16",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.16",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.16' id='core.16' size='10' class='text' type='text'></td>
             </tr>
                 <tr>
-                <td class='admin'><%=getTran("datacenter","core.17",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.17",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.17' id='core.17' size='10' class='text' type='text'></td>
             </tr>
                 <tr class="last">
-                <td class='admin'><%=getTran("datacenter","core.18",sWebLanguage) %></td>
+                <td class='admin'><%=getTran("datacenter","core.18",sWebLanguage)%></td>
                 <td class='admin2'><input name='core.18' id='core.18' size='10' class='text' type='text'></td>
             </tr>
          </table>

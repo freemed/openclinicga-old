@@ -1,6 +1,6 @@
 <%@page import="java.text.DecimalFormat,
-                be.openclinic.finance.PatientInvoice"%>
-<%@ page import="be.openclinic.finance.Balance" %>
+                be.openclinic.finance.PatientInvoice,
+                be.openclinic.finance.Balance"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%

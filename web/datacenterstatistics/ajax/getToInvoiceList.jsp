@@ -29,7 +29,7 @@
             while(iter.hasNext()){
                 debet = (Debet)iter.next();
                 out.print("<tr class='"+((i%2==0)?"list":"list1"));
-                out.print(" '><td >"+debet.getComment()+"</td><td >"+debet.getAmount()+"</td><td>"+debet.getPatientName()+"</td></tr>");
+                out.print(" '><td>"+debet.getComment()+"</td><td>"+debet.getAmount()+"</td><td>"+debet.getPatientName()+"</td></tr>");
             i++;
             }
     %>

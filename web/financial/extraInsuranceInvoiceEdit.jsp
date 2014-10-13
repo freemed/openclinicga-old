@@ -38,6 +38,7 @@
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web.finance","invoiceid",sWebLanguage)%></td>
             <td class="admin2">
+                <%-- INVOICE NUMBER --%>
                 <input type="text" class="text" name="FindInsurarInvoiceUID" id="FindInsurarInvoiceUID" onblur="isNumber(this)" value="<%=sFindInsurarInvoiceUID%>">
                 <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchInsurarInvoice();">
                 <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="doClear();">
@@ -54,7 +55,8 @@
   FindForm.FindInsurarInvoiceUID.focus();
 
   function searchInsurarInvoice(){
-    openPopup("/_common/search/searchExtraInsurarInvoice.jsp&ts=<%=getTs()%>&doFunction=doFind()&ReturnFieldInvoiceNr=FindInsurarInvoiceUID&FindInvoiceInsurar=<%=sFindInsurarInvoiceUID%>");
+    openPopup("/_common/search/searchExtraInsurarInvoice.jsp&ts=<%=getTs()%>&doFunction=doFind()"+
+    		  "&ReturnFieldInvoiceNr=FindInsurarInvoiceUID&FindInvoiceInsurar=<%=sFindInsurarInvoiceUID%>");
   }
 
   function doFind(){
@@ -83,6 +85,7 @@
         <td class="admin2">
             <input type="hidden" name="EditInsurarUID" value="<%=checkString(insurarInvoice.getInsurarUid())%>">
             <input type="text" class="text" readonly name="EditInsurarText" value="<%=sInsurarText%>" size="100">
+            
             <%
                 if(checkString(insurarInvoice.getUid()).length() == 0){
 		            %>
@@ -102,10 +105,10 @@
         
         <%-- DATE --%>
         <tr>
-            <td class='admin'><%=getTran("Web", "date", sWebLanguage)%> *</td>
+            <td class='admin'><%=getTran("Web","date",sWebLanguage)%> *</td>
             <%
                 Date activeDate = insurarInvoice.getDate();
-                if(activeDate == null){
+                if(activeDate==null){
                     activeDate = new Date();
                 }
             %>
@@ -116,7 +119,7 @@
         <tr>
             <td class='admin'><%=getTran("Web.finance", "patientinvoice.status", sWebLanguage)%> *</td>
             <td class='admin2'>
-                <select class="text" id="EditStatus" name="EditStatus" onchange="doStatus()" <%=insurarInvoice.getStatus()!=null && (insurarInvoice.getStatus().equalsIgnoreCase("closed") || insurarInvoice.getStatus().equalsIgnoreCase("canceled"))?"disabled":""%>>
+                <select class="text" id="EditStatus" name="EditStatus" <%=insurarInvoice.getStatus()!=null && (insurarInvoice.getStatus().equalsIgnoreCase("closed") || insurarInvoice.getStatus().equalsIgnoreCase("canceled"))?"disabled":""%>>
                     <option/>
                     <%
                         String activeStatus = checkString(insurarInvoice.getStatus());
@@ -136,15 +139,15 @@
                 <% Date previousmonth = new Date(new Date().getTime()-30*24*3600*1000l); %>
                 <%=writeDateField("EditBegin","EditForm",new SimpleDateFormat("01/MM/yyyy").format(previousmonth),sWebLanguage)%>
                 <%=getTran("web","to",sWebLanguage)%>
-                <%=writeDateField("EditEnd", "EditForm",ScreenHelper.stdDateFormat.format(ScreenHelper.parseDate(new SimpleDateFormat("01/MM/yyyy").format(new Date())).getTime()-1), sWebLanguage)%>
+                <%=writeDateField("EditEnd","EditForm",ScreenHelper.stdDateFormat.format(ScreenHelper.parseDate(new SimpleDateFormat("01/MM/yyyy").format(new Date())).getTime()-1),sWebLanguage)%>
                 <input type="hidden" name="EditInvoiceService" id="EditInvoiceService" value="">
                 <%
                     if(insurarInvoice==null || insurarInvoice.getStatus()==null || insurarInvoice.getStatus().equalsIgnoreCase("open")){
-                    %>
-	                    <input class="text" type="text" name="EditInvoiceServiceName" id="EditInvoiceServiceName" readonly size="<%=sTextWidth%>" value="">
-	                    <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('EditInvoiceService','EditInvoiceServiceName');">
-	                    <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditInvoiceService').value='';document.getElementById('EditInvoiceServiceName').value='';">
-                    <%
+	                    %>
+		                    <input class="text" type="text" name="EditInvoiceServiceName" id="EditInvoiceServiceName" readonly size="<%=sTextWidth%>" value="">
+		                    <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('EditInvoiceService','EditInvoiceServiceName');">
+		                    <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditInvoiceService').value='';document.getElementById('EditInvoiceServiceName').value='';">
+	                    <%
                     }
                 %>                        
                 &nbsp;<input type="button" class="button" name="update" value="<%=getTranNoLink("web","update",sWebLanguage)%>" onclick="changeInsurar();"/>
@@ -388,20 +391,22 @@ function doBalance(oObject, bAdd){
 function doPrintPdf(invoiceUid){
   if(EditForm.PrintModel.value=='cplrcsv2'){
 	var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid="+invoiceUid+"&ts=<%=getTs()%>&docid=invoice.cplr2";
-    window.open(url, "ExtraInsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    window.open(url, "ExtraInsurarInvoicePdf<%=getTs()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
   else if(EditForm.PrintModel.value=='ramacsv'){
 	var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid="+invoiceUid+"&ts=<%=getTs()%>&docid=invoice.rama.extra";
-	window.open(url, "ExtraInsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+	window.open(url, "ExtraInsurarInvoicePdf<%=getTs()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
   else{
 	var url = "<c:url value='/financial/createExtraInsurarInvoicePdf.jsp'/>?InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value+ "&PrintType="+EditForm.PrintType.value+"&PrintModel="+EditForm.PrintModel.value;
-   	window.open(url, "InsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+   	window.open(url, "InsurarInvoicePdf<%=getTs()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
 }
 
 function searchInsurar(){
-  openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>&ReturnFieldInsurarUid=EditInsurarUID&ReturnFieldInsurarName=EditInsurarText&doFunction=changeInsurar()&excludePatientSelfIsurarUID=true&PopupHeight=500&PopupWith=500");
+  openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>&ReturnFieldInsurarUid=EditInsurarUID"+
+		    "&ReturnFieldInsurarName=EditInsurarText&doFunction=changeInsurar()&excludePatientSelfIsurarUID=true"+
+		    "&PopupHeight=500&PopupWith=500");
 }
 
 function doClearInsurar(){
@@ -409,12 +414,9 @@ function doClearInsurar(){
   EditForm.EditInsurarText.value = "";
 }
 
-function doStatus(){
-}
-
 function loadOpenInsurarInvoices(){
   var url = '<c:url value="/financial/extraInsurarInvoiceGetOpenInsurarInvoices.jsp"/>?ts='+new Date();
-  new Ajax.Request(url, {
+  new Ajax.Request(url,{
     method: "GET",
     parameters: "",
     onSuccess: function(resp){
@@ -431,21 +433,21 @@ function setInsurarInvoice(sUid){
 function changeInsurar(){
   var tot = 0;
   if(EditForm.EditInsurarUID.value.length>0){
-    document.getElementById("invoicedetails").style.visibility="visible";
+    document.getElementById("invoicedetails").style.visibility = "visible";
   }
   else{
-    document.getElementById("invoicedetails").style.visibility="hidden";
+    document.getElementById("invoicedetails").style.visibility = "hidden";
   }
   
-  var url = '<c:url value="/financial/extraInsurarInvoiceGetPrestations.jsp"/>?ts='+<%=getTs()%>;
-  document.getElementById('divPrestations').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading";
+  var url = '<c:url value="/financial/extraInsurarInvoiceGetPrestations.jsp"/>?ts='+new Date();
+  document.getElementById('divPrestations').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading..";
   var pb = 'InsurarUid='+EditForm.EditInsurarUID.value+
            '&EditBegin='+EditForm.EditBegin.value+
            '&EditEnd='+EditForm.EditEnd.value+
            '&EditInvoiceService='+EditForm.EditInvoiceService.value+
            '&EditInsurarInvoiceUID=<%=checkString(insurarInvoice.getUid())%>';
 
-  new Ajax.Request(url, {
+  new Ajax.Request(url,{
     method: "POST",
     postBody: pb,
     onSuccess: function(resp){

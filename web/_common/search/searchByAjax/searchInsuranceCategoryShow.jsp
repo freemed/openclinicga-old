@@ -49,7 +49,7 @@
 
                                         if (recsFound) {
                                 %>
-                                                <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                                                <tbody class="hand">
                                                     <tr class="admin">
                                                         <td nowrap><%=HTMLEntities.htmlentities(getTran("Web","name",sWebLanguage))%></td>
                                                         <td nowrap><%=HTMLEntities.htmlentities(getTran("Web","category",sWebLanguage))%></td>

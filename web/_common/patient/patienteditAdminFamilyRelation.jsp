@@ -4,7 +4,8 @@
 
 <%!
     //--- ADD FAMILY RELATION ------------------------------------------------------------------------------------------
-    private String addFR(int iTotal, String sourceId, String destinationId, String relationType, String sWebLanguage, AdminPerson activePatient){
+    private String addFR(int iTotal, String sourceId, String destinationId, String relationType,
+    		             String sWebLanguage, AdminPerson activePatient){
         // alternate row-style
         String sClass;
         if(iTotal%2==0) sClass = "list1";
@@ -21,9 +22,7 @@
             .append("<td align='center'>");
 
         if(sourceId.equals(activePatient.personid)){
-        	buf.append("<a href='#' onclick=\"deleteFR(rowFR"+iTotal+");\">")
-                .append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='").append(getTran("Web","delete",sWebLanguage)).append("' border='0'>")
-               .append("</a>");
+        	buf..append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' onclick=\"deleteFR(rowFR"+iTotal+");\" class='link' alt='").append(getTranNoLink("Web","delete",sWebLanguage)).append("'>");
         }        
              
         buf.append("</td>")
@@ -61,7 +60,7 @@
 
         %>
             <%-- RELATIONS ----------------------------------------------------------------------%>
-            <table id="tblFR" width="100%" cellspacing="0" class="sortable" style="border-top:none;">
+            <table id="tblFR" width="100%" cellspacing="0" cellpadding="0" class="sortable" style="border-top:none;">
                 <%-- HEADER --%>
                 <tr class="admin">
                     <td width="25" nowrap/>

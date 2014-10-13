@@ -1,4 +1,7 @@
-<%@ page import="java.util.*,java.util.Date,java.text.DecimalFormat,be.openclinic.adt.Encounter" %>
+<%@page import="java.util.*,
+                java.util.Date,
+                java.text.DecimalFormat,
+                be.openclinic.adt.Encounter"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
@@ -17,8 +20,8 @@
 %>
 
 <%
-    String sFindBegin = checkString(request.getParameter("FindBegin"));
-    String sFindEnd = checkString(request.getParameter("FindEnd"));
+    String sFindBegin = checkString(request.getParameter("FindBegin")),
+           sFindEnd   = checkString(request.getParameter("FindEnd"));
 %>
 <form name="transactionForm" method="post" onKeyDown="if(enterEvent(event,13)){doFind();}">
     <%=writeTableHeader("Web","statistics.activitystats.diagnosticcoding",sWebLanguage," doBack();")%>
@@ -31,6 +34,8 @@
             <td><%=getTran("Web","End",sWebLanguage)%></td>
             <td><%=writeDateField("FindEnd","transactionForm",sFindEnd,sWebLanguage)%></td>
         </tr>
+        
+        <%-- BUTTONS --%>
         <%=ScreenHelper.setSearchFormButtonsStart()%>
             <input type="button" class="button" name="ButtonSearch" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doFind();">&nbsp;
             <input type="button" class="button" name="ButtonClear" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearFields()">&nbsp;
@@ -39,6 +44,7 @@
     </table>
 </form>
 <table>
+
 <%
     if ((sFindBegin.length() > 0) || (sFindEnd.length() > 0)) {
     	String sQuery="select count(*) total,count(distinct oc_diagnosis_encounteruid) contacts,oc_diagnosis_authoruid from "+
@@ -85,6 +91,7 @@
     }
 %>
 </table>
+
 <script>
   <%-- DO BACK --%>
   function doBack(){
@@ -110,4 +117,4 @@
   document.getElementById("FindBegin").focus();
 </script>
 
-<a href="#" name="bottom"></a>
+<a name="bottom">&nbsp;</a>

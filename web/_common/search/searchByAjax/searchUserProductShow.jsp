@@ -11,7 +11,7 @@
 
 <%!
     //--- OBJECTS TO HTML -------------------------------------------------------------------------
-    private StringBuffer objectsToHtml(Vector objects, String sSearchProductName, String sSearchProductGroup, String sWebLanguage) {
+    private StringBuffer objectsToHtml(Vector objects, String sSearchProductName, String sSearchProductGroup, String sWebLanguage){
         StringBuffer html = new StringBuffer();
         String sClass = "1", sUnit, sUnitPrice, sSupplierUid, sSupplierName,
                sProductGroup, sProductStockUid, sUnitsPerTimeUnit, supplyingServiceUid,
@@ -23,28 +23,28 @@
         double dUnitPrice;
 
         // frequently used translations
-        String chooseTran = getTranNoLink("web", "choose", sWebLanguage);
-        String sCurrency = MedwanQuery.getInstance().getConfigParam("currency", "€");
+        String chooseTran = getTranNoLink("web","choose",sWebLanguage);
+        String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
 
         // add found products in vector
         UserProduct userProduct;
-        for (int i = 0; i < objects.size(); i++) {
-            userProduct = (UserProduct) objects.get(i);
+        for(int i=0; i<objects.size(); i++){
+            userProduct = (UserProduct)objects.get(i);
 
             // filter out products depending on their productGroup ?
             boolean productGroupOK = false;
-            if(sSearchProductGroup.length() == 0) {
+            if(sSearchProductGroup.length()==0){
                 productGroupOK = true;
             } 
-            else {
-                if(userProduct.getProduct() != null) {
-                    productGroupOK = (checkString(userProduct.getProduct().getProductGroup()).equals(sSearchProductGroup));
+            else{
+                if(userProduct.getProduct()!=null){
+                    productGroupOK = checkString(userProduct.getProduct().getProductGroup()).equals(sSearchProductGroup);
                 }
             }
 
             // only display products complying the searched productName AND/OR the searched productGroup
-            if(userProduct.getProduct() != null) {
-                if(userProduct.getProduct().getName().toLowerCase().startsWith(sSearchProductName.toLowerCase()) && productGroupOK) {
+            if(userProduct.getProduct()!=null){
+                if(userProduct.getProduct().getName().toLowerCase().startsWith(sSearchProductName.toLowerCase()) && productGroupOK){
                     foundProducts.add(userProduct);
                 }
             }
@@ -55,80 +55,80 @@
 
         // run thru sorted found products
         Product product;
-        for (int i = 0; i < foundProducts.size(); i++) {
-            userProduct = ((UserProduct) foundProducts.get(i));
+        for(int i=0; i<foundProducts.size(); i++){
+            userProduct = (UserProduct)foundProducts.get(i);
             product = userProduct.getProduct();
 
             // translate unit
             sUnit = checkString(product.getUnit());
-            if(sUnit.length() > 0) {
-                sUnit = getTran("product.unit", sUnit, sWebLanguage);
+            if(sUnit.length() > 0){
+                sUnit = getTran("product.unit",sUnit,sWebLanguage);
             }
 
             // line unit price out
             sUnitPrice = product.getUnitPrice()+"";
-            if(sUnitPrice.length() > 0) {
+            if(sUnitPrice.length() > 0){
                 dUnitPrice = Double.parseDouble(sUnitPrice);
                 sUnitPrice = deci.format(dUnitPrice);
             }
 
             //*** supplier ***
             sProductStockUid = checkString(userProduct.getProductStockUid());
-            if(sProductStockUid.length() > 0) {
+            if(sProductStockUid.length() > 0){
                 // processing product from product-catalog, productStock available
                 productStock = ProductStock.get(sProductStockUid);
                 sSupplierUid = checkString(product.getSupplierUid());
 
-                if(sSupplierUid.length() > 0) {
-                    sSupplierName = getTran("service", sSupplierUid, sWebLanguage);
+                if(sSupplierUid.length() > 0){
+                    sSupplierName = getTran("service",sSupplierUid,sWebLanguage);
                 } 
-                else {
+                else{
                     sSupplierUid = checkString(product.getSupplierUid());
-                    if(sSupplierUid.length() > 0) {
-                        sSupplierName = getTran("service", sSupplierUid, sWebLanguage);
+                    if(sSupplierUid.length() > 0){
+                        sSupplierName = getTran("service",sSupplierUid,sWebLanguage);
                     }
-                    else {
+                    else{
                         sSupplierUid = checkString(productStock.getServiceStock().getDefaultSupplierUid());
-                        if(sSupplierUid.length() > 0) {
-                            sSupplierName = getTran("service", sSupplierUid, sWebLanguage);
+                        if(sSupplierUid.length() > 0){
+                            sSupplierName = getTran("service",sSupplierUid,sWebLanguage);
                         } 
-                        else {
+                        else{
                             sSupplierName = "";
                         }
                     }
                 }
             } 
-            else {
+            else{
                 // processing product from product-catalog, NO productStock available
                 productStock = null;
 
                 sSupplierUid = checkString(product.getSupplierUid());
-                if(sSupplierUid.length() > 0) {
-                    sSupplierName = getTran("service", sSupplierUid, sWebLanguage);
+                if(sSupplierUid.length() > 0){
+                    sSupplierName = getTran("service",sSupplierUid,sWebLanguage);
                 } 
-                else {
+                else{
                     sSupplierName = "";
                 }
             }
 
             // productGroup
             sProductGroup = checkString(product.getProductGroup());
-            if(sProductGroup.length() > 0) {
-                sProductGroup = getTran("product.productgroup", sProductGroup, sWebLanguage);
+            if(sProductGroup.length() > 0){
+                sProductGroup = getTran("product.productgroup",sProductGroup,sWebLanguage);
             }
 
             // units per time unit
             sUnitsPerTimeUnit = unitCountDeci.format(product.getUnitsPerTimeUnit());
 
             // supplyingService & serviceStock
-            if(productStock != null) {
+            if(productStock!=null){
                 supplyingServiceUid = productStock.getSupplierUid();
-                supplyingServiceName = getTranNoLink("service", supplyingServiceUid, sWebLanguage);
+                supplyingServiceName = getTranNoLink("service",supplyingServiceUid,sWebLanguage);
 
                 serviceStockUid = productStock.getServiceStockUid();
                 serviceStockName = productStock.getServiceStock().getName();
             }
-            else {
+            else{
                 supplyingServiceUid = "";
                 supplyingServiceName = "";
 
@@ -146,18 +146,55 @@
                  .append("<td>"+sUnit+"</td>")
                  .append("<td style='text-align:right;'>"+sUnitPrice+" "+sCurrency+" </td>")
                  .append("<td>"+sSupplierName+"</td>")
-                 .append("<td>"+(productStock == null ? "" : productStock.getServiceStock().getName())+"</td>")
+                 .append("<td>"+(productStock==null?"":productStock.getServiceStock().getName())+"</td>")
                  .append("<td>"+sProductGroup+" </td>")
                 .append("</tr>");
         }
 
         return html;
     }
+
+    //--- COUNT PRODUCTS --------------------------------------------------------------------------
+    public int countProducts(Vector products, String sSearchProductName, String sSearchProductGroup){
+    	int prodCount = 0;
+    	
+        String sProductGroup;
+        Vector foundProducts = new Vector();
+        ProductStock productStock;
+
+        // add found products in vector
+        UserProduct userProduct;
+        for(int i=0; i<products.size(); i++){
+            userProduct = (UserProduct)products.get(i);
+
+            // filter out products depending on their productGroup ?
+            boolean productGroupOK = false;
+            if(sSearchProductGroup.length()==0){
+                productGroupOK = true;
+            } 
+            else{
+                if(userProduct.getProduct()!=null){
+                    productGroupOK = checkString(userProduct.getProduct().getProductGroup()).equals(sSearchProductGroup);
+                }
+            }
+
+            // only display products complying the searched productName AND/OR the searched productGroup
+            if(userProduct.getProduct()!=null){
+                if(userProduct.getProduct().getName().toLowerCase().startsWith(sSearchProductName.toLowerCase()) && productGroupOK){
+                    foundProducts.add(userProduct);
+                }
+            }
+        }
+        
+        prodCount = foundProducts.size();
+        
+    	return prodCount;
+    }
 %>
 
 <%
     String sAction = checkString(request.getParameter("Action"));
-    if(sAction.length() == 0) sAction = "find"; // default action
+    if(sAction.length()==0) sAction = "find"; // default action
 
     String sOpenerAction = checkString(request.getParameter("OpenerAction"));
 
@@ -178,11 +215,11 @@
 
     // central pharmacy
     String centralPharmacyCode = MedwanQuery.getInstance().getConfigString("centralPharmacyCode"),
-           centralPharmacyName = getTran("Service", centralPharmacyCode, sWebLanguage);
+           centralPharmacyName = getTran("Service",centralPharmacyCode,sWebLanguage);
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
-    if(Debug.enabled) {
-        Debug.println("\n##################### searchUserProductShow.jsp ##################");
+    if(Debug.enabled){
+        Debug.println("\n*********************** searchUserProductShow.jsp **********************");
         Debug.println("sAction             : "+sAction);
         Debug.println("sSearchProductName  : "+sSearchProductName);
         Debug.println("sSearchProductGroup : "+sSearchProductGroup);
@@ -208,34 +245,32 @@
     if(sAction.equals("find")){
         userProducts = UserProduct.find(activeUser.userid);
         productsHtml = objectsToHtml(userProducts,sSearchProductName,sSearchProductGroup,sWebLanguage);
-        foundProductCount = userProducts.size();
-    }
-%>
-
-<%
-    // display search results
-    if(sAction.equals("find")){
-        if(foundProductCount == 0){
+        foundProductCount = countProducts(userProducts,sSearchProductName,sSearchProductGroup);
+        
+Debug.println("************** foundProductCount : "+foundProductCount);/////////
+        if(foundProductCount==0){
             %><%=HTMLEntities.htmlentities(getTran("web","norecordsfound",sWebLanguage))%><%
-     }
-     else{
-			%>
-<table width="100%" class="sortable" id="searchresults">
-    <%-- header --%>
-	<tr class="admin">
-	    <td><%=HTMLEntities.htmlentities(getTran("web","product",sWebLanguage))%></td>
-	    <td><%=HTMLEntities.htmlentities(getTran("web","unit",sWebLanguage))%></td>
-	    <td><%=HTMLEntities.htmlentities(getTran("web","unitprice",sWebLanguage))%></td>
-	    <td><%=HTMLEntities.htmlentities(getTran("web","supplier",sWebLanguage))%></td>
-	    <td><%=HTMLEntities.htmlentities(getTran("Web","ServiceStock",sWebLanguage))%></td>
-	    <td><%=HTMLEntities.htmlentities(getTran("web","productGroup",sWebLanguage))%></td>
-	</tr>
-
-	<tbody onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';">
-	    <%=HTMLEntities.htmlentities(productsHtml.toString())%>
-    </tbody>
-</table>
-    			<%
+        }
+        else{
+		    %>
+			<table width="100%" class="sortable" id="searchresults" cellspacing="1" cellpadding="0">
+			    <%-- header --%>
+				<tr class="admin">
+				    <td><%=HTMLEntities.htmlentities(getTran("web","product",sWebLanguage))%></td>
+				    <td><%=HTMLEntities.htmlentities(getTran("web","unit",sWebLanguage))%></td>
+				    <td><%=HTMLEntities.htmlentities(getTran("web","unitprice",sWebLanguage))%></td>
+				    <td><%=HTMLEntities.htmlentities(getTran("web","supplier",sWebLanguage))%></td>
+				    <td><%=HTMLEntities.htmlentities(getTran("Web","ServiceStock",sWebLanguage))%></td>
+				    <td><%=HTMLEntities.htmlentities(getTran("web","productGroup",sWebLanguage))%></td>
+				</tr>
+			
+				<tbody class="hand">
+				    <%=HTMLEntities.htmlentities(productsHtml.toString())%>
+			    </tbody>
+			</table>
+			
+			<%=foundProductCount%> <%=getTran("web","recordsFound",sWebLanguage)%>
+			<%
         }
     }
 %>

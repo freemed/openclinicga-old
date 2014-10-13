@@ -10,14 +10,14 @@
            sSearchSupplierUid  = checkString(request.getParameter("SearchSupplierUid")),
            sSearchProductGroup = HTMLEntities.unhtmlentities(checkString(request.getParameter("SearchProductGroup")));
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n########################## search/getProducts.jsp #####################");
+        Debug.println("\n******************** search/getProducts.jsp ***********************");
         Debug.println("sSearchProductName  : "+sSearchProductName);
         Debug.println("sSearchSupplierUid  : "+sSearchSupplierUid);
         Debug.println("sSearchProductGroup : "+sSearchProductGroup+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     StringBuffer sHtml = new StringBuffer();
     int iMaxRecordsToShow = MedwanQuery.getInstance().getConfigInt("maxRecordsToShow",100);
@@ -33,11 +33,11 @@
 
     // header
     sHtml.append("<tr class='admin'>")
-         .append("<td nowrap>"+getTranNoLink("web","product",sWebLanguage)+"</td>")
-         .append("<td width='10%'>"+getTranNoLink("web","unit",sWebLanguage)+"</td>")
-         .append("<td width='12%' style='text-align:right;'>"+getTranNoLink("web","unitprice",sWebLanguage)+"&nbsp;</td>")
-         .append("<td width='31%'>"+getTranNoLink("web","supplier",sWebLanguage)+"</td>")
-         .append("<td width='27%'>"+getTranNoLink("web","productGroup",sWebLanguage)+"</td>")
+          .append("<td nowrap>"+getTranNoLink("web","product",sWebLanguage)+"</td>")
+          .append("<td width='10%'>"+getTranNoLink("web","unit",sWebLanguage)+"</td>")
+          .append("<td width='12%' style='text-align:right;'>"+getTranNoLink("web","unitprice",sWebLanguage)+"&nbsp;</td>")
+          .append("<td width='31%'>"+getTranNoLink("web","supplier",sWebLanguage)+"</td>")
+          .append("<td width='27%'>"+getTranNoLink("web","productGroup",sWebLanguage)+"</td>")
          .append("</tr>");
 
     // tbody
@@ -51,12 +51,12 @@
     Product product;
     int iTotal = 0;
     Service activeDivision = activePatient.getActiveDivision();
-    for (int i = 0; i < products.size() && i < iMaxRecordsToShow; i++) {
-        product = (Product) products.get(i);
+    for(int i=0; i<products.size() && i<iMaxRecordsToShow; i++){
+        product = (Product)products.get(i);
 
         // units per time unit
         sUnitsPerTimeUnit = product.getUnitsPerTimeUnit()+"";
-        if (sUnitsPerTimeUnit.length() > 0) {
+        if(sUnitsPerTimeUnit.length() > 0){
             sUnitsPerTimeUnit = unitCountDeci.format(Double.parseDouble(sUnitsPerTimeUnit));
         }
 
@@ -68,31 +68,31 @@
 
         // supplier
         sSupplierUid = checkString(product.getSupplierUid());
-        if (sSupplierUid.length() > 0) sSupplierName = getTranNoLink("service",sSupplierUid,sWebLanguage);
-        else                           sSupplierName = "";
+        if(sSupplierUid.length() > 0) sSupplierName = getTranNoLink("service",sSupplierUid,sWebLanguage);
+        else                          sSupplierName = "";
 
         // productGroup
         sProductGroup = checkString(product.getProductGroup());
-        if (sProductGroup.length() > 0) {
+        if(sProductGroup.length() > 0){
             sProductGroup = getTranNoLink("product.productgroup",sProductGroup,sWebLanguage);
         }
 
         // alternate row-style
-        if (sClass.equals("")) sClass = "1";
-        else                   sClass = "";
+        if(sClass.equals("")) sClass = "1";
+        else                  sClass = "";
 
         boolean inStock = (activePatient==null || activeDivision==null?true:product.isInStock(activeDivision.code));
 
-        sProductName =  checkString(product.getName());
+        sProductName = checkString(product.getName());
         sProductName = sProductName.replaceAll("'","");
 
         //*** display product in one row ***
         sHtml.append("<tr title='"+chooseTran+"' class='list"+sClass+"' onClick=\"selectProduct('"+product.getUid()+"','"+sProductName+"','"+product.getUnit()+"','"+sUnitsPerTimeUnit+"','"+sSupplierUid+"','"+sSupplierName+"','"+product.getPackageUnits()+"');\">")
-             .append("<td nowrap "+(inStock?"":" class='strike'")+">"+sProductName+"</td>")
-             .append("<td"+(inStock?"":" class='strike'")+">"+sUnitTran+"</td>")
-             .append("<td align='right'"+(inStock?"":" class='strike'")+">"+sUnitPrice+"&nbsp;"+sCurrency+"&nbsp;</td>")
-             .append("<td"+(inStock?"":" class='strike'")+">"+sSupplierName+"</td>")
-             .append("<td"+(inStock?"":" class='strike'")+">"+sProductGroup+"</td>")
+              .append("<td nowrap "+(inStock?"":" class='strike'")+">"+sProductName+"</td>")
+              .append("<td"+(inStock?"":" class='strike'")+">"+sUnitTran+"</td>")
+              .append("<td align='right'"+(inStock?"":" class='strike'")+">"+sUnitPrice+"&nbsp;"+sCurrency+"&nbsp;</td>")
+              .append("<td"+(inStock?"":" class='strike'")+">"+sSupplierName+"</td>")
+              .append("<td"+(inStock?"":" class='strike'")+">"+sProductGroup+"</td>")
              .append("</tr>");
 
         iTotal++;

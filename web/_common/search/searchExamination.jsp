@@ -98,7 +98,7 @@
 
                                 if (hExaminations.size() > 0) {
                             %>
-                                        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                                        <tbody class="hand">
                                             <%=exams%>
                                         </tbody>
                                     <%
@@ -120,10 +120,10 @@
             <%
                 // show all or less examinations
                 if(sAction.equalsIgnoreCase("showAllExaminations")){
-                    %><tr><td><a href="#" onclick="showUserExaminations()"><%=getTran("web.manage","showonlyuserexaminations",sWebLanguage)%></a></td></tr><%
+                    %><tr><td><a href="javascript:showUserExaminations()"><%=getTran("web.manage","showonlyuserexaminations",sWebLanguage)%></a></td></tr><%
                 }
                 else{
-                    %><tr><td><a href="#" onclick="showAllExaminations()"><%=getTran("web.manage","showallexaminations",sWebLanguage)%></a></td></tr><%
+                    %><tr><td><a href="javascript:showAllExaminations()"><%=getTran("web.manage","showallexaminations",sWebLanguage)%></a></td></tr><%
                 }
             %>
         </table>

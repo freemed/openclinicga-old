@@ -428,7 +428,7 @@
                         <td width="40%"><%=getTran("Web","prescriptionrule",sWebLanguage)%></td>
                     </tr>
 
-                    <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                    <tbody class="hand">
                         <%=prescriptions%>
                     </tbody>
                 </table>
@@ -446,17 +446,17 @@
     </tr>
 </table>
 </logic:present>
-    <%-- BUTTONS --%>
-    <%=ScreenHelper.alignButtonsStart()%>
-        <%
-        if (activeUser.getAccessRight("occup.urgenceconsultation.add") || activeUser.getAccessRight("occup.urgenceconsultation.edit")){
-        %>
-        <input class="button" type="button" name="saveButton" id="save" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/>
-        <%
+
+<%-- BUTTONS --%>
+<%=ScreenHelper.alignButtonsStart()%>
+    <%
+        if(activeUser.getAccessRight("occup.urgenceconsultation.add") || activeUser.getAccessRight("occup.urgenceconsultation.edit")){
+            %><input class="button" type="button" name="saveButton" id="save" value="<%=getTranNoLink("Web.Occup","medwan.common.record",sWebLanguage)%>" onclick="submitForm()"/><%
         }
-        %>
-        <INPUT class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>'}">
-    <%=ScreenHelper.alignButtonsStop()%>
+    %>
+    <input class="button" type="button" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="if(checkSaveButton()){window.location.href='<c:url value="/main.do?Page=curative/index.jsp"/>&ts=<%=getTs()%>'}">
+<%=ScreenHelper.alignButtonsStop()%>
+    
 <script>
   function submitForm(){
     var maySubmit = true;
@@ -502,38 +502,32 @@
       transactionForm.saveButton.disabled = true;
       <%
           SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
-          out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
+          out.print(takeOverTransaction(sessionContainerWO,activeUser,"document.transactionForm.submit();"));
       %>
     }
   }
 
-   function setBP(oObject,sbp,dbp){
-      if (oObject.value.length>0){
-        if (!isNumberLimited(oObject,40,300)){
-          var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=999999999&labelType=Web.occup&labelID=out-of-bounds-value";
-          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          window.showModalDialog(popupUrl,'',modalities);
-        }
-        else if ((sbp.length>0)&&(dbp.length>0)){
-          isbp = document.getElementsByName(sbp)[0].value*1;
-          idbp = document.getElementsByName(dbp)[0].value*1;
-          if (idbp>isbp){
-            var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=999999999&labelType=Web.occup&labelID=error.dbp_greather_than_sbp";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            window.showModalDialog(popupUrl,'',modalities);
-          }
+  function setBP(oObject,sbp,dbp){
+    if(oObject.value.length > 0){
+      if(!isNumberLimited(oObject,40,300)){
+        alertDialog("Web.occup","out-of-bounds-value");
+      }
+      else if(sbp.length>0 && dbp.length>0){
+        isbp = document.getElementsByName(sbp)[0].value*1;
+        idbp = document.getElementsByName(dbp)[0].value*1;
+        if(idbp > isbp){
+          alertDialog("Web.occup","error.dbp_greather_than_sbp");
         }
       }
+    }
   }
 
   function setHF(oObject){
-      if (oObject.value.length>0){
-        if(!isNumberLimited(oObject,30,300)){
-          var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=999999999&labelType=Web.occup&labelID=out-of-bounds-value";
-          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          window.showModalDialog(popupUrl,'',modalities);
-        }
+    if(oObject.value.length > 0){
+      if(!isNumberLimited(oObject,30,300)){
+        alertDialog("Web.occup","out-of-bounds-value");
       }
+    }
   }
 
   function deleteDiagnose(rowid){

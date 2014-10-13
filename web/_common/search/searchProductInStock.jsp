@@ -3,10 +3,11 @@
                 be.openclinic.pharmacy.ProductStock,
                 be.openclinic.pharmacy.Product,
                 java.util.Vector,
-                java.util.Collections" %>
+                java.util.Collections"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=sJSSORTTABLE%>
+
 <%
     String sAction = checkString(request.getParameter("Action"));
     //if(sAction.length()==0) sAction = "find"; // default action
@@ -39,7 +40,7 @@
 
     // central pharmacy
     String centralPharmacyCode = MedwanQuery.getInstance().getConfigString("centralPharmacyCode"),
-           centralPharmacyName = getTranNoLink("Service", centralPharmacyCode, sWebLanguage);
+           centralPharmacyName = getTranNoLink("Service",centralPharmacyCode,sWebLanguage);
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
@@ -66,21 +67,21 @@
     // display products of user-service by default (on first page load)
     boolean displayProductsOfDoctorService = checkString(request.getParameter("DisplayProductsOfDoctorService")).equals("true");
 
-    if(sAction.length() == 0){
+    if(sAction.length()==0){
         if(displayProductsOfDoctorService){
             sSearchServiceUid = activeUser.activeService.code;
-            sSearchServiceName = getTranNoLink("service", sSearchServiceUid, sWebLanguage);
+            sSearchServiceName = getTranNoLink("service",sSearchServiceUid,sWebLanguage);
         }
     }
 
     // display products of patient-service by default (on first page load)
     boolean displayProductsOfPatientService = checkString(request.getParameter("DisplayProductsOfPatientService")).equals("true");
 
-    if(sAction.length() == 0){
+    if(sAction.length()==0){
         if(displayProductsOfPatientService){
             if(activePatient.isHospitalized()){
                 sSearchServiceUid = activePatient.getActiveDivision().code;
-                sSearchServiceName = getTranNoLink("service", sSearchServiceUid, sWebLanguage);
+                sSearchServiceName = getTranNoLink("service",sSearchServiceUid,sWebLanguage);
             }
             else{
                 // search central pharmacy by default if user is not hospitalized
@@ -107,7 +108,7 @@
         // run thru found serviceStocks collecting all belonging productStocks
         Vector allProductStocks = new Vector();
         ServiceStock serviceStock;
-        for (int i = 0; i < serviceStocks.size(); i++){
+        for(int i=0; i<serviceStocks.size(); i++){
             serviceStock = (ServiceStock) serviceStocks.get(i);
             allProductStocks.addAll(serviceStock.getProductStocks());
         }
@@ -122,22 +123,22 @@
         Product product;
 
         // frequently used translations
-        String sCurrency = MedwanQuery.getInstance().getConfigParam("currency", "€"),
-               chooseTran = getTranNoLink("web", "choose", sWebLanguage);
+        String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€"),
+               chooseTran = getTranNoLink("web","choose",sWebLanguage);
 
         // header
         sOut.append("<tr class='admin'>")
-             .append("<td width='20%'>"+getTran("web", "product", sWebLanguage)+"</td>")
-             .append("<td width='10%'>"+getTran("web", "unit", sWebLanguage)+"</td>")
-             .append("<td width='10%' style='text-align:right;'>"+getTran("web", "unitprice", sWebLanguage)+"&nbsp;</td>")
-             .append("<td width='27%'>"+getTran("web", "service", sWebLanguage)+"</td>")
-             .append("<td width='12%'>"+getTran("web", "servicestock", sWebLanguage)+"</td>")
-             .append("<td align='right' width='6%'>"+getTran("web", "level", sWebLanguage)+"&nbsp;&nbsp;</td>")
-             .append("<td width='15%'>"+getTran("web", "productGroup", sWebLanguage)+"</td>")
+             .append("<td width='20%'>"+getTran("web","product",sWebLanguage)+"</td>")
+             .append("<td width='10%'>"+getTran("web","unit",sWebLanguage)+"</td>")
+             .append("<td width='10%' style='text-align:right;'>"+getTran("web","unitprice",sWebLanguage)+"&nbsp;</td>")
+             .append("<td width='27%'>"+getTran("web","service",sWebLanguage)+"</td>")
+             .append("<td width='12%'>"+getTran("web","servicestock",sWebLanguage)+"</td>")
+             .append("<td align='right' width='6%'>"+getTran("web","level",sWebLanguage)+"&nbsp;&nbsp;</td>")
+             .append("<td width='15%'>"+getTran("web","productGroup",sWebLanguage)+"</td>")
             .append("</tr>");
 
         // tbody
-        sOut.append("<tbody onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\">");
+        sOut.append("<tbody class='hand'");
 
         // sort found products on their name
         Collections.sort(allProductStocks);
@@ -164,24 +165,24 @@
                     sProductStockUid = productStock.getUid();
 
                     // translate unit
-                    sUnitTran = getTranNoLink("product.unit", product.getUnit(), sWebLanguage);
+                    sUnitTran = getTranNoLink("product.unit",product.getUnit(),sWebLanguage);
 
                     // supplyingService
                     supplyingServiceUid = serviceStock.getServiceUid();
                     if(supplyingServiceUid.length() > 0){
-                        supplyingServiceName = getTranNoLink("service", supplyingServiceUid, sWebLanguage);
+                        supplyingServiceName = getTranNoLink("service",supplyingServiceUid,sWebLanguage);
                     }
 
                     // productGroup
                     sProductGroup = checkString(product.getProductGroup());
                     if(sProductGroup.length() > 0){
-                        sProductGroup = getTran("product.productgroup", sProductGroup, sWebLanguage);
+                        sProductGroup = getTran("product.productgroup",sProductGroup,sWebLanguage);
                     }
 
                     // supplier
                     sSupplierUid = checkString(product.getSupplierUid());
                     if(sSupplierUid.length() > 0){
-                        sSupplierName = getTranNoLink("service", sSupplierUid, sWebLanguage);
+                        sSupplierName = getTranNoLink("service",sSupplierUid,sWebLanguage);
                     }
 
                     // units per time unit
@@ -196,7 +197,7 @@
                          .append("<td>"+product.getName()+"</td>")
                          .append("<td>"+sUnitTran+"</td>")
                          .append("<td align='right'>"+priceDeci.format(product.getUnitPrice())+"&nbsp;"+sCurrency+"&nbsp;</td>")
-                         .append("<td>"+getTranNoLink("service", serviceStock.getServiceUid(), sWebLanguage)+"</td>")
+                         .append("<td>"+getTranNoLink("service",serviceStock.getServiceUid(),sWebLanguage)+"</td>")
                          .append("<td>"+serviceStock.getName()+"</td>")
                          .append("<td align='right'>"+(productStock.getLevel() < 0 ? "<font color='red'>"+productStock.getLevel()+"</font>" : productStock.getLevel()+"")+"&nbsp;&nbsp;</td>")
                          .append("<td>"+sProductGroup+"</td>")
@@ -230,16 +231,16 @@
             <td class="admin2"><%=getTran("Web","service",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
                 <input type="hidden" name="SearchServiceUid" value="<%=sSearchServiceUid%>">
-                <input type="text" name="SearchServiceName" class="text" value="<%=sSearchServiceName%>" size="40" READONLY>
+                <input type="text" name="SearchServiceName" class="text" value="<%=sSearchServiceName%>" size="40" readonly onKeyDown="if(deleteKeyPressed(event))clearSelectedService();">
 
                 <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('SearchServiceUid','SearchServiceName');">
-                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="searchForm.SearchServiceUid.value='';searchForm.SearchServiceName.value='';">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="clearSelectedService();">
             </td>
 
             <%-- productgroup --%>
-            <td class="admin2"><%=getTran("Web","productgroup",sWebLanguage)%>&nbsp;</td>
+            <td class="admin2"><%=getTran("web","productgroup",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
-                <select class="text" name="SearchProductGroup">
+                <select class="text" name="SearchProductGroup" onKeyDown="if(deleteKeyPressed(event))this.selectedIndex=0;">
                     <option value=""></option>
                     <%=ScreenHelper.writeSelectUnsorted("product.productgroup",sSearchProductGroup,sWebLanguage)%>
                 </select>
@@ -254,7 +255,7 @@
     </table>
 
     <%-- SEARCH RESULTS --%>
-    <div id="divFindRecords" style="padding:2px;"></div>
+    <div id="divFindRecords" style="padding-top:2px;"></div>
         
     <%
         // records found message
@@ -310,7 +311,9 @@
   searchForm.SearchProductName.focus();
 
   <%-- select product --%>
-  function selectProduct(productUid,productName,productUnit,unitsPerTimeUnit,supplyingServiceUid,supplyingServiceName,productSupplierUid,productSupplierName,unitsPerPackage,productStockUid,serviceStockUid,serviceStockName){
+  function selectProduct(productUid,productName,productUnit,unitsPerTimeUnit,supplyingServiceUid,
+		                 supplyingServiceName,productSupplierUid,productSupplierName,unitsPerPackage,
+		                 productStockUid,serviceStockUid,serviceStockName){
     var closeWindow = true;
       
     window.opener.document.getElementsByName('<%=sReturnProductUidField%>')[0].value = productUid;
@@ -334,8 +337,8 @@
 
         // set ServiceStock
         %>
-          var serviceStockUidField  = window.opener.document.getElementsByName('EditServiceStockUid')[0];
-          var serviceStockNameField = window.opener.document.getElementsByName('EditServiceStockName')[0];
+          var serviceStockUidField  = window.opener.document.getElementsByName('EditServiceStockUid')[0],
+              serviceStockNameField = window.opener.document.getElementsByName('EditServiceStockName')[0];
 
           if(serviceStockUidField!=undefined && serviceStockNameField!=undefined){
             window.opener.document.getElementsByName('EditServiceStockUid')[0].value = serviceStockUid;
@@ -345,8 +348,8 @@
 
         // set SupplyingService
         %>
-          var suppServUidField  = window.opener.document.getElementsByName('EditSupplyingServiceUid')[0];
-          var suppServNameField = window.opener.document.getElementsByName('EditSupplyingServiceName')[0];
+          var suppServUidField  = window.opener.document.getElementsByName('EditSupplyingServiceUid')[0],
+              suppServNameField = window.opener.document.getElementsByName('EditSupplyingServiceName')[0];
 
           if(suppServUidField!=undefined && suppServNameField!=undefined){
             window.opener.document.getElementsByName('EditSupplyingServiceUid')[0].value = supplyingServiceUid;
@@ -437,7 +440,7 @@
   <%-- do find --%>
   function doFind(){
     searchForm.Action.value = "find";
-    ajaxChangeSearchResults('_common/search/searchByAjax/searchProductInStockShow.jsp', searchForm);
+    ajaxChangeSearchResults('_common/search/searchByAjax/searchProductInStockShow.jsp',searchForm);
   }
 
   <%-- clear search fields --%>
@@ -446,6 +449,8 @@
     searchForm.SearchServiceUid.value = '';
     searchForm.SearchServiceName.value = '';
     searchForm.SearchProductGroup.value = '';
+    
+    searchForm.SearchProductName.focus();
   }
 
   <%-- open edit product unit popup --%>
@@ -470,20 +475,20 @@
   }
 
   <%
-      // select product specified by "editProductUnit.jsp", which just added some missing data to the product.
+      // select product specified by "editProductUnit.jsp", which just added some missing data to the product
       if(sOpenerAction.equals("selectProduct")){
           // run thru all serviceStocks collecting all belonging productStocks
           Vector allProductStocks = new Vector();
           ServiceStock serviceStock = null;
-          for (int i = 0; i < serviceStocks.size(); i++){
-              serviceStock = (ServiceStock) serviceStocks.get(i);
+          for(int i=0; i<serviceStocks.size(); i++){
+              serviceStock = (ServiceStock)serviceStocks.get(i);
               allProductStocks.addAll(serviceStock.getProductStocks());
           }
 
           ProductStock productStock = null;
           Product product = null;
-          for (int i = 0; i < allProductStocks.size(); i++){
-              productStock = (ProductStock) allProductStocks.get(i);
+          for(int i=0; i<allProductStocks.size(); i++){
+              productStock = (ProductStock)allProductStocks.get(i);
               product = productStock.getProduct();
               if(product.getUid().equals(sSelectProductUid)){
                   break;
@@ -494,17 +499,23 @@
           String supplyingServiceUid = serviceStock.getService().code;
           String supplyingServiceName = "";
           if(supplyingServiceUid.length() > 0){
-              supplyingServiceName = getTranNoLink("service", supplyingServiceUid, sWebLanguage);
+              supplyingServiceName = getTranNoLink("service",supplyingServiceUid,sWebLanguage);
           }
 
           // supplier
           String sSupplierUid = checkString(product.getSupplierUid());
           String sSupplierName = "";
           if(sSupplierUid.length() > 0){
-              sSupplierName = getTranNoLink("service", sSupplierUid, sWebLanguage);
+              sSupplierName = getTranNoLink("service",sSupplierUid,sWebLanguage);
           }
 
           %>selectProduct("<%=product.getUid()%>","<%=checkString(product.getName())%>","<%=checkString(product.getUnit())%>","<%=product.getUnitsPerTimeUnit()%>","<%=supplyingServiceUid%>","<%=supplyingServiceName%>","<%=checkString(product.getSupplierUid())%>","<%=sSupplierName%>","<%=product.getPackageUnits()%>","<%=productStock.getUid()%>","<%=serviceStock.getUid()%>","<%=serviceStock.getName()%>");<%
       }
   %>
+  
+  <%-- CLEAR SELECTED SERVICE --%>
+  function clearSelectedService(){
+	searchForm.SearchServiceUid.value = "";
+	searchForm.SearchServiceName.value = "";
+  }
 </script>

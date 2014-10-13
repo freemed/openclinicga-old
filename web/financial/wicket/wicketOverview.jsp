@@ -445,15 +445,7 @@
           endDate   = SearchForm.FindWicketToDate.value;
 
       if((beginDate.length>0 && endDate.length>0) && after(beginDate,endDate)){
-        if(window.showModalDialog){
-          var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=<%=getTs()%>&labelType=Web.Occup&labelID=endMustComeAfterBegin";
-          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          window.showModalDialog(popupUrl,"",modalities);
-        }
-        else{
-          window.confirm("<%=getTranNoLink("Web.occup","endMustComeAfterBegin",sWebLanguage)%>");
-        }
-
+    	alertDialog("Web.Occup","endMustComeAfterBegin");
         SearchForm.FindWicketToDate.focus();
       }
       else{
@@ -543,7 +535,7 @@
               "&WicketFromDate="+sWicketFromDate+
               "&WicketToDate="+sWicketToDate+
               "&ts=<%=getTs()%>";
-    window.open(url,"WicketOverviewPdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    window.open(url,"WicketOverviewPdf<%=getTs()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
 
   <%-- UPDATE ROW STYLES --%>

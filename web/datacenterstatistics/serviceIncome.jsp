@@ -6,14 +6,24 @@
     if(sBegin==null){
         sBegin="01/01/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
     }
+    
     String sEnd = request.getParameter("end");
     if(sEnd==null){
-        sEnd="31/12/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
+        //sEnd = ScreenHelper.stdDateFormat.format(new java.util.Date()); // now
+        
+	    if(ScreenHelper.stdDateFormat.toPattern().equals("dd/MM/yyyy")){
+            sEnd = "31/12/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
+	    }
+	    else{
+            sEnd = "12/31/"+new SimpleDateFormat("yyyy").format(new java.util.Date());
+	    }
     }
+    
     String service =activeUser.activeService.code;
     if(request.getParameter("statserviceid")!=null){
     	service=request.getParameter("statserviceid");
     }
+    
     String serviceName = activeUser.activeService.getLabel(sWebLanguage);
     if(request.getParameter("statserviceid")!=null){
     	serviceName=request.getParameter("statservicename");
@@ -30,11 +40,11 @@
         </tr>
         <tr>
         	<td valign='bottom'>
-        		<%=getTran("Web","service",sWebLanguage) %></td><td colspan='2'  valign='bottom'><input type='hidden' name='statserviceid' id='statserviceid' value='<%=service %>'>
+        		<%=getTran("Web","service",sWebLanguage)%></td><td colspan='2'  valign='bottom'><input type='hidden' name='statserviceid' id='statserviceid' value='<%=service %>'>
         		<input class='text' type='text' name='statservicename' id='statservicename' readonly size='40' value='<%=serviceName %>'>
-        		<img src='_img/icons/icon_search.gif' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage) %>' onclick='searchService("statserviceid","statservicename");'>
-        		<img src='_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage) %>' onclick='statserviceid.value="";statservicename.value="";'>
-				<input type="checkbox" class="text" name="details" <%=request.getParameter("details")!=null?"checked":"" %>/><%= getTran("web","showdetails",sWebLanguage) %>
+        		<img src='_img/icons/icon_search.gif' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick='searchService("statserviceid","statservicename");'>
+        		<img src='_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick='statserviceid.value="";statservicename.value="";'>
+				<input type="checkbox" name="details" <%=request.getParameter("details")!=null?"checked":"" %>/><%= getTran("web","showdetails",sWebLanguage)%>
         	</td>
         </tr>
     </table>

@@ -11,7 +11,7 @@
         <td><%=HTMLEntities.htmlentities(getTran("web","name",sWebLanguage))%></td>
     </tr>
     
-    <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+    <tbody class="hand">
 		<%
 			Vector accounts = new Account().getAllSorted("AC_ACCOUNT_CODE");
 			String sClass = "";

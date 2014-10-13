@@ -148,13 +148,14 @@
     </table>
 <%=ScreenHelper.contextFooter(request)%>
 </form>
+
 <script>
-function doSubmit(){
+  function doSubmit(){
     transactionForm.saveButton.disabled = true;
     document.transactionForm.submit();
-}
+  }
 
-function calculateDuration(obj){
+  function calculateDuration(obj){
     var vStart = document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_START" property="itemId"/>]>.value")[0].value;
     var vEnd   = document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_END" property="itemId"/>]>.value")[0].value;
 
@@ -178,18 +179,18 @@ function calculateDuration(obj){
     vDurationDate.setMinutes(Math.ceil((endDate.getTime()-startDate.getTime())/(one_min)));
     vDurationDate.setSeconds(0);
 
-    if(vStart != "" && vEnd != ""){
-        if(endDate > startDate){
-            document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_DURATION" property="itemId"/>]>.value")[0].value = vDurationDate.getHours() + ":" + vDurationDate.getMinutes();
-        }else{
-            document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_DURATION" property="itemId"/>]>.value")[0].value = "";
-            var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=<%=getTs()%>&labelType=web&labelID=endhour_greater_than_starthour";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            window.showModalDialog(popupUrl,'',modalities);
-            obj.value = "";
-        }
-    }else{
-            document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_DURATION" property="itemId"/>]>.value")[0].value = "";
+    if(vStart!="" && vEnd!=""){
+      if(endDate > startDate){
+        document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_DURATION" property="itemId"/>]>.value")[0].value = vDurationDate.getHours() + ":" + vDurationDate.getMinutes();
+      }
+      else{
+        document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_DURATION" property="itemId"/>]>.value")[0].value = "";
+        alertDialog("web","endhour_greater_than_starthour");
+        obj.value = "";
+      }
     }
-}
+    else{
+      document.getElementsByName("currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_OPERATION_PROTOCOL_DURATION" property="itemId"/>]>.value")[0].value = "";
+    }
+  }
 </script>

@@ -58,7 +58,7 @@
     // search fields 
     %>
         <form name="SearchForm" id="SearchForm" method="POST">          
-            <%=writeTableHeader("web","searchMaintenancePlans",sWebLanguage,"")%>
+            <%=writeTableHeader("web","searchMaintenancePlans",sWebLanguage," window.close();")%>
             <input type="hidden" name="Action" value="search">
                             
             <table class="list" border="0" width="100%" cellspacing="1">

@@ -239,7 +239,7 @@
                                        +"<td>"+HTMLEntities.htmlentities(sDate)+"</td>"
                                        +"<td>"+HTMLEntities.htmlentities(sEncounterName)+"</td>"
                                        +"<td>" +debet.getQuantity()+" x "+ HTMLEntities.htmlentities(sPrestationDescription)+"</td>"
-                                       +"<td >"+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(debet.getInsurarAmount())+" "+MedwanQuery.getInstance().getConfigParam("currency", "€")+"</td>"
+                                       +"<td>"+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(debet.getInsurarAmount())+" "+MedwanQuery.getInstance().getConfigParam("currency", "€")+"</td>"
                                        +"</tr>");
                     }
                 }

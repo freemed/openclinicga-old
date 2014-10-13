@@ -353,14 +353,7 @@ function addKinderen(){
       birthDate = makeDate(birthDateStr);
     }
     if(birthDate.getTime() > today.getTime()){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web.Occup&labelID=futureDateNotAllowed";
-      var modalitiesIE = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-      if(window.showModalDialog){
-          window.showModalDialog(popupUrl,'',modalitiesIE);
-      }else{
-          window.confirm("<%=getTranNoLink("Web.occup","futureDateNotAllowed",sWebLanguage)%>");
-      }
+      alertDialog("web.Occup","futureDateNotAllowed");
       document.getElementById("transactionForm").KinderenGeboortejaar.select();
       return false;
     }

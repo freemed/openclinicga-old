@@ -386,17 +386,11 @@ document.getElementById("transactionForm").ButtonUpdateLetsels.disabled = true;
 <%-- ADD CHIRURGIE --%>
 function addChirurgie(){
   if(isAtLeastOneChirurgieFieldFilled()){
-    var beginDate = document.getElementById("transactionForm").ChirurgieDateBegin.value;
-    var endDate   = document.getElementById("transactionForm").ChirurgieDateEnd.value;
+    var beginDate = document.getElementById("transactionForm").ChirurgieDateBegin.value,
+        endDate   = document.getElementById("transactionForm").ChirurgieDateEnd.value;
 
     if((beginDate!="" && endDate!="") && !before(beginDate,endDate)){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web.Occup&labelID=endMustComeAfterBegin";
-      var modalitiesIE = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      if(window.showModalDialog){
-          window.showModalDialog(popupUrl,'',modalitiesIE);
-      }else{
-          window.confirm("<%=getTranNoLink("Web.occup","endMustComeAfterBegin",sWebLanguage)%>");
-      }
+      alertDialog("Web.Occup","endMustComeAfterBegin");
       document.getElementById("transactionForm").ChirurgieDateEnd.select();
       return false;
     }
@@ -491,18 +485,11 @@ function clearChirurgieFields(){
 
 function addHeelkunde(){
   if(isAtLeastOneHeelkundeFieldFilled()){
-    var beginDate = document.getElementById("transactionForm").HeelkundeDateBegin.value;
-    var endDate   = document.getElementById("transactionForm").HeelkundeDateEnd.value;
+    var beginDate = document.getElementById("transactionForm").HeelkundeDateBegin.value,
+        endDate   = document.getElementById("transactionForm").HeelkundeDateEnd.value;
 
     if((beginDate!="" && endDate!="") && !before(beginDate,endDate)){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web.Occup&labelID=endMustComeAfterBegin";
-      var modalitiesIE = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-      if(window.showModalDialog){
-          window.showModalDialog(popupUrl,'',modalitiesIE);
-      }else{
-          window.confirm("<%=getTranNoLink("Web.Occup","endMustComeAfterBegin",sWebLanguage)%>");
-      }
+      alertDialog("Web.Occup","endMustComeAfterBegin");
       document.getElementById("transactionForm").HeelkundeDateEnd.select();
       return false;
     }

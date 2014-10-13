@@ -29,9 +29,9 @@
 
     // fedault focus
     String sDefaultFocus = checkString(activeUser.getParameter("DefaultFocus"));
-    if(sDefaultFocus.length() == 0) sDefaultFocus = "Name";
+    if(sDefaultFocus.length()==0) sDefaultFocus = "Name";
 
-    if(sAction.length() == 0 && activePatient != null){
+    if(sAction.length()==0 && activePatient!=null){
         sName = activePatient.lastname;
         sFirstname = activePatient.firstname;
         sDateOfBirth = activePatient.dateOfBirth;
@@ -48,7 +48,7 @@
         else         sUnit = "";
     } 
     else{
-        sScript = "document.getElementById(\"SF\").find" + sDefaultFocus + ".focus();$(\"SF\").find" + sDefaultFocus + ".className=\"selected_bold\"";
+        sScript = "document.getElementById(\"SF\").find"+sDefaultFocus+".focus();$(\"SF\").find"+sDefaultFocus+".className=\"selected_bold\"";
     }
 
     // unitid and unitname
@@ -82,7 +82,7 @@
             </td>
 
             <td align="right" nowrap><%=getTran("Web","DateOfBirth", sWebLanguage)%>&nbsp;
-                <input class='<%=setFocus("DateOfBirth",sDefaultFocus)%>' type='TEXT' name='findDateOfBirth' value="<%=sDateOfBirth%>" size='17' OnBlur='checkDate(this)' maxlength='10'>
+                <input class='<%=setFocus("DateOfBirth",sDefaultFocus)%>' type='text' name='findDateOfBirth' value="<%=sDateOfBirth%>" size='17' OnBlur='checkDate(this)' maxlength='10'>
             </td>
             <td width="1%" nowrap>
             <%	
@@ -109,7 +109,7 @@
             </td>
             <td align="right" nowrap><%=getTran("Web", "immatnew", sWebLanguage)%>&nbsp;<input class='<%=setFocus("immatnew",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase' name='findimmatnew' value="<%=sNewimmat%>" size='20' onblur='limitLength(this);'></td>
             <%
-                if(activePatient != null && activePatient.getID("archiveFileCode").length() > 0){
+                if(activePatient!=null && activePatient.getID("archiveFileCode").length() > 0){
             %>
             <td align="right" nowrap>
                 <a href="javascript:showArchiveCode();"><%=getTran("Web","archiveFileCode",sWebLanguage)%></a>
@@ -120,24 +120,21 @@
 	            else{
             %>
             <td align="right" nowrap>
-                <%=getTran("Web", "archiveFileCode", sWebLanguage)%>
-                &nbsp;<input class='<%=setFocus("archiveFileCode",sDefaultFocus)%>' type='TEXT'
-                             style='<%=activePatient!=null?"background-color: #ff9999;":""%>text-transform:uppercase'
-                             name='findArchiveFileCode' value="<%=sArchiveFileCode%>" size='17'
-                             onblur='limitLength(this);'>
+                <%=getTran("Web","archiveFileCode",sWebLanguage)%>
+                &nbsp;<input class='<%=setFocus("archiveFileCode",sDefaultFocus)%>' type='text' style='<%=activePatient!=null?"background-color: #ff9999;":""%>text-transform:uppercase' name='findArchiveFileCode' value="<%=sArchiveFileCode%>" size='17' onblur='limitLength(this);'>
             </td>
             <%
                 }
             %>
             <td align="right" nowrap><%=getTran("Web", "personid", sWebLanguage)%>&nbsp;
-                <input class='<%=setFocus("personid",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase' name='findPersonID' value="<%=sPersonID%>" size='17' onblur='limitLength(this);'>
+                <input class='<%=setFocus("personid",sDefaultFocus)%>' type='text' style='text-transform:uppercase' name='findPersonID' value="<%=sPersonID%>" size='17' onblur='limitLength(this);'>
             </td>
         </tr>
         <%-- row 3 --%>
         <tr>
             <td align="right" nowrap><%=getTran("Web","service",sWebLanguage)%></td>
             <td colspan='2' nowrap>
-                <input class='text' TYPE="text" NAME="findUnitText" readonly size="49" TITLE="<%=sUnitText%>" VALUE="<%=sUnitText%>" onkeydown="enterEvent(event,13)? window.event.keyCode='' : (window.which='');return true;">
+                <input class='text' type="text" name="findUnitText" readonly size="49" title="<%=sUnitText%>" value="<%=sUnitText%>" onkeydown="enterEvent(event,13)? window.event.keyCode='' : (window.which='');return true;">
                 <%
                     if(sUnit.length() > 0){
                         %><img src="<c:url value='/_img/icons/icon_info.gif'/>" class="link" alt="<%=getTranNoLink("Web","Information",sWebLanguage)%>" onclick='searchInfoService(SF.findUnit)'/><%
@@ -155,7 +152,7 @@
                 Collections.sort(vDistricts);
                 String sTmpDistrict;
 
-                for(int i=0;i<vDistricts.size();i++){
+                for(int i=0; i<vDistricts.size(); i++){
                     sTmpDistrict = (String)vDistricts.elementAt(i);
 
                     sDistricts+= "<option value='"+sTmpDistrict+"'";
@@ -268,6 +265,7 @@ function resizeSearchFields(){
   $("SF").findUnitText.style.width = bigbigSize+"px";
 }
 
+<%-- SHOW ARCHIVE CODE --%>
 function showArchiveCode(){
   openPopup("util/showArchiveLabel.jsp&ts=<%=getTs()%>",20,370);
 }
@@ -335,7 +333,7 @@ function clearPatient(){
 <%-- search info service --%>
 function searchInfoService(sObject){
   if(sObject.value.length > 0){
-    openPopup("/_common/search/serviceInformation.jsp&ServiceID=" + sObject.value);
+    openPopup("/_common/search/serviceInformation.jsp&ServiceID="+sObject.value);
   }
 }
 </script>

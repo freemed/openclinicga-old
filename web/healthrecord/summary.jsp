@@ -74,7 +74,7 @@
                     sProductName = "";
                 }
                 if (sProductName.length() == 0) {
-                    sProductName = "<font color='red'>" + getTran("web", "nonexistingproduct", sWebLanguage) + "</font>";
+                    sProductName = "<font color='red'>"+getTran("web", "nonexistingproduct", sWebLanguage)+"</font>";
                 }
             }
 
@@ -113,12 +113,12 @@
             }
 
             //*** display prescription in one row ***
-            prescriptions.append("<tr class='list" + sClass + "'  title='" + detailsTran + "'>")
-                    .append("<td align='center'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' border='0' title='" + deleteTran + "' onclick=\"doDelete('" + sPrescriptionUid + "');\">")
-                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sProductName + "</td>")
-                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateBeginFormatted + "</td>")
-                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sDateEndFormatted + "</td>")
-                    .append("<td onclick=\"doShowDetails('" + sPrescriptionUid + "');\" >" + sPrescrRule.toLowerCase() + "</td>")
+            prescriptions.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
+                    .append("<td align='center'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+sPrescriptionUid+"');\">")
+                    .append("<td onclick=\"doShowDetails('"+sPrescriptionUid+"');\" >"+sProductName+"</td>")
+                    .append("<td onclick=\"doShowDetails('"+sPrescriptionUid+"');\" >"+sDateBeginFormatted+"</td>")
+                    .append("<td onclick=\"doShowDetails('"+sPrescriptionUid+"');\" >"+sDateEndFormatted+"</td>")
+                    .append("<td onclick=\"doShowDetails('"+sPrescriptionUid+"');\" >"+sPrescrRule.toLowerCase()+"</td>")
                     .append("</tr>");
         }
         return idsVector;
@@ -376,7 +376,7 @@
                                     <td width="40%"><%=getTran("Web","prescriptionrule",sWebLanguage)%></td>
                                 </tr>
 
-                                <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                                <tbody class="hand">
                                     <%=prescriptions%>
                                 </tbody>
                             </table>
@@ -448,6 +448,7 @@
                     </td>
                 </tr>
             </table>
+            
             <table class="list" width="100%" cellspacing="1">
                 <tr class="admin">
                     <td align="center" colspan='2'><a href="javascript:openPopup('healthrecord/findICPC.jsp?ts=<%=getTs()%>&patientuid=<%=activePatient.personid %>')"><%=getTran("Web.Occup","ICPC-2",sWebLanguage)%>/<%=getTran("Web.Occup","ICD-10",sWebLanguage)%></a></td>
@@ -460,25 +461,29 @@
                         Iterator items = curTran.getItems().iterator();
                         ItemVO item;
 
-                        String sReferenceUID = curTran.getServerId() + "." + curTran.getTransactionId();
+                        String sReferenceUID = curTran.getServerId()+"."+curTran.getTransactionId();
                         String sReferenceType = "Transaction";
-                        Hashtable hDiagnoses = Diagnosis.getDiagnosesByReferenceUID(sReferenceUID, sReferenceType);
+                        Hashtable hDiagnoses = Diagnosis.getDiagnosesByReferenceUID(sReferenceUID,sReferenceType);
                         Hashtable hDiagnosisInfo = new Hashtable();
                         String sCode, sGravity, sCertainty;
 
-                        while (items.hasNext()) {
-                            item = (ItemVO) items.next();
-                            if (item.getType().indexOf("ICPCCode") == 0) {
-                                sCode = item.getType().substring("ICPCCode".length(), item.getType().length());
-                                hDiagnosisInfo = (Hashtable) hDiagnoses.get(sCode);
-                                if (hDiagnosisInfo != null) {
+                        while(items.hasNext()){
+                            item = (ItemVO)items.next();
+                            
+                            if(item.getType().indexOf("ICPCCode") == 0){
+                                sCode = item.getType().substring("ICPCCode".length(),item.getType().length());
+                              
+                                hDiagnosisInfo = (Hashtable)hDiagnoses.get(sCode);
+                                if(hDiagnosisInfo != null){
                                     sGravity = (String) hDiagnosisInfo.get("Gravity");
                                     sCertainty = (String) hDiagnosisInfo.get("Certainty");
-                                } else {
+                                }
+                                else{
                                     sGravity = "";
                                     sCertainty = "";
                                 }
-                    %><span id="ICPCCode<%=item.getItemId()%>">
+                                %>
+                                  <span id="ICPCCode<%=item.getItemId()%>">
                                         <img src="<c:url value='/_img/icons/icon_delete.gif'/>" onclick="document.getElementById('ICPCCode<%=item.getItemId()%>').innerHTML='';"/><input type='hidden' name='ICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=item.getValue().trim()%>"/><input type='hidden' name='GravityICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sGravity%>"/><input type='hidden' name='CertaintyICPCCode<%=item.getType().replaceAll("ICPCCode","")%>' value="<%=sCertainty%>"/>
                                         <%=item.getType().replaceAll("ICPCCode","")%>&nbsp;<%=MedwanQuery.getInstance().getCodeTran(item.getType().trim(),sWebLanguage)%> <%=item.getValue().trim()%>
                                         <br/>
@@ -488,10 +493,11 @@
                             else if (item.getType().indexOf("ICD10Code")==0){
                                 sCode = item.getType().substring("ICD10Code".length(),item.getType().length());
                                 hDiagnosisInfo = (Hashtable)hDiagnoses.get(sCode);
-                                if (hDiagnosisInfo != null) {
+                                if(hDiagnosisInfo!=null){
 	                                sGravity = (String)hDiagnosisInfo.get("Gravity");
 	                                sCertainty = (String)hDiagnosisInfo.get("Certainty");
-                                } else {
+                                }
+                                else{
                                     sGravity = "";
                                     sCertainty = "";
                                 }
@@ -513,23 +519,31 @@
                     <td colspan="2"  id="problemList">
                         <%
                             Vector activeProblems = Problem.getActiveProblems(activePatient.personid);
-                            if(activeProblems.size()>0){
-                                out.print("<table width='100%' cellspacing='0'><tr class='admin'><td>"+getTran("web.occup","medwan.common.description",sWebLanguage)+"</td><td nowrap>"+getTran("web.occup","medwan.common.datebegin",sWebLanguage)+"</td></tr>");
+                            if(activeProblems.size() > 0){
+                                out.print("<table width='100%' cellspacing='0'>"+
+                                           "<tr class='admin'>"+
+                                            "<td>"+getTran("web.occup","medwan.common.description",sWebLanguage)+"</td>"+
+                                		    "<td nowrap>"+getTran("web.occup","medwan.common.datebegin",sWebLanguage)+"</td>"+
+                                           "</tr>");
                             }
+                            
                             String sClass = "1";
 
-                            for(int n=0;n<activeProblems.size();n++){
-                                if(sClass.equals("")){
-                                    sClass = "1";
-                                }else{
-                                    sClass = "";
-                                }
+                            for(int n=0; n<activeProblems.size(); n++){
+                            	// alternate row-style
+                                if(sClass.equals("")) sClass = "1";
+                                else                  sClass = "";
+                            	
                                 Problem activeProblem = (Problem)activeProblems.elementAt(n);
-                                String comment="";
+                                String comment = "";
                                 if(activeProblem.getComment().trim().length()>0){
-                                    comment=":&nbsp;<i>"+activeProblem.getComment().trim()+"</i>";
+                                    comment = ":&nbsp;<i>"+activeProblem.getComment().trim()+"</i>";
                                 }
-                                out.print("<tr class='list" + sClass + "'><td><b>"+(activeProblem.getCode()+" "+MedwanQuery.getInstance().getCodeTran(activeProblem.getCodeType()+"code"+activeProblem.getCode(),sWebLanguage)+"</b>"+comment)+"</td><td>"+ScreenHelper.stdDateFormat.format(activeProblem.getBegin())+"</td></tr>");
+                                
+                                out.print("<tr class='list"+sClass+"'>"+
+                                           "<td><b>"+(activeProblem.getCode()+" "+MedwanQuery.getInstance().getCodeTran(activeProblem.getCodeType()+"code"+activeProblem.getCode(),sWebLanguage)+"</b>"+comment)+"</td>"+
+                                		   "<td>"+ScreenHelper.stdDateFormat.format(activeProblem.getBegin())+"</td>"+
+                                          "</tr>");
                             }
                         %>
                         </table>

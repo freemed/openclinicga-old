@@ -100,7 +100,7 @@
 			        <td width="110" nowrap><%=HTMLEntities.htmlentities(getTran("Web", "dateofbirth", sWebLanguage))%></td>
 			    </tr>
 			
-			    <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+			    <tbody class="hand">
 			        <%=HTMLEntities.htmlentities(results.toString())%>
 			    </tbody>
 			    <%
@@ -111,7 +111,7 @@
 		        <tr>
 		            <td colspan="3">
 		                <%=HTMLEntities.htmlentities(getTran("web", "norecordsfound", sWebLanguage))%><br>
-		                <a href="#" onclick="addPerson()"><%=HTMLEntities.htmlentities(getTranNoLink("web", "add.this.person", sWebLanguage))%></a>
+		                <a href="javascript:addPerson()"><%=HTMLEntities.htmlentities(getTranNoLink("web", "add.this.person", sWebLanguage))%></a>
 		            </td>
 		        </tr>
 		        <%

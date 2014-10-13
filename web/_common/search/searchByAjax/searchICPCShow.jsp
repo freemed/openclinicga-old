@@ -79,7 +79,7 @@
             out.print("<tr class='admin'><td colspan='2'>" + HTMLEntities.htmlentities(getTran("Web.Occup", "ICPC-2", sWebLanguage)) + "</td></tr>");
         }
 %>
-<tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+<tbody class="hand">
 <%
 
     out.print(HTMLEntities.htmlentities(sbResultsICPC2.toString()));
@@ -89,7 +89,7 @@
         out.print("<tr class='admin'><td colspan='2'>" + HTMLEntities.htmlentities(getTran("Web.Occup", "ICD-10", sWebLanguage)) + "</td></tr>");
     }
 %>
-<tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'><%
+<tbody class="hand"><%
 
 
 out.print(sbResultsICd10.toString());
@@ -129,7 +129,7 @@ if(foundRecordsICPC2==0 && foundRecordsICD10 == 0 && keywords.length() > 1){
         }
 
 %>
-<tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'><%
+<tbody class="hand"><%
 
     for (int n = 0; n < codes.size(); n++) {
         foundRecords++;

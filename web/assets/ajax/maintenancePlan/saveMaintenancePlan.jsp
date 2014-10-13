@@ -64,10 +64,10 @@
     boolean errorOccurred = plan.store(activeUser.userid);
     
     if(!errorOccurred){
-        sMessage = "<font color='green'>"+getTran("web","dataIsSaved",sWebLanguage)+"</font>";
+        sMessage = "<font color='green'>"+getTranNoLink("web","dataIsSaved",sWebLanguage)+"</font>";
     }
     else{
-        sMessage = "<font color='red'>"+getTran("web","error",sWebLanguage)+"</font>";
+        sMessage = "<font color='red'>"+getTranNoLink("web","error",sWebLanguage)+"</font>";
     }
 %>
 

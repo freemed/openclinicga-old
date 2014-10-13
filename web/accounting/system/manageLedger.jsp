@@ -1,4 +1,5 @@
-<%@page import="be.openclinic.accountancy.*,java.text.*"%>
+<%@page import="be.openclinic.accounting.*,
+                java.text.*"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("accountancy.ledger","select",activeUser)%>
@@ -9,44 +10,63 @@
 <%=sJSSORTTABLE%>
 
 <%
-	String sEditAccountId=checkString(request.getParameter("EditAccountId"));
-	String sEditAccountCode=checkString(request.getParameter("EditAccountCode"));
-	String sEditAccountType=checkString(request.getParameter("EditAccountType"));
-	String sEditAccountName=checkString(request.getParameter("EditAccountName"));
+    String sAction = checkString(request.getParameter("action"));
 
-	int accountId=-1;
+	String sEditAccountId   = checkString(request.getParameter("EditAccountId")),
+	       sEditAccountCode = checkString(request.getParameter("EditAccountCode")),
+	       sEditAccountType = checkString(request.getParameter("EditAccountType")),
+	       sEditAccountName = checkString(request.getParameter("EditAccountName"));
+
+	int accountId = -1;
 	try{
-		accountId=Integer.parseInt(sEditAccountId);		
+		accountId = Integer.parseInt(sEditAccountId);		
 	}
 	catch(Exception e){
+		// empty
 	}
+	
 	Account account = new Account();
-	if(accountId>0){
+	if(accountId > 0){
 		account = Account.get(accountId);
 	}
+	
+	/// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+	if(Debug.enabled){
+		Debug.println("\n***************** accounting/system/manageLedger.jsp ******************");
+		Debug.println("sAction          : "+sAction);
+		Debug.println("sEditAccountId   : "+sEditAccountId);
+		Debug.println("sEditAccountCode : "+sEditAccountCode);
+		Debug.println("sEditAccountType : "+sEditAccountType);
+		Debug.println("sEditAccountName : "+sEditAccountName+"\n");
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	if(checkString(request.getParameter("action")).equalsIgnoreCase("save")){
+	//*** SAVE ***
+	if(sAction.equalsIgnoreCase("save")){
 		account.setCode(sEditAccountCode);
 		account.setType(sEditAccountType);
 		account.setName(sEditAccountName);
 		account.setUpdateUser(activeUser.userid);
 		account.store();
-		account=new Account();
+		
+		account = new Account();
 	}
-	
-	if(checkString(request.getParameter("action")).equalsIgnoreCase("delete")){
+
+	//*** DELETE ***
+	if(sAction.equalsIgnoreCase("delete")){
 		account.delete();
-		account=new Account();
-	}
-	
+		
+		account = new Account();
+	}	
 %>
 
-<%=writeTableHeader("web","ledger",sWebLanguage,"")%><br>
+<%=writeTableHeader("web","ledger",sWebLanguage)%><br>
 <div id="divAccounts" class="searchResults" style="height:160px;"></div>
 
 <form name="EditForm" id="EditForm" method="POST">
     <input type="hidden" id="EditAccountId" name="EditAccountId" value="<%=account.getId()%>">
     <input type="hidden" id="action" name="action" value=""/>
+    
     <table class="list" border="0" width="100%" cellspacing="1">
         <%-- code --%>
         <tr>
@@ -101,84 +121,83 @@
 </form>
         
 <script>
-	function saveItem(){
-		document.getElementById("action").value="save";
-		document.getElementById("EditForm").submit();		
-	}
+  function saveItem(){
+	document.getElementById("action").value="save";
+	document.getElementById("EditForm").submit();		
+  }
 	
-	function deleteItem(){
-		document.getElementById("action").value="delete";
-		document.getElementById("EditForm").submit();		
-	}
+  function deleteItem(){
+	document.getElementById("action").value="delete";
+	document.getElementById("EditForm").submit();		
+  }
 	
-	function newItem(){
-        $("EditAccountId").value = "";
-        $("EditAccountCode").value = "";
-        $("EditAccountType").value = "";
-        $("EditAccountName").value = "";
+  function newItem(){
+    $("EditAccountId").value = "";
+    $("EditAccountCode").value = "";
+    $("EditAccountType").value = "";
+    $("EditAccountName").value = "";
+        
+    <%-- display delete button --%>
+    if(document.getElementById("buttonDelete")){
+      document.getElementById("buttonDelete").style.visibility = "hidden";
+    }
+    <%-- display new button --%>
+    if(document.getElementById("buttonNew")){
+      document.getElementById("buttonNew").style.visibility = "hidden";
+    }
+        
+    document.getElementById("EditAccountCode").focus();µ
+  }
+
+  <%-- DISPLAY ITEM --%>
+  function displayItem(id){          
+    var url = "<c:url value='/accountancy/ajax/getAccount.jsp'/>?ts="+new Date().getTime();
+      
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "id="+id,
+      onSuccess: function(resp){
+        var data = eval("("+resp.responseText+")");
+
+        $("EditAccountId").value = id;
+        $("EditAccountCode").value = data.code;
+        $("EditAccountType").value = data.type;
+        $("EditAccountName").value = data.name;
+           
+        document.getElementById("divMessage").innerHTML = ""; 
+
         <%-- display delete button --%>
         if(document.getElementById("buttonDelete")){
-      		document.getElementById("buttonDelete").style.visibility = "hidden";
+     	  document.getElementById("buttonDelete").style.visibility = "visible";
         }
         <%-- display new button --%>
         if(document.getElementById("buttonNew")){
-      		document.getElementById("buttonNew").style.visibility = "hidden";
+          document.getElementById("buttonNew").style.visibility = "visible";
         }
-        document.getElementById("EditAccountCode").focus();
-	}
-	
-    function displayItem(id){          
-      var url= "<c:url value='/accountancy/ajax/getAccount.jsp'/>?ts="+new Date().getTime();
-      
-      new Ajax.Request(url,
-        {
-          method: "GET",
-          parameters: "id="+id,
-          onSuccess: function(resp){
-            var data = eval("("+resp.responseText+")");
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'accountancy/ajax/getAccount.jsp' : "+resp.responseText.trim();
+      }
+    });
+  }
+    	
+  <%-- LOAD ACCOUNTS --%>
+  function loadAccounts(){
+    document.getElementById("divAccounts").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading..";            
+    var url = "<c:url value='/accountancy/ajax/getAccounts.jsp'/>?ts="+new Date().getTime();
+     
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "",
+      onSuccess: function(resp){
+        $("divAccounts").innerHTML = resp.responseText;
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'accountancy/ajax/getAccounts.jsp' : "+resp.responseText.trim();
+      }
+    });
+  }
 
-            $("EditAccountId").value = id;
-            $("EditAccountCode").value = data.code;
-            $("EditAccountType").value = data.type;
-            $("EditAccountName").value = data.name;
-            
-            document.getElementById("divMessage").innerHTML = ""; 
-
-            <%-- display delete button --%>
-            if(document.getElementById("buttonDelete")){
-          		document.getElementById("buttonDelete").style.visibility = "visible";
-            }
-            <%-- display new button --%>
-            if(document.getElementById("buttonNew")){
-          		document.getElementById("buttonNew").style.visibility = "visible";
-            }
-          },
-          onFailure: function(resp){
-            $("divMessage").innerHTML = "Error in 'accountancy/ajax/getAccount.jsp' : "+resp.responseText.trim();
-          }
-        }
-      );
-    }
-    
-	
-    <%-- LOAD ACCOUNTS --%>
-    function loadAccounts(){
-      document.getElementById("divAccounts").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
-      var url= "<c:url value='/accountancy/ajax/getAccounts.jsp'/>?ts="+new Date().getTime();
-      new Ajax.Request(url,
-        {
-          method: "GET",
-          parameters: "",
-          onSuccess: function(resp){
-            $("divAccounts").innerHTML = resp.responseText;
-          },
-          onFailure: function(resp){
-            $("divMessage").innerHTML = "Error in 'accountancy/ajax/getAccounts.jsp' : "+resp.responseText.trim();
-          }
-        }
-      );
-    }
-
-    loadAccounts();
-    document.getElementById("EditAccountCode").focus();
+  loadAccounts();
+  document.getElementById("EditAccountCode").focus();
 </script>

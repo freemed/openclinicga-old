@@ -1,7 +1,7 @@
 <%@page import="be.mxs.common.util.system.HTMLEntities,
                 be.openclinic.assets.Asset,
-                java.util.*"%>
-<%@page import="java.io.*,
+                java.util.*,
+                java.io.*,
                 org.dom4j.*"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
@@ -199,8 +199,7 @@
            sSaleDate   = checkString(request.getParameter("saleDate")),
            sSaleValue  = checkString(request.getParameter("saleValue")),
            sSaleClient = checkString(request.getParameter("saleClient"));
-       
-    
+           
     /// DEBUG /////////////////////////////////////////////////////////////////
     if(Debug.enabled){
         Debug.println("\n****************** saveAsset.jsp ******************");
@@ -330,10 +329,10 @@
     boolean errorOccurred = asset.store(activeUser.userid);
     
     if(!errorOccurred){
-        sMessage = "<font color='green'>"+getTran("web","dataIsSaved",sWebLanguage)+"</font>";
+        sMessage = "<font color='green'>"+getTranNoLink("web","dataIsSaved",sWebLanguage)+"</font>";
     }
     else{
-        sMessage = "<font color='red'>"+getTran("web","error",sWebLanguage)+"</font>";
+        sMessage = "<font color='red'>"+getTranNoLink("web","error",sWebLanguage)+"</font>";
     }
 %>
 

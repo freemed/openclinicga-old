@@ -1,17 +1,19 @@
-<%@ page import="be.openclinic.adt.Bed,
-                 net.admin.Service,
-                 be.openclinic.adt.Encounter,java.util.*" %>
-<%@ page import="java.util.Date" %>
+<%@page import="be.openclinic.adt.Bed,
+                net.admin.Service,
+                be.openclinic.adt.Encounter,
+                java.util.*"%>
+<%@page import="java.util.Date" %>
 <%@include file="/includes/validateUser.jsp"%>
 
 <%=checkPermission("adt.urgencybedoverview","select",activeUser)%>
 
 <%!
+    //--- GET ITEM VALUE --------------------------------------------------------------------------
     private String getItemValue(TransactionVO transaction, String sItemType){
         String sReturn = "";
         ItemVO item = transaction.getItem(sItemType);
 
-        if (item!=null){
+        if(item!=null){
             sReturn = checkString(item.getValue());
         }
 
@@ -19,7 +21,7 @@
     }
 %>
 
-<%=writeTableHeader("web","urgencybedoverview",sWebLanguage,"")%>
+<%=writeTableHeader("web","urgencybedoverview",sWebLanguage)%>
 
 <table class="list" width='100%' cellspacing='0' cellpadding="0">
     <%
@@ -28,10 +30,10 @@
         String sServiceID, sServiceName;
         Hashtable hServices = new Hashtable();
 
-        for (int i = 0; i < vChildServices.size(); i++) {
-            sServiceID = (String) vChildServices.elementAt(i);
+        for(int i=0; i<vChildServices.size(); i++){
+            sServiceID = (String)vChildServices.elementAt(i);
             sServiceName = getTranNoLink("service",sServiceID,sWebLanguage);
-            hServices.put(sServiceName, sServiceID);
+            hServices.put(sServiceName,sServiceID);
         }
 
         Vector vBedsInService;
@@ -39,15 +41,15 @@
         Bed bed;
         Encounter encounter;
         Hashtable hOccupiedInfo, hEntrees;
-        String sPatientUID,sEncounterUID,sClass, sBedDate, sEncounterOutcome, sOrigin, sProblem, sDestination;
+        String sPatientUID, sEncounterUID, sClass, sBedDate, sEncounterOutcome, sOrigin, sProblem, sDestination;
         Vector v = new Vector(hServices.keySet());
         Collections.sort(v);
         Iterator it = v.iterator();
         TransactionVO transaction;
 
-        while (it.hasNext()) {
+        while(it.hasNext()){
             sServiceName = (String)it.next();
-            sServiceID = (String) hServices.get(sServiceName);
+            sServiceID = (String)hServices.get(sServiceName);
     %>
     <tr class="gray">
         <td colspan="2" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="toggleDivisionOverview('<%=sServiceID%>');">
@@ -55,6 +57,7 @@
             <%=sServiceName%>
         </td>
     </tr>
+    
     <tr>
         <td width="20"></td>
         <td>
@@ -73,8 +76,9 @@
                     vBedsInService = Bed.selectBedsInService(sServiceID);
                     iter = vBedsInService.iterator();
                     hEntrees = new Hashtable();
-                    while (iter.hasNext()) {
-                        bed = (Bed) iter.next();
+                    while(iter.hasNext()){
+                        bed = (Bed)iter.next();
+                        
                         hOccupiedInfo = bed.isOccupied();
                         sEncounterUID = (String)hOccupiedInfo.get("encounterUid");
                         encounter = Encounter.get(sEncounterUID);
@@ -82,7 +86,7 @@
                             if(encounter.getBegin()!=null){
                                 hEntrees.put(encounter.getBegin().getTime()+"",bed);
                             }
-                            else {
+                            else{
                                 hEntrees.put(bed.getUid(),bed);
                             }
                         }
@@ -93,14 +97,12 @@
                     iter = v.iterator();
                     sClass = "";
 
-                    while (iter.hasNext()) {
-                        if(sClass.equals("")){
-                            sClass = "1";
-                        }else{
-                            sClass = "";
-                        }
-                        sBedDate = (String) iter.next();
+                    while(iter.hasNext()){
+                    	// alternate row-style
+                        if(sClass.equals("")) sClass = "1";
+                        else                  sClass = "";
 
+                    	sBedDate = (String) iter.next();
                         bed = (Bed) hEntrees.get(sBedDate);
                         hOccupiedInfo = bed.isOccupied();
 
@@ -111,25 +113,23 @@
                         sProblem = "";
                         sDestination = "";
 
-                        if (sPatientUID.length()>0){
+                        if(sPatientUID.length() > 0){
                             transaction = MedwanQuery.getInstance().getLastTransactionVO(Integer.parseInt(sPatientUID),"be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_URGENCE_CONSULTATION");
 
-                            if (transaction!=null){
+                            if(transaction!=null){
                                 transaction = MedwanQuery.getInstance().loadTransaction(transaction.getServerId(),transaction.getTransactionId().intValue());
                                 sProblem = getItemValue(transaction,"be.mxs.common.model.vo.healthrecord.IConstants.[GENERAL.ANAMNESE]ITEM_TYPE_EVALUATION");
                             }
                         }
                         encounter = Encounter.get(sEncounterUID);
 
-                        if (((Boolean)hOccupiedInfo.get("status")).booleanValue()) {
+                        if(((Boolean)hOccupiedInfo.get("status")).booleanValue()){
                             %>
                             <tr style="height:16px;" class="list<%=sClass%>">
                                 <td><%=bed.getName()%></td>
                                 <td>
                                     <a href="<c:url value="/main.do"/>?Page=curative/index.jsp&PersonID=<%=sPatientUID%>">
-                                    <%
-                                        out.print(ScreenHelper.getFullPersonName(sPatientUID));
-                                    %>
+                                        <%=ScreenHelper.getFullPersonName(sPatientUID)%>
                                     </a>
                                 </td>
                                 <td>
@@ -148,19 +148,18 @@
                                     }
                                 %>
                                 </td>
-                                <td><%
+                                <td>
+                                <%
                                     if(encounter.getDestination()!=null){
                                         out.print(encounter.getDestination().getLabel(sWebLanguage));
                                     }
-                                    %>
+                                %>
                                 </td>
                                 <td>
                                 <%
                                     sEncounterOutcome = checkString(encounter.getOutcome());
-                                    if (sEncounterOutcome.equalsIgnoreCase("dead")){
-                                        %>
-                                    <img src="<c:url value='/_img/check.gif'/>"/> 
-                                        <%
+                                    if(sEncounterOutcome.equalsIgnoreCase("dead")){
+                                        %><img src="<c:url value='/_img/check.gif'/>"/><%
                                     }
                                 %>
                                 </td>
@@ -168,9 +167,9 @@
                             <%
                         }
                     }
-            %>
-                <tr>
-        </table>
+                %>
+                </tr>
+            </table>
         </td>
     </tr>
 <%
@@ -184,7 +183,7 @@
     var obj    = document.getElementById(id);
     var imgObj = document.getElementById("img_"+id);
 
-    if(obj.style.display == "none"){
+    if(obj.style.display=="none"){
       obj.style.display = "block";
       imgObj.src = "<c:url value='/_img/icons/icon_minus.png'/>";
     }
