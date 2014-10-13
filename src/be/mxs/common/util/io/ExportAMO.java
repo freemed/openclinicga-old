@@ -18,7 +18,6 @@ import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.Mail;
 import be.mxs.common.util.system.Pointer;
-import be.mxs.common.util.system.ScreenHelper;
 
 public class ExportAMO {
 
@@ -124,7 +123,7 @@ public class ExportAMO {
 				countdebets+=quantity;
 				personid=rs.getString("oc_encounter_patientuid");
 				debetdate=rs.getDate("oc_debet_date");
-				exportfile.append(ScreenHelper.stdDateFormat.format(debetdate)+";");
+				exportfile.append(new SimpleDateFormat("dd/MM/yyyy").format(debetdate)+";");
 				exportfile.append((rs.getString("oc_encounter_type").equalsIgnoreCase("admission")?"H":"C")+";");
 				exportfile.append(rs.getString("oc_encounter_objectid")+";");
 				exportfile.append(personid+";");
@@ -180,7 +179,7 @@ public class ExportAMO {
 			ps.close();
 			String title="The Global Health Barometer - TEST AMO extract "+hospitalname+"";
 			String message="Message de test avec extraction de données de facturation pour "+hospitalname+" en annexe.\n" +
-							"- Période de facturation couverte: du "+ScreenHelper.fullDateFormatSS.format(mindate)+" au "+ScreenHelper.fullDateFormatSS.format(maxdate)+"\n" +
+							"- Période de facturation couverte: du "+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(mindate)+" au "+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(maxdate)+"\n" +
 							"- Nombre de prestations facturées: "+countdebets+"\n" +
 							"- Montant total des prestations: "+totalprice+" XOF\n" +
 							"- Montant total à charge de l'AMO: "+totalamo+" XOF\n\n" +
@@ -202,7 +201,7 @@ public class ExportAMO {
 							"- INV_AMO: montant à charge de l'AMO\n" +
 							"- INV_PATIENTREF: numéro de la facture patient qui reprend la prestation\n" +
 							"- AUTH_AMO: agent AMO qui a autorisé la transaction\n\n" +
-							"Message généré automatiquement le "+ScreenHelper.fullDateFormatSS.format(new Date())+" pour le "+hospitalname+" par le Global Health Barometer. " +
+							"Message généré automatiquement le "+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())+" pour le "+hospitalname+" par le Global Health Barometer. " +
 							"Veuillez ne pas répondre directement à ce message svp. " +
 							"Pour toute information supplémentaire concernant la structure de l'annexe, vous pouvez contacter Tidiani Togola (tidianitogola@sante.gov.ml) " +
 							"à l'Agence Nationale de Télésanté et d'Informatique Médicale (ANTIM).\n\n" +
