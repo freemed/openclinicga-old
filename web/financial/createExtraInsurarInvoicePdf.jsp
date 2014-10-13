@@ -20,8 +20,11 @@
         	pdfGenerator = new PDFExtraInsurarInvoiceGeneratorMFP(activeUser,sProject,sPrintLanguage,sPrintType);
         }
         else if(sPrintModel.equalsIgnoreCase("hmk")){
-            	pdfGenerator = new PDFExtraInsurarInvoiceGeneratorHMK(activeUser,sProject,sPrintLanguage,sPrintType);
-        }
+        	pdfGenerator = new PDFExtraInsurarInvoiceGeneratorHMK(activeUser,sProject,sPrintLanguage,sPrintType);
+    }
+        else if(sPrintModel.equalsIgnoreCase("ctams")){
+        	pdfGenerator = new PDFExtraInsurarInvoiceGeneratorCTAMS(activeUser,sProject,sPrintLanguage,sPrintType);
+    }
         else {
         	pdfGenerator = new PDFExtraInsurarInvoiceGenerator(activeUser,sProject,sPrintLanguage,sPrintType);
         }

@@ -109,7 +109,7 @@
             //--- NEW LAB PROFILE --------------------------------------------------
             if (sAction.equals("new")) {
                 // check if profileCode exists
-                sProfileID = MedwanQuery.getInstance().getOpenclinicCounter("LabProfileID")+"";
+                sProfileID = MedwanQuery.getInstance().getOpenclinicCounter("ResultProfileID")+"";
                 boolean deletedRecordFound = false;
                 boolean unDeletedRecordFound = false;
                 boolean[] recordsFound = ResultsProfile.existsByProfileCode(sOldProfileCode);
@@ -117,11 +117,11 @@
                 // check delete time
                 deletedRecordFound = recordsFound[0];
                 unDeletedRecordFound = recordsFound[1];
-                if ((!deletedRecordFound && !unDeletedRecordFound) || (deletedRecordFound && !unDeletedRecordFound)) {
+                if (!unDeletedRecordFound) {
                     bInsert = true;
                 }
                 //--- NEW ANALYSIS BUT IT ALLREADY EXISTS ---
-                else if (unDeletedRecordFound) {
+                else {
                     recordExists = true;
                 }
             }

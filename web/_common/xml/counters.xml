@@ -30,6 +30,7 @@
     <counter name="DocumentID" table="Documents" field="id" bd='openclinic'/>
     <counter name="ExaminationID" table="Examinations" field="id" bd='openclinic'/>
     <counter name="LabProfileID" table="LabProfiles" field="profileID" bd='openclinic'/>
+    <counter name="ResultProfileID" table="ResultProfiles" field="profileID" bd='openclinic'/>
     <counter name="LabAnalysisID" table="LabAnalysis" field="labID" bd='openclinic'/>
     <counter name="HealthRecordID" table="Healthrecord" field="healthRecordId" bd='openclinic'/>
     <counter name="TransactionID" table="Transactions" field="transactionId" bd='openclinic'/>

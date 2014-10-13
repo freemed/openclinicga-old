@@ -1090,7 +1090,7 @@
 
   <%-- SAVE INSURAR --%>
   function saveInsurar(){
-    if(transactionForm.EditInsurarName.value.length > 0 && transactionForm.EditInsurarOfficialName.value.length > 0 && transactionForm.EditInsurarLanguage.selectedIndex > 1){
+    if(transactionForm.EditInsurarName.value.length > 0 && transactionForm.EditInsurarOfficialName.value.length > 0 && transactionForm.EditInsurarLanguage.selectedIndex >= 1){
       if(transactionForm.EditInsurarId.value.length==0){
         transactionForm.EditInsurarId.value = "-1";
       }
