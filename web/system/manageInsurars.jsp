@@ -4,7 +4,6 @@
                 net.admin.Label"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@include file="/includes/ajaxRequirements.jsp"%>
 <%=checkPermission("system.manageinsurars","all",activeUser)%>
 <%=sJSSORTTABLE%>
 
@@ -26,20 +25,16 @@
     private String addCategory(int iTotal, String sCatName, String sCatLabel, String sCatPatientPercentage, String sWebLanguage){
         return "<tr id='rowCategory"+iTotal+"' class='"+(iTotal%2==0?"list":"list1")+"'>"+
                 "<td>"+
-                 "<a href='#' onclick='deleteCategory(rowCategory"+iTotal+");'>"+
-                  "<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web","delete",sWebLanguage)+"' border='0'>"+
-                 "</a>&nbsp;"+
-                 "<a href='#' onclick='editCategory(rowCategory"+iTotal+");'>"+
-                  "<img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' alt='"+getTranNoLink("Web","edit",sWebLanguage)+"' border='0'>"+
-                 "</a>&nbsp;"+
+                 "<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link' onclick='deleteCategory(rowCategory"+iTotal+");' alt='"+getTranNoLink("Web","delete",sWebLanguage)+"' border='0'>&nbsp;"+
+                 "<img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' class='link' onclick='editCategory(rowCategory"+iTotal+");' alt='"+getTranNoLink("Web","edit",sWebLanguage)+"' border='0'>&nbsp;"+
                 "</td>"+
-               "<td>"+sCatName+"</td>"+
-               "<td>"+sCatLabel+"</td>"+
-               "<td>"+sCatPatientPercentage+"%</td>"+
-               "<td>"+(100-Integer.parseInt(sCatPatientPercentage))+"%</td>"+
-               "<td><div id='catDiv_"+sCatName+"'></div></td>"+
-               "<td>&nbsp;</td>"+
-              "</tr>";
+                "<td>"+sCatName+"</td>"+
+                "<td>"+sCatLabel+"</td>"+
+                "<td>"+sCatPatientPercentage+"%</td>"+
+                "<td>"+(100-Integer.parseInt(sCatPatientPercentage))+"%</td>"+
+                "<td><div id='catDiv_"+sCatName+"'></div></td>"+
+                "<td>&nbsp;</td>"+
+               "</tr>";
     }
 %>
 
@@ -52,18 +47,18 @@
            sFindInsurarName     = checkString(request.getParameter("FindInsurarName")),
            sFindInsurarLanguage = checkString(request.getParameter("FindInsurarLanguage")),
            sFindInsurarContact  = checkString(request.getParameter("FindInsurarContact")),
-           sEditInactive  = checkString(request.getParameter("EditInactive")),
+           sEditInactive        = checkString(request.getParameter("EditInactive")),
            sEditInsurarId       = checkString(request.getParameter("EditInsurarId")),
-           sEditNoSupplements       = checkString(request.getParameter("EditNoSupplements")),
-           sEditAuthorizationNeeded       = checkString(request.getParameter("EditAuthorizationNeeded")),
-           sEditAcceptationNeeded       = checkString(request.getParameter("EditAcceptationNeeded")),
-           sEditCoverSupplements       = checkString(request.getParameter("EditCoverSupplements")),
-           sEditInsurarDefaultInsurarInvoiceModel       = checkString(request.getParameter("EditInsurarDefaultInsurarInvoiceModel")),
-      	   sEditInsurarDefaultPatientInvoiceModel       = checkString(request.getParameter("EditInsurarDefaultPatientInvoiceModel")),
-      	   sEditInsurarAllowedReductions       = checkString(request.getParameter("EditInsurarAllowedReductions")),
-    	   sEditInsurarRequiresAffiliateID       = checkString(request.getParameter("EditInsurarRequiresAffiliateID")),
-    	   sEditInsurarRequiresValidation       = checkString(request.getParameter("EditInsurarRequiresValidation")),
-           sEditInsurarType       = checkString(request.getParameter("EditInsurarType"));
+           sEditNoSupplements   = checkString(request.getParameter("EditNoSupplements")),
+           sEditAuthorizationNeeded = checkString(request.getParameter("EditAuthorizationNeeded")),
+           sEditAcceptationNeeded   = checkString(request.getParameter("EditAcceptationNeeded")),
+           sEditCoverSupplements    = checkString(request.getParameter("EditCoverSupplements")),
+           sEditInsurarDefaultInsurarInvoiceModel = checkString(request.getParameter("EditInsurarDefaultInsurarInvoiceModel")),
+      	   sEditInsurarDefaultPatientInvoiceModel = checkString(request.getParameter("EditInsurarDefaultPatientInvoiceModel")),
+      	   sEditInsurarAllowedReductions   = checkString(request.getParameter("EditInsurarAllowedReductions")),
+    	   sEditInsurarRequiresAffiliateID = checkString(request.getParameter("EditInsurarRequiresAffiliateID")),
+    	   sEditInsurarRequiresValidation  = checkString(request.getParameter("EditInsurarRequiresValidation")),
+           sEditInsurarType     = checkString(request.getParameter("EditInsurarType"));
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
@@ -133,44 +128,50 @@
         insurar.setDefaultInsurarInvoiceModel(request.getParameter("EditInsurarDefaultInsurarInvoiceModel"));
         insurar.setDefaultPatientInvoiceModel(request.getParameter("EditInsurarDefaultPatientInvoiceModel"));
         insurar.setAllowedReductions(request.getParameter("EditInsurarAllowedReductions"));
-		int nNoSupplements=0;
+        
+		int nNoSupplements = 0;
 		try{
-			nNoSupplements=Integer.parseInt(sEditNoSupplements);
+			nNoSupplements = Integer.parseInt(sEditNoSupplements);
 		}
 		catch(Exception e){
 			//e.printStackTrace();
 		}
+		
 		insurar.setNoSupplements(nNoSupplements);
-		int nCoverSupplements=0;
+		int nCoverSupplements = 0;
 		try{
-			nCoverSupplements=Integer.parseInt(sEditCoverSupplements);
+			nCoverSupplements = Integer.parseInt(sEditCoverSupplements);
 		}
 		catch(Exception e){
 			//e.printStackTrace();
 		}
-		int nInactive=0;
+		
+		int nInactive = 0;
 		try{
-			nInactive=Integer.parseInt(sEditInactive);
+			nInactive = Integer.parseInt(sEditInactive);
 		}
 		catch(Exception e){
 			//e.printStackTrace();
 		}
+		
 		insurar.setInactive(nInactive);
-		int nRequireAffiliateID=0;
+		int nRequireAffiliateID = 0;
 		try{
-			nRequireAffiliateID=Integer.parseInt(sEditInsurarRequiresAffiliateID);
+			nRequireAffiliateID = Integer.parseInt(sEditInsurarRequiresAffiliateID);
 		}
 		catch(Exception e){
 			//e.printStackTrace();
 		}
+		
 		insurar.setRequireAffiliateID(nRequireAffiliateID);
-		int nRequireValidation=0;
+		int nRequireValidation = 0;
 		try{
-			nRequireValidation=Integer.parseInt(sEditInsurarRequiresValidation);
+			nRequireValidation = Integer.parseInt(sEditInsurarRequiresValidation);
 		}
 		catch(Exception e){
 			//e.printStackTrace();
 		}
+		
 		insurar.setRequireValidation(nRequireValidation);
         //*** save categories ***
         if(sCategoriesToSave.length() > 0){
@@ -207,44 +208,48 @@
         msg = getTran("web","dataIsSaved",sWebLanguage);
         sFindInsurarName=insurar.getName();
         sAction = "search";
+        
     	if(request.getParameter("EditInsurarExtra")==null){
-			String[] supportedlanguages=MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
-			for(int n=0;n<supportedlanguages.length;n++){
+			String[] supportedlanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
+			for(int n=0; n<supportedlanguages.length; n++){
 	    		Label.delete("patientsharecoverageinsurance",insurar.getUid(),supportedlanguages[n]);
 			}
     	}
-    	else {
+    	else{
     		Label label = new Label();
-    		label.showLink="0";
-    		label.type="patientsharecoverageinsurance";
-    		label.id=insurar.getUid();
-    		label.updateUserId=activeUser.userid;
-    		label.value=checkString(request.getParameter("EditInsurarName"));
-			String[] supportedlanguages=MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
-			for(int n=0;n<supportedlanguages.length;n++){
+    		label.showLink = "0";
+    		label.type = "patientsharecoverageinsurance";
+    		label.id = insurar.getUid();
+    		label.updateUserId = activeUser.userid;
+    		label.value = checkString(request.getParameter("EditInsurarName"));
+    		
+			String[] supportedlanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
+			for(int n=0; n<supportedlanguages.length; n++){
 	    		label.language=supportedlanguages[n];
 	    		label.saveToDB();
 			}
     	}
     	if(request.getParameter("EditInsurarExtra2")==null){
 			String[] supportedlanguages=MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
-			for(int n=0;n<supportedlanguages.length;n++){
+			for(int n=0; n<supportedlanguages.length; n++){
 	    		Label.delete("patientsharecoverageinsurance2",insurar.getUid(),supportedlanguages[n]);
 			}
     	}
-    	else {
+    	else{
     		Label label = new Label();
-    		label.showLink="0";
-    		label.type="patientsharecoverageinsurance2";
-    		label.id=insurar.getUid();
-    		label.updateUserId=activeUser.userid;
-    		label.value=checkString(request.getParameter("EditInsurarName"));
-			String[] supportedlanguages=MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
-			for(int n=0;n<supportedlanguages.length;n++){
-	    		label.language=supportedlanguages[n];
+    		label.showLink = "0";
+    		label.type = "patientsharecoverageinsurance2";
+    		label.id = insurar.getUid();
+    		label.updateUserId = activeUser.userid;
+    		label.value = checkString(request.getParameter("EditInsurarName"));
+    		
+			String[] supportedlanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
+			for(int n=0; n<supportedlanguages.length; n++){
+	    		label.language = supportedlanguages[n];
 	    		label.saveToDB();
 			}
     	}
+    	
 		reloadSingleton(session);
     }
     //--- DELETE ----------------------------------------------------------------------------------
@@ -274,9 +279,9 @@
     <%=writeTableHeader("Web.manage","ManageInsurars",sWebLanguage," doBackToMenu();")%>
 
     <%-- SEARCH FIELDS --%>
-    <table width="100%" class="menu" cellspacing="0">
+    <table width="100%" class="menu" cellspacing="0" cellpadding="0">
         <tr height="22">
-            <td class="menu">
+            <td class="admin2">
                 &nbsp;<%=getTran("web","insurar",sWebLanguage)%>&nbsp;&nbsp;<input type="text" class="text" name="FindInsurarName" size="30" maxChars="255" value="<%=sFindInsurarName%>">
 
                 <%-- BUTTONS --%>
@@ -288,6 +293,12 @@
         </tr>
     </table>
     <%
+
+	    // display message
+	    if(msg.length() > 0){
+	        %><%=msg%><br><%
+	    }
+    
         //--- SHOW FOUND INSURARS -----------------------------------------------------------------
         if(sAction.equals("search")){
             Vector foundInsurars = Insurar.getInsurarsByName(sFindInsurarName);
@@ -333,7 +344,7 @@
                                     %>
                                         <tr class="list<%=sClass%>" onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';">
                                             <td>
-                                                <a href="#" onclick="deleteInsurar('<%=insurar.getUid()%>');"><img src='<c:url value="/_img/icons/icon_delete.gif"/>' border='0' alt="<%=sTranDelete%>"></a>
+                                                <img src='<c:url value="/_img/icons/icon_delete.gif"/>' class="link" alt="<%=sTranDelete%>" onclick="deleteInsurar('<%=insurar.getUid()%>');">
                                             </td>
                                             <td class="hand" onClick="editInsurar('<%=insurar.getUid()%>');"><%=checkString(insurar.getName())%></td>
                                             <td class="hand" onClick="editInsurar('<%=insurar.getUid()%>');"><%=checkString(insurar.getOfficialName())%></td>
@@ -341,7 +352,7 @@
                                             <td class="hand" onclick="editInsurar('<%=insurar.getUid()%>');"><%=sLanguage%></td>
                                         </tr>
                                     <%
-                                    if(insurarCount>50){
+                                    if(insurarCount > 50){
                                         break;
                                     }
                                 }
@@ -446,12 +457,12 @@
                             </select>
                         </td>
                     </tr>
-                    <%-- type --%>
+                    <%-- INSURAR TYPE --%>
                     <tr>
                         <td class="admin"><%=getTran("web","tariff",sWebLanguage)%></td>
                         <td class="admin2">
                             <select class="text" name="EditInsurarType">
-                                <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
+                                <option value=""></option>
                                 <%=ScreenHelper.writeSelect("insurance.types",checkString(insurar.getType()),sWebLanguage)%>
                             </select>
                         </td>
@@ -488,12 +499,12 @@
                             <option value="mfp" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("mfp")?"selected":""%>><%=getTranNoLink("web","mfpmodel",sWebLanguage)%></option>
                         	<%
 		                    	if(MedwanQuery.getInstance().getConfigInt("enableBurundi",0)==1){
-		                    %>
-	                            <option value="ascoma" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ascoma")?"selected":""%>><%=getTranNoLink("web","ascomamodel",sWebLanguage)%></option>
-	                            <option value="brarudi" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("brarudi")?"selected":""%>><%=getTranNoLink("web","brarudimodel",sWebLanguage)%></option>
-	                            <option value="ambusa" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ambusa")?"selected":""%>><%=getTranNoLink("web","ambusamodel",sWebLanguage)%></option>
-	                            <option value="cplrcsv" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("cplrcsv")?"selected":""%>><%=getTranNoLink("web","cplrcsvmodel",sWebLanguage)%></option>
-                        	<%
+			                    %>
+		                            <option value="ascoma" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ascoma")?"selected":""%>><%=getTranNoLink("web","ascomamodel",sWebLanguage)%></option>
+		                            <option value="brarudi" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("brarudi")?"selected":""%>><%=getTranNoLink("web","brarudimodel",sWebLanguage)%></option>
+		                            <option value="ambusa" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("ambusa")?"selected":""%>><%=getTranNoLink("web","ambusamodel",sWebLanguage)%></option>
+		                            <option value="cplrcsv" <%=checkString(insurar.getDefaultInsurarInvoiceModel()).equalsIgnoreCase("cplrcsv")?"selected":""%>><%=getTranNoLink("web","cplrcsvmodel",sWebLanguage)%></option>
+	                        	<%
                    				}
                         	%>
                             </select>
@@ -508,61 +519,61 @@
                     <tr>
                         <td class="admin"><%=getTran("web","complementarycoverage",sWebLanguage)%></td>
                         <%
-                        	String sExtraInsurar="";
+                        	String sExtraInsurar = "";
                         	if(!sEditInsurarId.equalsIgnoreCase(getTranNoLink("patientsharecoverageinsurance",sEditInsurarId,sWebLanguage))){
                         		sExtraInsurar="checked";
                         	}
                         %>
                         <td class="admin2">
-                            <input type="checkbox" class="text" name="EditInsurarExtra" <%=sExtraInsurar %>/>
+                            <input type="checkbox" name="EditInsurarExtra" <%=sExtraInsurar %>/>
                         </td>
                     </tr>
                     <tr>
                         <td class="admin"><%=getTran("web","complementarycoverage2",sWebLanguage)%></td>
                         <%
-                        	String sExtraInsurar2="";
+                        	String sExtraInsurar2 = "";
                         	if(!sEditInsurarId.equalsIgnoreCase(getTranNoLink("patientsharecoverageinsurance2",sEditInsurarId,sWebLanguage))){
-                        		sExtraInsurar2="checked";
+                        		sExtraInsurar2 = "checked";
                         	}
                         %>
                         <td class="admin2">
-                            <input type="checkbox" class="text" name="EditInsurarExtra2" <%=sExtraInsurar2 %>/>
+                            <input type="checkbox" name="EditInsurarExtra2" <%=sExtraInsurar2 %>/>
                         </td>
                     </tr>
                     <tr>
                         <td class="admin"><%=getTran("web","nosupplements",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="checkbox" class="text" name="EditNoSupplements" <%=insurar.getNoSupplements()==1?"checked":""%> value="1"/>
+                            <input type="checkbox" name="EditNoSupplements" <%=insurar.getNoSupplements()==1?"checked":""%> value="1"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="admin"><%=getTran("web","coversupplements",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="checkbox" class="text" name="EditCoverSupplements" <%=insurar.getCoverSupplements()==1?"checked":""%> value="1"/>
+                            <input type="checkbox" name="EditCoverSupplements" <%=insurar.getCoverSupplements()==1?"checked":""%> value="1"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="admin"><%=getTran("web","requireaffiliateid",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="checkbox" class="text" name="EditInsurarRequiresAffiliateID" <%=insurar.getRequireAffiliateID()==1?"checked":""%> value="1"/>
+                            <input type="checkbox" name="EditInsurarRequiresAffiliateID" <%=insurar.getRequireAffiliateID()==1?"checked":""%> value="1"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="admin"><%=getTran("web","authorizationneeded",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="checkbox" class="text" name="EditAuthorizationNeeded" <%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","").indexOf("*"+insurar.getUid()+"*")>-1?"checked":""%> value="1"/>
+                            <input type="checkbox" name="EditAuthorizationNeeded" <%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","").indexOf("*"+insurar.getUid()+"*")>-1?"checked":""%> value="1"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="admin"><%=getTran("web","acceptationneeded",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="checkbox" class="text" name="EditAcceptationNeeded" <%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+insurar.getUid()+"*")>-1?"checked":""%> value="1"/>
+                            <input type="checkbox" name="EditAcceptationNeeded" <%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+insurar.getUid()+"*")>-1?"checked":""%> value="1"/>
                         </td>
                     </tr>
                     <tr>
                         <td class="admin"><%=getTran("web","requirevalidation",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="checkbox" class="text" name="EditInsurarRequiresValidation" <%=insurar.getRequireValidation()==1?"checked":""%> value="1"/>
+                            <input type="checkbox" name="EditInsurarRequiresValidation" <%=insurar.getRequireValidation()==1?"checked":""%> value="1"/>
                         </td>
                     </tr>
                     <%-- SELECTED CATEGORIES --%>
@@ -614,6 +625,7 @@
                                 <%-- categories --%>
                                 <%=sCategoryHtml%>
                             </table>
+                            
                             <%-- number of categories found --%>
                             <span id="recordsFoundMsg" style="width:49%;text-align:left;vertical-align:top;">
                                 <%
@@ -641,7 +653,7 @@
                     <tr>
                         <td class="admin"><%=getTran("web","inactive",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="checkbox" class="text" name="EditInactive" <%=insurar.getInactive()==1?"checked":""%> value="1"/>
+                            <input type="checkbox" name="EditInactive" <%=insurar.getInactive()==1?"checked":""%> value="1"/>
                         </td>
                     </tr>
                     
@@ -675,6 +687,7 @@
     <input type="hidden" name="selectedCategories">
     <input type="hidden" name="categoriesToDelete">
 </form>
+
 <script>
   <%
       if(sAction.equals("edit") || sAction.equals("new")){
@@ -739,33 +752,31 @@
     var catCount = <%=catCount%>;
     if(catCount > 0){
       var url = "<c:url value='/financial/countPatientsPerCategory.jsp'/>?ts="+new Date().getTime();
-      new Ajax.Request(url,
-        {
-          method: "GET",
-          parameters: {
-            InsurarUid:insurarUid
-          },
-          onSuccess: function(resp){
-            var sPatientsPerCategory = resp.responseText.trim();
-            var counts = sPatientsPerCategory.split("$");
-            var letterAndCount;
+      new Ajax.Request(url,{
+        method: "GET",
+        parameters: {
+          InsurarUid:insurarUid
+        },
+        onSuccess: function(resp){
+          var sPatientsPerCategory = resp.responseText.trim();
+          var counts = sPatientsPerCategory.split("$");
+          var letterAndCount;
 
-            var catDivs = document.getElementsByTagName("div");
-            var div;
-            for(var i=0; i<catDivs.length; i++){
-              div = catDivs[i];
-              if(div.id.startsWith("catDiv_")){
-                div.innerHTML = "0";
-              }
-            }
-
-            for(var i=0; i<counts.length-1; i++){
-              letterAndCount = counts[i];
-              $("catDiv_"+letterAndCount.split(":")[0]).innerHTML = letterAndCount.split(":")[1];
+          var catDivs = document.getElementsByTagName("div");
+          var div;
+          for(var i=0; i<catDivs.length; i++){
+            div = catDivs[i];
+            if(div.id.startsWith("catDiv_")){
+              div.innerHTML = "0";
             }
           }
+
+          for(var i=0; i<counts.length-1; i++){
+            letterAndCount = counts[i];
+            $("catDiv_"+letterAndCount.split(":")[0]).innerHTML = letterAndCount.split(":")[1];
+          }
         }
-      );
+      });
     }
   }
 
@@ -779,18 +790,11 @@
       addCategoryToTable(catName,catLabel,catShare,-1);
     }
     else{
-           if(catName.length == 0) { transactionForm.EditCategoryName.focus(); }
-      else if(catLabel.length == 0){ transactionForm.EditCategoryLabel.focus(); }
-      else if(catShare.length == 0){ transactionForm.EditPatientShare.focus(); }
+           if(catName.length==0) { transactionForm.EditCategoryName.focus(); }
+      else if(catLabel.length==0){ transactionForm.EditCategoryLabel.focus(); }
+      else if(catShare.length==0){ transactionForm.EditPatientShare.focus(); }
 
-      var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=<%=getTs()%>&labelType=web&labelID=somefieldsareempty";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        if (window.showModalDialog) {
-            window.showModalDialog(popupUrl,"",modalities);
-        }
-        else {
-            alertDialogDirectText('<%=getTranNoLink("web.manage","somefieldsareempty",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
-        }
+      alertDialog("web.manage","dataMissing");
     }
   }
 
@@ -835,8 +839,8 @@
         row.insertCell(i);
       }
 
-      row.cells[0].innerHTML = "<a href='#' onclick='deleteCategory(rowCategory"+iIndexCategories+");'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>&nbsp;"+
-                               "<a href='#' onclick='editCategory(rowCategory"+iIndexCategories+");'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web","edit",sWebLanguage)%>' border='0'></a>&nbsp;";
+      row.cells[0].innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' onclick='deleteCategory(rowCategory"+iIndexCategories+");' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>'></a>&nbsp;"+
+                               "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' class='link' onclick='editCategory(rowCategory"+iIndexCategories+");' alt='<%=getTranNoLink("Web","edit",sWebLanguage)%>'></a>&nbsp;";
       row.cells[1].innerHTML = catName;
 
       // remove quotes from label
@@ -859,15 +863,7 @@
       clearCategoryFields();
     }
     else{
-      var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=<%=getTs()%>&labelType=web.manage&labelID=categoryExists";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        if (window.showModalDialog) {
-            window.showModalDialog(popupUrl,"",modalities);
-        }
-        else {
-            alertDialogDirectText('<%=getTranNoLink("web.manage","categoryExists",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
-        }
-
+      alertDialog("web.manage","categoryExists");
       transactionForm.EditCategoryName.focus();
     }
   }
@@ -898,8 +894,8 @@
 
       <%-- update table object --%>
       var row = tblCategories.rows[editCategoryRowid.rowIndex];
-      row.cells[0].innerHTML = "<a href='#' onclick='deleteCategory("+editCategoryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'></a> "+
-                               "<a href='#' onclick='editCategory("+editCategoryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'></a>";
+      row.cells[0].innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' onclick='deleteCategory("+editCategoryRowid.id+");' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>'></a> "+
+                               "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' class='link' onclick='editCategory("+editCategoryRowid.id+");' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>'></a>";
 
       row.cells[1].innerHTML = transactionForm.EditCategoryName.value;
       row.cells[2].innerHTML = transactionForm.EditCategoryLabel.value;
@@ -943,7 +939,7 @@
         if (window.showModalDialog) {
             window.showModalDialog(popupUrl,"",modalities);
         }
-        else {
+        else{
         	alertDialogDirectText('<%=getTranNoLink("web.manage","countPatientsPerCategoryBeforeDelete",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
         }
       }
@@ -1090,7 +1086,9 @@
 
   <%-- SAVE INSURAR --%>
   function saveInsurar(){
-    if(transactionForm.EditInsurarName.value.length > 0 && transactionForm.EditInsurarOfficialName.value.length > 0 && transactionForm.EditInsurarLanguage.selectedIndex >= 1){
+    if(transactionForm.EditInsurarName.value.length > 0 &&
+       transactionForm.EditInsurarOfficialName.value.length > 0 &&
+       transactionForm.EditInsurarLanguage.selectedIndex > 0){
       if(transactionForm.EditInsurarId.value.length==0){
         transactionForm.EditInsurarId.value = "-1";
       }
@@ -1108,7 +1106,7 @@
       var temp = Form.findFirstElement(transactionForm);//for ff compatibility
       <%
           SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
-          out.print(takeOverTransaction(sessionContainerWO, activeUser,"document.transactionForm.submit();"));
+          out.print(takeOverTransaction(sessionContainerWO,activeUser,"document.transactionForm.submit();"));
       %>
     }
     else{
@@ -1122,15 +1120,7 @@
         transactionForm.EditInsurarLanguage.focus();
       }
 
-      var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=<%=getTs()%>&labelType=web.manage&labelID=dataMissing";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-      if(window.showModalDialog){
-        window.showModalDialog(popupUrl,"",modalities);
-      }
-      else{
-        alertDialog("web.manage","datamissing");
-      }
+      alertDialog("web.manage","datamissing");
     }
   }
 
