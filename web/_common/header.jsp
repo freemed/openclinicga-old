@@ -95,7 +95,12 @@
 			   	    	    %><div class="logo" style="background:url('<%=bgi%>');"></div><%
 			   	   	    }
 			   	   	    else{
-			   	   	    	Debug.println("INFO : Configured project-logo-file for edition '"+sEdition+"' does not exist : '"+sLogoUrl+"'");
+			   	   	    	// default theme
+			   			    bgi = "/_img/themes/"+(sUserTheme.length()==0?"default":sUserTheme)+"/logo.png";
+			   	   	   	    bgi = sCONTEXTPATH+"/"+bgi;   
+			   	    	    %><div class="logo" style="background:url('<%=bgi%>');"></div><%
+			   	   	    	
+			   	   	    	Debug.println("INFO : Configured project-logo-file for edition '"+sEdition+"' does not exist : '"+sLogoUrl+"', USING default logo");
 			   	   	    }
 			   	    }
                 %> 
