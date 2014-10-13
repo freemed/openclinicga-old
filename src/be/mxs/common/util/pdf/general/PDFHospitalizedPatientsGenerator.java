@@ -84,14 +84,14 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
         // logo
         try{
             Image img = Miscelaneous.getImage("logo_"+sProject+".gif",sProject);
-            img.scaleToFit(75, 75);
+            img.scaleToFit(75,75);
             cell = new PdfPCell(img);
             cell.setBorder(PdfPCell.NO_BORDER);
             cell.setColspan(5);
             table.addCell(cell);
         }
-        catch(NullPointerException e){
-            Debug.println("WARNING : PDFPatientFlowOverviewGenerator --> IMAGE NOT FOUND : logo_"+sProject+".gif");
+        catch(Exception e){
+            Debug.println("WARNING : PDFHospitalizedPatientsGenerator --> IMAGE NOT FOUND : logo_"+sProject+".gif");
             e.printStackTrace();
         }
 
@@ -119,7 +119,7 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
         table.addCell(createCell(cell,1,PdfPCell.ALIGN_CENTER,PdfPCell.BOX));
 
         doc.add(table);
-        addBlankRow();
+        //addBlankRow();
     }
 
     //--- PRINT OVERVIEW --------------------------------------------------------------------------
@@ -154,14 +154,14 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
                 String sLabelValue;
                 Vector vOutcome = new Vector();
 
-                if (labelTypes!=null) {
+                if(labelTypes!=null){
                     Hashtable labelIds = (Hashtable)labelTypes.get("encounter.outcome");
 
-                    if(labelIds!=null) {
+                    if(labelIds!=null){
                         Enumeration idsEnum = labelIds.elements();
                         net.admin.Label label;
 
-                        while (idsEnum.hasMoreElements()) {
+                        while(idsEnum.hasMoreElements()){
                             label = (net.admin.Label)idsEnum.nextElement();
 
                             hOutcomes.put(label.value,label.id);
@@ -178,7 +178,7 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
                 Collections.sort(sortedServices);
                 Iterator serviceIter = sortedServices.iterator();
 
-                while (serviceIter.hasNext()) {
+                while(serviceIter.hasNext()){
                     sServiceId = (String) serviceIter.next();
                     sServiceId = (String) hSortedServices.get(sServiceId);
 
@@ -187,7 +187,7 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
                     PdfPTable serviceTable = new PdfPTable(colsPerRow);
 
                     // title
-                    serviceTable.addCell(createGrayCell(getTran("service",sServiceId),colsPerRow));
+                    serviceTable.addCell(createGrayCell(sServiceId+" - "+getTran("service",sServiceId),colsPerRow));
 
                     // header
                     serviceTable.addCell(createHeaderCell(getTran("web","date"),1));
@@ -199,7 +199,7 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
                     outcomesTable.addCell(createHeaderCell(getTran("web.statistics","departures"),hOutcomes.size()+1));
 
                     itOutcome = vOutcome.iterator();
-                    while (itOutcome.hasNext()) {
+                    while(itOutcome.hasNext()){
                         sLabelValue = (String)itOutcome.next();
                         outcomesTable.addCell(createHeaderCell(sLabelValue,1));
                     }
@@ -220,13 +220,13 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
                     dFindBegin = ScreenHelper.getSQLDate(sTmpFindBegin);
                     dFindEnd = ScreenHelper.getSQLDate(sToDate);
 
-                    if (dFindBegin!=null){
-                        while (dFindBegin.getTime() < dFindEnd.getTime()){
-                            if (sTmpFindBegin.length()>0){
+                    if(dFindBegin!=null){
+                        while(dFindBegin.getTime() < dFindEnd.getTime()){
+                            if(sTmpFindBegin.length()>0){
                                 iBroughtForward = Encounter.getHospitalizePatientsAtDate(sTmpFindBegin,sServiceId);
                                 sTmpFindBegin = "";
                             }
-                            else {
+                            else{
                                 iBroughtForward = iCarriedForward;
                             }
 
@@ -236,17 +236,17 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
                             sDate = ScreenHelper.getDateAdd(ScreenHelper.getSQLDate(dFindBegin),"1");
                             dFindBegin = ScreenHelper.getSQLDate(sDate);
 
-                            for (int i=0;i<vRows.size();i++){
+                            for(int i=0; i<vRows.size(); i++){
                                 hRow = (Hashtable)vRows.elementAt(i);
                                 dBegin = (Date)hRow.get("begin");
                                 dEnd = (Date)hRow.get("end");
                                 sOutcome = (String) hRow.get("outcome");
 
-                                if (ScreenHelper.getSQLDate(dBegin).equals(ScreenHelper.getSQLDate(dFindBegin))){
+                                if(ScreenHelper.getSQLDate(dBegin).equals(ScreenHelper.getSQLDate(dFindBegin))){
                                     iNewPatients++;
                                 }
-                                else {
-                                    if (ScreenHelper.getSQLDate(dEnd).equals(ScreenHelper.getSQLDate(dFindBegin))){
+                                else{
+                                    if(ScreenHelper.getSQLDate(dEnd).equals(ScreenHelper.getSQLDate(dFindBegin))){
                                         hOutcomesTotal.put(sOutcome.toLowerCase(),new Integer(((Integer)hOutcomesTotal.get(sOutcome.toLowerCase())).intValue()+1));
                                         iSubtotal++;
                                     }
@@ -256,12 +256,12 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
                             iCarriedForward = iBroughtForward + iNewPatients - iSubtotal;
 
                             // draw one day-row
-                            serviceTable.addCell(createValueCell(sDate,1));
+                            serviceTable.addCell(createDateCell(sDate,1));
                             serviceTable.addCell(createBoldValueCell(iBroughtForward,1));
                             serviceTable.addCell(createValueCell(iNewPatients,1));
 
                             itOutcome = vOutcome.iterator();
-                            while (itOutcome.hasNext()) {
+                            while(itOutcome.hasNext()){
                                 sLabelValue = (String)itOutcome.next();
                                 sLabelID = (String)hOutcomes.get(sLabelValue);
 
@@ -385,6 +385,18 @@ public class PDFHospitalizedPatientsGenerator extends PDFBasic {
         cell.setBorderColor(innerBorderColor);
         cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
         cell.setHorizontalAlignment(alignment);
+
+        return cell;
+    }
+    
+    //--- CREATE DATE CELL ------------------------------------------------------------------------
+    protected PdfPCell createDateCell(String value, int colspan){
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,6,Font.NORMAL)));
+        cell.setColspan(colspan);
+        cell.setBorder(PdfPCell.BOX);
+        cell.setBorderColor(innerBorderColor);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 
         return cell;
     }

@@ -1,4 +1,5 @@
 package be.openclinic.finance;
+
 import be.openclinic.common.OC_Object;
 import be.openclinic.common.ObjectReference;
 import be.openclinic.adt.Encounter;
@@ -15,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+
 public class Debet extends OC_Object implements Comparable,Cloneable {
     private Date date;
     private double amount;
@@ -701,13 +703,14 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
     }
 
     //--- GET UNASSIGNED PATIENT DEBETS (1) -------------------------------------------------------
-    public static Vector getUnassignedPatientDebets(String sPatientId) {
+    public static Vector getUnassignedPatientDebets(String sPatientId){
         String sSelect = "";
         PreparedStatement ps = null;
         ResultSet rs = null;
+        
         Vector vUnassignedDebets = new Vector();
         String serverid = MedwanQuery.getInstance().getConfigString("serverId") + ".";
-        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection loc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try {
             sSelect = "SELECT * FROM OC_ENCOUNTERS e, OC_DEBETS d"+
                       " WHERE e.OC_ENCOUNTER_PATIENTUID = ?"+

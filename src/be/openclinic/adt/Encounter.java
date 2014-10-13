@@ -2582,6 +2582,7 @@ public class Encounter extends OC_Object {
             if (sFindServiceCode.length() > 0) {
                 sSQL += " AND OC_ENCOUNTER_SERVICEUID = ? ";
             }
+            Debug.println(sSQL);
             ps = oc_conn.prepareStatement(sSQL);
 
             int iIndex = 1;

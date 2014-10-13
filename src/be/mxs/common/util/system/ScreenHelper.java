@@ -26,6 +26,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class ScreenHelper {
     public static SimpleDateFormat hourFormat, stdDateFormat, fullDateFormat, fullDateFormatSS;
@@ -350,22 +351,22 @@ public class ScreenHelper {
     }
 
     //--- GET TRAN --------------------------------------------------------------------------------
-    public static String getTran(String sType, String sID, String sLanguage) {
+    public static String getTran(String sType, String sID, String sLanguage){
         return getTran(sType,sID,sLanguage,false);
     }
 
-    public static String getTran(String sType, String sID, String sLanguage, boolean displaySimplePopup) {
+    public static String getTran(String sType, String sID, String sLanguage, boolean displaySimplePopup){
         String labelValue = "";
 
         try{
-            if(sLanguage==null || sLanguage.length() != 2){
+            if(sLanguage==null || sLanguage.length()!=2){
                 return sID;
             }
 
             if(sType.equalsIgnoreCase("service") || sType.equalsIgnoreCase("function")){
                 labelValue = MedwanQuery.getInstance().getLabel(sType.toLowerCase(),sID.toLowerCase(),sLanguage);
 
-                if(labelValue.length() == 0){
+                if(labelValue.length()==0){
                     if(checkString(MedwanQuery.getInstance().getConfigString("showLinkNoTranslation")).equals("on")){
                         String url = "system/"+(displaySimplePopup?"manageTranslationsPopupSimple":"manageTranslationsPopup")+".jsp&EditOldLabelID="+sID+"&EditOldLabelType="+sType+"&EditOldLabelLang="+sLanguage+"&Action=Select";
                         return "<a href='#' onClick=javascript:openPopup('"+url+"');>"+sID+"</a>"; // onclick without parenthesis
@@ -380,13 +381,13 @@ public class ScreenHelper {
             }
             else{
                 Hashtable langHashtable = MedwanQuery.getInstance().getLabels();
-                if(langHashtable == null){
+                if(langHashtable==null){
                     saveUnknownLabel(sType, sID, sLanguage);
                     return sID;
                 }
 
                 Hashtable typeHashtable = (Hashtable)langHashtable.get(sLanguage.toLowerCase());
-                if(typeHashtable == null){
+                if(typeHashtable==null){
                     if(checkString(MedwanQuery.getInstance().getConfigString("showLinkNoTranslation")).equals("on")){
                         String url = "system/"+(displaySimplePopup?"manageTranslationsPopupSimple":"manageTranslationsPopup")+".jsp&EditOldLabelID="+sID+"&EditOldLabelType="+sType+"&EditOldLabelLang="+sLanguage+"&Action=Select";
                         return "<a href='#' onClick=javascript:openPopup('"+url+"');>"+sID+"</a>"; // onclick without parenthesis
@@ -397,7 +398,7 @@ public class ScreenHelper {
                 }
 
                 Hashtable idHashtable = (Hashtable)typeHashtable.get(sType.toLowerCase());
-                if(idHashtable == null){
+                if(idHashtable==null){
                     if(checkString(MedwanQuery.getInstance().getConfigString("showLinkNoTranslation")).equals("on")){
                         String url = "system/"+(displaySimplePopup?"manageTranslationsPopupSimple":"manageTranslationsPopup")+".jsp&EditOldLabelID="+sID+"&EditOldLabelType="+sType+"&EditOldLabelLang="+sLanguage+"&Action=Select";
                         return "<a href='#' onClick=javascript:openPopup('"+url+"');>"+sID+"</a>"; // onclick without parenthesis
@@ -408,7 +409,7 @@ public class ScreenHelper {
                 }
 
                 Label label = (Label)idHashtable.get(sID.toLowerCase());
-                if(label == null){
+                if(label==null){
                     if(checkString(MedwanQuery.getInstance().getConfigString("showLinkNoTranslation")).equals("on")){
                         String url = "system/"+(displaySimplePopup?"manageTranslationsPopupSimple":"manageTranslationsPopup")+".jsp&EditOldLabelID="+sID+"&EditOldLabelType="+sType+"&EditOldLabelLang="+sLanguage+"&Action=Select";
                         return "<a href='#' onClick=javascript:openPopup('"+url+"');>"+sID+"</a>"; // onclick without parenthesis
@@ -437,21 +438,21 @@ public class ScreenHelper {
     }
 
     //--- GET TRAN WITH LINK ----------------------------------------------------------------------
-    public static String getTranWithLink(String sType, String sID, String sLanguage) {
-        return getTranWithLink(sType, sID, sLanguage, false);
+    public static String getTranWithLink(String sType, String sID, String sLanguage){
+        return getTranWithLink(sType,sID,sLanguage,false);
     }
 
-    public static String getTranWithLink(String sType, String sID, String sLanguage, boolean displaySimplePopup) {
+    public static String getTranWithLink(String sType, String sID, String sLanguage, boolean displaySimplePopup){
         String labelValue = "";
         String url = "system/"+(displaySimplePopup?"manageTranslationsPopupSimple":"manageTranslationsPopup")+".jsp&EditOldLabelID="+sID+"&EditOldLabelType="+sType+"&EditOldLabelLang="+sLanguage+"&Action=Select";
 
         try{
-            if(sLanguage.length() != 2) throw new Exception("Language must be a two-letter notation.");
+            if(sLanguage.length()!=2) throw new Exception("Language must be a two-letter notation.");
 
             if(sType.equalsIgnoreCase("service") || sType.equalsIgnoreCase("function")){
                 labelValue = MedwanQuery.getInstance().getLabel(sType.toLowerCase(),sID.toLowerCase(),sLanguage);
 
-                if(labelValue.length() == 0){
+                if(labelValue.length()==0){
                     return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
                 }
                 else{
@@ -460,23 +461,23 @@ public class ScreenHelper {
             }
             else{
                 Hashtable langHashtable = MedwanQuery.getInstance().getLabels();
-                if(langHashtable == null){
+                if(langHashtable==null){
                     saveUnknownLabel(sType, sID, sLanguage);
                     return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
                 }
 
                 Hashtable typeHashtable = (Hashtable)langHashtable.get(sLanguage.toLowerCase());
-                if(typeHashtable == null){
+                if(typeHashtable==null){
                     return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
                 }
 
                 Hashtable idHashtable = (Hashtable)typeHashtable.get(sType.toLowerCase());
-                if(idHashtable == null){
+                if(idHashtable==null){
                     return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
                 }
 
                 Label label = (Label)idHashtable.get(sID.toLowerCase());
-                if(label == null){
+                if(label==null){
                     return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
                 }
 
@@ -540,7 +541,11 @@ public class ScreenHelper {
     }
 
     //--- GET TRAN NO LINK ------------------------------------------------------------------------
-    public static String getTranNoLink(String sType, String sID, String sLanguage) {    	
+    public static String getTranNoLink(String sType, String sID, String sLanguage){  
+    	if(sType==null){
+    		Debug.println("WARNING - getTranNoLink : sType is null for sID:"+sID+" and sLanguage:"+sLanguage);
+    		return "";
+    	}
     	if(sID==null){
     		Debug.println("WARNING - getTranNoLink : sID is null for sType:"+sType+" and sLanguage:"+sLanguage);
     		return "";
@@ -558,7 +563,7 @@ public class ScreenHelper {
         }
 
         try{
-            if(sLanguage!=null && sLanguage.length() == 2) {
+            if(sLanguage!=null && sLanguage.length()==2){
 	
 	            if(sType.equalsIgnoreCase("service") || sType.equalsIgnoreCase("function")){
 	                labelValue = MedwanQuery.getInstance().getLabel(sType.toLowerCase(),sID.toLowerCase(),sLanguage);
@@ -571,29 +576,29 @@ public class ScreenHelper {
 	                }
 	                else{
 	                    Hashtable langHashtable = MedwanQuery.getInstance().getLabels();
-	                    if(langHashtable == null){
+	                    if(langHashtable==null){
 	                        return sID;
 	                    }
 	
 	                    Hashtable typeHashtable = (Hashtable)langHashtable.get(sLanguage.toLowerCase());
-	                    if(typeHashtable == null){
+	                    if(typeHashtable==null){
 	                        return sID;
 	                    }
 	
 	                    Hashtable idHashtable = (Hashtable)typeHashtable.get(sType.toLowerCase());
-	                    if(idHashtable == null){
+	                    if(idHashtable==null){
 	                        return sID;
 	                    }
 	
 	                    Label label = (Label)idHashtable.get(sID.toLowerCase());
-	                    if(label == null){
+	                    if(label==null){
 	                        return sID;
 	                    }
 	
 	                    labelValue = label.value;
 	
 	                    // empty label : return id as labelValue
-	                    if(labelValue==null || labelValue.trim().length()==0) {
+	                    if(labelValue==null || labelValue.trim().length()==0){
 	                        return sID;
 	                    }
 	                }
@@ -608,9 +613,13 @@ public class ScreenHelper {
     }
     
     //--- GET TRAN NO ID --------------------------------------------------------------------------
-    public static String getTranNoId(String sType, String sID, String sLanguage) {    	
+    public static String getTranNoId(String sType, String sID, String sLanguage){    	
+    	if(sType==null){
+    		Debug.println("WARNING - getTranNoLink : sType is null for sID:"+sID+" and sLanguage:"+sLanguage);
+    		return "";
+    	}
     	if(sID==null){
-    		Debug.println("WARNING - getTranNoId : sID is null for sType:"+sType+" and sLanguage:"+sLanguage);
+    		Debug.println("WARNING - getTranNoLink : sID is null for sType:"+sType+" and sLanguage:"+sLanguage);
     		return "";
     	}
     	
@@ -626,7 +635,7 @@ public class ScreenHelper {
         }
 
         try{
-            if(sLanguage!=null && sLanguage.length() == 2){	
+            if(sLanguage!=null && sLanguage.length()==2){	
 	            if(sType.equalsIgnoreCase("service") || sType.equalsIgnoreCase("function")){
 	                labelValue = MedwanQuery.getInstance().getLabel(sType.toLowerCase(),sID.toLowerCase(),sLanguage);
 	            }
@@ -638,29 +647,29 @@ public class ScreenHelper {
 	                }
 	                else{
 	                    Hashtable langHashtable = MedwanQuery.getInstance().getLabels();
-	                    if(langHashtable == null){
+	                    if(langHashtable==null){
 	                        return "";
 	                    }
 	
 	                    Hashtable typeHashtable = (Hashtable)langHashtable.get(sLanguage.toLowerCase());
-	                    if(typeHashtable == null){
+	                    if(typeHashtable==null){
 	                        return "";
 	                    }
 	
 	                    Hashtable idHashtable = (Hashtable)typeHashtable.get(sType.toLowerCase());
-	                    if(idHashtable == null){
+	                    if(idHashtable==null){
 	                        return "";
 	                    }
 	
 	                    Label label = (Label)idHashtable.get(sID.toLowerCase());
-	                    if(label == null){
+	                    if(label==null){
 	                        return "";
 	                    }
 	
 	                    labelValue = label.value;
 	
 	                    // empty label : return id as labelValue
-	                    if(labelValue==null || labelValue.trim().length()==0) {
+	                    if(labelValue==null || labelValue.trim().length()==0){
 	                        return "";
 	                    }
 	                }
@@ -675,7 +684,7 @@ public class ScreenHelper {
     }
 
     //--- GET TRAN NO LINK ------------------------------------------------------------------------
-    public static String getTranExists(String sType, String sID, String sLanguage) {
+    public static String getTranExists(String sType, String sID, String sLanguage){
         String labelValue = "";
         if(sLanguage!=null && sLanguage.equalsIgnoreCase("f")){
         	sLanguage="fr";
@@ -688,7 +697,7 @@ public class ScreenHelper {
         }
 
         try{
-            if(sLanguage!=null && sLanguage.length() == 2) {
+            if(sLanguage!=null && sLanguage.length()==2){
 	
 	            if(sType.equalsIgnoreCase("service") || sType.equalsIgnoreCase("function")){
 	                labelValue = MedwanQuery.getInstance().getLabel(sType.toLowerCase(),sID.toLowerCase(),sLanguage);
@@ -704,29 +713,29 @@ public class ScreenHelper {
 	                }
 	                else{
 	                    Hashtable langHashtable = MedwanQuery.getInstance().getLabels();
-	                    if(langHashtable == null){
+	                    if(langHashtable==null){
 	                        return "";
 	                    }
 	
 	                    Hashtable typeHashtable = (Hashtable)langHashtable.get(sLanguage.toLowerCase());
-	                    if(typeHashtable == null){
+	                    if(typeHashtable==null){
 	                        return "";
 	                    }
 	
 	                    Hashtable idHashtable = (Hashtable)typeHashtable.get(sType.toLowerCase());
-	                    if(idHashtable == null){
+	                    if(idHashtable==null){
 	                        return "";
 	                    }
 	
 	                    Label label = (Label)idHashtable.get(sID.toLowerCase());
-	                    if(label == null){
+	                    if(label==null){
 	                        return "";
 	                    }
 	
 	                    labelValue = label.value;
 	
 	                    // empty label : return id as labelValue
-	                    if(labelValue==null || labelValue.trim().length()==0) {
+	                    if(labelValue==null || labelValue.trim().length()==0){
 	                        return "";
 	                    }
 	                }
@@ -815,19 +824,19 @@ public class ScreenHelper {
     }
 
     //--- SET ROW ---------------------------------------------------------------------------------
-    public static String setRow(String sType, String sID, String sValue, String sLanguage) {
+    public static String setRow(String sType, String sID, String sValue, String sLanguage){
         return "<tr><td class='admin'>"+getTran(sType,sID,sLanguage)+"</td><td class='admin2'>"+sValue+"</td></tr>";
     }
 
     //--- SET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
-    public static String setMaliAdminPrivateContact(AdminPrivateContact apc, String sLanguage) {
+    public static String setMaliAdminPrivateContact(AdminPrivateContact apc, String sLanguage){
         String sCountry = "&nbsp;";
-        if(checkString(apc.country).trim().length()>0) {
+        if(checkString(apc.country).trim().length()>0){
             sCountry = getTran("Country",apc.country,sLanguage);
         }
 
         String sProvince = "&nbsp;";
-        if(checkString(apc.province).trim().length()>0) {
+        if(checkString(apc.province).trim().length()>0){
             sProvince = getTran("province",apc.province,sLanguage);
         }
         return(
@@ -849,14 +858,14 @@ public class ScreenHelper {
     }
 
     //--- SET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
-    public static String setCameroonAdminPrivateContact(AdminPrivateContact apc, String sLanguage) {
+    public static String setCameroonAdminPrivateContact(AdminPrivateContact apc, String sLanguage){
         String sCountry = "&nbsp;";
-        if(checkString(apc.country).trim().length()>0) {
+        if(checkString(apc.country).trim().length()>0){
             sCountry = getTran("Country",apc.country,sLanguage);
         }
 
         String sProvince = "&nbsp;";
-        if(checkString(apc.province).trim().length()>0) {
+        if(checkString(apc.province).trim().length()>0){
             sProvince = getTran("province",apc.province,sLanguage);
         }
         return(
@@ -878,14 +887,14 @@ public class ScreenHelper {
     }
 
     //--- SET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
-    public static String setOpenclinicAdminPrivateContact(AdminPrivateContact apc, String sLanguage) {
+    public static String setOpenclinicAdminPrivateContact(AdminPrivateContact apc, String sLanguage){
         String sCountry = "&nbsp;";
-        if(checkString(apc.country).trim().length()>0) {
+        if(checkString(apc.country).trim().length()>0){
             sCountry = getTran("Country",apc.country,sLanguage);
         }
 
         String sProvince = "&nbsp;";
-        if(checkString(apc.province).trim().length()>0) {
+        if(checkString(apc.province).trim().length()>0){
             sProvince = getTran("province",apc.province,sLanguage);
         }
         return(
@@ -908,14 +917,14 @@ public class ScreenHelper {
     }
 
     //--- SET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
-    public static String setAdminPrivateContact(AdminPrivateContact apc, String sLanguage) {
+    public static String setAdminPrivateContact(AdminPrivateContact apc, String sLanguage){
         String sCountry = "&nbsp;";
-        if(checkString(apc.country).trim().length()>0) {
+        if(checkString(apc.country).trim().length()>0){
             sCountry = getTran("Country",apc.country,sLanguage);
         }
 
         String sProvince = "&nbsp;";
-        if(checkString(apc.province).trim().length()>0) {
+        if(checkString(apc.province).trim().length()>0){
             sProvince = getTran("province",apc.province,sLanguage);
         }
         if(MedwanQuery.getInstance().getConfigInt("cnarEnabled",0)==1){
@@ -954,14 +963,14 @@ public class ScreenHelper {
     }
 
     //--- SET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
-    public static String setAdminPrivateContactBurundi(AdminPrivateContact apc, String sLanguage) {
+    public static String setAdminPrivateContactBurundi(AdminPrivateContact apc, String sLanguage){
         String sCountry = "&nbsp;";
-        if(checkString(apc.country).trim().length()>0) {
+        if(checkString(apc.country).trim().length()>0){
             sCountry = getTran("Country",apc.country,sLanguage);
         }
 
         String sProvince = "&nbsp;";
-        if(checkString(apc.province).trim().length()>0) {
+        if(checkString(apc.province).trim().length()>0){
             sProvince = getTran("province",apc.province,sLanguage);
         }
         return(
@@ -983,14 +992,14 @@ public class ScreenHelper {
     }
 
     //--- SET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
-    public static String setAdminPrivateContactCDO(AdminPrivateContact apc, String sLanguage) {
+    public static String setAdminPrivateContactCDO(AdminPrivateContact apc, String sLanguage){
         String sCountry = "&nbsp;";
-        if(checkString(apc.country).trim().length()>0) {
+        if(checkString(apc.country).trim().length()>0){
             sCountry = getTran("Country",apc.country,sLanguage);
         }
 
         String sProvince = "&nbsp;";
-        if(checkString(apc.province).trim().length()>0) {
+        if(checkString(apc.province).trim().length()>0){
             sProvince = getTran("province",apc.province,sLanguage);
         }
         return(
@@ -1006,14 +1015,14 @@ public class ScreenHelper {
     }
 
     //--- WRITE LOOSE DATE FIELD YEAR -------------------------------------------------------------
-    public static String writeLooseDateFieldYear(String sName, String sForm, String sValue, boolean allowPastDates, boolean allowFutureDates, String sWebLanguage, String sCONTEXTDIR) {
+    public static String writeLooseDateFieldYear(String sName, String sForm, String sValue, boolean allowPastDates, boolean allowFutureDates, String sWebLanguage, String sCONTEXTDIR){
         String gfPopType = "1"; // default        
         if(allowPastDates && allowFutureDates){
             gfPopType = "1";
         }
         else{
           if(allowFutureDates){ gfPopType = "3"; }
-          else if(allowPastDates) { gfPopType = "2"; }
+          else if(allowPastDates){ gfPopType = "2"; }
         }
 
         // datefield that ALSO accepts just a year
@@ -1086,7 +1095,7 @@ public class ScreenHelper {
                                          boolean screenIsPopup, String sAPPFULLDIR){
         sPermission = sPermission.toLowerCase();
         String jsAlert = "Error in checkPermission : no screen specified !";
-        if(sScreen.trim().length()>0) {
+        if(sScreen.trim().length()>0){
             if(Application.isDisabled(sScreen)){
             	// empty
             }
@@ -1096,7 +1105,7 @@ public class ScreenHelper {
             else{
                 // screen and permission specified
                 if(sPermission.length() > 0 && !sPermission.equals("all")){
-                    if(sPermission.equals("none")) {
+                    if(sPermission.equals("none")){
                     	jsAlert = "";
                     }
                     else if(activeUser.getAccessRight(sScreen+"."+sPermission)){
@@ -1108,7 +1117,7 @@ public class ScreenHelper {
                 else if(activeUser.getAccessRight(sScreen+".edit") &&
                          activeUser.getAccessRight(sScreen+".add") &&
                          //activeUser.getAccessRight(sScreen+".select") &&
-                         activeUser.getAccessRight(sScreen+".delete")) {
+                         activeUser.getAccessRight(sScreen+".delete")){
                     jsAlert = "";
                 }
 
@@ -1132,7 +1141,7 @@ public class ScreenHelper {
     }
 
     //--- CHECK TRANSACTION PERMISSION ------------------------------------------------------------
-    static public String checkTransactionPermission(TransactionVO transaction, User activeUser, boolean screenIsPopup, String sAPPFULLDIR) {
+    static public String checkTransactionPermission(TransactionVO transaction, User activeUser, boolean screenIsPopup, String sAPPFULLDIR){
     	String jsAlert="";
     	if(checkString(transaction.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PRIVATETRANSACTION")).equalsIgnoreCase("1")){
     		try{
@@ -1156,7 +1165,7 @@ public class ScreenHelper {
     }
     
     //--- CHECK PERMISSION ------------------------------------------------------------------------
-    public static String checkPrestationToday(String sPersonId, String sAPPFULLDIR, boolean screenIsPopup, User activeUser, TransactionVO transaction) {
+    public static String checkPrestationToday(String sPersonId, String sAPPFULLDIR, boolean screenIsPopup, User activeUser, TransactionVO transaction){
         String jsAlert = "";
         String sMessage ="";
         String sEncounterUid="";
@@ -1240,42 +1249,42 @@ public class ScreenHelper {
 
     //--- WRITE SEARCH BUTTON ---------------------------------------------------------------------
     public static String writeSearchButton(String sButtonName, String sLabelType, String sVarCode, String sVarText,
-                                           String sShowID, String sWebLanguage, String sCONTEXTDIR) {
+                                           String sShowID, String sWebLanguage, String sCONTEXTDIR){
         return "<img src='"+sCONTEXTDIR+"/_img/icons/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"'"
               +"onclick='openPopup(\"_common/search/searchScreen.jsp&LabelType="+sLabelType+"&VarCode="+sVarCode+"&VarText="+sVarText+"&ShowID="+sShowID+"\");'>"
               +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icons/icon_delete.gif' class='link' alt='"+getTranNoLink("Web","clear",sWebLanguage)+"' onclick=\""+sVarCode+".value='';"+sVarText+".value='';\">";
     }
 
     public static String writeSearchButton(String sButtonName, String sLabelType, String sVarCode, String sVarText,
-                                           String sShowID,String sWebLanguage, String defaultValue, String sCONTEXTDIR) {
+                                           String sShowID,String sWebLanguage, String defaultValue, String sCONTEXTDIR){
         return  "<img src='"+sCONTEXTDIR+"/_img/icons/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"'"
               +" onclick='openPopup(\"_common/search/searchScreen.jsp&LabelType="+sLabelType+"&VarCode="+sVarCode+"&VarText="+sVarText+"&ShowID="+sShowID+"&DefaultValue="+defaultValue+"\");'>"
               +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icons/icon_delete.gif' class='link' alt='"+getTranNoLink("Web","clear",sWebLanguage)+"' onclick=\""+sVarCode+".value='';"+sVarText+".value='';\">";
     }
 
     //--- WRITE SERVICE BUTTON --------------------------------------------------------------------
-    public static String writeServiceButton(String sButtonName, String sVarCode, String sVarText,String sWebLanguage, String sCONTEXTDIR) {
+    public static String writeServiceButton(String sButtonName, String sVarCode, String sVarText,String sWebLanguage, String sCONTEXTDIR){
         return writeServiceButton(sButtonName,sVarCode,sVarText,false,sWebLanguage,sCONTEXTDIR);
     }
 
     public static String writeServiceButton(String sButtonName, String sVarCode, String sVarText,
-                                            boolean onlySelectContractWithDivision, String sWebLanguage, String sCONTEXTDIR) {
+                                            boolean onlySelectContractWithDivision, String sWebLanguage, String sCONTEXTDIR){
         return  "<img src='"+sCONTEXTDIR+"/_img/icons/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"'"
               +"onclick='openPopup(\"_common/search/searchService.jsp&VarCode="+sVarCode+"&VarText="+sVarText+"&onlySelectContractWithDivision="+onlySelectContractWithDivision+"\");'>"
               +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icons/icon_delete.gif' class='link' alt='"+getTranNoLink("Web","clear",sWebLanguage)+"' onclick=\"document.getElementsByName('"+sVarCode+"')[0].value='';document.getElementsByName('"+sVarText+"')[0].value='';\">";
     }
 
     //--- WRITE SELECT (SORTED) -------------------------------------------------------------------
-    public static String writeSelect(String sLabelType, String sSelected,String sWebLanguage) {
+    public static String writeSelect(String sLabelType, String sSelected,String sWebLanguage){
         return writeSelect(sLabelType,sSelected,sWebLanguage,false,true);
     }
 
-    public static String writeSelect(String sLabelType, String sSelected,String sWebLanguage, boolean showLabelID) {
+    public static String writeSelect(String sLabelType, String sSelected,String sWebLanguage, boolean showLabelID){
         return writeSelect(sLabelType,sSelected,sWebLanguage,showLabelID,true);
     }
 
     //--- WRITE SELECT UNSORTED -------------------------------------------------------------------
-    public static String writeSelectUnsorted(String sLabelType, String sSelected, String sWebLanguage) {
+    public static String writeSelectUnsorted(String sLabelType, String sSelected, String sWebLanguage){
         return writeSelect(sLabelType,sSelected,sWebLanguage,false,false);
     }
 
@@ -1286,23 +1295,23 @@ public class ScreenHelper {
         Iterator it;
 
         Hashtable labelTypes = (Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase());
-        if(labelTypes!=null) {
+        if(labelTypes!=null){
             Hashtable labelIds = (Hashtable)labelTypes.get(sLabelType.toLowerCase());
 
-            if(labelIds!=null) {
+            if(labelIds!=null){
                 Enumeration idsEnum = labelIds.elements();
                 Hashtable hSelected = new Hashtable();
 
                 if(sorted){
                     // sorted on value
-                    while (idsEnum.hasMoreElements()) {
+                    while (idsEnum.hasMoreElements()){
                         label = (Label)idsEnum.nextElement();
                         hSelected.put(label.value,label.id);
                     }
                 }
                 else{
                     // sorted on id
-                    while (idsEnum.hasMoreElements()) {
+                    while (idsEnum.hasMoreElements()){
                         label = (Label)idsEnum.nextElement();
                         hSelected.put(label.id,label.value);
                     }
@@ -1317,7 +1326,7 @@ public class ScreenHelper {
 
                 // to html
                 String sLabelValue, sLabelID;
-                while (it.hasNext()) {
+                while (it.hasNext()){
                     if(sorted){
                         sLabelValue = (String)it.next();
                         sLabelID = (String)hSelected.get(sLabelValue);
@@ -1328,7 +1337,7 @@ public class ScreenHelper {
                     }
 
                     sOptions+= "<option value='"+sLabelID+"'";
-                    if(sLabelID.toLowerCase().equals(sSelected.toLowerCase())) {
+                    if(sLabelID.toLowerCase().equals(sSelected.toLowerCase())){
                         sOptions+= " selected";
                     }
 
@@ -1352,23 +1361,23 @@ public class ScreenHelper {
         Iterator it;
 
         Hashtable labelTypes = (Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase());
-        if(labelTypes!=null) {
+        if(labelTypes!=null){
             Hashtable labelIds = (Hashtable)labelTypes.get(sLabelType.toLowerCase());
 
-            if(labelIds!=null) {
+            if(labelIds!=null){
                 Enumeration idsEnum = labelIds.elements();
                 Hashtable hSelected = new Hashtable();
 
                 if(sorted){
                     // sorted on value
-                    while (idsEnum.hasMoreElements()) {
+                    while (idsEnum.hasMoreElements()){
                         label = (Label)idsEnum.nextElement();
                         hSelected.put(label.value.toUpperCase(),label.id);
                     }
                 }
                 else{
                     // sorted on id
-                    while (idsEnum.hasMoreElements()) {
+                    while (idsEnum.hasMoreElements()){
                         label = (Label)idsEnum.nextElement();
                         hSelected.put(label.id,label.value.toUpperCase());
                     }
@@ -1383,7 +1392,7 @@ public class ScreenHelper {
 
                 // to html
                 String sLabelValue, sLabelID;
-                while (it.hasNext()) {
+                while (it.hasNext()){
                     if(sorted){
                         sLabelValue = (String)it.next();
                         sLabelID = (String)hSelected.get(sLabelValue);
@@ -1394,7 +1403,7 @@ public class ScreenHelper {
                     }
 
                     sOptions+= "<option value='"+sLabelID+"'";
-                    if(sLabelID.toLowerCase().equals(sSelected.toLowerCase())) {
+                    if(sLabelID.toLowerCase().equals(sSelected.toLowerCase())){
                         sOptions+= " selected";
                     }
 
@@ -1417,23 +1426,23 @@ public class ScreenHelper {
         Iterator it;
 
         Hashtable labelTypes = (Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase());
-        if(labelTypes!=null) {
+        if(labelTypes!=null){
             Hashtable labelIds = (Hashtable)labelTypes.get(sLabelType.toLowerCase());
 
-            if(labelIds!=null) {
+            if(labelIds!=null){
                 Enumeration idsEnum = labelIds.elements();
                 Hashtable hSelected = new Hashtable();
 
                 if(sorted){
                     // sorted on value
-                    while (idsEnum.hasMoreElements()) {
+                    while (idsEnum.hasMoreElements()){
                         label = (Label)idsEnum.nextElement();
                         hSelected.put(label.value,label.id);
                     }
                 }
                 else{
                     // sorted on id
-                    while (idsEnum.hasMoreElements()) {
+                    while (idsEnum.hasMoreElements()){
                         label = (Label)idsEnum.nextElement();
                         hSelected.put(label.id,label.value);
                     }
@@ -1448,7 +1457,7 @@ public class ScreenHelper {
 
                 // to html
                 String sLabelValue, sLabelID;
-                while (it.hasNext()) {
+                while (it.hasNext()){
                     if(sorted){
                         sLabelValue = (String)it.next();
                         sLabelID = (String)hSelected.get(sLabelValue);
@@ -1460,7 +1469,7 @@ public class ScreenHelper {
                     if(sExclude.indexOf(sLabelID)<0){
 
                         sOptions+= "<option value='"+sLabelID+"'";
-                        if(sLabelID.toLowerCase().equals(sSelected.toLowerCase())) {
+                        if(sLabelID.toLowerCase().equals(sSelected.toLowerCase())){
                             sOptions+= " selected";
                         }
 
@@ -1479,7 +1488,7 @@ public class ScreenHelper {
     }
 
     //--- WRITE ZIPCODE BUTTON --------------------------------------------------------------------
-    public static String writeZipcodeButton(String sButtonName, String sZipcode, String sCity, String sWebLanguage, String sCONTEXTDIR) {
+    public static String writeZipcodeButton(String sButtonName, String sZipcode, String sCity, String sWebLanguage, String sCONTEXTDIR){
         String sSearch = sZipcode+".value";
 
         return "<img src='"+sCONTEXTDIR+"/_img/icons/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"' "
@@ -1487,7 +1496,7 @@ public class ScreenHelper {
               +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icons/icon_delete.gif' class='link' alt='"+getTranNoLink("Web","clear",sWebLanguage)+"' onclick=\""+sZipcode+".value='';"+sCity+".value='';\">";
     }
 
-    public static String writeZipcodeButton(String sButtonName, String sZipcode, String sCity, String sWebLanguage, String sDisplayLang, String sCONTEXTDIR) {
+    public static String writeZipcodeButton(String sButtonName, String sZipcode, String sCity, String sWebLanguage, String sDisplayLang, String sCONTEXTDIR){
         String sSearch = sZipcode+".value";
 
         return "<img src='"+sCONTEXTDIR+"/_img/icons/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"' "
@@ -1496,7 +1505,7 @@ public class ScreenHelper {
     }
 
     //--- SAVE UNKNOWN LABEL ----------------------------------------------------------------------
-    public static void saveUnknownLabel(String sLabelType, String sLabelID, String sLabelLang) {
+    public static void saveUnknownLabel(String sLabelType, String sLabelID, String sLabelLang){
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -1516,7 +1525,7 @@ public class ScreenHelper {
             if(rs!=null) rs.close();
             if(ps!=null) ps.close();
 
-            if(!bFound) {
+            if(!bFound){
                 sSelect = "INSERT INTO OC_UNKNOWNLABELS (OC_LABEL_TYPE, OC_LABEL_ID, OC_LABEL_LANGUAGE,"+
                           "  OC_LABEL_VALUE, OC_LABEL_UNKNOWNDATETIME)"+
                           " VALUES (?,?,?,?)";
@@ -1546,9 +1555,9 @@ public class ScreenHelper {
     }
 
     //--- CHECK STRING ----------------------------------------------------------------------------
-    public static String checkString(String sString) {
+    public static String checkString(String sString){
         // om geen 'null' weer te geven
-        if((sString==null)||(sString.toLowerCase().equals("null"))) {
+        if((sString==null)||(sString.toLowerCase().equals("null"))){
             return "";
         }
         else{
@@ -1558,13 +1567,13 @@ public class ScreenHelper {
     }
 
     //--- GET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
-    public static AdminPrivateContact getActivePrivate(AdminPerson person) {
+    public static AdminPrivateContact getActivePrivate(AdminPerson person){
         AdminPrivateContact apcActive = null;
         AdminPrivateContact apc;
 
-        for (int i=0; i<person.privateContacts.size(); i++) {
+        for(int i=0; i<person.privateContacts.size(); i++){
             apc = ((AdminPrivateContact)(person.privateContacts.elementAt(i)));
-            if(apc.end==null || apc.end.trim().equals("")) {
+            if(apc.end==null || apc.end.trim().equals("")){
                 if(apcActive==null || ScreenHelper.parseDate(apc.begin).after(ScreenHelper.parseDate(apcActive.begin))){
                     apcActive=apc;
                 }
@@ -1575,12 +1584,12 @@ public class ScreenHelper {
     }
 
     //--- REPLACE ---------------------------------------------------------------------------------
-    public static String replace(String sValue, String sSearch, String sReplace) {
+    public static String replace(String sValue, String sSearch, String sReplace){
         String sResult = "", sLeft = sValue;
 
         int iIndex = sLeft.indexOf(sSearch);
-        if(iIndex > -1) {
-            while (iIndex > -1) {
+        if(iIndex > -1){
+            while (iIndex > -1){
                 sResult += sLeft.substring(0,iIndex)+sReplace;
                 sLeft = sLeft.substring(iIndex+1,sLeft.length());
                 iIndex = sLeft.indexOf(sSearch);
@@ -1595,12 +1604,12 @@ public class ScreenHelper {
     }
 
     //--- GET TS ----------------------------------------------------------------------------------
-    public static String getTs() {
+    public static String getTs(){
         return new java.util.Date().hashCode()+"";
     }
 
     //--- GET DATE --------------------------------------------------------------------------------
-    public static String getDate() {
+    public static String getDate(){
         return stdDateFormat.format(new java.util.Date());
     }
 
@@ -1612,7 +1621,7 @@ public class ScreenHelper {
     //--- FORMAT DATE -----------------------------------------------------------------------------
     public static String formatDate(java.util.Date dDate){
         String sDate = "";
-        if(dDate!=null) {
+        if(dDate!=null){
             sDate = stdDateFormat.format(dDate);
         }
         return sDate;
@@ -1620,23 +1629,24 @@ public class ScreenHelper {
     
     public static String formatDate(java.util.Date dDate, SimpleDateFormat dateFormat){
         String sDate = "";
-        if(dDate!=null) {
+        if(dDate!=null){
             sDate = dateFormat.format(dDate);
         }
         return sDate;
     }
 
     //--- WRITE TABLE FOOTER ----------------------------------------------------------------------
-    public static String writeTblFooter() {
+    public static String writeTblFooter(){
         return "</table></td></tr></td></tr></table>";
     }
 
     //--- WRITE TABLE HEADER ----------------------------------------------------------------------
-    public static String writeTblHeader(String sHeader, String sCONTEXTDIR) {
+    public static String writeTblHeader(String sHeader, String sCONTEXTDIR){
         return "<table border='0' cellspacing='0' cellpadding='0' class='menu' width='100%'>"+
                 "<tr class='admin'><td width='100%'>&nbsp;&nbsp;"+sHeader+"&nbsp;&nbsp;</td></tr>"+
-                //"<tr><td><img src='"+sCONTEXTDIR+"/_img/pix_bl.gif' alt='' width='100' height='1' border='0'></td></tr>"+
-                "<tr><td><table width='100%' cellspacing='1'>";
+                "<tr>"+
+                 "<td>"+
+                  "<table width='100%' cellspacing='1'>";
     }
 
     //--- WRITE TABLE CHILD -----------------------------------------------------------------------
@@ -1654,7 +1664,7 @@ public class ScreenHelper {
     }
 
     //--- WRITE TABLE CHILD -----------------------------------------------------------------------
-    public static String writeTblChildNoButton(String sPath, String sHeader, String sCONTEXTDIR) {
+    public static String writeTblChildNoButton(String sPath, String sHeader, String sCONTEXTDIR){
         return "<tr>"+
                 "<td class='arrow'><img src='"+sCONTEXTDIR+"/_img/themes/default/pijl.gif'></td>"+
                 "<td width='99%' nowrap>"+
@@ -1664,7 +1674,7 @@ public class ScreenHelper {
     }
 
     //--- WRITE TABLE CHILD -----------------------------------------------------------------------
-    public static String writeTblChildWithCode(String sCommand, String sHeader, String sCONTEXTDIR) {
+    public static String writeTblChildWithCode(String sCommand, String sHeader, String sCONTEXTDIR){
         return "<tr>"+
                 "<td class='arrow'><img src='"+sCONTEXTDIR+"/_img/themes/default/pijl.gif'></td>"+
                 "<td width='99%' nowrap>"+
@@ -1674,7 +1684,7 @@ public class ScreenHelper {
     }
 
     //--- WRITE TABLE CHILD -----------------------------------------------------------------------
-    public static String writeTblChildWithCodeNoButton(String sCommand, String sHeader, String sCONTEXTDIR) {
+    public static String writeTblChildWithCodeNoButton(String sCommand, String sHeader, String sCONTEXTDIR){
         return "<tr>"+
                 "<td class='arrow'><img src='"+sCONTEXTDIR+"/_img/themes/default/pijl.gif'></td>"+
                 "<td width='99%' nowrap>"+
@@ -1712,13 +1722,13 @@ public class ScreenHelper {
         // defaults
         String defaults = ((SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName())).getItemDefaultsHTML();
         defaults += "<script>function loadDefaults(){"
-                    +"for (n=0;n<document.all.length;n++){"
-                    +"if(document.getElementsByName('DefaultValue_'+document.all[n].name).length>0) {"
-                    +"if(document.all[n].type=='text') {document.all[n].value=document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
-                    +"if(document.all[n].type=='textarea') {document.all[n].value=document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
-                    +"if(document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if(document.all[n].type=='checkbox' && document.all[n].value==document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if(document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if(document.all[n].options[m].value==document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
+                    +"for(n=0;n<document.all.length;n++){"
+                    +"if(document.getElementsByName('DefaultValue_'+document.all[n].name).length>0){"
+                    +"if(document.all[n].type=='text'){document.all[n].value=document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='textarea'){document.all[n].value=document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value){document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='checkbox' && document.all[n].value==document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value){document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='select-one'){for(m=0;m<document.all[n].options.length;m++){if(document.all[n].options[m].value==document.getElementsByName('DefaultValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
                     +"}"
                     +"}"
                     +"document.getElementById('ie5menu').style.visibility = 'hidden';}</script>";
@@ -1726,13 +1736,13 @@ public class ScreenHelper {
         // previous
         defaults += ((SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName())).getItemPreviousHTML();
         defaults += "<script>function loadPrevious(){"
-                    +"for (n=0;n<document.all.length;n++){"
-                    +"if(document.getElementsByName('PreviousValue_'+document.all[n].name).length>0) {"
-                    +"if(document.all[n].type=='text') {document.all[n].value=document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
-                    +"else if(document.all[n].type=='textarea') {document.all[n].value=document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
-                    +"else if(document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"else if(document.all[n].type=='checkbox' && document.all[n].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"else if(document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if(document.all[n].options[m].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
+                    +"for(n=0;n<document.all.length;n++){"
+                    +"if(document.getElementsByName('PreviousValue_'+document.all[n].name).length>0){"
+                    +"if(document.all[n].type=='text'){document.all[n].value=document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"else if(document.all[n].type=='textarea'){document.all[n].value=document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"else if(document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value){document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"else if(document.all[n].type=='checkbox' && document.all[n].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value){document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"else if(document.all[n].type=='select-one'){for(m=0;m<document.all[n].options.length;m++){if(document.all[n].options[m].value==document.getElementsByName('PreviousValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
                     +"}"
                     +"}"
                     +"document.getElementById('ie5menu').style.visibility = 'hidden';}</script>";
@@ -1740,13 +1750,13 @@ public class ScreenHelper {
         // previous context
         defaults += ((SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO( request , SessionContainerWO.class.getName())).getItemPreviousContextHTML();
         defaults += "<script>function loadPreviousContext(){"
-                    +"for (n=0;n<document.all.length;n++){"
-                    +"if(document.getElementsByName('PreviousContextValue_'+document.all[n].name).length>0) {"
-                    +"if(document.all[n].type=='text') {document.all[n].value=document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
-                    +"if(document.all[n].type=='textarea') {document.all[n].value=document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
-                    +"if(document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if(document.all[n].type=='checkbox' && document.all[n].value==document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value) {document.all[n].checked=true;document.all[n].className='modified'}"
-                    +"if(document.all[n].type=='select-one') {for(m=0;m<document.all[n].options.length;m++){if(document.all[n].options[m].value==document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
+                    +"for(n=0;n<document.all.length;n++){"
+                    +"if(document.getElementsByName('PreviousContextValue_'+document.all[n].name).length>0){"
+                    +"if(document.all[n].type=='text'){document.all[n].value=document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='textarea'){document.all[n].value=document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='radio' && document.all[n].value==document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value){document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='checkbox' && document.all[n].value==document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value){document.all[n].checked=true;document.all[n].className='modified'}"
+                    +"if(document.all[n].type=='select-one'){for(m=0;m<document.all[n].options.length;m++){if(document.all[n].options[m].value==document.getElementsByName('PreviousContextValue_'+document.all[n].name)[0].value){document.all[n].selectedIndex=m;document.all[n].className='modified'}}}"
                     +"}"
                     +"}"
                     +"document.getElementById('ie5menu').style.visibility = 'hidden';}</script>";
@@ -1755,34 +1765,34 @@ public class ScreenHelper {
     }
 
     //--- FORMAT SQL DATE -------------------------------------------------------------------------
-    public static String formatSQLDate(Date dDate, String sFormat) {
+    public static String formatSQLDate(Date dDate, String sFormat){
         String sDate = "";
-        if(dDate!=null) {
+        if(dDate!=null){
             sDate = new SimpleDateFormat(sFormat).format(dDate);
         }
         return sDate;
     }
 
-    public static String formatSQLDate(java.util.Date dDate, String sFormat) {
+    public static String formatSQLDate(java.util.Date dDate, String sFormat){
         String sDate = "";
-        if(dDate!=null) {
+        if(dDate!=null){
             sDate = new SimpleDateFormat(sFormat).format(dDate);
         }
         return sDate;
     }
 
     //--- GET SQL STRING --------------------------------------------------------------------------
-    public static String setSQLString(String sValue) {
-        if(sValue!=null && sValue.trim().length()>249) {
+    public static String setSQLString(String sValue){
+        if(sValue!=null && sValue.trim().length()>249){
             sValue = sValue.substring(0,249);
         }
         return sValue;
     }
 
     //--- GET SQL TIME ----------------------------------------------------------------------------
-    public static String getSQLTime(Time tTime) {
+    public static String getSQLTime(Time tTime){
         String sTime = "";
-        if(tTime!=null) {
+        if(tTime!=null){
             sTime = tTime.toString();
             sTime = sTime.substring(0,sTime.lastIndexOf(":"));
         }
@@ -1790,41 +1800,41 @@ public class ScreenHelper {
     }
 
     //--- GET SQL TIME ----------------------------------------------------------------------------
-    public static java.sql.Timestamp getSQLTime() {
+    public static java.sql.Timestamp getSQLTime(){
         return new java.sql.Timestamp(new java.util.Date().getTime()); // now
     }
 
     //--- GET SQL TIME STAMP ----------------------------------------------------------------------
-    public static String getSQLTimeStamp(java.sql.Timestamp timeStamp) {
+    public static String getSQLTimeStamp(java.sql.Timestamp timeStamp){
         String ts = "";
-        if(timeStamp != null) {
+        if(timeStamp != null){
             ts = fullDateFormat.format(new Date(timeStamp.getTime()));
         }
         return ts;
     }
 
     //--- GET SQL DATE ----------------------------------------------------------------------------
-    public static String getSQLDate(java.sql.Date dDate) {
+    public static String getSQLDate(java.sql.Date dDate){
         String sDate = "";
-        if(dDate!=null) {
+        if(dDate!=null){
             sDate = formatDate(dDate);
         }
         return sDate;
     }
 
     //--- GET SQL DATE ----------------------------------------------------------------------------
-    public static String getSQLDate(java.util.Date dDate) {
+    public static String getSQLDate(java.util.Date dDate){
         String sDate = "";
-        if(dDate!=null) {
+        if(dDate!=null){
             sDate = formatDate(dDate);
         }
         return sDate;
     }
 
     //--- GET SQL DATE ----------------------------------------------------------------------------
-    public static java.sql.Date getSQLDate(String sDate) {
+    public static java.sql.Date getSQLDate(String sDate){
         try {
-            if(sDate==null || sDate.trim().length()==0 || sDate.trim().length()<5 || sDate.equals("&nbsp;")) {
+            if(sDate==null || sDate.trim().length()==0 || sDate.trim().length()<5 || sDate.equals("&nbsp;")){
                 return null;
             }
             else{
@@ -1832,15 +1842,15 @@ public class ScreenHelper {
                 return new java.sql.Date(ScreenHelper.parseDate(sDate).getTime());
             }
         }
-        catch(Exception e) {
+        catch(Exception e){
             return null;
         }
     }
 
     //--- GET DATE ADD ----------------------------------------------------------------------------
-    public static String getDateAdd(String sDate, String sAdd) {
+    public static String getDateAdd(String sDate, String sAdd){
         try {
-            if(sDate==null || sDate.trim().length()==0 || sDate.trim().length()<5 || sDate.equals("&nbsp;")) {
+            if(sDate==null || sDate.trim().length()==0 || sDate.trim().length()<5 || sDate.equals("&nbsp;")){
                 return null;
             }
             else{
@@ -1849,13 +1859,13 @@ public class ScreenHelper {
                 return ScreenHelper.stdDateFormat.format(new java.util.Date(d.getTime()+Long.parseLong(sAdd)*24*60*60000));
             }
         }
-        catch(Exception e) {
+        catch(Exception e){
             return null;
         }
     }
 
     //--- WRITE JS BUTTONS ------------------------------------------------------------------------
-    public static String writeJSButtons(String sMyForm, String sMyButton, String sCONTEXTDIR) {
+    public static String writeJSButtons(String sMyForm, String sMyButton, String sCONTEXTDIR){
         return "<script>var myForm = document.getElementById('"+sMyForm+"'); var myButton = document.getElementById('"+sMyButton+"');</script>"+
                "<script src='"+sCONTEXTDIR+"/_common/_script/buttons.js'></script>";
     }
@@ -1928,14 +1938,14 @@ public class ScreenHelper {
     }
 
     //--- CLOSE QUIETLY ---------------------------------------------------------------------------
-    public static void closeQuietly(Connection connection, Statement statement, ResultSet resultSet) {
-        if(resultSet != null) try { resultSet.close(); } catch (SQLException logOrIgnore) {logOrIgnore.printStackTrace();}
-        if(statement != null) try { statement.close(); } catch (SQLException logOrIgnore) {logOrIgnore.printStackTrace();}
-        if(connection != null) try { connection.close(); } catch (SQLException logOrIgnore) {logOrIgnore.printStackTrace();}
+    public static void closeQuietly(Connection connection, Statement statement, ResultSet resultSet){
+        if(resultSet != null) try { resultSet.close(); } catch (SQLException logOrIgnore){logOrIgnore.printStackTrace();}
+        if(statement != null) try { statement.close(); } catch (SQLException logOrIgnore){logOrIgnore.printStackTrace();}
+        if(connection != null) try { connection.close(); } catch (SQLException logOrIgnore){logOrIgnore.printStackTrace();}
     }
     
     //--- SET INCLUDE PAGE ------------------------------------------------------------------------
-    public static void setIncludePage(String sPage, PageContext pageContext) {
+    public static void setIncludePage(String sPage, PageContext pageContext){
         // ? or &
         if(sPage.indexOf("?")<0){
             if(sPage.indexOf("&")>-1){
@@ -1955,7 +1965,7 @@ public class ScreenHelper {
         try {
             pageContext.include(sPage);
         }
-        catch(Exception e) {
+        catch(Exception e){
             e.printStackTrace();
         }
     }
@@ -1966,13 +1976,13 @@ public class ScreenHelper {
     }
 
     //--- GET SQL TIME STAMP ----------------------------------------------------------------------
-    public static void getSQLTimestamp(PreparedStatement ps, int iIndex, String sDate, String sTime) {
+    public static void getSQLTimestamp(PreparedStatement ps, int iIndex, String sDate, String sTime){
         try{
-            if(sDate == null || sDate.trim().length()==0) {
+            if(sDate==null || sDate.trim().length()==0){
                 ps.setNull(iIndex,Types.TIMESTAMP);
             }
             else{
-                if(sTime == null || sTime.trim().length()==0){
+                if(sTime==null || sTime.trim().length()==0){
                     ps.setDate(iIndex,getSQLDate(sDate));
                 }
                 else{
@@ -1980,30 +1990,30 @@ public class ScreenHelper {
                 }
             }
         }
-        catch (SQLException e) {
+        catch (SQLException e){
             e.printStackTrace();
         }
-        catch (ParseException e) {
+        catch (ParseException e){
             e.printStackTrace();
         }
     }
 
-    public static void getSQLTimestamp(PreparedStatement ps, int iIndex, java.util.Date date) {
+    public static void getSQLTimestamp(PreparedStatement ps, int iIndex, java.util.Date date){
         try{
-            if(date == null) {
+            if(date==null){
                 ps.setNull(iIndex,Types.TIMESTAMP);
             }
             else{
                 ps.setTimestamp(iIndex,new Timestamp(date.getTime()));
             }
         }
-        catch (SQLException e) {
+        catch (SQLException e){
             e.printStackTrace();
         }
     }
 
     //--- GET COOKIE ------------------------------------------------------------------------------
-    public static String getCookie(String cookiename, HttpServletRequest request) {
+    public static String getCookie(String cookiename, HttpServletRequest request){
         Cookie cookies[] = request.getCookies();
 
         if(cookies!=null){
@@ -2018,27 +2028,27 @@ public class ScreenHelper {
     }
 
     //--- SET COOKIE ------------------------------------------------------------------------------
-    public static void setCookie(String cookiename, String value, HttpServletResponse response) {
+    public static void setCookie(String cookiename, String value, HttpServletResponse response){
         Cookie cookie = new Cookie(cookiename,value);
         cookie.setMaxAge(365);
         response.addCookie(cookie);
     }
 
     //--- CHECK DB STRING -------------------------------------------------------------------------
-    public static String checkDbString(String sString) {
+    public static String checkDbString(String sString){
         sString=checkString(sString);
-        if(sString.trim().length()>0) {
+        if(sString.trim().length()>0){
             sString = sString.replaceAll("'","´");
         }
         return sString;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
-    public static String alignButtonsStart() {
+    public static String alignButtonsStart(){
       return "<p align='center'>";
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
-    public static String alignButtonsStop() {
+    public static String alignButtonsStop(){
       return "</p>";
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -2309,24 +2319,24 @@ public class ScreenHelper {
     }
     
     //--- GET CONFIG STRING -----------------------------------------------------------------------
-    public static String getConfigString(String key) {
+    public static String getConfigString(String key){
     	Connection co_conn = MedwanQuery.getInstance().getConfigConnection();
         String s= getConfigStringDB(key, co_conn);
         try {
 			co_conn.close();
-		} catch (SQLException e) {
+		} catch (SQLException e){
 			e.printStackTrace();
 		}
         return s;
     }
 
     //--- GET CONFIG STRING -----------------------------------------------------------------------
-    public static String getConfigString(String key, String defaultValue) {
+    public static String getConfigString(String key, String defaultValue){
         return MedwanQuery.getInstance().getConfigString(key, defaultValue);
     }
 
     //--- GET CONFIG STRING DB --------------------------------------------------------------------
-    public static String getConfigStringDB(String key, Connection ConfigdbConnection) {
+    public static String getConfigStringDB(String key, Connection ConfigdbConnection){
         String cs = "";
         Statement st = null;
         ResultSet rs = null;
@@ -2357,7 +2367,7 @@ public class ScreenHelper {
     }
 
     //--- GET CONFIG PARAM ------------------------------------------------------------------------
-    public static String getConfigParam(String key, String param) {
+    public static String getConfigParam(String key, String param){
         return getConfigParamDB(key, param);
     }
 
@@ -2747,7 +2757,7 @@ public class ScreenHelper {
 
         int value=0;
         int counter=0;
-        for (int i=0;i<numberString.length();i++){
+        for(int i=0;i<numberString.length();i++){
             int number = alfabet.indexOf(numberString.substring(i, i+1))+1;
             for(int k=numberString.length()-i-1;k>0;k--){
             	number*=alfabet.length();
@@ -2773,12 +2783,11 @@ public class ScreenHelper {
 
         String sSelect = "SELECT p.value"+
                          " FROM UserParameters p, Admin a, Users u"+
-                         "  WHERE "+getConfigParam("lowerCompare","parameter")+" = 'organisationid' "+
+                         "  WHERE "+getConfigParam("lowerCompare","parameter")+" = 'organisationid'"+
                          "   AND value LIKE '9__'"+
                          "   AND a.personid = ?"+
                          "   AND u.userid = p.userid"+
                          "   AND a.personid = u.personid";
-
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         try{
             ps = ad_conn.prepareStatement(sSelect);
@@ -2808,19 +2817,19 @@ public class ScreenHelper {
         return userIsADoctor;
     }
     //--- CONTEXT FOOTER --------------------------------------------------------------------------
-    public static String contextFooter(HttpServletRequest request) {
+    public static String contextFooter(HttpServletRequest request){
         String result = "</div>";
 
         try {
             SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
             if(sessionContainerWO.getCurrentTransactionVO().getTransactionId().intValue() > 0
                     || checkString(request.getParameter("be.mxs.healthrecord.transaction_id")).equalsIgnoreCase("currentTransaction")
-                    || MedwanQuery.getInstance().getConfigString("doNotAskForContext").equalsIgnoreCase("on")) {
+                    || MedwanQuery.getInstance().getConfigString("doNotAskForContext").equalsIgnoreCase("on")){
                 result += "<script>show('content-details');hide('confirm');</script>";
                 result+=getDefaults(request);
             }
         }
-        catch (Exception e) {
+        catch (Exception e){
             // nothing
         }
 
@@ -2828,15 +2837,15 @@ public class ScreenHelper {
     }
 
     //--- GET LAST ITEM ---------------------------------------------------------------------------
-    public static ItemVO getLastItem(HttpServletRequest request, String sType) {
+    public static ItemVO getLastItem(HttpServletRequest request, String sType){
         try {
             SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
-            if(sessionContainerWO.getHealthRecordVO() != null && sessionContainerWO.getCurrentTransactionVO() != null) {
+            if(sessionContainerWO.getHealthRecordVO() != null && sessionContainerWO.getCurrentTransactionVO() != null){
                 ItemVO actualItem = sessionContainerWO.getCurrentTransactionVO().getItem(sType);
-                if(actualItem == null || actualItem.getItemId().intValue() < 0) {
+                if(actualItem==null || actualItem.getItemId().intValue() < 0){
                     ItemVO lastItem = MedwanQuery.getInstance().getLastItemVO(sessionContainerWO.getHealthRecordVO().getHealthRecordId().toString(), sType);
-                    if(lastItem == null) {
-                        if(sessionContainerWO.getCurrentTransactionVO().getItem(sType) != null) {
+                    if(lastItem==null){
+                        if(sessionContainerWO.getCurrentTransactionVO().getItem(sType) != null){
                             return sessionContainerWO.getCurrentTransactionVO().getItem(sType);
                         }
                     } 
@@ -2849,7 +2858,7 @@ public class ScreenHelper {
                 }
             }
         }
-        catch (SessionContainerFactoryException e) {
+        catch (SessionContainerFactoryException e){
             e.printStackTrace();
         }
 
@@ -2879,16 +2888,16 @@ public class ScreenHelper {
     }
     
     //--- SET SQL DATE ----------------------------------------------------------------------------
-    public static void setSQLDate(PreparedStatement ps, int iIndex, String sDate) {
+    public static void setSQLDate(PreparedStatement ps, int iIndex, String sDate){
         try{
-            if((sDate == null)||(sDate.trim().length()==0)) {
-                ps.setNull(iIndex, Types.DATE);
+            if(sDate==null || sDate.trim().length()==0){
+                ps.setNull(iIndex,Types.DATE);
             }
             else{
-                ps.setDate(iIndex, ScreenHelper.getSQLDate(sDate));
+                ps.setDate(iIndex,ScreenHelper.getSQLDate(sDate));
             }
         }
-        catch (SQLException e) {
+        catch (SQLException e){
             e.printStackTrace();
         }
     }
@@ -2945,6 +2954,30 @@ public class ScreenHelper {
         }
 
         return serviceContexts;
+    }
+
+    //--- IS LIKE ---------------------------------------------------------------------------------
+    // SQL's LIKE-function with '_' representing any single char and '%' representing any group of chars
+    public static boolean isLike(String sExpression, String sText){  
+    	// 1 - compose regex
+    	String regex = "";
+    	int len = sExpression.length();
+    	if(len > 0){    	 
+	        StringBuffer sb = new StringBuffer();
+	    	for(int i=0; i<len; i++){
+	    	    char c = sExpression.charAt(i);
+	    	    if("[](){}.*+?$^|#\\".indexOf(c)!=-1){
+	    	        sb.append("\\");
+	    	    }
+	    	    sb.append(c);
+	    	}
+	    	regex = sb.toString();
+    	}
+    	
+    	regex = regex.replace("_",".")
+    			     .replace("%",".*?");
+    	Pattern p = Pattern.compile(regex,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+    	return p.matcher(sText).matches();    	  	
     }
     
 }
