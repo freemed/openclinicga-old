@@ -84,7 +84,7 @@
 	<table class="list" width="100%" cellpadding="0" cellspacing="1">		
 		<%-- DATES --%>
 		<tr>
-			<td class='admin' width="<%=sTDAdminWidth%>"><%=getTran("web","export.modifications.after",sWebLanguage) %></td>
+			<td class='admin' width="<%=sTDAdminWidth%>"><%=getTran("web","export.modifications.after",sWebLanguage)%></td>
 			<td class='admin2'>
 			    <%=ScreenHelper.writeDateField("exportdate","transactionForm",sExportDate,true,false,sWebLanguage,request.getRequestURI().replaceAll(request.getServletPath(),""))%>&nbsp;
 		        <input class='text' type='text' width='10' size='10' name='exporttime' id='exporttime' value='<%=sExportTime%>'/></td>
@@ -93,7 +93,7 @@
 		
 		<%-- DESTINATION --%>
 		<tr>
-			<td class='admin'><%=getTran("web","destination",sWebLanguage) %>&nbsp;*&nbsp;</td>
+			<td class='admin'><%=getTran("web","destination",sWebLanguage)%>&nbsp;*&nbsp;</td>
 			<td class='admin2'>
                 <input type='radio' name='destination' id='destination1' value='download' <%=(sDestination.equals("download")?"checked":"")%>/><%=getLabel("web","download.file",sWebLanguage,"destination1")%><br>
 

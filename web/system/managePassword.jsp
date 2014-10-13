@@ -134,6 +134,7 @@
 <script>
   transactionForm.EditAvailability.focus();
 
+  <%-- DO SAVE --%>
   function doSave(){
     transactionForm.saveButton.disabled = true;
     transactionForm.backbutton.disabled = true;
@@ -141,6 +142,7 @@
     transactionForm.submit();
   }
 
+  <%-- DO BACK --%>
   function doBack(){
     window.location.href = "<c:url value='/main.do'/>?Page=system/menu.jsp";
   }
@@ -148,10 +150,7 @@
   <%-- IS LESS THAN AVAILABILITY --%>
   function isLessThanAvailability(obj){
     if(obj.value*1 > transactionForm.EditAvailability.value*1){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.Manage.Password&labelID=NoticeNotLargerThanAvailability";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.Manage.Password","NoticeNotLargerThanAvailability",sWebLanguage)%>");
-
+      alertDialog("web.Manage.Password","NoticeNotLargerThanAvailability");
       obj.value = transactionForm.EditAvailability.value;
       obj.focus();
     }

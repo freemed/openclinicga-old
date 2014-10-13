@@ -1,8 +1,9 @@
-<%@ page import="java.util.Vector" %>
+<%@page import="java.util.Vector"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%=checkPermission("system.management","all",activeUser)%>
 <%=sJSSORTTABLE%>
+
 <%
     String sAction = checkString(request.getParameter("Action"));
 
@@ -50,20 +51,22 @@
     <input type="hidden" name="Action" value="">
     <input type="hidden" name="DelErrorId" value="">
     <input type="hidden" name="SortCol" value="<%=sSortCol%>">
+    
     <%=writeTableHeader("Web.manage","ViewErrors",sWebLanguage," doBack();")%>
-    <table width="100%" class="menu">
+    <table width="100%" class="list" cellspacing="1" cellpadding="1">
         <%-- BEGIN & END --%>
         <tr>
-            <td width="<%=sTDAdminWidth%>"><%=getTran("Web","Begin",sWebLanguage)%></td>
-            <td><%=writeDateField("FindBegin","transactionForm",sFindBegin,sWebLanguage)%></td>
+            <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","Begin",sWebLanguage)%></td>
+            <td class="admin2"><%=writeDateField("FindBegin","transactionForm",sFindBegin,sWebLanguage)%></td>
         </tr>
         <tr>
-            <td><%=getTran("Web","End",sWebLanguage)%></td>
-            <td><%=writeDateField("FindEnd","transactionForm",sFindEnd,sWebLanguage)%></td>
+            <td class="admin"><%=getTran("Web","End",sWebLanguage)%></td>
+            <td class="admin2"><%=writeDateField("FindEnd","transactionForm",sFindEnd,sWebLanguage)%></td>
         </tr>
+        <%-- BUTTONS --%>
         <tr>
-            <td/>
-            <td>
+            <td class="admin">&nbsp;</td>
+            <td class="admin2">
                 <input type="button" class="button" name="ButtonSearch" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearchErrors();">
                 <input type="button" class="button" name="ButtonClear" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearSearchFields();">
                 <input class="button" type="button" name="backButton" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="doBack();">
@@ -77,15 +80,15 @@
         }
 
         //--- DISPLAY ERRORS ----------------------------------------------------------------------
-        if (sFindBegin.length()>0 || sFindEnd.length()>0){
+        if(sFindBegin.length()>0 || sFindEnd.length()>0){
             %>
                 <br>
                 <%-- BUTTONS at TOP --%>
                 <table width="100%" cellspacing="1">
                     <tr>
                         <td style="vertical-align:bottom;">
-                            <a href="#" onclick="viewAllErrors(true);"><%=getTran("Web.Manage","viewAllErrors",sWebLanguage)%></a>
-                            <a href="#" onclick="viewAllErrors(false);"><%=getTran("Web.Manage","hideAllErrors",sWebLanguage)%></a>
+                            <a href="javascript:viewAllErrors(true);"><%=getTran("Web.Manage","viewAllErrors",sWebLanguage)%></a>
+                            <a href="javascript:viewAllErrors(false);"><%=getTran("Web.Manage","hideAllErrors",sWebLanguage)%></a>
                         </td>
                         <%-- link to bottom --%>
                         <td align="right">
@@ -102,7 +105,7 @@
                         <td width="220"><%=getTran("Web.Occup","medwan.authentication.login",sWebLanguage)%></td>
                         <td width="*"><%=getTran("Web.Statistics","Page",sWebLanguage)%></td>
                     </tr>
-                    <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                    <tbody class="hand">
                     <%
                         Vector vErrors = be.openclinic.system.Error.searchErrors(sFindBegin, sFindEnd);
 
@@ -152,8 +155,8 @@
                     if(iCounter > 15){
                        %>
                            <div>
-                               <a href="#" onclick="viewAllErrors(true);"><%=getTran("Web.Manage","viewAllErrors",sWebLanguage)%></a>
-                               <a href="#" onclick="viewAllErrors(false);"><%=getTran("Web.Manage","hideAllErrors",sWebLanguage)%></a>
+                               <a href="javascript:viewAllErrors(true);"><%=getTran("Web.Manage","viewAllErrors",sWebLanguage)%></a>
+                               <a href="javascript:viewAllErrors(false);"><%=getTran("Web.Manage","hideAllErrors",sWebLanguage)%></a>
                            </div>
                        <%
                     }
@@ -173,16 +176,17 @@
     <%
         if(iCounter > 0){
             %>
-                <table class="menu" width="100%">
-                    <tr>
-                        <td align="right"><%=getTran("Web","from",sWebLanguage)%></td>
+                <table class="list" width="100%" cellspacing="0" cellpadding="1">
+                    <tr height="22">
+                        <td class="admin2" align="right"><%=getTran("Web","from",sWebLanguage)%></td>
                      
-                        <td align="left" ><%=writeDateField("DelFromDate","transactionForm",sDelFromDate,sWebLanguage)%> <%=getTran("Web","to",sWebLanguage)%> 
+                        <td class="admin2" align="left"><%=writeDateField("DelFromDate","transactionForm",sDelFromDate,sWebLanguage)%> <%=getTran("Web","to",sWebLanguage)%> 
                             <%=writeDateField("DelUntilDate","transactionForm",sDelUntilDate,sWebLanguage)%>&nbsp;&nbsp;
+                            
                             <input type="button" class="button" name="deleteRangeButton" value="<%=getTranNoLink("web","delete",sWebLanguage)%>" onClick="deleteErrors();">
                             <input class="button" type="button" name="backButton" value="<%=getTranNoLink("Web","Back",sWebLanguage)%>" onclick="doBack();">
                         </td>
-                        <td align="right">
+                        <td class="admin2" style="text-align:right">
                         <%
                             if(iCounter > 15){
                                 %><a href="#topp" class="topbutton">&nbsp;</a><%
@@ -195,6 +199,7 @@
         }
     %>
 </form>
+
 <script>
   transactionForm.FindBegin.focus();
 
@@ -222,10 +227,7 @@
     <%-- both dates given --%>
     if(sBeginDate.length > 0 && sEndDate.length > 0){
       if(sBeginDate!=sEndDate && !before(sBeginDate,sEndDate)){
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.Occup&labelID=endMustComeAfterBegin";
-        var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.Occup","endMustComeAfterBegin",sWebLanguage)%>");
-
+        alertDialog("Occup","endMustComeAfterBegin");
         transactionForm.FindEnd.focus();
       }
       else{
@@ -256,7 +258,7 @@
 
   <%-- DO BACK --%>
   function doBack(){
-    window.location.href = "<c:url value="/main.do"/>?Page=system/menu.jsp&Tab=database&ts=<%=getTs()%>";
+    window.location.href = "<c:url value='/main.do'/>?Page=system/menu.jsp&Tab=database&ts=<%=getTs()%>";
   }
 
   <%-- DO SORT --%>
@@ -267,7 +269,7 @@
 
   <%-- TOGGLE ERROR --%>
   function toggleError(errorIdx){
-    if(document.all[errorIdx].style.display == ""){
+    if(document.all[errorIdx].style.display==""){
       document.all[errorIdx].style.display = "none";
     }
     else{
@@ -297,8 +299,8 @@
     else{
       alertDialog("web.manage","datamissing");
 
-           if(fromDate.length == 0)  transactionForm.FromDate.focus();
-      else if(untilDate.length == 0) transactionForm.UntilDate.focus();
+           if(fromDate.length==0)  transactionForm.FromDate.focus();
+      else if(untilDate.length==0) transactionForm.UntilDate.focus();
     }
   }
 
@@ -324,4 +326,5 @@
     }
   }
 </script>
-<a name="bottom"></a>
+
+<a name="bottom">&nbsp;</a>

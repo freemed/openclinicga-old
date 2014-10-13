@@ -439,10 +439,7 @@
       transactionForm.submit();
     }
     else{
-      var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      window.showModalDialog(popupUrl,'',modalities);
-
+      alertDialog("web.manage","dataMissing");
       transactionForm.FindResultDate.focus();
     }
   }

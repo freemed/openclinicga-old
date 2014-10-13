@@ -245,31 +245,31 @@
     </span>
 </form>
 
-<a name="bottom"></a>
+<a name="bottom">&nbsp;</a>
 
 <script>
 function expandAll(){
-	for(n=0;n<document.all.length;n++){
-		if((document.all[n].id+"").indexOf('gr_')==0){
-			document.all[n].style.display = '';
+  for(n=0; n<document.all.length; n++){
+    if((document.all[n].id+"").indexOf('gr_')==0){
+      document.all[n].style.display = "";
 			
-			var groupName = document.all[n].id.substr(3); 
-			document.getElementById("Input_"+groupName+"_S").style.display = "none";
-			document.getElementById("Input_"+groupName+"_H").style.display = "";
-		}
-	}
+      var groupName = document.all[n].id.substr(3); 
+      document.getElementById("Input_"+groupName+"_S").style.display = "none";
+      document.getElementById("Input_"+groupName+"_H").style.display = "";
+    }
+  }
 }	
 
 function collapseAll(){
-	for(n=0;n<document.all.length;n++){
-		if((document.all[n].id+"").indexOf('gr_')==0){
-			document.all[n].style.display = 'none';
+  for(n=0; n<document.all.length; n++){
+    if((document.all[n].id+"").indexOf('gr_')==0){
+      document.all[n].style.display = 'none';
 			
-			var groupName = document.all[n].id.substr(3);
-			document.getElementById("Input_"+groupName+"_S").style.display = "";
-			document.getElementById("Input_"+groupName+"_H").style.display = "none";
-		}
-	}
+      var groupName = document.all[n].id.substr(3);
+      document.getElementById("Input_"+groupName+"_S").style.display = "";
+      document.getElementById("Input_"+groupName+"_H").style.display = "none";
+    }
+  }
 }
 
 <%-- enable tooltips on info-icons --%>

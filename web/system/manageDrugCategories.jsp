@@ -1,6 +1,9 @@
-<%@ page import="java.util.*,be.openclinic.pharmacy.*" %>
+<%@page import="java.util.*,
+                be.openclinic.pharmacy.*"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
+<%=sJSEMAIL%>
+
 <%
     String sAction = checkString(request.getParameter("Action"));
 
@@ -8,15 +11,15 @@
            sFindCategoryText    = checkString(request.getParameter("FindCategoryText")),
            sEditOldCategoryCode = checkString(request.getParameter("EditOldCategoryCode"));
 
-    // DEBUG ////////////////////////////////////////////////////////////////////////////
+    // DEBUG //////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n***************** system/manageDrugCategories ***************");
-        Debug.println("sAction             : " + sAction);
-        Debug.println("sFindCategoryCode    : " + sFindCategoryCode);
-        Debug.println("sFindCategoryText    : " + sFindCategoryText);
-        Debug.println("sEditOldCategoryCode : " + sEditOldCategoryCode + "\n");
+        Debug.println("\n********************** system/manageDrugCategories ********************");
+        Debug.println("sAction              : "+sAction);
+        Debug.println("sFindCategoryCode    : "+sFindCategoryCode);
+        Debug.println("sFindCategoryText    : "+sFindCategoryText);
+        Debug.println("sEditOldCategoryCode : "+sEditOldCategoryCode+"\n");
     }
-    /////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     // supported languages
     String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr").toLowerCase();
@@ -157,7 +160,6 @@
         sFindCategoryText = "";
     }
 %>
-<%=sJSEMAIL%>
 
 <form name="transactionForm" id="transactionForm" method="post">
     <input type="hidden" name="Action">
@@ -169,14 +171,16 @@
         %>
             <%=writeTableHeader("Web.manage","ManageDrugCategories",sWebLanguage," doBackToMenu();")%>
 
-            <table width="100%" class="menu" cellspacing="0">
-                <tr>
-                    <td class="menu">
+            <table width="100%" class="menu" cellspacing="0" cellpadding="0">
+                <tr height="22">
+                    <td class="admin2">
                         &nbsp;<%=getTran("admin","category",sWebLanguage)%>
                         <input class="text" type="text" name="FindCategoryText" READONLY size="<%=sTextWidth%>" title="<%=sFindCategoryText%>" value="<%=sFindCategoryText%>">
+                        <input type="hidden" name="FindCategoryCode" value="<%=sFindCategoryCode%>">
+                         
                         <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchCategory('FindCategoryCode','FindCategoryText');">
-                        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindCategoryCode.value='';transactionForm.FindCategoryText.value='';">
-                        <input type="hidden" name="FindCategoryCode" value="<%=sFindCategoryCode%>">&nbsp;
+                        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindCategoryCode.value='';transactionForm.FindCategoryText.value='';">&nbsp;
+                                            
                         <%-- BUTTONS --%>
                         <input type="button" class="button" name="editButton" value="<%=getTranNoLink("Web","Edit",sWebLanguage)%>" onclick="doEdit(transactionForm.FindCategoryCode.value);">
                         <input type="button" class="button" name="clearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearFields();">
@@ -275,7 +279,7 @@
             <%=writeTableHeader("Web.manage","ManageDrugCategories",sWebLanguage," doBackToMenu();")%>
             
             <%-- Category DETAILS ----------------------------------------------------------------%>
-            <table width="100%" class="list" cellspacing="1">
+            <table width="100%" class="list" cellspacing="1" cellpadding="0">
                 <%-- Category --%>
                 <tr>
                     <td class="admin" width="<%=sTDAdminWidth%>"> <%=getTran("Web.Manage.Category","ID",sWebLanguage)%> *</td>
@@ -289,9 +293,10 @@
                     <td class="admin"> <%=getTran("Web.Manage.Category","ParentID",sWebLanguage)%></td>
                     <td class="admin2">
                         <input type="text" readonly class="text" name="EditCategoryParentText" value="<%=category.parentcode+" "+sCategoryParentCodeText%>" size="<%=sTextWidth%>">
+                        <input type="hidden" name="EditCategoryParentCode" value="<%=category.parentcode%>">
+                                               
                         <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchCategory('EditCategoryParentCode','EditCategoryParentText');">
                         <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditCategoryParentCode.value='';transactionForm.EditCategoryParentText.value='';">
-                        <input type="hidden" name="EditCategoryParentCode" value="<%=category.parentcode%>">
                     </td>
                 </tr>
                 
@@ -341,7 +346,7 @@
                               transactionForm.EditLabelValue<%=tmpLang%>.value = trim(transactionForm.EditLabelValue<%=tmpLang%>.value);
 
                               if(allLabelsHaveAValue){
-                                if(transactionForm.EditLabelValue<%=tmpLang%>.value.length == 0){
+                                if(transactionForm.EditLabelValue<%=tmpLang%>.value.length==0){
                                   allLabelsHaveAValue = false;
                                   emptyLabelField = transactionForm.EditLabelValue<%=tmpLang%>;
                                 }

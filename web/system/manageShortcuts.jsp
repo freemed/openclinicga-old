@@ -46,16 +46,16 @@
     <%-------------------------------------------------------------------------------------------%> 
 	<table class="list" cellpadding="0" cellspacing="1">
 		<tr class='admin'>
-			<td width="80"><%=getTran("web","shortcut",sWebLanguage) %></td>
-			<td><%=getTran("web","type",sWebLanguage) %></td>
-			<td><%=getTran("web","origin",sWebLanguage) %></td>
-			<td><%=getTran("web","service",sWebLanguage) %></td>
-			<td><%=getTran("web","manager",sWebLanguage) %></td>
+			<td width="80"><%=getTran("web","shortcut",sWebLanguage)%></td>
+			<td><%=getTran("web","type",sWebLanguage)%></td>
+			<td><%=getTran("web","origin",sWebLanguage)%></td>
+			<td><%=getTran("web","service",sWebLanguage)%></td>
+			<td><%=getTran("web","manager",sWebLanguage)%></td>
 		</tr>
 		
 	    <%-- FAST ENCOUNTER 1 -------------------------------------------------------------------%>
 		<tr>
-			<td class='admin'><%=getTran("web","fastencounter",sWebLanguage) %> 1</td>
+			<td class='admin'><%=getTran("web","fastencounter",sWebLanguage)%> 1</td>
 			<td class='admin2'>
 	            <select class='text' id='FastEncounterType.1' name='FastEncounterType.1' >
 	            	<option value=''></option>
@@ -97,7 +97,7 @@
 		
 	    <%-- FAST ENCOUNTER 2 -------------------------------------------------------------------%>
 		<tr>
-			<td class='admin'><%=getTran("web","fastencounter",sWebLanguage) %> 2</td>
+			<td class='admin'><%=getTran("web","fastencounter",sWebLanguage)%> 2</td>
 			<td class='admin2'>
 	            <select class='text' id='FastEncounterType.2' name='FastEncounterType.2' >
 	            	<option value=''></option>
@@ -137,7 +137,7 @@
 	    
 	    <%-- FAST ENCOUNTER 3 -------------------------------------------------------------------%>
 		<tr>
-			<td class='admin'><%=getTran("web","fastencounter",sWebLanguage) %> 3</td>
+			<td class='admin'><%=getTran("web","fastencounter",sWebLanguage)%> 3</td>
 			<td class='admin2'>
 	            <select class='text' id='FastEncounterType.3' name='FastEncounterType.3' >
 	            	<option value=''></option>
@@ -180,7 +180,7 @@
 	    
 	    <%-- FAST ENCOUNTER 4 -------------------------------------------------------------------%>
 		<tr>
-			<td class='admin'><%=getTran("web","fastencounter",sWebLanguage) %> 4</td>
+			<td class='admin'><%=getTran("web","fastencounter",sWebLanguage)%> 4</td>
 			<td class='admin2'>
 	            <select class='text' id='FastEncounterType.4' name='FastEncounterType.4' >
 	            	<option value=''></option>
@@ -220,7 +220,7 @@
 	    
 	    <%-- FAST ENCOUNTER 5 -------------------------------------------------------------------%>
 		<tr>
-			<td class='admin'><%=getTran("web","fastencounter",sWebLanguage) %> 5</td>
+			<td class='admin'><%=getTran("web","fastencounter",sWebLanguage)%> 5</td>
 			<td class='admin2'>
 	            <select class='text' id='FastEncounterType.5' name='FastEncounterType.5' >
 	            	<option value=''></option>
@@ -266,8 +266,8 @@
 	<%-------------------------------------------------------------------------------------------%> 	 
 	<table class="list" cellpadding="0" cellspacing="1">       	    	    
 		<tr class='admin'>
-			<td width="80"><%=getTran("web","shortcut",sWebLanguage) %></td>
-			<td colspan=4><%=getTran("web","type",sWebLanguage) %></td>
+			<td width="80"><%=getTran("web","shortcut",sWebLanguage)%></td>
+			<td colspan=4><%=getTran("web","type",sWebLanguage)%></td>
 		</tr>
 		
 		<%
@@ -296,7 +296,7 @@
 		
         <%-- FAST TRANSACTION 1 -----------------------------------------------------------------%>
 		<tr>
-			<td class='admin'><%=getTran("web","fasttransaction",sWebLanguage) %> 1</td>
+			<td class='admin'><%=getTran("web","fasttransaction",sWebLanguage)%> 1</td>
 			<td class='admin2' colspan='4'>
 				<select name="FastTransaction.1" class="text">
                     <option value=""></option>
@@ -327,7 +327,7 @@
         
         <%-- FAST TRANSACTION 2 -----------------------------------------------------------------%>
 		<tr>
-			<td class='admin'><%=getTran("web","fasttransaction",sWebLanguage) %> 2</td>
+			<td class='admin'><%=getTran("web","fasttransaction",sWebLanguage)%> 2</td>
 			<td class='admin2' colspan='4'>
 				<select name="FastTransaction.2" class="text">
                     <option value=""></option>
@@ -358,7 +358,7 @@
 		
         <%-- FAST TRANSACTION 3 -----------------------------------------------------------------%>
 		<tr>
-			<td class='admin'><%=getTran("web","fasttransaction",sWebLanguage) %> 3</td>
+			<td class='admin'><%=getTran("web","fasttransaction",sWebLanguage)%> 3</td>
 			<td class='admin2' colspan='4'>
 				<select name="FastTransaction.3" class="text">
                     <option value=""></option>
@@ -390,7 +390,7 @@
 		
         <%-- FAST TRANSACTION 4 -----------------------------------------------------------------%>
 		<tr>
-			<td class='admin'><%=getTran("web","fasttransaction",sWebLanguage) %> 4</td>
+			<td class='admin'><%=getTran("web","fasttransaction",sWebLanguage)%> 4</td>
 			<td class='admin2' colspan='4'>
 				<select name="FastTransaction.4" class="text">
                     <option value=""></option>
@@ -422,7 +422,7 @@
 		
         <%-- FAST TRANSACTION 5 -----------------------------------------------------------------%>
 		<tr>
-			<td class='admin'><%=getTran("web","fasttransaction",sWebLanguage) %> 5</td>
+			<td class='admin'><%=getTran("web","fasttransaction",sWebLanguage)%> 5</td>
 			<td class='admin2' colspan='4'>
 				<select name="FastTransaction.5" class="text">
                     <option value=""></option>

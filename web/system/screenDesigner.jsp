@@ -685,8 +685,8 @@
       var rowId = cellForm.activeRowId.value;
       var row = document.getElementById(rowId);
         
-      row.cells(0).innerHTML = "<a href='#' onclick=\"deleteItem('"+rowId+"')\"><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'></a>&nbsp;"+
-                               "<a href='#' onclick=\"editItem('"+rowId+"')\"><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' style='vertical-align:-3px' border='0'></a>";
+      row.cells(0).innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' onclick=\"deleteItem('"+rowId+"')\" alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' class='link'></a>&nbsp;"+
+                               "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' onclick=\"editItem('"+rowId+"')\" alt='<%=getTranNoLink("web","edit",sWebLanguage)%>'  class='link' style='vertical-align:-3px'></a>";
       row.cells(1).innerHTML = cellForm.addItemTypeId.value;
       row.cells(2).innerHTML = cellForm.addHtmlElement.options[cellForm.addHtmlElement.selectedIndex].value;
       row.cells(3).innerHTML = cellForm.addSize.value;
@@ -795,8 +795,8 @@
         row.insertCell();
             
         row.id = "row_"+rowIdx; 
-        row.cells(0).innerHTML = "<a href='#' onclick=\"deleteItem('row_"+rowIdx+"')\"><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'></a>&nbsp;"+
-                                 "<a href='#' onclick=\"editItem('row_"+rowIdx+"')\"><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' style='vertical-align:-3px,' border='0'></a>";
+        row.cells(0).innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' onclick=\"deleteItem('row_"+rowIdx+"');\" alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' class='link'></a>&nbsp;"+
+                                 "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' onclick=\"editItem('row_"+rowIdx+"');\" alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' class='link' style='vertical-align:-3px'></a>";
         row.cells(1).innerHTML = cellForm.addItemTypeId.value;
         row.cells(2).innerHTML = cellForm.addHtmlElement.options[cellForm.addHtmlElement.selectedIndex].value;
         row.cells(3).innerHTML = cellForm.addSize.value;

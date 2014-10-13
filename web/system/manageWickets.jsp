@@ -12,9 +12,7 @@
 
         html.append("<tr id='rowAuthorizedUsers"+userIdx+"'>")
              .append("<td width='16'>")
-              .append("<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+userIdx+")'>")
-               .append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web","delete",sWebLanguage)+"' class='link'>")
-              .append("</a>")
+              .append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+userIdx+");' alt='"+getTranNoLink("Web","delete",sWebLanguage)+"' class='link'>")
              .append("</td>")
              .append("<td>"+userName+"</td>")
             .append("</tr>");
@@ -158,7 +156,7 @@
             
             sbResults.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\">" +
 		                      "<td width='25'>"+
-            		           "<a href='#' onclick='deleteWicket(\""+wicket.getUid()+"\")'>" +
+            		           "<a href='javascript:deleteWicket(\""+wicket.getUid()+"\")'>" +
 		                        "<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web", "delete", sWebLanguage)+"' class='link'>" +
 		                       "</a>" +
 		                      "</td>" +
@@ -169,7 +167,7 @@
 
         }
         
-        if (vWickets.size() > 0) {
+        if(vWickets.size() > 0){
 			%>
 			    <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
 			        <tr class="admin">
@@ -201,19 +199,19 @@
     }
 
     //*** EDIT ************************************************************************************
-    if (sAction.equals("NEW") || sAction.equals("SELECT") || sAction.equals("SAVE")) {
+    if(sAction.equals("NEW") || sAction.equals("SELECT") || sAction.equals("SAVE")){
         String authorizedUserId = "";
         String authorizedUserName = "";
         
         // authorized users
         //String authorizedUserIds = checkString(serviceStock.getAuthorizedUserIds());
-        if (sEditWicketAuthorizedUsers.length() > 0) {
+        if(sEditWicketAuthorizedUsers.length() > 0){
             authorisedUsersIdx = 1;
-            StringTokenizer idTokenizer = new StringTokenizer(sEditWicketAuthorizedUsers, "$");
-            while (idTokenizer.hasMoreTokens()) {
+            StringTokenizer idTokenizer = new StringTokenizer(sEditWicketAuthorizedUsers,"$");
+            while(idTokenizer.hasMoreTokens()){
                 authorizedUserId = idTokenizer.nextToken();
               	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                authorizedUserName = ScreenHelper.getFullUserName(authorizedUserId, ad_conn);
+                authorizedUserName = ScreenHelper.getFullUserName(authorizedUserId,ad_conn);
                 ad_conn.close();
                 authorisedUsersIdx++;
 
@@ -311,7 +309,7 @@
 
       var td = tr.insertCell(0);
       td.width = 16;
-      td.innerHTML = "<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+iAuthorizedUsersIdx+")'>"+
+      td.innerHTML = "<a href='javascript:deleteAuthorizedUser(rowAuthorizedUsers"+iAuthorizedUsersIdx+")'>"+
                       "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'>"+
                      "</a>";
       tr.appendChild(td);
@@ -354,7 +352,7 @@
   function extractUserIds(sourceString){
     var array = sourceString.split("$");
     for(var i=0;i<array.length;i++){
-       array[i] = array[i].substring(array[i].indexOf("=")+1,array[i].indexOf("£"));
+      array[i] = array[i].substring(array[i].indexOf("=")+1,array[i].indexOf("£"));
     }
     return array.join("$");
   }
@@ -365,7 +363,7 @@
   }
   
   function doFind(){
-    if(FindWicketForm.FindWicketService.value != ""){
+    if(FindWicketForm.FindWicketService.value!=""){
       FindWicketForm.Action.value = "SEARCH";
       FindWicketForm.buttonfind.disabled = true;
       FindWicketForm.submit();
@@ -379,6 +377,7 @@
     FindWicketForm.Action.value = "NEW";
     FindWicketForm.submit();
   }
+  
   function doBack(){
     window.location.href="<c:url value='/main.do'/>?Page=system/menu.jsp&ts=<%=getTs()%>";
   }

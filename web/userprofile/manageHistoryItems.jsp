@@ -871,8 +871,8 @@
                     <table width="100%" cellspacing="0" cellpadding="0">
                         <tr>
                             <td>
-                                <a href="#" onclick="checkAll(true);"><%=getTran("web.manage","checkAll",sWebLanguage)%></a>
-                                <a href="#" onclick="checkAll(false);"><%=getTran("web.manage","uncheckAll",sWebLanguage)%></a>
+                                <a href="javascript:checkAll(true);"><%=getTran("web.manage","checkAll",sWebLanguage)%></a>
+                                <a href="javascript:checkAll(false);"><%=getTran("web.manage","uncheckAll",sWebLanguage)%></a>
                             </td>
                             
                             <%

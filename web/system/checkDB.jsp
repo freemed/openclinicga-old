@@ -589,12 +589,12 @@
     if ("<%= request.getParameter("synchronize")+""%>" == "synchronize") {document.getElementById(7).checked=true} else {document.getElementById(7).checked=false};
 </script>
 
-<a href="#" onclick="checkAll(true);"><%=MedwanQuery.getInstance().getLabel("Web.Manage.CheckDb","CheckAll","N")%></a>
-<a href="#" onclick="checkAll(false);"><%=MedwanQuery.getInstance().getLabel("Web.Manage.CheckDb","UncheckAll","N")%></a>
-<a href="#" onclick="checkAllReset(true);"><%=MedwanQuery.getInstance().getLabel("Web.Manage.CheckDb","CheckAllReset","N")%></a>
-<a href="#" onclick="checkAllReset(false);"><%=MedwanQuery.getInstance().getLabel("Web.Manage.CheckDb","UncheckAllReset","N")%></a>
-<a href="#" onclick="checkAllFullSync(true);"><%=MedwanQuery.getInstance().getLabel("Web.Manage.CheckDb","CheckAllFullSync","N")%></a>
-<a href="#" onclick="checkAllFullSync(false);"><%=MedwanQuery.getInstance().getLabel("Web.Manage.CheckDb","UncheckAllFullSync","N")%></a>
+<a href="javascript:checkAll(true);"><%=MedwanQuery.getInstance().getLabel("Web.Manage.CheckDb","CheckAll","N")%></a>
+<a href="javascript:checkAll(false);"><%=MedwanQuery.getInstance().getLabel("Web.Manage.CheckDb","UncheckAll","N")%></a>
+<a href="javascript:checkAllReset(true);"><%=MedwanQuery.getInstance().getLabel("Web.Manage.CheckDb","CheckAllReset","N")%></a>
+<a href="javascript:checkAllReset(false);"><%=MedwanQuery.getInstance().getLabel("Web.Manage.CheckDb","UncheckAllReset","N")%></a>
+<a href="javascript:checkAllFullSync(true);"><%=MedwanQuery.getInstance().getLabel("Web.Manage.CheckDb","CheckAllFullSync","N")%></a>
+<a href="javascript:checkAllFullSync(false);"><%=MedwanQuery.getInstance().getLabel("Web.Manage.CheckDb","UncheckAllFullSync","N")%></a>
 
 <table width="100%" class="list" cellspacing="1">
 <%

@@ -4,7 +4,7 @@
 	<table width='100%'>
 		<tr>
 			<td class='admin'>
-				<input type='radio' name='tabletype' value="singlelanguage"/><%=getTran("web","singlelanguage",sWebLanguage) %>
+				<input type='radio' name='tabletype' value="singlelanguage"/><%=getTran("web","singlelanguage",sWebLanguage)%>
 			</td>
 			<td class='admin2'>
 				<%
@@ -19,7 +19,7 @@
 		</tr>
 		<tr>
 			<td class='admin'>
-				<input type='radio' name='tabletype' value="multilanguage"/><%=getTran("web","multilanguage",sWebLanguage) %>
+				<input type='radio' name='tabletype' value="multilanguage"/><%=getTran("web","multilanguage",sWebLanguage)%>
 			</td>
 			<td class='admin2'>
 				<%
@@ -32,7 +32,7 @@
 		</tr>
 		<tr>
 			<td class='admin'>
-				<input type='radio' name='tabletype' value="missinglabels"/><%=getTran("web","missinglabels",sWebLanguage) %>
+				<input type='radio' name='tabletype' value="missinglabels"/><%=getTran("web","missinglabels",sWebLanguage)%>
 			</td>
 			<td class='admin2'>
 				<%

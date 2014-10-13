@@ -19,7 +19,7 @@
         // display one source item
         html.append("<tr class='list"+sClass+"' id='rowSourceItem"+itemTypeIdx+"'>")
             .append("<td width='18'>")
-            .append("<a href='#' onclick='deleteSourceItem(rowSourceItem"+itemTypeIdx+")'>")
+            .append("<a href='javascript:deleteSourceItem(rowSourceItem"+itemTypeIdx+")'>")
             .append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("Web","delete",sWebLanguage)+"' class='link'>")
             .append("</a>")
             .append("</td>")
@@ -233,7 +233,7 @@
         var td1 = document.createElement('td');
         var td2 = document.createElement('td');
 
-        td1.innerHTML = "<a href='#' onclick='deleteSourceItem(rowSourceItem"+iSourceItemIdx+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>";
+        td1.innerHTML = "<a href='javascript:deleteSourceItem(rowSourceItem"+iSourceItemIdx+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>";
         td2.innerHTML = transactionForm.SourceItemTypeAdd.value;
         row.appendChild(td1);
         row.appendChild(td2);

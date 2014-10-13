@@ -1,16 +1,21 @@
-<%@page import="java.io.*,java.util.Properties,java.util.Enumeration,java.util.StringTokenizer,java.util.Vector" %>
+<%@page import="java.io.*,
+                java.util.Properties,
+                java.util.Enumeration,
+                java.util.StringTokenizer,
+                java.util.Vector"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+
 <%!
     //--- CONTAINS KEY ----------------------------------------------------------------------------
     // a properties object is case sensitive; this function makes it INsensitive.
-    public boolean containsKey(Properties properties, String key) {
+    public boolean containsKey(Properties properties, String key){
         Enumeration keys = properties.keys();
         String iniKey = null;
 
-        while (keys.hasMoreElements()) {
+        while (keys.hasMoreElements()){
             iniKey = (String) keys.nextElement();
-            if (iniKey.equalsIgnoreCase(key)) {
+            if(iniKey.equalsIgnoreCase(key)){
                 return true;
             }
         }
@@ -28,6 +33,7 @@
         return iniProps;
     }
 %>
+
 <%
     String action = checkString(request.getParameter("action"));
 
@@ -36,10 +42,10 @@
     if(supportedLanguages.length()==0) supportedLanguages = "nl,fr";
 
     // get data from form
-    String sFindLabelValue = checkString(request.getParameter("FindLabelValue"));
-    String sFindLabelType  = checkString(request.getParameter("FindLabelType"));
-    String sFindLabelID    = checkString(request.getParameter("FindLabelID"));
-    String sFindLeaderLang = checkString(request.getParameter("FindLeaderLang"));
+    String sFindLabelValue = checkString(request.getParameter("FindLabelValue")),
+           sFindLabelType  = checkString(request.getParameter("FindLabelType")),
+           sFindLabelID    = checkString(request.getParameter("FindLabelID")),
+           sFindLeaderLang = checkString(request.getParameter("FindLeaderLang"));
 
     // leader file is first supported language if no leader is specified
     if(sFindLeaderLang.length() == 0){
@@ -64,10 +70,13 @@
     }
     excludedLabelTypes = excludedLabelTypes.toLowerCase();
 %>
-<a name="top"/>
+<a name="topp">&nbsp;</a>
+
 <form name="transactionForm" method="POST" onKeyDown="if(window.event.keyCode==13){doSubmit('find');}">
 <input type="hidden" name="action">
+
 <%=writeTableHeader("Web.manage","removeLabelsFromIniFiles",sWebLanguage,"main.do?Page=system/menu.jsp")%>
+
 <%-- SELECT ACTION TABLE -------------------------------------------------------------------------%>
 <table width="100%" class="menu" cellspacing="1">
     <%-- LABEL TYPE --%>
@@ -162,7 +171,7 @@
             deleteMsg = "<font color='red'>" + e.getMessage() + "</font>";
         }
 
-%>
+      %>
           <br>
           <%=deleteMsg%>
       <%
@@ -177,14 +186,15 @@
     <table width="100%" cellspacing="1">
         <tr>
             <td>
-                <a href="#" onclick="checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
-                <a href="#" onclick="checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
+                <a href="javascript:checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
+                <a href="javascript:checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
             </td>
             <td align="right">
                 <a href='#bottom'><img src='<c:url value='/_img/themes/default/bottom.gif'/>' class='link' border="0"></a>
             </td>
         </tr>
     </table>
+    
     <%-- DISPLAY RECORDS (between buttons) -------------------------------------------------------%>
     <table width="100%" class="list" cellspacing="1" onMouseOver='this.style.cursor="hand"' onMouseOut='this.style.cursor="default"'>
         <%-- spacer --%>
@@ -341,12 +351,13 @@
         else                 cb.checked = true;
       }
     </script>
+    
     <%-- BUTTONS at BOTTOM ----------------------------------------------------------------------%>
     <table width="100%" cellspacing="1">
         <tr>
             <td>
-                <a href="#" onclick="checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
-                <a href="#" onclick="checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
+                <a href="javascript:checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
+                <a href="javascript:checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
             </td>
             <td align="right">
                 <a href="#topp" class="topbutton">&nbsp;</a>
@@ -372,12 +383,15 @@
   }
 %>
 </form>
+
 <%-- link to manage translations --%>
 <%=ScreenHelper.alignButtonsStart()%>
     <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
     <a  href="<c:url value='/main.do?Page=system/manageTranslations.jsp?ts='/><%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web","managetranslations",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
-<a name="bottom"/>
+
+<a name="bottom">&nbsp;</a>
+
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>
   function doSubmit(action){

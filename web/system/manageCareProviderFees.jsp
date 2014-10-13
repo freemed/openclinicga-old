@@ -78,7 +78,7 @@
 	    	<td class='admin'><%=getTran("web","amount",sWebLanguage)%></td>
 	    	<td class='admin2'><table><tr><td><input type='text' class='text' name='feeamount' id='feeamount' size='10'/></td><td><div name='feeamountmodifier' id='feeamountmodifier'></div></td></tr></table></td>
 	    </tr>
-	    <tr><td colspan="2"><input type="submit" name="submit" value="<%=getTranNoLink("web","save",sWebLanguage) %>"/></td></tr>
+	    <tr><td colspan="2"><input type="submit" name="submit" value="<%=getTranNoLink("web","save",sWebLanguage)%>"/></td></tr>
 	</table>
 	
 </form>

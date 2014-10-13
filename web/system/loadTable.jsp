@@ -459,13 +459,13 @@
 	<table>
 		<tr>
 			<td class='admin'>
-				<%=getTran("web","filetype",sWebLanguage) %>
+				<%=getTran("web","filetype",sWebLanguage)%>
 				<select name="filetype" id="filetype" class="text" onchange="showstructure();">
-					<option value="prestationscsv"><%=getTran("web","prestations.csv",sWebLanguage) %></option>
-					<option value="servicescsv"><%=getTran("web","services.csv",sWebLanguage) %></option>
-					<option value="labelscsv"><%=getTran("web","labels.csv",sWebLanguage) %></option>
-					<option value="labxml"><%=getTran("web","lab.xml",sWebLanguage) %></option>
-					<option value="drugsxml"><%=getTran("web","drugs.xml",sWebLanguage) %></option>
+					<option value="prestationscsv"><%=getTran("web","prestations.csv",sWebLanguage)%></option>
+					<option value="servicescsv"><%=getTran("web","services.csv",sWebLanguage)%></option>
+					<option value="labelscsv"><%=getTran("web","labels.csv",sWebLanguage)%></option>
+					<option value="labxml"><%=getTran("web","lab.xml",sWebLanguage)%></option>
+					<option value="drugsxml"><%=getTran("web","drugs.xml",sWebLanguage)%></option>
 				</select>
 			</td>
 			<td class='admin2'><input class="text" type="checkbox" name="erase" value="1"/> <%=getTran("web","delete.table.before.load",sWebLanguage)%></td>

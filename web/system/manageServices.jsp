@@ -737,7 +737,7 @@
                     <td class="admin"> <%=getTran("Web","Comment",sWebLanguage)%></td>
                     <td class="admin2">
                         <input type="text" class="text" name="EditServiceComment" value="<%=service.comment%>" size="<%=sTextWidth%>">
-                        <BR/><%=getTran("web","noexams",sWebLanguage) %>
+                        <BR/><%=getTran("web","noexams",sWebLanguage)%>
                     </td>
                 </tr>
                 <%-- spacer --%>

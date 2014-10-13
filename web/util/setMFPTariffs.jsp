@@ -46,4 +46,4 @@
 
 	
 %>
-<label class='text'><%=counter %> <%=getTran("web","tariffs.calculated",sWebLanguage) %></label>
+<label class='text'><%=counter %> <%=getTran("web","tariffs.calculated",sWebLanguage)%></label>

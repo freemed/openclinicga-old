@@ -56,11 +56,7 @@
   %>
 
   function doArchive(){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=areyousuretoarchiveactivefile";
-    var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm('<%=getTranNoLink("web","areyousure",sWebLanguage)%>');
-
-    if(answer==1){
+    if(yesnoDialog("web.manage","areyousuretoarchiveactivefile")){
       archiveForm.Action.value = 'Archive';
       archiveForm.archiveButton.disabled = true;
       archiveForm.submit();

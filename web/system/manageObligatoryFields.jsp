@@ -125,8 +125,8 @@
             </td>
         </tr>
     </table>
-    <a href="#" onclick="checkAll('Admin',true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
-    <a href="#" onclick="checkAll('Admin',false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
+    <a href="javascript:checkAll('Admin',true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
+    <a href="javascript:checkAll('Admin',false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
     <br><br>
     <%-- tab = AdminPrivate ---------------------------------------------------------------------%>
     <table width="100%" cellspacing="0" class="menu">
@@ -157,8 +157,8 @@
             </td>
         </tr>
     </table>
-    <a href="#" onclick="checkAll('AdminPrivate',true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
-    <a href="#" onclick="checkAll('AdminPrivate',false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
+    <a href="javascript:checkAll('AdminPrivate',true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
+    <a href="javascript:checkAll('AdminPrivate',false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
     <br><br>
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>

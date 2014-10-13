@@ -98,7 +98,7 @@
                 <td class="admin2">
                     <input type='submit' class="button" name="saveButton" value="<%=getTranNoLink("accesskey","save",sWebLanguage)%>"/>
                     <input type='submit' class="button" name="findButton" value="<%=getTranNoLink("web","find",sWebLanguage)%>"/>
-                    <input type='checkbox' name='ShowOld' id='ShowOld' value='1' <%=sShowOld.length()>0?"checked":"" %>/><%=getTran("web","showinactive",sWebLanguage) %>
+                    <input type='checkbox' name='ShowOld' id='ShowOld' value='1' <%=sShowOld.length()>0?"checked":"" %>/><%=getTran("web","showinactive",sWebLanguage)%>
                 </td>
             </tr>
 	        

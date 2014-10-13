@@ -344,7 +344,7 @@
                 </tr>
 
                 <%-- admin records --%>
-                <tbody onMouseOver='this.style.cursor="hand"' onMouseOut='this.style.cursor="default"'>
+                <tbody class="hand">
                     <%
                         //*** retrieve unique sets of double dossiers *********
                         int doubleCounter = 0;

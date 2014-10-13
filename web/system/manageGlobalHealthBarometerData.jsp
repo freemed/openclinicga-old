@@ -93,7 +93,7 @@
 
 <form name="searchForm" method="post">
   <%=writeTableHeader("web.manage","manageglobalhealthbarometerdata",sWebLanguage,"doBack();")%>
-  <h4><%=getTran("web","globalhealthbarometerinfo",sWebLanguage) %> <%=getTran("web","redrowsaremandatory",sWebLanguage) %></h4><br/><hr/>
+  <h4><%=getTran("web","globalhealthbarometerinfo",sWebLanguage)%> <%=getTran("web","redrowsaremandatory",sWebLanguage)%></h4><br/><hr/>
   <table width="100%" class="menu" cellspacing="0" cellpadding="1">
 <%
 	out.println(writeConfigRowSelect(getTran("web","centerCountry",sWebLanguage),"globalHealthBarometerCenterCountry","orange","<option value=''/>"+ScreenHelper.writeSelectUpperCase("country", MedwanQuery.getInstance().getConfigString("globalHealthBarometerCenterCountry"), sWebLanguage,false,true)));

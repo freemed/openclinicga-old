@@ -395,7 +395,7 @@
     clearTimeBlockTable();
       
     if(weekScheduleId.length > 0){
-      document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
+      document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading..";            
       var url = "<c:url value='/system/ajax/defaultWeekschedules/getDefaultWeekschedule.jsp'/>?ts="+new Date().getTime();
       
       new Ajax.Request(url,

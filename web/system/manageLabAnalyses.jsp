@@ -302,7 +302,7 @@
         String sClass;
         Iterator iterator = vLabAnalyses.iterator();
 
-        %><tbody onMouseOver='this.style.cursor="hand"' onMouseOut='this.style.cursor="default"'><%
+        %><tbody class="hand"><%
 
         //--- display found records ---
         LabAnalysis labAnalysis;

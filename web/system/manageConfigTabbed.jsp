@@ -26,8 +26,8 @@
 
         out.append("<tr class='admin'>")
            .append("<td nowrap>"+getTran("web.manage.config","Key",sWebLanguage)+"</td>")
-           .append("<td >"+getTran("web","value",sWebLanguage)+"</td>")
-           .append("<td >"+getTran("web.manage.config","defaultvalue",sWebLanguage)+"</td>")
+           .append("<td>"+getTran("web","value",sWebLanguage)+"</td>")
+           .append("<td>"+getTran("web.manage.config","defaultvalue",sWebLanguage)+"</td>")
            .append("</tr>");
 
         return out.toString();

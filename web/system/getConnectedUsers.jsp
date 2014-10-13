@@ -18,7 +18,9 @@
     	Debug.println("sNoUsers : "+sNoUsers+"\n");
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
-
+	
+	DecimalFormat deci = new DecimalFormat("#,###");
+    
     if(sNoUsers.length()==0){
 %>
 <tr>
@@ -26,12 +28,12 @@
 	<td class='admin'><%=getTran("web","lastconnection",sWebLanguage)%></td>
 	<td class='admin'><%=getTran("web","duration",sWebLanguage)%></td>
 	<td class='admin'><%=getTran("web","inactif",sWebLanguage)%></td>
-	<td class='admin'><%=getTran("web","ipaddress",sWebLanguage) %></td>
-	<td class='admin'><%=getTran("web","browser",sWebLanguage) %></td>
-	<td class='admin'><%=getTran("web","userid",sWebLanguage) %></td>
-	<td class='admin'><%=getTran("web","user",sWebLanguage) %></td>
-	<td class='admin'><%=getTran("web","profile",sWebLanguage) %></td>
-	<td class='admin'><%=getTran("web","patient",sWebLanguage) %></td>
+	<td class='admin'><%=getTran("web","ipaddress",sWebLanguage)%></td>
+	<td class='admin'><%=getTran("web","browser",sWebLanguage)%></td>
+	<td class='admin'><%=getTran("web","userid",sWebLanguage)%></td>
+	<td class='admin'><%=getTran("web","user",sWebLanguage)%></td>
+	<td class='admin'><%=getTran("web","profile",sWebLanguage)%></td>
+	<td class='admin'><%=getTran("web","patient",sWebLanguage)%></td>
 </tr>
 
 <%
@@ -160,9 +162,9 @@
 %>
 <table width='100%' class="list" cellpadding="0" cellspacing="0">
 <tr>
-	<td class='admin2' width='25%'><center><%=getTran("web","total_server_memory",sWebLanguage)%>: <%=new DecimalFormat("#,###").format(Runtime.getRuntime().totalMemory()/1048576)%> Mb</center></td>
-	<td class='admin2' width='25%'><center><%=getTran("web","free_server_memory",sWebLanguage)%>: <%=new DecimalFormat("#,###").format(Runtime.getRuntime().freeMemory()/1048576)%> Mb</center></td>
-	<td class='admin2' width='25%'><center><%=getTran("web","max_server_memory",sWebLanguage)%>: <%=new DecimalFormat("#,###").format(Runtime.getRuntime().maxMemory()/1048576)%> Mb</center></td>
+	<td class='admin2' width='25%'><center><%=getTran("web","total_server_memory",sWebLanguage)%>: <%=deci.format(Runtime.getRuntime().totalMemory()/1048576)%> Mb</center></td>
+	<td class='admin2' width='25%'><center><%=getTran("web","free_server_memory",sWebLanguage)%>: <%=deci.format(Runtime.getRuntime().freeMemory()/1048576)%> Mb</center></td>
+	<td class='admin2' width='25%'><center><%=getTran("web","max_server_memory",sWebLanguage)%>: <%=deci.format(Runtime.getRuntime().maxMemory()/1048576)%> Mb</center></td>
 	<td class='admin2' width='25%'><center><%=getTran("web","available_processors",sWebLanguage)%>: <%=Runtime.getRuntime().availableProcessors()%></center></td>
 </tr>
 </table>
@@ -212,13 +214,13 @@
 %>
 <table width='100%' class="list" cellpadding="0" cellspacing="1">
 <tr>
-	<td class='admin2' width='25%'><center><%=getTran("web","total_patients",sWebLanguage)%>: <%=new DecimalFormat("#,###").format(totalpatients)%></center></td>
-	<td class='admin2' width='25%'><center><%=getTran("web","total_encounters",sWebLanguage)%>: <%=new DecimalFormat("#,###").format(totalencounters)%></center></td>
-	<td class='admin2' width='25%'><center><%=getTran("web","total_patientinvoices",sWebLanguage)%>: <%=new DecimalFormat("#,###").format(totalpatientinvoices)%></center></td>
-	<td class='admin2' width='25%'><center><%=getTran("web","total_debets",sWebLanguage)%>: <%=new DecimalFormat("#,###").format(totaldebets)%></center></td>
+	<td class='admin2' width='25%'><center><%=getTran("web","total_patients",sWebLanguage)%>: <%=deci.format(totalpatients)%></center></td>
+	<td class='admin2' width='25%'><center><%=getTran("web","total_encounters",sWebLanguage)%>: <%=deci.format(totalencounters)%></center></td>
+	<td class='admin2' width='25%'><center><%=getTran("web","total_patientinvoices",sWebLanguage)%>: <%=deci.format(totalpatientinvoices)%></center></td>
+	<td class='admin2' width='25%'><center><%=getTran("web","total_debets",sWebLanguage)%>: <%=deci.format(totaldebets)%></center></td>
 </tr>
 <tr>
-	<td class='admin2' width='25%'><center><%=getTran("web","total_archived_patients",sWebLanguage)%>: <%=new DecimalFormat("#,###").format(totalarchivedpatients)%></center></td>
+	<td class='admin2' width='25%'><center><%=getTran("web","total_archived_patients",sWebLanguage)%>: <%=deci.format(totalarchivedpatients)%></center></td>
 	<td class='admin2' colspan='3'></td>
 </tr>
 <%

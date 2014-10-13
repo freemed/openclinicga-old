@@ -30,9 +30,9 @@
 
 <form name='resetDefaults' method='post'>
 	<table class="list" cellpadding="0" cellspacing="1" width="100%"> 
-		<tr class='admin'><td colspan='2'><%=getTran("web","reset.defaults",sWebLanguage) %>&nbsp</td></tr>
+		<tr class='admin'><td colspan='2'><%=getTran("web","reset.defaults",sWebLanguage)%>&nbsp</td></tr>
 		<tr>
-			<td class='admin' width="<%=sTDAdminWidth%>"><%=getTran("web","country",sWebLanguage) %></td>
+			<td class='admin' width="<%=sTDAdminWidth%>"><%=getTran("web","country",sWebLanguage)%></td>
 			<td class='admin2'>
 				<select name='country' id='country' class='text'>
 					<option value=''></option>
@@ -59,7 +59,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td class='admin'><%=getTran("web","os",sWebLanguage) %>&nbsp</td>
+			<td class='admin'><%=getTran("web","os",sWebLanguage)%>&nbsp</td>
 			<td class='admin2'>
 				<select name='os' class='text'>
 					<option value=''></option>
@@ -71,7 +71,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td class='admin'><%=getTran("web","databaseserver",sWebLanguage) %>&nbsp</td>
+			<td class='admin'><%=getTran("web","databaseserver",sWebLanguage)%>&nbsp</td>
 			<td class='admin2'>
 				<select name='database' class='text'>
 					<option value=''></option>
@@ -81,19 +81,19 @@
 			</td>
 		</tr>
 		<tr>
-			<td class='admin'><%=getTran("web","project",sWebLanguage) %>&nbsp</td>
+			<td class='admin'><%=getTran("web","project",sWebLanguage)%>&nbsp</td>
 			<td class='admin2'>
 				<input class='text' type='text' name='project' id='project' value='<%=MedwanQuery.getInstance().getConfigString("defaultProject","openclinic")%>'/>
 			</td>
 		</tr>
 		<tr>
-			<td class='admin'><%=getTran("web","updatelabels",sWebLanguage) %>&nbsp</td>
+			<td class='admin'><%=getTran("web","updatelabels",sWebLanguage)%>&nbsp</td>
 			<td class='admin2'>
 				<input class='text' type='checkbox' name='updatelabels' id='undatelabels'/>
 			</td>
 		</tr>
 		<tr>
-			<td class='admin'><%=getTran("web","updatedatabase",sWebLanguage) %>&nbsp</td>
+			<td class='admin'><%=getTran("web","updatedatabase",sWebLanguage)%>&nbsp</td>
 			<td class='admin2'>
 				<input class='text' type='checkbox' name='updatedb' id='undatedb'/>
 			</td>

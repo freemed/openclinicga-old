@@ -108,25 +108,25 @@
 <%-- SELECT ACTION TABLE ------------------------------------------------------------------------%>
 <table width="100%" class="menu" cellspacing="1">
     <%-- DATA DIRECTION --%>
-    <tr>
+    <tr height="30">
         <td colspan="2" class="admin2">
-            <input type="radio" name="dataDirection" id="dataDirection1" value="dbToIni" onDblClick="uncheckRadio(this);" <%=(dataDirection.equals("dbToIni")?" checked":"")%>>
-            <label for="dataDirection1">In Db, not in ini file (DB to INI)</label>
+            <input type="radio" name="dataDirection" id="dataDirection1" value="dbToIni" style="cursor:hand" onDblClick="uncheckRadio(this);" <%=(dataDirection.equals("dbToIni")?" checked":"")%>>
+            <label for="dataDirection1" style="cursor:hand">In Db, not in ini file (DB to INI)</label>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="radio" name="dataDirection" id="dataDirection2" value="iniToDb" onDblClick="uncheckRadio(this);" <%if(dataDirection.equals("iniToDb")){out.print(" checked");}%>>
-            <label for="dataDirection2">In ini file, not in Db (INI to DB)</label>
+            <input type="radio" name="dataDirection" id="dataDirection2" value="iniToDb" style="cursor:hand" onDblClick="uncheckRadio(this);" <%if(dataDirection.equals("iniToDb")){out.print(" checked");}%>>
+            <label for="dataDirection2" style="cursor:hand">In ini file, not in Db (INI to DB)</label>
         </td>
     </tr>
     
     <%-- FROM DATE --%>
-    <tr width="<%=sTDAdminWidth%>">
-        <td class="admin2">&nbsp;<%=getTran("Web.control","from",sWebLanguage)%></td>
+    <tr>
+        <td class="admin" width="<%=sTDAdminWidth%>">&nbsp;<%=getTran("Web.control","from",sWebLanguage)%></td>
         <td class="admin2"><%=writeDateField("FindLabelDate","transactionForm",findLabelDate,sWebLanguage)%></td>
     </tr>
     
     <%-- LABEL TYPE --%>
     <tr>
-        <td class="admin2">&nbsp;<%=getTran("Web","type",sWebLanguage)%></td>
+        <td class="admin">&nbsp;<%=getTran("Web","type",sWebLanguage)%></td>
         <td class="admin2">
             <select name="FindLabelType" class="text">
                 <option></option>
@@ -155,7 +155,7 @@
     
     <%-- LABEL ID --%>
     <tr>
-        <td class="admin2">&nbsp;<%=getTran("Web.Translations","labelid",sWebLanguage)%></td>
+        <td class="admin">&nbsp;<%=getTran("Web.Translations","labelid",sWebLanguage)%></td>
         <td class="admin2">
             <input type="text" class="text" name="FindLabelID" value="<%=findLabelID%>" size="<%=sTextWidth%>">
         </td>
@@ -163,17 +163,16 @@
     
     <%-- LABEL LANGUAGE --%>
     <tr>
-        <td class="admin2">&nbsp;<%=getTran("Web","Language",sWebLanguage)%></td>
+        <td class="admin">&nbsp;<%=getTran("Web","Language",sWebLanguage)%></td>
         <td class="admin2">
             <select name="FindLabelLang" class="text">
+                <option value=""><%=getTran("web","choose",sWebLanguage)%></option>
                 <%
                     String tmpLang;
-                    StringTokenizer tokenizer = new StringTokenizer(supportedLanguages, ",");
-                    while (tokenizer.hasMoreTokens()) {
+                    StringTokenizer tokenizer = new StringTokenizer(supportedLanguages,",");
+                    while (tokenizer.hasMoreTokens()){
                         tmpLang = tokenizer.nextToken();
-                %>
-                            <option value="<%=tmpLang%>" <%=(findLabelLang.equals(tmpLang)?"selected":"")%>><%=getTranNoLink("Web.language",tmpLang,sWebLanguage)%></option>
-                        <%
+                        %><option value="<%=tmpLang%>" <%=(findLabelLang.equals(tmpLang)?"selected":"")%>><%=getTranNoLink("Web.language",tmpLang,sWebLanguage)%></option><%
                     }
                 %>
             </select>
@@ -182,7 +181,7 @@
     
     <%-- LABEL VALUE --%>
     <tr>
-        <td class="admin2">&nbsp;<%=getTran("Web.Translations","label",sWebLanguage)%></td>
+        <td class="admin">&nbsp;<%=getTran("Web.Translations","label",sWebLanguage)%></td>
         <td class="admin2">
             <input type="text" class="text" name="FindLabelValue" value="<%=findLabelValue%>" size="<%=sTextWidth%>">&nbsp;&nbsp;
         </td>
@@ -190,13 +189,13 @@
     
     <%-- EXCLUDED TYPES --%>
     <tr height="22">
-        <td class="admin2">&nbsp;<%=getTran("web.translations","Excludedtypes",sWebLanguage)%></td>
+        <td class="admin">&nbsp;<%=getTran("web.translations","Excludedtypes",sWebLanguage)%></td>
         <td class="admin2"><%=excludedLabelTypes%></td>
     </tr>
     
     <%-- BUTTONS --%>
     <tr>
-        <td class="admin2">&nbsp;</td>
+        <td class="admin">&nbsp;</td>
         <td class="admin2">
             <input type="button" class="button" name="FindButton" value="<%=getTranNoLink("Web","Find",sWebLanguage)%>" onclick="doSubmit('find');">&nbsp;
             <input type="button" class="button" name="ClearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onClick="clearFindFields();">&nbsp;
@@ -407,8 +406,8 @@
             <table width="100%" cellspacing="1">
                 <tr>
                     <td>
-                        <a href="#" onclick="checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
-                        <a href="#" onclick="checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
+                        <a href="javascript:checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
+                        <a href="javascript:checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
                     </td>
                     <td align="right">
                         <a href='#bottom'><img src='<c:url value='/_img/themes/default/bottom.gif'/>' class='link' border="0"></a>
@@ -602,8 +601,8 @@
             <table width="100%" cellspacing="1">
                 <tr>
                     <td>
-                        <a href="#" onclick="checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
-                        <a href="#" onclick="checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
+                        <a href="javascript:checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
+                        <a href="javascript:checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
                     </td>
                     <td align="right">
                         <a href='#topp'><img src='<c:url value='/_img/themes/default/top.gif'/>' class='link' border="0"></a>
@@ -659,14 +658,18 @@
       }
     }
     else if(action=="find"){
-      if ((document.getElementById('dataDirection1').checked)||(document.getElementById('dataDirection2').checked)){
-        transactionForm.action.value = action;
-        transactionForm.submit();
+      if(transactionForm.FindLabelLang.selectedIndex > 0){
+        if((document.getElementById('dataDirection1').checked) || (document.getElementById('dataDirection2').checked)){
+          transactionForm.action.value = action;
+          transactionForm.submit();
+        }
+        else{
+          alertDialog("web.manage","chooseDataDirection");
+        }
       }
       else{
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=chooseDataDirection";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","chooseDataDirection",sWebLanguage)%>");
+    	transactionForm.FindLabelLang.focus();
+    	alertDialog("web.manage","dataMissing");
       }
     }
     else if(action=="delete"){

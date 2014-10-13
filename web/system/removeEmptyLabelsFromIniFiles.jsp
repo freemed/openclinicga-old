@@ -1,19 +1,20 @@
-<%@page import="java.io.*,java.util.Properties,java.util.Enumeration,java.util.Vector" %>
+<%@page import="java.io.*,
+                java.util.Properties,
+                java.util.Enumeration,
+                java.util.Vector"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%
 
-%>
 <%!
     //--- CONTAINS KEY ----------------------------------------------------------------------------
     // a properties object is case sensitive; this function makes it INsensitive.
-    public boolean containsKey(Properties properties, String key) {
+    public boolean containsKey(Properties properties, String key){
         Enumeration keys = properties.keys();
         String iniKey = null;
 
-        while (keys.hasMoreElements()) {
+        while(keys.hasMoreElements()){
             iniKey = (String) keys.nextElement();
-            if (iniKey.equalsIgnoreCase(key)) {
+            if(iniKey.equalsIgnoreCase(key)){
                 return true;
             }
         }
@@ -22,32 +23,33 @@
     }
 
     //--- GET PROPERTY FILE -----------------------------------------------------------------------
-    private Properties getPropertyFile(String sFilename) {
+    private Properties getPropertyFile(String sFilename){
         FileInputStream iniIs = null;
         Properties iniProps = new Properties();
 
         // create ini file if they do not exist
-        try {
-            iniIs = new FileInputStream(sAPPFULLDIR + sFilename);
+        try{
+            iniIs = new FileInputStream(sAPPFULLDIR+sFilename);
             iniProps.load(iniIs);
             iniIs.close();
         }
         catch (FileNotFoundException e) {
             // create the file
-            try {
-                new FileOutputStream(sAPPFULLDIR + sFilename);
+            try{
+                new FileOutputStream(sAPPFULLDIR+sFilename);
             }
             catch (Exception e1) {
-                if (Debug.enabled) Debug.println(e1.getMessage());
+                Debug.println(e1.getMessage());
             }
         }
         catch (Exception e) {
-            if (Debug.enabled) Debug.println(e.getMessage());
+            Debug.println(e.getMessage());
         }
 
         return iniProps;
     }
 %>
+
 <%
   final String INIFILENAMENL = "/_common/xml/Labels.nl.ini";
   final String INIFILENAMEFR = "/_common/xml/Labels.fr.ini";
@@ -63,10 +65,12 @@
   }
   excludedLabelTypes = excludedLabelTypes.toLowerCase();
 %>
-<a name="top"/>
+<a name="topp"/>
+
 <form name="transactionForm" method="POST" onKeyDown="if(window.event.keyCode==13){doSubmit('find');}">
 <input type="hidden" name="action">
 <%=writeTableHeader("Web.manage","removeSingleLabelsFromIniFiles",sWebLanguage,"main.do?Page=system/menu.jsp")%>
+
 <table width="100%" class="menu" cellspacing="1">
     <%-- LEADER INI FILE --%>
     <tr>
@@ -75,6 +79,7 @@
             <input type="radio" name="LeaderIniFile" id="rbNL" value="nl" <%=sLeaderIniFile.equalsIgnoreCase("nl")?"checked":""%>><label for="rbNL">NL</label>
             <input type="radio" name="LeaderIniFile" id="rbFR" value="fr" <%=sLeaderIniFile.equalsIgnoreCase("fr")?"checked":""%>><label for="rbFR">FR</label>
             &nbsp;&nbsp;&nbsp;
+            
             <%-- buttons --%>
             <input type="button" class="button" name="FindButton" value="<%=getTranNoLink("Web","Find",sWebLanguage)%>" onclick="doSubmit('find');">&nbsp;
             <input type="button" class="button" name="ClearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onClick="clearFindFields();">
@@ -86,22 +91,23 @@
         <td><%=excludedLabelTypes%></td>
     </tr>
 </table>
+
 <%
     //################################################################################################
     //### DELETE #####################################################################################
     //################################################################################################
-    if (action.equals("delete")) {
+    if(action.equals("delete")){
         Vector recsToBeDeleted = new Vector();
         String paramName, paramValue;
         String labelTypeAndID = null;
 
         // PUT ASIDE RECORDS SPECIFIED FOR DELETION IN REQUEST
         Enumeration e = request.getParameterNames();
-        while (e.hasMoreElements()) {
+        while(e.hasMoreElements()){
             paramName = (String) e.nextElement();
             paramValue = checkString(request.getParameter(paramName));
 
-            if (paramName.startsWith("checkbox$") && paramValue.equals("on")) {
+            if (paramName.startsWith("checkbox$") && paramValue.equals("on")){
                 labelTypeAndID = paramName.substring(9);
                 labelTypeAndID = labelTypeAndID.toLowerCase();
 
@@ -110,32 +116,32 @@
         }
 
         // DELETE FROM INI FILES
-        Properties iniPropsNL = getPropertyFile(INIFILENAMENL);
-        Properties iniPropsFR = getPropertyFile(INIFILENAMEFR);
+        Properties iniPropsNL = getPropertyFile(INIFILENAMENL),
+                   iniPropsFR = getPropertyFile(INIFILENAMEFR);
 
         // remove specified labels
         String label;
-        for (int i = 0; i < recsToBeDeleted.size(); i++) {
-            label = (String) recsToBeDeleted.get(i);
+        for(int i=0; i<recsToBeDeleted.size(); i++){
+            label = (String)recsToBeDeleted.get(i);
 
             iniPropsNL.remove(label);
             iniPropsFR.remove(label);
         }
 
         // write NL labels to ini file
-        FileOutputStream outputStreamNL = new FileOutputStream(sAPPFULLDIR + INIFILENAMENL);
-        iniPropsNL.store(outputStreamNL, "Labels.nl.ini");
+        FileOutputStream outputStreamNL = new FileOutputStream(sAPPFULLDIR+INIFILENAMENL);
+        iniPropsNL.store(outputStreamNL,"Labels.nl.ini");
         outputStreamNL.close();
 
         // write FR labels to ini file
-        FileOutputStream outputStreamFR = new FileOutputStream(sAPPFULLDIR + INIFILENAMEFR);
-        iniPropsFR.store(outputStreamFR, "Labels.fr.ini");
+        FileOutputStream outputStreamFR = new FileOutputStream(sAPPFULLDIR+INIFILENAMEFR);
+        iniPropsFR.store(outputStreamFR,"Labels.fr.ini");
         outputStreamFR.close();
-
-%>
-        <br>
-        <%=getTran("Web","DataIsDeleted",sWebLanguage)%>
-    <%
+	
+	    %>
+	        <br>
+	        <%=getTran("Web","DataIsDeleted",sWebLanguage)%>
+	    <%
   }
   //################################################################################################
   //### FIND (DISPLAY DIFFERENCES) #################################################################
@@ -147,14 +153,15 @@
     <table width="100%" cellspacing="1">
         <tr>
             <td>
-                <a href="#" onclick="checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
-                <a href="#" onclick="checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
+                <a href="javascript:checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
+                <a href="javascript:checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
             </td>
             <td align="right">
                 <a href='#bottom'><img src='<c:url value='/_img/themes/default/bottom.gif'/>' class='link' border="0"></a>
             </td>
         </tr>
     </table>
+    
     <%-- DISPLAY RECORDS (between buttons) -------------------------------------------------------%>
     <table width="100%" class="list" cellspacing="1" onMouseOver='this.style.cursor="hand"' onMouseOut='this.style.cursor="default"'>
         <%-- spacer --%>
@@ -298,6 +305,7 @@
             }
         %>
     </table>
+    
     <script>
       function setCB(id){
         var cb = document.getElementById(id);
@@ -305,12 +313,13 @@
         else                 cb.checked = true;
       }
     </script>
+    
     <%-- BUTTONS at BOTTOM -----------------------------------------------------------------------%>
     <table width="100%" cellspacing="1">
         <tr>
             <td>
-                <a href="#" onclick="checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
-                <a href="#" onclick="checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
+                <a href="javascript:checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
+                <a href="javascript:checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
             </td>
             <td align="right">
                 <a href="#topp" class="topbutton">&nbsp;</a>
@@ -336,12 +345,15 @@
   }
 %>
 </form>
+
 <%-- link to manage translations --%>
 <%=ScreenHelper.alignButtonsStart()%>
     <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
     <a  href="<c:url value='/main.do'/>?Page=system/manageTranslations.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web","managetranslations",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
-<a name="bottom"/>
+
+<a name="bottom">&nbsp;</a>
+
 <%-- SCRIPTS -------------------------------------------------------------------------------------%>
 <script>
   function doSubmit(action){

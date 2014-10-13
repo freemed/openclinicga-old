@@ -45,7 +45,7 @@
 			conn.close();
 		}
 %>
-		<input class='button' type='button' name='new' value='<%=getTranNoLink("web","new",sWebLanguage) %>' onclick='window.location.href="popup.jsp?Page=system/manageLocalCodes.jsp&localcode=&action=edit&showlist=true&type=<%=sType%>&PopupHeight=<%=checkString(request.getParameter("PopupHeight"))%>&PopupWidth=<%=checkString(request.getParameter("PopupWidth"))%>"'/>		
+		<input class='button' type='button' name='new' value='<%=getTranNoLink("web","new",sWebLanguage)%>' onclick='window.location.href="popup.jsp?Page=system/manageLocalCodes.jsp&localcode=&action=edit&showlist=true&type=<%=sType%>&PopupHeight=<%=checkString(request.getParameter("PopupHeight"))%>&PopupWidth=<%=checkString(request.getParameter("PopupWidth"))%>"'/>		
 		<input class='button' type='button' name='close' value='<%=getTranNoLink("web","close",sWebLanguage)%>' onclick='window.close()'/>
 <%
 	}
@@ -70,7 +70,7 @@
 	<form name="localCodeForm" id="localCodeForm" method="post" action="<c:url value="/popup.jsp?Page=/system/manageLocalCodes2.jsp"/>">
 		<table width='100%'>
 			<tr>
-				<td class='admin'><%=getTran("web","code",sWebLanguage) %></td>
+				<td class='admin'><%=getTran("web","code",sWebLanguage)%></td>
 				<td class='admin2'><%=sType %><input type='text' name='localcode' size='10' value='<%=sLocalCode %>'/></td>
 			</tr>
 			<tr>
@@ -94,7 +94,7 @@
 		<p/>
 		<input class='button' type='submit' name='submitform' value='<%=getTranNoLink("web","save",sWebLanguage)%>'/>
 		<input class='button' type='button' name='delete' value='<%=getTranNoLink("web","delete",sWebLanguage)%>' onclick='document.getElementById("action").value="delete";document.getElementById("localCodeForm").submit();if(typeof window.opener.doFind=="function") window.opener.doFind();'/>
-		<input class='button' type='button' name='new' value='<%=getTranNoLink("web","new",sWebLanguage) %>' onclick='window.location.href="popup.jsp?Page=system/manageLocalCodes2.jsp&localcode=&action=edit&showlist=true&PopupHeight=<%=checkString(request.getParameter("PopupHeight"))%>&PopupWidth=<%=checkString(request.getParameter("PopupWidth"))%>"'/>		
+		<input class='button' type='button' name='new' value='<%=getTranNoLink("web","new",sWebLanguage)%>' onclick='window.location.href="popup.jsp?Page=system/manageLocalCodes2.jsp&localcode=&action=edit&showlist=true&PopupHeight=<%=checkString(request.getParameter("PopupHeight"))%>&PopupWidth=<%=checkString(request.getParameter("PopupWidth"))%>"'/>		
 		<input class='button' type='button' name='close' value='<%=getTranNoLink("web","close",sWebLanguage)%>' onclick='window.close()'/>
 	</form>
 <% 

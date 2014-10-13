@@ -35,37 +35,37 @@
   <%=writeTableHeader("web.manage","manageslaveserver",sWebLanguage,"doBack();")%>
   <table width="100%" class="menu" cellspacing="0" cellpadding="1">
   	<tr>
-  		<td class='admin'><%=getTran("web","isslaveserver",sWebLanguage) %></td>
+  		<td class='admin'><%=getTran("web","isslaveserver",sWebLanguage)%></td>
   		<td class='admin2'><input type='checkbox' name='isslaveserver' value='1' <%=MedwanQuery.getInstance().getConfigInt("enableSlaveServer",0)==1?"checked":"" %>/></td>
   	</tr>
   	<tr>
-  		<td class='admin'><%=getTran("web","slaveId",sWebLanguage) %></td>
+  		<td class='admin'><%=getTran("web","slaveId",sWebLanguage)%></td>
   		<td class='admin2'><input type='text' size='10' name='slaveId' value='<%=MedwanQuery.getInstance().getConfigString("slaveId","")%>'/></td>
   	</tr>
   	<tr>
-  		<td class='admin'><%=getTran("web","slaveName",sWebLanguage) %></td>
+  		<td class='admin'><%=getTran("web","slaveName",sWebLanguage)%></td>
   		<td class='admin2'><input type='text' size='80' name='slaveName' value='<%=MedwanQuery.getInstance().getConfigString("slaveName","")%>'/></td>
   	</tr>
   	<tr>
-  		<td class='admin'><%=getTran("web","slaveProject",sWebLanguage) %></td>
+  		<td class='admin'><%=getTran("web","slaveProject",sWebLanguage)%></td>
   		<td class='admin2'><input type='text' size='80' name='slaveProject' value='<%=MedwanQuery.getInstance().getConfigString("slaveProject","")%>'/></td>
   	</tr>
   	<tr>
-  		<td class='admin'><%=getTran("web","lastOpenClinicExport.empty.for.reset",sWebLanguage) %></td>
+  		<td class='admin'><%=getTran("web","lastOpenClinicExport.empty.for.reset",sWebLanguage)%></td>
   		<td class='admin2'><input type='text' size='20' name='lastOpenClinicExport' value='<%=MedwanQuery.getInstance().getConfigString("lastOpenClinicExport","")%>'/></td>
   	</tr>
   	<tr>
-  		<td class='admin'><%=getTran("web","initializeslavecounters",sWebLanguage) %></td>
+  		<td class='admin'><%=getTran("web","initializeslavecounters",sWebLanguage)%></td>
   		<td class='admin2'><input type='checkbox' name='initializeslavecounters' value='1'/></td>
   	</tr>
   	<tr>
-  		<td class='admin'><%=getTran("web","slaveExportMaxRecordBlocks",sWebLanguage) %></td>
+  		<td class='admin'><%=getTran("web","slaveExportMaxRecordBlocks",sWebLanguage)%></td>
   		<td class='admin2'><input type='text' size='80' name='slaveExportMaxRecordBlocks' value='<%=MedwanQuery.getInstance().getConfigInt("slaveExportMaxRecordBlocks",10000)%>'/></td>
   	</tr>
   	<tr>
-  		<td class='admin'><%=getTran("web","masterServerURL",sWebLanguage) %></td>
+  		<td class='admin'><%=getTran("web","masterServerURL",sWebLanguage)%></td>
   		<td class='admin2'><input type='text' size='80' name='masterServerURL' value='<%=MedwanQuery.getInstance().getConfigString("masterServerURL","http://localhost:10080/openclinic/util/webservice.jsp")%>'/></td>
   	</tr>
   </table>
-  <input type='submit' name='submit' value='<%=getTranNoLink("web","save",sWebLanguage) %>'/>
+  <input type='submit' name='submit' value='<%=getTranNoLink("web","save",sWebLanguage)%>'/>
 </form>

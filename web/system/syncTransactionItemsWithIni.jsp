@@ -1,18 +1,22 @@
 <%@page import="java.io.*,
-                be.openclinic.system.TransactionItem,java.util.Enumeration,java.util.Properties,java.util.*" %>
+                be.openclinic.system.TransactionItem,
+                java.util.Enumeration,
+                java.util.Properties,
+                java.util.*" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
 <%=checkPermission("system.management","all",activeUser)%>
 
 <%
-  final String INIFILENAME = "/_common/xml/TransactionItems.ini";
-  String action = checkString(request.getParameter("action"));
-  String dataDirection = checkString(request.getParameter("dataDirection"));
+    final String INIFILENAME = "/_common/xml/TransactionItems.ini";
+    String action = checkString(request.getParameter("action"));
+    String dataDirection = checkString(request.getParameter("dataDirection"));
 %>
 <a name="top"/>
 <form name="transactionForm" method="POST">
 <input type="hidden" name="action">
+
 <%-- SELECT ACTION TABLE ---------------------------------------------------------------------------------------------%>
 <%=writeTableHeader("Web.manage","SynchronizeTransactionItemsWithIni",sWebLanguage,"main.do?Page=system/menu.jsp")%>
 <table width="100%" class="menu" cellspacing="1">
@@ -139,7 +143,7 @@
                 }
             }
         }
-%>
+    %>
       <br>
       <%=getTran("Web","DataIsSaved",sWebLanguage)%>
     <%
@@ -215,18 +219,20 @@
   else if(action.equals("find")){
     %>
     <br>
+    
     <%-- BUTTONS at TOP ----------------------------------------------------------------------------------------------%>
     <table width="100%" cellspacing="1">
       <tr>
         <td>
-          <a href="#" onclick="checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
-          <a href="#" onclick="checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
+          <a href="javascript:checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
+          <a href="javascript:checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
         </td>
         <td align="right">
           <a href='#bottom'><img src='<c:url value='/_img/themes/default/bottom.gif'/>' class='link' border="0"></a>
         </td>
       </tr>
     </table>
+    
     <%-- DISPLAY RECORDS (between buttons) ---------------------------------------------------------------------------%>
     <table width="100%" class="list" cellspacing="1" onMouseOver='this.style.cursor="hand"' onMouseOut='this.style.cursor="default"'>
       <tr><td width="16"></td><td></td><td width="99%"></td></tr>
@@ -324,12 +330,13 @@
       }
     %>
     </table>
+    
     <%-- BUTTONS at BOTTOM -------------------------------------------------------------------------------------------%>
     <table width="100%" cellspacing="1">
       <tr>
         <td>
-          <a href="#" onclick="checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
-          <a href="#" onclick="checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
+          <a href="javascript:checkAll(true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
+          <a href="javascript:checkAll(false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a>
         </td>
         <td align="right">
           <a href='#top'><img src='<c:url value='/_img/themes/default/top.gif'/>' class='link' border="0"></a>
@@ -351,12 +358,15 @@
   }
 %>
 </form>
+
 <%-- link to manage transactionItems --%>
 <%=ScreenHelper.alignButtonsStart()%>
   <img src='<c:url value="/_img/themes/default/pijl.gif"/>'>
   <a  href="<c:url value='/main.do'/>?Page=system/manageTransactionItems.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web","managetransactionitems",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
-<a name="bottom"/>
+
+<a name="bottom">&nbsp;<a/>
+
 <%-- SCRIPTS ---------------------------------------------------------------------------------------------------------%>
 <script>
   if(document.getElementById('dataDirection1').checked ||
@@ -376,9 +386,7 @@
         transactionForm.submit();
       }
       else{
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web.manage&labelID=chooseDataDirection";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","chooseDataDirection",sWebLanguage)%>");
+        alertDialog("Web.manage","chooseDataDirection");
       }
     }
     else if(action=="delete"){

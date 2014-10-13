@@ -124,7 +124,7 @@
                         <td width="50"><%=getTran("Web","gender",sWebLanguage)%>&nbsp;</td>
                         <td width="110"><%=getTran("Web","dateofbirth",sWebLanguage)%></td>
                     </tr>
-                    <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                    <tbody class="hand">
                         <%=sResult%>
                     </tbody>
                 </table>
@@ -145,6 +145,7 @@
         <a  href="<c:url value='/main.do'/>?Page=system/archiveActiveFile.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.manage","archiveactivefile",sWebLanguage)%></a>&nbsp;
     <%=ScreenHelper.alignButtonsStop()%>
 </form>
+
 <script>
   reactivateForm.name.focus();
 
@@ -165,11 +166,7 @@
   }
 
   function doReactivate(personid){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=areyousuretoreactivatefile";
-    var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm('<%=getTranNoLink("web","areyousure",sWebLanguage)%>');
-
-    if(answer==1){
+    if(yesnoDialog("web.manage","areyousuretoreactivatefile")){
       <%-- set parameter for activePatient to be initialised (in dropdownmenu) --%>
       reactivateForm.action = reactivateForm.action+"&personid="+personid;
 

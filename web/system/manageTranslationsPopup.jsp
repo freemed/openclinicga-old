@@ -1,7 +1,8 @@
-<%@page import="java.util.StringTokenizer" %>
+<%@page import="java.util.StringTokenizer"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermissionPopup("system.managetranslations","",activeUser)%>
+
 <%
     String sAction = checkString(request.getParameter("Action"));
 
@@ -27,8 +28,8 @@
     if(supportedLanguages.length()==0) supportedLanguages = "nl,fr";
 
     // exclusions on labeltype
-    boolean excludeServices  = checkString(request.getParameter("excludeServices")).equals("true");
-    boolean excludeFunctions = checkString(request.getParameter("excludeFunctions")).equals("true");
+    boolean excludeServices  = checkString(request.getParameter("excludeServices")).equals("true"),
+            excludeFunctions = checkString(request.getParameter("excludeFunctions")).equals("true");
 
     // exclude by default
     if(sAction.equals("")){
@@ -166,6 +167,7 @@
     </table>
 </div>
 <%-- End Floating layer -------------------------------------------------------------------------%>
+
 <form name="transactionForm" method="post" action="<c:url value='/popup.jsp'/>?Page=system/manageTranslationsPopup.jsp&ts=<%=getTs()%>">
     <%=writeTableHeader("Web","ManageTranslations",sWebLanguage,"")%>
 
@@ -197,6 +199,7 @@
       <td>&nbsp;<%=getTran("Web.Translations","labelid",sWebLanguage)%></td>
       <td><input type="text" class="text" name="FindLabelID" value="<%=findLabelID%>" size="50"></td>
   </tr>
+  
   <%-- LABEL LANGUAGE --%>
   <tr>
       <td>&nbsp;<%=getTran("Web","Language",sWebLanguage)%></td>
@@ -215,11 +218,13 @@
           </select>
       </td>
   </tr>
+  
   <%-- LABEL VALUE --%>
   <tr>
       <td>&nbsp;<%=getTran("Web.Translations","label",sWebLanguage)%></td>
       <td><input type="text" class="text" name="FindLabelValue" value="<%=findLabelValue%>" size="50"></td>
   </tr>
+  
   <%-- EXCLUSIONS --%>
   <tr>
       <td>&nbsp;<%=getTran("Web.Translations","exclusion",sWebLanguage)%></td>
@@ -235,6 +240,7 @@
       </td>
   </tr>
 </table>
+
 <script>
   <%-- do find --%>
   function doFind(){
@@ -285,6 +291,7 @@
         Iterator iterFind = vLabels.iterator();
         while(iterFind.hasNext()){
             label = (Label)iterFind.next();
+            
             sLabelType  = checkString(label.type);
             sLabelID    = checkString(label.id);
             sLabelLang  = checkString(label.language);
@@ -295,10 +302,10 @@
             else                  sClass = "";
 
             foundLabels.append("<tr class='list"+sClass+"'  onclick=\"setLabel('"+sLabelType+"','"+sLabelID+"','"+sLabelLang+"');\">")
-                       .append("<td colspan='2'>"+sLabelType+"</td>")
-                       .append("<td>"+sLabelID+"</td>")
-                       .append("<td>"+getTran("web.language",sLabelLang,sWebLanguage)+"</td>")
-                       .append("<td colspan='2'>"+sLabelValue+"</td>");
+                        .append("<td colspan='2'>"+sLabelType+"</td>")
+                        .append("<td>"+sLabelID+"</td>")
+                        .append("<td>"+getTran("web.language",sLabelLang,sWebLanguage)+"</td>")
+                        .append("<td colspan='2'>"+sLabelValue+"</td>");
 
             recsFound++;
         }
@@ -435,10 +442,11 @@
                   </td>
               </tr>
             </table>
+            
             <%-- MESSAGE --%>
             <%
                 if(sAction.equals("Add") || sAction.equals("Save") || sAction.equals("Delete")){
-                    if(msg == null){
+                    if(msg==null){
                         // std message
                         out.print(getTran("Web.Manage","noDataChanged",sWebLanguage));
                     }
@@ -448,6 +456,7 @@
                     }
                 }
             %>
+            
             <%-- BUTTONS --%>
             <%=ScreenHelper.alignButtonsStart()%>
                 <input class="button" type="button" name="AddButton" value="<%=getTranNoLink("Web","Add",sWebLanguage)%>" onclick="checkAdd();">&nbsp;
@@ -521,10 +530,8 @@
   function formComplete(){
     if(transactionForm.EditLabelType.value=="" || transactionForm.EditLabelID.value=="" ||
        transactionForm.EditLabelLang.value=="" || transactionForm.EditLabelValue.value==""){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=somefieldsareempty";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","somefieldsareempty",sWebLanguage)%>");
-
+      alertDialog("web","somefieldsareempty");
+      
       if(transactionForm.EditLabelType.value.length==0){
         transactionForm.EditLabelType.focus();
       }
@@ -545,12 +552,10 @@
   }
 
   <%-- ASK DELETE --%>
-  function askDelete() {
+  function askDelete(){
     if(transactionForm.EditLabelType.value.length==0 || transactionForm.EditLabelID.value.length==0 || transactionForm.EditLabelLang.value.length==0){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=somefieldsareempty";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","somefieldsareempty",sWebLanguage)%>");
-
+      alertDialog("web","somefieldsareempty");
+      
            if(transactionForm.EditLabelType.value.length==0) transactionForm.EditLabelType.focus();
       else if(transactionForm.EditLabelID.value.length==0) transactionForm.EditLabelID.focus();
       else if(transactionForm.EditLabelLang.value.length==0) transactionForm.EditLabelLang.focus();

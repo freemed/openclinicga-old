@@ -48,7 +48,7 @@
               <td width="50%"><%=HTMLEntities.htmlentities(getTran("Web","value",sWebLanguage))%></td>
               <td width="150"><%=HTMLEntities.htmlentities(getTran("Web","updatetime",sWebLanguage))%></td>
           </tr>
-          <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+          <tbody class="hand">
               <%=sOut%>
           </tbody>
         </table>

@@ -443,7 +443,7 @@
     var h = 600;
     var left = (screen.width/2)-(w/2);
     var topp = (screen.height/2)-(h/2);
-    window.open(url,"DoubleScannedDocument<%=new java.util.Date().getTime()%>","toolbar=no,status=no,scrollbars=yes,resizable=yes,menubar=no,width="+w+",height="+h+",top="+topp+",left="+left);
+    window.open(url,"DoubleScannedDocument<%=getTs()%>","toolbar=no,status=no,scrollbars=yes,resizable=yes,menubar=no,width="+w+",height="+h+",top="+topp+",left="+left);
   }
 
   <%-- DO BACK --%>

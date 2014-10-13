@@ -376,12 +376,6 @@
 <%-- ALERT ---------------------------------------------------------------------------------------%>
 <%
     if(keyAllreadyExists){
-        %>
-          <script>
-            var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelValue=<%=msg%>";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=msg%>");
-          </script>
-        <%
+        %><script>alertDialogDirectText("<%=msg%>");</script><%
     }
 %>

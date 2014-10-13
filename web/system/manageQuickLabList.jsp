@@ -68,7 +68,7 @@
 	    cols = MedwanQuery.getInstance().getConfigInt("quickLabListCols",2);
 %>
 
-<%=getTran("web","click.code.field.to.choose.color",sWebLanguage) %>
+<%=getTran("web","click.code.field.to.choose.color",sWebLanguage)%>
 
 <form name="transactionForm" method="post">
 	<table width="100%">

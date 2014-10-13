@@ -14,10 +14,10 @@
 %>
 <form name='exportForm' method='post'>
 	<table>
-		<tr><td><%=getTran("web","remote.login",sWebLanguage) %></td><td><input type='text' class='text' name='remotelogin'/></td></tr>
-		<tr><td><%=getTran("web","remote.password",sWebLanguage) %></td><td><input type='password' class='text' name='remotepassword'/></td></tr>
+		<tr><td><%=getTran("web","remote.login",sWebLanguage)%></td><td><input type='text' class='text' name='remotelogin'/></td></tr>
+		<tr><td><%=getTran("web","remote.password",sWebLanguage)%></td><td><input type='password' class='text' name='remotepassword'/></td></tr>
 		<tr><td colspan='2'><div id='divMessage'/></td></tr>
-		<tr><td><input class='button' type='submit' name='submit' value='<%=getTran("web","export",sWebLanguage) %>'/></td></tr>
+		<tr><td><input class='button' type='submit' name='submit' value='<%=getTran("web","export",sWebLanguage)%>'/></td></tr>
 		<tr><td colspan='2'><div id='divMessage'/></td></tr>
 		<tr><td colspan='2'><div id='log'/></td></tr>
 	</table>

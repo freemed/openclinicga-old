@@ -59,10 +59,25 @@
                  type="be.dpms.medwan.webapp.wl.struts.actions.LogoutAction">
         <forward name="success"              path="/loggedOut.jsp"/>
       </action>
-
+      
+      <!-- ========================================================================================================= -->
+      <!-- Mobile application ====================================================================================== -->
+      <!-- ========================================================================================================= -->
+      <!-- relogin -->
+      <action    path="/mobileRelogin"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.mobile.ShowAuthenticationPageAction">
+        <forward name="success"              path="/mobile/sessionExpired.jsp"/>
+      </action>
+      
+      <!-- mobile logout -->
+      <action    path="/mobileLogout"
+                 type="be.dpms.medwan.webapp.wl.struts.actions.mobile.LogoutAction">
+        <forward name="success"              path="/mobile/loggedOut.jsp"/>
+      </action>
+      
       <action    path="/changePassword" type="org.apache.struts.actions.ForwardAction" parameter="/userprofile/changepasswordonly.jsp"/>
 
-       ========================================================================================================= -->
+      <!-- ========================================================================================================= -->
       <!-- Occupational Medicine - Risk Profile related actions ==================================================== -->
       <!-- ========================================================================================================= -->
 

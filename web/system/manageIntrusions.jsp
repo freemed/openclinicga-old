@@ -115,7 +115,7 @@
         sOutLogins.append("<input type='hidden' name='EditIntruderID_" + recCounter + "' value='" + sIntruderID + "'>");
         sOutLogins.append("<tr class='list" + sClass + "'>")
                 .append("<td>")
-                .append("<a href='#' onclick=\"doDelete('" + sIntruderID + "');\">")
+                .append("<a href=\"javascript:doDelete('" + sIntruderID + "');\">")
                 .append("<img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web", "delete", sWebLanguage) + "' border='0'>")
                 .append("</a>")
                 .append("</td>")
@@ -171,7 +171,7 @@
         sOutIPs.append("<input type='hidden' name='EditIntruderID_" + recCounter + "' value='" + sIntruderID + "'>");
         sOutIPs.append("<tr class='list" + sClass + "'>")
                 .append("<td>")
-                .append("<a href='#' onclick=\"doDelete('" + sIntruderID + "');\">")
+                .append("<a href=\"javascript:doDelete('" + sIntruderID + "');\">")
                 .append("<img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' alt='" + getTran("Web", "delete", sWebLanguage) + "' border='0'>")
                 .append("</a>")
                 .append("</td>")

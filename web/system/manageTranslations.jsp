@@ -23,8 +23,8 @@
     if(supportedLanguages.length()==0) supportedLanguages = "nl,fr";
 
     // exclusions on labeltype
-    boolean excludeServices  = checkString(request.getParameter("excludeServices")).equals("true");
-    boolean excludeFunctions = checkString(request.getParameter("excludeFunctions")).equals("true");
+    boolean excludeServices  = checkString(request.getParameter("excludeServices")).equals("true"),
+            excludeFunctions = checkString(request.getParameter("excludeFunctions")).equals("true");
 
     boolean labelAllreadyExists = false;
     boolean invalidCharFound = false;
@@ -44,7 +44,6 @@
               <option></option>
               <%
                   String sTmpLabeltype;
-
                   java.util.Vector vLabelTypes = Label.getLabelTypes();
                   Iterator iter = vLabelTypes.iterator();
 
@@ -70,14 +69,13 @@
       <td class="admin"><%=getTran("Web","Language",sWebLanguage)%></td>
       <td class="admin2">
           <select id="FindLabelLang" class="text">
-              <option></option>
+              <option value=""></option>
               <%
                   String tmpLang;
-                  StringTokenizer tokenizer = new StringTokenizer(supportedLanguages, ",");
-                  while (tokenizer.hasMoreTokens()) {
+                  StringTokenizer tokenizer = new StringTokenizer(supportedLanguages,",");
+                  while(tokenizer.hasMoreTokens()){
                       tmpLang = tokenizer.nextToken();
-
-              %><option value="<%=tmpLang%>" <%=(findLabelLang.equals(tmpLang)?"selected":"")%>><%=getTran("Web.language",tmpLang,sWebLanguage)%></option><%
+                      %><option value="<%=tmpLang%>" <%=(findLabelLang.equals(tmpLang)?"selected":"")%>><%=getTran("Web.language",tmpLang,sWebLanguage)%></option><%
                   }
               %>
           </select>
@@ -114,78 +112,75 @@
 </table>
 <br>
 
-<div class="searchResults" style="height:200px;" id="divFindRecords"></div>
+<div style="height:200px;width:100%;border:none;" id="divFindRecords"></div>
 
-<script>
-  var path = '<c:url value="/"/>';
-  
+<script>  
   <%-- do find --%>
   function doFind(){
-
-    if($('FindLabelType').value.length>0 || $('FindLabelID').value.length>0
-            || $('FindLabelLang').value.length>0 || $('FindLabelValue').value.length>0){
-        var today = new Date();
-        var params = 'FindLabelType=' + document.getElementById('FindLabelType').value
-                +"&FindLabelID="+document.getElementById('FindLabelID').value
-                +"&FindLabelLang="+document.getElementById('FindLabelLang').value
-                +"&FindLabelValue="+document.getElementById('FindLabelValue').value;
-	    var url= path + '/system/manageTranslationsFind.jsp?ts=' + today;
-		new Ajax.Request(url,{
-				method: "GET",
-                parameters: params,
-                onSuccess: function(resp){
-					$('divFindRecords').innerHTML=resp.responseText;
-				}
-			}
-		);
+    if($('FindLabelType').value.length>0 || $('FindLabelID').value.length>0 ||
+       $('FindLabelLang').value.length>0 || $('FindLabelValue').value.length>0){
+      var params = "FindLabelType="+document.getElementById('FindLabelType').value+
+                   "&FindLabelID="+document.getElementById('FindLabelID').value+
+                   "&FindLabelLang="+document.getElementById('FindLabelLang').value+
+                   "&FindLabelValue="+document.getElementById('FindLabelValue').value;
+	  var url = "<%=sCONTEXTPATH%>/system/manageTranslationsFind.jsp?ts="+new Date();
+	  new Ajax.Request(url,{
+		method: "GET",
+        parameters: params,
+        onSuccess: function(resp){
+		  $('divFindRecords').innerHTML = resp.responseText;
+		}
+	  });
+    }
+    else{
+      alertDialog("web.manage","dataMissing");
     }
   }
 
+  <%-- SET LABEL --%>
   function setLabel(sType,sID){
-      transactionForm.EditOldLabelType.value = sType;
-      transactionForm.EditOldLabelID.value = sID;
-      transactionForm.EditLabelType.value = sType;
-      transactionForm.EditLabelID.value = sID;
+    transactionForm.EditOldLabelType.value = sType;
+    transactionForm.EditOldLabelID.value = sID;
+    transactionForm.EditLabelType.value = sType;
+    transactionForm.EditLabelID.value = sID;
 
-      var today = new Date();
-      var params = 'EditOldLabelType=' + sType+"&EditOldLabelID="+sID;
-	  var url= path + '/system/manageTranslationsEdit.jsp?ts=' + today;
-	  new Ajax.Request(url,{
-            method: "GET",
-            parameters: params,
-            onSuccess: function(resp){
-                var label = eval('('+resp.responseText+')');
-                var sLabel = label;
-                    <%
-                tokenizer = new StringTokenizer(supportedLanguages,",");
-                while(tokenizer.hasMoreTokens()){
-                    tmpLang = tokenizer.nextToken();
-                    out.print("transactionForm.EditLabelValue"+tmpLang.toUpperCase()+".value=label.EditLabelValue"+tmpLang.toUpperCase()+".htmlEntities();");
-                }
-                %>
-                $('EditShowLink').value=label.editShowLink;
+    var params = 'EditOldLabelType='+sType+"&EditOldLabelID="+sID;
+	var url = "<%=sCONTEXTPATH%>/system/manageTranslationsEdit.jsp?ts="+new Date();
+	new Ajax.Request(url,{
+      method: "GET",
+      parameters: params,
+      onSuccess: function(resp){
+        var label = eval('('+resp.responseText+')');
+        var sLabel = label;
+        <%
+            tokenizer = new StringTokenizer(supportedLanguages,",");
+            while(tokenizer.hasMoreTokens()){
+                tmpLang = tokenizer.nextToken();
+                out.print("transactionForm.EditLabelValue"+tmpLang.toUpperCase()+".value=label.EditLabelValue"+tmpLang.toUpperCase()+".htmlEntities();");
             }
-          }
-      );
+        %>
+        $('EditShowLink').value = label.editShowLink;
+      }
+    });
   }
 
   <%-- do new --%>
   function doNew(){
-      transactionForm.EditLabelID.value = "";
-      transactionForm.EditLabelType.value = "";
+    transactionForm.EditLabelID.value = "";
+    transactionForm.EditLabelType.value = "";
 
-      transactionForm.EditOldLabelID.value = "";
-      transactionForm.EditOldLabelType.value = "";
-      <%
+    transactionForm.EditOldLabelID.value = "";
+    transactionForm.EditOldLabelType.value = "";
+    <%
         tokenizer = new StringTokenizer(supportedLanguages,",");
         while(tokenizer.hasMoreTokens()){
             tmpLang = tokenizer.nextToken();
             out.print("transactionForm.EditLabelValue"+tmpLang.toUpperCase()+".value ='';");
         }
-      %>
-      transactionForm.EditLabelType.focus();
+    %>
+    transactionForm.EditLabelType.focus();
 
-      divMessage.innerHTML = "";
+    divMessage.innerHTML = "";
   }
 
   <%-- do back --%>
@@ -205,6 +200,7 @@
   }
 </script>
 <br>
+
 <%-- EDIT TABLE ---------------------------------------------------------------------%>
 <table class="list" width="100%" cellspacing="1">
   <%-- type --%>
@@ -214,6 +210,7 @@
           <input type="text" class="normal" name="EditLabelType" id="EditLabelType" value="<%=editLabelType%>" size="80">
       </td>
   </tr>
+  
   <%-- id --%>
   <tr>
       <td class="admin"><%=getTran("Web.Translations","LabelID",sWebLanguage)%></td>
@@ -221,23 +218,23 @@
           <input type="text" class="normal" name="EditLabelID" id="EditLabelID" value="<%=editLabelID%>" size="80">
       </td>
   </tr>
+  
   <%-- value --%>
-      <%
-          tokenizer = new StringTokenizer(supportedLanguages,",");
-          while(tokenizer.hasMoreTokens()){
-              tmpLang = tokenizer.nextToken();
-              %>
-      <tr>
-          <td class="admin"><%=getTran("Web.Translations","Label",sWebLanguage)+" "+tmpLang.toUpperCase()%></td>
-          <td class="admin2">
-              <textarea name="EditLabelValue<%=tmpLang.toUpperCase()%>" class="normal" rows="4" cols="80" onKeyDown="textCounter(this,document.transactionForm.remLen<%=tmpLang.toUpperCase()%>,250)" onKeyUp="textCounter(this,document.transactionForm.remLen<%=tmpLang.toUpperCase()%>,250);resizeTextarea(this,10);"><%=getTranNoLink(editLabelType,editLabelID,tmpLang)%></textarea>
-              <input readonly type="text" class="text" name="remLen<%=tmpLang.toUpperCase()%>" size="3" value="250">
-          </td>
-      </tr>
-
-            <%
-          }
-      %>
+  <%
+      tokenizer = new StringTokenizer(supportedLanguages,",");
+      while(tokenizer.hasMoreTokens()){
+          tmpLang = tokenizer.nextToken();
+          %>
+		  <tr>
+		      <td class="admin"><%=getTran("Web.Translations","Label",sWebLanguage)+" "+tmpLang.toUpperCase()%></td>
+		      <td class="admin2">
+		          <textarea name="EditLabelValue<%=tmpLang.toUpperCase()%>" class="normal" rows="4" cols="80" onKeyDown="textCounter(this,document.transactionForm.remLen<%=tmpLang.toUpperCase()%>,250)" onKeyUp="textCounter(this,document.transactionForm.remLen<%=tmpLang.toUpperCase()%>,250);resizeTextarea(this,10);"><%=getTranNoLink(editLabelType,editLabelID,tmpLang)%></textarea>
+		          <input readonly type="text" class="text" name="remLen<%=tmpLang.toUpperCase()%>" size="3" value="250">
+		      </td>
+		  </tr>
+        <%
+      }
+  %>
 
   <%-- show link --%>
   <tr>
@@ -249,6 +246,7 @@
           </select>
       </td>
   </tr>
+  
   <%-- EDIT BUTTONS --%>
   <%=ScreenHelper.setFormButtonsStart()%>
       <input class="button" type="button" name="AddButton" value="<%=getTranNoLink("Web","Add",sWebLanguage)%>" onclick="checkSave('Add');">&nbsp;
@@ -256,12 +254,15 @@
       <input class="button" type="button" name="DeleteButton" value="<%=getTranNoLink("Web","Delete",sWebLanguage)%>" onclick="askDelete();">
   <%=ScreenHelper.setFormButtonsStop()%>
 </table>
+
 <div id="divMessage" name="divMessage"></div>
+
 <%-- link to synchronise labels with ini --%>
 <%=ScreenHelper.alignButtonsStart()%>
     <img src="<c:url value="/_img/themes/default/pijl.gif"/>">
-    <a  href="<c:url value='/main.do?Page=system/syncLabelsWithIni.jsp?ts='/><%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.manage","synchronizelabelswithini",sWebLanguage)%></a>&nbsp;
+    <a href="<c:url value='/main.do?Page=system/syncLabelsWithIni.jsp?ts='/><%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("Web.manage","synchronizelabelswithini",sWebLanguage)%></a>&nbsp;
 <%=ScreenHelper.alignButtonsStop()%>
+
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>
  transactionForm.FindLabelType.focus();
@@ -274,56 +275,52 @@
     transactionForm.EditShowLink.selectedIndex = 0;
 
     <%
-    tokenizer = new StringTokenizer(supportedLanguages,",");
-    while(tokenizer.hasMoreTokens()){
-        tmpLang = tokenizer.nextToken();
-        out.print("textCounter(transactionForm.EditLabelValue"+tmpLang.toUpperCase()+",transactionForm.remLen,250);");
-    }
+	    tokenizer = new StringTokenizer(supportedLanguages,",");
+	    while(tokenizer.hasMoreTokens()){
+	        tmpLang = tokenizer.nextToken();
+	        out.print("textCounter(transactionForm.EditLabelValue"+tmpLang.toUpperCase()+",transactionForm.remLen,250);");
+	    }
     %>
     transactionForm.EditLabelType.focus();
     transactionForm.SaveButton.disabled = true;
   }
 
   <%-- CHECK SAVE --%>
-    function checkSave(sAction){
-        if(formComplete()){
-            var today = new Date();
-            var url= path + '/system/manageTranslationsStore.jsp?ts=' + today;
-            var pb = 'Action='+sAction+'&EditLabelID=' + transactionForm.EditLabelID.value
-					            +'&EditLabelType=' + transactionForm.EditLabelType.value
-					            +'&EditOldLabelID=' + transactionForm.EditOldLabelID.value
-					            +'&EditOldLabelType=' + transactionForm.EditOldLabelType.value
-					    <%
-					    tokenizer = new StringTokenizer(supportedLanguages,",");
-					    while(tokenizer.hasMoreTokens()){
-					        tmpLang = tokenizer.nextToken();
-					        out.print("+'&EditLabelValue"+tmpLang.toUpperCase()+"=' + encodeURIComponent(transactionForm.EditLabelValue"+tmpLang.toUpperCase()+".value)");
-					    }
-					    %>
-					new Ajax.Request(url,{
-                    method: "POST",
-                    postBody: pb ,
-                    onSuccess: function(resp){
-                        $('divMessage').innerHTML = resp.responseText;
-                        doFind();
-                        $('EditOldLabelType').value = $('EditLabelType').value;
-                        $('EditOldLabelID').value = $('EditLabelID').value;
-                    },
-                    onFailure: function(){
-                        $('divMessage').innerHTML = "Error in function manageTranslationsStore() => AJAX";
-                    }
-                }
-            );
+  function checkSave(sAction){
+    if(formComplete()){
+      var url = "<%=sCONTEXTPATH%>/system/manageTranslationsStore.jsp?ts="+new Date();
+      var pb = 'Action='+sAction+'&EditLabelID='+transactionForm.EditLabelID.value+
+	           '&EditLabelType='+transactionForm.EditLabelType.value+
+	           '&EditOldLabelID='+transactionForm.EditOldLabelID.value+
+	           '&EditOldLabelType='+transactionForm.EditOldLabelType.value;
+	  <%
+	      tokenizer = new StringTokenizer(supportedLanguages,",");
+	      while(tokenizer.hasMoreTokens()){
+	          tmpLang = tokenizer.nextToken();
+	          out.print("+'&EditLabelValue"+tmpLang.toUpperCase()+"='+encodeURIComponent(transactionForm.EditLabelValue"+tmpLang.toUpperCase()+".value)");
+	      }
+	  %>
+	  new Ajax.Request(url,{
+        method: "POST",
+        postBody: pb,
+        onSuccess: function(resp){
+          $('divMessage').innerHTML = resp.responseText;
+          doFind();
+          $('EditOldLabelType').value = $('EditLabelType').value;
+          $('EditOldLabelID').value = $('EditLabelID').value;
+        },
+        onFailure: function(){
+          $('divMessage').innerHTML = "Error in function manageTranslationsStore() => AJAX";
         }
+      });
     }
+  }
 
-  <%-- IS FORM COMPLETE --%>
+  <%-- FORM COMPLETE --%>
   function formComplete(){
     if(transactionForm.EditLabelType.value=="" || transactionForm.EditLabelID.value==""){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=somefieldsareempty";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","somefieldsareempty",sWebLanguage)%>");
-
+      alertDialog("web","somefieldsareempty");
+      
       if(transactionForm.EditLabelType.value.length==0){
         transactionForm.EditLabelType.focus();
       }
@@ -338,51 +335,37 @@
   }
 
   <%-- ASK DELETE --%>
-  function askDelete() {
-    if(transactionForm.EditLabelType.value.length==0 || transactionForm.EditLabelID.value.length==0){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=somefieldsareempty";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","somefieldsareempty",sWebLanguage)%>");
-
-           if(transactionForm.EditLabelType.value.length==0) transactionForm.EditLabelType.focus();
-      else if(transactionForm.EditLabelID.value.length==0) transactionForm.EditLabelID.focus();
-    }
-    else{
+  function askDelete(){
+    if(formComplete()){
       if(yesnoDialog("Web","areYouSureToDelete")){
-        var url= path + '/system/manageTranslationsStore.jsp?ts=' + <%=getTs()%>;
-          new Ajax.Request(url,{
-                method: "POST",
-                postBody: 'Action=Delete&EditLabelID=' + $('EditLabelID').value
-                        +'&EditLabelType=' + $('EditLabelType').value,
-                onSuccess: function(resp){
-                    $('divMessage').innerHTML = resp.responseText;
-                    doNew();
-                    doFind();
-                },
-                onFailure: function(){
-                    $('divMessage').innerHTML = "Error in function askDelete() => AJAX";
-                }
-            }
-        );
+        var url = "<%=sCONTEXTPATH%>/system/manageTranslationsStore.jsp?ts="+new Date();
+        new Ajax.Request(url,{
+          method: "POST",
+          postBody: 'Action=Delete&EditLabelID='+$('EditLabelID').value+
+                    '&EditLabelType='+$('EditLabelType').value,
+          onSuccess: function(resp){
+            $('divMessage').innerHTML = resp.responseText;
+            doNew();
+            doFind();
+          },
+          onFailure: function(){
+            $('divMessage').innerHTML = "Error in function askDelete() => AJAX";
+          }
+        });
       }
     }
   }
 </script>
-  <%-- hidden fields --%>
-  <input type="hidden" name="EditOldLabelType" value="<%=editLabelType%>">
-  <input type="hidden" name="EditOldLabelID" value="<%=editLabelID%>">
-  <input type="hidden" name="Action">
 
-  <%-- ALERT --%>
+<%-- hidden fields --%>
+<input type="hidden" name="EditOldLabelType" value="<%=editLabelType%>">
+<input type="hidden" name="EditOldLabelID" value="<%=editLabelID%>">
+<input type="hidden" name="Action">
+
   <%
+      // alert message
       if(labelAllreadyExists || invalidCharFound){
-          %>
-          <script>
-            var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelValue=<%=msg%>";
-            var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=msg%>");
-          </script>
-          <%
+          %><script>alertDialogDirectText("<%=msg%>");</script><%
       }
   %>
 </form>

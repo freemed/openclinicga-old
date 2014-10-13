@@ -38,7 +38,7 @@ if (MultipartFormDataRequest.isMultipartFormData(request)) {
         </tr>
 
         <tr>
-            <td class="admin"><%= getTran("Web.Occup","medwan.common.selectfile",sWebLanguage) %></td>
+            <td class="admin"><%= getTran("Web.Occup","medwan.common.selectfile",sWebLanguage)%></td>
             <td class="admin2"><input type="file" name="uploadfile" size="80" class="text"></td>
         </tr>
 

@@ -64,7 +64,7 @@
 			conn.close();
 		}
 %>
-		<input class='button' type='button' name='new' value='<%=getTranNoLink("web","new",sWebLanguage) %>' onclick='window.location.href="popup.jsp?Page=system/manageLocalCodes.jsp&localcode=&action=edit&showlist=true&type=<%=sType%>&PopupHeight=<%=checkString(request.getParameter("PopupHeight"))%>&PopupWidth=<%=checkString(request.getParameter("PopupWidth"))%>"'/>		
+		<input class='button' type='button' name='new' value='<%=getTranNoLink("web","new",sWebLanguage)%>' onclick='window.location.href="popup.jsp?Page=system/manageLocalCodes.jsp&localcode=&action=edit&showlist=true&type=<%=sType%>&PopupHeight=<%=checkString(request.getParameter("PopupHeight"))%>&PopupWidth=<%=checkString(request.getParameter("PopupWidth"))%>"'/>		
 		<input class='button' type='button' name='close' value='<%=getTranNoLink("web","close",sWebLanguage)%>' onclick='window.close()'/>
 <%
 	}
@@ -111,7 +111,7 @@
 		<div style="padding-top:5px;">		
 			<input class='button' type='submit' name='submitform' value='<%=getTranNoLink("web","save",sWebLanguage)%>'/>
 			<input class='button' type='button' name='delete' value='<%=getTranNoLink("web","delete",sWebLanguage)%>' onclick='document.getElementById("action").value="delete";document.getElementById("localCodeForm").submit();if(typeof window.opener.doFind=="function") window.opener.doFind();'/>
-			<input class='button' type='button' name='new' value='<%=getTranNoLink("web","new",sWebLanguage) %>' onclick='window.location.href="popup.jsp?Page=system/manageLocalCodes.jsp&localcode=&action=edit&showlist=true&PopupHeight=<%=checkString(request.getParameter("PopupHeight"))%>&PopupWidth=<%=checkString(request.getParameter("PopupWidth"))%>"'/>		
+			<input class='button' type='button' name='new' value='<%=getTranNoLink("web","new",sWebLanguage)%>' onclick='window.location.href="popup.jsp?Page=system/manageLocalCodes.jsp&localcode=&action=edit&showlist=true&PopupHeight=<%=checkString(request.getParameter("PopupHeight"))%>&PopupWidth=<%=checkString(request.getParameter("PopupWidth"))%>"'/>		
 			<input class='button' type='button' name='close' value='<%=getTranNoLink("web","close",sWebLanguage)%>' onclick='window.close()'/>
 		</div>
 		

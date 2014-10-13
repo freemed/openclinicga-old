@@ -28,7 +28,7 @@
 <tr>
 <td width="50%" style="vertical-align:top;">
     <%-- MANAGEMENT --%>
-    <table width="100%">
+    <table width="100%" cellspacing="2" cellpadding="0">
         <tr>
             <td>
                 <%
@@ -77,7 +77,7 @@
     <div style="height:12px;">
     
     <%-- DATABASE --%>
-    <table width="100%">
+    <table width="100%" cellspacing="2" cellpadding="0">
         <tr>
             <td>
                 <% 
@@ -102,7 +102,7 @@
 
 <td width="50%" style="vertical-align:top;">
     <%-- SYNCHRONISATIE --%>
-    <table width="100%">
+    <table width="100%" cellspacing="2" cellpadding="0">
         <tr>
             <td>
                 <%
@@ -129,7 +129,7 @@
     <div style="height:12px;">
     
     <%-- TRANSLATIONS --%>
-    <table width="100%">
+    <table width="100%" cellspacing="2" cellpadding="0">
         <tr>
             <td>
                 <%
@@ -138,9 +138,9 @@
                     hMenu.put(getTran("Web","ManageTranslationsBulk",sWebLanguage),"main.do?Page=system/manageTranslationsBulk.jsp");
                     hMenu.put(getTran("web.manage","Translations",sWebLanguage),"main.do?Page=system/reloadTranslations.jsp");
 
-                    out.print(ScreenHelper.writeTblHeader(getTran("Web","Translations",sWebLanguage),sCONTEXTPATH)
-                            + sortMenu(hMenu)
-                            + ScreenHelper.writeTblFooter());
+                    out.print(ScreenHelper.writeTblHeader(getTran("Web","Translations",sWebLanguage),sCONTEXTPATH)+
+                              sortMenu(hMenu)+
+                              ScreenHelper.writeTblFooter());
                 %>
             </td>
         </tr>
@@ -149,7 +149,7 @@
     <div style="height:12px;">
     
     <%-- SETUP --%>
-    <table width="100%">
+    <table width="100%" cellspacing="2" cellpadding="0">
         <tr>
             <td>
                 <%
@@ -182,7 +182,7 @@
     <div style="height:12px;">
     
     <%-- OTHER --%>
-    <table width="100%">
+    <table width="100%" cellspacing="2" cellpadding="0">
         <tr>
             <td>
                 <%

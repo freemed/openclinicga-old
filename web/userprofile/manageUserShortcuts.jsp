@@ -269,7 +269,7 @@
   
   <%-- LOAD SAVED SHORTCUTS --%>
   function loadSavedShortcuts(){
-	document.getElementById("savedShortcutsTD").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";     
+	document.getElementById("savedShortcutsTD").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading..";     
     var url = "<c:url value='/userprofile/ajax/loadSavedShortcuts.jsp'/>?ts="+new Date().getTime();
     var params = "UserId=<%=activeUser.userid%>";
     

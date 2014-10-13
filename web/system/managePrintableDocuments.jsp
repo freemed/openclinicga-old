@@ -277,8 +277,8 @@
         if(documentCount > 0){
             %>
                 <%-- UN/CHECK ALL --%>
-                <a href="#" onclick="checkAll('documents',true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
-                <a href="#" onclick="checkAll('documents',false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a><br>
+                <a href="javascript:checkAll('documents',true);"><%=getTran("Web.Manage.CheckDb","CheckAll",sWebLanguage)%></a>
+                <a href="javascript:checkAll('documents',false);"><%=getTran("Web.Manage.CheckDb","UncheckAll",sWebLanguage)%></a><br>
 
                 <%=documentCount%> <%=getTran("web","documentsFound",sWebLanguage)%><br>
             <%

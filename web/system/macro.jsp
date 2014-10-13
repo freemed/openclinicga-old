@@ -105,7 +105,7 @@
                         <td width="73%"><%=getTran("web","name",sWebLanguage)%></td>
                     </tr>
                         
-                    <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                    <tbody class="hand">
                     <%
                         String tranCol;
                         if (sWebLanguage.equalsIgnoreCase("N")) tranCol = "nl";
@@ -128,7 +128,7 @@
                             %>
                                 <tr class="list<%=sClass%>" >
                                     <td>
-                                        <a href="#" onclick="doDelete();"><img src='<c:url value="/_img/icons/icon_delete.gif"/>' border='0' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>'></a>
+                                        <a href="javascript:doDelete();"><img src='<c:url value="/_img/icons/icon_delete.gif"/>' border='0' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>'></a>
                                     </td>
                                     <td onClick="showDetails('<%=checkString((String)hInfo.get("id"))%>');"><%=checkString((String)hInfo.get("id"))%></td>
                                     <td onClick="showDetails('<%=checkString((String)hInfo.get("id"))%>');"><%=checkString((String)hInfo.get("name"))%></td>

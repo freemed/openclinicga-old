@@ -1,8 +1,10 @@
-<%@page import="net.admin.system.AccessLog,java.util.Vector" %>
+<%@page import="net.admin.system.AccessLog,
+                java.util.Vector" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("system.management","all",activeUser)%>
 <%=sJSSORTTABLE%>
+
 <%
     String sAction = checkString(request.getParameter("Action"));
 
@@ -50,7 +52,9 @@
     <input type="hidden" name="Action" value="">
     <input type="hidden" name="DelAccessId" value="">
     <input type="hidden" name="SortCol" value="<%=sSortCol%>">
+    
     <%=writeTableHeader("Web.manage","MonitorAccess",sWebLanguage," doBack();")%>
+    
     <table width="100%" class="menu" cellspacing="0">
         <tr>
             <td width="<%=sTDAdminWidth%>"><%=getTran("Web","Begin",sWebLanguage)%></td>
@@ -69,6 +73,7 @@
             </td>
         </tr>
     </table>
+    
     <%
         // message
         if(sMsg.length() > 0){
@@ -159,6 +164,7 @@
         }
     %>
 </form>
+
 <script>
   transactionForm.FindBegin.focus();
 
@@ -185,9 +191,7 @@
     <%-- both dates given --%>
     if(sBeginDate.length > 0 && sEndDate.length > 0){
       if(sBeginDate!=sEndDate && !before(sBeginDate,sEndDate)){
-        var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.Occup&labelID=endMustComeAfterBegin";
-        var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm('<%=getTranNoLink("web.Occup","endMustComeAfterBegin",sWebLanguage)%>');
+        alertDialog("web.occup","endMustComeAfterBegin");
 
         transactionForm.FindEnd.focus();
       }
@@ -242,8 +246,8 @@
     else{
       alertDialog("web.manage","datamissing");
 
-           if(fromDate.length == 0)  transactionForm.FromDate.focus();
-      else if(untilDate.length == 0) transactionForm.UntilDate.focus();
+           if(fromDate.length==0)  transactionForm.FromDate.focus();
+      else if(untilDate.length==0) transactionForm.UntilDate.focus();
     }
   }
 
@@ -251,4 +255,5 @@
     window.location.href = "<%=sCONTEXTPATH%>/main.jsp?Page=system/menu.jsp&Tab=database&ts=<%=getTs()%>";
   }
 </script>
-<a name="bottom"></a>
+
+<a name="bottom">&nbsp;</a>

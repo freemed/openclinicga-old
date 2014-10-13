@@ -125,7 +125,7 @@
 %>
         <tr<%=sClass%>>
             <td><%=sImg%></td>
-            <td><a href="#" onclick="transactionForm.FindEmailID.value='<%=sEmailID%>';transactionForm.submit();"><%=sSenderDate%></a></td>
+            <td><a href="javascript:transactionForm.FindEmailID.value='<%=sEmailID%>';transactionForm.submit();"><%=sSenderDate%></a></td>
             <td><%=sReceiverDate%></td>
             <td><%=sLastname%></td>
             <td><%=sSubject%></td>

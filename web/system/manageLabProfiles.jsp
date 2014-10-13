@@ -258,7 +258,7 @@
             <td width='*%'>&nbsp;<%=getTran("Web.manage","labprofiles.cols.comment",sWebLanguage)%></td>
           </tr>
 
-          <tbody onMouseOver='this.style.cursor="hand"' onMouseOut='this.style.cursor="default"'>
+          <tbody class="hand">
         <%
 
         //--- compose search-select ---

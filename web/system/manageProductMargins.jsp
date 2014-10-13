@@ -48,8 +48,8 @@
 <form name='transactionForm' method='post'>
 <table>
 	<tr>
-		<td class='admin'><%=getTran("web","default.profit.margin",sWebLanguage) %></td>
-		<td class='admin2'><input type='text' class='text' size="5" name='profitMargin' value='<%=MedwanQuery.getInstance().getConfigString("defaultProductsMargin","0")%>' onKeyUp="isNumber(this);"/>% <%=getTran("web","zero.is.nocalculation",sWebLanguage) %></td>
+		<td class='admin'><%=getTran("web","default.profit.margin",sWebLanguage)%></td>
+		<td class='admin2'><input type='text' class='text' size="5" name='profitMargin' value='<%=MedwanQuery.getInstance().getConfigString("defaultProductsMargin","0")%>' onKeyUp="isNumber(this);"/>% <%=getTran("web","zero.is.nocalculation",sWebLanguage)%></td>
 	</tr>
     <tr>
         <td class="admin" nowrap><%=getTran("Web","apply.lower.prices",sWebLanguage)%></td>

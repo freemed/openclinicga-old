@@ -200,7 +200,7 @@
             } else if (foundCenterCount > 0) {
     %>
                     <table width="100%" cellspacing="0" cellpadding="0" class="list" id="searchresults">
-                        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                        <tbody class="hand">
 
                         <%-- clickable header --%>
                         <tr class="admin">

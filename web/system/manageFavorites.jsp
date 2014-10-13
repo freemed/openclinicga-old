@@ -285,17 +285,12 @@
           transactionForm.submit();
         }
         else{
-            var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-            var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            window.showModalDialog(popupUrl,"",modalities);
-
+            alertDialog("web.manage","datamissing");
             emptyLabelField.focus();
         }
     }
     else{
-      var popupUrl = "<%=sCONTEXTPATH%>/_common/search/template.jsp?Page=okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      var answer = window.showModalDialog(popupUrl,"",modalities);
+      alertDialog("web.manage","datamissing");
 
       if(transactionForm.EditFavoriteId.value.length==0){
          transactionForm.EditFavoriteId.focus();
