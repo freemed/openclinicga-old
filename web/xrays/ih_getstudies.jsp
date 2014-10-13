@@ -16,9 +16,9 @@
 		<td class='imagehub' colspan='3'>&nbsp</td>
 	</tr>
 	<tr class='admin'>
-		<td><%=getTran("web","date",sWebLanguage) %></td>
-		<td><%=getTran("web","study.modality",sWebLanguage) %></td>
-		<td><%=getTran("web","study.name",sWebLanguage) %></td>
+		<td><%=getTran("web","date",sWebLanguage)%></td>
+		<td><%=getTran("web","study.modality",sWebLanguage)%></td>
+		<td><%=getTran("web","study.name",sWebLanguage)%></td>
 	</tr>
 <%
 	//Eerst ImageHub contacteren en studielijst opvragen
