@@ -29,16 +29,16 @@
         }
     }
     
-    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n*** hr/management/createSalaryCalculationsForLeavesAndWorkSchedules.jsp ***");
+        Debug.println("\n******* hr/management/createSalaryCalculationsForLeavesAndWorkSchedules.jsp ********");
         Debug.println("sAction      : "+sAction);
         Debug.println("ajaxMode     : "+ajaxMode);
         Debug.println("sPersonId    : "+sPersonId);
         Debug.println("sPeriodBegin : "+sPeriodBegin);
         Debug.println("sPeriodEnd   : "+sPeriodEnd+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     String sMsg = "";
     
@@ -199,8 +199,7 @@
 <script>  
   <%-- CREATE CALCULATIONS --%>
   function createCalculations(){
-    var answer = yesnoDialog("web","areYouSure");
-    if(answer==1){
+    if(yesnoDialog("web","areYouSure")){
       var okToSubmit = true;
     
       if(okToSubmit){  

@@ -11,12 +11,12 @@
 <%=sJSSORTTABLE%>
 
 <%
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n********** manage_disciplinaryRecord.jsp ***********");
+        Debug.println("\n******************* hr/manage_disciplinaryRecord.jsp ******************");
         Debug.println("no parameters\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 %>            
 
 <%=writeTableHeader("web","disciplinaryRecord",sWebLanguage,"")%><br>
@@ -117,35 +117,33 @@
         document.getElementById("buttonSave").disabled = true;
         document.getElementById("buttonDelete").disabled = true;
         document.getElementById("buttonNew").disabled = true;
-        new Ajax.Request(url,
-          {
-            method: "POST",
-            postBody: "EditDisRecUid="+EditForm.EditDisRecUid.value+
-                      "&PersonId=<%=activePatient.personid%>"+
-                      "&date="+document.getElementById("date").value+
-                      "&title="+document.getElementById("title").value+
-                      "&description="+document.getElementById("description").value+
-                      "&decision="+document.getElementById("decision").value+
-                      "&duration="+document.getElementById("duration").value+
-                      "&decisionBy="+document.getElementById("decisionBy").value+
-                      "&followUp="+document.getElementById("followUp").value,
-            onSuccess: function(resp){
-              var data = eval("("+resp.responseText+")");
+        new Ajax.Request(url,{
+          method: "POST",
+          postBody: "EditDisRecUid="+EditForm.EditDisRecUid.value+
+                    "&PersonId=<%=activePatient.personid%>"+
+                    "&date="+document.getElementById("date").value+
+                    "&title="+document.getElementById("title").value+
+                    "&description="+document.getElementById("description").value+
+                    "&decision="+document.getElementById("decision").value+
+                    "&duration="+document.getElementById("duration").value+
+                    "&decisionBy="+document.getElementById("decisionBy").value+
+                    "&followUp="+document.getElementById("followUp").value,
+          onSuccess: function(resp){
+            var data = eval("("+resp.responseText+")");
 
-              $("divMessage").innerHTML = data.message;
-              loadDisRecs();
-              newDisRec();
+            $("divMessage").innerHTML = data.message;
+            loadDisRecs();
+            newDisRec();
               
-              //EditForm.EditDisRecUid.value = data.newUid;
-              document.getElementById("buttonSave").disabled = false;
-              document.getElementById("buttonDelete").disabled = false;
-              document.getElementById("buttonNew").disabled = false;
-            },
-            onFailure: function(resp){
-              $("divMessage").innerHTML = "Error in 'hr/ajax/disciplinaryrecord/saveDisciplinaryRecord.jsp' : "+resp.responseText.trim();
-            }
+            //EditForm.EditDisRecUid.value = data.newUid;
+            document.getElementById("buttonSave").disabled = false;
+            document.getElementById("buttonDelete").disabled = false;
+            document.getElementById("buttonNew").disabled = false;
+          },
+          onFailure: function(resp){
+            $("divMessage").innerHTML = "Error in 'hr/ajax/disciplinaryrecord/saveDisciplinaryRecord.jsp' : "+resp.responseText.trim();
           }
-        );
+        });
       }
     }
     else{
@@ -161,89 +159,82 @@
     
   <%-- LOAD DISRECS --%>
   function loadDisRecs(){
-    document.getElementById("divDisRecs").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
+    document.getElementById("divDisRecs").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading..";            
     var url = "<c:url value='/hr/ajax/disciplinaryrecord/getDisciplinaryRecords.jsp'/>?ts="+new Date().getTime();
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "PatientId=<%=activePatient.personid%>",
-        onSuccess: function(resp){
-          $("divDisRecs").innerHTML = resp.responseText;
-          setTimeout("sortables_init()",500);
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/disciplinaryrecord/getDisciplinaryRecords.jsp' : "+resp.responseText.trim();
-        }
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "PatientId=<%=activePatient.personid%>",
+      onSuccess: function(resp){
+        $("divDisRecs").innerHTML = resp.responseText;
+        setTimeout("sortables_init()",500);
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'hr/ajax/disciplinaryrecord/getDisciplinaryRecords.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
 
   <%-- DISPLAY DISREC --%>
   function displayDisrec(disRecUid){
     var url = "<c:url value='/hr/ajax/disciplinaryrecord/getDisciplinaryRecord.jsp'/>?ts="+new Date().getTime();
     
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "DisRecUid="+disRecUid,
-        onSuccess: function(resp){ 
-          var data = eval("("+resp.responseText+")");
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "DisRecUid="+disRecUid,
+      onSuccess: function(resp){ 
+        var data = eval("("+resp.responseText+")");
 
-          $("EditDisRecUid").value = disRecUid;
-          $("date").value = data.date;
-          $("title").value = data.title.unhtmlEntities();
-          $("description").value = replaceAll(data.description.unhtmlEntities(),"<br>","\n");
-          $("decision").value = data.decision.unhtmlEntities();
-          if(data.duration > -1){
-            $("duration").value = data.duration;
-          }
-          $("decisionBy").value = data.decisionBy.unhtmlEntities();
-          $("followUp").value = replaceAll(data.followUp.unhtmlEntities(),"<br>","\n");
-          
-          document.getElementById("divMessage").innerHTML = ""; 
-          resizeAllTextareas(8);
-
-          <%-- display hidden buttons --%>
-          document.getElementById("buttonDelete").style.visibility = "visible";
-          document.getElementById("buttonNew").style.visibility = "visible";
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/disciplinaryrecord/getDisciplinaryRecord.jsp' : "+resp.responseText.trim();
+        $("EditDisRecUid").value = disRecUid;
+        $("date").value = data.date;
+        $("title").value = data.title.unhtmlEntities();
+        $("description").value = replaceAll(data.description.unhtmlEntities(),"<br>","\n");
+        $("decision").value = data.decision.unhtmlEntities();
+        if(data.duration > -1){
+          $("duration").value = data.duration;
         }
+        $("decisionBy").value = data.decisionBy.unhtmlEntities();
+        $("followUp").value = replaceAll(data.followUp.unhtmlEntities(),"<br>","\n");
+        
+        document.getElementById("divMessage").innerHTML = ""; 
+        resizeAllTextareas(8);
+
+        <%-- display hidden buttons --%>
+        document.getElementById("buttonDelete").style.visibility = "visible";
+        document.getElementById("buttonNew").style.visibility = "visible";
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'hr/ajax/disciplinaryrecord/getDisciplinaryRecord.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
   
   <%-- DELETE DISREC --%>
-  function deleteDisRec(){  
-    var answer = yesnoDialog("web","areYouSureToDelete"); 
-     if(answer==1){                 
+  function deleteDisRec(){ 
+    if(yesnoDialog("web","areYouSureToDelete")){                 
       var url = "<c:url value='/hr/ajax/disciplinaryrecord/deleteDisciplinaryRecord.jsp'/>?ts="+new Date().getTime();
 
       document.getElementById("buttonSave").disabled = true;
       document.getElementById("buttonDelete").disabled = true;
       document.getElementById("buttonNew").disabled = true;
     
-      new Ajax.Request(url,
-        {
-          method: "GET",
-          parameters: "DisRecUid="+document.getElementById("EditDisRecUid").value,
-          onSuccess: function(resp){
-            var data = eval("("+resp.responseText+")");
-            $("divMessage").innerHTML = data.message;
+      new Ajax.Request(url,{
+        method: "GET",
+        parameters: "DisRecUid="+document.getElementById("EditDisRecUid").value,
+        onSuccess: function(resp){
+          var data = eval("("+resp.responseText+")");
+          $("divMessage").innerHTML = data.message;
 
-            loadDisRecs();
-            newDisRec();
+          loadDisRecs();
+          newDisRec();
           
-            document.getElementById("buttonSave").disabled = false;
-            document.getElementById("buttonDelete").disabled = false;
-            document.getElementById("buttonNew").disabled = false;
-          },
-          onFailure: function(resp){
-            $("divMessage").innerHTML = "Error in 'hr/ajax/disciplinaryrecord/deleteDisiplinaryRecord.jsp' : "+resp.responseText.trim();
-          }  
-        }
-      );
+          document.getElementById("buttonSave").disabled = false;
+          document.getElementById("buttonDelete").disabled = false;
+          document.getElementById("buttonNew").disabled = false;
+        },
+        onFailure: function(resp){
+          $("divMessage").innerHTML = "Error in 'hr/ajax/disciplinaryrecord/deleteDisiplinaryRecord.jsp' : "+resp.responseText.trim();
+        }  
+      });
     }
   }
   

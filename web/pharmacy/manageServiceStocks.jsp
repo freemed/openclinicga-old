@@ -14,9 +14,7 @@
 
         html.append("<tr id='rowAuthorizedUsers"+userIdx+"'>")
              .append("<td width='18'>")
-              .append("<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+userIdx+")'>")
-               .append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("web","delete",sWebLanguage)+"' class='link'>")
-              .append("</a>")
+              .append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+userIdx+");' class='link' alt='"+getTranNoLink("web","delete",sWebLanguage)+"'>")
              .append("</td>")
              .append("<td>"+userName+"</td>")
             .append("</tr>");
@@ -33,10 +31,10 @@
         StringTokenizer tokenizer;
 
         // frequently used translations
-        String detailsTran        = getTranNoLink("web", "showdetails", sWebLanguage),
-               deleteTran         = getTranNoLink("Web", "delete", sWebLanguage),
-               productStockTran   = getTranNoLink("web.manage", "productstockmanagement", sWebLanguage),
-               calculateOrderTran = getTranNoLink("Web.manage", "calculateOrder", sWebLanguage);
+        String detailsTran        = getTranNoLink("web","showdetails",sWebLanguage),
+               deleteTran         = getTranNoLink("Web","delete",sWebLanguage),
+               productStockTran   = getTranNoLink("web.manage","productstockmanagement",sWebLanguage),
+               calculateOrderTran = getTranNoLink("Web.manage","calculateOrder",sWebLanguage);
 
         // run thru found serviceStocks
         ServiceStock serviceStock;
@@ -46,7 +44,7 @@
 
             // translate service name
             sServiceUid = serviceStock.getServiceUid();
-            sServiceName = getTranNoLink("Service", sServiceUid, sWebLanguage);
+            sServiceName = getTranNoLink("Service",sServiceUid,sWebLanguage);
 
             // only search manager-name when different manager-UID
             sManagerUid = checkString(serviceStock.getStockManagerUid());
@@ -136,7 +134,7 @@
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n#################### pharmacy/manageServiceStocks.jsp ##################");
+        Debug.println("\n******************* pharmacy/manageServiceStocks.jsp *******************");
         Debug.println("sEditStockUid        : "+sEditStockUid);
         Debug.println("sEditStockName       : "+sEditStockName);
         Debug.println("sEditServiceUid      : "+sEditServiceUid);
@@ -706,24 +704,24 @@
             
             <table width='100%'>
             	<tr>
-            		<td class='text'><a href="javascript:printInventory('<%=sEditStockUid %>')"><%=getTran("web","servicestockinventory.pdf",sWebLanguage) %></a></td>
-            		<td class='text'><a href="javascript:printInventorySummary('<%=sEditStockUid %>')"><%=getTran("web","servicestockinventorysummary.pdf",sWebLanguage) %></a></td>
-            		<td class='text'><a href="javascript:printStockOperations('<%=sEditStockUid %>')"><%=getTran("web","servicestockoperations.pdf",sWebLanguage) %></a></td>
-            		<td class='text'><a href="javascript:printOutgoingStockOperations('<%=sEditStockUid %>')"><%=getTran("web","serviceoutgoingstockoperations.pdf",sWebLanguage) %></a></td>
-            		<td class='text'><a href="javascript:printOutgoingStockOperationsListing('<%=sEditStockUid %>')"><%=getTran("web","serviceoutgoingstockoperationslisting.pdf",sWebLanguage) %></a></td>
+            		<td class='text'><a href="javascript:printInventory('<%=sEditStockUid %>')"><%=getTran("web","servicestockinventory.pdf",sWebLanguage)%></a></td>
+            		<td class='text'><a href="javascript:printInventorySummary('<%=sEditStockUid %>')"><%=getTran("web","servicestockinventorysummary.pdf",sWebLanguage)%></a></td>
+            		<td class='text'><a href="javascript:printStockOperations('<%=sEditStockUid %>')"><%=getTran("web","servicestockoperations.pdf",sWebLanguage)%></a></td>
+            		<td class='text'><a href="javascript:printOutgoingStockOperations('<%=sEditStockUid %>')"><%=getTran("web","serviceoutgoingstockoperations.pdf",sWebLanguage)%></a></td>
+            		<td class='text'><a href="javascript:printOutgoingStockOperationsListing('<%=sEditStockUid %>')"><%=getTran("web","serviceoutgoingstockoperationslisting.pdf",sWebLanguage)%></a></td>
 				</tr>
 				<tr>
-            		<td class='text'><a href="javascript:printOutgoingStockOperationsListingPerService('<%=sEditStockUid %>')"><%=getTran("web","serviceoutgoingstockoperationslistingperservice.pdf",sWebLanguage) %></a></td>
-            		<td class='text'><a href="javascript:printMonthlyConsumption('<%=sEditStockUid %>')"><%=getTran("web","monthlyconsumption.pdf",sWebLanguage) %></a></td>
-            		<td class='text'><a href="javascript:printExpiration('<%=sEditStockUid %>')"><%=getTran("web","expiration.pdf",sWebLanguage) %></a></td>
-            		<td class='text'><a href="javascript:printStockOut('<%=sEditStockUid %>')"><%=getTran("web","stockout.pdf",sWebLanguage) %></a></td>
-            		<td class='text'><a href="javascript:printIncomingStockOperations('<%=sEditStockUid %>')"><%=getTran("web","serviceincomingstockoperations.pdf",sWebLanguage) %></a></td>
+            		<td class='text'><a href="javascript:printOutgoingStockOperationsListingPerService('<%=sEditStockUid %>')"><%=getTran("web","serviceoutgoingstockoperationslistingperservice.pdf",sWebLanguage)%></a></td>
+            		<td class='text'><a href="javascript:printMonthlyConsumption('<%=sEditStockUid %>')"><%=getTran("web","monthlyconsumption.pdf",sWebLanguage)%></a></td>
+            		<td class='text'><a href="javascript:printExpiration('<%=sEditStockUid %>')"><%=getTran("web","expiration.pdf",sWebLanguage)%></a></td>
+            		<td class='text'><a href="javascript:printStockOut('<%=sEditStockUid %>')"><%=getTran("web","stockout.pdf",sWebLanguage)%></a></td>
+            		<td class='text'><a href="javascript:printIncomingStockOperations('<%=sEditStockUid %>')"><%=getTran("web","serviceincomingstockoperations.pdf",sWebLanguage)%></a></td>
             	</tr>
 				<tr>
-            		<td class='text'><a href="javascript:printIncomingStockOperationsPerOrder('<%=sEditStockUid %>')"><%=getTran("web","serviceincomingstockoperationsperorder.pdf",sWebLanguage) %></a></td>
-            		<td class='text'><a href="javascript:printIncomingStockOperationsPerItem('<%=sEditStockUid %>')"><%=getTran("web","serviceincomingstockoperationsperitem.pdf",sWebLanguage) %></a></td>
-            		<td class='text'><a href="javascript:printIncomingStockOperationsPerProvider('<%=sEditStockUid %>')"><%=getTran("web","serviceincomingstockoperationsperprovider.pdf",sWebLanguage) %></a></td>
-            		<td class='text'><a href="javascript:printIncomingStockOperationsPerCategoryItem('<%=sEditStockUid %>')"><%=getTran("web","serviceincomingstockoperationspercategoryitem.pdf",sWebLanguage) %></a></td>
+            		<td class='text'><a href="javascript:printIncomingStockOperationsPerOrder('<%=sEditStockUid %>')"><%=getTran("web","serviceincomingstockoperationsperorder.pdf",sWebLanguage)%></a></td>
+            		<td class='text'><a href="javascript:printIncomingStockOperationsPerItem('<%=sEditStockUid %>')"><%=getTran("web","serviceincomingstockoperationsperitem.pdf",sWebLanguage)%></a></td>
+            		<td class='text'><a href="javascript:printIncomingStockOperationsPerProvider('<%=sEditStockUid %>')"><%=getTran("web","serviceincomingstockoperationsperprovider.pdf",sWebLanguage)%></a></td>
+            		<td class='text'><a href="javascript:printIncomingStockOperationsPerCategoryItem('<%=sEditStockUid %>')"><%=getTran("web","serviceincomingstockoperationspercategoryitem.pdf",sWebLanguage)%></a></td>
             	</tr>
             </table>
             <%
@@ -759,7 +757,7 @@
                             <td width="15%"><%=getTran("Web.manage","productstockcount",sWebLanguage)%></td>
                             <td/>
                         </tr>
-                        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                        <tbody class="hand">
                             <%=stocksHtml%>
                         </tbody>
                     </table>
@@ -846,7 +844,7 @@
 
       var td = tr.insertCell(0);
       td.width = 16;
-      td.innerHTML = "<a href='#' onclick='deleteAuthorizedUser(rowAuthorizedUsers"+iAuthorizedUsersIdx+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>";
+      td.innerHTML = "<a href='javascript:deleteAuthorizedUser(rowAuthorizedUsers"+iAuthorizedUsersIdx+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>";
       tr.appendChild(td);
 
       td = tr.insertCell(1);
@@ -859,16 +857,7 @@
       clearAuthorizedUserFields();
     }
     else{
-        var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=firstselectaperson";
-        var modalitiesIE = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-        if(window.showModalDialog){
-          window.showModalDialog(popupUrl,'',modalitiesIE);
-        }
-        else{
-          window.confirm("<%=getTranNoLink("web","firstselectaperson",sWebLanguage)%>");
-        }
-
+        alertDialog("web","firstselectaperson");
         transactionForm.AuthorizedUserNameAdd.focus();
     }
   }
@@ -961,14 +950,7 @@
        !transactionForm.EditOrderPeriodInMonths.value.length>0){
       maySubmit = false;
 
-      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-      var modalitiesIE = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-      if(window.showModalDialog){
-          window.showModalDialog(popupUrl,'',modalitiesIE);
-      }else{
-          window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
-      }
+      alertDialog("web","datamissing");
     }
     else{
       <%-- check dates --%>
@@ -1091,14 +1073,7 @@
       transactionForm.submit();
     }
     else{
-      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=datamissing";
-      var modalitiesIE = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-
-        if(window.showModalDialog){
-            window.showModalDialog(popupUrl,'',modalitiesIE);
-        }else{
-            window.confirm("<%=getTranNoLink("web.manage","datamissing",sWebLanguage)%>");
-        }
+      alertDialog("web","datamissing");
     }
   }
 

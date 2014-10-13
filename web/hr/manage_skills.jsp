@@ -287,8 +287,7 @@
   
   <%-- CLEAR SKILL --%>
   function clearSkill(){
-    var answer = confirmDialog("web","areYouSureToClear");
-    if(answer==1){                 
+    if(confirmDialog("web","areYouSureToClear")){                 
       $("languages").value = "";
       $("drivingLicense").value = "";
       $("itOffice").value = "";
@@ -600,8 +599,7 @@
 
   <%-- DELETE LANGUAGE SKILL --%>
   function deleteLS(rowid){
-    var answer = yesnoDialog("web","areYouSureToDelete"); 
-    if(answer==1){
+    if(yesnoDialog("web","areYouSureToDelete")){
       sLS = deleteRowFromArrayString(sLS,rowid.id);
       tblLS.deleteRow(rowid.rowIndex);
       clearLSFields();

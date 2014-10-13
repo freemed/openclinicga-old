@@ -1,4 +1,4 @@
-<%@ page import="be.openclinic.pharmacy.*" %>
+<%@page import="be.openclinic.pharmacy.*"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 

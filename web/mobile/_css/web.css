@@ -45,12 +45,11 @@ tr.admintitle{
  text-align:center;
  color:#fff;
  height:23px;
- background:url("../../_img/tradmin_bg.gif") no-repeat #4975A7;
+ background:url("../../_img/themes/default/tradmin_bg.gif") no-repeat #4975A7;
  background-repeat:repeat-x
 }
 table.list{
  border:1px solid #C1DEFF;
- border-bottom:none;
  background-color:#fff;
  margin-left:auto;
  margin-right:auto
@@ -62,7 +61,7 @@ tr.admin{
  color:#fff;
  height:25px;
  font-size:11px;
- background:url("../../_img/tradmin_bg.gif") no-repeat #4975A7;
+ background:url("../../_img/themes/default/tradmin_bg.gif") no-repeat #4975A7;
  background-repeat:repeat-x
 }
 tr.admin a{
@@ -101,7 +100,7 @@ INPUT.text{
  height:20px;
  BACKGROUND:#fff;
  COLOR:black;
- background:url("../../_img/back_input.png") no-repeat;
+ background:url("../../_img/themes/default/back_input.png") no-repeat;
  FONT-FAMILY:arial,sans-serif
 }
 INPUT.checkbox{
@@ -124,7 +123,7 @@ INPUT.bold{
  COLOR:black;
  height:20px;
  FONT-FAMILY:arial,sans-serif;
- background:url("../../_img/back_input.png") no-repeat;
+ background:url("../../_img/themes/default/back_input.png") no-repeat;
 }
 INPUT.selected{
  FONT-WEIGHT:normal;
@@ -133,14 +132,14 @@ INPUT.selected{
  height:20px;
  background: #FFFFCC;
  FONT-FAMILY:arial,sans-serif;
- background:url("../../_img/back_input_hover.png") no-repeat;
+ background:url("../../_img/themes/default/back_input_hover.png") no-repeat;
 }
 TEXTAREA.text{
  FONT-WEIGHT:normal;
  FONT-SIZE:14px;
  COLOR:black;
  FONT-FAMILY:arial,sans-serif;
- background:url("../../_img/back_input.png") no-repeat #ddd;
+ background:url("../../_img/themes/default/back_input.png") no-repeat #ddd;
  resize:both
 }
 SELECT.text{
@@ -149,7 +148,7 @@ SELECT.text{
  COLOR:black;
  height:20px;
  FONT-FAMILY:arial,sans-serif;
- background:url("../../_img/back_input.png") no-repeat
+ background:url("../../_img/themes/default/back_input.png") no-repeat
 }
 input.button{
  padding:1px 12px 0 12px;
@@ -159,7 +158,7 @@ input.button{
  color:#505050;
  height:20px;
  border:solid 1px #b5b5b5;
- background:url("../../_img/button-bg.png") top left repeat-x;
+ background:url("../../_img/themes/default/button-bg.png") top left repeat-x;
  cursor:pointer
 }
 input.button:focus{
@@ -198,7 +197,7 @@ TR.gray {
  padding:1px 5px 1px 1px;
  border:none;
  height:25px;
- background:url("../../_img/trgray_bg.gif") repeat-x
+ background:url("../../_img/themes/default/trgray_bg.gif") repeat-x
 }
 div.search{
  border:1px solid black;
@@ -226,8 +225,10 @@ div#login{
 }
 div.error_msg{
  color:red;
+ font-style:italic;
  font-weight:bold;
  padding-top:5px;
+ padding-top:10px;
  height:25px
 }
 div.buttons{
@@ -235,7 +236,6 @@ div.buttons{
  margin-right:auto;
  text-align:center;
  padding:5px;
- /*text-align:left;*/
  background:#eee;
  border:1px solid #C1DEFF;
  border-top:none

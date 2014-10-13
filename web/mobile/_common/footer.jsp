@@ -1,16 +1,16 @@
 <script>
- Event.observe(window,"load",function(){changeInputColor();});
+  Event.observe(window,"load",function(){changeInputColor();});
 
- function logOut(){
-  window.location.href = "login.jsp?Action=logout&ts=<%=new java.util.Date().hashCode()%>";
- }
- function doNewSearch(){
-  window.location.href = "searchPatient.jsp?ts=<%=new java.util.Date().hashCode()%>";
- }
- function showPatientMenu(){
-  window.location.href = "patientMenu.jsp?ts=<%=new java.util.Date().hashCode()%>";
- }
- </script>
+  function logOut(){
+    document.location.href = "<%=sCONTEXTPATH%>/mobileLogout.do?ts=<%=new java.util.Date().hashCode()%>";
+  }
+  function doNewSearch(){
+    window.location.href = "searchPatient.jsp?ts=<%=new java.util.Date().hashCode()%>";
+  }
+  function showPatientMenu(){
+    window.location.href = "patientMenu.jsp?ts=<%=new java.util.Date().hashCode()%>";
+  }
+</script>
  
 <%
     // credits

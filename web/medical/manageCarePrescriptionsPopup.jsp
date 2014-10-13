@@ -10,51 +10,50 @@
 
 <%!
     //--- OBJECTS TO HTML -------------------------------------------------------------------------
-    private StringBuffer objectsToHtml(Vector objects, String sWebLanguage) {
+    private StringBuffer objectsToHtml(Vector objects, String sWebLanguage){
         StringBuffer html = new StringBuffer();
         String sClass = "1", sDateBeginFormatted, sDateEndFormatted, sCareDescr = "",
         	   sCareUid, sPreviousCareUid = "", sPrescriber;
-        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         java.util.Date tmpDate;
 
         // frequently used translations
-        String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
-               deleteTran = getTranNoLink("Web", "delete", sWebLanguage);
+        String detailsTran = getTranNoLink("web","showdetails",sWebLanguage),
+               deleteTran = getTranNoLink("Web","delete",sWebLanguage);
 
         // run thru found prescriptions
         CarePrescription prescr;
-        for (int i = 0; i < objects.size(); i++) {
-            prescr = (CarePrescription) objects.get(i);
+        for(int i=0; i<objects.size(); i++){
+            prescr = (CarePrescription)objects.get(i);
 
             // prescriber
             sPrescriber = User.getFullUserName(prescr.getPrescriberUid());
             
             // format date begin
             tmpDate = prescr.getBegin();
-            if (tmpDate != null) sDateBeginFormatted = stdDateFormat.format(tmpDate);
-            else                 sDateBeginFormatted = "";
+            if(tmpDate!=null) sDateBeginFormatted = ScreenHelper.stdDateFormat.format(tmpDate);
+            else              sDateBeginFormatted = "";
 
             // format date end
             tmpDate = prescr.getEnd();
-            if (tmpDate != null) sDateEndFormatted = stdDateFormat.format(tmpDate);
-            else                 sDateEndFormatted = "";
+            if(tmpDate!=null) sDateEndFormatted = ScreenHelper.stdDateFormat.format(tmpDate);
+            else              sDateEndFormatted = "";
 
             // only search product-name when different product-UID
             sCareUid = prescr.getCareUid();
-            if (!sCareUid.equals(sPreviousCareUid)) {
+            if(!sCareUid.equals(sPreviousCareUid)){
                 sPreviousCareUid = sCareUid;
 
-                if (sCareUid != null) {
-                    sCareDescr = getTran("care_type",sCareUid, sWebLanguage);
+                if(sCareUid!=null) {
+                    sCareDescr = getTran("care_type",sCareUid,sWebLanguage);
                 }
-                else {
-                    sCareDescr = "<font color='red'>"+getTran("web", "nonexistingcare", sWebLanguage)+"</font>";
+                else{
+                    sCareDescr = "<font color='red'>"+getTran("web","nonexistingcare",sWebLanguage)+"</font>";
                 }
             }
 
             // alternate row-style
-            if (sClass.equals("")) sClass = "1";
-            else                   sClass = "";
+            if(sClass.equals("")) sClass = "1";
+            else                  sClass = "";
 
             //*** display prescription in one row ***
             html.append("<tr class='list"+sClass+"'  title='"+detailsTran+"'>")
@@ -85,39 +84,35 @@
 
     // sortcol
     String sSortCol = checkString(request.getParameter("SortCol"));
-    if (sSortCol.length() == 0) sSortCol = sDefaultSortCol;
+    if(sSortCol.length()==0) sSortCol = sDefaultSortCol;
 
     // sortdir
     String sSortDir = checkString(request.getParameter("SortDir"));
-    if (sSortDir.length() == 0) sSortDir = sDefaultSortDir;
+    if(sSortDir.length()==0) sSortDir = sDefaultSortDir;
 
     //*********************************************************************************************
     //*** process actions *************************************************************************
     //*********************************************************************************************
-    if (sAction.equals("delete") && sEditPrescrUid.length() > 0) {
+    if(sAction.equals("delete") && sEditPrescrUid.length() > 0){
         CarePrescription.delete(sEditPrescrUid);
         CarePrescriptionSchema prescriptionSchemaToDelete = CarePrescriptionSchema.getCarePrescriptionSchema(sEditPrescrUid);
         prescriptionSchemaToDelete.delete();
 
-        msg = getTran("web", "dataisdeleted", sWebLanguage);
+        msg = getTran("web","dataisdeleted",sWebLanguage);
     }
 
     //--- SORT ------------------------------------------------------------------------------------
-    if (sAction.equals("sort")) {
+    if(sAction.equals("sort")){
         sAction = "find";
     }
 %>
 <form name="transactionForm" id="transactionForm" method="post" onClick='setSaveButton(event);clearMessage();' onKeyUp='setSaveButton(event);'>
-    <%-- page title --%>
+    <%-- title --%>
     <table width="100%" cellspacing="0">
         <tr class="admin">
             <td><%=getTran("Web.manage","ManagePatientCarePrescriptions",sWebLanguage)%>&nbsp;<%=activePatient.lastname+" "+activePatient.firstname%></td>
             <td align="right">
-                <%
-                    if(sAction.startsWith("showDetails")){
-                        %><img onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" onClick="doBack();" style='vertical-align:middle;' border='0' src='<%=sCONTEXTPATH%>/_img/themes/default/arrow_left.gif' alt='<%=getTranNoLink("Web","Back",sWebLanguage)%>'><%
-                    }
-                %>
+                <img class="link" onClick="window.close();" src='<%=sCONTEXTPATH%>/_img/themes/default/arrow_left.gif' alt='<%=getTranNoLink("web","close",sWebLanguage)%>'>
             </td>
         </tr>
     </table>
@@ -128,13 +123,13 @@
         }
         else{
             //--- DISPLAY ACTIVE PRESCRIPTIONS (for activePatient) --------------------------------
-            if (!sAction.startsWith("showDetails")) {
-                Vector activePrescrs = CarePrescription.findActive(activePatient.personid, "", "", ScreenHelper.stdDateFormat.format(ScreenHelper.getDate(new Date(new Date().getTime()-48*60*60000))), "", "", sSortCol, sSortDir);
-                prescriptionsHtml = objectsToHtml(activePrescrs, sWebLanguage);
+            if(!sAction.startsWith("showDetails")){
+                Vector activePrescrs = CarePrescription.findActive(activePatient.personid,"","",ScreenHelper.formatDate(ScreenHelper.getDate(new Date(new Date().getTime()-48*60*60000))),"","",sSortCol,sSortDir);
+                prescriptionsHtml = objectsToHtml(activePrescrs,sWebLanguage);
                 foundPrescrCount = activePrescrs.size();
 
-                if (foundPrescrCount > 0 || !"1".equals(request.getParameter("skipEmpty"))) {
-                    String sortTran = getTran("web", "clicktosort", sWebLanguage);
+                if(foundPrescrCount > 0 || !"1".equals(request.getParameter("skipEmpty"))){
+                    String sortTran = getTran("web","clicktosort",sWebLanguage);
                 %>
                 <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
                     <%-- clickable header --%>
@@ -145,9 +140,7 @@
                         <td width="80"><SORTTYPE:DATE><%=getTran("Web","begindate",sWebLanguage)%></SORTTYPE:DATE></td>
                         <td width="80"><SORTTYPE:DATE><%=getTran("Web","enddate",sWebLanguage)%></SORTTYPE:DATE></td>
                     </tr>
-                    <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
-                        <%=prescriptionsHtml%>
-                    </tbody>
+                    <tbody class="hand"><%=prescriptionsHtml%></tbody>
                 </table>
                 <%-- number of records found --%>
                 <span style="width:49%;text-align:left;">
@@ -166,9 +159,7 @@
                 }
                 else{
                     // no records found
-                     %>
-                    <script>window.location.href="<c:url value='/popup.jsp'/>?Page=medical/manageCarePrescriptionsPopupEdit.jsp&Close=true&ts=<%=getTs()%>&PopupHeight=400&PopupWidth=900";</script>
-                    <%
+                     %><script>window.location.href="<c:url value='/popup.jsp'/>?Page=medical/manageCarePrescriptionsPopupEdit.jsp&Close=true&ts=<%=getTs()%>&PopupHeight=400&PopupWidth=900";</script><%
                 }
 
                 %>
@@ -177,12 +168,12 @@
                     
                     <%-- NEW BUTTON --%>
                     <%=ScreenHelper.alignButtonsStart()%>
-                    <%
-                        if (activeUser.getAccessRight("prescriptions.care.add")){
-                            %><input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doShowDetails('');"><%
-                        }
-                    %>
-                    <input type="button" class="button" name="closeButton" value="<%=getTranNoLink("Web","close",sWebLanguage)%>" onclick="window.close();">
+	                    <%
+	                        if(activeUser.getAccessRight("prescriptions.care.add")){
+	                            %><input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doShowDetails('');"><%
+	                        }
+	                    %>
+	                    <input type="button" class="button" name="closeButton" value="<%=getTranNoLink("Web","close",sWebLanguage)%>" onclick="window.close();">
                     <%=ScreenHelper.alignButtonsStop()%>
                 <%
             }
@@ -262,10 +253,5 @@
             %>document.getElementById('msgArea').innerHTML = "";<%
         }
     %>
-  }
-
-  <%-- DO BACK --%>
-  function doBack(){
-    window.close();
   }
 </script>

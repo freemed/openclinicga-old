@@ -183,9 +183,9 @@
             <td><%=getTran("web","sort",sWebLanguage)%></td>
             <td>
                 <select class="text" name="FindPrestationSort">
-                    <option value="OC_PRESTATION_CODE"><%=getTran("web","code",sWebLanguage) %></option>
-                    <option value="OC_PRESTATION_DESCRIPTION"><%=getTran("web","description",sWebLanguage) %></option>
-                    <option value="OC_PRESTATION_PRICE"><%=getTran("web","price",sWebLanguage) %></option>
+                    <option value="OC_PRESTATION_CODE"><%=getTran("web","code",sWebLanguage)%></option>
+                    <option value="OC_PRESTATION_DESCRIPTION"><%=getTran("web","description",sWebLanguage)%></option>
+                    <option value="OC_PRESTATION_PRICE"><%=getTran("web","price",sWebLanguage)%></option>
                 </select>
             </td>
         </tr>
@@ -284,7 +284,7 @@
                         <td class="admin"><%=getTran("web","defaultprice",sWebLanguage)%></td>
                         <td class="admin2">
                             <input type="text" class="text" name="EditPrestationPrice" size="10" maxlength="8" value="<%=sPrice%>" onKeyup="if(!isNumber(this)){this.value='';}">&nbsp;<%=sCurrency%>
-                            &nbsp;<%=getTran("web","variable",sWebLanguage)%> <input type="checkbox" class="text" value="1" name="EditPrestationVariablePrice" id="EditPrestationVariablePrice" <%=prestation!=null && prestation.getVariablePrice()==1?"checked":"" %>/>
+                            &nbsp;<%=getTran("web","variable",sWebLanguage)%> <input type="checkbox" value="1" name="EditPrestationVariablePrice" id="EditPrestationVariablePrice" <%=prestation!=null && prestation.getVariablePrice()==1?"checked":"" %>/>
                         </td>
                     </tr>
                     <%

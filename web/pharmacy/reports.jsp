@@ -13,7 +13,7 @@
 	}
 	
 	String firstdayPrevMonth = "01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date(ScreenHelper.parseDate("01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date())).getTime()-100)),
-	       lastdayPrevMonth = ScreenHelper.stdDateFormat.format(new java.util.Date(ScreenHelper.parseDate("01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date())).getTime()-100));
+	       lastdayPrevMonth = ScreenHelper.formatDate(new java.util.Date(ScreenHelper.parseDate("01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date())).getTime()-100));
 	   	
 	// search-fields
 	out.print(ScreenHelper.writeTblHeader(getTran("web","pharmacy.reports",sWebLanguage),sCONTEXTPATH));

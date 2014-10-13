@@ -5,96 +5,99 @@
                 be.openclinic.medical.Prescription,
                 be.openclinic.finance.DebetTransaction,
                 be.openclinic.finance.Balance,
-                be.openclinic.finance.Prestation,java.util.Hashtable,java.util.Vector,java.util.Enumeration" %>
-<%@ page import="be.openclinic.adt.Encounter" %>
+                be.openclinic.finance.Prestation,
+                java.util.Hashtable,
+                java.util.Vector,
+                java.util.Enumeration,
+                be.openclinic.adt.Encounter"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-
 <%=checkPermission("medication.medicationdelivery","all",activeUser)%>
 <%=sJSSORTTABLE%>
 
 <%!
     //--- OBJECTS TO HTML -------------------------------------------------------------------------
-    private StringBuffer objectsToHtml(Vector objects, String sWebLanguage) {
+    private StringBuffer objectsToHtml(Vector objects, String sWebLanguage){
         StringBuffer html = new StringBuffer();
         String sClass = "1", sUserId, sUserName = "", sDescriptionType,
-                sDescription = "", productStockUid, sProductName;
-        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
+               sDescription = "", productStockUid, sProductName;
         Hashtable usersHash = new Hashtable(),
-                descrTypeTranHash = new Hashtable(),
-                productStockHash = new Hashtable();
+                  descrTypeTranHash = new Hashtable(),
+                  productStockHash = new Hashtable();
         ProductStock productStock;
         AdminPerson user;
 
         // frequently used translations
-        String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage);
+        String detailsTran = getTranNoLink("web","showdetails",sWebLanguage);
 
-        // run thru found operations
+        // iterate found operations
         ProductStockOperation operation;
-        for (int i = 0; i < objects.size(); i++) {
+        for(int i=0; i<objects.size(); i++){
             operation = (ProductStockOperation) objects.get(i);
 
             // productStock
             productStockUid = operation.getProductStockUid();
             productStock = (ProductStock) productStockHash.get(productStockUid);
-            if (productStock == null) {
+            if(productStock==null){
                 // get productStock from DB
                 productStock = ProductStock.get(productStockUid);
-                if (productStock != null) {
-                    productStockHash.put(productStockUid, productStock);
+                if(productStock != null){
+                    productStockHash.put(productStockUid,productStock);
                 }
             }
+            
             // user who did the medication-delivery
             sUserId = checkString(operation.getUpdateUser());
-            user = (AdminPerson) usersHash.get(sUserId);
-            if (user == null) {
-                user = AdminPerson.getAdminPerson( sUserId);
-                usersHash.put(sUserId, user);
-                if (user != null) {
-                    sUserName = user.firstname + " " + user.lastname;
+            user = (AdminPerson)usersHash.get(sUserId);
+            if(user==null){
+                user = AdminPerson.getAdminPerson(sUserId);
+                usersHash.put(sUserId,user);
+                if(user!=null){
+                    sUserName = user.firstname+" "+user.lastname;
                 }
             }
 
             // description
             sDescriptionType = checkString(operation.getDescription());
-            if (sDescriptionType.length() > 0) {
-                sDescription = checkString((String) descrTypeTranHash.get(sDescriptionType));
-                if (sDescription.length() == 0) {
-                    sDescription = getTran("productstockoperation.patientmedicationdelivery", sDescriptionType, sWebLanguage);
-                    descrTypeTranHash.put(sDescriptionType, sDescription);
+            if(sDescriptionType.length() > 0){
+                sDescription = checkString((String)descrTypeTranHash.get(sDescriptionType));
+                if(sDescription.length()==0){
+                    sDescription = getTran("productstockoperation.patientmedicationdelivery",sDescriptionType,sWebLanguage);
+                    descrTypeTranHash.put(sDescriptionType,sDescription);
                 }
             }
 
             // product name
             productStock = operation.getProductStock();
-            if (productStock != null && productStock.getProduct() != null) {
+            if(productStock!=null && productStock.getProduct()!=null){
                 sProductName = operation.getProductStock().getProduct().getName();
-            } else {
-                sProductName = "<font color='red'>" + getTran("web.manage", "unexistingproduct", sWebLanguage) + "</font>";
+            } 
+            else{
+                sProductName = "<font color='red'>"+getTran("web.manage","unexistingproduct",sWebLanguage)+"</font>";
             }
 
             // alternate row-style
-            if (sClass.equals("")) sClass = "1";
-            else sClass = "";
+            if(sClass.equals("")) sClass = "1";
+            else                  sClass = "";
 
             Prescription prescription = operation.getPrescription();
 
             //*** display operation in one row ***
-            html.append("<tr class='list" + sClass + "' onclick=\"doShowDetailsDelivery('" + operation.getUid() + "');\"  title='" + detailsTran + "'>")
-                    .append("<td>" + sDescription + (prescription!=null?" ("+prescription.getPrescriber().firstname+" "+prescription.getPrescriber().lastname+")":"")+"</td>")
-                    .append("<td>" + (operation.getDate() == null ? "" : stdDateFormat.format(operation.getDate())) + "</td>")
-                    .append("<td>" + operation.getProductStock().getServiceStock().getName() + "</td>")
-                    .append("<td><b>" + sProductName + "</b></td>")
-                    .append("<td>" + Math.abs(operation.getUnitsChanged()) + "</td>")
-                    .append("<td>" + sUserName + "</td>")
-                    .append("</tr>");
+            html.append("<tr class='list"+sClass+"' onclick=\"doShowDetailsDelivery('"+operation.getUid()+"');\" title='"+detailsTran+"'>")
+                 .append("<td>"+sDescription+(prescription!=null?" ("+prescription.getPrescriber().firstname+" "+prescription.getPrescriber().lastname+")":"")+"</td>")
+                 .append("<td>"+(operation.getDate()==null?"":ScreenHelper.formatDate(operation.getDate()))+"</td>")
+                 .append("<td>"+operation.getProductStock().getServiceStock().getName()+"</td>")
+                 .append("<td><b>"+sProductName+"</b></td>")
+                 .append("<td>"+Math.abs(operation.getUnitsChanged())+"</td>")
+                 .append("<td>"+sUserName+"</td>")
+                .append("</tr>");
         }
 
         return html;
     }
 
     //--- GET REMAINING PACKAGES NEEDED -----------------------------------------------------------
-    private int getRemainingPackagesNeeded(Prescription prescription) {
+    private int getRemainingPackagesNeeded(Prescription prescription){
         // unit-stuff
         String timeUnit = prescription.getTimeUnit();
         int timeUnitCount = prescription.getTimeUnitCount();
@@ -106,44 +109,35 @@
 
         long remainingDurationInMillis = prescrEnd.getTime() - now.getTime();
         long remainingDurationInTimeUnits = 0;
-        if (timeUnit.equalsIgnoreCase("type1hour"))
-            remainingDurationInTimeUnits = remainingDurationInMillis / (3600 * 1000);
-        else if (timeUnit.equalsIgnoreCase("type2day"))
-            remainingDurationInTimeUnits = remainingDurationInMillis / (24 * 3600 * 1000);
-        else if (timeUnit.equalsIgnoreCase("type3week"))
-            remainingDurationInTimeUnits = remainingDurationInMillis / (7 * 24 * 3600 * 1000);
-        else if (timeUnit.equalsIgnoreCase("type4month"))
-            remainingDurationInTimeUnits = remainingDurationInMillis / ((long) 31 * 24 * 3600 * 1000);
-
+        if(timeUnit.equalsIgnoreCase("type1hour")){
+            remainingDurationInTimeUnits = remainingDurationInMillis / (3600*1000);
+        }
+        else if(timeUnit.equalsIgnoreCase("type2day")){
+            remainingDurationInTimeUnits = remainingDurationInMillis / (24*3600*1000);
+        }
+        else if(timeUnit.equalsIgnoreCase("type3week")){
+            remainingDurationInTimeUnits = remainingDurationInMillis / (7*24*3600*1000);
+        }
+        else if(timeUnit.equalsIgnoreCase("type4month")){
+            remainingDurationInTimeUnits = remainingDurationInMillis / ((long)31*24*3600*1000);
+        }
+    
         double unitsNeeded = Math.ceil((remainingDurationInTimeUnits * unitsPerTimeUnit) / timeUnitCount);
-        int packagesNeeded = (int) Math.ceil(unitsNeeded / unitsPerPackage);
-
-        /*
-        System.out.println("\n======== getRemainingPackagesNeeded for prescr "+prescription.getProductUid()+" =========");////////////////// todo
-        System.out.println("... timeUnit                     = "+timeUnit);
-        System.out.println("... timeUnitCount                = "+timeUnitCount);
-        System.out.println("... unitsPerTimeUnit             = "+unitsPerTimeUnit);
-        System.out.println("... prescrEnd                    = "+prescrEnd);
-        System.out.println("... remainingDurationInMillis    = "+remainingDurationInMillis);
-        System.out.println("... remainingDurationInTimeUnits = "+remainingDurationInTimeUnits);
-        System.out.println("... unitsPerPackage              = "+unitsPerPackage);
-        System.out.println("*** remaining units needed       : "+unitsNeeded);
-        System.out.println("*** remaining packages needed    : "+packagesNeeded);
-        System.out.println("=============================================================================\n\n");
-        */
+        int packagesNeeded = (int)Math.ceil(unitsNeeded / unitsPerPackage);
 
         return packagesNeeded;
     }
 %>
+
 <%
     String sDefaultSortCol = "OC_OPERATION_DATE",
-            sDefaultSortDir = "DESC",
-            centralPharmacyCode = MedwanQuery.getInstance().getConfigString("centralPharmacyCode"),
-            sDefaultSrcDestType = "type2patient",
-            sDefaultUnitsChanged = "1";
+           sDefaultSortDir = "DESC",
+           centralPharmacyCode = MedwanQuery.getInstance().getConfigString("centralPharmacyCode"),
+           sDefaultSrcDestType = "type2patient",
+           sDefaultUnitsChanged = "1";
 
     String sAction = checkString(request.getParameter("Action"));
-    if (sAction.length() == 0) sAction = "deliverMedication"; // default
+    if(sAction.length()==0) sAction = "deliverMedication"; // default
 
     // retreive form data
     String sEditOperationUid = checkString(request.getParameter("EditOperationUid")),
@@ -156,9 +150,9 @@
            sEditOperationDate = checkString(request.getParameter("EditOperationDate")),
            sEditProductStockUid = checkString(request.getParameter("EditProductStockUid"));
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n################### medication/deliverMedication.jsp ###################");
+        Debug.println("\n**************** pharmacy/medication/deliverMedication.jsp ************");
         Debug.println("sAction              : "+sAction);
         Debug.println("sEditOperationUid    : "+sEditOperationUid);
         Debug.println("sEditOperationDescr  : "+sEditOperationDescr);
@@ -169,11 +163,11 @@
         Debug.println("sEditOperationDate   : "+sEditOperationDate);
         Debug.println("sEditProductStockUid : "+sEditProductStockUid+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     String msg = "", sSelectedOperationDescr = "", sSelectedSrcDestType = "", sSelectedSrcDestUid = "",
-            sSelectedSrcDestName = "", sSelectedOperationDate = "", sSelectedProductName = "",
-            sSelectedUnitsChanged = "", sSelectedProductStockUid = "", sSelectedProductStockLevel = "";
+           sSelectedSrcDestName = "", sSelectedOperationDate = "", sSelectedProductName = "",
+           sSelectedUnitsChanged = "", sSelectedProductStockUid = "", sSelectedProductStockLevel = "";
 
     int foundDeliveryCount;
     StringBuffer deliveriesHtml;
@@ -183,29 +177,29 @@
     boolean displayEditFields = true;
 
     String sDisplayPatientDeliveries = checkString(request.getParameter("DisplayPatientDeliveries"));
-    if (sDisplayPatientDeliveries.length() == 0) sDisplayPatientDeliveries = "true"; // default
+    if(sDisplayPatientDeliveries.length()==0) sDisplayPatientDeliveries = "true"; // default
     boolean displayPatientDeliveries = sDisplayPatientDeliveries.equalsIgnoreCase("true");
-    if (Debug.enabled) Debug.println("@@@ displayPatientDeliveries : " + displayPatientDeliveries);
+    Debug.println("@@@ displayPatientDeliveries : "+displayPatientDeliveries);
 
     String sIsPatientDelivery = checkString(request.getParameter("IsPatientDelivery"));
-    if (sIsPatientDelivery.length() == 0) sIsPatientDelivery = "false"; // default
+    if(sIsPatientDelivery.length()==0) sIsPatientDelivery = "false"; // default
     boolean isPatientDelivery = sIsPatientDelivery.equalsIgnoreCase("true");
-    if (Debug.enabled) Debug.println("@@@ isPatientDelivery : " + isPatientDelivery);
+    Debug.println("@@@ isPatientDelivery : "+isPatientDelivery);
 
     // sortcol
     String sSortCol = checkString(request.getParameter("SortCol"));
-    if (sSortCol.length() == 0) sSortCol = sDefaultSortCol;
+    if(sSortCol.length()==0) sSortCol = sDefaultSortCol;
 
     // sortdir
     String sSortDir = checkString(request.getParameter("SortDir"));
-    if (sSortDir.length() == 0) sSortDir = sDefaultSortDir;
+    if(sSortDir.length()==0) sSortDir = sDefaultSortDir;
 
     //*********************************************************************************************
     //*** process actions *************************************************************************
     //*********************************************************************************************
 
     //--- SAVE (deliver) --------------------------------------------------------------------------
-    if (sAction.equals("save") && sEditOperationUid.length() > 0) {
+    if(sAction.equals("save") && sEditOperationUid.length() > 0){
         // create product
         ProductStockOperation operation = new ProductStockOperation();
         operation.setUid(sEditOperationUid);
@@ -217,20 +211,20 @@
         sourceDestination.setObjectUid(sEditSrcDestUid);
         operation.setSourceDestination(sourceDestination);
 
-        if (sEditOperationDate.length() > 0) operation.setDate(ScreenHelper.parseDate(sEditOperationDate));
+        if(sEditOperationDate.length() > 0) operation.setDate(ScreenHelper.parseDate(sEditOperationDate));
         operation.setProductStockUid(sEditProductStockUid);
-        if (sEditUnitsChanged.length() > 0) operation.setUnitsChanged(Integer.parseInt(sEditUnitsChanged));
+        if(sEditUnitsChanged.length() > 0) operation.setUnitsChanged(Integer.parseInt(sEditUnitsChanged));
         operation.setUpdateUser(activeUser.userid);
 
         //***** save operation *****
-        String sResult=operation.store();
+        String sResult = operation.store();
         if(sResult==null){
             // create a debet for the delivered expences
-            if (sEditOperationDescr.startsWith("medicationdelivery")) {
+            if(sEditOperationDescr.startsWith("medicationdelivery")){
                 // calculate debet amount
                 ProductStock productStock = ProductStock.get(sEditProductStockUid);
                 Product deliveredProduct = productStock.getProduct();
-                double packagePrice = deliveredProduct.getUnitPrice() * (double) deliveredProduct.getPackageUnits();
+                double packagePrice = deliveredProduct.getUnitPrice() * (double)deliveredProduct.getPackageUnits();
                 double debetAmount = Double.parseDouble(sEditUnitsChanged) * packagePrice;
 
                 Encounter encounter = Encounter.getActiveEncounter(activePatient.personid);
@@ -251,7 +245,7 @@
                 debet.setSupplier(supplierReference);
 
                 ObjectReference debetReference = new ObjectReference();
-                debetReference.setObjectType("MedicationDelivery"); // todo : or "ProductStockOperation" ?????????????
+                debetReference.setObjectType("MedicationDelivery");
                 debetReference.setObjectUid(operation.getUid());
                 debet.setReferenceObject(debetReference);
 
@@ -263,46 +257,46 @@
             }
 
             // message
-            if (sEditOperationUid.equals("-1")) {
-                msg = getTran("web.manage", "medicationdelivered", sWebLanguage);
-            } else {
-                msg = getTran("web", "dataissaved", sWebLanguage);
+            if(sEditOperationUid.equals("-1")){
+                msg = getTran("web.manage","medicationdelivered",sWebLanguage);
+            }
+            else{
+                msg = getTran("web","dataissaved",sWebLanguage);
             }
 
             sEditOperationUid = operation.getUid();
             sAction = "showDetailsNew";
             sEditUnitsChanged = sDefaultUnitsChanged;
 
-        // reload opener to see the change in level
-        %>
-        <script>
-          window.opener.location.reload();
-          window.close();
-        </script>
-        <%
+	        // reload opener to see the change in level
+	        %>
+	        <script>
+	          window.opener.location.reload();
+	          window.close();
+	        </script>
+        	<%
         }
-        else {
-        %>
-        <script>
-            alertDialogDirectText('<%=getTranNoLink("web",sResult,sWebLanguage)%>');
-        </script>
-        <%
-        sAction = "showDetailsNew";
+        else{
+	        %>
+	        <script>
+	          alertDialogDirectText('<%=getTranNoLink("web",sResult,sWebLanguage)%>');
+	        </script>
+	        <%
+	        sAction = "showDetailsNew";
         }
-
     }
     //--- SORT ------------------------------------------------------------------------------------
-    else if (sAction.equals("sort")) {
+    else if(sAction.equals("sort")){
         displayPatientDeliveries = true;
     }
 
     //--- DELIVER MEDICATION ----------------------------------------------------------------------
-    if (sAction.equals("deliverMedication")) {
+    if(sAction.equals("deliverMedication")){
         // set medication delivery parameters
         sEditOperationDescr = MedwanQuery.getInstance().getConfigString("defaultMedicationDeliveryType","medicationdelivery.typeb1");
         sEditSrcDestType = sDefaultSrcDestType;
         sEditSrcDestUid = activePatient.personid;
-        sEditSrcDestName = activePatient.firstname + " " + activePatient.lastname;
+        sEditSrcDestName = activePatient.firstname+" "+activePatient.lastname;
         sEditOperationDate = stdDateFormat.format(new java.util.Date()); // now
         sEditUnitsChanged = sDefaultUnitsChanged;
 
@@ -310,43 +304,46 @@
     }
 
     //--- SHOW DETAILS ----------------------------------------------------------------------------
-    if (sAction.startsWith("showDetails")) {
-        if (sAction.equals("showDetailsNew")) displayPatientDeliveries = true;
-        else displayPatientDeliveries = false;
+    if(sAction.startsWith("showDetails")){
+        if(sAction.equals("showDetailsNew")) displayPatientDeliveries = true;
+        else                                 displayPatientDeliveries = false;
 
         // get specified record
-        if (sAction.equals("showDetails") || sAction.equals("showDetailsAfterUpdateReject")) {
+        if(sAction.equals("showDetails") || sAction.equals("showDetailsAfterUpdateReject")){
             ProductStockOperation operation = ProductStockOperation.get(sEditOperationUid);
 
-            if (operation != null) {
+            if(operation!=null){
                 sSelectedOperationDescr = operation.getDescription();
-                sSelectedUnitsChanged = operation.getUnitsChanged() + "";
+                sSelectedUnitsChanged = operation.getUnitsChanged()+"";
 
                 // format date
                 java.util.Date tmpDate = operation.getDate();
-                if (tmpDate != null) sSelectedOperationDate = stdDateFormat.format(tmpDate);
+                if(tmpDate!=null) sSelectedOperationDate = stdDateFormat.format(tmpDate);
 
                 // ProductStock
                 ProductStock sSelectedProductStock = operation.getProductStock();
-                if (sSelectedProductStock != null) {
+                if(sSelectedProductStock!=null){
                     sSelectedProductStockUid = sSelectedProductStock.getUid();
                     sSelectedProductName = sSelectedProductStock.getProduct().getName();
-                    sSelectedProductStockLevel = (sSelectedProductStock.getLevel() < 0 ? "" : sSelectedProductStock.getLevel() + "");
+                    sSelectedProductStockLevel = (sSelectedProductStock.getLevel()<0?"":sSelectedProductStock.getLevel()+"");
                 }
 
                 // sourceDestination (patient|medic|service)
                 sSelectedSrcDestType = operation.getSourceDestination().getObjectType();
                 sSelectedSrcDestUid = operation.getSourceDestination().getObjectUid();
 
-                if (sSelectedSrcDestType.indexOf("patient") > -1) {
-                    sSelectedSrcDestName = ScreenHelper.getFullPersonName(sSelectedSrcDestUid));
-                } else if (sSelectedSrcDestType.indexOf("medic") > -1) {
+                if(sSelectedSrcDestType.indexOf("patient") > -1){
+                    sSelectedSrcDestName = ScreenHelper.getFullPersonName(sSelectedSrcDestUid);
+                }
+                else if(sSelectedSrcDestType.indexOf("medic") > -1){
                     sSelectedSrcDestName = ScreenHelper.getFullUserName(sSelectedSrcDestUid);
-                } else if (sSelectedSrcDestType.indexOf("service") > -1) {
-                    sSelectedSrcDestName = getTran("Service", sSelectedSrcDestUid, sWebLanguage);
+                }
+                else if(sSelectedSrcDestType.indexOf("service") > -1){
+                    sSelectedSrcDestName = getTran("Service",sSelectedSrcDestUid,sWebLanguage);
                 }
             }
-        } else if (sAction.equals("showDetailsAfterAddReject")) {
+        } 
+        else if(sAction.equals("showDetailsAfterAddReject")){
             // do not get data from DB, but show data that were allready on form
             sSelectedOperationDescr = sEditOperationDescr;
             sSelectedUnitsChanged = sEditUnitsChanged;
@@ -355,7 +352,8 @@
             sSelectedSrcDestName = sEditSrcDestName;
             sSelectedOperationDate = sEditOperationDate;
             sSelectedProductName = sEditProductName;
-        } else if (sAction.equals("showDetailsNew")) {
+        } 
+        else if(sAction.equals("showDetailsNew")){
             sSelectedOperationDescr = sEditOperationDescr;
             sSelectedUnitsChanged = sEditUnitsChanged;
             sSelectedSrcDestType = sEditSrcDestType;
@@ -404,6 +402,7 @@
                             </span>
                         </td>
                     </tr>
+                    
                     <script>
                       var prevSrcDestType;
                       displaySrcDestSelector();
@@ -418,8 +417,8 @@
 
                           <%-- medic --%>
                           if(srcDestType.indexOf('medic') > -1){
-                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchDoctor('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
-                                                                                         +"<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
+                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchDoctor('EditSrcDestUid','EditSrcDestName');\">&nbsp;"+
+                                                                                          "<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
                             if(prevSrcDestType!=srcDestType){
                               transactionForm.EditSrcDestUid.value = "<%=activeUser.userid%>";
                               transactionForm.EditSrcDestName.value = "<%=activeUser.person.firstname+" "+activeUser.person.lastname%>";
@@ -433,8 +432,8 @@
                           }
                           <%-- patient --%>
                           else if(srcDestType.indexOf('patient') > -1){
-                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchPatient('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
-                                                                                         +"<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
+                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchPatient('EditSrcDestUid','EditSrcDestName');\">&nbsp;"+
+                                                                                          "<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
                             if(prevSrcDestType!=srcDestType){
                               transactionForm.EditSrcDestUid.value = "<%=activePatient.personid%>";
                               transactionForm.EditSrcDestName.value = "<%=activePatient.firstname+" "+activePatient.lastname%>";
@@ -448,8 +447,8 @@
                           }
                           <%-- service --%>
                           else if(srcDestType.indexOf('service') > -1){
-                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchService('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
-                                                                                         +"<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
+                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchService('EditSrcDestUid','EditSrcDestName');\">&nbsp;"+
+                                                                                          "<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
                             if(prevSrcDestType!=srcDestType){
                               if("<%=centralPharmacyCode%>".length > 0){
                                 transactionForm.EditSrcDestUid.value = "<%=centralPharmacyCode%>";
@@ -482,6 +481,7 @@
                         prevSrcDestType = srcDestType;
                       }
                     </script>
+                    
                     <%-- operation date --%>
                     <tr>
                         <td class="admin"><%=getTran("Web","date",sWebLanguage)%> *</td>
@@ -502,7 +502,7 @@
                     <tr>
                         <td class="admin"><%=getTran("Web","currentstocklevel",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="text" class="text" size="5" maxLength="5"  name="ProductStockLevel" value="<%=sSelectedProductStockLevel%>" READONLY>
+                            <input type="text" class="text" size="5" maxLength="5" name="ProductStockLevel" value="<%=sSelectedProductStockLevel%>" READONLY>
                         </td>
                     </tr>
                     <%-- units changed --%>
@@ -513,6 +513,7 @@
                             <span id="TotalDeliveryPrice"><%-- filled by JS --%></span>
                         </td>
                     </tr>
+                    
                     <%-- EDIT BUTTONS --%>
                     <tr>
                         <td class="admin2">&nbsp;</td>
@@ -521,13 +522,8 @@
                                 if(sAction.equals("showDetailsNew")){
                                     %><input class="button" type="button" name="saveButton" value='<%=getTranNoLink("Web","deliver",sWebLanguage)%>' onclick="doDeliver();"><%
                                 }
-                            %>
-                            <%-- BACK TO OVERVIEW --%>
-                            <%
                                 if(sAction.equals("showDetails")){
-                                    %>
-                                        <input class="button" type="button" name="returnButton" value='<%=getTranNoLink("Web","backtooverview",sWebLanguage)%>' onclick="doBackToOverview();">
-                                    <%
+                                    %><input class="button" type="button" name="returnButton" value='<%=getTranNoLink("Web","backtooverview",sWebLanguage)%>' onclick="doBackToOverview();"><%
                                 }
                             %>
                             <%-- display message --%>
@@ -535,10 +531,10 @@
                         </td>
                     </tr>
                 </table>
+                
                 <%-- indication of obligated fields --%>
                 <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
-                <br>
-                <br>
+                <br><br>
             <%
         }
 
@@ -570,7 +566,7 @@
                             <td><%=getTran("Web","unitschanged",sWebLanguage)%></td>
                             <td><%=getTran("Web","username",sWebLanguage)%></td>
                         </tr>
-                        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                        <tbody class="hand">
                             <%=deliveriesHtml%>
                         </tbody>
                     </table>
@@ -601,7 +597,7 @@
             }
         }
     %>
-    <%-- hidden fields --%>
+
     <input type="hidden" name="Action">
     <input type="hidden" name="SortCol" value="<%=sSortCol%>">
     <input type="hidden" name="SortDir" value="<%=sSortDir%>">
@@ -609,6 +605,7 @@
     <input type="hidden" name="DisplayPatientDeliveries" value="<%=displayPatientDeliveries%>">
     <input type="hidden" name="IsPatientDelivery" value="<%=isPatientDelivery%>">
 </form>
+
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>
   <%
@@ -711,23 +708,32 @@
 
   <%-- popup : search service --%>
   function searchService(serviceUidField,serviceNameField){
-    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
+    openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>"+
+    		  "&VarCode="+serviceUidField+"&VarText="+serviceNameField);
   }
 
   <%-- popup : search patient --%>
   function searchPatient(patientUidField,patientNameField){
-    openPopup("/_common/search/searchPatient.jsp&ts=<%=getTs()%>&ReturnPersonID="+patientUidField+"&ReturnName="+patientNameField+"&displayImmatNew=no&isUser=no");
+    openPopup("/_common/search/searchPatient.jsp&ts=<%=getTs()%>"+
+    		  "&ReturnPersonID="+patientUidField+
+    		  "&ReturnName="+patientNameField+
+    		  "&displayImmatNew=no&isUser=no");
   }
 
   <%-- popup : search doctor --%>
   function searchDoctor(doctorUidField,doctorNameField){
-    openPopup("/_common/search/searchUser.jsp&ts=<%=getTs()%>&ReturnUserID="+doctorUidField+"&ReturnName="+doctorNameField+"&displayImmatNew=no");
+    openPopup("/_common/search/searchUser.jsp&ts=<%=getTs()%>&ReturnUserID="+doctorUidField+
+    		  "&ReturnName="+doctorNameField+"&displayImmatNew=no");
   }
 
   <%-- popup : search product stock --%>
   function searchProductStock(productStockUidField,productStockNameField,productStockLevelField){
-    var url = "/_common/search/searchProductStock.jsp&ts=<%=getTs()%>&ReturnProductStockUidField="+productStockUidField+
-              "&ReturnProductStockNameField="+productStockNameField+"&DisplayProductStocksOfActiveUserService=true&ReturnProductStockLevelField="+productStockLevelField+"&SearchProductLevel="+document.getElementsByName('EditUnitsChanged')[0].value;
+    var url = "/_common/search/searchProductStock.jsp&ts=<%=getTs()%>"+
+              "&ReturnProductStockUidField="+productStockUidField+
+              "&ReturnProductStockNameField="+productStockNameField+
+              "&DisplayProductStocksOfActiveUserService=true"+
+              "&ReturnProductStockLevelField="+productStockLevelField+
+              "&SearchProductLevel="+document.getElementsByName('EditUnitsChanged')[0].value;
     openPopup(url,900,400);
   }
 
@@ -769,18 +775,6 @@
     var packagePrice = parseFloat(replaceAll(document.getElementById("packagePrice_"+productStockUid).value,",","."));
     var packages     = parseFloat(transactionForm.EditUnitsChanged.value.replace(",","."));
     document.getElementById('TotalDeliveryPrice').innerHTML = "<%=getTran("web","totalprice",sWebLanguage)%> : "+(packagePrice*packages).toFixed(2)+" <%=MedwanQuery.getInstance().getConfigParam("currency","€")%>";
-  }
-
-  <%-- replace all --%>
-  function replaceAll(source,target,substitute){
-    var idx = source.indexOf(target);
-
-    while(idx > -1){
-      source = source.replace(target,substitute);
-      idx = source.indexOf(target);
-    }
-
-    return source;
   }
 
   <%-- DESELECT ALL PRESCRIPTIONS --%>

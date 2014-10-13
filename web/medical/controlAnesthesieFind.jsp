@@ -10,12 +10,15 @@
     String sFindBegin = checkString(request.getParameter("FindBegin")),
            sFindEnd   = checkString(request.getParameter("FindEnd"));
 
+    String sMsg = checkString(request.getParameter("Msg"));
+    
     /// DEBUG ///////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
     	Debug.println("\n************* medical/controlAnesthesieFind.jsp *************");
     	Debug.println("sAction    : "+sAction);
     	Debug.println("sFindBegin : "+sFindBegin);
-    	Debug.println("sFindEnd   : "+sFindEnd+"\n");
+    	Debug.println("sFindEnd   : "+sFindEnd);
+    	Debug.println("sMsg       : "+sMsg+"\n");
     }
     /////////////////////////////////////////////////////////////////////////////////////
 %>
@@ -48,7 +51,17 @@
 		    </td>
 		</tr>        
     </table>
+
+	<%
+	    if(sMsg.length() > 0){
+	    	if(sMsg.equalsIgnoreCase("saved")){
+	    		sMsg = getTran("web","dataIsSaved",sWebLanguage);
+	    	}
+	    	%><%=sMsg%><br><br><%
+	    }
+	%>
 </form>
+
     
 <%
     //--- FIND ------------------------------------------------------------------------------------

@@ -191,10 +191,8 @@
         sEditDiagnosisAuthor = activeUser.userid;
         sEditDiagnosisAuthorName = ScreenHelper.getFullUserName(activeUser.userid, ad_conn);
     }
-%>
 
-<%-- FIND BLOCK --%>
-<%
+    //*** SEARCH **********************************************************************************
     if(sAction.equals("SEARCH") || sAction.equals("")){
 %>
 <form name="FindDiagnosisForm" id="FindDiagnosisForm" method="POST" action="<c:url value='/main.do'/>?Page=medical/manageDiagnosesPop.jsp&ts=<%=getTs()%>">
@@ -306,19 +304,17 @@
                 <input class="button" type="button" name="FindButton" value="<%=getTranNoLink("web","search",sWebLanguage)%>" onclick="doFind();">&nbsp;
                 <input class="button" type="button" name="ClearButton" value="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="clearSearchFields();">&nbsp;
                 <input class="button" type="button" name="BackButton" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="doBack();">&nbsp;
+                <input class="button" type="button" name="closeButton" value="<%=getTranNoLink("web","close",sWebLanguage)%>" onClick="window.close();">
             </td>
         </tr>
     </table>
 </form>
 
 <script>FindDiagnosisForm.FindDiagnosisFromDate.focus();</script>
-<%-- END FIND BLOCK --%>
 <%
     }
-%>
 
-<%-- RESULTS BLOCK --%>
-<%
+    //*** SEARCH **********************************************************************************
     if(sAction.equals("SEARCH")){
 	    StringBuffer sbResuslts = new StringBuffer();
 	    Vector vDiagnoses = new Vector();
@@ -428,8 +424,10 @@
         <td><a href="#" class="underlined"><%=getTranNoLink("medical.diagnosis","certainty",sWebLanguage)%></a> / <a href="#" class="underlined"><%=getTranNoLink("medical.diagnosis","gravity",sWebLanguage)%></a></td>
         <td><a href="#" class="underlined"><%=getTranNoLink("medical.diagnosis","days",sWebLanguage)%></a></td>
     </tr>
+    
     <%=sbResuslts%>
 </table>
+	
 <%
 	    if(sbResuslts.length()==0){
 	        out.print(getTran("web","norecordsfound",sWebLanguage));
@@ -438,15 +436,16 @@
 	        out.print(iCountResults+" "+getTran("web","recordsfound",sWebLanguage));
 	    }
 	%>
-	<%-- END RESULTS BLOCK --%>
+
+	<%=ScreenHelper.alignButtonsStart()%>
+	    <input type="button" class="button" name="closeButton" value="<%=getTranNoLink("web","close",sWebLanguage)%>" onClick="window.close();">
+	<%=ScreenHelper.alignButtonsStop()%>
 <%
     }
-%>
 
-<%
+    //*** EDIT ************************************************************************************
     if(sAction.equals("NEW") || sAction.equals("SELECT") || sAction.equals("SAVE")){
 %>
-<%-- EDIT BLOCK --%>
 <form name="EditDiagnosisForm" id="EditDiagnosisForm" method="POST" action="<c:url value='/main.do'/>?Page=medical/manageDiagnosesPop.jsp&ts=<%=getTs()%>">
     <input type="hidden" name="Action" value="">
     <input type="hidden" name="EditDiagnosisUID" value="<%=sEditDiagnosisUID%>">

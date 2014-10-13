@@ -96,3 +96,15 @@ function enterEvent(e,targetKey){
   var eventKey = e.which?e.which:window.event.keyCode;
   return (eventKey==targetKey);
 }
+
+//-- ENTER KEY PRESSED --
+function enterKeyPressed(e){
+  var eventKey = e.which?e.which:window.event.keyCode;
+  return (eventKey==13);
+}
+
+//-- DELETE KEY PRESSED --
+function deleteKeyPressed(e){
+  var eventKey = e.which?e.which:window.event.keyCode;
+  return (eventKey==46);	
+}

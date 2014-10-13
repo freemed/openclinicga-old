@@ -80,7 +80,7 @@
             for(int d=0; d<adminDays; d++){
                 %>
                     <td class="admin" colspan="<%=hours%>" width="<%=(120/adminDays)%>%">
-                        <center><a href="<c:url value='/main.do'/>?Page=pharmacy/manageAdministrations.jsp&startdate=<%=ScreenHelper.stdDateFormat.format(new java.util.Date(dStart.getTime()+d * 24 * 3600 * 1000))%>"><%=ScreenHelper.stdDateFormat.format(new java.util.Date(dStart.getTime()+d * 24 * 3600 * 1000))%></a></center>
+                        <center><a href="<c:url value='/main.do'/>?Page=pharmacy/manageAdministrations.jsp&startdate=<%=ScreenHelper.formatDate(new java.util.Date(dStart.getTime()+d * 24 * 3600 * 1000))%>"><%=ScreenHelper.formatDate(new java.util.Date(dStart.getTime()+d * 24 * 3600 * 1000))%></a></center>
                     </td>
                 <%
             }
@@ -162,7 +162,7 @@
             for(int d=0; d<adminDays; d++){
                 %>
                     <td class="admin" colspan="<%=hours%>" width="<%=(120/adminDays)%>%">
-                        <center><a href="<c:url value='/main.do'/>?Page=pharmacy/manageAdministrations.jsp&startdate=<%=ScreenHelper.stdDateFormat.format(new java.util.Date(dStart.getTime()+d * 24 * 3600 * 1000))%>"><%=ScreenHelper.stdDateFormat.format(new java.util.Date(dStart.getTime()+d * 24 * 3600 * 1000))%></a></center>
+                        <center><a href="<c:url value='/main.do'/>?Page=pharmacy/manageAdministrations.jsp&startdate=<%=ScreenHelper.formatDate(new java.util.Date(dStart.getTime()+d * 24 * 3600 * 1000))%>"><%=ScreenHelper.formatDate(new java.util.Date(dStart.getTime()+d * 24 * 3600 * 1000))%></a></center>
                     </td>
                 <%
             }
@@ -241,6 +241,6 @@
 <script>
   <%-- DO TODAY --%>
   function doToday(){
-    window.location.href = "<c:url value="/main.do"/>?Page=pharmacy/manageAdministrations.jsp&startdate=<%=ScreenHelper.stdDateFormat.format(new java.util.Date())%>";
+    window.location.href = "<c:url value='main.do'>?Page=pharmacy/manageAdministrations.jsp&startdate=<%=ScreenHelper.formatDate(new java.util.Date())%>";
   }
 </script>

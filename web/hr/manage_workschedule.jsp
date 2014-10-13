@@ -759,7 +759,7 @@
     
   <%-- LOAD WORKSCHEDULES --%>
   function loadWorkschedules(){
-    document.getElementById("divWorkschedules").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
+    document.getElementById("divWorkschedules").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading..";            
     var url = "<c:url value='/hr/ajax/workschedule/getWorkschedules.jsp'/>?ts="+new Date().getTime();
   
     new Ajax.Updater("divWorkschedules",url,
@@ -892,36 +892,33 @@
   }
   
   <%-- DELETE WORKSCHEDULE --%>
-  function deleteWorkschedule(){
-    var answer = yesnoDialog("web","areYouSureToDelete");   
-    if(answer==1){                 
+  function deleteWorkschedule(){   
+    if(yesnoDialog("web","areYouSureToDelete")){                 
       var url = "<c:url value='/hr/ajax/workschedule/deleteWorkschedule.jsp'/>?ts="+new Date().getTime();
 
       document.getElementById("buttonSave").disabled = true;
       document.getElementById("buttonDelete").disabled = true;
       document.getElementById("buttonNew").disabled = true;
     
-      new Ajax.Request(url,
-        {
-          method: "GET",
-          parameters: "ScheduleUid="+document.getElementById("EditScheduleUid").value,
-          onSuccess: function(resp){
-            var data = eval("("+resp.responseText+")");
-            $("divMessage").innerHTML = data.message;
+      new Ajax.Request(url,{
+        method: "GET",
+        parameters: "ScheduleUid="+document.getElementById("EditScheduleUid").value,
+        onSuccess: function(resp){
+          var data = eval("("+resp.responseText+")");
+          $("divMessage").innerHTML = data.message;
 
-            removeSchedulePeriod(document.getElementById("EditScheduleUid").value);
-            loadWorkschedules();
-            newWorkschedule();
+          removeSchedulePeriod(document.getElementById("EditScheduleUid").value);
+          loadWorkschedules();
+          newWorkschedule();
           
-            document.getElementById("buttonSave").disabled = false;
-            document.getElementById("buttonDelete").disabled = false;
-            document.getElementById("buttonNew").disabled = false;
-          },
-          onFailure: function(resp){
-            $("divMessage").innerHTML = "Error in 'hr/ajax/workschedule/deleteWorkschedule.jsp' : "+resp.responseText.trim();
-          }  
-        }
-      );
+          document.getElementById("buttonSave").disabled = false;
+          document.getElementById("buttonDelete").disabled = false;
+          document.getElementById("buttonNew").disabled = false;
+        },
+        onFailure: function(resp){
+          $("divMessage").innerHTML = "Error in 'hr/ajax/workschedule/deleteWorkschedule.jsp' : "+resp.responseText.trim();
+        }  
+      });
     }
   }
   
@@ -1103,26 +1100,24 @@
   function setTimeBlocksString(weekScheduleId){
     clearTimeBlockTable();
       
-    document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
+    document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading..";            
     var url = "<c:url value='/hr/ajax/workschedule/getDefaultWeekschedule.jsp'/>?ts="+new Date().getTime();
       
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "WeekScheduleId="+weekScheduleId,
-        onSuccess: function(resp){
-          var data = eval("("+resp.responseText+")");
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "WeekScheduleId="+weekScheduleId,
+      onSuccess: function(resp){
+        var data = eval("("+resp.responseText+")");
           
-          document.getElementById("timeBlocks").value = data.weekSchedule;
-          document.getElementById("divMessage").innerHTML = "";    
+        document.getElementById("timeBlocks").value = data.weekSchedule;
+        document.getElementById("divMessage").innerHTML = "";    
           
-          displayTimeBlocks();
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/workschedule/getDefaultWeekschedule.jsp' : "+resp.responseText.trim();
-        }
+        displayTimeBlocks();
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'hr/ajax/workschedule/getDefaultWeekschedule.jsp' : "+resp.responseText.trim();
       }
-    );      
+    });      
   }
   
   <%-- DISPLAY TIME BLOCKS --%>
@@ -1471,9 +1466,8 @@
   }
   
   <%-- DELETE TIME BLOCK --%>
-  function deleteTB(rowid){
-    var answer = yesnoDialog("web","areYouSureToDelete"); 
-    if(answer==1){
+  function deleteTB(rowid){ 
+    if(yesnoDialog("web","areYouSureToDelete")){
       sTB = deleteRowFromArrayString(sTB,rowid.id);
       tblTB.deleteRow(rowid.rowIndex);
       clearTBFields();

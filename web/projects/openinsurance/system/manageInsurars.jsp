@@ -25,10 +25,10 @@
     private String addCategory(int iTotal, String sCatName, String sCatLabel, String sCatPatientPercentage, String sWebLanguage){
         return "<tr id='rowCategory"+iTotal+"' class='"+(iTotal%2==0?"list":"list1")+"'>"+
                 "<td>"+
-                 "<a href='#' onclick='deleteCategory(rowCategory"+iTotal+");'>"+
+                 "<a href='javascript:deleteCategory(rowCategory"+iTotal+");'>"+
                   "<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web","delete",sWebLanguage)+"' border='0'>"+
                  "</a>&nbsp;"+
-                 "<a href='#' onclick='editCategory(rowCategory"+iTotal+");'>"+
+                 "<a href='javascript:editCategory(rowCategory"+iTotal+");'>"+
                   "<img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web","edit",sWebLanguage)+"' border='0'>"+
                  "</a>&nbsp;"+
                 "</td>"+
@@ -248,7 +248,7 @@
 	                                    %>
 	                                        <tr class="list<%=sClass%>" onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';">
 	                                            <td>
-	                                                <a href="#" onclick="deleteInsurar('<%=insurar.getUid()%>');"><img src='<c:url value="/_img/icon_delete.gif"/>' border='0' alt="<%=sTranDelete%>"></a>
+	                                                <a href="javascript:deleteInsurar('<%=insurar.getUid()%>');"><img src='<c:url value="/_img/icon_delete.gif"/>' border='0' alt="<%=sTranDelete%>"></a>
 	                                            </td>
 	                                            <td class="hand" onClick="editInsurar('<%=insurar.getUid()%>');"><%=checkString(insurar.getName())%></td>
 	                                            <td class="hand" onClick="editInsurar('<%=insurar.getUid()%>');"><%=checkString(insurar.getOfficialName())%></td>
@@ -398,7 +398,7 @@
                         	}
                         %>
                         <td class="admin2">
-                            <input type="checkbox" class="text" name="EditInsurarExtra" <%=sExtraInsurar %>/>
+                            <input type="checkbox" name="EditInsurarExtra" <%=sExtraInsurar %>/>
                         </td>
                     </tr>
                     <%-- SELECTED CATEGORIES --%>
@@ -666,8 +666,8 @@
         row.insertCell(i);
       }
 
-      row.cells[0].innerHTML = "<a href='#' onclick='deleteCategory(rowCategory"+iIndexCategories+");'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>&nbsp;"+
-                               "<a href='#' onclick='editCategory(rowCategory"+iIndexCategories+");'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web","edit",sWebLanguage)%>' border='0'></a>&nbsp;";
+      row.cells[0].innerHTML = "<a href='javascript:deleteCategory(rowCategory"+iIndexCategories+");'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>&nbsp;"+
+                               "<a href='javascript:editCategory(rowCategory"+iIndexCategories+");'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web","edit",sWebLanguage)%>' border='0'></a>&nbsp;";
       row.cells[1].innerHTML = catName;
 
       // remove quotes from label
@@ -729,8 +729,8 @@
 
       <%-- update table object --%>
       var row = tblCategories.rows[editCategoryRowid.rowIndex];
-      row.cells[0].innerHTML = "<a href='#' onclick='deleteCategory("+editCategoryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("web","delete",sWebLanguage)%>' border='0'></a> "+
-                               "<a href='#' onclick='editCategory("+editCategoryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("web","edit",sWebLanguage)%>' border='0'></a>";
+      row.cells[0].innerHTML = "<a href='javascript:deleteCategory("+editCategoryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("web","delete",sWebLanguage)%>' border='0'></a> "+
+                               "<a href='javascript:editCategory("+editCategoryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("web","edit",sWebLanguage)%>' border='0'></a>";
 
       row.cells[1].innerHTML = transactionForm.EditCategoryName.value;
       row.cells[2].innerHTML = transactionForm.EditCategoryLabel.value;
@@ -794,11 +794,8 @@
           <%-- some patients in this category, so ask again before deleting it --%>
           var msg = "<%=getTranNoLink("web.manage","patientsInThisCategory",sWebLanguage)%><br><%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>";
           msg = replaceAll(msg,"#patientCount#",patientCount);
-          var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelValue="+msg;
-          var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm('<%=getTranNoLink("web","areyousure",sWebLanguage)%>');
-
-          if(answer==1){
+        
+          if(yesnoDialogDirectText(msg)){
             categoriesToDeleteOnSave+= categoryName+"$";
 
             sCategories = deleteRowFromArrayString(sCategories,rowid.id);

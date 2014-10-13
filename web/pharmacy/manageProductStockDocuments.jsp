@@ -97,13 +97,13 @@
 			sFindSourceText = operationDocument.getSourceName(sWebLanguage);
 			sFindDestination = operationDocument.getDestinationuid();
 			sFindDestinationText = operationDocument.getDestination().getName();
-			sFindMinDate = ScreenHelper.stdDateFormat.format(operationDocument.getDate());
-			sFindMaxDate = ScreenHelper.stdDateFormat.format(operationDocument.getDate());
+			sFindMinDate = ScreenHelper.formatDate(operationDocument.getDate());
+			sFindMaxDate = ScreenHelper.formatDate(operationDocument.getDate());
 			sFindReference = operationDocument.getReference();
 		}
 		else if(sFindType.length()==0 && sFindSource.length()==0 && sFindDestination.length()==0 &&
 				sFindMinDate.length()==0 && sFindMaxDate.length()==0 && sFindReference.length()==0){
-			sFindMinDate = ScreenHelper.stdDateFormat.format(new java.util.Date().getTime()-7*24*3600*1000);			
+			sFindMinDate = ScreenHelper.formatDate(new java.util.Date().getTime()-7*24*3600*1000);			
 		}
 		
 		// show search header
@@ -198,7 +198,7 @@
 						}
 						
 						if(document.getDate()!=null){
-							sDate = ScreenHelper.stdDateFormat.format(document.getDate());
+							sDate = ScreenHelper.formatDate(document.getDate());
 						}
 						else{
 							sDate = "";
@@ -260,7 +260,7 @@
 				</tr>
 				<tr>
 					<td class="admin"><%=getTran("web","date",sWebLanguage)%> *</td>
-					<td class="admin2"><%=writeDateField("documentdate","editForm",operationDocument.getDate()!=null?ScreenHelper.stdDateFormat.format(operationDocument.getDate()):"",sWebLanguage)%></td>
+					<td class="admin2"><%=writeDateField("documentdate","editForm",operationDocument.getDate()!=null?ScreenHelper.formatDate(operationDocument.getDate()):"",sWebLanguage)%></td>
 				</tr>
 				<tr>
 					<td class="admin"><%=getTran("web","documentcomment",sWebLanguage)%></td>
@@ -311,7 +311,7 @@
 					
 					out.print("<tr>"+
 					           "<td><img src='"+sCONTEXTPATH+"_img/icons/icon_delete.gif' class='link' onclick='javascript:deleteOperation(\""+operation.getUid()+"\");' title='"+getTranNoLink("web","delete",sWebLanguage)+"'>"+operation.getUid()+"</td>"+
-                               "<td>"+ScreenHelper.stdDateFormat.format(operation.getDate())+"</td>"+
+                               "<td>"+ScreenHelper.formatDate(operation.getDate())+"</td>"+
 					           "<td>"+getTran("productstockoperation.medicationdelivery",operation.getDescription(),sWebLanguage)+"</td>"+
                                "<td>"+operation.getProductStock().getProduct().getName()+"</td>"+
 					           "<td>"+operation.getUnitsChanged()+" ("+operation.getProductStock().getLevel()+")</td>"+

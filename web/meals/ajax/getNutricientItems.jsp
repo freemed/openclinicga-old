@@ -40,7 +40,7 @@
             String sClass = ((i % 2) == 0) ? "list" : "list1";
             out.write("<tr onclick='insertNutricientItem(\"" + item.getUid() + "\",\"" + HTMLEntities.htmlQuotes(HTMLEntities.htmlentities(item.name)) + "\",\"" + HTMLEntities.htmlQuotes(HTMLEntities.htmlentities(item.unit)) + "\")' class='" + sClass + "' >");
             out.write("<td>" + HTMLEntities.htmlentities(item.name) + "</td>");
-            out.write("<td >" + HTMLEntities.htmlentities(item.unit) + "</td>");
+            out.write("<td>" + HTMLEntities.htmlentities(item.unit) + "</td>");
             out.write("</tr>");
             i++;
         }%>

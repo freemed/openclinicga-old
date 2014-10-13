@@ -509,7 +509,7 @@
                             <td width="10%"><%=getTran("Web","unitschanged",sWebLanguage)%></td>
                             <td width="*"><%=getTran("Web","username",sWebLanguage)%></td>
                         </tr>
-                        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                        <tbody class="hand">
                             <%=receiptsHtml%>
                         </tbody>
                     </table>

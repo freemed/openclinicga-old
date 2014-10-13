@@ -233,7 +233,10 @@
             <td align="right">
                <%
                    if(sAction.startsWith("showDetails")){
-                       %><img onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';" onClick="doBack();" style='vertical-align:middle;' border='0' src='<%=sCONTEXTPATH%>/_img/themes/default/arrow_left.gif' alt='<%=getTranNoLink("Web","Back",sWebLanguage)%>'><%
+                       %><img class="link" onClick="doBack();" src='<%=sCONTEXTPATH%>/_img/themes/default/arrow_left.gif' alt='<%=getTranNoLink("Web","Back",sWebLanguage)%>'><%
+                   }
+                   else{
+                       %><img class="link" onClick="window.close();" src='<%=sCONTEXTPATH%>/_img/themes/default/arrow_left.gif' alt='<%=getTranNoLink("web","close",sWebLanguage)%>'><%
                    }
                %>
             </td>

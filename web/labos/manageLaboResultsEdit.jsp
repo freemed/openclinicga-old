@@ -166,14 +166,14 @@
 	                        }
 	                        else if (analysis.getEditor().equals("numeric")){
 								if(bEditable){
-									result="<input onKeyUp=\"if(this.value.length>0 && !isNumber(this)){alertDialog('"+getTranNoLink("web","notnumeric",sWebLanguage)+"');this.value='';}\" class='text' size='"+analysis.getEditorparametersParameter("SZ")+"' maxlength='"+analysis.getEditorparametersParameter("SZ")+"' type='text' name='result."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()+"' value='"+checkString(requestedLabAnalysis.getResultValue())+"'/>"+u;
+									result="<input onKeyUp=\"if(this.value.length>0 && !isNumber(this)){alertDialog('web','notnumeric');this.value='';}\" class='text' size='"+analysis.getEditorparametersParameter("SZ")+"' maxlength='"+analysis.getEditorparametersParameter("SZ")+"' type='text' name='result."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()+"' value='"+checkString(requestedLabAnalysis.getResultValue())+"'/>"+u;
 								} else {
 									result=requestedLabAnalysis.getResultValue();
 								}
 	                        }
 	                        else if (analysis.getEditor().equals("numericcomment")){
 								if(bEditable){
-									result="<input onKeyUp=\"if(this.value.length>0 && !isNumber(this)){alertDialog('"+getTranNoLink("web","notnumeric",sWebLanguage)+"');this.value='';}\" class='text' size='"+analysis.getEditorparametersParameter("SZ")+"' maxlength='"+analysis.getEditorparametersParameter("SZ")+"' type='text' name='result."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()+"' value='"+checkString(requestedLabAnalysis.getResultValue())+"'/>"+u;
+									result="<input onKeyUp=\"if(this.value.length>0 && !isNumber(this)){alertDialog('web','notnumeric');this.value='';}\" class='text' size='"+analysis.getEditorparametersParameter("SZ")+"' maxlength='"+analysis.getEditorparametersParameter("SZ")+"' type='text' name='result."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()+"' value='"+checkString(requestedLabAnalysis.getResultValue())+"'/>"+u;
 									result+="<br/><input type='text' name='resultcomment."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()+"' value='"+requestedLabAnalysis.getResultComment()+"' class='text'/>";
 								} else {
 									result=requestedLabAnalysis.getResultValue();

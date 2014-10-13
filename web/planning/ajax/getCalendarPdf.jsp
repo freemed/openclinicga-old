@@ -90,8 +90,8 @@
         }
 
         if(bShow){
-        	if(!sActiveDate.equals(ScreenHelper.stdDateFormat.format(plannedStart))){
-        		sActiveDate=ScreenHelper.stdDateFormat.format(plannedStart);
+        	if(!sActiveDate.equals(ScreenHelper.formatDate(plannedStart))){
+        		sActiveDate=ScreenHelper.formatDate(plannedStart);
         		if(isPatient){
         			calendarGenerator.addDateRow(appointment);
         		}

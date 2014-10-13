@@ -156,15 +156,14 @@
 <script>  
   <%-- CREATE CALCULATIONS --%>
   function createCalculations(){
-    var answer = yesnoDialog("web","areYouSure");
-    if(answer==1){
+    if(yesnoDialog("web","areYouSure")){
       var okToSubmit = true;
 
       if(okToSubmit){  
         <%-- begin can not be after end --%>
         if(document.getElementById("beginDate").value.length > 0 && document.getElementById("endDate").value.length > 0){
-          var beginDate = makeDate(document.getElementById("beginDate").value);
-          var endDate = makeDate(document.getElementById("endDate").value);
+          var beginDate = makeDate(document.getElementById("beginDate").value),
+              endDate   = makeDate(document.getElementById("endDate").value);
       
           if(beginDate.getTime() > endDate.getTime()){
             okToSubmit = false;

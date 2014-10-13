@@ -11,12 +11,12 @@
 <%=sJSSORTTABLE%>
 
 <%
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n**************** manage_leave.jsp *****************");
+        Debug.println("\n************************** hr/manage_leave.jsp *************************");
         Debug.println("no parameters\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 %>            
 
 <%=writeTableHeader("web","leave",sWebLanguage,"")%><br>
@@ -208,89 +208,82 @@
     
   <%-- LOAD LEAVES --%>
   function loadLeaves(){
-    document.getElementById("divLeaves").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
+    document.getElementById("divLeaves").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading..";            
     var url = "<c:url value='/hr/ajax/leave/getLeaves.jsp'/>?ts="+new Date().getTime();
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "PatientId=<%=activePatient.personid%>",
-        onSuccess: function(resp){
-          $("divLeaves").innerHTML = resp.responseText;
-          setTimeout("sortables_init()",500);
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/leave/getLeaves.jsp' : "+resp.responseText.trim();
-        }
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "PatientId=<%=activePatient.personid%>",
+      onSuccess: function(resp){
+        $("divLeaves").innerHTML = resp.responseText;
+        setTimeout("sortables_init()",500);
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'hr/ajax/leave/getLeaves.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
 
   <%-- DISPLAY LEAVES --%>
   function displayLeave(leaveUid){          
     var url = "<c:url value='/hr/ajax/leave/getLeave.jsp'/>?ts="+new Date().getTime();
     
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "LeaveUid="+leaveUid,
-        onSuccess: function(resp){
-          var data = eval("("+resp.responseText+")");
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "LeaveUid="+leaveUid,
+      onSuccess: function(resp){
+        var data = eval("("+resp.responseText+")");
 
-          $("EditLeaveUid").value = leaveUid;
-          $("begin").value = data.begin;
-          $("end").value = data.end;
-          $("duration").value = data.duration;
-          $("type").value = data.type;
-          $("requestDate").value = data.requestDate;
-          $("authorizationDate").value = data.authorizationDate;
-          $("authorizedBy").value = data.authorizedBy.unhtmlEntities();
-          $("episodeCode").value = data.episodeCode.unhtmlEntities();
-          $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
+        $("EditLeaveUid").value = leaveUid;
+        $("begin").value = data.begin;
+        $("end").value = data.end;
+        $("duration").value = data.duration;
+        $("type").value = data.type;
+        $("requestDate").value = data.requestDate;
+        $("authorizationDate").value = data.authorizationDate;
+        $("authorizedBy").value = data.authorizedBy.unhtmlEntities();
+        $("episodeCode").value = data.episodeCode.unhtmlEntities();
+        $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
 
-          document.getElementById("divMessage").innerHTML = ""; 
-          resizeAllTextareas(8);
+        document.getElementById("divMessage").innerHTML = ""; 
+        resizeAllTextareas(8);
 
-          <%-- display hidden buttons --%>
-          document.getElementById("buttonDelete").style.visibility = "visible";
-          document.getElementById("buttonNew").style.visibility = "visible";
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/leave/getLeave.jsp' : "+resp.responseText.trim();
-        }
+        <%-- display hidden buttons --%>
+        document.getElementById("buttonDelete").style.visibility = "visible";
+        document.getElementById("buttonNew").style.visibility = "visible";
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'hr/ajax/leave/getLeave.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
   
   <%-- DELETE LEAVES --%>
   function deleteLeave(){
-    var answer = yesnoDialog("web","areYouSureToDelete"); 
-     if(answer==1){                 
+    if(yesnoDialog("web","areYouSureToDelete")){                 
       var url = "<c:url value='/hr/ajax/leave/deleteLeave.jsp'/>?ts="+new Date().getTime();
 
       document.getElementById("buttonSave").disabled = true;
       document.getElementById("buttonDelete").disabled = true;
       document.getElementById("buttonNew").disabled = true;
     
-      new Ajax.Request(url,
-        {
-          method: "GET",
-          parameters: "LeaveUid="+document.getElementById("EditLeaveUid").value,
-          onSuccess: function(resp){
-            var data = eval("("+resp.responseText+")");
-            $("divMessage").innerHTML = data.message;
+      new Ajax.Request(url,{
+        method: "GET",
+        parameters: "LeaveUid="+document.getElementById("EditLeaveUid").value,
+        onSuccess: function(resp){
+          var data = eval("("+resp.responseText+")");
+          $("divMessage").innerHTML = data.message;
 
-            loadLeaves();
-            newLeave();
+          loadLeaves();
+          newLeave();
           
-            document.getElementById("buttonSave").disabled = false;
-            document.getElementById("buttonDelete").disabled = false;
-            document.getElementById("buttonNew").disabled = false;
-          },
-          onFailure: function(resp){
-            $("divMessage").innerHTML = "Error in 'hr/ajax/leave/deleteLeave.jsp' : "+resp.responseText.trim();
-          }  
-        }
-      );
+          document.getElementById("buttonSave").disabled = false;
+          document.getElementById("buttonDelete").disabled = false;
+          document.getElementById("buttonNew").disabled = false;
+        },
+        onFailure: function(resp){
+          $("divMessage").innerHTML = "Error in 'hr/ajax/leave/deleteLeave.jsp' : "+resp.responseText.trim();
+        }  
+      });
     }
   }
   
@@ -321,8 +314,8 @@
     document.getElementById("duration").value = ""; // clear
     
     if(document.getElementById("begin").value.length > 0 && document.getElementById("end").value.length > 0){
-      var beginDate = makeDate(document.getElementById("begin").value);
-      var endDate = makeDate(document.getElementById("end").value);
+      var beginDate = makeDate(document.getElementById("begin").value),
+          endDate   = makeDate(document.getElementById("end").value);
 
       <%-- begin can not be after end --%>
       if(beginDate.getTime() <= endDate.getTime()){              

@@ -139,7 +139,7 @@
                         }
 
                         if (bOK){
-                            %><tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'><%
+                            %><tbody class="hand"><%
                             Iterator iterator = vProfileOwners.iterator();
                             Hashtable hOwnerProfile;
                             while(iterator.hasNext()){

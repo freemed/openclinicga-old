@@ -1,81 +1,88 @@
 <%@page import="be.openclinic.finance.*,
-                org.dom4j.DocumentException,java.sql.Connection" %>
-<%@page import="java.util.*" %>
+                org.dom4j.DocumentException,
+                java.sql.Connection,
+                java.util.*"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
 <%!
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    public String writeRow(String sScreenID, String sPermission, String sValue, Connection dbConnection, String sMyProfile) {
+    //--- WRITE ROW -------------------------------------------------------------------------------
+    public String writeRow(String sScreenID, String sPermission, String sValue, Connection dbConnection, String sMyProfile){
         String sClass = "";
 
-        //try {
-        if (sMyProfile.trim().length() > 0) {
+        if(sMyProfile.trim().length() > 0){
             boolean bActive = UserProfilePermission.activeUserProfilePermissions(sMyProfile, sScreenID.toLowerCase(), sPermission.toLowerCase());
-            if (bActive) {
-                sClass = " style='background-color:" + sBackgroundColor + "'";
+            if(bActive){
+                sClass = " style='background-color:"+sBackgroundColor+"'";
             }
         }
 
-        String sReturn = "<td" + sClass;
-        if (sPermission.equalsIgnoreCase("motivation")) {
+        String sReturn = "<td"+sClass;
+        if(sPermission.equalsIgnoreCase("motivation")){
             sReturn += " colspan='2'";
         }
 
-        return sReturn + "><input type='checkbox' name='" + sScreenID + "." + sPermission + "' " + sValue + " onClick=\"uncheckRowSelector('" + sScreenID + "');\"></td>";
+        return sReturn+"><input type='checkbox' name='"+sScreenID+"."+sPermission+"' "+sValue+" onClick=\"uncheckRowSelector('"+sScreenID+"');\"></td>";
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    private String writeMyCheckbox(String sLabel, String sName, String sPermission, User thisUser) {
+    private String writeMyCheckbox(String sLabel, String sName, String sPermission, User thisUser){
         String sChecked = "";
 
-        if (sPermission.trim().length() > 0) {
+        if(sPermission.trim().length() > 0){
             String sValue = thisUser.getParameter(sPermission);
-            if (sValue.length() > 0) {
+            if(sValue.length() > 0){
                 sChecked = " checked";
             }
         }
 
-        return "<tr><td class='admin'>" + sLabel + "</td><td class='admin2'><input type='checkbox' name='" + sName + "'" + sChecked + "></td></tr>";
+        return "<tr>"+
+                "<td class='admin'>"+sLabel+"</td>"+
+                "<td class='admin2'><input type='checkbox' name='"+sName+"'"+sChecked+"></td>"+
+               "</tr>";
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    private String writeDefaultWicket(String sDefaultWicket, String sWebLanguage) {
-        String sTmp;
+    private String writeDefaultWicket(String sDefaultWicket, String sWebLanguage){
         Vector vWickets = Wicket.selectWickets();
         Iterator iter = vWickets.iterator();
 
         StringBuffer sOut = new StringBuffer();
         Wicket wicket;
-        while (iter.hasNext()) {
-            wicket = (Wicket) iter.next();
-            if (sDefaultWicket.equals(wicket.getUid())) {
+        String sTmp;
+        
+        while(iter.hasNext()){
+            wicket = (Wicket)iter.next();
+            
+            if(sDefaultWicket.equals(wicket.getUid())){
                 sTmp = " selected";
-            } else {
+            }
+            else{
                 sTmp = "";
             }
-            sOut.append("<option value='" + wicket.getUid() + "'" + sTmp + ">" + wicket.getUid() + "&nbsp;" + getTran("service", wicket.getServiceUID(), sWebLanguage));
+            
+            sOut.append("<option value='"+wicket.getUid()+"'"+sTmp+">"+wicket.getUid()+"&nbsp;"+getTran("service",wicket.getServiceUID(),sWebLanguage));
         }
 
         return sOut.toString();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    private String writeMyInput(String sLabel, String sName, User thisUser) {
-        String sValue = " value='" + thisUser.getParameter(sName.substring(4)).trim() + "'";
+    private String writeMyInput(String sLabel, String sName, User thisUser){
+        String sValue = " value='"+thisUser.getParameter(sName.substring(4)).trim()+"'";
 
-        return "<tr>" +
-                "<td class='admin'>" + sLabel + "</td>" +
-                "<td class='admin2'>" +
-                 "<input type='text' class='text' name='" + sName + "'" + sValue + ">" +
-                "</td>" +
+        return "<tr>"+
+                "<td class='admin'>"+sLabel+"</td>"+
+                "<td class='admin2'>"+
+                 "<input type='text' class='text' name='"+sName+"'"+sValue+">"+
+                "</td>"+
                "</tr>";
     }
 %>
 
 <%
     String sDefaultPage, sDefaultWicket, sMyProfile, sProfiles = "", sTmpProfileID, sTmpProfileName,
-           sPasswordString = "", sMyProjects = "", sTmpProject, sAliasMessage="";
+           sPasswordString = "", sMyProjects = "", sTmpProject, sAliasMessage = "";
     String sProjectAccessAllSites = MedwanQuery.getInstance().getConfigString("ProjectAccessAllSites");
     String sAction = checkString(request.getParameter("Action"));
 
@@ -87,7 +94,7 @@
     */
 
     String sSearchProject = checkString(request.getParameter("EditUserProject"));
-    if (sSearchProject.length() == 0) {
+    if(sSearchProject.length()==0){
         sSearchProject = sAPPTITLE;
     }
 
@@ -97,14 +104,14 @@
     Iterator iter = vUsers.iterator();
 
     User user;
-    String sss=null;;
-    while (iter.hasNext()) {
-        user = (User) iter.next();
+    String sss = null;;
+    while(iter.hasNext()){
+        user = (User)iter.next();
 
         sTmpProject = checkString(user.project);
-        sMyProjects += sTmpProject + ",";
+        sMyProjects+= sTmpProject+",";
 
-        if ((sTmpProject.equalsIgnoreCase(sSearchProject)) || (sTmpProject.equalsIgnoreCase(sProjectAccessAllSites))) {
+        if(sTmpProject.equalsIgnoreCase(sSearchProject) || sTmpProject.equalsIgnoreCase(sProjectAccessAllSites)){
             thisUser.personid = activePatient.personid;
             thisUser.userid = checkString(user.userid);
             thisUser.password = user.password;
@@ -112,12 +119,12 @@
             thisUser.stop = user.stop;
             thisUser.project = sTmpProject;
 
-            thisUser.initialize(thisUser.userid, thisUser.password);
+            thisUser.initialize(thisUser.userid,thisUser.password);
         }
     }
 
     //--- SAVE ------------------------------------------------------------------------------------
-    if (sAction.equals("save")) {
+    if(sAction.equals("save")){
         thisUser.clearAccessRights();
         String sDefaultPassword = sSearchProject.toLowerCase();
         Enumeration e = request.getParameterNames();
@@ -126,46 +133,46 @@
         Vector vOtherUserParams = new Vector();
 
         // first keep only the user parameters that are not managed on this page
-        for (int i = 0; i < thisUser.parameters.size(); i++) {
-            parameter = (Parameter) thisUser.parameters.elementAt(i);
+        for(int i=0; i<thisUser.parameters.size(); i++){
+            parameter = (Parameter)thisUser.parameters.elementAt(i);
 
             // these are the user parameters that are managed on this page
-            if ((parameter.parameter.equalsIgnoreCase("mailuser"))
-                || (parameter.parameter.equalsIgnoreCase("mailpassword"))
-                || (parameter.parameter.equalsIgnoreCase("defaultpage"))
-                || (parameter.parameter.equalsIgnoreCase("defaultwicket"))
-                || (parameter.parameter.equalsIgnoreCase("organisationid"))
-                || (parameter.parameter.equalsIgnoreCase("automaticorganizationidvalidation"))
-                || (parameter.parameter.equalsIgnoreCase("medicalcentercode"))
-                || (parameter.parameter.equalsIgnoreCase("defaultserviceid"))
-                || (parameter.parameter.equalsIgnoreCase("userprofileid"))
-                || (parameter.parameter.equalsIgnoreCase("alias"))
-                || (parameter.parameter.equalsIgnoreCase("stop"))
-                || (parameter.parameter.equalsIgnoreCase("sa"))
-                || (parameter.parameter.equalsIgnoreCase("clearpassword"))
-                || (parameter.parameter.equalsIgnoreCase("insuranceagent"))
-                || (parameter.parameter.equalsIgnoreCase("invoicingcareprovider"))
-                || (parameter.parameter.equalsIgnoreCase("computernumber"))) {
+            if(parameter.parameter.equalsIgnoreCase("mailuser")
+                || parameter.parameter.equalsIgnoreCase("mailpassword")
+                || parameter.parameter.equalsIgnoreCase("defaultpage")
+                || parameter.parameter.equalsIgnoreCase("defaultwicket")
+                || parameter.parameter.equalsIgnoreCase("organisationid")
+                || parameter.parameter.equalsIgnoreCase("automaticorganizationidvalidation")
+                || parameter.parameter.equalsIgnoreCase("medicalcentercode")
+                || parameter.parameter.equalsIgnoreCase("defaultserviceid")
+                || parameter.parameter.equalsIgnoreCase("userprofileid")
+                || parameter.parameter.equalsIgnoreCase("alias")
+                || parameter.parameter.equalsIgnoreCase("stop")
+                || parameter.parameter.equalsIgnoreCase("sa")
+                || parameter.parameter.equalsIgnoreCase("clearpassword")
+                || parameter.parameter.equalsIgnoreCase("insuranceagent")
+                || parameter.parameter.equalsIgnoreCase("invoicingcareprovider")
+                || parameter.parameter.equalsIgnoreCase("computernumber")){
                 // nothing
             }
             // user parameters that are not managed on this page
-            else {
+            else{
                 vOtherUserParams.add(parameter);
             }
         }
 
         thisUser.parameters.clear();
         thisUser.parameters = vOtherUserParams;
-        boolean bError=false;
+        boolean bError = false;
 
         // add the user parameters managed on this page if they are specified
-        while (e.hasMoreElements()) {
-            sName = checkString((String) e.nextElement());
+        while(e.hasMoreElements()){
+            sName = checkString((String)e.nextElement());
             sValue = checkString(request.getParameter(sName)).toLowerCase();
             sName = sName.toLowerCase();
 
-            if ((sValue.length() > 0) && (sName.startsWith("edit"))) {
-                boolean bCanSave=true;
+            if(sValue.length() > 0 && sName.startsWith("edit")){
+                boolean bCanSave = true;
             	if(sName.startsWith("editalias")){
                 	Connection conn = MedwanQuery.getInstance().getAdminConnection();
                 	PreparedStatement ps = conn.prepareStatement("select * from userparameters where userid<>? and parameter='alias' and value=?");
@@ -173,31 +180,34 @@
                 	ps.setString(2,sValue);
                 	ResultSet rs = ps.executeQuery();
                 	if(rs.next()){
-                		bCanSave=false;
-                		sAliasMessage="<font color='red'>"+getTran("web","alias",sWebLanguage)+" <b>"+sValue+"</b> "+getTran("web","unavailable",sWebLanguage)+"</font>";
-                		bError=true;
+                		bCanSave = false;
+                		sAliasMessage = "<font color='red'>"+getTran("web","alias",sWebLanguage)+" <b>"+sValue+"</b> "+getTran("web","unavailable",sWebLanguage)+"</font>";
+                		bError = true;
                 	}
                 	else{
                 		rs.close();
                 		ps.close();
+                		
                 		try{
 							Integer.parseInt(sValue);
-							bCanSave=false;
-                    		sAliasMessage="<font color='red'>"+getTran("web","alias",sWebLanguage)+" <b>"+sValue+"</b> "+getTran("web","unavailable",sWebLanguage)+"</font>";
-							bError=true;
+							bCanSave = false;
+                    		sAliasMessage = "<font color='red'>"+getTran("web","alias",sWebLanguage)+" <b>"+sValue+"</b> "+getTran("web","unavailable",sWebLanguage)+"</font>";
+							bError = true;
                 		}
-                		catch(Exception ee){
+                		catch(Exception e1){
                 			try{
 	                			ps = conn.prepareStatement("select * from userparameters where userid=?");
 		                    	ps.setInt(1,Integer.parseInt(sValue));
 		                    	rs = ps.executeQuery();
 		                    	if(rs.next()){
-		                    		bCanSave=false;
-		                    		sAliasMessage="<font color='red'>"+getTran("web","alias",sWebLanguage)+" <b>"+sValue+"</b> "+getTran("web","unavailable",sWebLanguage)+"</font>";
-		                    		bError=true;
+		                    		bCanSave = false;
+		                    		sAliasMessage = "<font color='red'>"+getTran("web","alias",sWebLanguage)+" <b>"+sValue+"</b> "+getTran("web","unavailable",sWebLanguage)+"</font>";
+		                    		bError = true;
 		                    	}
                 			}
-                			catch(Exception eee){}
+                			catch(Exception e2){
+                				// empty
+                			}
                 		}
                 	}
                 	rs.close();
@@ -212,67 +222,65 @@
         }
 
         // stop
-        if (thisUser.getParameter("stop").length() > 0) {
+        if(thisUser.getParameter("stop").length() > 0){
             thisUser.password = null;
             thisUser.stop = getDate();
         }
-        else {
-            if ((thisUser.userid.trim().length() > 0) && (thisUser.password != null) && (thisUser.password.length > 0)) {
+        else{
+            if((thisUser.userid.trim().length() > 0) && (thisUser.password != null) && (thisUser.password.length > 0)){
                 // everything is ok
             }
             else {
                 thisUser.password = thisUser.encrypt(sDefaultPassword);
                 thisUser.start = getDate();
                 thisUser.stop = "";
-                sPasswordString = " Password = " + sDefaultPassword;
-                if (!thisUser.project.equals(sProjectAccessAllSites)) {
+                sPasswordString = " Password = "+sDefaultPassword;
+                if(!thisUser.project.equals(sProjectAccessAllSites)){
                     thisUser.project = sSearchProject;
                 }
             }
         }
 
         // clearpassword
-        if (thisUser.getParameter("clearpassword").length() > 0) {
+        if(thisUser.getParameter("clearpassword").length() > 0){
             thisUser.password = thisUser.encrypt(sDefaultPassword);
-            sPasswordString = "Password = " + sDefaultPassword;
+            sPasswordString = "Password = "+sDefaultPassword;
             thisUser.removeParameter("clearpassword");
         }
 
         // save
-        if (thisUser.personid == null || thisUser.personid.length() == 0) {
+        if(thisUser.personid == null || thisUser.personid.length() == 0){
             thisUser.personid = activePatient.personid;
         }
         activePatient.language=request.getParameter("ChangeLanguage");
         activePatient.store();
 
         // SAVE TO DB
-        if (!bError && thisUser.saveToDB()) {
-            if (thisUser.userid.equals(activeUser.userid)) {
+        if(!bError && thisUser.saveToDB()){
+            if(thisUser.userid.equals(activeUser.userid)){
                 session.setAttribute("activeUser", thisUser);
             }
 
-            if (sPasswordString.trim().length() > 0) {
+            if(sPasswordString.trim().length() > 0){
                 %>
-                    <br>
-                    Login = <%=thisUser.userid%>
-                    <br>
-                    <%=sPasswordString%>
-                    <br>
-                    Project = <%=sSearchProject%>
+                    <br>Login = <%=thisUser.userid%>
+                    <br><%=sPasswordString%>
+                    <br>Project = <%=sSearchProject%>
                     <br><br>
                     <input type="button" class="button" value=" OK " onclick="window.location.href='main.do?Page=permissions/index.jsp'">
                 <%
             }
-            else {
-                ScreenHelper.setIncludePage("index.jsp", pageContext);
+            else{
+                ScreenHelper.setIncludePage("index.jsp",pageContext);
             }
         }
         else{
-        	sAction="view";
+        	sAction = "view";
         }
     }
+    
     //--- ANY OTHER ACTION ------------------------------------------------------------------------
-    if (!sAction.equals("save")) {
+    if(!sAction.equals("save")){
         sMyProfile = thisUser.getParameter("userprofileid");
         String sMyProfileDescription = "";
 
@@ -286,16 +294,16 @@
             sTmpProfileID = Integer.toString(userProfile.getUserprofileid());
             sTmpProfileName = userProfile.getUserprofilename();
 
-            sProfiles += "<option value='" + sTmpProfileID + "'";
-            if (sMyProfile.equals(sTmpProfileID)) {
-                sProfiles += " selected style='background-color:" + sBackgroundColor + "' ";
+            sProfiles += "<option value='"+sTmpProfileID+"'";
+            if(sMyProfile.equals(sTmpProfileID)){
+                sProfiles += " selected style='background-color:"+sBackgroundColor+"' ";
             }
 
-            if (sMyProfile.equals(sTmpProfileID)) {
-                sMyProfileDescription = "(" + sTmpProfileName + ")";
+            if(sMyProfile.equals(sTmpProfileID)){
+                sMyProfileDescription = "("+sTmpProfileName+")";
             }
 
-            sProfiles += ">" + sTmpProfileName + "</option>";
+            sProfiles+= ">"+sTmpProfileName+"</option>";
         }
 
         // Defaultpage
@@ -303,37 +311,37 @@
         sDefaultWicket = checkString(thisUser.getParameter("defaultwicket"));
 
         // Projects
-        String sAvailabelProjects = MedwanQuery.getInstance().getConfigString("availableProjects");
+        String sAvailableProjects = MedwanQuery.getInstance().getConfigString("availableProjects");
         String sProjects = "";
-        if ((sAvailabelProjects == null) || (sAvailabelProjects.trim().length() == 0)) {
+        if(sAvailableProjects==null || sAvailableProjects.trim().length()==0){
             sProjects = sSearchProject;
         }
         else {
-            String[] aProjects = sAvailabelProjects.split(",");
+            String[] aProjects = sAvailableProjects.split(",");
             SortedSet set = new TreeSet();
 
-            for (int i = 0; i < aProjects.length; i++) {
+            for(int i=0; i<aProjects.length; i++){
                 set.add(aProjects[i]);
             }
 
             Iterator it = set.iterator();
-            while (it.hasNext()) {
-                sTmpProject = (String) it.next();
-                sProjects += "<option value='" + sTmpProject + "'";
+            while(it.hasNext()){
+                sTmpProject = (String)it.next();
+                sProjects+= "<option value='"+sTmpProject+"'";
 
-                if (sTmpProject.equalsIgnoreCase(sSearchProject)) {
-                    sProjects += " selected";
+                if(sTmpProject.equalsIgnoreCase(sSearchProject)){
+                    sProjects+= " selected";
                 }
 
-                if (sMyProjects.toLowerCase().indexOf(sTmpProject.toLowerCase()) > -1) {
-                    sProjects += " style='background-color:" + sBackgroundColor + "' ";
+                if(sMyProjects.toLowerCase().indexOf(sTmpProject.toLowerCase()) > -1){
+                    sProjects+= " style='background-color:"+sBackgroundColor+"' ";
                 }
 
-                sProjects += ">" + sTmpProject + "</option>";
+                sProjects+= ">"+sTmpProject+"</option>";
             }
 
-            if (sAvailabelProjects.toLowerCase().indexOf(sProjectAccessAllSites.toLowerCase()) < 0 && sProjectAccessAllSites.toLowerCase().equals(thisUser.project.toLowerCase())) {
-                sProjects = "<option value='" + sProjectAccessAllSites + "' selected>" + sProjectAccessAllSites + "</option>";
+            if(sAvailableProjects.toLowerCase().indexOf(sProjectAccessAllSites.toLowerCase()) < 0 && sProjectAccessAllSites.toLowerCase().equals(thisUser.project.toLowerCase())) {
+                sProjects = "<option value='"+sProjectAccessAllSites+"' selected>"+sProjectAccessAllSites+"</option>";
             }
         }
 
@@ -389,35 +397,35 @@
 
                                 String sType, setSelected = "";
 
-                                try {
+                                try{
                                     documentPages = xmlReader.read(new URL(sDefaultPageXML));
-                                    if (documentPages != null) {
+                                    if(documentPages != null){
                                         Element root = documentPages.getRootElement();
-                                        if (root != null) {
+                                        if(root != null){
                                             Element ePage;
                                             Iterator elements = root.elementIterator("defaultPage");
 
-                                            while (elements.hasNext()) {
+                                            while(elements.hasNext()){
                                                 ePage = (Element) elements.next();
                                                 sType = checkString(ePage.attributeValue("type")).toLowerCase();
 
-                                                if (sType.equals(sSelected)) {
+                                                if(sType.equals(sSelected)){
                                                     setSelected = " selected";
                                                 }
-                                                else {
+                                                else{
                                                     setSelected = "";
                                                 }
 
-                                                out.print("<option value=\"" + sType + "\"" + setSelected + ">" + getTranNoLink("defaultPage", sType, sWebLanguage) + "</option>");
+                                                out.print("<option value=\""+sType+"\""+setSelected+">"+getTranNoLink("defaultPage", sType, sWebLanguage)+"</option>");
                                             }
                                         }
                                     }
-                                    else {
-                                        out.print("<option value='administration'" + setSelected + ">" + getTranNoLink("defaultPage", "administratioon", sWebLanguage) + "</option>");
+                                    else{
+                                        out.print("<option value='administration'"+setSelected+">"+getTranNoLink("defaultPage", "administratioon", sWebLanguage)+"</option>");
                                     }
                                 }
-                                catch (DocumentException e) {
-                                    out.print("<option value='administration'" + setSelected + ">" + getTranNoLink("defaultPage", "administratioon", sWebLanguage) + "</option>");
+                                catch(DocumentException e){
+                                    out.print("<option value='administration'"+setSelected+">"+getTranNoLink("defaultPage", "administratioon", sWebLanguage)+"</option>");
                                     //e.printStackTrace();
                                 }
                             %>
@@ -436,16 +444,17 @@
                     </td>
                 </tr>
 
-                <%=writeMyCheckbox(getTran("Web.Permissions","SA",sWebLanguage),"EditSA", "sa", thisUser)%>
-                <%=writeMyCheckbox(getTran("Web.Permissions","ClearPassword",sWebLanguage),"EditClearPassword", "", thisUser)%>
+                <%=writeMyCheckbox(getTran("Web.Permissions","SA",sWebLanguage),"EditSA","sa",thisUser)%>
+                <%=writeMyCheckbox(getTran("Web.Permissions","ClearPassword",sWebLanguage),"EditClearPassword","",thisUser)%>
 
-                <%-- organizationID --%>
+                <%-- alias --%>
                 <tr>
                     <td class="admin"><%=getTran("Web.UserProfile","alias",sWebLanguage)%></td>
                     <td class="admin2">
                         <input type='text' class='text' name='Editalias' id='Editalias' value='<%=thisUser.getParameter("alias").trim()%>'> <%=sAliasMessage %>
                     </td>
                 </tr>
+                
                 <%-- organizationID --%>
                 <tr>
                     <td class="admin"><%=getTran("Web.UserProfile","organisationId",sWebLanguage)%></td>
@@ -453,6 +462,7 @@
                         <input type='text' class='text' name='Editorganisationid' id='Editorganisationid' value='<%=thisUser.getParameter("organisationId").trim()%>'>
                     </td>
                 </tr>
+                
 				<%
                     if(MedwanQuery.getInstance().getConfigInt("enableMedicalCouncilLookup",0)==1){
 				%>
@@ -460,12 +470,17 @@
                     <td class="admin"><%=getTran("Web.UserProfile","AutomaticOrganizationIdValidation",sWebLanguage)%></td>
                     <td class="admin2">
                     	<%
-                   			out.println("<select name='EditAutomaticOrganizationIdValidation' id='council' onchange='showRegistrationStatus();'><option value=''/>"+ScreenHelper.writeSelect("professional.councils",thisUser.getParameter("automaticorganizationidvalidation"),sWebLanguage)+"</select>");
-	            			out.println(" &nbsp;<a href='javascript:councilLookup("+thisUser.userid+");'><img id='councillookup' src='"+sCONTEXTPATH+"/_img/icons/icon_search.gif' title='"+getTranNoLink("web","verify",sWebLanguage)+"'/></a> &nbsp;&nbsp;&nbsp;<label id='registrationstatus'></label>");
+                   			out.print("<select name='EditAutomaticOrganizationIdValidation' id='council' onchange='showRegistrationStatus();'>"+
+                    	               "<option value=''/>"+ScreenHelper.writeSelect("professional.councils",thisUser.getParameter("automaticorganizationidvalidation"),sWebLanguage)+
+                    	              "</select>");
+	            			out.print(" &nbsp;<a href='javascript:councilLookup("+thisUser.userid+");'><img id='councillookup' src='"+sCONTEXTPATH+"/_img/icons/icon_search.gif' title='"+getTranNoLink("web","verify",sWebLanguage)+"'/></a> &nbsp;&nbsp;&nbsp;<label id='registrationstatus'></label>");
                     	%>
                     </td>
                 </tr>
-				<%} %>
+				<%
+				    }
+				%>
+				
                 <%-- medicalCenterCode --%>
                 <tr>
                     <td class="admin"><%=getTran("Web.UserProfile","medicalCenterCode",sWebLanguage)%></td>
@@ -474,69 +489,71 @@
                         <span id="medicalCenterMsg"></span>
                     </td>
                 </tr>
+                
+                <%-- service --%>
                 <tr>
-                    <td class="admin">
-                        <%=getTran("web","service",sWebLanguage)%>
-                    </td>
+                    <td class="admin"><%=getTran("web","service",sWebLanguage)%></td>
                     <td class="admin2">
                         <%
-                            String serviceText="";
-                            if(thisUser.getParameter("defaultserviceid").length()>0){
-                                serviceText=MedwanQuery.getInstance().getService(thisUser.getParameter("defaultserviceid")).getLabel(sWebLanguage);
+                            String serviceText = "";
+                            if(thisUser.getParameter("defaultserviceid").length() > 0){
+                                serviceText = MedwanQuery.getInstance().getService(thisUser.getParameter("defaultserviceid")).getLabel(sWebLanguage);
                             }
                         %>
-                        <input class='text' TYPE="text" NAME="serviceText" readonly size="49" TITLE="<%=serviceText%>" VALUE="<%=serviceText%>" onkeydown="window.event.keyCode = '';return true;">
+                        <input class='text' TYPE="text" NAME="serviceText" readonly size="49" title="<%=serviceText%>" value="<%=serviceText%>" onkeydown="window.event.keyCode = '';return true;">
                         <%
                             if(thisUser.getParameter("defaultserviceid").length()>0){
-                                %>
-                                    <img src="<c:url value='/_img/icons/icon_info.gif'/>" class="link" alt="<%=getTranNoLink("Web","Information",sWebLanguage)%>" onclick='searchInfoService(transactionForm.EditDefaultServiceid)'/>
-                                <%
+                                %><img src="<c:url value='/_img/icons/icon_info.gif'/>" class="link" alt="<%=getTranNoLink("Web","Information",sWebLanguage)%>" onclick='searchInfoService(transactionForm.EditDefaultServiceid)'/><%
                             }
                         %>
-                        <%=ScreenHelper.writeServiceButton("buttonUnit", "EditDefaultServiceid", "serviceText", sWebLanguage, sCONTEXTPATH)%>
-                        <input TYPE="hidden" NAME="EditDefaultServiceid" VALUE="<%=thisUser.getParameter("defaultserviceid")%>">
+                        <%=ScreenHelper.writeServiceButton("buttonUnit","EditDefaultServiceid","serviceText",sWebLanguage,sCONTEXTPATH)%>
+                        <input type="hidden" name="EditDefaultServiceid" value="<%=thisUser.getParameter("defaultserviceid")%>">
                     </td>
                 </tr>
+                
+                <%-- INSURANCE AGENT --%>
                 <tr>
-                    <td class="admin">
-                        <%=getTran("web","insuranceagent",sWebLanguage)%>
-                    </td>
+                    <td class="admin"><%=getTran("web","insuranceagent",sWebLanguage)%></td>
                     <td class="admin2">
                         <%
-                            String insuranceagenttext="";
-                            if(thisUser.getParameter("insuranceagent").length()>0){
-                            	insuranceagenttext=Insurar.get(thisUser.getParameter("insuranceagent")).getName();
+                            String insuranceagenttext = "";
+                            if(thisUser.getParameter("insuranceagent").length() > 0){
+                            	insuranceagenttext = Insurar.get(thisUser.getParameter("insuranceagent")).getName();
                             }
                         %>
-                        <input TYPE="hidden" NAME="EditInsuranceAgent" id="EditInsuranceAgent" VALUE="<%=thisUser.getParameter("insuranceagent")%>">
-                        <input class='text' TYPE="text" NAME="insuranceagenttext" id="insuranceagenttext" readonly size="49" TITLE="<%=insuranceagenttext%>" VALUE="<%=insuranceagenttext%>" onkeydown="window.event.keyCode = '';return true;">
+                        <input type="hidden" name="EditInsuranceAgent" id="EditInsuranceAgent" value="<%=thisUser.getParameter("insuranceagent")%>">
+                        <input class='text' type="text" name="insuranceagenttext" id="insuranceagenttext" readonly size="49" title="<%=insuranceagenttext%>" value="<%=insuranceagenttext%>" onkeydown="window.event.keyCode = '';return true;">
+			           
 			            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchInsurar();">
 			            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditInsuranceAgent').value='';document.getElementById('insuranceagenttext').value='';">
                     </td>
                 </tr>
-                 <tr>
-                     <td class="admin" width='<%=sTDAdminWidth%>'><%=getTran("Web","language",sWebLanguage)%></td>
-                     <td class="admin2">
-                         <select name="ChangeLanguage" class="text">
-                             <%
-                                 // supported languages
-                                 String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
-                                 if (supportedLanguages.length() == 0) supportedLanguages = "nl,fr";
+                
+                <%-- LANGUAGE --%>
+                <tr>
+                    <td class="admin" width='<%=sTDAdminWidth%>'><%=getTran("Web","language",sWebLanguage)%></td>
+                    <td class="admin2">
+                        <select name="ChangeLanguage" class="text">
+                            <%
+                                // supported languages
+                                String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
+                                if(supportedLanguages.length()==0) supportedLanguages = "nl,fr";
 
-                                 String tmpLang;
-                                 StringTokenizer tokenizer = new StringTokenizer(supportedLanguages, ",");
-                                 while (tokenizer.hasMoreTokens()) {
-                                     tmpLang = tokenizer.nextToken();
+                                String tmpLang;
+                                StringTokenizer tokenizer = new StringTokenizer(supportedLanguages, ",");
+                                while(tokenizer.hasMoreTokens()) {
+                                    tmpLang = tokenizer.nextToken();
 
-                             %><option value="<%=tmpLang%>" <%=(activePatient.language.equals(tmpLang)?"selected":"")%>><%=getTranNoLink("Web.language",tmpLang,sWebLanguage)%></option><%
-                                 }
-                             %>
-                         </select>
-                     </td>
-                    </tr>
-                <%=writeMyInput(getTran("Web.UserProfile","computerNumber",sWebLanguage),"Editcomputernumber", thisUser)%>
-                <%=writeMyCheckbox(getTran("web","isinvoicingcareprovider",sWebLanguage),"EditInvoicingCareProvider", "invoicingcareprovider", thisUser)%>
-                <%=writeMyCheckbox("Stop","EditStop", "stop", thisUser)%>
+                                    %><option value="<%=tmpLang%>" <%=(activePatient.language.equals(tmpLang)?"selected":"")%>><%=getTranNoLink("Web.language",tmpLang,sWebLanguage)%></option><%
+                                }
+                            %>
+                        </select>
+                    </td>
+                </tr>
+                
+                <%=writeMyInput(getTran("Web.UserProfile","computerNumber",sWebLanguage),"Editcomputernumber",thisUser)%>
+                <%=writeMyCheckbox(getTran("web","isinvoicingcareprovider",sWebLanguage),"EditInvoicingCareProvider","invoicingcareprovider",thisUser)%>
+                <%=writeMyCheckbox("Stop","EditStop","stop",thisUser)%>
             </table>
 
             <%-- BUTTONS --%>
@@ -551,10 +568,15 @@
               if(sObject.value.length > 0){
                 openPopup("/_common/search/serviceInformation.jsp&ServiceID="+sObject.value);
               }
-          }          
+          }  
+          
+		  function searchInsurar(){
+		    openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>&ReturnFieldInsurarUid=EditInsuranceAgent&ReturnFieldInsurarName=insuranceagenttext&excludePatientSelfIsurarUID=true&PopupHeight=500&PopupWith=500");
+		  }
+          
           <%-- DO SAVE --%>
           function doSave(){
-        	  var medicalCenterOK = checkMedicalCenterLength();
+        	var medicalCenterOK = checkMedicalCenterLength();
 
             if(medicalCenterOK){
               transactionForm.Action.value = "save";
@@ -564,10 +586,6 @@
               transactionForm.Editmedicalcentercode.focus();
             }
           }
-		function searchInsurar() {
-		    openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>&ReturnFieldInsurarUid=EditInsuranceAgent&ReturnFieldInsurarName=insuranceagenttext&excludePatientSelfIsurarUID=true&PopupHeight=500&PopupWith=500");
-		}
-          
 
           <%-- LOOK UP MEDICAL CENTER --%>
           function lookupMedicalCenter(){
@@ -576,28 +594,31 @@
             }
           }
 
+          <%-- COUNCIL LOOKUP --%>
 		  function councilLookup(userid){
-			  if(!userid){
-				  alertDialog("web","save.user.record.first");
-			  }
-			  else {
-				  openPopup("/_common/search/councilLookup.jsp&council="+document.getElementById("council").value+"&regnr="+document.getElementById("Editorganisationid").value+"&language=<%=sWebLanguage%>&userid="+userid,600,400,document.getElementById("council").value);
-			  }
+            if(!userid){
+			  alertDialog("web","save.user.record.first");
+			}
+			else{
+			  openPopup("/_common/search/councilLookup.jsp&council="+document.getElementById("council").value+"&regnr="+document.getElementById("Editorganisationid").value+"&language=<%=sWebLanguage%>&userid="+userid,600,400,document.getElementById("council").value);
+			}
 		  }
 		  
           <%-- CHECK MEDICAL CENTER LENGTH --%>
           function checkMedicalCenterLength(){
             if(transactionForm.Editmedicalcentercode.value.length > 0){
-              if(transactionForm.Editmedicalcentercode.value.length == 5){
+              if(transactionForm.Editmedicalcentercode.value.length==5){
                 return true;
               }
               else{
                 transactionForm.Editmedicalcentercode.focus();
+                
                 document.getElementById('medicalCenterMsg').innerHTML = '<%=getTran("web.manage","invalidmedicalcentercode",sWebLanguage)%>';
                 document.getElementById('medicalCenterMsg').style.color = 'red';
                 return false;
               }
             }
+            
             document.getElementById('medicalCenterMsg').innerHTML = '';
             return true;
           }
@@ -606,30 +627,32 @@
             lookupMedicalCenter();
           }
 
-          <%-- DO BACK  --%>
+          <%-- DO BACK --%>
           function doBack(){
             if(checkSaveButton()){
               window.location.href = "./main.do?Page=permissions/index.jsp";
             }
           }
-		
-		function showRegistrationStatus(){
-			if(document.getElementById('council').value==''){
-				document.getElementById('registrationstatus').innerHTML='';
-				document.getElementById('councillookup').style.visibility='hidden';
+          
+		  <%-- SHOW REGISTRATION STATUS --%>
+		  function showRegistrationStatus(){
+			if(document.getElementById('council')!=undefined){
+			  if(document.getElementById('council').value==''){
+			    document.getElementById('registrationstatus').innerHTML = '';
+			    document.getElementById('councillookup').style.visibility = 'hidden';
+			  }
+			  else if('<%=thisUser.getParameter("automaticorganizationidvalidation")%>'!=document.getElementById('council').value){
+			    document.getElementById('registrationstatus').innerHTML = '<b><img src=\"<%=sCONTEXTPATH+"/_img/icons/icon_error.jpg\""%>/> <%=getTranNoLink("lookup","unverified",sWebLanguage)%></b>';
+			    document.getElementById('councillookup').style.visibility = 'visible';
+			  }
+			}  
+			else if(document.getElementById('registrationstatus')!=undefined){
+			  document.getElementById('registrationstatus').innerHTML = '<b><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("0")?"<img src=\""+sCONTEXTPATH+"/_img/checked.png\"/>":"<img src=\""+sCONTEXTPATH+"/_img/icons/icon_error.jpg\"/>"%><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("")?" "+getTranNoLink("lookup","unverified",sWebLanguage):" "+getTranNoLink("lookup","status."+thisUser.getParameter("registrationstatus"),sWebLanguage)+" ("+thisUser.getParameter("registrationstatusupdatetime")+")"%></b>';
+			  document.getElementById('councillookup').style.visibility = 'visible';
 			}
-			else if('<%=thisUser.getParameter("automaticorganizationidvalidation")%>'!=document.getElementById('council').value){
-				document.getElementById('registrationstatus').innerHTML='<b><img src=\"<%=sCONTEXTPATH+"/_img/icons/icon_error.jpg\""%>/> <%=getTranNoLink("lookup","unverified",sWebLanguage)%></b>';
-				document.getElementById('councillookup').style.visibility='visible';
-			}
-			else {
-				document.getElementById('registrationstatus').innerHTML='<b><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("0")?"<img src=\""+sCONTEXTPATH+"/_img/checked.png\"/>":"<img src=\""+sCONTEXTPATH+"/_img/icons/icon_error.jpg\"/>"%><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("")?" "+getTranNoLink("lookup","unverified",sWebLanguage):" "+getTranNoLink("lookup","status."+thisUser.getParameter("registrationstatus"),sWebLanguage)+" ("+thisUser.getParameter("registrationstatusupdatetime")+")"%></b>';
-				document.getElementById('councillookup').style.visibility='visible';
-			}
-		}
+		  }
 		
-		
-		showRegistrationStatus();
+		  showRegistrationStatus();
         </script>
 
         <%=writeJSButtons("transactionForm","saveButton")%>

@@ -194,16 +194,16 @@
 
         tmpEncounter = Encounter.get(sEditEncounterUID);
 		if(tmpEncounter!=null && tmpEncounter.getMaxTransferDate()!=null){
-			sMaxTransferDate=new SimpleDateFormat("dd/MM/yyyy").format(tmpEncounter.getMaxTransferDate());
+			sMaxTransferDate=ScreenHelper.formatDate(tmpEncounter.getMaxTransferDate());
 		}
         sEditEncounterType            = checkString(tmpEncounter.getType());
-        sEditEncounterBegin           = checkString(new SimpleDateFormat("dd/MM/yyyy").format(tmpEncounter.getBegin()));
+        sEditEncounterBegin           = checkString(ScreenHelper.formatDate(tmpEncounter.getBegin()));
         sEditEncounterBeginHour           = checkString(new SimpleDateFormat("HH:mm").format(tmpEncounter.getBegin()));
 
         if(tmpEncounter.getEnd() == null){
             sEditEncounterEnd         = "";
         }else{
-            sEditEncounterEnd         = checkString(new SimpleDateFormat("dd/MM/yyyy").format(tmpEncounter.getEnd()));
+            sEditEncounterEnd         = checkString(ScreenHelper.formatDate(tmpEncounter.getEnd()));
             sEditEncounterEndHour     = checkString(new SimpleDateFormat("HH:mm").format(tmpEncounter.getEnd()));
         }
 

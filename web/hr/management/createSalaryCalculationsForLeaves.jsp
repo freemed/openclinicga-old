@@ -164,8 +164,7 @@
 <script>  
   <%-- CREATE CALCULATIONS --%>
   function createCalculations(){
-    var answer = yesnoDialog("web","areYouSure");
-    if(answer==1){
+    if(yesnoDialog("web","areYouSure")){
       var okToSubmit = true;
     
       if(okToSubmit){  

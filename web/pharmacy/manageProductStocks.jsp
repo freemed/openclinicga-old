@@ -500,11 +500,11 @@
 
                 // format begin date
                 java.util.Date tmpDate = productStock.getBegin();
-                if(tmpDate!=null) sSelectedBegin = ScreenHelper.stdDateFormat.format(tmpDate);
+                if(tmpDate!=null) sSelectedBegin = ScreenHelper.formatDate(tmpDate);
 
                 // format end date
                 tmpDate = productStock.getEnd();
-                if(tmpDate!=null) sSelectedEnd = ScreenHelper.stdDateFormat.format(tmpDate);
+                if(tmpDate!=null) sSelectedEnd = ScreenHelper.formatDate(tmpDate);
 
                 // afgeleide data
                 sSelectedServiceStockName = productStock.getServiceStock().getName();
@@ -747,7 +747,7 @@
                             <td align="right"><%=getTran("Web","orderlevel",sWebLanguage)%>&nbsp;&nbsp;</td>
                             <td><SORTTYPE:DATE><%=getTran("Web","begindate",sWebLanguage)%></SORTTYPE:DATE></td>
                         </tr>
-                        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                        <tbody class="hand">
                             <%=stocksHtml%>
                         </tbody>
                     </table>
@@ -800,7 +800,7 @@
                             <td><%=getTran("Web.manage","PUMP",sWebLanguage)%></td>
                             <td/>
                         </tr>
-                        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                        <tbody class="hand">
                             <%=stocksHtml%>
                         </tbody>
                     </table>
@@ -993,8 +993,8 @@
                 <br><br>
                 <table>
                 	<tr>
-                		<td class='text'><a href="javascript:printFiche('<%=sEditStockUid %>','<%=sSelectedProductName %>')"><%=getTran("web","productstockfile.interactive",sWebLanguage) %></a></td>
-                		<td class='text'><a href="javascript:printPDFFiche('<%=sEditStockUid %>')"><%=getTran("web","productstockfile.pdf",sWebLanguage) %></a></td>
+                		<td class='text'><a href="javascript:printFiche('<%=sEditStockUid %>','<%=sSelectedProductName %>')"><%=getTran("web","productstockfile.interactive",sWebLanguage)%></a></td>
+                		<td class='text'><a href="javascript:printPDFFiche('<%=sEditStockUid %>')"><%=getTran("web","productstockfile.pdf",sWebLanguage)%></a></td>
                 	</tr>
                 </table>
             <%

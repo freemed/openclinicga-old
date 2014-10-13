@@ -175,7 +175,7 @@
             <td><%=getTran("web","type",sWebLanguage)%></td>
             <td>
                 <select class="text" name="FindPrestationType">
-                    <option value="<%=sFindPrestationType%>"><%=getTran("prestation.type",sFindPrestationType,sWebLanguage) %></option>
+                    <option value="<%=sFindPrestationType%>"><%=getTran("prestation.type",sFindPrestationType,sWebLanguage)%></option>
                 </select>
             </td>
         </tr>
@@ -190,9 +190,9 @@
             <td><%=getTran("web","sort",sWebLanguage)%></td>
             <td>
                 <select class="text" name="FindPrestationSort">
-                    <option value="OC_PRESTATION_CODE"><%=getTran("web","code",sWebLanguage) %></option>
-                    <option value="OC_PRESTATION_DESCRIPTION"><%=getTran("web","description",sWebLanguage) %></option>
-                    <option value="OC_PRESTATION_PRICE"><%=getTran("web","price",sWebLanguage) %></option>
+                    <option value="OC_PRESTATION_CODE"><%=getTran("web","code",sWebLanguage)%></option>
+                    <option value="OC_PRESTATION_DESCRIPTION"><%=getTran("web","description",sWebLanguage)%></option>
+                    <option value="OC_PRESTATION_PRICE"><%=getTran("web","price",sWebLanguage)%></option>
                 </select>
             </td>
         </tr>
@@ -279,7 +279,7 @@
                         <td class="admin"><%=getTran("web","type",sWebLanguage)%>&nbsp;*&nbsp;</td>
                         <td class="admin2">
                             <select class="text" name="EditPrestationType">
-			                    <option value="<%=sFindPrestationType%>"><%=getTran("prestation.type",sFindPrestationType,sWebLanguage) %></option>
+			                    <option value="<%=sFindPrestationType%>"><%=getTran("prestation.type",sFindPrestationType,sWebLanguage)%></option>
                             </select>
                         </td>
                     </tr>
@@ -357,7 +357,7 @@
                     <tr>
                         <td class="admin"><%=getTran("web","renewalinterval",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input type="text" class="text" name="EditRenewalInterval" size="10" maxlength="8" value="<%=prestation.getRenewalInterval()+""%>" onKeyup="if(!isNumber(this)){this.value='';}">&nbsp;<%=getTran("web","months",sWebLanguage) %>
+                            <input type="text" class="text" name="EditRenewalInterval" size="10" maxlength="8" value="<%=prestation.getRenewalInterval()+""%>" onKeyup="if(!isNumber(this)){this.value='';}">&nbsp;<%=getTran("web","months",sWebLanguage)%>
                         </td>
                     </tr>
                     <tr>

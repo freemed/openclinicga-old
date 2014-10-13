@@ -421,14 +421,14 @@
 %>
     <table width='100%' cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
         <tr class="admin">
-            <td ><a href="#" class="underlined" title="<%=sortTran%>"><<%=sSortDir%>><%=getTranNoLink("web","date",sWebLanguage)%></<%=sSortDir%>></a></td>
-            <td ><a href="#" class="underlined"><%=getTranNoLink("web","enddate",sWebLanguage)%></a></td>
-            <td ><a href="#" class="underlined"><%=getTranNoLink("web","codetype",sWebLanguage)%></a></td>
-            <td ><a href="#" class="underlined"><%=getTranNoLink("medical.diagnosis","diagnosiscode",sWebLanguage)%></a></td>
-            <td ><a href="#" class="underlined"><%=getTranNoLink("medical.diagnosis","certainty",sWebLanguage)%></a></td>
-            <td ><a href="#" class="underlined"><%=getTranNoLink("medical.diagnosis","gravity",sWebLanguage)%></a></td>
-            <td ><a href="#" class="underlined"><%=getTranNoLink("web","encounter",sWebLanguage)%></a></td>
-            <td ><a href="#" class="underlined"><%=getTranNoLink("medical.diagnosis","author",sWebLanguage)%></a></td>
+            <td><a href="#" class="underlined" title="<%=sortTran%>"><<%=sSortDir%>><%=getTranNoLink("web","date",sWebLanguage)%></<%=sSortDir%>></a></td>
+            <td><a href="#" class="underlined"><%=getTranNoLink("web","enddate",sWebLanguage)%></a></td>
+            <td><a href="#" class="underlined"><%=getTranNoLink("web","codetype",sWebLanguage)%></a></td>
+            <td><a href="#" class="underlined"><%=getTranNoLink("medical.diagnosis","diagnosiscode",sWebLanguage)%></a></td>
+            <td><a href="#" class="underlined"><%=getTranNoLink("medical.diagnosis","certainty",sWebLanguage)%></a></td>
+            <td><a href="#" class="underlined"><%=getTranNoLink("medical.diagnosis","gravity",sWebLanguage)%></a></td>
+            <td><a href="#" class="underlined"><%=getTranNoLink("web","encounter",sWebLanguage)%></a></td>
+            <td><a href="#" class="underlined"><%=getTranNoLink("medical.diagnosis","author",sWebLanguage)%></a></td>
         </tr>
         <%=sbResuslts%>
     </table>

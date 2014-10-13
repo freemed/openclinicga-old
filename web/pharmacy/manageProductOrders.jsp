@@ -291,7 +291,7 @@
         } else {
             oneWeekAgo.add(Calendar.DATE, -7); // default one week
         }
-        sFindDateDeliveredSince = ScreenHelper.stdDateFormat.format(oneWeekAgo.getTime());
+        sFindDateDeliveredSince = ScreenHelper.formatDate(oneWeekAgo.getTime());
     }
 
     // supplier name
@@ -748,7 +748,7 @@
 	                            <td><%=HTMLEntities.htmlentities(getTran("Web","datedeliverydue",sWebLanguage))%></td>
 	                            <td><%=HTMLEntities.htmlentities(getTran("Web","importance",sWebLanguage))%></td>
 	                        </tr>
-	                        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+	                        <tbody class="hand">
 	                            <%=ordersHtml%>
 	                        </tbody>
 	                    </table>
@@ -818,7 +818,7 @@
 		                    <td><%=HTMLEntities.htmlentities(getTran("Web","datedelivered",sWebLanguage))%></td>
 		                    <td><%=HTMLEntities.htmlentities(getTran("Web","importance",sWebLanguage))%></td>
 		                </tr>
-		                <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+		                <tbody class="hand">
 		                    <%=ordersHtml%>
 		                </tbody>
 		            </table>
@@ -890,7 +890,7 @@
                         <tr>
                             <td class="admin"><%=getTran("Web","batch.expiration",sWebLanguage)%></td>
                             <td class="admin2">
-                                <%=writeDateField("EditBatchEnd","transactionForm",operation.getBatchEnd()==null?"":ScreenHelper.stdDateFormat.format(operation.getBatchEnd()),sWebLanguage)%>
+                                <%=writeDateField("EditBatchEnd","transactionForm",operation.getBatchEnd()==null?"":ScreenHelper.formatDate(operation.getBatchEnd()),sWebLanguage)%>
                             </td>
                         </tr>
                         <tr>
@@ -959,7 +959,7 @@
                         <tr>
                             <td class="admin"><%=getTran("Web","DateDelivered",sWebLanguage)%>&nbsp;</td>
                             <td class="admin2">
-                                <input type="text" class="text" size="12" maxLength="12" value="<%=ScreenHelper.stdDateFormat.format(new java.util.Date())%>" name="EditDateDelivered" id="EditDateDelivered" onBlur="checkDate(this);">
+                                <input type="text" class="text" size="12" maxLength="12" value="<%=ScreenHelper.formatDate(new java.util.Date())%>" name="EditDateDelivered" id="EditDateDelivered" onBlur="checkDate(this);">
 
                                 <%
                                     // only display 'EditDateDelivered' if order is not closed and thus editable
@@ -1127,12 +1127,12 @@
 	    	            </td>
 	    	            <%
 	    	            
-	    	            out.print("<td class='admin'>"+ScreenHelper.stdDateFormat.format(operation.getDate())+"</td>"+
+	    	            out.print("<td class='admin'>"+ScreenHelper.formatDate(operation.getDate())+"</td>"+
 	    	                      "<td class='admin2'>"+getTran("productstockoperation.medicationreceipt",operation.getDescription(),sWebLanguage)+"</td>"+
 	    	                      "<td class='admin2'>"+operation.getUnitsChanged()+"</td>"+
 	    	                      "<td class='admin2'>"+operation.getDocumentUID()+"</td>"+
 	    	                      "<td class='admin2'>"+(operation.getBatchNumber()!=null?operation.getBatchNumber():"")+"</td>"+
-	    	                      "<td class='admin2'>"+(operation.getBatchEnd()!=null?ScreenHelper.stdDateFormat.format(operation.getBatchEnd()):"")+"</td>"+
+	    	                      "<td class='admin2'>"+(operation.getBatchEnd()!=null?ScreenHelper.formatDate(operation.getBatchEnd()):"")+"</td>"+
 	    	                      "<td class='admin2'>"+(operation.getSourceDestination()!=null?operation.getSourceDestination().getObjectUid():"")+"</td>");
 
 	            		out.print("</tr>");
@@ -1487,7 +1487,7 @@
 		if(productStock!=null && productStock.getServiceStockUid()!=null){
 			sDocumentSource=productStock.getServiceStockUid();
 			sDocumentSourceText=productStock.getServiceStock().getName();
-			sFindMinDate=ScreenHelper.stdDateFormat.format(new java.util.Date().getTime()-7*24*3600*1000);
+			sFindMinDate=ScreenHelper.formatDate(new java.util.Date().getTime()-7*24*3600*1000);
 		}
 		
 	%>

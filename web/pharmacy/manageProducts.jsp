@@ -594,7 +594,7 @@
 	                            }
                             %>
                         </tr>
-                        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                        <tbody class="hand">
                             <%=productsHtml%>
                         </tbody>
                     </table>
@@ -825,7 +825,7 @@
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","margin",sWebLanguage)%></td>
                         <td class="admin2">
-                            <input class="text" type="text" name="EditMargin" size="15" maxLength="15" value="<%=sSelectedMargin%>" onKeyUp="isNumber(this);">% <%=getTran("web","zero.is.nocalculation",sWebLanguage) %>
+                            <input class="text" type="text" name="EditMargin" size="15" maxLength="15" value="<%=sSelectedMargin%>" onKeyUp="isNumber(this);">% <%=getTran("web","zero.is.nocalculation",sWebLanguage)%>
                         </td>
                     </tr>
                     <tr>

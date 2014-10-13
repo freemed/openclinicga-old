@@ -227,7 +227,7 @@
         	                    sClass = "disabled";
         	
         	                    try{
-        	                        if(activeEncounter!=null && transaction.getUpdateTime()!=null && activeEncounter!=null && !transaction.getUpdateTime().before(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(activeEncounter.getBegin()))) && (activeEncounter.getEnd() == null || !transaction.getUpdateTime().after(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(activeEncounter.getEnd()))))){
+        	                        if(activeEncounter!=null && transaction.getUpdateTime()!=null && activeEncounter!=null && !transaction.getUpdateTime().before(ScreenHelper.parseDate(ScreenHelper.formatDate(activeEncounter.getBegin()))) && (activeEncounter.getEnd() == null || !transaction.getUpdateTime().after(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(activeEncounter.getEnd()))))){
         	                            sClass = "bold";
         	                        }
         	                    }
@@ -246,8 +246,8 @@
                                      .append("<td align='center'>")
                                       .append("<input type='checkbox' value='"+tranID+"_"+serverID+"' name='tranAndServerID_"+cbCounter+"'>")
                                      .append("</td>")
-                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.stdDateFormat.format(tranDate)+"</td>")
-                                     .append("<td>&nbsp;<a href='#' onClick=\"showTransaction('"+transaction.getTransactionType()+"','"+transaction.getServerId()+"','"+transaction.getTransactionId()+"');\">"+sExaminationName+"</a></td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.formatDate(tranDate)+"</td>")
+                                     .append("<td>&nbsp;<a href=\"javascript:showTransaction('"+transaction.getTransactionType()+"','"+transaction.getServerId()+"','"+transaction.getTransactionId()+"');\">"+sExaminationName+"</a></td>")
                                      .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">&nbsp;"+getTran("web.occup",tranCtxt,sWebLanguage)+"</td>")
                                      .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">&nbsp;"+tranUserName+"</td>")
                                     .append("</tr>");
@@ -264,8 +264,8 @@
                                          .append("<td align='center'>")
                                           .append("<input type='checkbox' value='"+tranID+"_"+serverID+"' name='tranAndServerID_"+cbCounter+"'>")
                                          .append("</td>")
-                                         .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.stdDateFormat.format(tranDate)+"</td>")
-                                         .append("<td>&nbsp;<a href='#' onClick=\"showTransaction('"+transaction.getTransactionType()+"','"+transaction.getServerId()+"','"+transaction.getTransactionId()+"');\">"+sExaminationName+"</a></td>")
+                                         .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.formatDate(tranDate)+"</td>")
+                                         .append("<td>&nbsp;<a href=\"javascript:showTransaction('"+transaction.getTransactionType()+"','"+transaction.getServerId()+"','"+transaction.getTransactionId()+"');\">"+sExaminationName+"</a></td>")
                                          .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">&nbsp;"+getTran("web.occup",tranCtxt,sWebLanguage)+"</td>")
                                          .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">&nbsp;"+tranUserName+"</td>")
                                         .append("</tr>");
@@ -282,8 +282,8 @@
                                      .append("<td align='center'>")
                                       .append("<input type='checkbox' value='"+tranID+"_"+serverID+"' name='tranAndServerID_"+cbCounter+"'>")
                                      .append("</td>")
-                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.stdDateFormat.format(tranDate)+"</td>")
-                                     .append("<td>&nbsp;<a href='#' onClick=\"showTransaction('"+transaction.getTransactionType()+"','"+transaction.getServerId()+"','"+transaction.getTransactionId()+"');\">"+sExaminationName+"</a></td>")
+                                     .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">&nbsp;"+ScreenHelper.formatDate(tranDate)+"</td>")
+                                     .append("<td>&nbsp;<a href=\"javascript:showTransaction('"+transaction.getTransactionType()+"','"+transaction.getServerId()+"','"+transaction.getTransactionId()+"');\">"+sExaminationName+"</a></td>")
                                      .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">&nbsp;"+getTran("web.occup",tranCtxt,sWebLanguage)+"</td>")
                                      .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">&nbsp;"+tranUserName+"</td>")
                                     .append("</tr>");
@@ -482,7 +482,7 @@
                                  .append("<td align='center'>")
                                   .append("<input type='checkbox' value='"+tranID+"_"+serverID+"' name='tranAndServerID_"+cbCounter+"'>")
                                  .append("</td>")
-                                 .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">&nbsp;"+(tranDate==null?"":ScreenHelper.stdDateFormat.format(tranDate))+"</td>")
+                                 .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">&nbsp;"+(tranDate==null?"":ScreenHelper.formatDate(tranDate))+"</td>")
                                  .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">&nbsp;"+getTran("web.occup",tranType,sWebLanguage)+"</td>")
                                  .append("<td onClick=\"clickCheckBox('tranAndServerID_"+cbCounter+"')\">&nbsp;"+tranUserName+"</td>")
                                 .append("</tr>");
@@ -517,7 +517,7 @@
             ps.setInt(1,Integer.parseInt(activePatient.personid)); 
             rs = ps.executeQuery();
             if(rs.next()){
-                sDateFrom = ScreenHelper.stdDateFormat.format(new java.util.Date(rs.getDate(1).getTime()));
+                sDateFrom = ScreenHelper.formatDate(new java.util.Date(rs.getDate(1).getTime()));
             } 
 
             // close DB-stuff
@@ -538,12 +538,13 @@
             ps.setInt(1,Integer.parseInt(activePatient.personid));
             rs = ps.executeQuery();
             if(rs.next()){
-                sDateTo = ScreenHelper.stdDateFormat.format(new java.util.Date(rs.getDate(1).getTime()));
+                sDateTo = ScreenHelper.formatDate(new java.util.Date(rs.getDate(1).getTime()));
             }
 
             // close DB-stuff
             if(rs!=null) rs.close();
             if(ps!=null) ps.close();
+            conn.close();
         }
 
         %>
@@ -675,15 +676,14 @@
                     if(sAction.equals("applyFilter")){
                         if(cbCounter > 1){
                             %>
-                                <br>
-                                <br>
+                                <br><br>
 
                                 <%-- BUTTONS at TOP --%>
                                 <table width="100%" cellspacing="1">
                                     <tr>
                                         <td>
-                                            <a href="#" onclick="checkAll(true);"><%=getTran("web.manage","CheckAll",sWebLanguage)%></a>
-                                            <a href="#" onclick="checkAll(false);"><%=getTran("web.manage","UncheckAll",sWebLanguage)%></a>
+                                            <a href="javascript:checkAll(true);"><%=getTran("web.manage","CheckAll",sWebLanguage)%></a>
+                                            <a href="javascript:checkAll(false);"><%=getTran("web.manage","UncheckAll",sWebLanguage)%></a>
                                         </td>
                                         <td align="right">
                                             <a href="#bottom"><img src="<c:url value='/_img'/>/themes/default/bottom.gif" class="link"></a>
@@ -700,8 +700,8 @@
                                 <table width="100%" cellspacing="1">
                                     <tr>
                                         <td>
-                                            <a href="#" onclick="checkAll(true);"><%=getTran("web.manage","CheckAll",sWebLanguage)%></a>
-                                            <a href="#" onclick="checkAll(false);"><%=getTran("web.manage","UncheckAll",sWebLanguage)%></a>
+                                            <a href="javascript:checkAll(true);"><%=getTran("web.manage","CheckAll",sWebLanguage)%></a>
+                                            <a href="javascript:checkAll(false);"><%=getTran("web.manage","UncheckAll",sWebLanguage)%></a>
                                         </td>
                                         <td align="right">
                                             <a href="#top"><img src="<c:url value='/_img'/>/themes/default/top.gif" class="link"></a>
@@ -767,7 +767,7 @@
                     %>
                 </p>
                 
-                <a name="bottom"/>
+                <a name="bottom">&nbsp;</a>
             </form>
 
             <%-- SCRIPTS --------------------------------------------------------------------%>

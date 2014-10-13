@@ -107,7 +107,7 @@
 				sActiveDate="";
 				sActiveDocument="";
 			}
-			if(!sActiveDate.equalsIgnoreCase(ScreenHelper.stdDateFormat.format(operation.getDate())) || !sActiveDocument.equalsIgnoreCase(operation.getOrderUID())){
+			if(!sActiveDate.equalsIgnoreCase(ScreenHelper.formatDate(operation.getDate())) || !sActiveDocument.equalsIgnoreCase(operation.getOrderUID())){
 				if(initialized & !changed){
 					//Close previous document
 					sOutput.append(";;;;;"+getTranNoLink("web","total",sWebLanguage)+";"+documenttotal+"\r\n\r\n");
@@ -115,7 +115,7 @@
 					changed=true;
 				}
 				//Print document header
-				sActiveDate=ScreenHelper.stdDateFormat.format(operation.getDate());
+				sActiveDate=ScreenHelper.formatDate(operation.getDate());
 				sActiveDocument=operation.getOrderUID();
 				sOutput.append(getTranNoLink("web","date",sWebLanguage)+": "+sActiveDate+"       "+getTranNoLink("web","document",sWebLanguage)+": "+sActiveDocument+"\r\n");
 			}
@@ -126,7 +126,7 @@
 				sOutput.append("?;");
 			}
 			if(operation.getBatchEnd()!=null){
-				sOutput.append(ScreenHelper.stdDateFormat.format(operation.getBatchEnd())+";");
+				sOutput.append(ScreenHelper.formatDate(operation.getBatchEnd())+";");
 			}
 			else{
 				sOutput.append(";");

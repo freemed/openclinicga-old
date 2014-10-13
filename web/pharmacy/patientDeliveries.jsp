@@ -16,7 +16,7 @@
 	long n3months = 1000*3600;
 	n3months = n3months*24*92;
 	
-	String sExpiryDate = ScreenHelper.stdDateFormat.format(new java.util.Date(new java.util.Date().getTime()-n3months));
+	String sExpiryDate = ScreenHelper.formatDate(new java.util.Date(new java.util.Date().getTime()-n3months));
 	if(request.getParameter("submit")!=null){
 		sExpiryDate = request.getParameter("expirydate");
 	}
@@ -93,7 +93,7 @@
 					
 					out.print("<tr class='list"+sClass+"'>"+
 				               "<td>"+(operation.getUnitsChanged()!=0?"<a href='javascript:cancelOperation(\""+operation.getUid()+"\");'><img src='"+sCONTEXTPATH+"/_img/icons/icon_erase.gif' class='link' title='"+getTranNoLink("web","cancel",sWebLanguage)+"'/></a>":"")+"</td>"+
-				               "<td>"+ScreenHelper.stdDateFormat.format(operation.getDate())+"</td>"+
+				               "<td>"+ScreenHelper.formatDate(operation.getDate())+"</td>"+
 				               "<td>"+operation.getProductStock().getServiceStock().getName()+"</td>"+
 				               "<td>"+operation.getProductStock().getProduct().getName()+"</td>"+
 				               "<td>"+(operation.getDescription().indexOf("delivery")==-1?"-":"")+operation.getUnitsChanged()+"</td>"+

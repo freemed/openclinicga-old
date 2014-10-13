@@ -527,46 +527,44 @@
         document.getElementById("buttonDelete").disabled = true;
         document.getElementById("buttonNew").disabled = true;
         
-        new Ajax.Request(url,
-          {
-            method: "POST",
-            postBody: "EditSalaryUid="+EditForm.EditSalaryUid.value+
-                      "&PersonId=<%=activePatient.personid%>"+
-                      "&begin="+document.getElementById("beginDate").value+
-                      "&end="+document.getElementById("endDate").value+
-                      "&contractUid="+document.getElementById("contract").value+
-                      "&salary="+document.getElementById("salary").value+
-                      "&salaryPeriod="+document.getElementById("salaryPeriod").value+
-                      "&benefits="+removeTRIndexes(sBE)+ // xmls
-                      "&bonuses="+removeTRIndexes(sBO)+
-                      "&otherIncome="+removeTRIndexes(sOI)+
-                      "&deductions="+removeTRIndexes(sDE)+
-                      "&comment="+document.getElementById("comment").value,
-            onSuccess: function(resp){
-              var data = eval("("+resp.responseText+")");
-              $("divMessage").innerHTML = data.message;
+        new Ajax.Request(url,{
+          method: "POST",
+          postBody: "EditSalaryUid="+EditForm.EditSalaryUid.value+
+                    "&PersonId=<%=activePatient.personid%>"+
+                    "&begin="+document.getElementById("beginDate").value+
+                    "&end="+document.getElementById("endDate").value+
+                    "&contractUid="+document.getElementById("contract").value+
+                    "&salary="+document.getElementById("salary").value+
+                    "&salaryPeriod="+document.getElementById("salaryPeriod").value+
+                    "&benefits="+removeTRIndexes(sBE)+ // xmls
+                    "&bonuses="+removeTRIndexes(sBO)+
+                    "&otherIncome="+removeTRIndexes(sOI)+
+                    "&deductions="+removeTRIndexes(sDE)+
+                    "&comment="+document.getElementById("comment").value,
+          onSuccess: function(resp){
+            var data = eval("("+resp.responseText+")");
+            $("divMessage").innerHTML = data.message;
 
-              if(document.getElementById("EditSalaryUid").value=="-1"){
-                addSalaryPeriod(document.getElementById("EditSalaryUid").value);
-              }
-              else{
-            	var sPeriod = document.getElementById("beginDate").value+"_"+document.getElementById("endDate").value;
-                updateSalaryPeriod(document.getElementById("EditSalaryUid").value,sPeriod);
-              }
-              
-              loadSalaries();
-              newSalary();
-              
-              //EditForm.EditSalaryUid.value = data.newUid;
-              document.getElementById("buttonSave").disabled = false;
-              document.getElementById("buttonDelete").disabled = false;
-              document.getElementById("buttonNew").disabled = false;
-            },
-            onFailure: function(resp){
-              $("divMessage").innerHTML = "Error in 'hr/ajax/salary/saveSalary.jsp' : "+resp.responseText.trim();
+            if(document.getElementById("EditSalaryUid").value=="-1"){
+              addSalaryPeriod(document.getElementById("EditSalaryUid").value);
             }
+            else{
+          	  var sPeriod = document.getElementById("beginDate").value+"_"+document.getElementById("endDate").value;
+              updateSalaryPeriod(document.getElementById("EditSalaryUid").value,sPeriod);
+            }
+              
+            loadSalaries();
+            newSalary();
+              
+            //EditForm.EditSalaryUid.value = data.newUid;
+            document.getElementById("buttonSave").disabled = false;
+            document.getElementById("buttonDelete").disabled = false;
+            document.getElementById("buttonNew").disabled = false;
+          },
+          onFailure: function(resp){
+            $("divMessage").innerHTML = "Error in 'hr/ajax/salary/saveSalary.jsp' : "+resp.responseText.trim();
           }
-        );
+        });
       }
     }
     else{
@@ -582,22 +580,20 @@
     
   <%-- LOAD SALARIES --%>
   function loadSalaries(){
-    document.getElementById("divSalaries").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
+    document.getElementById("divSalaries").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading..";            
     var url = "<c:url value='/hr/ajax/salary/getSalaries.jsp'/>?ts="+new Date().getTime();
-    new Ajax.Updater("divSalaries",url,
-      { 
-        method: "GET",
-        evalScripts: true,
-        parameters: "PatientId=<%=activePatient.personid%>",
-        onSuccess: function(resp){
-          $("divSalaries").innerHTML = resp.responseText;
-          setTimeout("sortables_init()",500);
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/salary/getSalaries.jsp' : "+resp.responseText.trim();
-        }
+    new Ajax.Updater("divSalaries",url,{ 
+      method: "GET",
+      evalScripts: true,
+      parameters: "PatientId=<%=activePatient.personid%>",
+      onSuccess: function(resp){
+        $("divSalaries").innerHTML = resp.responseText;
+        setTimeout("sortables_init()",500);
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'hr/ajax/salary/getSalaries.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
   
   var periodsWithSalary = new Array();
@@ -645,77 +641,72 @@
     <%-- clear edit fields --%>
     newSalary();
     
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "SalaryUid="+salaryUid,
-        onSuccess: function(resp){
-          var data = eval("("+resp.responseText+")");
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "SalaryUid="+salaryUid,
+      onSuccess: function(resp){
+        var data = eval("("+resp.responseText+")");
 
-          $("EditSalaryUid").value = salaryUid;
-          $("contract").value = data.contractUid;
-          $("contractName").value = data.contractName.unhtmlEntities();
-          $("beginDate").value = data.begin;
-          $("endDate").value = data.end;
-          $("salary").value = data.salary;
-          $("salaryPeriod").value = data.salaryPeriod;
-          $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
+        $("EditSalaryUid").value = salaryUid;
+        $("contract").value = data.contractUid;
+        $("contractName").value = data.contractName.unhtmlEntities();
+        $("beginDate").value = data.begin;
+        $("endDate").value = data.end;
+        $("salary").value = data.salary;
+        $("salaryPeriod").value = data.salaryPeriod;
+        $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
           
-          <%-- multi-selects / xmls --%>
-          $("benefits").value = data.benefits;
-          $("bonuses").value = data.bonuses;
-          $("otherIncome").value = data.otherIncome;
-          $("deductions").value = data.deductions;
+        <%-- multi-selects / xmls --%>
+        $("benefits").value = data.benefits;
+        $("bonuses").value = data.bonuses;
+        $("otherIncome").value = data.otherIncome;
+        $("deductions").value = data.deductions;
           
-          displayBenefits();
-          displayBonuses();
-          displayOtherIncomes();
-          displayDeductions();
+        displayBenefits();
+        displayBonuses();
+        displayOtherIncomes();
+        displayDeductions();
           
-          resizeAllTextareas(8);
+        resizeAllTextareas(8);
 
-          <%-- display hidden buttons --%>
-          document.getElementById("buttonDelete").style.visibility = "visible";
-          document.getElementById("buttonNew").style.visibility = "visible";
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/salary/getSalary.jsp' : "+resp.responseText.trim();
-        }
+        <%-- display hidden buttons --%>
+        document.getElementById("buttonDelete").style.visibility = "visible";
+        document.getElementById("buttonNew").style.visibility = "visible";
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'hr/ajax/salary/getSalary.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
   
   <%-- DELETE SALARY --%>
-  function deleteSalary(){  
-    var answer = yesnoDialog("web","areYouSureToDelete"); 
-     if(answer==1){                 
+  function deleteSalary(){ 
+    if(yesnoDialog("web","areYouSureToDelete")){                 
       var url = "<c:url value='/hr/ajax/salary/deleteSalary.jsp'/>?ts="+new Date().getTime();
 
       document.getElementById("buttonSave").disabled = true;
       document.getElementById("buttonDelete").disabled = true;
       document.getElementById("buttonNew").disabled = true;
     
-      new Ajax.Request(url,
-        {
-          method: "GET",
-          parameters: "SalaryUid="+document.getElementById("EditSalaryUid").value,
-          onSuccess: function(resp){
-            var data = eval("("+resp.responseText+")");
-            $("divMessage").innerHTML = data.message;
+      new Ajax.Request(url,{
+    	method: "GET",
+        parameters: "SalaryUid="+document.getElementById("EditSalaryUid").value,
+        onSuccess: function(resp){
+          var data = eval("("+resp.responseText+")");
+          $("divMessage").innerHTML = data.message;
 
-            removeSalaryPeriod(document.getElementById("EditSalaryUid").value);
-            loadSalaries();
-            newSalary();
+          removeSalaryPeriod(document.getElementById("EditSalaryUid").value);
+          loadSalaries();
+          newSalary();
             
-            document.getElementById("buttonSave").disabled = false;
-            document.getElementById("buttonDelete").disabled = false;
-            document.getElementById("buttonNew").disabled = false;
-          },
-          onFailure: function(resp){
-            $("divMessage").innerHTML = "Error in 'hr/ajax/salary/deleteSalary.jsp' : "+resp.responseText.trim();
-          }  
-        }
-      );
+          document.getElementById("buttonSave").disabled = false;
+          document.getElementById("buttonDelete").disabled = false;
+          document.getElementById("buttonNew").disabled = false;
+        },
+        onFailure: function(resp){
+          $("divMessage").innerHTML = "Error in 'hr/ajax/salary/deleteSalary.jsp' : "+resp.responseText.trim();
+        }  
+      });
     }
   }
     
@@ -1161,8 +1152,7 @@
   
   <%-- DELETE BENEFIT --%>
   function deleteBE(rowid){
-    var answer = yesnoDialog("web","areYouSureToDelete");
-    if(answer==1){
+    if(yesnoDialog("web","areYouSureToDelete")){
       sBE = deleteRowFromArrayString(sBE,rowid.id);
       tblBE.deleteRow(rowid.rowIndex);
       clearBEFields();
@@ -1518,8 +1508,7 @@
   
   <%-- DELETE BONUS --%>
   function deleteBO(rowid){
-    var answer = yesnoDialog("web","areYouSureToDelete");
-    if(answer==1){
+    if(yesnoDialog("web","areYouSureToDelete")){
       sBO = deleteRowFromArrayString(sBO,rowid.id);
       tblBO.deleteRow(rowid.rowIndex);
       clearBOFields();
@@ -1852,8 +1841,7 @@
   
   <%-- DELETE OTHER INCOME --%>
   function deleteOI(rowid){
-    var answer = yesnoDialog("web","areYouSureToDelete");
-    if(answer==1){
+    if(yesnoDialog("web","areYouSureToDelete")){
       sOI = deleteRowFromArrayString(sOI,rowid.id);
       tblOI.deleteRow(rowid.rowIndex);
       clearOIFields();
@@ -2185,8 +2173,7 @@
   
   <%-- DELETE DEDUCTION --%>
   function deleteDE(rowid){
-    var answer = yesnoDialog("web","areYouSureToDelete");
-    if(answer==1){
+    if(yesnoDialog("web","areYouSureToDelete")){
       sDE = deleteRowFromArrayString(sDE,rowid.id);
       tblDE.deleteRow(rowid.rowIndex);
       clearDEFields();

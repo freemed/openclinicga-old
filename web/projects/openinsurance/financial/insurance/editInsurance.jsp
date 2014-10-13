@@ -40,7 +40,7 @@ function searchAffiliate(){
     String sEditInsuranceStatus = checkString(request.getParameter("EditInsuranceStatus"));
     String sEditInsuranceStart = checkString(request.getParameter("EditInsuranceStart"));
     if(sEditInsuranceStart.length()==0){
-        sEditInsuranceStart=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+        sEditInsuranceStart=ScreenHelper.formatDate(new java.util.Date());
     }
     String sEditInsuranceStop = checkString(request.getParameter("EditInsuranceStop"));
     String sEditInsuranceCategoryLetter = checkString(request.getParameter("EditInsuranceCategoryLetter"));
@@ -105,12 +105,12 @@ function searchAffiliate(){
             sEditInsuranceCategory = insuranceCategory.getCategory()+": "+insuranceCategory.getLabel();
         }
         if (insurance.getStart() != null) {
-            sEditInsuranceStart = new SimpleDateFormat("dd/MM/yyyy").format(insurance.getStart());
+            sEditInsuranceStart = ScreenHelper.formatDate(insurance.getStart());
         } else {
             sEditInsuranceStart = "";
         }
         if (insurance.getStop() != null) {
-            sEditInsuranceStop = new SimpleDateFormat("dd/MM/yyyy").format(insurance.getStop());
+            sEditInsuranceStop = ScreenHelper.formatDate(insurance.getStop());
         } else {
             sEditInsuranceStop = "";
         }

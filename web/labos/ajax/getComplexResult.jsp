@@ -17,7 +17,7 @@
     String[] antibiogram = sAntibiogramuid.split("\\.");%>
 <table width="580" class="data" cellpadding="0" cellspacing="0" id="antibiogramtable">
     <tr width="100%">
-        <td rowspan="4" style="vertical-align:top;" class="top label nobottom"><%=getTran("web","germs",sWebLanguage) %></td>
+        <td rowspan="4" style="vertical-align:top;" class="top label nobottom"><%=getTran("web","germs",sWebLanguage)%></td>
     </tr>
     <tr>
         <td colspan="9" class='first nobottom last top'>1 -

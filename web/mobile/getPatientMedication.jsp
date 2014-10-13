@@ -1,7 +1,7 @@
 <%@page import="be.openclinic.pharmacy.Product"%>
 <%@include file="/mobile/_common/head.jsp"%>
 
-<table class="list" padding="0" cellspacing="1" width="<%=sTABLE_WIDTH%>">
+<table class="list" padding="0" cellspacing="1" width="<%=sTABLE_WIDTH%>" style="border-bottom:none;">
 	<tr class="admin"><td colspan="3"><%=getTran("mobile","activeMedication",activeUser)%></td></tr>
 	
 	<%	

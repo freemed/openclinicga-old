@@ -1,7 +1,15 @@
-<%@page import="net.admin.*,be.mxs.common.util.db.*,be.mxs.common.util.system.*,
-                java.util.*,be.openclinic.adt.*,java.text.*,be.openclinic.medical.*,
-                be.mxs.common.model.vo.healthrecord.*,java.sql.*,net.admin.system.AccessLog,
+<%@page import="net.admin.*,
+                be.mxs.common.util.db.*,
+                be.mxs.common.util.system.*,
+                java.util.*,
+                be.openclinic.adt.*,
+                java.text.*,
+                be.openclinic.medical.*,
+                be.mxs.common.model.vo.healthrecord.*,
+                java.sql.*,
+                net.admin.system.AccessLog,
                 be.openclinic.medical.Diagnosis"%>
+                
 <%!
     final static String sTABLE_WIDTH = "100%";
 
@@ -107,7 +115,7 @@
 					         "<td width='40' nowrap style='vertical-align:top;padding-top:3px;padding-left:4px'><i>"+problem.getCodeType().toUpperCase()+"</i></td>"+
 					         "<td width='40' nowrap style='vertical-align:top;padding-top:3px'>"+problem.getCode()+"</td>"+
 					         "<td width='*' nowrap>"+sProblemLabel+"</td>"+
-					         "<td width='70' nowrap>"+problem.getBegin()+"</td>"+
+					         "<td width='80' nowrap>"+problem.getBegin()+"</td>"+
 					        "</tr>";	
 		    	}
 			    sHtml+= "</table>";
@@ -206,21 +214,6 @@
 %>
 
 <%
-    User activeUser = null;
-    AdminPerson activePatient = null;
-
-	String sUriPage = request.getRequestURI();
-	if(!sUriPage.endsWith("sessionExpired.jsp") && !sUriPage.endsWith("login.jsp")){
-		session = request.getSession();
-		if(session==null){
-			out.println("<script>window.location.href='sessionExpired.jsp';</script>");	
-		    out.flush();
-		}
-		
-		activeUser = (User)session.getAttribute("activeUser");	
-		activePatient = (AdminPerson)session.getAttribute("activePatient");
-	}
-	
     // common stuff
     final SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
     final String sAPPNAME = "OpenClinic Mobile",

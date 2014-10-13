@@ -349,7 +349,7 @@
                             <td width="10%"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSearch('OC_OPERATION_DATE');"><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_DATE")?"<i>":"")%><%=getTran("Web","date",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_DATE")?"</i>":"")%></a></td>
                             <td width="*"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSearch('OC_OPERATION_UNITSCHANGED');"><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_UNITSCHANGED")?"<i>":"")%><%=getTran("Web","unitschanged",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_UNITSCHANGED")?"</i>":"")%></a></td>
                         </tr>
-                        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                        <tbody class="hand">
                             <%=operationsHtml%>
                         </tbody>
                     </table>

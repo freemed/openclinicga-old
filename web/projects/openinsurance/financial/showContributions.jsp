@@ -11,7 +11,7 @@
 		Debet debet = (Debet)contributions.elementAt(n);
 		if(debet.getCredited()!=1){
 			java.util.Date dv=debet.getContributionValidity();
-			out.println("<tr><td class='admin'>"+debet.getPrestation().getDescription()+"</td><td class='admin'>"+new SimpleDateFormat("dd/MM/yyyy").format(debet.getDate())+"</td><td "+(dv.before(new java.util.Date())?"class='admin'":"bgcolor='lightgreen'")+">"+new SimpleDateFormat("dd/MM/yyyy").format(dv)+"</td></tr>");
+			out.println("<tr><td class='admin'>"+debet.getPrestation().getDescription()+"</td><td class='admin'>"+ScreenHelper.formatDate(debet.getDate())+"</td><td "+(dv.before(new java.util.Date())?"class='admin'":"bgcolor='lightgreen'")+">"+ScreenHelper.formatDate(dv)+"</td></tr>");
 		}
 	}
 %>

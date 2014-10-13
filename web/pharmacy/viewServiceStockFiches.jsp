@@ -21,7 +21,7 @@
 <form name='transactionForm' method='post'>
 <table cellspadding="1" cellspacing="0" class="list" width="100%">
 	<tr>
-		<td class='admin' width="50"><%=getTran("web","year",sWebLanguage) %>&nbsp;</td>
+		<td class='admin' width="50"><%=getTran("web","year",sWebLanguage)%>&nbsp;</td>
 		<td class='admin2' width="70">
 			<select name='year' id='year'>
 				<%
@@ -32,7 +32,7 @@
 				%>
 			</select>
 		</td>
-		<td class='admin' width="50"><%=getTran("web","month",sWebLanguage) %>&nbsp;</td>
+		<td class='admin' width="50"><%=getTran("web","month",sWebLanguage)%>&nbsp;</td>
 		<td class='admin2' width="70">
 			<select name='month' id='month'>
 				<%
@@ -42,26 +42,26 @@
 				%>
 			</select>
 		</td>
-		<td class='admin2' width="*"><input type='submit' name='submit' class="button" value='<%=getTranNoLink("web","find",sWebLanguage) %>'/></td>
+		<td class='admin2' width="*"><input type='submit' name='submit' class="button" value='<%=getTranNoLink("web","find",sWebLanguage)%>'/></td>
 	</tr>
 </table>
 </form>
 <table width='100%'>
 	<tr class='admin'>
-		<td><%=getTran("web","productstock",sWebLanguage) %></td>
-		<td><center><%=getTran("web","packageunits",sWebLanguage) %></center></td>
-		<td><center><%=getTran("web","startstock",sWebLanguage) %></center></td>
-		<td><center><%=getTran("web","outvisits",sWebLanguage) %></center></td>
-		<td><center><%=getTran("web","outadmissions",sWebLanguage) %></center></td>
-		<td><center><%=getTran("web","outother",sWebLanguage) %></center></td>
-		<td><center><%=getTran("web","outtotal",sWebLanguage) %></center></td>
-		<td><center><%=getTran("web","in",sWebLanguage) %></center></td>
-		<td><center><%=getTran("web","endstock",sWebLanguage) %></center></td>
-		<td><center><%=getTran("web","cost",sWebLanguage) %></center></td>
-		<td><center><%=getTran("web","sellingprice",sWebLanguage) %></center></td>
-		<td><center><%=getTran("web","sold.value",sWebLanguage) %></center></td>
-		<td><center><%=getTran("web","stock.value.cost",sWebLanguage) %></center></td>
-		<td><center><%=getTran("web","stock.value.sell",sWebLanguage) %></center></td>
+		<td><%=getTran("web","productstock",sWebLanguage)%></td>
+		<td><center><%=getTran("web","packageunits",sWebLanguage)%></center></td>
+		<td><center><%=getTran("web","startstock",sWebLanguage)%></center></td>
+		<td><center><%=getTran("web","outvisits",sWebLanguage)%></center></td>
+		<td><center><%=getTran("web","outadmissions",sWebLanguage)%></center></td>
+		<td><center><%=getTran("web","outother",sWebLanguage)%></center></td>
+		<td><center><%=getTran("web","outtotal",sWebLanguage)%></center></td>
+		<td><center><%=getTran("web","in",sWebLanguage)%></center></td>
+		<td><center><%=getTran("web","endstock",sWebLanguage)%></center></td>
+		<td><center><%=getTran("web","cost",sWebLanguage)%></center></td>
+		<td><center><%=getTran("web","sellingprice",sWebLanguage)%></center></td>
+		<td><center><%=getTran("web","sold.value",sWebLanguage)%></center></td>
+		<td><center><%=getTran("web","stock.value.cost",sWebLanguage)%></center></td>
+		<td><center><%=getTran("web","stock.value.sell",sWebLanguage)%></center></td>
 	</tr>
 <%
 	String sFindServiceStockUid=request.getParameter("FindServiceStockUid");

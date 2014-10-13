@@ -1,6 +1,6 @@
 <%@page import="be.openclinic.pharmacy.ProductStock,
                 java.util.GregorianCalendar,
-                java.util.Calendar" %>
+                java.util.Calendar"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 
@@ -12,26 +12,28 @@
 
     // get data from form
     String sFindServiceStockName = checkString(request.getParameter("FindServiceStockName")),
-            sFindProductStockUid = checkString(request.getParameter("FindProductStockUid")),
-                    sGetYear = checkString(request.getParameter("GetYear")),
-                    sFindYear = checkString(request.getParameter("FindYear"));
+           sFindProductStockUid  = checkString(request.getParameter("FindProductStockUid"));
+    
+    String sGetYear  = checkString(request.getParameter("GetYear")),
+           sFindYear = checkString(request.getParameter("FindYear"));
     
     if(sFindYear.length()==0 && sGetYear.length()>0){
-    	sFindYear=sGetYear;
+    	sFindYear = sGetYear;
     }
 
     // default year
-    if (sFindYear.length() == 0) {
+    if(sFindYear.length()==0){
         Calendar calendar = new GregorianCalendar();
-        sFindYear = calendar.get(Calendar.YEAR) + "";
+        sFindYear = calendar.get(Calendar.YEAR)+"";
     }
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
-    if (Debug.enabled) {
-        Debug.println("\n\n################## sAction : " + sAction + " ############################");
-        Debug.println("* sFindServiceStockName : " + sFindServiceStockName);
-        Debug.println("* sFindProductStockUid  : " + sFindProductStockUid);
-        Debug.println("* sFindYear             : " + sFindYear + "\n");
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+        Debug.println("\n******************* pharmacy/viewProductStockFiches.jsp ****************");
+        Debug.println("sFindServiceStockName : "+sFindServiceStockName);
+        Debug.println("sFindProductStockUid  : "+sFindProductStockUid);
+        Debug.println("sGetYear  : "+sGetYear);
+        Debug.println("sFindYear : "+sFindYear+"\n");
     }
     ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
 
@@ -43,16 +45,16 @@
     boolean displayFiche = false;
 
     String sDisplaySearchFields = checkString(request.getParameter("DisplaySearchFields"));
-    if (sDisplaySearchFields.length() == 0) sDisplaySearchFields = "true"; // default
+    if(sDisplaySearchFields.length() == 0) sDisplaySearchFields = "true"; // default
     boolean displaySearchFields = sDisplaySearchFields.equalsIgnoreCase("true");
-    if (Debug.enabled) Debug.println("@@@ displaySearchFields : " + displaySearchFields);
+    Debug.println("@@@ displaySearchFields : "+displaySearchFields);
 
     //******************************************************************************************************************
     //*** process actions **********************************************************************************************
     //******************************************************************************************************************
 
     //-- FIND ----------------------------------------------------------------------------------------------------------
-    if (sAction.startsWith("find")) {
+    if(sAction.startsWith("find")){
         displaySearchFields = true;
         displayFiche = true;
 
@@ -61,8 +63,8 @@
     }
 %>
 <form name="transactionForm" method="post">
-    <%-- page title --%>
     <%=writeTableHeader("Web","viewproductstockfiches",sWebLanguage," doBack();")%>
+    
     <%
         //**************************************************************************************************************
         //*** process display options **********************************************************************************
@@ -73,7 +75,7 @@
             // afgeleide data
             String sFindProductStockName = checkString(request.getParameter("FindProductStockName"));
             if(sFindProductStockName.length()==0 && productStock!=null){
-            	sFindProductStockName=productStock.getProduct().getName();
+            	sFindProductStockName = productStock.getProduct().getName();
             }
 
             %>
@@ -84,6 +86,7 @@
                         <td class="admin2">
                             <input type="hidden" name="FindProductStockUid" value="<%=sFindProductStockUid%>">
                             <input class="text" type="text" name="FindProductStockName" readonly size="<%=sTextWidth%>" value="<%=sFindProductStockName%>">
+                      
                             <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchProductStock('FindProductStockUid','FindProductStockName','FindServiceStockName');">
                             <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindProductStockUid.value='';transactionForm.FindProductStockName.value='';transactionForm.FindServiceStockName.value='';">
                         </td>
@@ -111,6 +114,7 @@
                             </select>
                         </td>
                     </tr>
+                    
                     <%-- SEARCH BUTTONS --%>
                     <tr>
                         <td class="admin2"/>
@@ -139,7 +143,7 @@
                     </tr>
                     
                     <%-- DISPLAY MONTHS --%>
-                    <tbody onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';">
+                    <tbody class="hand">
                         <%
                             Calendar calendar = new GregorianCalendar();
                             calendar.set(Integer.parseInt(sFindYear),0,0,0,0,0);
@@ -192,6 +196,7 @@
                         <td width="*"/>
                     </tr>
                 </table>
+                
                 <%-- PRINT BUTTON --%>
                 <%=ScreenHelper.alignButtonsStart()%>
                     <button accesskey="<%=ScreenHelper.getAccessKey(getTranNoLink("accesskey","print",sWebLanguage))%>" class="buttoninvisible" onclick="doPrint();"></button>
@@ -201,6 +206,7 @@
             <%
         }
     %>
+    
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
     <input type="hidden" name="DisplaySearchFields" value="<%=displaySearchFields%>">
@@ -216,7 +222,9 @@
 
   <%-- SHOW UNITS FOR MONTH --%>
   function showUnitsForMonth(monthIdx,year,serviceStockUid,productStockUid){
-    openPopup("pharmacy/popups/unitOverviewForMonth.jsp&monthIdx="+monthIdx+"&serviceStockUid="+serviceStockUid+"&productStockUid="+productStockUid+"&year="+year+"&ts=<%=getTs()%>");
+    openPopup("pharmacy/popups/unitOverviewForMonth.jsp&monthIdx="+monthIdx+
+    		  "&serviceStockUid="+serviceStockUid+"&productStockUid="+productStockUid+
+    		  "&year="+year+"&ts=<%=getTs()%>");
   }
 
   <%-- CLEAR SEARCH FIELDS --%>
@@ -258,13 +266,15 @@
 
   <%-- popup : search product stock --%>
   function searchProductStock(productStockUidField,productStockNameField,serviceStockNameField){
-    openPopup("/_common/search/searchProductStock.jsp&ts=<%=getTs()%>&ReturnProductStockUidField="+productStockUidField+"&ReturnProductStockNameField="+productStockNameField+"&ReturnServiceStockNameField="+serviceStockNameField);
+    openPopup("/_common/search/searchProductStock.jsp&ts=<%=getTs()%>&ReturnProductStockUidField="+productStockUidField+
+    		  "&ReturnProductStockNameField="+productStockNameField+"&ReturnServiceStockNameField="+serviceStockNameField);
   }
 
   <%-- DO PRINT --%>
   function doPrint(){
-    var url = "<%=sCONTEXTPATH%>/pharmacy/createProductStockFichePdf.jsp?ProductStockUid=<%=sSelectedProductStockUid%>&FicheYear=<%=sCurrentYear%>&ts=<%=getTs()%>";
-    window.open(url,"OrderTicketsPDF<%=new java.util.Date().getTime()%>","height=600,width=845,toolbar=no,status=no,scrollbars=yes,resizable=yes,menubar=yes,left=50,top=30");
+    var url = "<%=sCONTEXTPATH%>/pharmacy/createProductStockFichePdf.jsp?ProductStockUid=<%=sSelectedProductStockUid%>"+
+    		  "&FicheYear=<%=sCurrentYear%>&ts=<%=getTs()%>";
+    window.open(url,"OrderTicketsPDF<%=getTs()%>","height=600,width=845,toolbar=no,status=no,scrollbars=yes,resizable=yes,menubar=yes,left=50,top=30");
   }
 
   <%-- DO BACK --%>

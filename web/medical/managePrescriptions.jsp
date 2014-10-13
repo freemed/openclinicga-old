@@ -14,40 +14,40 @@
 
 <%!
     //--- OBJECTS TO HTML -------------------------------------------------------------------------
-    private StringBuffer objectsToHtml(Vector objects, String sWebLanguage,User activeUser) {
+    private StringBuffer objectsToHtml(Vector objects, String sWebLanguage,User activeUser){
         StringBuffer html = new StringBuffer();
         String sClass = "1", sDateBeginFormatted, sDateEndFormatted = "",
-                sProductName = "", sProductUid, sPreviousProductUid = "";
+               sProductName = "", sProductUid, sPreviousProductUid = "";
         SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         java.util.Date tmpDate;
         Product product;
 
         // frequently used translations
-        String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
-               deleteTran  = getTranNoLink("Web", "delete", sWebLanguage);
+        String detailsTran = getTranNoLink("web","showdetails",sWebLanguage),
+               deleteTran  = getTranNoLink("Web","delete",sWebLanguage);
 
         // run thru found prescriptions
         Prescription prescr;
-        for (int i = 0; i < objects.size(); i++) {
+        for(int i=0; i<objects.size(); i++){
             prescr = (Prescription) objects.get(i);
 
             // format date begin
             tmpDate = prescr.getBegin();
-            if(tmpDate != null) sDateBeginFormatted = stdDateFormat.format(tmpDate);
-            else                sDateBeginFormatted = "";
+            if(tmpDate!=null) sDateBeginFormatted = stdDateFormat.format(tmpDate);
+            else              sDateBeginFormatted = "";
 
             // format date end
             tmpDate = prescr.getEnd();
-            if(tmpDate != null) sDateEndFormatted = stdDateFormat.format(tmpDate);
-            else                sDateEndFormatted = "";
+            if(tmpDate!=null) sDateEndFormatted = stdDateFormat.format(tmpDate);
+            else              sDateEndFormatted = "";
 
             // only search product-name when different product-UID
             sProductUid = prescr.getProductUid();
-            if (!sProductUid.equals(sPreviousProductUid)) {
+            if(!sProductUid.equals(sPreviousProductUid)){
                 sPreviousProductUid = sProductUid;
                 product = Product.get(sProductUid);
 
-                if (product != null) {
+                if(product!=null){
                     sProductName = product.getName();
                 }
                 else {
@@ -75,6 +75,7 @@
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sDateEndFormatted+"</td>")
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+(prescr.getSupplyingServiceUid()!=null?getTranNoLink("Service", prescr.getSupplyingServiceUid(), sWebLanguage):"")+"</td>")
                 .append("</tr>");
+            
             try{
             	ad_conn.close();
             }
@@ -87,45 +88,44 @@
     }
 
     //--- ACTIVE PRESCRIPTIONS TO HTML ------------------------------------------------------------
-    private StringBuffer activePrescriptionsToHtml(Vector objects, String sWebLanguage,User activeUser) {
+    private StringBuffer activePrescriptionsToHtml(Vector objects, String sWebLanguage,User activeUser){
         StringBuffer html = new StringBuffer();
         Product product = null;
         String sClass = "1", sDateBeginFormatted, sDateEndFormatted, sProductName = "",
-                sProductUid, sPreviousProductUid = "", sTimeUnit, sTimeUnitCount = "",
-                sUnitsPerTimeUnit, sPrescrRule = "", sProductUnit, timeUnitTran = "";
+               sProductUid, sPreviousProductUid = "", sTimeUnit, sTimeUnitCount = "",
+               sUnitsPerTimeUnit, sPrescrRule = "", sProductUnit, timeUnitTran = "";
         DecimalFormat unitCountDeci = new DecimalFormat("#.#");
-        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         java.util.Date tmpDate;
 
         // frequently used translations
-        String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
-                deleteTran = getTranNoLink("Web", "delete", sWebLanguage);
+        String detailsTran = getTranNoLink("web","showdetails",sWebLanguage),
+               deleteTran = getTranNoLink("Web","delete",sWebLanguage);
 
         Prescription prescr;
-        for (int i = 0; i < objects.size(); i++) {
+        for (int i = 0; i < objects.size(); i++){
             prescr = (Prescription) objects.get(i);
 
             // format date begin
             tmpDate = prescr.getBegin();
-            if(tmpDate != null) sDateBeginFormatted = stdDateFormat.format(tmpDate);
-            else                sDateBeginFormatted = "";
+            if(tmpDate!=null) sDateBeginFormatted = ScreenHelper.formatDate(tmpDate);
+            else              sDateBeginFormatted = "";
 
             // format date end
             tmpDate = prescr.getEnd();
-            if(tmpDate != null) sDateEndFormatted = stdDateFormat.format(tmpDate);
-            else                sDateEndFormatted = "";
+            if(tmpDate!=null) sDateEndFormatted = ScreenHelper.formatDate(tmpDate);
+            else              sDateEndFormatted = "";
 
             // only search product-name when different product-UID
             sProductUid = prescr.getProductUid();
-            if (!sProductUid.equals(sPreviousProductUid)) {
+            if(!sProductUid.equals(sPreviousProductUid)){
                 sPreviousProductUid = sProductUid;
                 product = Product.get(sProductUid);
 
-                if (product != null) {
+                if(product!=null){
                     sProductName = product.getName();
                 } 
                 else {
-                    sProductName = "<font color='red'>"+getTran("web", "nonexistingproduct", sWebLanguage)+"</font>";
+                    sProductName = "<font color='red'>"+getTran("web","nonexistingproduct",sWebLanguage)+"</font>";
                 }
             }
 
@@ -136,29 +136,29 @@
             sUnitsPerTimeUnit = prescr.getUnitsPerTimeUnit()+"";
 
             // only compose prescriptio-rule if all data is available
-            if (!sTimeUnit.equals("0") && !sTimeUnitCount.equals("0") && !sUnitsPerTimeUnit.equals("0") && product != null) {
-                sPrescrRule = getTran("web.prescriptions", "prescriptionrule", sWebLanguage);
-                sPrescrRule = sPrescrRule.replaceAll("#unitspertimeunit#", unitCountDeci.format(Double.parseDouble(sUnitsPerTimeUnit)));
+            if(!sTimeUnit.equals("0") && !sTimeUnitCount.equals("0") && !sUnitsPerTimeUnit.equals("0") && product!=null){
+                sPrescrRule = getTran("web.prescriptions", "prescriptionrule",sWebLanguage);
+                sPrescrRule = sPrescrRule.replaceAll("#unitspertimeunit#",unitCountDeci.format(Double.parseDouble(sUnitsPerTimeUnit)));
 
                 // productunits
-                if (Double.parseDouble(sUnitsPerTimeUnit) == 1) {
-                    sProductUnit = getTran("product.unit", product.getUnit(), sWebLanguage);
+                if(Double.parseDouble(sUnitsPerTimeUnit)==1){
+                    sProductUnit = getTran("product.unit",product.getUnit(),sWebLanguage);
                 }
-                else {
-                    sProductUnit = getTran("product.unit", product.getUnit(), sWebLanguage);
+                else{
+                    sProductUnit = getTran("product.unit",product.getUnit(),sWebLanguage);
                 }
-                sPrescrRule = sPrescrRule.replaceAll("#productunit#", sProductUnit.toLowerCase());
+                sPrescrRule = sPrescrRule.replaceAll("#productunit#",sProductUnit.toLowerCase());
 
                 // timeunits
-                if (Integer.parseInt(sTimeUnitCount) == 1) {
-                    sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#", "");
-                    timeUnitTran = getTran("prescription.timeunit", sTimeUnit, sWebLanguage);
+                if(Integer.parseInt(sTimeUnitCount)==1){
+                    sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#","");
+                    timeUnitTran = getTran("prescription.timeunit",sTimeUnit,sWebLanguage);
                 }
-                else {
-                    sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#", sTimeUnitCount);
-                    timeUnitTran = getTran("prescription.timeunits", sTimeUnit, sWebLanguage);
+                else{
+                    sPrescrRule = sPrescrRule.replaceAll("#timeunitcount#",sTimeUnitCount);
+                    timeUnitTran = getTran("prescription.timeunits",sTimeUnit,sWebLanguage);
                 }
-                sPrescrRule = sPrescrRule.replaceAll("#timeunit#", timeUnitTran.toLowerCase());
+                sPrescrRule = sPrescrRule.replaceAll("#timeunit#",timeUnitTran.toLowerCase());
             }
 
             // alternate row-style
@@ -186,9 +186,10 @@
         return html;
     }
 %>
+
 <%
     String sDefaultSortCol = "OC_PRESCR_BEGIN",
-            sDefaultSortDir = "DESC";
+           sDefaultSortDir = "DESC";
 
     String sAction = checkString(request.getParameter("Action"));
 
@@ -220,22 +221,22 @@
            sQuantity6 = checkString(request.getParameter("quantity6"));
 
     PrescriptionSchema prescriptionSchema = new PrescriptionSchema();
-    if (sTime1.length() > 0) {
+    if(sTime1.length() > 0){
         prescriptionSchema.getTimequantities().add(new KeyValue(sTime1, sQuantity1));
     }
-    if (sTime2.length() > 0) {
+    if(sTime2.length() > 0){
         prescriptionSchema.getTimequantities().add(new KeyValue(sTime2, sQuantity2));
     }
-    if (sTime3.length() > 0) {
+    if(sTime3.length() > 0){
         prescriptionSchema.getTimequantities().add(new KeyValue(sTime3, sQuantity3));
     }
-    if (sTime4.length() > 0) {
+    if(sTime4.length() > 0){
         prescriptionSchema.getTimequantities().add(new KeyValue(sTime4, sQuantity4));
     }
-    if (sTime5.length() > 0) {
+    if(sTime5.length() > 0){
         prescriptionSchema.getTimequantities().add(new KeyValue(sTime5, sQuantity5));
     }
-    if (sTime6.length() > 0) {
+    if(sTime6.length() > 0){
         prescriptionSchema.getTimequantities().add(new KeyValue(sTime6, sQuantity6));
     }
 
@@ -299,40 +300,40 @@
     boolean displayEditFields = false, displayFoundRecords = false;
 
     String sDisplaySearchFields = checkString(request.getParameter("DisplaySearchFields"));
-    if (sDisplaySearchFields.length() == 0) sDisplaySearchFields = "true"; // default
+    if(sDisplaySearchFields.length()==0) sDisplaySearchFields = "true"; // default
     boolean displaySearchFields = sDisplaySearchFields.equalsIgnoreCase("true");
-    if (Debug.enabled) Debug.println("@@@ displaySearchFields : "+displaySearchFields);
+    Debug.println("@@@ displaySearchFields : "+displaySearchFields);
 
     String sDisplayActivePrescr = checkString(request.getParameter("DisplayActivePrescriptions"));
-    if (sDisplayActivePrescr.length() == 0) sDisplayActivePrescr = "true"; // default
+    if(sDisplayActivePrescr.length()==0) sDisplayActivePrescr = "true"; // default
     boolean displayActivePrescr = sDisplayActivePrescr.equalsIgnoreCase("true");
-    if (Debug.enabled) Debug.println("@@@ displayActivePrescr : "+displayActivePrescr);
+    Debug.println("@@@ displayActivePrescr : "+displayActivePrescr);
 
     String sIsActivePrescr = checkString(request.getParameter("IsActivePrescr"));
-    if (sIsActivePrescr.length() == 0) sIsActivePrescr = "false"; // default
+    if(sIsActivePrescr.length()==0) sIsActivePrescr = "false"; // default
     boolean isActivePrescr = sIsActivePrescr.equalsIgnoreCase("true");
-    if (Debug.enabled) Debug.println("@@@ isActivePrescr : "+isActivePrescr);
+    Debug.println("@@@ isActivePrescr : "+isActivePrescr);
 
     // search prescriptions written by active user by default
-    if (sAction.length() == 0) {
+    if(sAction.length()==0){
         sFindPrescriberUid = "";
         sFindPrescriberFullName = "";
     }
 
     // sortcol
     String sSortCol = checkString(request.getParameter("SortCol"));
-    if (sSortCol.length() == 0) sSortCol = sDefaultSortCol;
+    if(sSortCol.length()==0) sSortCol = sDefaultSortCol;
 
     // sortdir
     String sSortDir = checkString(request.getParameter("SortDir"));
-    if (sSortDir.length() == 0) sSortDir = sDefaultSortDir;
+    if(sSortDir.length()==0) sSortDir = sDefaultSortDir;
 
     //*********************************************************************************************
     //*** process actions *************************************************************************
     //*********************************************************************************************
 
     //--- SAVE ------------------------------------------------------------------------------------
-    if (sAction.equals("save") && sEditPrescrUid.length() > 0) {
+    if(sAction.equals("save") && sEditPrescrUid.length() > 0){
         // create prescription
         Prescription prescr = new Prescription();
         prescr.setUid(sEditPrescrUid);
@@ -340,11 +341,11 @@
         prescr.setPrescriberUid(sEditPrescriberUid);
         prescr.setProductUid(sEditProductUid);
         prescr.setTimeUnit(sEditTimeUnit);
-        if (sEditDateBegin.length() > 0) prescr.setBegin(ScreenHelper.parseDate(sEditDateBegin));
-        if (sEditDateEnd.length() > 0) prescr.setEnd(ScreenHelper.parseDate(sEditDateEnd));
-        if (sEditTimeUnitCount.length() > 0) prescr.setTimeUnitCount(Integer.parseInt(sEditTimeUnitCount));
-        if (sEditUnitsPerTimeUnit.length() > 0) prescr.setUnitsPerTimeUnit(Double.parseDouble(sEditUnitsPerTimeUnit));
-        if (sEditRequiredPackages.length() > 0) prescr.setRequiredPackages(Integer.parseInt(sEditRequiredPackages));
+        if(sEditDateBegin.length() > 0) prescr.setBegin(ScreenHelper.parseDate(sEditDateBegin));
+        if(sEditDateEnd.length() > 0) prescr.setEnd(ScreenHelper.parseDate(sEditDateEnd));
+        if(sEditTimeUnitCount.length() > 0) prescr.setTimeUnitCount(Integer.parseInt(sEditTimeUnitCount));
+        if(sEditUnitsPerTimeUnit.length() > 0) prescr.setUnitsPerTimeUnit(Double.parseDouble(sEditUnitsPerTimeUnit));
+        if(sEditRequiredPackages.length() > 0) prescr.setRequiredPackages(Integer.parseInt(sEditRequiredPackages));
         prescr.setSupplyingServiceUid(sEditSupplyingServiceUid);
         prescr.setUpdateUser(activeUser.userid);
 
@@ -352,11 +353,11 @@
         Debug.println("*** activeUser.activeService.code                   = '"+activeUser.activeService.code+"'");/////////// todo
         Debug.println("*** activeUser.activeService.defaultServiceStockUid = '"+activeUser.activeService.defaultServiceStockUid+"'");/////////// todo
 
-        if (sEditServiceStockUid.length() == 0) {
-            if (activePatient.isHospitalized()) {
+        if(sEditServiceStockUid.length()==0){
+            if(activePatient.isHospitalized()){
                 // * for hospitalized patient : active users' active services' default service stock
                 sEditServiceStockUid = activeUser.activeService.defaultServiceStockUid;
-                if (sEditServiceStockUid.length() == 0) {
+                if(sEditServiceStockUid.length()==0){
                     sEditServiceStockUid = MedwanQuery.getInstance().getConfigString("centralPharmacyServiceStockCode");
                     Debug.println("*********** hospitalized, no def serv stock for serv --> centralPharmacyServiceStockCode");/////////////    todo
                 }
@@ -373,9 +374,9 @@
         prescr.setServiceStockUid(sEditServiceStockUid);
 
         // supplying service uid
-        if (sEditSupplyingServiceUid.length() == 0) {
+        if(sEditSupplyingServiceUid.length()==0){
             ServiceStock serviceStock = ServiceStock.get(sEditServiceStockUid);
-            if (serviceStock != null) {
+            if(serviceStock!=null){
                 sEditSupplyingServiceUid = serviceStock.getService().code;
             }
         }
@@ -388,50 +389,52 @@
         String existingPrescrUid = prescr.exists();
         boolean prescrExists = existingPrescrUid.length() > 0;
 
-        if (sEditPrescrUid.equals("-1")) {
+        if(sEditPrescrUid.equals("-1")){
             //***** insert new prescription *****
-            if (!prescrExists) {
+            if(!prescrExists){
                 prescr.store(false);
                 prescriptionSchema.setPrescriptionUid(prescr.getUid());
                 prescriptionSchema.store();
 
                 // show saved data
                 sAction = "findShowOverview"; // showDetails
-                msg = getTran("web", "dataissaved", sWebLanguage);
+                msg = getTran("web","dataissaved",sWebLanguage);
             }
             //***** reject new addition *****
-            else {
+            else{
                 // show rejected data
                 sAction = "showDetailsAfterAddReject";
-                msg = "<font color='red'>"+getTran("web.manage", "prescriptionexists", sWebLanguage)+"</font>";
+                msg = "<font color='red'>"+getTran("web.manage","prescriptionexists",sWebLanguage)+"</font>";
             }
-        } else {
+        }
+        else{
             //***** update existing record *****
-            if (!prescrExists) {
+            if(!prescrExists){
                 prescr.store(false);
                 prescriptionSchema.setPrescriptionUid(prescr.getUid());
                 prescriptionSchema.store();
 
                 // show saved data
                 sAction = "findShowOverview"; // showDetails
-                msg = getTran("web", "dataissaved", sWebLanguage);
+                msg = getTran("web","dataissaved",sWebLanguage);
             }
             //***** reject double record thru update *****
-            else {
-                if (sEditPrescrUid.equals(existingPrescrUid)) {
+            else{
+                if(sEditPrescrUid.equals(existingPrescrUid)){
                     // nothing : just updating a record with its own data
-                    //if (prescr.changed()) {
+                    //if(prescr.changed()){
                         prescr.store(false);
                         prescriptionSchema.setPrescriptionUid(prescr.getUid());
                         prescriptionSchema.store();
-                        msg = getTran("web", "dataissaved", sWebLanguage);
+                        msg = getTran("web","dataissaved",sWebLanguage);
                     //}
                     sAction = "findShowOverview"; // showDetails
-                } else {
+                }
+                else{
                     // tried to update one prescription with exact the same data as an other prescription
                     // show rejected data
                     sAction = "showDetailsAfterUpdateReject";
-                    msg = "<font color='red'>"+getTran("web.manage", "prescriptionexists", sWebLanguage)+"</font>";
+                    msg = "<font color='red'>"+getTran("web.manage","prescriptionexists",sWebLanguage)+"</font>";
                 }
             }
         }
@@ -439,7 +442,7 @@
         sEditPrescrUid = prescr.getUid();
     }
     //--- DELETE ----------------------------------------------------------------------------------
-    else if (sAction.equals("delete") && sEditPrescrUid.length() > 0) {
+    else if(sAction.equals("delete") && sEditPrescrUid.length() > 0){
         Prescription.delete(sEditPrescrUid);
         PrescriptionSchema prescriptionSchemaToDelete = PrescriptionSchema.getPrescriptionSchema(sEditPrescrUid);
         prescriptionSchemaToDelete.delete();
@@ -448,49 +451,48 @@
     }
 
     //--- SORT ------------------------------------------------------------------------------------
-    if (sAction.equals("sort")) {
+    if(sAction.equals("sort")){
         displayEditFields = false;
         displayActivePrescr = true;
         sAction = "find";
     }
 
     //--- FIND ------------------------------------------------------------------------------------
-    if (sAction.startsWith("find")) {
-        if (sAction.equals("find")) displayActivePrescr = false;
+    if(sAction.startsWith("find")){
+        if(sAction.equals("find")) displayActivePrescr = false;
 
         displayFoundRecords = !displayActivePrescr;
         displaySearchFields = true;
         displayEditFields = false;
 
         Vector prescriptions = Prescription.find(sFindPatientUid, sFindPrescriberUid, sFindProductUid, sFindDateBegin,
-                sFindDateEnd, sFindSupplyingServiceUid, sSortCol, sSortDir);
+               sFindDateEnd, sFindSupplyingServiceUid, sSortCol, sSortDir);
         prescriptionsHtml = objectsToHtml(prescriptions, sWebLanguage,activeUser);
         foundPrescrCount = prescriptions.size();
     }
 
     //--- SHOW DETAILS ----------------------------------------------------------------------------
-    if (sAction.startsWith("showDetails")) {
+    if(sAction.startsWith("showDetails")){
         displayEditFields = true;
         displaySearchFields = false;
 
         // get specified record
-        if (sAction.equals("showDetails") || sAction.equals("showDetailsAfterUpdateReject")) {
+        if(sAction.equals("showDetails") || sAction.equals("showDetailsAfterUpdateReject")){
             Prescription prescr = Prescription.get(sEditPrescrUid);
 
-            if (prescr != null) {
+            if(prescr!=null){
                 sSelectedPrescriberUid = prescr.getPrescriberUid();
-
-                if (prescr.getProduct() != null) {
+                if(prescr.getProduct()!=null){
                     sSelectedProductUid = prescr.getProductUid();
                 }
 
                 // format begin date
                 java.util.Date tmpDate = prescr.getBegin();
-                if (tmpDate != null) sSelectedDateBegin = stdDateFormat.format(tmpDate);
+                if(tmpDate!=null) sSelectedDateBegin = stdDateFormat.format(tmpDate);
 
                 // format end date
                 tmpDate = prescr.getEnd();
-                if (tmpDate != null) sSelectedDateEnd = stdDateFormat.format(tmpDate);
+                if(tmpDate!=null) sSelectedDateEnd = stdDateFormat.format(tmpDate);
 
                 sSelectedTimeUnit = checkString(prescr.getTimeUnit());
                 sSelectedTimeUnitCount = prescr.getTimeUnitCount()+"";
@@ -505,29 +507,29 @@
                 ad_conn.close();
 
                 // supplying service name
-                if (sSelectedSupplyingServiceUid.length() > 0) {
+                if(sSelectedSupplyingServiceUid.length() > 0){
                     sSelectedSupplyingServiceName = getTranNoLink("Service", sSelectedSupplyingServiceUid, sWebLanguage);
                 }
 
                 // service stock name
-                if (sSelectedServiceStockUid.length() > 0) {
+                if(sSelectedServiceStockUid.length() > 0){
                     sSelectedServiceStockName = prescr.getServiceStock().getName();
                 }
 
                 // product
                 Product product = Product.get(sSelectedProductUid);
-                if (product != null) {
+                if(product!=null){
                     sSelectedProductUnit = product.getUnit();
                     sSelectedProductName = product.getName();
 
-                    if (sSelectedProductName.length() == 0) {
+                    if(sSelectedProductName.length()==0){
                         sSelectedProductName = "<font color='red'>"+getTran("web", "nonexistingproduct", sWebLanguage)+"</font>";
                     }
                 }
                 prescriptionSchema = PrescriptionSchema.getPrescriptionSchema(prescr.getUid());
             }
         }
-        else if (sAction.equals("showDetailsAfterAddReject")) {
+        else if(sAction.equals("showDetailsAfterAddReject")){
             // do not get data from DB, but show data that were allready on form
             sSelectedPrescriberUid = sEditPrescriberUid;
             sSelectedProductUid = sEditProductUid;
@@ -546,7 +548,7 @@
             sSelectedProductUnit = "";
             sSelectedSupplyingServiceName = sEditSupplyingServiceName;
         }
-        else {
+        else{
             // showDetailsNew : set default values
             sSelectedPrescriberUid = activeUser.userid;
             sSelectedPrescriberFullName = activeUser.person.lastname+" "+activeUser.person.firstname;
@@ -639,7 +641,15 @@
                                 <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearch('<%=sDefaultSortCol%>');">
                                 <input type="button" class="button" name="clearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearSearchFields();">
                                 <input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">
-                                <input type="button" class="button" name="searchActivePrescrButton" value="<%=getTranNoLink("Web.manage","activePrescriptions",sWebLanguage)%>" onclick="doSearchInActivePrescriptions();">&nbsp;
+                                
+                                <%
+                                    if(!displayActivePrescr){
+                                        %><input type="button" class="button" name="searchActivePrescrButton" value="<%=getTranNoLink("Web.manage","activePrescriptions",sWebLanguage)%>" onclick="doSearchInActivePrescriptions();">&nbsp;<%
+                                    }
+                                    else{
+                                    	%><input type="hidden" name="searchActivePrescrButton"><%
+                                    }
+                                %>
 
                                 <%-- display message --%>
                                 <span id="msgArea"><%=msg%></span>
@@ -716,7 +726,7 @@
                             <td class="admin" nowrap><%=getTran("Web","begindate",sWebLanguage)%>&nbsp;*&nbsp;</td>
                             <td class="admin2">
                                 <input type="text" maxlength="10" class="text" name="EditDateBegin" value="<%=sSelectedDateBegin%>" size="12" onblur="if(!checkDate(this)){alertDialog('Web.Occup','date.error');this.value='';}else{calculatePackagesNeeded(false);}if(isEndDateBeforeBeginDate()){displayEndBeforeBeginAlert();}" onKeyUp="if(this.value.length==10){calculatePackagesNeeded(false);}else{transactionForm.EditRequiredPackages.value='';}">
-                                <img name="popcal" class="link" src="<%=sCONTEXTPATH%>/_img/icons/icon_agenda.gif" alt="<%=getTranNoLink("Web","Select",sWebLanguage)%>" onclick="gfPop1.fPopCalendar(document.transactionForm.all['EditDateBegin']);return false;">
+                                <img class="link" name="popcal" src="<%=sCONTEXTPATH%>/_img/icons/icon_agenda.gif" alt="<%=getTranNoLink("Web","Select",sWebLanguage)%>" onclick="gfPop1.fPopCalendar(document.transactionForm.all['EditDateBegin']);return false;">
                                 <img class="link" src="<%=sCONTEXTPATH%>/_img/icons/icon_compose.gif" alt="<%=getTranNoLink("Web","PutToday",sWebLanguage)%>" onclick="getToday(document.transactionForm.all['EditDateBegin']);calculatePackagesNeeded(false);">
                             </td>
                         </tr>
@@ -725,7 +735,7 @@
                             <td class="admin" nowrap><%=getTran("Web","enddate",sWebLanguage)%>&nbsp;*&nbsp;</td>
                             <td class="admin2">
                                 <input type="text" maxlength="10" class="text" name="EditDateEnd" value="<%=sSelectedDateEnd%>" size="12" onblur="if(!checkDate(this)){alertDialog('Web.Occup','date.error');this.value='';}else{calculatePackagesNeeded(false);}if(isEndDateBeforeBeginDate()){displayEndBeforeBeginAlert();}" onKeyUp="if(this.value.length==10){calculatePackagesNeeded(false);}else{transactionForm.EditRequiredPackages.value='';}">
-                                <img name="popcal" class="link" src="<%=sCONTEXTPATH%>/_img/icons/icon_agenda.gif" alt="<%=getTranNoLink("Web","Select",sWebLanguage)%>" onclick="gfPop1.fPopCalendar(document.transactionForm.all['EditDateEnd']);return false;">
+                                <img class="link" name="popcal" src="<%=sCONTEXTPATH%>/_img/icons/icon_agenda.gif" alt="<%=getTranNoLink("Web","Select",sWebLanguage)%>" onclick="gfPop1.fPopCalendar(document.transactionForm.all['EditDateEnd']);return false;">
                                 <img class="link" src="<%=sCONTEXTPATH%>/_img/icons/icon_compose.gif" alt="<%=getTranNoLink("Web","PutToday",sWebLanguage)%>" onclick="getToday(document.transactionForm.all['EditDateEnd']);calculatePackagesNeeded(false);">
                             </td>
                         </tr>
@@ -733,12 +743,12 @@
                         <%
                             // units per package
                             String sUnitsPerPackage = "";
-                            Prescription prescr=null;
-                            if (sEditPrescrUid.length() > 0 && !sEditPrescrUid.equals("-1")) {
+                            Prescription prescr = null;
+                            if(sEditPrescrUid.length() > 0 && !sEditPrescrUid.equals("-1")){
                                 prescr = Prescription.get(sEditPrescrUid);
-                                if (prescr != null && prescr.getProduct() != null) {
+                                if(prescr!=null && prescr.getProduct()!=null){
                                     sUnitsPerPackage = prescr.getProduct().getPackageUnits()+"";
-                                    if (prescriptionSchema.getTimequantities().size() == 0) {
+                                    if(prescriptionSchema.getTimequantities().size()==0){
                                         prescriptionSchema.setTimequantities(ProductSchema.getSingleProductSchema(prescr.getProduct().getUid()).getTimequantities());
                                     }
                                 }
@@ -814,20 +824,16 @@
                                 <%
                                     if(sAction.equals("showDetails") || sAction.equals("showDetailsAfterUpdateReject")){
                                         // existing prescription : display saveButton with save-label
-                                        if (((prescr==null || (prescr!=null && prescr.getDeliveredQuantity()==0)) && (activeUser.getAccessRight("prescriptions.drugs.add")))||activeUser.getAccessRight("sa")){
+                                        if(((prescr==null || (prescr!=null && prescr.getDeliveredQuantity()==0)) && (activeUser.getAccessRight("prescriptions.drugs.add")))||activeUser.getAccessRight("sa")){
                                         %>
                                             <input class="button" type="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">
                                             <input class="button" type="button" name="saveButton" id="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">
                                         <%
                                         }
-                                        if ((prescr==null || (prescr!=null && prescr.getDeliveredQuantity()==0)) && (activeUser.getAccessRight("prescriptions.drugs.delete"))){
-                                        %>
-                                            <input class="button" type="button" name="deleteButton" value='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="doDelete('<%=sEditPrescrUid%>');">
-                                        <%
-                                            }
-                                        %>
-                                            <input class="button" type="button" name="returnButton" value='<%=getTranNoLink("Web","backtooverview",sWebLanguage)%>' onclick="doBackToOverview();">
-                                        <%
+                                        if((prescr==null || (prescr!=null && prescr.getDeliveredQuantity()==0)) && (activeUser.getAccessRight("prescriptions.drugs.delete"))){
+                                            %><input class="button" type="button" name="deleteButton" value='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="doDelete('<%=sEditPrescrUid%>');"><%
+                                        }
+                                        %><input class="button" type="button" name="returnButton" value='<%=getTranNoLink("Web","backtooverview",sWebLanguage)%>' onclick="doBackToOverview();"><%
                                     }
                                     else if(sAction.equals("showDetailsNew") || sAction.equals("showDetailsAfterAddReject")){
                                         // new prescription : display saveButton with add-label+do not display delete button
@@ -845,7 +851,6 @@
 
                     <%-- indication of obligated fields --%>
                     <%=getTran("Web","asterisk_fields_are_obligate",sWebLanguage)%>
-
                     <br><br>
 
                     <script>
@@ -867,10 +872,10 @@
                             var totalUnits = packages*unitsPerPackage;
 
                             var millisInTimeUnit;
-                                 if(timeUnit=="type1hour"){  millisInTimeUnit = 3600*1000; }
-                            else if(timeUnit=="type2day"){   millisInTimeUnit = 24*3600*1000; }
-                            else if(timeUnit=="type3week"){  millisInTimeUnit = 7*24*3600*1000; }
-                            else if(timeUnit=="type4month"){ millisInTimeUnit = 31*24*3600*1000; }
+                                 if(timeUnit=="type1hour")  millisInTimeUnit = 3600*1000;
+                            else if(timeUnit=="type2day")   millisInTimeUnit = 24*3600*1000;
+                            else if(timeUnit=="type3week")  millisInTimeUnit = 7*24*3600*1000;
+                            else if(timeUnit=="type4month") millisInTimeUnit = 31*24*3600*1000;
 
                             var unitsPerMilli = unitsPerTimeUnit/millisInTimeUnit/timeUnitCount;
                             var periodInMillis = totalUnits/unitsPerMilli;
@@ -911,12 +916,11 @@
                         }
                       }
 
-
                       <%-- CALCULATE PACKAGES NEEDED --%>
                       function calculatePackagesNeeded(displayAlert){
-                        if(transactionForm.UnitsPerPackage.value.length > 0 && transactionForm.UnitsPerPackage.value != "0"){
-                          var dateBegin = transactionForm.EditDateBegin.value;
-                          var dateEnd   = transactionForm.EditDateEnd.value;
+                        if(transactionForm.UnitsPerPackage.value.length > 0 && transactionForm.UnitsPerPackage.value!="0"){
+                          var dateBegin = transactionForm.EditDateBegin.value,
+                              dateEnd   = transactionForm.EditDateEnd.value;
 
                           if(dateBegin.length>0 && dateEnd.length>0){
                             if(!isEndDateBeforeBeginDate()){
@@ -926,15 +930,15 @@
                               var timeUnit         = transactionForm.EditTimeUnit.value;
 
                               if(unitsPerPackage.length>0 && unitsPerTimeUnit.length>0 && timeUnitCount.length>0 && timeUnit.length>0){
-                                var beginDate = transactionForm.EditDateBegin.value;
-                                var endDate   = transactionForm.EditDateEnd.value;
+                                var beginDate = transactionForm.EditDateBegin.value,
+                                    endDate   = transactionForm.EditDateEnd.value;
                                 var periodInMillis = makeDate(endDate).getTime()-makeDate(beginDate).getTime();
 
                                 var millisInTimeUnit;
-                                     if(timeUnit=="type1hour"){  millisInTimeUnit = 3600*1000; }
-                                else if(timeUnit=="type2day"){   millisInTimeUnit = 24*3600*1000; }
-                                else if(timeUnit=="type3week"){  millisInTimeUnit = 7*24*3600*1000; }
-                                else if(timeUnit=="type4month"){ millisInTimeUnit = 31*24*3600*1000; }
+                                     if(timeUnit=="type1hour")  millisInTimeUnit = 3600*1000;
+                                else if(timeUnit=="type2day")   millisInTimeUnit = 24*3600*1000;
+                                else if(timeUnit=="type3week")  millisInTimeUnit = 7*24*3600*1000;
+                                else if(timeUnit=="type4month") millisInTimeUnit = 31*24*3600*1000;
 
                                 var unitsPerMilli = unitsPerTimeUnit/millisInTimeUnit/timeUnitCount;
                                 var daysInPeriod = periodInMillis/(24*3600*1000);
@@ -969,7 +973,6 @@
                       function displayEndBeforeBeginAlert(){
                         if(transactionForm.EditDateEnd.value.length>0){
                           alertDialog("web.Occup","endMustComeAfterBegin");
-                          //transactionForm.EditDateEnd.focus();
                         }
                       }
 
@@ -983,11 +986,10 @@
                         else{
                           <%
                               Vector unitTypes = ScreenHelper.getProductUnitTypes(sWebLanguage);
-
                               for(int i=0; i<unitTypes.size(); i++){
                                   %>
-                                      var unitTran<%=(i+1)%> = "<%=getTranNoLink("product.unit",(String)unitTypes.get(i),sWebLanguage).toLowerCase()%>"
-                                      if(transactionForm.ProductUnit.value=="<%=unitTypes.get(i)%>") unitTran = unitTran<%=(i+1)%>;
+                                    var unitTran<%=(i+1)%> = "<%=getTranNoLink("product.unit",(String)unitTypes.get(i),sWebLanguage).toLowerCase()%>"
+                                    if(transactionForm.ProductUnit.value=="<%=unitTypes.get(i)%>") unitTran = unitTran<%=(i+1)%>;
                                   <%
                               }
                           %>
@@ -1012,7 +1014,7 @@
                       <%-- set setEditTimeUnitCount --%>
                       function setEditTimeUnitCount(){
                         if(transactionForm.EditTimeUnit.selectedIndex > 0){
-                          if(transactionForm.EditTimeUnitCount.value.length == 0){
+                          if(transactionForm.EditTimeUnitCount.value.length==0){
                             transactionForm.EditTimeUnitCount.value = "1";
                           }
                         }
@@ -1037,8 +1039,8 @@
                       function isEndDateBeforeBeginDate(){
                         if(transactionForm.EditDateBegin.value.length > 0 && transactionForm.EditDateEnd.value.length > 0){
                           if(isValidDate(transactionForm.EditDateBegin) && isValidDate(transactionForm.EditDateEnd)){
-                            var dateBegin = transactionForm.EditDateBegin.value;
-                            var dateEnd   = transactionForm.EditDateEnd.value;
+                            var dateBegin = transactionForm.EditDateBegin.value,
+                                dateEnd   = transactionForm.EditDateEnd.value;
 
                             return before(dateEnd,dateBegin);
                           }
@@ -1071,10 +1073,11 @@
                                 <td width="10%"><%=getTran("Web","enddate",sWebLanguage)%></td>
                                 <td width="35%"><%=getTran("Web","supplyingservice",sWebLanguage)%></td>
                             </tr>
-                            <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                            <tbody class="hand">
                                 <%=prescriptionsHtml%>
                             </tbody>
                         </table>
+                        
                         <%-- number of records found --%>
                         <span style="width:49%;text-align:left;">
                             <%=foundPrescrCount%> <%=getTran("web","recordsfound",sWebLanguage)%>
@@ -1093,11 +1096,7 @@
                     <%
                 }
                 else{
-                    // no records found
-                    %>
-                        <%=getTran("web","norecordsfound",sWebLanguage)%>
-                        <br><br>
-                    <%
+                    %><%=getTran("web","norecordsfound",sWebLanguage)%><br><br><%
                 }
             }
 
@@ -1130,7 +1129,7 @@
                                 <td width="35%"><%=getTran("Web","prescriptionrule",sWebLanguage)%></td>
                             </tr>
 
-                            <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                            <tbody class="hand">
                                 <%=prescriptionsHtml%>
                             </tbody>
                         </table>
@@ -1154,11 +1153,8 @@
                     <%
                 }
                 else{
-                    // no records found
-                    %>
-                        <%=getTran("web","noactiveprescriptionsfound",sWebLanguage)%>
-                        <br>
-                    <%
+                    // no active records found
+                    %><%=getTran("web","noactiveprescriptionsfound",sWebLanguage)%><br><%
                 }
             }
         }
@@ -1368,8 +1364,8 @@
     transactionForm.Action.value = "sort";
     transactionForm.SortCol.value = sortCol;
 
-    if(transactionForm.SortDir.value == "ASC") transactionForm.SortDir.value = "DESC";
-    else                                       transactionForm.SortDir.value = "ASC";
+    if(transactionForm.SortDir.value=="ASC") transactionForm.SortDir.value = "DESC";
+    else                                     transactionForm.SortDir.value = "ASC";
 
     transactionForm.submit();
   }

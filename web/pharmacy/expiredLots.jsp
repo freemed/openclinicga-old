@@ -7,7 +7,7 @@
 	long n3months = 1000*3600;
 	n3months = n3months*24*92;
 	
-	String sExpiryDate = ScreenHelper.stdDateFormat.format(new java.util.Date(new java.util.Date().getTime()+n3months));
+	String sExpiryDate = ScreenHelper.formatDate(new java.util.Date(new java.util.Date().getTime()+n3months));
 	if(request.getParameter("submit")!=null){
 		sExpiryDate = request.getParameter("expirydate");
 	}
@@ -89,7 +89,7 @@
 				            "<td class='admin2'>"+rs.getString("oc_product_name")+"</td>"+
 				            "<td class='admin2'>"+rs.getString("oc_batch_number")+"</td>"+
 				            "<td class='admin2'><b>"+rs.getString("oc_batch_level")+"</b></td>"+
-				            "<td class='admin2'><font "+sColor+">"+ScreenHelper.stdDateFormat.format(dExp)+"</font></td>"+
+				            "<td class='admin2'><font "+sColor+">"+ScreenHelper.formatDate(dExp)+"</font></td>"+
 				          "</tr>");
 				
 				recCount++;

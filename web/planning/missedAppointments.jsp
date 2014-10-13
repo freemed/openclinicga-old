@@ -95,11 +95,11 @@ if (activePatient!=null){
 
                         %>
                             <tr class="list<%=sClass%>" >
-                                <td><a href="#" onClick="actualAppointmentId='<%=planning.getUid()%>';deleteAppointment2('missedappointements');"><img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","delete",sWebLanguage)%>"></a></td>
-                                <td><a href="#" onclick="openAppointment('<%=planning.getUid()%>','missedappointments');"><%=ScreenHelper.getSQLDate(planning.getPlannedDate())%></a></td>
-                                <td><a href="#" onclick="openAppointment('<%=planning.getUid()%>','missedappointments');"><%=hhmmDateFormat.format(planning.getPlannedDate())%></a></td>
-                                <td><a href="#" onclick="openAppointment('<%=planning.getUid()%>','missedappointments');"><%=hhmmDateFormat.format(calPlanningStop.getTime())%></a></td>
-                                <td><a href="#" onclick="openAppointment('<%=planning.getUid()%>','missedappointments');">
+                                <td><a href="javascript:actualAppointmentId='<%=planning.getUid()%>';deleteAppointment2('missedappointements');"><img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","delete",sWebLanguage)%>"></a></td>
+                                <td><a href="javascript:openAppointment('<%=planning.getUid()%>','missedappointments');"><%=ScreenHelper.getSQLDate(planning.getPlannedDate())%></a></td>
+                                <td><a href="javascript:openAppointment('<%=planning.getUid()%>','missedappointments');"><%=hhmmDateFormat.format(planning.getPlannedDate())%></a></td>
+                                <td><a href="javascript:openAppointment('<%=planning.getUid()%>','missedappointments');"><%=hhmmDateFormat.format(calPlanningStop.getTime())%></a></td>
+                                <td><a href="javascript:openAppointment('<%=planning.getUid()%>','missedappointments');">
                                     <%
                                         if(planning.getUserUID().equals(activeUser.userid)){
                                             out.print("<b>"+ScreenHelper.getFullUserName(planning.getUserUID())+"</b>");
@@ -109,7 +109,7 @@ if (activePatient!=null){
                                         }
                                     %>
                                 </a></td>
-                                <td><a href="#" onclick="openAppointment('<%=planning.getUid()%>','missedappointments');">
+                                <td><a href="javascript:openAppointment('<%=planning.getUid()%>','missedappointments');">
                                     <%
                                         orContact = planning.getContact();
                                         if(orContact != null){
@@ -128,7 +128,7 @@ if (activePatient!=null){
                                         }
                                     %>
                                 </a></td>
-                                <td><a href="#" onclick="openAppointment('<%=planning.getUid()%>','missedappointments');"><%=planning.getDescription()%></a></td>
+                                <td><a href="javascript:openAppointment('<%=planning.getUid()%>','missedappointments');"><%=planning.getDescription()%></a></td>
                             </tr>
                         <%
                     }

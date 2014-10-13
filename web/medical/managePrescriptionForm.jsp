@@ -151,10 +151,10 @@
       onSuccess: function(resp){
         var prescriptioninfo = resp.responseText.split("$");
         if(prescriptioninfo[1].length>0){
-          $('prescription').value += prescriptioninfo[1]+"\n";
+          $('prescription').value+= prescriptioninfo[1]+"\n";
         }
-        else {
-          $('prescription').value += prescriptioninfo[2]+"\n";
+        else{
+          $('prescription').value+= prescriptioninfo[2]+"\n";
         }
       }
     });

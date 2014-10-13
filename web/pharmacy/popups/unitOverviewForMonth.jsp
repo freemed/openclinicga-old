@@ -1,8 +1,11 @@
 <%@page import="be.openclinic.pharmacy.ProductStock,
-                be.openclinic.pharmacy.Product,java.util.Calendar,java.util.GregorianCalendar" %>
+                be.openclinic.pharmacy.Product,
+                java.util.Calendar,
+                java.util.GregorianCalendar"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/_common/templateAddIns.jsp"%>
 <%=sJSSORTTABLE%>
+
 <%
     // retreive data
     String monthIdx        = checkString(request.getParameter("monthIdx")),
@@ -10,15 +13,15 @@
            serviceStockUid = checkString(request.getParameter("serviceStockUid")),
            productStockUid = checkString(request.getParameter("productStockUid"));
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("################## unitOverviewPerMonth #####################");
-        Debug.println("* monthIdx        : "+monthIdx);
-        Debug.println("* year            : "+year);
-        Debug.println("* serviceStockUid : "+serviceStockUid);
-        Debug.println("* productStockUid : "+productStockUid+"\n");
+        Debug.println("***************** pharmacy/popups/unitOverviewPerMonth.jsp ***************");
+        Debug.println("monthIdx        : "+monthIdx);
+        Debug.println("year            : "+year);
+        Debug.println("serviceStockUid : "+serviceStockUid);
+        Debug.println("productStockUid : "+productStockUid+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     String sSelectedServiceStockName = "", sSelectedProductStockName = "";
     ProductStock productStock = ProductStock.get(productStockUid);
@@ -35,11 +38,9 @@
         }
     }
 %>
-<%-- title ----------------------------------------------------------------------------------%>
+
+<%=writeTableHeader("Web.manage","unitOverviewPerMonth",sWebLanguage," window.close();")%>
 <table width="100%" cellspacing="1">
-    <tr class="admin">
-        <td colspan="2">&nbsp;<%=getTran("Web.manage","unitOverviewPerMonth",sWebLanguage)%></td>
-    </tr>
     <%-- MONTH --%>
     <tr>
         <td class="admin" width="<%=sTDAdminWidth%>">&nbsp;<%=getTran("web","month",sWebLanguage)%></td>
@@ -57,6 +58,7 @@
     </tr>
 </table>
 <br>
+
 <center>
 <%-- HEADER ---------------------------------------------------------------------------------%>
 <div class="search" style="width:98%">
@@ -69,49 +71,50 @@
             <td style="text-align:right;">&nbsp;<%=getTran("web","netto",sWebLanguage)%></td>
             <td style="text-align:right;">&nbsp;<%=getTran("web","level",sWebLanguage)%></td>
         </tr>
+        
         <%-- DISPLAY MONTHS --%>
         <tbody>
             <%
                 // days in specified month
                 Calendar calendar = new GregorianCalendar();
-                calendar.set(Integer.parseInt(year), Integer.parseInt(monthIdx), 0, 0, 0, 0);
+                calendar.set(Integer.parseInt(year),Integer.parseInt(monthIdx),0,0,0,0);
                 int daysInMonth = calendar.getMaximum(Calendar.DAY_OF_MONTH);
 
                 String sClass = "list1";
                 int dayOfWeek, unitsIn, unitsOut, unitsDiff;
-                int oldday=0;
+                int oldday = 0;
                 for(int i=0; i<daysInMonth; i++){
-                    calendar.add(Calendar.DATE, 1);
-                    if(oldday>calendar.get(Calendar.DATE)){
+                    calendar.add(Calendar.DATE,1);
+                    if(oldday > calendar.get(Calendar.DATE)){
                         break;
                     }
-                    else {
-                        oldday=calendar.get(Calendar.DATE);
+                    else{
+                        oldday = calendar.get(Calendar.DATE);
                     }
 
                     // convert day of week
                     dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-                    if (dayOfWeek == 0) dayOfWeek = 7;
+                    if(dayOfWeek==0) dayOfWeek = 7;
 
                     // weekend
-                    if (dayOfWeek == 6 || dayOfWeek == 7) {
+                    if(dayOfWeek==6 || dayOfWeek==7){
                         sClass = "gray";
                     }
-                    else {
-                        sClass="list1";
+                    else{
+                        sClass = "list1";
                     }
 
                     // count units
-                    unitsIn = productStock.getTotalUnitsInForDate(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(calendar.getTime())));
-                    unitsOut = productStock.getTotalUnitsOutForDate(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(calendar.getTime())));
+                    unitsIn = productStock.getTotalUnitsInForDate(ScreenHelper.stdDateFormat.parse(ScreenHelper.formatDate(calendar.getTime())));
+                    unitsOut = productStock.getTotalUnitsOutForDate(ScreenHelper.stdDateFormat.parse(ScreenHelper.formatDate(calendar.getTime())));
                     unitsDiff = unitsIn - unitsOut;
 
                     // alternate row-style
-                    String onclick="";
+                    String onclick = "";
                     if(unitsIn>0 || unitsOut>0){
-                        onclick="onclick=\"showUnitsForDay('"+ScreenHelper.stdDateFormat.format(calendar.getTime())+"','"+productStockUid+"');\"" +
-                                " onmouseover=\"this.style.cursor='hand';\" " +
-                                " onmouseout=\"this.style.cursor='default';\" ";
+                        onclick = "onclick=\"showUnitsForDay('"+ScreenHelper.formatDate(calendar.getTime())+"','"+productStockUid+"');\""+
+                                  " onmouseover=\"this.style.cursor='hand';\""+
+                                  " onmouseout=\"this.style.cursor='default';\"";
                     }
 
                     %>
@@ -142,9 +145,10 @@
     </table>
 </div>
 </center>
+
 <script>
-    <%-- SHOW UNITS FOR DAY --%>
-    function showUnitsForDay(date,productStockUid){
-      openPopup("pharmacy/popups/unitOverviewForDay.jsp&date="+date+"&productStockUid="+productStockUid+"&ts=<%=getTs()%>",900,550);
-    }
+  <%-- SHOW UNITS FOR DAY --%>
+  function showUnitsForDay(date,productStockUid){
+    openPopup("pharmacy/popups/unitOverviewForDay.jsp&date="+date+"&productStockUid="+productStockUid+"&ts="+new Date(),900,550);
+  }
 </script>

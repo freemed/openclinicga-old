@@ -177,7 +177,7 @@
             <input type="hidden" id="fCode" name="FindProblemCode" value="<%=sFindProblemCode%>">
             <input type="hidden" id="fType" name="FindProblemCodeType" value="<%=sFindProblemCodeType%>">
         </tr>
-        <!-- certainty -->
+        <%-- certainty --%>
         <tr>
             <td class="admin"><%=getTran("medical.diagnosis", "certainty", sWebLanguage)%> *</td>
             <td class="admin2">
@@ -187,7 +187,7 @@
                 </select>
             </td>
         </tr>
-        <!-- gravity -->
+        <%-- gravity --%>
         <tr>
             <td class="admin"><%=getTran("medical.diagnosis", "gravity", sWebLanguage)%> *</td>
             <td class="admin2">
@@ -302,28 +302,24 @@
 <%=writeTableHeader("Web.manage", "manageProblems", sWebLanguage, "")%>
 <table class="list" width="100%" cellspacing="0">
     <tr>
-        <td class="titleadmin" colspan="5">&nbsp;<%=getTran("medical.problem", "active", sWebLanguage)%>
-        </td>
+        <td class="titleadmin" colspan="5">&nbsp;<%=getTran("medical.problem","active",sWebLanguage)%></td>
     </tr>
     <tr class="admin">
         <td width="1%"/>
-        <td width="10%"><%=getTran("web", "code", sWebLanguage)%>
-        </td>
-        <td width="59%"><%=getTran("web", "comment", sWebLanguage)%>
-        </td>
-        <td width="15%"><%=getTran("web", "begindate", sWebLanguage)%>
-        </td>
-        <td width="15%"><%=getTran("web", "enddate", sWebLanguage)%>
-        </td>
+        <td width="10%"><%=getTran("web","code",sWebLanguage)%></td>
+        <td width="59%"><%=getTran("web","comment",sWebLanguage)%></td>
+        <td width="15%"><%=getTran("web","begindate",sWebLanguage)%></td>
+        <td width="15%"><%=getTran("web","enddate",sWebLanguage)%></td>
     </tr>
     <%=sResultsActive%>
     <tr>
         <td>&nbsp;</td>
     </tr>
     <%
-        if (iFoundActiveRecords > 0){
+        if(iFoundActiveRecords > 0){
             out.print("<tr><td colspan='5'>&nbsp;"+iFoundActiveRecords+" "+getTran("web", "recordsfound", sWebLanguage)+"</td></tr>");
-        } else {
+        } 
+        else{
             out.print("<tr><td colspan='5'>&nbsp;"+getTran("web", "norecordsfound", sWebLanguage)+"</td></tr>");
         }
     %>
@@ -336,14 +332,10 @@
     </tr>
     <tr class="admin">
         <td width="1%"/>
-        <td width="10%"><%=getTran("web", "code", sWebLanguage)%>
-        </td>
-        <td width="59%"><%=getTran("web", "comment", sWebLanguage)%>
-        </td>
-        <td width="15%"><%=getTran("web", "begindate", sWebLanguage)%>
-        </td>
-        <td width="15%"><%=getTran("web", "enddate", sWebLanguage)%>
-        </td>
+        <td width="10%"><%=getTran("web", "code", sWebLanguage)%></td>
+        <td width="59%"><%=getTran("web", "comment", sWebLanguage)%></td>
+        <td width="15%"><%=getTran("web", "begindate", sWebLanguage)%></td>
+        <td width="15%"><%=getTran("web", "enddate", sWebLanguage)%></td>
     </tr>
     <%=sResultsPassive%>
     <tr>
@@ -352,7 +344,8 @@
     <%
         if (iFoundPassiveRecords > 0){
             out.print("<tr><td colspan='5'>&nbsp;"+iFoundPassiveRecords+" "+getTran("web", "recordsfound", sWebLanguage)+"</td></tr>");
-        } else {
+        } 
+        else {
             out.print("<tr><td colspan='5'>&nbsp;"+getTran("web", "norecordsfound", sWebLanguage)+"</td></tr>");
         }
     %>
@@ -360,132 +353,119 @@
         <td>&nbsp;</td>
     </tr>
     <%
-        if ((iFoundActiveRecords+iFoundPassiveRecords) > 0){
+        if((iFoundActiveRecords+iFoundPassiveRecords) > 0){
             out.print("<tr><td colspan='5'>&nbsp;"+getTran("web.occup", "total", sWebLanguage)+": "+(iFoundActiveRecords+iFoundPassiveRecords)+" "+getTran("web", "recordsfound", sWebLanguage)+"</td></tr>");
-        } else {
+        }
+        else {
             out.print("<tr><td colspan='5'>&nbsp;"+getTran("web", "norecordsfound", sWebLanguage)+"</td></tr>");
         }
     %>
 </table>
+
 <%=ScreenHelper.alignButtonsStart()%>
-<input class="button" type="button" name="NewButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>"
-       onclick="doNew();">&nbsp;
-<input class="button" type="button" name="closeButton" value="<%=getTranNoLink("web","close",sWebLanguage)%>"
-       onclick="doClose();">
+	<input class="button" type="button" name="NewButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">&nbsp;
+	<input class="button" type="button" name="closeButton" value="<%=getTranNoLink("web","close",sWebLanguage)%>" onclick="doClose();">
 <%=ScreenHelper.alignButtonsStop()%>
 <%
     }
 
     if (sAction.equals("NEW") || sAction.equals("SELECT") || sAction.equals("SAVE")){
 %>
-<form name="EditProblemForm" id="EditProblemForm" method="POST"
-      action="popup.jsp?Page=medical/manageProblems.jsp&ts=<%=getTs()%>">
+<form name="EditProblemForm" id="EditProblemForm" method="POST" action="popup.jsp?Page=medical/manageProblems.jsp&ts=<%=getTs()%>">
     <input type="hidden" name="EditProblemUID" value="<%=sEditProblemUID%>">
-    <%=writeTableHeader("Web.manage", "manageProblems", sWebLanguage, " doSearchBack();")%>
+    
+    <%=writeTableHeader("Web.manage","manageProblems",sWebLanguage," doSearchBack();")%>
+    
     <table class="list" width="100%" cellspacing="1">
         <tr>
-            <td class="admin" width="<%=sTDAdminWidth%>">
-                <%=getTran("web", "begin", sWebLanguage)%> *
-            </td>
+            <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","begin",sWebLanguage)%> *</td>
             <td class="admin2">
                 <%
                     String sBeginDate;
-                    if (sEditProblemBeginDate != null && sEditProblemBeginDate.length() > 0){
-                        sBeginDate = ScreenHelper.stdDateFormat.format(ScreenHelper.getSQLDate(sEditProblemBeginDate));
-                    } else {
-                        sBeginDate = ScreenHelper.stdDateFormat.format(ScreenHelper.getSQLDate(getDate()));
+                    if(sEditProblemBeginDate!=null && sEditProblemBeginDate.length() > 0){
+                        sBeginDate = ScreenHelper.formatDate(ScreenHelper.getSQLDate(sEditProblemBeginDate));
                     }
-                    out.print(writeDateField("EditProblemBeginDate", "EditProblemForm", sBeginDate, sWebLanguage));
+                    else{
+                        sBeginDate = ScreenHelper.formatDate(ScreenHelper.getSQLDate(getDate()));
+                    }
+                    out.print(writeDateField("EditProblemBeginDate","EditProblemForm",sBeginDate,sWebLanguage));
                 %>
             </td>
         </tr>
         <tr>
-            <td class="admin" width="<%=sTDAdminWidth%>">
-                <%=getTran("web", "end", sWebLanguage)%>
-            </td>
+            <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","end",sWebLanguage)%></td>
             <td class="admin2">
                 <%
                     String sEndDate = "";
-                    if (sEditProblemEndDate != null && sEditProblemEndDate.length() > 0){
+                    if(sEditProblemEndDate != null && sEditProblemEndDate.length() > 0){
                         sEndDate = ScreenHelper.stdDateFormat.format(ScreenHelper.getSQLDate(sEditProblemEndDate));
                     }
 
-                    out.print(writeDateField("EditProblemEndDate", "EditProblemForm", sEndDate, sWebLanguage));
+                    out.print(writeDateField("EditProblemEndDate","EditProblemForm",sEndDate,sWebLanguage));
                 %>
             </td>
         </tr>
-        <!-- code -->
+        <%-- code --%>
         <tr>
-            <td class="admin">
-                <%=getTran("medical.problems", "problem", sWebLanguage)%> *
-            </td>
+            <td class="admin"><%=getTran("medical.problems","problem",sWebLanguage)%> *</td>
             <td class="admin2">
-                <input class="text" type="text" id="eLabel" name="EditProblemCodeLabel"
-                       value="<%=sEditProblemCodeLabel%>" readonly size="<%=sTextWidth%>">
-                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link"
-                     alt="<%=getTranNoLink("Web","select",sWebLanguage)%>"
-                     onclick="searchICPC('eCode','eLabel','eType');">
-                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link"
-                     alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>"
-                     onclick="EditProblemForm.EditProblemCode.value='';EditProblemForm.EditProblemCodeLabel.value='';EditProblemForm.EditProblemCodeType.value='';">
+                <input class="text" type="text" id="eLabel" name="EditProblemCodeLabel" value="<%=sEditProblemCodeLabel%>" readonly size="<%=sTextWidth%>">
+              
+                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchICPC('eCode','eLabel','eType');">
+                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="EditProblemForm.EditProblemCode.value='';EditProblemForm.EditProblemCodeLabel.value='';EditProblemForm.EditProblemCodeType.value='';">
             </td>
+            
             <input type="hidden" id="eCode" name="EditProblemCode" value="<%=sEditProblemCode%>">
             <input type="hidden" id="eType" name="EditProblemCodeType" value="<%=sEditProblemCodeType%>">
         </tr>
-        <!-- certainty -->
+        <%-- certainty --%>
         <tr>
-            <td class="admin"><%=getTran("medical.diagnosis", "certainty", sWebLanguage)%>
-            </td>
+            <td class="admin"><%=getTran("medical.diagnosis","certainty",sWebLanguage)%></td>
             <td class="admin2">
                 <select class="text" name="EditProblemCertainty">
                     <option/>
-                    <%=
-                        ScreenHelper.writeSelect("medical.diagnosis.certainty", sEditProblemCertainty, sWebLanguage, false, false)%>
+                    <%=ScreenHelper.writeSelect("medical.diagnosis.certainty", sEditProblemCertainty, sWebLanguage, false, false)%>
                 </select>
             </td>
         </tr>
-        <!-- gravity -->
+        <%-- gravity --%>
         <tr>
-            <td class="admin"><%=getTran("medical.diagnosis", "gravity", sWebLanguage)%>
-            </td>
+            <td class="admin"><%=getTran("medical.diagnosis","gravity",sWebLanguage)%></td>
             <td class="admin2">
                 <select class="text" name="EditProblemGravity">
                     <option/>
-                    <%=
-                        ScreenHelper.writeSelect("medical.diagnosis.gravity", sEditProblemGravity, sWebLanguage, false, false)%>
+                    <%=ScreenHelper.writeSelect("medical.diagnosis.gravity",sEditProblemGravity,sWebLanguage,false,false)%>
                 </select>
             </td>
         </tr>
         <tr>
-            <td class="admin">
-                <%=getTran("web", "comment", sWebLanguage)%>
-            </td>
+            <td class="admin"><%=getTran("web","comment",sWebLanguage)%></td>
             <td class="admin2">
-                <%=writeTextarea("EditProblemComment", "", "", "", sEditProblemComment)%>
+                <%=writeTextarea("EditProblemComment","","","",sEditProblemComment)%>
             </td>
         </tr>
+        
         <%=ScreenHelper.setFormButtonsStart()%>
-        <input class="button" type="button" name="EditSaveButton" value="<%=getTranNoLink("web","save",sWebLanguage)%>"
-               onclick="doSave();">&nbsp;
-        <input class="button" type="button" name="BackButton" value="<%=getTranNoLink("web","back",sWebLanguage)%>"
-               onclick="doSearchBack();">&nbsp;
+            <input class="button" type="button" name="EditSaveButton" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="doSave();">&nbsp;
+            <input class="button" type="button" name="BackButton" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="doSearchBack();">&nbsp;
         <%=ScreenHelper.setFormButtonsStop()%>
     </table>
-    <%=getTran("Web", "colored_fields_are_obligate", sWebLanguage)%>
+    
+    <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
     <input type="hidden" name="Action" value="">
 </form>
+
 <%=ScreenHelper.alignButtonsStart()%>
-<input class="button" type="button" name="closeButton" value="<%=getTranNoLink("web","close",sWebLanguage)%>"
-       onclick="doClose();">
+    <input class="button" type="button" name="closeButton" value="<%=getTranNoLink("web","close",sWebLanguage)%>" onclick="doClose();">
 <%=ScreenHelper.alignButtonsStop()%>
 <%
     }
     if (sAction.equals("SAVE")){
-%>
-<script>
-    window.location.href = '<c:url value="/"/>popup.jsp?Page=medical/manageProblems.jsp&ts=<%=getTs()%>&PopupWidth=700&PopupHeight=500';
-</script>
-<%
+		%>
+		<script>
+		  window.location.href = '<c:url value="/"/>popup.jsp?Page=medical/manageProblems.jsp&ts=<%=getTs()%>&PopupWidth=700&PopupHeight=500';
+		</script>
+		<%
     }
 %>
 <script>

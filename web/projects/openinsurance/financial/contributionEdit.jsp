@@ -66,7 +66,7 @@
                 <input type="button" class="button" name="ButtonSearch" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="loadUnassignedDebets()">&nbsp;
                 <input type="button" class="button" name="ButtonClear" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearFindFields()">&nbsp;
                 <input type="button" class="button" name="ButtonNew" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew()">&nbsp;
-                <input type="button" class="button" name="ButtonToday" value="<%=getTranNoLink("Web","today",sWebLanguage)%>" onclick="document.getElementById('FindDateBegin').value='<%=new SimpleDateFormat("dd/MM/yyyy").format(new Date())%>';loadUnassignedDebets()">&nbsp;
+                <input type="button" class="button" name="ButtonToday" value="<%=getTranNoLink("Web","today",sWebLanguage)%>" onclick="document.getElementById('FindDateBegin').value='<%=ScreenHelper.formatDate(new Date())%>';loadUnassignedDebets()">&nbsp;
             </td>
         </tr>
     </table>

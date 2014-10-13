@@ -4,22 +4,22 @@
 <%
 	String sDate=checkString(request.getParameter("expirydate"));
 	if(sDate.length()==0){
-		sDate=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+		sDate=ScreenHelper.formatDate(new java.util.Date());
 	}
-	java.util.Date date = new SimpleDateFormat("dd/MM/yyyy").parse(sDate);
+	java.util.Date date = ScreenHelper.parseDate(sDate);
 %>
 <form name=renewExpiredForm" method="post">
 <table>
-	<tr><td class='admin'><label class='text'><%=getTran("web","renewcontributionsthatexpireon",sWebLanguage)%></label></td><td class='admin2'><%=writeDateField("expirydate","renewExpiredForm",sDate,sWebLanguage) %>
+	<tr><td class='admin'><label class='text'><%=getTran("web","renewcontributionsthatexpireon",sWebLanguage)%></label></td><td class='admin2'><%=writeDateField("expirydate","renewExpiredForm",sDate,sWebLanguage)%>
 <%
 	if(request.getParameter("find")==null){
 %>
-	<input name='find' type='submit' value='<%=getTran("web","find",sWebLanguage) %>'/></td></tr>
+	<input name='find' type='submit' value='<%=getTran("web","find",sWebLanguage)%>'/></td></tr>
 <%
 	}
 	else {
 %>
-	<input name='update' type='submit' value='<%=getTran("web","update",sWebLanguage) %>'/></td></tr>
+	<input name='update' type='submit' value='<%=getTran("web","update",sWebLanguage)%>'/></td></tr>
 <%
 	}
 %>

@@ -9,15 +9,15 @@
 <%@ include file="/includes/validateUser.jsp" %>
 <table width=100%>
 <tr class="admin">
-	<td><%=getTran("web","operation",sWebLanguage) %></td>
-	<td><%=getTran("web","date",sWebLanguage) %></td>
-	<td><%=getTran("web","thirdpartytype",sWebLanguage) %></td>
-	<td><%=getTran("web","thirdpartyname",sWebLanguage) %></td>
-	<td><%=getTran("web","beginlevel",sWebLanguage) %></td>
-	<td><%=getTran("web","modification",sWebLanguage) %></td>
-	<td><%=getTran("web","endlevel",sWebLanguage) %></td>
-	<td><%=getTran("web","user",sWebLanguage) %></td>
-	<td><%=getTran("web","prescription",sWebLanguage) %></td>
+	<td><%=getTran("web","operation",sWebLanguage)%></td>
+	<td><%=getTran("web","date",sWebLanguage)%></td>
+	<td><%=getTran("web","thirdpartytype",sWebLanguage)%></td>
+	<td><%=getTran("web","thirdpartyname",sWebLanguage)%></td>
+	<td><%=getTran("web","beginlevel",sWebLanguage)%></td>
+	<td><%=getTran("web","modification",sWebLanguage)%></td>
+	<td><%=getTran("web","endlevel",sWebLanguage)%></td>
+	<td><%=getTran("web","user",sWebLanguage)%></td>
+	<td><%=getTran("web","prescription",sWebLanguage)%></td>
 </tr>
 <%
 String batchUid=checkString(request.getParameter("batchUid"));
@@ -37,7 +37,7 @@ String productStockUid=checkString(request.getParameter("productStockUid"));
 		if(productStockOperation!=null && checkString(productStockOperation.getPrescriptionUid()).length()>0){
 			prescription=getTran("web","yes",sWebLanguage);;
 		}
-		String date=ScreenHelper.stdDateFormat.format(operation.getDate());
+		String date=ScreenHelper.formatDate(operation.getDate());
 		String thirdparty=checkString(operation.getThirdParty());
 		if(operation != null && operation.getType()!=null){
 			if(operation.getType().equalsIgnoreCase("receipt")){

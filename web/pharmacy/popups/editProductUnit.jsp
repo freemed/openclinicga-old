@@ -1,8 +1,7 @@
-<%@page import="be.openclinic.pharmacy.Product"%>
-<%@page import="java.util.Vector"%>
+<%@page import="be.openclinic.pharmacy.Product,
+                java.util.Vector"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-
 <%=checkPermission("pharmacy.editproductunit","all",activeUser)%>
 
 <%
@@ -13,14 +12,15 @@
            sEditUnit         = checkString(request.getParameter("EditUnit")),
            sEditPackageUnits = checkString(request.getParameter("EditPackageUnits"));
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
-    if (Debug.enabled) {
-        System.out.println("\n\n################## editProductUnit : "+sAction+" ###############");
-        System.out.println("* sEditProductUid   : "+sEditProductUid);
-        System.out.println("* sEditUnit         : "+sEditUnit);
-        System.out.println("* sEditPackageUnits : "+sEditPackageUnits);
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n****************** pharmacy/popups/editProductUnit.jsp ****************");
+    	Debug.println("sAction           : "+sAction);
+    	Debug.println("sEditProductUid   : "+sEditProductUid);
+    	Debug.println("sEditUnit         : "+sEditUnit);
+    	Debug.println("sEditPackageUnits : "+sEditPackageUnits);
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     String msg = "";
 
@@ -30,7 +30,9 @@
     //--- SAVE (update only) ----------------------------------------------------------------------
     if(sAction.equals("save") && sEditProductUid.length() > 0){
         product.setUnit(sEditUnit);
-        if(sEditPackageUnits.length() > 0) product.setPackageUnits(Integer.parseInt(sEditPackageUnits));
+        if(sEditPackageUnits.length() > 0){
+        	product.setPackageUnits(Integer.parseInt(sEditPackageUnits));
+        }
         product.setUpdateUser(activeUser.userid);
         product.store(false);
 
@@ -40,6 +42,7 @@
                sSearchSupplierName = checkString(request.getParameter("SearchSupplierName")),
                sSearchProductGroup = checkString(request.getParameter("SearchProductGroup")),
                sSelectProductUid   = checkString(request.getParameter("SelectProductUid"));
+        
         %>
             <script>
               var url = window.opener.location.href+
@@ -117,19 +120,6 @@
       transactionForm.saveButton.disabled = true;
       transactionForm.Action.value = "save";
       transactionForm.submit();
-    }
-    else{
-      if(transactionForm.EditUnit.value.length==0){
-        transactionForm.EditUnit.focus();
-      }
-      /*
-      else if(transactionForm.EditPackageUnits.value.length==0){
-        transactionForm.EditPackageUnits.focus();
-      }
-      else if(transactionForm.EditProductGroup.value.length==0){
-        transactionForm.EditProductGroup.focus();
-      }
-      */
     }
   }
 

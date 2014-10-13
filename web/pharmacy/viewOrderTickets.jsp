@@ -372,7 +372,7 @@
                         <tr class="admin">
                             <td colspan="3"><%=getTran("Web.manage","orderspersupplier",sWebLanguage)%></td>
                         </tr>
-                        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                        <tbody class="hand">
                             <%=ordersHtml%>
                         </tbody>
                     </table>
@@ -568,7 +568,7 @@
       }
       <%-- popup to display pdf in --%>
       var url = "<c:url value='/pharmacy/createOrderTicketsPdf.jsp'/>?OrderUids="+orderUids+"&ts=<%=getTs()%>";
-      window.open(url,"OrderTicketsPDF<%=new java.util.Date().getTime()%>","height=600, width=845, toolbar=yes, status=no, scrollbars=yes, resizable=yes, menubar=yes");
+      window.open(url,"OrderTicketsPDF<%=getTs()%>","height=600, width=845, toolbar=yes, status=no, scrollbars=yes, resizable=yes, menubar=yes");
     }
     else{
       alertDialog("web.manage","selectatleastoneorder");
@@ -593,7 +593,7 @@
 		}
 		<%-- popup to display pdf in --%>
 		var url = "<c:url value='/pharmacy/deleteOrderTickets.jsp'/>?OrderUids="+orderUids+"&ts=<%=getTs()%>";
-		window.open(url,"DeleteOrderTickets<%=new java.util.Date().getTime()%>","height=600, width=845, toolbar=yes, status=no, scrollbars=yes, resizable=yes, menubar=yes");
+		window.open(url,"DeleteOrderTickets<%=getTs()%>","height=600, width=845, toolbar=yes, status=no, scrollbars=yes, resizable=yes, menubar=yes");
 	  }
 	}
 	else{

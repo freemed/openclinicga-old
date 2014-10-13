@@ -249,92 +249,84 @@
     
   <%-- LOAD TRAININGS --%>
   function loadTrainings(){
-    document.getElementById("divTrainings").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";  
+    document.getElementById("divTrainings").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading..";  
     
     var url = "<c:url value='/hr/ajax/training/getTrainings.jsp'/>?ts="+new Date().getTime();
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "PatientId=<%=activePatient.personid%>",
-        onSuccess: function(resp){
-          $("divTrainings").innerHTML = resp.responseText;
-          setTimeout("sortables_init()",500);
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/training/getTrainings.jsp' : "+resp.responseText.trim();
-        }
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "PatientId=<%=activePatient.personid%>",
+      onSuccess: function(resp){
+        $("divTrainings").innerHTML = resp.responseText;
+        setTimeout("sortables_init()",500);
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'hr/ajax/training/getTrainings.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
 
   <%-- DISPLAY TRAINING --%>
   function displayTraining(trainingUid){          
     var url = "<c:url value='/hr/ajax/training/getTraining.jsp'/>?ts="+new Date().getTime();
-    
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "TrainingUid="+trainingUid,
-        onSuccess: function(resp){
-          var data = eval("("+resp.responseText+")");
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "TrainingUid="+trainingUid,
+      onSuccess: function(resp){
+        var data = eval("("+resp.responseText+")");
 
-          $("EditTrainingUid").value = trainingUid;
-          $("begin").value = data.begin;
-          $("end").value = data.end;
-          $("institute").value = data.institute.unhtmlEntities();
-          $("type").value = data.type.unhtmlEntities();
-          $("level").value = data.level.unhtmlEntities();
-          $("diploma").value = data.diploma.unhtmlEntities();
-          $("diplomaDate").value = data.diplomaDate;
-          if($("diplomaCode1")!=null) $("diplomaCode1").value = data.diplomaCode1;
-          if($("diplomaCode2")!=null) $("diplomaCode2").value = data.diplomaCode2;
-          if($("diplomaCode3")!=null) $("diplomaCode3").value = data.diplomaCode3;
-          $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
+        $("EditTrainingUid").value = trainingUid;
+        $("begin").value = data.begin;
+        $("end").value = data.end;
+        $("institute").value = data.institute.unhtmlEntities();
+        $("type").value = data.type.unhtmlEntities();
+        $("level").value = data.level.unhtmlEntities();
+        $("diploma").value = data.diploma.unhtmlEntities();
+        $("diplomaDate").value = data.diplomaDate;
+        if($("diplomaCode1")!=null) $("diplomaCode1").value = data.diplomaCode1;
+        if($("diplomaCode2")!=null) $("diplomaCode2").value = data.diplomaCode2;
+        if($("diplomaCode3")!=null) $("diplomaCode3").value = data.diplomaCode3;
+        $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
           
-          document.getElementById("divMessage").innerHTML = ""; 
-          resizeAllTextareas(8);
+        document.getElementById("divMessage").innerHTML = ""; 
+        resizeAllTextareas(8);
 
-          <%-- display hidden buttons --%>
-          document.getElementById("buttonDelete").style.visibility = "visible";
-          document.getElementById("buttonNew").style.visibility = "visible";
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/training/getTraining.jsp' : "+resp.responseText.trim();
-        }
+        <%-- display hidden buttons --%>
+        document.getElementById("buttonDelete").style.visibility = "visible";
+        document.getElementById("buttonNew").style.visibility = "visible";
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'hr/ajax/training/getTraining.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
   
   <%-- DELETE TRAINING --%>
-  function deleteTraining(){  
-    var answer = yesnoDialog("web","areYouSureToDelete"); 
-    if(answer==1){                 
+  function deleteTraining(){ 
+    if(yesnoDialog("web","areYouSureToDelete")){                 
       var url = "<c:url value='/hr/ajax/training/deleteTraining.jsp'/>?ts="+new Date().getTime();
 
       document.getElementById("buttonSave").disabled = true;
       document.getElementById("buttonDelete").disabled = true;
       document.getElementById("buttonNew").disabled = true;
     
-      new Ajax.Request(url,
-        {
-          method: "GET",
-          parameters: "TrainingUid="+document.getElementById("EditTrainingUid").value,
-          onSuccess: function(resp){
-            var data = eval("("+resp.responseText+")");
-            $("divMessage").innerHTML = data.message;
+      new Ajax.Request(url,{
+        method: "GET",
+        parameters: "TrainingUid="+document.getElementById("EditTrainingUid").value,
+        onSuccess: function(resp){
+          var data = eval("("+resp.responseText+")");
+          $("divMessage").innerHTML = data.message;
 
-            loadTrainings();
-            newTraining();
+          loadTrainings();
+          newTraining();
           
-            document.getElementById("buttonSave").disabled = false;
-            document.getElementById("buttonDelete").disabled = false;
-            document.getElementById("buttonNew").disabled = false;
-          },
-          onFailure: function(resp){
-            $("divMessage").innerHTML = "Error in 'hr/ajax/training/deleteTraining.jsp' : "+resp.responseText.trim();
-          }  
-        }
-      );
+          document.getElementById("buttonSave").disabled = false;
+          document.getElementById("buttonDelete").disabled = false;
+          document.getElementById("buttonNew").disabled = false;
+        },
+        onFailure: function(resp){
+          $("divMessage").innerHTML = "Error in 'hr/ajax/training/deleteTraining.jsp' : "+resp.responseText.trim();
+        }  
+      });
     }
   }
   

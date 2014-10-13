@@ -10,7 +10,7 @@
     try {
         Hashtable parameters = new Hashtable();
         parameters.put("serviceStockUID",sServiceStockId);
-        parameters.put("date",new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()));
+        parameters.put("date",ScreenHelper.stdDateFormat.format(new java.util.Date())); // now
     	baosPDF = pdfGenerator.generatePDFDocumentBytes(request,"stockout",parameters);
         StringBuffer sbFilename = new StringBuffer();
         sbFilename.append("filename_").append(System.currentTimeMillis()).append(".pdf");

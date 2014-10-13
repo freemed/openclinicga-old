@@ -189,90 +189,83 @@
     
   <%-- LOAD CAREERS --%>
   function loadCareers(){
-    document.getElementById("divCareers").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading";            
+    document.getElementById("divCareers").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading..";            
     var url = "<c:url value='/hr/ajax/career/getCareers.jsp'/>?ts="+new Date().getTime();
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "PatientId=<%=activePatient.personid%>",
-        onSuccess: function(resp){
-          $("divCareers").innerHTML = resp.responseText;
-          setTimeout("sortables_init()",500);
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/career/getCareers.jsp' : "+resp.responseText.trim();
-        }
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "PatientId=<%=activePatient.personid%>",
+      onSuccess: function(resp){
+        $("divCareers").innerHTML = resp.responseText;
+        setTimeout("sortables_init()",500);
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'hr/ajax/career/getCareers.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
 
   <%-- DISPLAY CAREER --%>
   function displayCareer(careerUid){          
     var url = "<c:url value='/hr/ajax/career/getCareer.jsp'/>?ts="+new Date().getTime();
     
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "CareerUid="+careerUid,
-        onSuccess: function(resp){
-          var data = eval("("+resp.responseText+")");
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "CareerUid="+careerUid,
+      onSuccess: function(resp){
+        var data = eval("("+resp.responseText+")");
 
-          $("EditCareerUid").value = careerUid;
-          $("careerBegin").value = data.begin;
-          $("careerEnd").value = data.end;
-          $("contract").value = data.contractUid;
-          $("contractName").value = data.contractName.unhtmlEntities();
-          $("position").value = data.position.unhtmlEntities();
-          $("service").value = data.serviceUid;
-          $("serviceName").value = data.serviceName.unhtmlEntities();
-          $("grade").value = data.grade.unhtmlEntities();
-          $("status").value = data.status.unhtmlEntities();
-          $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
+        $("EditCareerUid").value = careerUid;
+        $("careerBegin").value = data.begin;
+        $("careerEnd").value = data.end;
+        $("contract").value = data.contractUid;
+        $("contractName").value = data.contractName.unhtmlEntities();
+        $("position").value = data.position.unhtmlEntities();
+        $("service").value = data.serviceUid;
+        $("serviceName").value = data.serviceName.unhtmlEntities();
+        $("grade").value = data.grade.unhtmlEntities();
+        $("status").value = data.status.unhtmlEntities();
+        $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
           
-          document.getElementById("divMessage").innerHTML = ""; 
-          resizeAllTextareas(8);
+        document.getElementById("divMessage").innerHTML = ""; 
+        resizeAllTextareas(8);
 
-          <%-- display hidden buttons --%>
-          document.getElementById("buttonDelete").style.visibility = "visible";
-          document.getElementById("buttonNew").style.visibility = "visible";
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/career/getCareer.jsp' : "+resp.responseText.trim();
-        }
+        <%-- display hidden buttons --%>
+        document.getElementById("buttonDelete").style.visibility = "visible";
+        document.getElementById("buttonNew").style.visibility = "visible";
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'hr/ajax/career/getCareer.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
   
   <%-- DELETE CAREER --%>
   function deleteCareer(){ 
-    var answer = yesnoDialog("web","areYouSureToDelete");
-     if(answer==1){                 
+    if(yesnoDialog("web","areYouSureToDelete")){                 
       var url = "<c:url value='/hr/ajax/career/deleteCareer.jsp'/>?ts="+new Date().getTime();
 
       document.getElementById("buttonSave").disabled = true;
       document.getElementById("buttonDelete").disabled = true;
       document.getElementById("buttonNew").disabled = true;
     
-      new Ajax.Request(url,
-        {
-          method: "GET",
-          parameters: "CareerUid="+document.getElementById("EditCareerUid").value,
-          onSuccess: function(resp){
-            var data = eval("("+resp.responseText+")");
-            $("divMessage").innerHTML = data.message;
+      new Ajax.Request(url,{
+    	method: "GET",
+        parameters: "CareerUid="+document.getElementById("EditCareerUid").value,
+        onSuccess: function(resp){
+          var data = eval("("+resp.responseText+")");
+          $("divMessage").innerHTML = data.message;
 
-            newCareer();
-            loadCareers();
+          newCareer();
+          loadCareers();
           
-            document.getElementById("buttonSave").disabled = false;
-            document.getElementById("buttonDelete").disabled = false;
-            document.getElementById("buttonNew").disabled = false;
-          },
-          onFailure: function(resp){
-            $("divMessage").innerHTML = "Error in 'hr/ajax/career/deleteCareer.jsp' : "+resp.responseText.trim();
-          }  
-        }
-      );
+          document.getElementById("buttonSave").disabled = false;
+          document.getElementById("buttonDelete").disabled = false;
+          document.getElementById("buttonNew").disabled = false;
+        },
+        onFailure: function(resp){
+          $("divMessage").innerHTML = "Error in 'hr/ajax/career/deleteCareer.jsp' : "+resp.responseText.trim();
+        }  
+      });
     }
   }
   

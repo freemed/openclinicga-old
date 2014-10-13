@@ -71,12 +71,12 @@
 				<tr class='admin'>
 					<td>&nbsp;</td>
 					<td>ID</td>
-					<td><%=getTran("web","date",sWebLanguage) %></td>
-					<td><%=getTran("web","source",sWebLanguage) %></td>
-					<td><%=getTran("web","product",sWebLanguage) %></td>
-					<td><%=getTran("web","sent",sWebLanguage) %></td>
-					<td><%=getTran("web","received",sWebLanguage) %></td>
-					<td><%=getTran("web","remains",sWebLanguage) %></td>
+					<td><%=getTran("web","date",sWebLanguage)%></td>
+					<td><%=getTran("web","source",sWebLanguage)%></td>
+					<td><%=getTran("web","product",sWebLanguage)%></td>
+					<td><%=getTran("web","sent",sWebLanguage)%></td>
+					<td><%=getTran("web","received",sWebLanguage)%></td>
+					<td><%=getTran("web","remains",sWebLanguage)%></td>
 			    </tr>
 	    	<%
 	    }
@@ -95,7 +95,7 @@
 			out.print("<tr class='admin2'>");
 			 out.print("<td><img src='_img/icons/icon_delete.gif' onclick='javascript:doDelete(\""+operation.getUid()+"\");' class='link'/></td>");
 			 out.print("<td>"+operation.getUid()+"</td>");
-			 out.print("<td>"+ScreenHelper.stdDateFormat.format(operation.getDate())+"</td>");
+			 out.print("<td>"+ScreenHelper.formatDate(operation.getDate())+"</td>");
 			 out.print("<td>"+servicename+"</td>");
 			 out.print("<td>"+productname+"</td>");
 			 out.print("<td>"+operation.getUnitsChanged()+"</td>");

@@ -1,4 +1,4 @@
-<%@include file="/mobile/_common/helper.jsp"%>
+<%@include file="/mobile/_common/validateUser.jsp"%>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <%
     // prevent caching
@@ -16,6 +16,7 @@
     <%=sJSPROTOTYPE%>
     <%=sSCRIPTS%>
     <title><%=sWEBTITLE%></title>
+    
     <script>
       function initBarcode2(){
 	    window.open("zxing://scan/?ret=<%="http://"+request.getServerName()+request.getRequestURI().replaceAll(request.getServletPath(),"")%>/mobile/searchPatient.jsp\?action=search%26patientpersonid={CODE}")
@@ -44,7 +45,7 @@
 	<tr>
 		<%-- BARCODE --%>
 		<td style="padding:5px;width:50px;padding-top:5px;">
-			<img class="link" onclick="initBarcode2();" src="<%=sCONTEXTPATH%>/_img/icons/icon_barcode.png" alt="<%=getTranNoLink("web","barcode",activeUser)%>">
+			<img class="link" onclick="initBarcode2();" src="<%=sCONTEXTPATH%>/_img/themes/default/barcode.png" alt="<%=getTranNoLink("web","barcode",activeUser)%>">
 		</td>
 
 		<%-- BUTTONS --%>
@@ -75,6 +76,7 @@
         </td>
     </tr>
 </table>   
+
 <div style="padding-top:5px"></div> 	
     	<%
     }

@@ -234,8 +234,8 @@
     <table width="100%" cellspacing="1">
         <tr>
             <td>
-                <a href="#" onclick="checkAll(true);"><%=getTran("web.manage","CheckAll",sWebLanguage)%></a>
-                <a href="#" onclick="checkAll(false);"><%=getTran("web.manage","UncheckAll",sWebLanguage)%></a>
+                <a href="javascript:checkAll(true);"><%=getTran("web.manage","CheckAll",sWebLanguage)%></a>
+                <a href="javascript:checkAll(false);"><%=getTran("web.manage","UncheckAll",sWebLanguage)%></a>
             </td>
             <td align="right">
                 <a href="#top"><img src="<c:url value='/_img'/>/themes/default/top.gif" class="link"></a>

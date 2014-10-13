@@ -134,7 +134,7 @@
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("################### medical/manageChronicMedication.jsp #################");
+        Debug.println("\n******************** medical/manageChronicMedication.jsp ***************");
         Debug.println("sAction                 : "+sAction);
         Debug.println("sEditMedicationUid      : "+sEditMedicationUid);
         Debug.println("sEditPrescriberUid      : "+sEditPrescriberUid);
@@ -545,7 +545,7 @@
                             <td class="admin" width="10%"><%=getTran("Web","begindate",sWebLanguage)%></td>
                             <td class="admin" width="45%"><%=getTran("Web","prescriptionrule",sWebLanguage)%></td>
                         </tr>
-                        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+                        <tbody class="hand">
                             <%=medications%>
                         </tbody>
                     </table>

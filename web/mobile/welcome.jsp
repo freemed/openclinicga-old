@@ -5,7 +5,7 @@
     <tr>
         <td colspan="3" style="text-align:center;padding:10px">
 			<%-- BARCODE --%>
-			<img class="link" onclick="initBarcode2();" src="<%=sCONTEXTPATH%>/_img/icons/icon_barcode.png" alt="<%=getTranNoLink("web","barcode",activeUser)%>">
+			<img class="link" onclick="initBarcode2();" src="<%=sCONTEXTPATH%>/_img/themes/default/barcode.png" alt="<%=getTranNoLink("web","barcode",activeUser)%>">
         </td>
     </tr>
     <tr>

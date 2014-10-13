@@ -106,7 +106,7 @@
         <td width="40%" nowrap><%=HTMLEntities.htmlentities(getTran("web.hr","institute",sWebLanguage))%></td>
     </tr>
     
-    <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
+    <tbody class="hand">
         <%=sReturn%>
     </tbody>
 </table> 

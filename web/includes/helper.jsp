@@ -218,7 +218,7 @@
         result+= "<td nowrap>";
 
         try{
-            SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
+            SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
 
             String currentContext = sessionContainerWO.getFlags().getContext();
             TransactionVO transactionVO = sessionContainerWO.getCurrentTransactionVO();
@@ -240,7 +240,7 @@
                         TransactionVO tmpVO;
                         while(iTrans.hasNext()){
                             tmpVO = (TransactionVO) iTrans.next();
-                            if(lastTransactionVO == null){
+                            if(lastTransactionVO==null){
                                 lastTransactionVO = tmpVO;
                             }
                             else if (lastTransactionVO.getUpdateTime().compareTo(tmpVO.getUpdateTime()) < 0){
@@ -464,9 +464,13 @@
     }
 
     public String writeTableHeader(String sType, String sID, String sLanguage, String sPage){
+        return writeTableHeaderDirectText(getTran(sType,sID,sLanguage),sLanguage,sPage);    	
+    }
+
+    public String writeTableHeaderDirectText(String sTitle, String sLanguage, String sPage){
         String tableHeader = "<table width='100%' cellspacing='0' class='list' style='border-bottom:none;'>"+
                               "<tr class='admin'>"+
-                               "<td id='tableHeaderTitle'>"+getTran(sType,sID,sLanguage)+"</td>";
+                               "<td id='tableHeaderTitle'>"+sTitle+"</td>";
 
         if(sPage.trim().length() > 0){
             tableHeader += "<td align='right'>";

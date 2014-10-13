@@ -59,9 +59,9 @@
             sControlByName = ScreenHelper.getFullUserName(ac.getControlPerformedById(),ad_conn);
         }
         
-        %><script>window.location.href = "<%=sCONTEXTPATH%>/main.jsp?Page=medical/controlAnesthesieFind.jsp&ts=<%=getTs()%>";</script><%
+        %><script>window.location.href = "<%=sCONTEXTPATH%>/main.jsp?Page=medical/controlAnesthesieFind.jsp&Msg=saved&ts=<%=getTs()%>";</script><%
     }
-    else if(sCAID.length()>0){
+    else if(sCAID.length() > 0){
         ac = AnesthesieControl.get(sCAID);
         if(ac.getControlPerformedById().length()>0){
             sControlByName = ScreenHelper.getFullUserName(ac.getControlPerformedById(),ad_conn);
@@ -86,6 +86,7 @@
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web.Occup","medwan.common.date",sWebLanguage)%></td>
             <td class="admin2" colspan="3"><%=writeDateField("EditDate","transactionForm",checkString(ScreenHelper.stdDateFormat.format(ac.getDate())),sWebLanguage)%></td>
         </tr>
+        
         <%-- BEGIN HOUR --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","begin_hour",sWebLanguage)%></td>
@@ -97,6 +98,7 @@
                 </a>
             </td>
         </tr>
+        
         <%-- END HOUR --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","end_hour",sWebLanguage)%></td>
@@ -108,6 +110,7 @@
                 </a>
             </td>
         </tr>
+        
         <%-- DURATION --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","duration",sWebLanguage)%></td>
@@ -115,6 +118,7 @@
                 <input readonly type='text' class='text' id="aduration" name="EditDuration" size='5' value="<%=ac.getDuration()%>">
             </td>
         </tr>
+        
         <%-- CONTROL PERFORMED BY --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","control_performed_by",sWebLanguage)%></td>
@@ -226,7 +230,7 @@
 
       var iMinutes = getMinutesInInterval(dateFrom,dateUntil);
       var sHour = parseInt(iMinutes / 60);
-      var sMinutes = (iMinutes % 60)+"";
+      var sMinutes = (iMinutes%60)+"";
 
       document.getElementById(sReturn).value = sHour+":"+sMinutes;
       checkTime(document.getElementById(sReturn));

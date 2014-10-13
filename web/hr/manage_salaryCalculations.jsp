@@ -843,9 +843,8 @@
   }
 
   <%-- DELETE Calculation Code --%>
-  function deleteCC(rowid){
-    var answer = yesnoDialog("web","areYouSureToDelete"); 
-    if(answer==1){
+  function deleteCC(rowid){ 
+    if(yesnoDialog("web","areYouSureToDelete")){
       sCC = deleteRowFromArrayString(sCC,rowid.id);
       tblCC.deleteRow(rowid.rowIndex);
       clearCCFields();

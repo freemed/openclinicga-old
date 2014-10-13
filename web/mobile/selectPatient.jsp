@@ -1,4 +1,4 @@
-<%@include file="/mobile/_common/helper.jsp"%>
+<%@include file="/mobile/_common/validateUser.jsp"%>
 <%
 	if(request.getParameter("personid")==null){
 		// back to search screen when no patient specified

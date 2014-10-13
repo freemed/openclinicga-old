@@ -12,12 +12,9 @@
 %>
 
 <form name="drugsOutForm" method="post">
-    <table width="100%" class="list" cellpadding="0" cellspacing="1">
-        <%-- TITLE --%>
-        <tr class="gray">
-            <td colspan="2"><%=getTran("web","drugsoutbarcode",sWebLanguage)%></td>
-        </tr>
-        
+    <%=writeTableHeader("web","drugsoutbarcode",sWebLanguage," window.close();")%>
+
+    <table width="100%" class="list" cellpadding="0" cellspacing="1">        
         <%-- SERVICE STOCK --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","servicestock",sWebLanguage)%></td>
@@ -40,13 +37,13 @@
         
         <%-- PRODUCT --%>
         <tr>
-            <td class='admin'><%=getTran("web","product",sWebLanguage) %></td>
+            <td class='admin'><%=getTran("web","product",sWebLanguage)%></td>
             <td class='admin2'><input type='text' class='text' name='drugbarcode' id='drugbarcode' size='20' onkeyup='if(event.keyCode==13){doAdd("");}'/></td>
         </tr>
         
         <%-- QUANTITY --%>
         <tr>
-            <td class='admin'><%=getTran("web","quantity",sWebLanguage) %></td>
+            <td class='admin'><%=getTran("web","quantity",sWebLanguage)%></td>
             <td class='admin2'><input type='text' class='text' name='quantity' id='quantity' size='5' value='1'/></td>
         </tr>
         
@@ -70,6 +67,7 @@
 <%=ScreenHelper.alignButtonsStop()%>
             
 <script>
+  <%-- DO ADD --%>
   function doAdd(loadonly){
     var url = "<c:url value='/pharmacy/addDrugsOutBarcode.jsp'/>?loadonly="+loadonly+
               "&ServiceStock="+document.getElementById("servicestock").value+
@@ -94,7 +92,8 @@
     });
     document.getElementById('drugbarcode').focus();  
   }
-    
+
+  <%-- DO DELETE --%>
   function doDelete(listuid){
     var url = '<c:url value="/pharmacy/deleteDrugsOutBarcode.jsp"/>?listuid='+listuid+'&ts='+new Date();
     new Ajax.Request(url,{
@@ -114,7 +113,8 @@
     });
     document.getElementById('drugbarcode').focus();
   }
-    
+
+  <%-- DO DELIVER --%>
   function doDeliver(listuid){
     var url = '<c:url value="/pharmacy/deliverDrugsOutBarcode.jsp"/>?listuid='+listuid+'&ts='+new Date();
     new Ajax.Request(url,{

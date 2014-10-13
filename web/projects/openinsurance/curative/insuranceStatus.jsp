@@ -1,7 +1,9 @@
-<%@ page import="be.openclinic.finance.*,java.util.Vector" %>
+<%@page import="be.openclinic.finance.*,
+                java.util.Vector"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=sJSSORTTABLE%>
+
 <%
     Vector vCurrentInsurances;
     vCurrentInsurances = Insurance.getCurrentInsurances(activePatient.personid);
@@ -30,34 +32,32 @@
                     <td><%=getTran("web","start",sWebLanguage)%></td>
                     <td><%=getTran("web","validity",sWebLanguage)%></td>
                 </tr>
-    <%
+            <%
     		
     		String sClass ="";
             while(iter.hasNext()){
                 currentInsurance = (Insurance)iter.next();
-                java.util.Date dValidity=Debet.getContributionValidity(currentInsurance.getMember());
-        		String sValidity=getTran("web","none",sWebLanguage);
+                java.util.Date dValidity = Debet.getContributionValidity(currentInsurance.getMember());
+        		String sValidity = getTranNoLink("web","none",sWebLanguage);
         		if(dValidity!=null){
-        			sValidity=new SimpleDateFormat("dd/MM/yyyy").format(dValidity);
+        			sValidity = ScreenHelper.formatDate(dValidity);
         		}
-                if(sClass.equals("")){
-                    sClass = "1";
-                }else{
-                    sClass = "";
-                }
-    %>
-                <tr class="list<%=sClass%>" onmouseover="this.style.cursor='hand';"
-                                            onmouseout="this.style.cursor='default';"
-                                            >
+        		
+            	// alternate row-style
+                if(sClass.equals("")) sClass = "1";
+                else                  sClass = "";
+            	
+                %>
+                <tr class="list<%=sClass%>" onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';">
                     <td onclick="doSelect('<%=currentInsurance.getUid()%>');"><%=ScreenHelper.checkString(currentInsurance.getInsuranceNr())%></td>
                     <td onclick="doSelect('<%=currentInsurance.getUid()%>');"><%=ScreenHelper.checkString(currentInsurance.getInsuranceCategoryLetter()).length()>0 && currentInsurance.getInsuranceCategory().getLabel().length()>0?ScreenHelper.checkString(currentInsurance.getInsuranceCategory().getInsurar().getName())+ " ("+currentInsurance.getInsuranceCategory().getCategory()+": "+currentInsurance.getInsuranceCategory().getPatientShare()+"/"+(100-Integer.parseInt(currentInsurance.getInsuranceCategory().getPatientShare()))+")":""%></td>
                     <td onclick="doSelect('<%=currentInsurance.getUid()%>');"><%=ScreenHelper.checkString(getTran("insurance.types",currentInsurance.getType(),sWebLanguage))%></td>
-                    <td onclick="doSelect('<%=currentInsurance.getUid()%>');"><%=ScreenHelper.checkString(currentInsurance.getStart()!=null?new SimpleDateFormat("dd/MM/yyyy").format(currentInsurance.getStart()):"")%></td>
+                    <td onclick="doSelect('<%=currentInsurance.getUid()%>');"><%=ScreenHelper.checkString(currentInsurance.getStart()!=null?ScreenHelper.formatDate(currentInsurance.getStart()):"")%></td>
 					<td bgcolor="<%=dValidity==null || dValidity.before(new java.util.Date())?"red":"lightgreen" %>"><a href='javascript:showContributions(<%=currentInsurance.getMember()%>);'><%=sValidity %></a></td>                   
                 </tr>
-    <%
+                <%
             }
-    %>
+            %>
             </table>
         </td>
     </tr>
@@ -65,12 +65,13 @@
         }
     %>
 </table>
+
 <script>
-    function doSelect(id){
-        window.location.href="<c:url value='/main.jsp'/>?Page=financial/insurance/editInsurance.jsp&EditInsuranceUID=" + id + "&ts=<%=getTs()%>";
-    }
+  function doSelect(id){
+    window.location.href="<c:url value='/main.jsp'/>?Page=financial/insurance/editInsurance.jsp&EditInsuranceUID="+id+"&ts="+new Date();
+  }
     
-    function showContributions(personid){
-    	openPopup("financial/showContributions.jsp&personid="+personid,600,400);
-    }
+  function showContributions(personid){
+    openPopup("financial/showContributions.jsp&personid="+personid,600,400);
+  }
 </script>
