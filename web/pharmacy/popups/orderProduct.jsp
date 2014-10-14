@@ -1,8 +1,9 @@
 <%@page import="be.openclinic.pharmacy.ProductStock,
                 be.openclinic.pharmacy.ProductOrder"%>
 <%@page errorPage="/includes/error.jsp"%>
-<%@include file="/_common/templateAddIns.jsp"%>
+<%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("pharmacy.productorder","edit",activeUser)%>
+
 <%
     String sDefaultSortCol = "OC_ORDER_DATEORDERED";
 
@@ -21,19 +22,20 @@
     // afgeleide data
     String sEditProductName = checkString(request.getParameter("EditProductName"));
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("################## sAction : "+sAction+" ################################");
-        Debug.println("* sEditOrderUid          : "+sEditOrderUid);
-        Debug.println("* sEditDescription       : "+sEditDescription);
-        Debug.println("* sEditProductStockUid   : "+sEditProductStockUid);
-        Debug.println("* sEditPackagesOrdered   : "+sEditPackagesOrdered);
-        Debug.println("* sEditDateOrdered       : "+sEditDateOrdered);
-        Debug.println("* sEditDateDeliveryDue   : "+sEditDateDeliveryDue);
-        Debug.println("* sEditImportance        : "+sEditImportance);
-        Debug.println("** sEditProductName      : "+sEditProductName+"\n");
+        Debug.println("\n******************* pharmacy/popups/orderProduct.jsp ******************");
+        Debug.println("sAction              : "+sAction);
+        Debug.println("sEditOrderUid        : "+sEditOrderUid);
+        Debug.println("sEditDescription     : "+sEditDescription);
+        Debug.println("sEditProductStockUid : "+sEditProductStockUid);
+        Debug.println("sEditPackagesOrdered : "+sEditPackagesOrdered);
+        Debug.println("sEditDateOrdered     : "+sEditDateOrdered);
+        Debug.println("sEditDateDeliveryDue : "+sEditDateDeliveryDue);
+        Debug.println("sEditImportance      : "+sEditImportance);
+        Debug.println("sEditProductName     : "+sEditProductName+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     String msg = "",sSelectedProductStockUid = "", sSelectedDescription = "", sSelectedPackagesOrdered = "",
            sSelectedDateOrdered = "", sSelectedDateDeliveryDue = "", sSelectedImportance = "",
@@ -157,12 +159,8 @@
     }
 %>
 <form name="transactionForm" id="transactionForm" method="post" onKeyDown="if(enterEvent(event,13)){doOrder();}" onClick="clearMessage();">
-    <%-- title --%>
-    <table width='100%' cellspacing='0'>
-        <tr class='admin'>
-            <td><%=getTran("Web.manage","orderproduct",sWebLanguage)%></td>
-        </tr>
-    </table>
+    <%=writeTableHeader("Web.manage","orderproduct",sWebLanguage,"window.close();")%> 
+     
     <%
         //*****************************************************************************************
         //*** process display options *************************************************************
@@ -227,8 +225,6 @@
                         </td>
                     </tr>
                 </table>
-
-                <%-- indication of obligated fields --%>
                 <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
 
                 <%-- display message --%>
