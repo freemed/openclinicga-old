@@ -1,6 +1,6 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%@page import="be.openclinic.pharmacy.*" %>
+<%@page import="be.openclinic.pharmacy.*"%>
 <%=checkPermission("pharmacy.manageproductstockdocuments","all",activeUser)%>
 <%=sJSSORTTABLE%>
 
@@ -112,14 +112,11 @@
 							<input type="hidden" name="ReturnDestinationName" value="<%=sReturnDestinationName %>"/>
 							<input type="hidden" name="Page" value="/_common/search/searchStockOperationDocument.jsp"/>
 							
+							<%=writeTableHeader("web","findoperationdocuments",sWebLanguage,"window.close()")%>
 			                <table class="list" width="100%" cellpadding="0" cellspacing="1">
-								<%-- OPERATION DOCUMENTS --%>
-								<tr class="admin" style="padding-left:0">
-									<td colspan="2"><%=getTran("web","findoperationdocuments",sWebLanguage)%>&nbsp;</td>
-								</tr>
 								<%-- TYPE --%>
 								<tr>
-									<td class="admin" width="1%" nowrap><%=getTran("web","type",sWebLanguage)%>&nbsp;</td>
+									<td class="admin2" width="1%" nowrap><%=getTran("web","type",sWebLanguage)%>&nbsp;</td>
 									<td class="admin2">
 										<select name="finddocumenttype" id="finddocumenttype" class="text">
 											<option value=""></option>
@@ -129,7 +126,7 @@
 								</tr>
 								<%-- SOURCE --%>
 								<tr>
-									<td class="admin" width="1%" nowrap><%=getTran("web","source",sWebLanguage)%>&nbsp;</td>
+									<td class="admin2" width="1%" nowrap><%=getTran("web","source",sWebLanguage)%>&nbsp;</td>
 									<td class="admin2">
 						                <input class='text' type="text" name="finddocumentsourcetext" id="finddocumentsourcetext" readonly size="50" TITLE="" VALUE="<%=sFindSourceText %>" onchange="">
 						                <img src='/openclinic/_img/icons/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='findServiceSource("finddocumentsource","finddocumentsourcetext");'>&nbsp;<img src='/openclinic/_img/icons/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('finddocumentsource')[0].value='';document.getElementsByName('finddocumentsourcetext')[0].value='';">
@@ -138,7 +135,7 @@
 								</tr>
 								<%-- DESTINATION --%>
 								<tr>
-									<td class="admin" width="1%" nowrap><%=getTran("web","destination",sWebLanguage)%>&nbsp;</td>
+									<td class="admin2" width="1%" nowrap><%=getTran("web","destination",sWebLanguage)%>&nbsp;</td>
 									<td class="admin2">
 						                <input class='text' type="text" name="finddocumentdestinationtext" id="finddocumentdestinationtext" readonly size="50" TITLE="" VALUE="<%=sFindDestinationText %>" onchange="">
 						                <img src='/openclinic/_img/icons/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=finddocumentdestination&ReturnServiceStockNameField=finddocumentdestinationtext");'>&nbsp;<img src='/openclinic/_img/icons/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('finddocumentdestination')[0].value='';document.getElementsByName('finddocumentdestinationtext')[0].value='';">
@@ -147,22 +144,22 @@
 								</tr>
 								<%-- PERIOD --%>
 								<tr>
-									<td class="admin" width="1%" nowrap><%=getTran("web","period",sWebLanguage)%>&nbsp;</td>
+									<td class="admin2" width="1%" nowrap><%=getTran("web","period",sWebLanguage)%>&nbsp;</td>
 									<td class="admin2"><%=getTran("web","from",sWebLanguage)%> <%=writeDateField("finddocumentmindate","searchForm",sFindMinDate,sWebLanguage)%> <%=getTran("web","to",sWebLanguage)%> <%=writeDateField("finddocumentmaxdate","searchForm",sFindMaxDate,sWebLanguage)%></td>
 								</tr>
 								<%-- DOCUMENT REFERENCE --%>
 								<tr>
-									<td class="admin" width="1%" nowrap><%=getTran("web","documentreference",sWebLanguage)%>&nbsp;</td>
+									<td class="admin2" width="1%" nowrap><%=getTran("web","documentreference",sWebLanguage)%>&nbsp;</td>
 									<td class="admin2"><input type="text" class="text" name="finddocumentreference" id="finddocumentreference" value="<%=sFindReference%>" size="50"/></td>
 								</tr>
 							</table>
 								
 			            	<%-- BUTTONS --%>
-			            	<div style="padding-top:3px;padding-left:1px;">
+			            	<%=ScreenHelper.alignButtonsStart()%>
 								<input type="submit" class="button" name="submitfind" value="<%=getTranNoLink("web","find",sWebLanguage)%>"/>
 								<input type="button" class="button" name="submitnew" value="<%=getTranNoLink("web","new",sWebLanguage)%>" onclick="document.getElementById('formaction').value='new';searchForm.submit();"/>
 								<input type="button" class="button" name="clear" value="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="clearFindFields();"/>
-							</div>
+							<%=ScreenHelper.alignButtonsStop()%>
 								
 							<input type='hidden' name='formaction' id='formaction' value='find'/>
 						</form>
@@ -252,10 +249,8 @@
 			<input type="hidden" name="Page" value="_common/search/searchStockOperationDocument.jsp"/>
 			<input type="hidden" name="documentuid" value="<%=sUid %>"/>
 			
+		    <%=writeTableHeader("web","editoperationdocument",sWebLanguage,"doBack()")%>
 		    <table class="list" width="100%" cellpadding="0" cellspacing="1">
-				<tr class="admin" style="padding-left:0">
-					<td colspan="2"><%=getTran("web","editoperationdocument",sWebLanguage)%></td>
-				</tr>
 				<tr>
 					<td class="admin"><%=getTran("web","type",sWebLanguage)%> *</td>
 					<td class="admin2">
@@ -295,10 +290,10 @@
 			</table>
 			
 			<%-- BUTTONS --%>
-	        <div style="padding-top:3px;padding-left:1px;">
+	        <%=ScreenHelper.alignButtonsStart()%>
 				<input type="button" class="button" name="submitsave" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="saveForm();"/>
 				<input type="button" class="button" name="cancel" value="<%=getTranNoLink("web","cancel",sWebLanguage)%>" onclick="findDocument('<%=sUid%>')"/>
-			</div>
+			<%=ScreenHelper.alignButtonsStop()%>
 			
 			<input type='hidden' name='formaction' id='formaction' value=''/>
 		</form>		
@@ -380,5 +375,10 @@
 	document.getElementById("finddocumentmindate").value = '';
 	document.getElementById("finddocumentmaxdate").value = '';
 	document.getElementById("finddocumentreference").value = '';
+  }
+  
+  <%-- DO BACK --%>
+  function doBack(){
+	findDocument('<%=sUid%>');
   }
 </script>

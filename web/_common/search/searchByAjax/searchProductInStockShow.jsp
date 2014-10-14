@@ -139,20 +139,20 @@
 	            .append("</tr>");
 	
 	        // tbody
-	        sOut.append("<tbody onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\">");
+	        sOut.append("<tbody class='hand'>");
 	
 	        // sort found products on their name
 	        Collections.sort(allProductStocks);
 	
-	        // run thru found productStocks, displaying the product they stock
+	        // run through found productStocks, displaying the products they stock
 	        for(int i=0; i<allProductStocks.size(); i++){
 	            productStock = (ProductStock) allProductStocks.get(i);
 	            product = productStock.getProduct();
 	
-	            if(product != null){
+	            if(product!=null){
 	                // filter out products depending on their productGroup ?
 	                boolean productGroupOK;
-	                if(sSearchProductGroup.length() == 0){
+	                if(sSearchProductGroup.length()==0){
 	                    productGroupOK = true;
 	                }
 	                else{
@@ -172,13 +172,13 @@
 		
 		                    // supplyingService
 		                    supplyingServiceUid = serviceStock.getService().code;
-		                    if(supplyingServiceUid.length() > 0) {
+		                    if(supplyingServiceUid.length() > 0){
 		                        supplyingServiceName = getTranNoLink("service",supplyingServiceUid,sWebLanguage);
 		                    }
 		
 		                    // productGroup
 		                    sProductGroup = checkString(product.getProductGroup());
-		                    if(sProductGroup.length() > 0) {
+		                    if(sProductGroup.length() > 0){
 		                        sProductGroup = getTran("product.productgroup",sProductGroup,sWebLanguage);
 		                    }
 		
@@ -199,7 +199,7 @@
 		                    sOut.append("<tr title='"+chooseTran+"' class='list"+sClass+"' onMouseOver=\"this.className='list_select'\" onMouseOut=\"this.className='list"+sClass+"'\" onClick=\"selectProduct('"+product.getUid()+"','"+product.getName()+"','"+product.getUnit()+"','"+sUnitsPerTimeUnit+"','"+supplyingServiceUid+"','"+supplyingServiceName+"','"+sSupplierUid+"','"+sSupplierName+"','"+sUnitsPerPackage+"','"+sProductStockUid+"','"+serviceStock.getUid()+"','"+serviceStock.getName()+"');\">")
 		                         .append("<td>"+product.getName()+"</td>")
 		                         .append("<td>"+sUnitTran+"</td>")
-		                         .append("<td align='right'>"+priceDeci.format(product.getUnitPrice())+" "+sCurrency+" </td>")
+		                         .append("<td align='right'>"+priceDeci.format(product.getUnitPrice())+" "+sCurrency+"&nbsp;</td>")
 		                         .append("<td>"+getTranNoLink("service",serviceStock.getServiceUid(),sWebLanguage)+"</td>")
 		                         .append("<td>"+serviceStock.getName()+"</td>")
 		                         .append("<td align='right'>"+(productStock.getLevel()<0?"<font color='red'>"+productStock.getLevel()+"</font>":productStock.getLevel()+"")+" </td>")
@@ -225,7 +225,8 @@
                 <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
                     <%=HTMLEntities.htmlentities(sOut.toString())%>
                 </table>
-                <%=iTotal%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
+                
+                <%=iTotal%> <%=HTMLEntities.htmlentities(getTran("web","recordsFound",sWebLanguage))%>
             <%
         }
     }

@@ -213,12 +213,9 @@
 %>
 
 <form name="searchForm" method="POST" onSubmit="doFind();" onkeydown="if(enterEvent(event,13)){doFind();}">
+    <%=writeTableHeader("web.manage","searchinproductstock",sWebLanguage," window.close();")%>
+    
     <table width="100%" cellspacing="0" cellpadding="0" class="menu">
-        <%-- TITLE --%>
-        <tr class="admin">
-            <td colspan="7"><%=getTran("web.manage","searchinproductstock",sWebLanguage)%></td>
-        </tr>
-
         <%-- SEARCH FIELDS --%>
         <tr height="25">
             <%-- productname --%>

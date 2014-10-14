@@ -52,26 +52,26 @@
     
     //--- SEARCH ----------------------------------------------------------------------------------
     if(sAction.equals("search")){
-        Vector vInvoices = ExtraInsurarInvoice2.searchInvoices(sFindInvoiceDate,sFindInvoiceNr,sFindInvoiceInsurarUID,sFindInvoiceStatus,sFindInvoiceBalanceMin,sFindInvoiceBalanceMax);
+        Vector vInvoices = ExtraInsurarInvoice2.searchInvoices(sFindInvoiceDate,sFindInvoiceNr,sFindInvoiceInsurarUID,
+        		                                               sFindInvoiceStatus,sFindInvoiceBalanceMin,sFindInvoiceBalanceMax);
 
-        boolean recsFound = false;
+        int recCount = 0;
         StringBuffer sHtml = new StringBuffer();
         String sClass = "1", sInvoiceUid, sInvoiceDate, sInvoiceNr, sInvoiceStatus, sInsurarUid, sInsurarName;
         ExtraInsurarInvoice2 invoice;
 
-        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         Iterator iter = vInvoices.iterator();
         while(iter.hasNext()){
             invoice = (ExtraInsurarInvoice2)iter.next();
             sInvoiceUid = invoice.getUid();
-            recsFound = true;
+            recCount++;
 
             sInvoiceNr = invoice.getInvoiceUid();
-            sInvoiceStatus = getTranNoLink("finance.patientinvoice.status", invoice.getStatus(), sWebLanguage);
+            sInvoiceStatus = getTranNoLink("finance.patientinvoice.status",invoice.getStatus(),sWebLanguage);
 
             // date
             if(invoice.getDate()!=null){
-                sInvoiceDate = stdDateFormat.format(invoice.getDate());
+                sInvoiceDate = ScreenHelper.formatDate(invoice.getDate());
             }
             else{
                 sInvoiceDate = "";
@@ -94,12 +94,12 @@
                   .append("<td>"+sInsurarName+"</td>")
                   .append("<td>"+sInvoiceDate+"</td>")
                   .append("<td>"+sInvoiceNr+"</td>")
-                  .append("<td style='text-align:right;'>"+priceFormat.format(invoice.getBalance())+"  </td>")
+                  .append("<td style='text-align:right;'>"+priceFormat.format(invoice.getBalance())+"&nbsp;&nbsp;</td>")
                   .append("<td>"+sInvoiceStatus+"</td>")
                  .append("</tr>");
         }
 
-        if(recsFound){
+        if(recCount > 0){
 		    %>
 		    <table id="searchresults" class="sortable" width="100%" cellpadding="1" cellspacing="0" style="border:1px solid #ccc;">
 		        <%-- header --%>
@@ -107,7 +107,7 @@
 		            <td width="200" nowrap><%=HTMLEntities.htmlentities(getTran("medical.accident","insurancecompany",sWebLanguage))%></td>
 		            <td width="100" nowrap><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
 		            <td width="110" nowrap><%=HTMLEntities.htmlentities(getTran("web","invoicenumber", sWebLanguage))%></td>
-		            <td width="130" nowrap style="text-align:right;"><%=HTMLEntities.htmlentities(getTran("web","balance",sWebLanguage))%>nbsp;<%=HTMLEntities.htmlentities((sCurrency))%></td>
+		            <td width="130" nowrap style="text-align:right;"><%=HTMLEntities.htmlentities(getTran("web","balance",sWebLanguage))%>&nbsp;<%=HTMLEntities.htmlentities((sCurrency))%></td>
 		            <td width="120" nowrap><%=HTMLEntities.htmlentities(getTran("web.finance","patientinvoice.status",sWebLanguage))%></td>
 		        </tr>
 		
@@ -115,6 +115,8 @@
 		            <%=HTMLEntities.htmlentities(sHtml.toString())%>
 		        </tbody>
 		    </table>
+            
+            <%=recCount%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
 		    <%
         }
 	    else{

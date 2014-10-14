@@ -25,17 +25,35 @@
            sReturnFieldInsurarUid     = checkString(request.getParameter("ReturnFieldInsurarUid")),
            sReturnFieldInsurarName    = checkString(request.getParameter("ReturnFieldInsurarName"));
 
-    String sCurrency = MedwanQuery.getInstance().getConfigParam("currency", "€");
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n************ _common/search/searchExtraInsurarInvoice2.jsp *************");
+    	Debug.println("sAction                 : "+sAction);
+    	Debug.println("sFindInvoiceDate        : "+sFindInvoiceDate);
+    	Debug.println("sFindInvoiceNr          : "+sFindInvoiceNr);
+    	Debug.println("sFindInvoiceBalanceMin  : "+sFindInvoiceBalanceMin);
+    	Debug.println("sFindInvoiceBalanceMax  : "+sFindInvoiceBalanceMax);
+    	Debug.println("sFindInvoiceInsurarUID  : "+sFindInvoiceInsurarUID);
+    	Debug.println("sFindInvoiceInsurarText : "+sFindInvoiceInsurarText);
+    	Debug.println("sFindInvoiceStatus      : "+sFindInvoiceStatus+"\n");
+    	
+    	Debug.println("sFunction               : "+sFunction);
+    	Debug.println("sReturnFieldInvoiceUid  : "+sReturnFieldInvoiceUid);
+    	Debug.println("sReturnFieldInvoiceNr   : "+sReturnFieldInvoiceNr);
+    	Debug.println("sReturnFieldInvoiceBalance : "+sReturnFieldInvoiceBalance);
+    	Debug.println("sReturnFieldInvoiceStatus  : "+sReturnFieldInvoiceStatus);
+    	Debug.println("sReturnFieldInsurarUid  : "+sReturnFieldInsurarUid);
+    	Debug.println("sReturnFieldInsurarName : "+sReturnFieldInsurarName+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    
+    String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
 %>
 <form name="SearchForm" method="POST" onsubmit="searchInvoices();return false;" onkeydown="if(enterEvent(event,13)){searchInvoices();}" action="<c:url value='/popup.jsp'/>?Page=_common/search/searchExtraInsurarInvoice.jsp&ts=<%=getTs()%>">
     <input type="hidden" name="Action">
 
-    <table width="100%" cellspacing="1" cellpadding="0" class="menu">
-        <%-- TITLE --%>
-        <tr class="admin">
-            <td colspan="4"><%=getTran("web","searchinsurarinvoice",sWebLanguage)%></td>
-        </tr>
-        
+    <%=writeTableHeader("web","searchinsurarinvoice",sWebLanguage," window.close()")%>
+    <table width="100%" cellspacing="1" cellpadding="0" class="menu">        
         <%-- INSURANCE COMPANY --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("medical.accident","insurancecompany",sWebLanguage)%></td>
@@ -51,7 +69,7 @@
         <%-- DATE --%>
         <tr>
             <td class="admin"><%=getTran("Web","date",sWebLanguage)%>&nbsp;</td>
-            <td class="admin2"><%=writeDateField("FindInvoiceDate", "SearchForm",sFindInvoiceDate,sWebLanguage)%></td>
+            <td class="admin2"><%=writeDateField("FindInvoiceDate","SearchForm",sFindInvoiceDate,sWebLanguage)%></td>
         </tr>
         
         <%-- NUMBER --%>
@@ -80,7 +98,7 @@
             <td class="admin2">
                 <select class="text" name="FindInvoiceStatus">
                     <option value=""></option>
-                    <%=ScreenHelper.writeSelect("finance.patientinvoice.status", sFindInvoiceStatus, sWebLanguage)%>
+                    <%=ScreenHelper.writeSelect("finance.patientinvoice.status",sFindInvoiceStatus,sWebLanguage)%>
                 </select>
             </td>
         </tr>
@@ -123,7 +141,8 @@
 
   <%-- SEARCH INSURAR --%>
   function searchInsurar(){
-    openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>&ReturnFieldInsurarUid=FindInvoiceInsurarUID&ReturnFieldInsurarName=FindInvoiceInsurarText");
+    openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>&ReturnFieldInsurarUid=FindInvoiceInsurarUID"+
+    		  "&ReturnFieldInsurarName=FindInvoiceInsurarText");
   }
 
   <%-- CLEAR INSURAR --%>

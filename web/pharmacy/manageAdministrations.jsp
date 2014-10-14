@@ -9,8 +9,25 @@
 
 <%
     int adminDays = MedwanQuery.getInstance().getConfigInt("administrationSchemaDays",5);
+
+	// start date
+	java.util.Date dStart = new java.util.Date(ScreenHelper.getDate(new java.util.Date()).getTime() - 2 * 24 * 3600 * 1000);
+	String sStartDate = checkString(request.getParameter("startdate"));
+	if(sStartDate.length() > 0){
+	    dStart = new java.util.Date(ScreenHelper.parseDate(sStartDate).getTime() - 2 * 24 * 3600 * 1000);
+	}
+    
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n******************* pharmacy/manageAdministrations.jsp *****************");
+    	Debug.println("adminDays  : "+adminDays);
+    	Debug.println("sStartDate : "+sStartDate+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    
     SimpleDateFormat compactDateFormat = new SimpleDateFormat("yyyyMMdd");
     String sMsg = "";
+    
     
     //--- SAVE ------------------------------------------------------------------------------------
     if(request.getParameter("saveButton")!=null){
@@ -27,7 +44,8 @@
 	            time = parameter.substring(10).split("_")[2];
 	            value = (String) requestParameters.get(parameter);
 	
-	            AdministrationSchema.storeAdministration(prescriptionUid,compactDateFormat.parse(sDay),Integer.parseInt(time),Integer.parseInt(value));
+	            AdministrationSchema.storeAdministration(prescriptionUid,compactDateFormat.parse(sDay),Integer.parseInt(time),
+	            		                                 Integer.parseInt(value));
 	        }
             sMsg = getTran("web","dataIsSaved",sWebLanguage);
         }
@@ -43,26 +61,12 @@
 	            time = parameter.substring(10).split("_")[2];
 	            value = (String)requestParameters.get(parameter);
 	
-	            CarePrescriptionAdministrationSchema.storeAdministration(prescriptionUid,compactDateFormat.parse(sDay),Integer.parseInt(time),Integer.parseInt(value));
+	            CarePrescriptionAdministrationSchema.storeAdministration(prescriptionUid,compactDateFormat.parse(sDay),
+	            		                                                 Integer.parseInt(time),Integer.parseInt(value));
 	        }
             sMsg = getTran("web","dataIsSaved",sWebLanguage);
         }
     }
-    
-    // start date
-    java.util.Date dStart = new java.util.Date(ScreenHelper.getDate(new java.util.Date()).getTime() - 2 * 24 * 3600 * 1000);
-    String sStartDate = checkString(request.getParameter("startdate"));
-    if(sStartDate.length() > 0){
-        dStart = new java.util.Date(ScreenHelper.parseDate(sStartDate).getTime() - 2 * 24 * 3600 * 1000);
-    }
-    
-    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
-    if(Debug.enabled){
-    	Debug.println("\n******************* pharmacy/manageAdministrations.jsp *****************");
-    	Debug.println("adminDays : "+adminDays);
-    	Debug.println("sStartDate : "+sStartDate+"\n");
-    }
-    ///////////////////////////////////////////////////////////////////////////////////////////////
 %>
 <form name="formAdministrations" method="post">
     <%-- 1 - TREATMENT DIAGRAM ------------------------------------------------------------------%>
@@ -71,7 +75,7 @@
     <%
         AdministrationSchema schema = new AdministrationSchema(dStart,new java.util.Date(dStart.getTime()+adminDays * 24 * 3600 * 1000),activePatient.personid);
         if(schema.getPrescriptionSchemas().size() > 0){
-            AdministrationSchema.AdministrationSchemaLine line = (AdministrationSchema.AdministrationSchemaLine) schema.getPrescriptionSchemas().elementAt(0);
+            AdministrationSchema.AdministrationSchemaLine line = (AdministrationSchema.AdministrationSchemaLine)schema.getPrescriptionSchemas().elementAt(0);
 
             // Day header
             out.print("<tr>"+

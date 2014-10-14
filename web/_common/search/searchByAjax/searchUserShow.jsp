@@ -98,7 +98,7 @@
         Debug.println("sReturnUserID   : "+sReturnUserID);
         Debug.println("sReturnName     : "+sReturnName);
         Debug.println("sSetGreenField  : "+sSetGreenField);
-        Debug.println("displayImmatNew : "+displayImmatNew);
+        Debug.println("displayImmatNew : "+displayImmatNew+"\n");
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
 

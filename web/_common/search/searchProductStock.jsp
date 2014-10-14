@@ -31,9 +31,9 @@
         displayProductStocksOfActiveUserService = false;
     }
     
-    /// DEBUG ///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-    	Debug.println("\n*********** _common/search/searchProductStock.jsp ***********");
+    	Debug.println("\n**************** _common/search/searchProductStock.jsp ****************");
     	Debug.println("sAction             : "+sAction);
     	Debug.println("sSearchStockLevel   : "+sSearchStockLevel);
     	Debug.println("sSearchProductUid   : "+sSearchProductUid);
@@ -48,16 +48,16 @@
     	Debug.println("sReturnProductStockLevelField : "+sReturnProductStockLevelField);
     	Debug.println("displayProductStocksOfActiveUserService : "+displayProductStocksOfActiveUserService+"\n");
     }
-    /////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 %>
 <form name="productStockForm" method="POST" onSubmit="doFind();return false;" onkeydown="if(enterEvent(event,13)){doFind();}">
-    <%=writeTableHeader("web","searchProductStock",sWebLanguage)%>
+    <%=writeTableHeader("web","searchProductStock",sWebLanguage," window.close();")%>
     
     <table width="100%" cellspacing="1" cellpadding="0" class="menu">    
         <%-- SEARCH FIELDS --%>
         <tr>
             <%-- product --%>
-            <td class="admin" width="100"><%=getTran("Web","product",sWebLanguage)%></td>
+            <td class="admin2" width="100"><%=getTran("Web","product",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="hidden" name="SearchProductUid" value="<%=sSearchProductUid%>">
                 <input type="text" name="SearchProductName" class="text" value="<%=sSearchProductName%>" size="40" READONLY>
@@ -69,7 +69,7 @@
         
         <tr>
             <%-- service --%>
-            <td class="admin"><%=getTran("Web","service",sWebLanguage)%></td>
+            <td class="admin2"><%=getTran("Web","service",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="hidden" name="SearchServiceUid" value="<%=sSearchServiceUid%>">
                 <input type="text" name="SearchServiceName" class="text" value="<%=sSearchServiceName%>" size="40" READONLY>
@@ -81,7 +81,7 @@
         
         <%-- BUTTONS --%>
         <tr>
-            <td class="admin">&nbsp;</td>
+            <td class="admin2">&nbsp;</td>
             <td class="admin2">
                 <input class="button" type="button" onClick="doFind();" name="findButton" value="<%=getTranNoLink("Web","find",sWebLanguage)%>">&nbsp;
                 <input class="button" type="button" onClick="clearSearchFields();" name="clearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>">&nbsp;
@@ -109,13 +109,13 @@
 </form>
 
 <script>
-    window.resizeTo(600, 540);
-    document.productStockForm.SearchProductName.focus();
+  window.resizeTo(600,540);
+  document.productStockForm.SearchProductName.focus();
 
-    <%-- select product stock --%>
-    function selectProductStock(productStockUid, productStockName, serviceStockUid, serviceStockName, productStockLevel){
-      window.opener.document.getElementsByName('<%=sReturnProductStockUidField%>')[0].value = productStockUid;
-      window.opener.document.getElementsByName('<%=sReturnProductStockNameField%>')[0].value = productStockName;
+  <%-- select product stock --%>
+  function selectProductStock(productStockUid, productStockName, serviceStockUid, serviceStockName, productStockLevel){
+    window.opener.document.getElementsByName('<%=sReturnProductStockUidField%>')[0].value = productStockUid;
+    window.opener.document.getElementsByName('<%=sReturnProductStockNameField%>')[0].value = productStockName;
 
     <%-- set ServiceStock --%>
     var serviceStockUidField = window.opener.document.getElementsByName('<%=sReturnServiceStockUidField%>')[0];
@@ -147,7 +147,7 @@
   <%-- do find --%>
   function doFind(){
     productStockForm.Action.value = "find";
-    return ajaxChangeSearchResults('_common/search/searchByAjax/searchProductStockShow.jsp',productStockForm);
+    ajaxChangeSearchResults('_common/search/searchByAjax/searchProductStockShow.jsp',productStockForm);
   }
 
   <%-- clear search fields --%>

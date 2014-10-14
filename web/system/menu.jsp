@@ -17,7 +17,7 @@
         while(iter.hasNext()){
             sLabel = (String)iter.next();
             sLink = (String)hMenu.get(sLabel);
-            sOut+= writeTblChild(sLink,sLabel,rowIdx++);
+            sOut+= writeTblChild(sLink,sLabel,rowIdx++,true);
         }
 
         return sOut;

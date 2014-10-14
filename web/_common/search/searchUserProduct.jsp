@@ -201,12 +201,9 @@
 %>
 
 <form name="productForm" method="POST" onkeydown="if(enterEvent(event,13)){doFind();}">
-    <table width="100%" cellspacing="0" cellpadding="0" class="menu">
-        <%-- TITLE --%>
-        <tr class="admin">
-            <td colspan="7"><%=getTran("web", "searchuserproduct",sWebLanguage)%></td>
-        </tr>
+    <%=writeTableHeader("web","searchuserproduct",sWebLanguage," window.close();")%>
 
+    <table width="100%" cellspacing="0" cellpadding="0" class="menu">
         <%-- SEARCH FIELDS --%>
         <tr height="25">
             <%-- productname --%>
@@ -302,7 +299,7 @@ if(sReturnProductUnitField.length() > 0){
     var serviceStockUidField = window.opener.document.getElementsByName('EditServiceStockUid')[0];
     var serviceStockNameField = window.opener.document.getElementsByName('EditServiceStockName')[0];
 
-    if(serviceStockUidField != undefined && serviceStockNameField != undefined){
+    if(serviceStockUidField!=undefined && serviceStockNameField!=undefined){
       window.opener.document.getElementsByName('EditServiceStockUid')[0].value = serviceStockUid;
       window.opener.document.getElementsByName('EditServiceStockName')[0].value = serviceStockName;
     }
@@ -322,7 +319,7 @@ if(sReturnProductUnitField.length() > 0){
 // set productSupplier
 if(sReturnSupplierUidField.length() > 0 && sReturnSupplierNameField.length() > 0){
 	%>
-	    if(productSupplierUid.length == 0){
+	    if(productSupplierUid.length==0){
 	      productSupplierUid = "<%=centralPharmacyCode%>";
 	      productSupplierName = "<%=centralPharmacyName%>";
 	    }
@@ -353,10 +350,10 @@ if(sReturnUnitsPerPackageField.length() > 0){
 	    window.opener.document.getElementsByName('<%=sReturnUnitsPerPackageField%>')[0].value = unitsPerPackage;
 	    isNumber(window.opener.document.getElementsByName('<%=sReturnUnitsPerTimeUnitField%>')[0]);
 	
-	    if(window.opener.calculatePackagesNeeded != null){
+	    if(window.opener.calculatePackagesNeeded!=null){
 	      window.opener.calculatePackagesNeeded();
 	    }
-	    if(window.opener.calculatePrescriptionPeriod != null){
+	    if(window.opener.calculatePrescriptionPeriod!=null){
 	      window.opener.calculatePrescriptionPeriod();
 	    }
 	<%
@@ -412,8 +409,8 @@ function clearSearchFields(){
 
 <%-- open edit product unit popup --%>
 function openEditProductUnitPopup(productUid){
-  var url = "pharmacy/popups/editProductUnit.jsp" +
-            "&EditProductUid="+productUid +
+  var url = "pharmacy/popups/editProductUnit.jsp"+
+            "&EditProductUid="+productUid+
             "&ts=<%=getTs()%>";
 
   <%

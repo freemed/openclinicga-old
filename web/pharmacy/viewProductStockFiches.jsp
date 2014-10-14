@@ -131,14 +131,14 @@
         //--- DISPLAY FICHE --------------------------------------------------------------------------------------------
         if(displayFiche){
             %>
-                <table width="100%" class="sortable" id="searchresults" cellspacing="1" style="border:none;">
+                <table width="100%" class="sortable" id="searchresults" cellspacing="1">
                     <%-- HEADER --%>
                     <tr class="admin">
                         <td width="100"/>
-                        <td width="100" style="text-align:right;"><%=getTran("web","in",sWebLanguage)%></td>
-                        <td width="100" style="text-align:right;"><%=getTran("web","out",sWebLanguage)%></td>
-                        <td width="100" style="text-align:right;"><%=getTran("web","netto",sWebLanguage)%></td>
-                        <td width="100" style="text-align:right;"><%=getTran("web","level",sWebLanguage)%></td>
+                        <td width="100" style="text-align:right;"><%=getTran("web","in",sWebLanguage)%>&nbsp;</td>
+                        <td width="100" style="text-align:right;"><%=getTran("web","out",sWebLanguage)%>&nbsp;</td>
+                        <td width="100" style="text-align:right;"><%=getTran("web","netto",sWebLanguage)%>&nbsp;</td>
+                        <td width="100" style="text-align:right;"><%=getTran("web","level",sWebLanguage)%>&nbsp;</td>
                         <td width="*"/>
                     </tr>
                     
@@ -180,7 +180,7 @@
                 </table>
                 
                 <%-- YEAR TOTAL --%>
-                <table width="100%" class="list" cellspacing="1">
+                <table width="100%" class="list" cellspacing="1" style="border-top:none;">
                     <%
                         // count units
                         unitsIn   = productStock.getTotalUnitsInForYear(calendar.getTime());
@@ -200,7 +200,8 @@
                 <%-- PRINT BUTTON --%>
                 <%=ScreenHelper.alignButtonsStart()%>
                     <button accesskey="<%=ScreenHelper.getAccessKey(getTranNoLink("accesskey","print",sWebLanguage))%>" class="buttoninvisible" onclick="doPrint();"></button>
-                    <button class="button" name="printButton" onclick="doPrint();"><%=getTran("accesskey","print",sWebLanguage)%></button>
+                    <button class="button" name="printButton" onclick="doPrint();"><%=getTran("accesskey","print",sWebLanguage)%></button>&nbsp;
+                    <button class="button" name="closeButton" onclick="window.close();"><%=getTran("web","close",sWebLanguage)%></button>
                 <%=ScreenHelper.alignButtonsStop()%>
                 <br>
             <%

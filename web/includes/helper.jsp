@@ -94,7 +94,11 @@
     }
     
     public String writeTblChild(String sPath, String sHeader, int rowIdx){
-        return ScreenHelper.writeTblChild(sPath,sHeader,sCONTEXTPATH,rowIdx);
+    	return writeTblChild(sPath,sHeader,rowIdx,false);
+    }
+    
+    public String writeTblChild(String sPath, String sHeader, int rowIdx, boolean smallRows){
+        return ScreenHelper.writeTblChild(sPath,sHeader,sCONTEXTPATH,rowIdx,smallRows);
     }
 
     //--- WRITE TABEL CHILD -----------------------------------------------------------------------
@@ -473,15 +477,22 @@
                                "<td id='tableHeaderTitle'>"+sTitle+"</td>";
 
         if(sPage.trim().length() > 0){
-            tableHeader += "<td align='right'>";
-
-            // sPage is a link
+            tableHeader+= "<td align='right'>";
+            
+            //*** 1 - sPage is a link ***
             if(sPage.indexOf("()") < 0){
-                tableHeader += "<a class='previousButton' alt='"+getTranNoLink("Web","Back",sLanguage)+"' title='"+getTranNoLink("Web","Back",sLanguage)+"' href='"+sPage+"'>&nbsp;</a>";
+                tableHeader+= "<a class='previousButton' alt='"+getTranNoLink("web","back",sLanguage)+"' title='"+getTranNoLink("web","back",sLanguage)+"' href='"+sPage+"'>&nbsp;</a>";
             }
-            // sPage is a javascript function (like "doBack()")
+            //*** 2 - sPage is a javascript function (like "doBack()") ***
             else{
-                tableHeader+= "<a class='previousButton' alt='"+getTranNoLink("Web","Back",sLanguage)+"' title='"+getTranNoLink("Web","Back",sLanguage)+"' href='javascript:"+sPage+"'>&nbsp;</a>";
+            	if(sPage.trim().toLowerCase().startsWith("closewindow") || sPage.trim().toLowerCase().startsWith("window.close")){
+            		// close window --> close-icon
+            		tableHeader+= "<a class='closeButton' alt='"+getTranNoLink("web","close",sLanguage)+"' title='"+getTranNoLink("web","close",sLanguage)+"' href='javascript:"+sPage+"'>&nbsp;</a>";
+            	}
+            	else{
+            		// any other javascript --> arrow-icon
+                    tableHeader+= "<a class='previousButton' alt='"+getTranNoLink("web","back",sLanguage)+"' title='"+getTranNoLink("web","back",sLanguage)+"' href='javascript:"+sPage+"'>&nbsp;</a>";
+            	}
             }
 
             tableHeader+= "</td>";

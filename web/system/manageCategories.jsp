@@ -1,6 +1,7 @@
-<%@ page import="java.util.*" %>
+<%@page import="java.util.*"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
+
 <%
     String sAction             = checkString(request.getParameter("Action")),
            sFindCategoryCode    = checkString(request.getParameter("FindCategoryCode")),
@@ -9,11 +10,11 @@
 
     // DEBUG ////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n### mngCategories #############################################");
-        Debug.println("# sAction             : " + sAction);
-        Debug.println("# sFindCategoryCode    : " + sFindCategoryCode);
-        Debug.println("# sFindCategoryText    : " + sFindCategoryText);
-        Debug.println("# sEditOldCategoryCode : " + sEditOldCategoryCode + "\n");
+        Debug.println("\n**************** system/manageCategories.jsp *****************");
+        Debug.println("sAction              : "+sAction);
+        Debug.println("sFindCategoryCode    : "+sFindCategoryCode);
+        Debug.println("sFindCategoryText    : "+sFindCategoryText);
+        Debug.println("sEditOldCategoryCode : "+sEditOldCategoryCode+"\n");
     }
     /////////////////////////////////////////////////////////////////////////////////////
 
@@ -21,7 +22,7 @@
 
     // supported languages
     String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
-    if (supportedLanguages.length() == 0) supportedLanguages = "nl,fr";
+    if(supportedLanguages.length()==0) supportedLanguages = "nl,fr";
     supportedLanguages = supportedLanguages.toLowerCase();
 
     // get all params starting with 'EditLabelValueXX', representing labels in different languages
@@ -29,17 +30,17 @@
     Enumeration paramEnum = request.getParameterNames();
     String tmpParamName, tmpParamValue;
 
-    if (sAction.equals("save")) {
-        while (paramEnum.hasMoreElements()) {
+    if(sAction.equals("save")){
+        while(paramEnum.hasMoreElements()){
             tmpParamName = (String) paramEnum.nextElement();
 
-            if (tmpParamName.startsWith("EditLabelValue")) {
+            if(tmpParamName.startsWith("EditLabelValue")){
                 tmpParamValue = request.getParameter(tmpParamName);
                 labelValues.put(tmpParamName.substring(14), tmpParamValue); // language, value
             }
         }
     }
-    else if (sAction.equals("edit")) {
+    else if (sAction.equals("edit")){
         StringTokenizer tokenizer = new StringTokenizer(supportedLanguages, ",");
         while (tokenizer.hasMoreTokens()) {
             tmpLang = tokenizer.nextToken();

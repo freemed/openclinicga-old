@@ -2,25 +2,26 @@
                 be.openclinic.pharmacy.Product,
                 be.openclinic.pharmacy.ProductStock,
                 be.openclinic.medical.Prescription,
-                java.util.Vector,be.mxs.common.util.system.*" %>
-<%@ page import="be.openclinic.pharmacy.ProductOrder" %>
+                java.util.Vector,be.mxs.common.util.system.*,
+                be.openclinic.pharmacy.ProductOrder"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-
 <%=checkPermission("pharmacy.manageproductstocks","all",activeUser)%>
 <%=sJSSORTTABLE%>
+
 <%!
-	static 	Hashtable pumps = new Hashtable(), pumpcounts=new Hashtable();
+	static Hashtable pumps = new Hashtable(),
+	                 pumpcounts = new Hashtable();
 
 	public double getLastYearsAveragePrice(Product product){
-		double price=0;
+		double price = 0;
 		if(pumps.get(product.getUid())!=null && pumpcounts.get(product.getUid())!=null){
-			price=(Double)pumps.get(product.getUid())/(Double)pumpcounts.get(product.getUid());
+			price = (Double)pumps.get(product.getUid())/(Double)pumpcounts.get(product.getUid());
 		}
 		return price;
 	}
-
 %>
+
 <%!
     //--- OBJECTS TO HTML (layout 1) --------------------------------------------------------------
     private StringBuffer objectsToHtml1(Vector objects, String sWebLanguage) {
@@ -32,8 +33,8 @@
         int stockLevel;
 
         // frequently used translations
-        String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
-                deleteTran = getTranNoLink("Web", "delete", sWebLanguage);
+        String detailsTran = getTranNoLink("web","showdetails",sWebLanguage),
+                deleteTran = getTranNoLink("Web","delete",sWebLanguage);
 
         // run thru found productstocks
         ProductStock productStock;
@@ -46,7 +47,7 @@
             if(serviceStock != null) {
                 sServiceStockName = serviceStock.getName();
             } else {
-                sServiceStockName = "<font color='red'>"+getTran("web", "nonexistingserviceStock", sWebLanguage)+"</font>";
+                sServiceStockName = "<font color='red'>"+getTran("web","nonexistingserviceStock",sWebLanguage)+"</font>";
             }
 
             // get product name
@@ -54,7 +55,7 @@
             if(product != null) {
                 sProductName = product.getName();
             } else {
-                sProductName = "<font color='red'>"+getTran("web", "nonexistingproduct", sWebLanguage)+"</font>";
+                sProductName = "<font color='red'>"+getTran("web","nonexistingproduct",sWebLanguage)+"</font>";
             }
 
             // format begin date
@@ -111,16 +112,17 @@
         Product product;
 
         // frequently used translations
-        String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
-                deleteTran = getTranNoLink("Web", "delete", sWebLanguage),
-                orderTran = getTranNoLink("Web", "order", sWebLanguage),
-                batchesTran = getTranNoLink("web", "batches", sWebLanguage),
-                inTran = getTranNoLink("Web.manage", "changeLevel.in", sWebLanguage),
-                outTran = getTranNoLink("Web.manage", "changeLevel.out", sWebLanguage),
-                orderThisProductTran = getTranNoLink("Web.manage", "orderthisproduct", sWebLanguage),
-                changeLevelInTran = getTranNoLink("Web.manage", "changeLevelIn", sWebLanguage),
-                ficheTran = getTranNoLink("Web", "productfiche", sWebLanguage),
-                changeLevelOutTran = getTranNoLink("Web.manage", "changeLevelOut", sWebLanguage);
+        String detailsTran = getTranNoLink("web","showdetails",sWebLanguage),
+               deleteTran = getTranNoLink("Web","delete",sWebLanguage),
+               incomingTran = getTranNoLink("Web","incoming",sWebLanguage),
+               orderTran = getTranNoLink("Web","order",sWebLanguage),
+               batchesTran = getTranNoLink("web","batches",sWebLanguage),
+               inTran = getTranNoLink("Web.manage","changeLevel.in",sWebLanguage),
+               outTran = getTranNoLink("Web.manage","changeLevel.out",sWebLanguage),
+               orderThisProductTran = getTranNoLink("Web.manage","orderthisproduct",sWebLanguage),
+               changeLevelInTran = getTranNoLink("Web.manage","changeLevelIn",sWebLanguage),
+               ficheTran = getTranNoLink("Web","productfiche",sWebLanguage),
+               changeLevelOutTran = getTranNoLink("Web.manage","changeLevelOut",sWebLanguage);
 
         // run thru found productstocks
         ProductStock productStock;
@@ -134,7 +136,7 @@
                 sProductUid = product.getUid();
             } 
             else {
-                sProductName = "<font color='red'>"+getTran("web", "nonexistingproduct", sWebLanguage)+"</font>";
+                sProductName = "<font color='red'>"+getTran("web","nonexistingproduct",sWebLanguage)+"</font>";
             }
 
             // format begin date
@@ -151,10 +153,10 @@
             
             //*** display stock in one row ***
             html.append("<tr class='list"+sClass+"' >")
-                 .append("<td align='center'>"+(activeUser.getAccessRight("pharmacy.manageproductstocks.delete")?"<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link' alt='"+deleteTran+"' onclick=\"doDelete('"+sStockUid+"');\" title='"+deleteTran+"'></td>":"<td/>"))
-		         .append("<td align='center'>"+(activeUser.getAccessRight("pharmacy.viewproductstockfiches.select")?"<img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' class='link' onclick=\"printFiche('"+sStockUid+"');\" title='"+ficheTran+"'></td>":"<td/>"));
+                 .append("<td width='16'>"+(activeUser.getAccessRight("pharmacy.manageproductstocks.delete")?"<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link' alt='"+deleteTran+"' onclick=\"doDelete('"+sStockUid+"');\" title='"+deleteTran+"'></td>":"<td/>"))
+		         .append("<td width='16'>"+(activeUser.getAccessRight("pharmacy.viewproductstockfiches.select")?"<img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' class='link' onclick=\"printFiche('"+sStockUid+"');\" title='"+ficheTran+"'></td>":"<td/>"));
             if(productStock.hasOpenDeliveries()){
-                html.append("<td>&nbsp;<img src='"+sCONTEXTPATH+"/_img/incoming.jpg' class='link' onclick='javascript:receiveProduct(\""+sStockUid+"\",\""+sProductName+"\");'/></td>");
+                html.append("<td width='16'><img src='"+sCONTEXTPATH+"/_img/icons/icon_incoming.gif' class='link' alt='"+incomingTran+"' onclick='javascript:receiveProduct(\""+sStockUid+"\",\""+sProductName+"\");'/>&nbsp;</td>");
             }
             else {
             	html.append("<td/>");
@@ -162,7 +164,7 @@
 
             // non-existing productname in red
             if(sProductName.length() == 0) {
-                html.append("<td onclick=\"doShowDetails('"+sStockUid+"');\"><font color='red'>"+getTran("web", "nonexistingproduct", sWebLanguage)+"</font></td>");
+                html.append("<td onclick=\"doShowDetails('"+sStockUid+"');\"><font color='red'>"+getTran("web","nonexistingproduct",sWebLanguage)+"</font></td>");
             } 
             else {
                 html.append("<td onclick=\"doShowDetails('"+sStockUid+"');\">"+sProductName+"</td>");
@@ -228,8 +230,8 @@
 	PreparedStatement ps = null;
 	try{
 		ps=conn.prepareStatement("select OC_POINTER_KEY,OC_POINTER_VALUE from OC_POINTERS where OC_POINTER_KEY like 'drugprice.%' and OC_POINTER_UPDATETIME between ? and ? order by OC_POINTER_VALUE");
-		ps.setTimestamp(1, new java.sql.Timestamp(new java.util.Date(new java.util.Date().getTime()-year).getTime()));
-		ps.setTimestamp(2, new java.sql.Timestamp(new java.util.Date().getTime()));
+		ps.setTimestamp(1,new java.sql.Timestamp(new java.util.Date(new java.util.Date().getTime()-year).getTime()));
+		ps.setTimestamp(2,new java.sql.Timestamp(new java.util.Date().getTime()));
 		ResultSet rs = ps.executeQuery();
 		while(rs.next()){
 			String key = rs.getString("OC_POINTER_KEY");
@@ -562,7 +564,6 @@
     }
 %>
 <form name="transactionForm" id="transactionForm" method="post" action='<c:url value="/main.do"/>?Page=pharmacy/manageProductStocks.jsp<%=sFormActionParams%>&ts=<%=getTs()%>' <%=sOnKeyDown%> <%=(displaySearchFields||sAction.equals("findShowOverview")?"onClick=\"clearMessage();\"":"onclick=\"setSaveButton(event);clearMessage();\" onkeyup=\"setSaveButton(event);\"")%>>
-    <%-- page title --%>
     <%=writeTableHeader("Web.manage","ManageProductStocks",sWebLanguage,(sAction.equals("findShowOverview")?"":"doBack();"))%>
     
     <%-- display servicename and servicestockname --%>
@@ -715,6 +716,7 @@
                             <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindSupplierUid.value='';transactionForm.FindSupplierName.value='';">
                         </td>
                     </tr>
+                    
                     <%-- SEARCH BUTTONS --%>
                     <tr>
                         <td class="admin2">&nbsp;</td>
@@ -751,10 +753,12 @@
                             <%=stocksHtml%>
                         </tbody>
                     </table>
+                    
                     <%-- number of records found --%>
                     <span style="width:49%;text-align:left;">
                         <%=foundStockCount%> <%=getTran("web","recordsfound",sWebLanguage)%>
                     </span>
+                    
                     <%
                         if(foundStockCount > 20){
                             // link to top of page
@@ -988,9 +992,11 @@
                         </td>
                     </tr>
                 </table>
+                
                 <%-- indication of obligated fields --%>
                 <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
                 <br><br>
+                
                 <table>
                 	<tr>
                 		<td class='text'><a href="javascript:printFiche('<%=sEditStockUid %>','<%=sSelectedProductName %>')"><%=getTran("web","productstockfile.interactive",sWebLanguage)%></a></td>
@@ -1008,6 +1014,7 @@
     <input type="hidden" name="DisplaySearchFields" value="<%=displaySearchFields%>">
     <input type="hidden" name="DisplayLowStocks" value="<%=displayLowStocks%>">
 </form>
+
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>  
   <%

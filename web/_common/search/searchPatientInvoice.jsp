@@ -1,6 +1,7 @@
 <%@page import="java.text.DecimalFormat"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+<%=sJSSORTTABLE%>
 
 <%
     String sAction = checkString(request.getParameter("Action"));
@@ -54,20 +55,16 @@
 	<input type="hidden" name="ReturnFieldInvoiceStatus" value="<%=sReturnFieldInvoiceStatus%>">
 	<input type="hidden" name="FindInvoicePatientId" value="<%=sFindInvoicePatientId%>"/>
 
+<%=writeTableHeader("web","searchpatientinvoice",sWebLanguage," window.close();")%>
 <table width="100%" cellspacing="1" cellpadding="0" class="menu">
-    <%-- TITLE --%>
-    <tr class="admin">
-        <td colspan="4"><%=getTran("web","searchpatientinvoice",sWebLanguage)%></td>
-    </tr>
-
     <%
         if(!"false".equalsIgnoreCase(request.getParameter("header"))){
     %>
     <%-- INVOICE DATE --%>
     <tr>
         <td class="admin2" width="120" nowrap><%=getTran("Web","date",sWebLanguage)%>&nbsp;</td>
-        <td class="admin2" width="330" nowrap><%=
-            writeDateField("FindInvoiceDate","SearchForm",sFindInvoiceDate,sWebLanguage)%>
+        <td class="admin2" width="330" nowrap>
+            <%=writeDateField("FindInvoiceDate","SearchForm",sFindInvoiceDate,sWebLanguage)%>
         </td>
     </tr>
 
@@ -101,7 +98,7 @@
         <td class="admin2">
             <select class="text" name="FindInvoiceStatus">
                 <option value=""></option>
-                <%=ScreenHelper.writeSelect("finance.patientinvoice.status", sFindInvoiceStatus, sWebLanguage)%>
+                <%=ScreenHelper.writeSelect("finance.patientinvoice.status",sFindInvoiceStatus,sWebLanguage)%>
             </select>
         </td>
     </tr>
@@ -117,16 +114,10 @@
     <%
         }
     %>
-    <tr>
-    
-    <tr>
-        <td colspan="2">
-            <div id="divFindRecords"></div>
-        </td>
-    </tr>
 </table>
 
-<br/>
+<div id="divFindRecords" style="margin-top:2px;"></div>
+<br>
 
 <%-- BUTTONS --%>
 <center>
@@ -144,6 +135,7 @@
     SearchForm.FindInvoiceBalanceMin.value = "";
     SearchForm.FindInvoiceBalanceMax.value = "";
     SearchForm.FindInvoiceStatus.value = "";
+    
     SearchForm.FindInvoiceDate.focus();
   }
 

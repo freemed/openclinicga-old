@@ -3,6 +3,7 @@
                 java.util.Vector"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+<%=sJSSORTTABLE%>
 
 <%
     String sFindEncounterPatient = checkString(request.getParameter("FindEncounterPatient")),
@@ -56,13 +57,14 @@
 </script>
 
 <form name="SearchForm" method="POST" onSubmit="doFind();" onkeydown="if(enterEvent(event,13)){doFind();}">
-    <%=writeTableHeader("financial","searchEncounter",sWebLanguage)%>
+    <%=writeTableHeader("financial","searchEncounter",sWebLanguage," window.close()")%>
         
     <%-- SEARCH RESULTS TABLE --%>
-    <table class="list" border="0" width="100%" cellpadding="1" cellspacing="0" style="padding-top:2px;">
+    <table class="sortable" id="searchresults" width="100%" cellpadding="1" cellspacing="0" style="padding-top:2px;">
         <%
             String sortColumn = "A.OC_ENCOUNTER_BEGINDATE DESC";
-            Vector vEncounters = Encounter.selectLastEncounters("","","","","",sSelectEncounterManager,sSelectEncounterService,sSelectEncounterBed,sSelectEncounterPatient,sortColumn);
+            Vector vEncounters = Encounter.selectLastEncounters("","","","","",sSelectEncounterManager,sSelectEncounterService,
+            		                                            sSelectEncounterBed,sSelectEncounterPatient,sortColumn);
             Iterator iter = vEncounters.iterator();
 
             Encounter eTmp;
@@ -101,10 +103,10 @@
                     sService = getTran("service",eTmp.getServiceUID(),sWebLanguage);
                 }
 
-                sStart = ScreenHelper.stdDateFormat.format(eTmp.getBegin());
+                sStart = ScreenHelper.formatDate(eTmp.getBegin());
 
                 if(eTmp.getEnd()!=null){
-                	sEnd = ScreenHelper.stdDateFormat.format(eTmp.getEnd());
+                	sEnd = ScreenHelper.formatDate(eTmp.getEnd());
                 }
                 else{
                     sEnd = "";

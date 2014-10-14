@@ -66,10 +66,10 @@
         <%-- HEADER --%>
         <tr class="admin">
             <td></td>
-            <td style="text-align:right;">&nbsp;<%=getTran("web","in",sWebLanguage)%></td>
-            <td style="text-align:right;">&nbsp;<%=getTran("web","out",sWebLanguage)%></td>
-            <td style="text-align:right;">&nbsp;<%=getTran("web","netto",sWebLanguage)%></td>
-            <td style="text-align:right;">&nbsp;<%=getTran("web","level",sWebLanguage)%></td>
+            <td style="text-align:right;">&nbsp;<%=getTran("web","in",sWebLanguage)%>&nbsp;</td>
+            <td style="text-align:right;">&nbsp;<%=getTran("web","out",sWebLanguage)%>&nbsp;</td>
+            <td style="text-align:right;">&nbsp;<%=getTran("web","netto",sWebLanguage)%>&nbsp;</td>
+            <td style="text-align:right;">&nbsp;<%=getTran("web","level",sWebLanguage)%>&nbsp;</td>
         </tr>
         
         <%-- DISPLAY MONTHS --%>

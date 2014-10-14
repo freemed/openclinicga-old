@@ -53,7 +53,7 @@
     if(sAction.equals("search")){
         Vector vInvoices = CoveragePlanInvoice.searchInvoices(sFindInvoiceDate,sFindInvoiceNr,sFindInvoiceInsurarUID,
         		                                              sFindInvoiceStatus,sFindInvoiceBalanceMin,sFindInvoiceBalanceMax);
-        boolean recsFound = false;
+        int recCount = 0;
         StringBuffer sHtml = new StringBuffer();
         String sClass = "1", sInvoiceUid, sInvoiceDate, sInvoiceNr, sInvoiceStatus, sInsurarUid, sInsurarName;
         CoveragePlanInvoice invoice;
@@ -63,7 +63,7 @@
         while(iter.hasNext()){
             invoice = (CoveragePlanInvoice)iter.next();
             sInvoiceUid = invoice.getUid();
-            recsFound = true;
+            recCount++;
 
             sInvoiceNr = invoice.getInvoiceUid();
             sInvoiceStatus = getTranNoLink("finance.patientinvoice.status",invoice.getStatus(),sWebLanguage);
@@ -97,7 +97,7 @@
                   .append("<td>"+sInvoiceStatus+"</td>");
         }
 
-        if(recsFound){
+        if(recCount > 0){
 		    %>
 			    <table id="searchresults" class="sortable" width="100%" cellpadding="1" cellspacing="0" style="border:1px solid #ccc;">
 			        <%-- header --%>
@@ -111,6 +111,8 @@
 			
 			        <tbody class="hand"><%=HTMLEntities.htmlentities(sHtml.toString())%></tbody>
 			    </table>
+			   
+                <%=recCount%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
 		    <%
 	    }
 	    else{

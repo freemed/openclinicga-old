@@ -403,15 +403,15 @@
     // onclick : when editing, save, else search when pressing 'enter'
     String sOnKeyDown = "";
     if(sAction.startsWith("showDetails")){
-        sOnKeyDown = "onKeyDown=\"if(checkKey13(event)){doSave();}\"";
+        sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSave();}\"";
     }
     else{
-        sOnKeyDown = "onKeyDown=\"if(checkKey13(event)){doSearch('"+sDefaultSortCol+"');}\"";
+        sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSearch('"+sDefaultSortCol+"');}\"";
     }
 %>
 <form name="transactionForm" id="transactionForm" method="post" action='<c:url value="/main.do"/>?Page=pharmacy/manageServiceStocks.jsp&ts=<%=getTs()%>' <%=sOnKeyDown%> <%=(displaySearchFields?"onClick=\"clearMessage();\"":"onclick=\"setSaveButton(event);clearMessage();\" onkeyup=\"setSaveButton(event);\"")%>>
-    <%-- title --%>
     <%=writeTableHeader("Web.manage","ManageServiceStocks",sWebLanguage," doBack();")%>
+    
     <%
         //*****************************************************************************************
         //*** process display options *************************************************************
@@ -431,7 +431,7 @@
             }
 
             %>
-                <table width="100%" class="list" cellspacing="1" onClick="transactionForm.onkeydown='if(checkKey13(event)){doSearch(\'<%=sDefaultSortCol%>\');}';" onKeyDown="if(checkKey13(event)){doSearch('<%=sDefaultSortCol%>');}">
+                <table width="100%" class="list" cellspacing="1" onClick="transactionForm.onkeydown='if(enterEvent(event,13)){doSearch(\'<%=sDefaultSortCol%>\');}';" onKeyDown="if(enterEvent(event,13)){doSearch('<%=sDefaultSortCol%>');}">
                     <%-- Stock Name --%>
                     <tr>
                         <td class="admin2" width="<%=sTDAdminWidth%>" nowrap><%=getTran("Web","Name",sWebLanguage)%>&nbsp;</td>
@@ -479,6 +479,7 @@
                             <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindDefaultSupplierUid.value='';transactionForm.FindDefaultSupplierName.value='';">
                         </td>
                     </tr>
+                    
                     <%-- SEARCH BUTTONS --%>
                     <tr>
                         <td class="admin2"/>
@@ -490,6 +491,7 @@
                                     %><input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();"><%
                                 }
                             %>
+                            
                             <%-- display message --%>
                             <span id="msgArea"><%=msg%></span>
                         </td>
@@ -541,6 +543,7 @@
                             <%=stocksHtml%>
                         </tbody>
                     </table>
+                    
                     <%-- number of records found --%>
                     <span style="width:49%;text-align:left;">
                         <%=foundStockCount%> <%=getTran("web","recordsfound",sWebLanguage)%>
@@ -652,6 +655,7 @@
                             <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditDefaultSupplierUid.value='';transactionForm.EditDefaultSupplierName.value='';">
                         </td>
                     </tr>
+                    
                     <%-- orderPeriodInMonths --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web.manage","orderPeriodInMonths",sWebLanguage)%> *</td>
@@ -659,13 +663,15 @@
                             <input class="text" type="text" name="EditOrderPeriodInMonths" size="5" maxLength="5" value="<%=sSelectedOrderPeriod%>" onKeyUp="isInteger(this);">
                         </td>
                     </tr>
+                    
                     <%-- Nosync --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web.manage","nosync",sWebLanguage)%> *</td>
                         <td class="admin2">
-                            <input class="text" type="checkbox" name="EditNosync" class="hand" <%=sSelectedNosync!=null && sSelectedNosync.equalsIgnoreCase("1")?"checked":""%> value="1" onKeyUp="isInteger(this);">
+                            <input type="checkbox" name="EditNosync" class="hand" <%=sSelectedNosync!=null && sSelectedNosync.equalsIgnoreCase("1")?"checked":""%> value="1" onKeyUp="isInteger(this);">
                         </td>
                     </tr>
+                    
                     <%-- EDIT BUTTONS --%>
                     <tr>
                         <td class="admin2"/>
@@ -676,22 +682,23 @@
                                 ServiceStock serviceStock = ServiceStock.get(sEditStockUid);
                                 if(serviceStock.isAuthorizedUser(activeUser.userid) || activeUser.getAccessRight("sa")){
                                     if(activeUser.getAccessRight("pharmacy.manageservicestocks.edit")){
-		                                %><input class="button" type="button" name="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();"><%
+		                                %><input class="button" type="button" name="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;<%
                                     }
                                     if(activeUser.getAccessRight("pharmacy.manageservicestocks.delete")){
-		                                %><input class="button" type="button" name="deleteButton" value='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="doDelete('<%=sEditStockUid%>');"><%
+		                                %><input class="button" type="button" name="deleteButton" value='<%=getTranNoLink("Web","delete",sWebLanguage)%>' onclick="doDelete('<%=sEditStockUid%>');">&nbsp;<%
                                     }
                                 }
-                                %><input class="button" type="button" name="returnButton" value='<%=getTranNoLink("Web","backtooverview",sWebLanguage)%>' onclick="doBackToOverview();"><%
+                                %><input class="button" type="button" name="returnButton" value='<%=getTranNoLink("Web","backtooverview",sWebLanguage)%>' onclick="doBackToOverview();">&nbsp;<%
                             }
                             else if(sAction.equals("showDetailsNew") || sAction.equals("showDetailsAfterAddReject")){
                                 // new serviceStock : display saveButton with add-label
                                 if(activeUser.getAccessRight("pharmacy.manageservicestocks.add")){
-                                    %><input class="button" type="button" name="saveButton" value='<%=getTranNoLink("Web","add",sWebLanguage)%>' onclick="doAdd();"><%
+                                    %><input class="button" type="button" name="saveButton" value='<%=getTranNoLink("Web","add",sWebLanguage)%>' onclick="doAdd();">&nbsp;<%
                                 }
-                                %><input class="button" type="button" name="returnButton" value='<%=getTranNoLink("Web","back",sWebLanguage)%>' onclick="doBack();"><%
+                                %><input class="button" type="button" name="returnButton" value='<%=getTranNoLink("Web","back",sWebLanguage)%>' onclick="doBack();">&nbsp;<%
                             }
                         %>
+                        
                         <%-- display message --%>
                         <span id="msgArea"><%=msg%></span>
                     </td>
@@ -747,6 +754,7 @@
                             <td class="titleadmin">&nbsp;<%=getTran("Web.manage","ActiveServiceStocks",sWebLanguage)%>&nbsp;(<%=sFindServiceName%>)</td>
                         </tr>
                     </table>
+                    
                     <table width='100%' cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
                         <%-- clickable header --%>
                         <tr class="admin">
@@ -761,10 +769,12 @@
                             <%=stocksHtml%>
                         </tbody>
                     </table>
+                    
                     <%-- number of records found --%>
                     <span style="width:49%;text-align:left;">
                         <%=foundStockCount%> <%=getTran("web","recordsfound",sWebLanguage)%>
                     </span>
+                    
                     <%
                         if(foundStockCount > 20){
                             // link to top of page
@@ -788,6 +798,7 @@
                             <td><%=getTran("Web.manage","ActiveServiceStocks",sWebLanguage)%>&nbsp;(<%=sFindServiceName%>)</td>
                         </tr>
                     </table>
+                    
                     <%=getTran("web.manage","noservicestocksfoundinactiveservice",sWebLanguage)%>
                     <br><br>
                 <%
@@ -803,6 +814,7 @@
     <input type="hidden" name="DisplaySearchFields" value="<%=displaySearchFields%>">
     <input type="hidden" name="DisplayActiveServiceStocks" value="<%=displayActiveServiceStocks%>">
 </form>
+
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>
   <%
@@ -819,18 +831,7 @@
   <%-- AUTHORIZED USERS FUNCTIONS ---------------------------------------------------------------%>
   var iAuthorizedUsersIdx = <%=authorisedUsersIdx%>;
   var sAuthorizedUsers = "<%=authorizedUsersJS%>";
-
-
-  function checkKey13(evt){
-    evt = evt || window.event;
-    var kcode = evt.keyCode || evt.which;
-    if(kcode && kcode==13){
-        return true;
-    }else{
-        return false;
-    }
-  }
-  
+ 
   <%-- ADD AUTHORIZED USER --%>
   function addAuthorizedUser(){
     if(transactionForm.AuthorizedUserIdAdd.value.length > 0){
@@ -1113,7 +1114,7 @@
 
   <%-- DO BACK TO OVERVIEW --%>
   function doBackToOverview(){
-    if(checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web","areyousuretodiscard",sWebLanguage)%>')){
+    if(checkSaveButton('<%=sCONTEXTPATH%>','<%=getTranNoLink("Web","areyousuretodiscard",sWebLanguage)%>')){
       <%
           if(displayActiveServiceStocks){
               %>

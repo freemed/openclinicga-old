@@ -276,7 +276,7 @@
 %>
 
 <form name="transactionForm" id="transactionForm" method="post" action='<c:url value="/template.jsp"/>?Page=pharmacy/medication/popups/deliverMedicationPopup.jsp&ts=<%=getTs()%>' onKeyDown="if(enterEvent(event,13)){doDeliver();}" onClick="clearMessage();">
-    <%=writeTableHeader("Web.manage","deliverproducts",sWebLanguage,"")%>
+    <%=writeTableHeader("Web.manage","deliverproducts",sWebLanguage,"window.close();")%>
     
     <%
         //*****************************************************************************************

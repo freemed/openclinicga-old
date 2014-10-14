@@ -41,7 +41,7 @@
          .append("</tr>");
 
     // tbody
-    sHtml.append("<tbody onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\">");
+    sHtml.append("<tbody class='hand'>");
     Vector products = new Vector();
     if(sSearchProductName.length()>0 || sSearchSupplierUid.length()>0 || sSearchProductGroup.length()>0){
         products = Product.find(sSearchProductName,"","","","","",sSearchSupplierUid,sSearchProductGroup,"OC_PRODUCT_NAME","ASC");
@@ -103,12 +103,8 @@
 
 <%
     // display search results
-    if(iTotal == 0){
-        String recordsFoundMsg = getTranNoLink("web","norecordsfound",sWebLanguage);
-        recordsFoundMsg = HTMLEntities.htmlentities(recordsFoundMsg);
-
-        // 'no results' message
-        %><div><%=recordsFoundMsg%></div><%
+    if(iTotal==0){
+        %><%=HTMLEntities.htmlentities(getTranNoLink("web","noRecordsFound",sWebLanguage))%><%
     }
     else{
         String html = HTMLEntities.unhtmlentities(sHtml.toString());
@@ -118,6 +114,8 @@
             <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
                 <%=html%>
             </table>
+            
+            <%=iTotal%> <%=HTMLEntities.htmlentities(getTranNoLink("web","recordsFound",sWebLanguage))%>
         <%
     }
 %>

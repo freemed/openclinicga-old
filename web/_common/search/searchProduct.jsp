@@ -1,9 +1,9 @@
 <%@page import="be.openclinic.pharmacy.Product,
                 java.util.Vector,
                 be.openclinic.adt.Encounter,
-                be.openclinic.pharmacy.ServiceStock" %>
-<%@page errorPage="/includes/error.jsp" %>
-<%@include file="/includes/validateUser.jsp" %>
+                be.openclinic.pharmacy.ServiceStock"%>
+<%@page errorPage="/includes/error.jsp"%>
+<%@include file="/includes/validateUser.jsp"%>
 <%=sJSSORTTABLE%>
 <%=sJSSTRINGFUNCTIONS%>
 <%=sJSPROTOTYPE%>
@@ -80,12 +80,8 @@
     <input type="hidden" name="ReturnProductUnitField" value="<%=sReturnProductUnitField%>">
     <input type="hidden" name="ReturnUnitsPerTimeUnitField" value="<%=sReturnUnitsPerTimeUnitField%>">
 
+    <%=writeTableHeader("web.manage","searchinproductcatalog",sWebLanguage," window.close();")%>
     <table width="100%" class="menu" cellspacing="0" cellpadding="0">
-        <%-- TITLE --%>
-        <tr class="admin">
-            <td colspan="7"><%=getTran("web.manage","searchinproductcatalog",sWebLanguage)%></td>
-        </tr>
-
         <%-- SEARCH FIELDS --%>
         <tr>
 	        <td colspan="4">
@@ -120,7 +116,7 @@
 			                    <%
 			                        Vector groups = Product.getProductGroups();
 			                        for(int n=0; n<groups.size(); n++){
-			                            out.print("<option value='"+groups.elementAt(n)+"' "+(sSearchProductGroup.equalsIgnoreCase((String) groups.elementAt(n)) ? "selected" : "")+">"+getTranNoLink("product.productgroup",(String)groups.elementAt(n),sWebLanguage)+"</option>");
+			                            out.print("<option value='"+groups.elementAt(n)+"' "+(sSearchProductGroup.equalsIgnoreCase((String)groups.elementAt(n)) ? "selected" : "")+">"+getTranNoLink("product.productgroup",(String)groups.elementAt(n),sWebLanguage)+"</option>");
 			                        }
 			                    %>
 			                </select>&nbsp;
@@ -221,7 +217,7 @@
 			%>
 			  if(productUnit.length > 0){
 			    window.opener.document.getElementsByName("<%=sReturnProductUnitField%>")[0].value = productUnit;
-			    if(window.opener.setEditUnitsPerTimeUnitLabel != null){
+			    if(window.opener.setEditUnitsPerTimeUnitLabel!=null){
 			      window.opener.setEditUnitsPerTimeUnitLabel(productUid);
 			    }
 			  }
@@ -269,10 +265,10 @@
 	
 		if(!"false".equalsIgnoreCase(request.getParameter("resetServiceStockUid"))){
 			%>
-		    if(window.opener.document.getElementsByName("EditServiceStockUid")[0] != undefined){
+		    if(window.opener.document.getElementsByName("EditServiceStockUid")[0]!=undefined){
 		      window.opener.document.getElementsByName("EditServiceStockUid")[0].value = "<%=serviceStockUid%>";
 		    }
-		    if(window.opener.document.getElementsByName("EditServiceStockName")[0] != undefined){
+		    if(window.opener.document.getElementsByName("EditServiceStockName")[0]!=undefined){
 		      window.opener.document.getElementsByName("EditServiceStockName")[0].value = "<%=serviceStockName%>";
 		    }
 			<%
@@ -280,10 +276,10 @@
 	%>
 	
 	// CLEAR SupplyingService
-    var suppServUidField = window.opener.document.getElementsByName("EditSupplyingServiceUid")[0];
-    var suppServNameField = window.opener.document.getElementsByName("EditSupplyingServiceUid")[0];
+    var suppServUidField  = window.opener.document.getElementsByName("EditSupplyingServiceUid")[0],
+        suppServNameField = window.opener.document.getElementsByName("EditSupplyingServiceUid")[0];
 
-    if(suppServUidField != undefined && suppServNameField != undefined){
+    if(suppServUidField!=undefined && suppServNameField!=undefined){
       window.opener.document.getElementsByName("EditSupplyingServiceUid")[0].value = "";
       window.opener.document.getElementsByName("EditSupplyingServiceName")[0].value = "";
     }
@@ -335,7 +331,7 @@ if(sReturnUnitsPerPackageField.length() > 0){
 // set productStockUid
 if(sReturnProductStockUidField.length() > 0){
 	%>
-	    if(productStockUid != undefined && productStockUid.length > 0){
+	    if(productStockUid!=undefined && productStockUid.length > 0){
 	      window.opener.document.getElementsByName("<%=sReturnProductStockUidField%>")[0].value = productStockUid;
 	    }
 	    else{
@@ -345,7 +341,7 @@ if(sReturnProductStockUidField.length() > 0){
 }
 %>
 
-    if("true" == "<%=checkString(request.getParameter("loadschema"))%>"){
+    if("true"=="<%=checkString(request.getParameter("loadschema"))%>"){
       window.opener.loadSchema();
     }
 
@@ -399,7 +395,7 @@ function doFind(){
 function openEditProductUnitPopup(productUid){
   var url = "pharmacy/popups/editProductUnit.jsp"+
             "&EditProductUid="+productUid+
-            "&ts=<%=getTs()%>";
+            "&ts="+new Date().getTime();
 
   <%
 	  // pass search-parameters to be able to reproduce the same search as you did just now
@@ -441,6 +437,5 @@ function openEditProductUnitPopup(productUid){
     }
 %>
 
-  var globalvar = productForm.SearchProductName;
-  window.setTimeout("globalvar.focus();",100);
+  window.setTimeout("productForm.SearchProductName.focus();",100);
 </script>

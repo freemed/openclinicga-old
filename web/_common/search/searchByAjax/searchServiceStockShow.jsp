@@ -39,7 +39,7 @@
             .append("</tr>");
 
         // tbody
-        sOut.append("<tbody onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\">");
+        sOut.append("<tbody class='hand'>");
 
         Vector serviceStocks = ServiceStock.find(sSearchServiceStockName,sSearchServiceUid,"","",sSearchManagerUid,"","OC_STOCK_NAME","");
 
@@ -96,16 +96,16 @@
 <%
     // display search results
     if(sAction.equals("find")){
-        if(iTotal == 0){
-            // display 'no results' message
-    	    %><%=HTMLEntities.htmlentities(getTran("web","norecordsfound",sWebLanguage))%><%
+        if(iTotal==0){
+    	    %><%=HTMLEntities.htmlentities(getTran("web","noRecordsFound",sWebLanguage))%><%
         }
         else{                    
             %>
 	            <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
 	                <%=HTMLEntities.htmlentities(sOut.toString())%>		        
 				</table>
-				<%=iTotal%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
+				
+				<%=iTotal%> <%=HTMLEntities.htmlentities(getTran("web","recordsFound",sWebLanguage))%>
             <%
         }
     }

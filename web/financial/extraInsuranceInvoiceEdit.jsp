@@ -87,7 +87,7 @@
             <input type="text" class="text" readonly name="EditInsurarText" value="<%=sInsurarText%>" size="100">
             
             <%
-                if(checkString(insurarInvoice.getUid()).length() == 0){
+                if(checkString(insurarInvoice.getUid()).length()==0){
 		            %>
 		            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchInsurar();">
 		            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="doClearInsurar()">
@@ -134,7 +134,7 @@
         
         <%-- PERIOD --%>
         <tr id="period" style="visibility:hidden">
-            <td class='admin'><%=getTran("web", "period", sWebLanguage)%></td>
+            <td class='admin'><%=getTran("web","period",sWebLanguage)%></td>
             <td class="admin2">
                 <% Date previousmonth = new Date(new Date().getTime()-30*24*3600*1000l); %>
                 <%=writeDateField("EditBegin","EditForm",new SimpleDateFormat("01/MM/yyyy").format(previousmonth),sWebLanguage)%>
@@ -145,6 +145,7 @@
                     if(insurarInvoice==null || insurarInvoice.getStatus()==null || insurarInvoice.getStatus().equalsIgnoreCase("open")){
 	                    %>
 		                    <input class="text" type="text" name="EditInvoiceServiceName" id="EditInvoiceServiceName" readonly size="<%=sTextWidth%>" value="">
+		                   
 		                    <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('EditInvoiceService','EditInvoiceServiceName');">
 		                    <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditInvoiceService').value='';document.getElementById('EditInvoiceServiceName').value='';">
 	                    <%
@@ -156,15 +157,15 @@
         
         <%-- BALANCE --%>
         <tr>
-            <td class='admin'><%=getTran("web.finance", "balance", sWebLanguage)%></td>
+            <td class='admin'><%=getTran("web.finance","balance",sWebLanguage)%></td>
             <td class='admin2'>
-                <input class='text' readonly type='text' id='EditBalance' name='EditBalance' value='<%=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat", "#,##0.00")).format(insurarInvoice.getBalance())%>' size='20'> <%=MedwanQuery.getInstance().getConfigParam("currency", "€")%>
+                <input class='text' readonly type='text' id='EditBalance' name='EditBalance' value='<%=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#,##0.00")).format(insurarInvoice.getBalance())%>' size='20'> <%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
             </td>
         </tr>
         
         <%-- DEBETS/PRESTATIONS --%>
         <tr>
-            <td class='admin'><%=getTran("web.finance", "prestations", sWebLanguage)%></td>
+            <td class='admin'><%=getTran("web.finance","prestations",sWebLanguage)%></td>
             <td class='admin2'>
                 <div id="divPrestations" style="height:120px;width:100%" class="searchResults"></div>
                
@@ -177,13 +178,13 @@
         
         <%-- CREDITS/PAYMENTS --%>
         <tr>
-            <td class='admin'><%=getTran("web.finance", "credits", sWebLanguage)%></td>
+            <td class='admin'><%=getTran("web.finance","credits",sWebLanguage)%></td>
             <td class='admin2'>
                 <div id="divCredits" style="height:120px;width:50%" class="searchResults"></div>
               
                 <div style="padding-top:3px;">
-                    <input class='button' type="button" name="ButtonInsurarInvoiceSelectAll" id="ButtonInsurarInvoiceSelectAll" value="<%=getTranNoLink("web","selectall",sWebLanguage)%>" onclick="selectAll('cbInsurarInvoice',true,'ButtonInsurarInvoiceSelectAll', 'ButtonInsurarInvoiceDeselectAll',false);">&nbsp;
-                    <input class='button' type="button" name="ButtonInsurarInvoiceDeselectAll" id="ButtonInsurarInvoiceDeselectAll" value="<%=getTranNoLink("web","deselectall",sWebLanguage)%>" onclick="selectAll('cbInsurarInvoice',false,'ButtonInsurarInvoiceDeselectAll', 'ButtonInsurarInvoiceSelectAll',false);">
+                    <input class='button' type="button" name="ButtonInsurarInvoiceSelectAll" id="ButtonInsurarInvoiceSelectAll" value="<%=getTranNoLink("web","selectall",sWebLanguage)%>" onclick="selectAll('cbInsurarInvoice',true,'ButtonInsurarInvoiceSelectAll','ButtonInsurarInvoiceDeselectAll',false);">&nbsp;
+                    <input class='button' type="button" name="ButtonInsurarInvoiceDeselectAll" id="ButtonInsurarInvoiceDeselectAll" value="<%=getTranNoLink("web","deselectall",sWebLanguage)%>" onclick="selectAll('cbInsurarInvoice',false,'ButtonInsurarInvoiceDeselectAll','ButtonInsurarInvoiceSelectAll',false);">
                 </div>
             </td>
         </tr>
@@ -199,10 +200,10 @@
 
                     // pdf print button for existing invoices
                     if(checkString(insurarInvoice.getUid()).length() > 0){
-                        %><%=getTran("Web.Occup", "PrintLanguage", sWebLanguage)%><%
+                        %><%=getTran("Web.Occup","PrintLanguage",sWebLanguage)%><%
                         		
                      String sPrintLanguage = activeUser.person.language;
-                     if(sPrintLanguage.length() == 0){
+                     if(sPrintLanguage.length()==0){
                          sPrintLanguage = sWebLanguage;
                      }
                          
@@ -211,7 +212,7 @@
                             <%
 	                            String tmpLang;
 		                        String sSupportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","en,fr");
-	                            StringTokenizer tokenizer = new StringTokenizer(sSupportedLanguages, ",");
+	                            StringTokenizer tokenizer = new StringTokenizer(sSupportedLanguages,",");
 	                            while(tokenizer.hasMoreTokens()){
 	                                tmpLang = tokenizer.nextToken();
 	
@@ -289,7 +290,7 @@ function doSave(){
     EditForm.ButtonSave.disabled = true;
     var url = '<c:url value="/financial/extraInsuranceInvoiceSave.jsp"/>?ts='+new Date();
     document.getElementById('divMessage').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Saving";
-    new Ajax.Request(url, {
+    new Ajax.Request(url,{
       method: "POST",
       postBody: 'EditDate='+EditForm.EditDate.value
                +'&EditInsurarInvoiceUID='+EditForm.EditInsurarInvoiceUID.value
@@ -389,22 +390,22 @@ function doBalance(oObject,bAdd){
       EditForm.EditBalance.value = parseFloat(EditForm.EditBalance.value.replace(",","."))+parseFloat(amount.replace(",","."));
     }
   }
-  EditForm.EditBalance.value = format_number(EditForm.EditBalance.value, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+  EditForm.EditBalance.value = format_number(EditForm.EditBalance.value,<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
 }
 
 <%-- PRINT PDF --%>
 function doPrintPdf(invoiceUid){
   if(EditForm.PrintModel.value=='cplrcsv2'){
 	var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid="+invoiceUid+"&ts=<%=getTs()%>&docid=invoice.cplr2";
-    window.open(url,"ExtraInsurarInvoicePdf"+new Date(), "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    window.open(url,"ExtraInsurarInvoicePdf"+new Date(),"height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
   else if(EditForm.PrintModel.value=='ramacsv'){
 	var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid="+invoiceUid+"&ts=<%=getTs()%>&docid=invoice.rama.extra";
-	window.open(url,"ExtraInsurarInvoicePdf"+new Date(), "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+	window.open(url,"ExtraInsurarInvoicePdf"+new Date(),"height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
   else{
 	var url = "<c:url value='/financial/createExtraInsurarInvoicePdf.jsp'/>?InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value+ "&PrintType="+EditForm.PrintType.value+"&PrintModel="+EditForm.PrintModel.value;
-   	window.open(url,"InsurarInvoicePdf"+new Date(), "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+   	window.open(url,"InsurarInvoicePdf"+new Date(),"height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
   }
 }
 
@@ -435,6 +436,7 @@ function setInsurarInvoice(sUid){
   FindForm.submit();
 }
 
+<%-- CHANGE INSURAR --%>
 function changeInsurar(){
   var tot = 0;
   if(EditForm.EditInsurarUID.value.length>0){
@@ -458,23 +460,23 @@ function changeInsurar(){
     onSuccess: function(resp){
       var s = resp.responseText;
       s=s.replace(/<1>/g,"<input type='checkbox' name='cbDebet");
-      s=s.replace(/<2>/g,"' onclick='doBalance(this, true)' ");
+      s=s.replace(/<2>/g,"' onclick='doBalance(this,true)' ");
       $('divPrestations').innerHTML = s;
       tot = tot+countDebets();
-      document.getElementById('EditBalance').value=tot;
+      document.getElementById('EditBalance').value = tot;
     }
   });
 
   var url = '<c:url value="/financial/extraInsurarInvoiceGetCredits.jsp"/>?ts='+new Date();
   document.getElementById('divCredits').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading..";
-  new Ajax.Request(url, {
+  new Ajax.Request(url,{
     method: "POST",
     postBody: 'InsurarUid='+EditForm.EditInsurarUID.value+
               '&EditInsurarInvoiceUID=<%=checkString(insurarInvoice.getUid())%>',
     onSuccess: function(resp){
       $('divCredits').innerHTML = resp.responseText;
       tot=tot-countCredits();
-      document.getElementById('EditBalance').value=tot;
+      document.getElementById('EditBalance').value = tot;
     }
   });
   

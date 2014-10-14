@@ -105,7 +105,7 @@
     <%=writeTableHeader("web.archiving","listArchiveDocuments",sWebLanguage," doBack();")%>
     <input type="hidden" name="Action" value="findLast">
 
-    <table width="100%" class="list" cellspacing="1" onKeyDown="if(checkKey13(event)){doSearch();}">
+    <table width="100%" class="list" cellspacing="1" onKeyDown="if(enterEvent(event,13)){doSearch();}">
         <%-- find title --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>" nowrap><%=getTran("web","title",sWebLanguage)%>&nbsp;</td>
@@ -273,17 +273,5 @@
   <%-- DO BACK --%>
   function doBack(){
 	window.location.href = "<c:url value='/main.do'/>?Page=archiving/index.jsp";
-  }
-  
-  <%-- CHECK KEY 13 --%>
-  function checkKey13(evt){
-    evt = evt || window.event;
-    var kcode = evt.keyCode || evt.which;
-    if(kcode && kcode==13){
-      return true;
-    }
-    else{
-      return false;
-    }
   }
 </script>

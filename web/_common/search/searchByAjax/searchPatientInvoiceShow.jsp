@@ -46,11 +46,12 @@
     String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
     DecimalFormat priceFormat = new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#,##0.00"));
 
+    //*** SEARCH **************************************************************
     if(sAction.equals("search")){
         Vector vInvoices = PatientInvoice.searchInvoices(sFindInvoiceDate,sFindInvoiceNr,sFindInvoicePatientId,
         		                                         sFindInvoiceStatus,sFindInvoiceBalanceMin,sFindInvoiceBalanceMax);
 
-        boolean recsFound = false;
+        int recCount = 0;
         StringBuffer sHtml = new StringBuffer();
         String sClass = "1", sInvoiceUid, sInvoiceDate, sInvoiceNr, sInvoiceStatus;
         PatientInvoice invoice;
@@ -59,7 +60,7 @@
         while(iter.hasNext()){
             invoice = (PatientInvoice)iter.next();
             sInvoiceUid = invoice.getUid();
-            recsFound = true;
+            recCount++;
 
             sInvoiceNr = sInvoiceUid.substring(sInvoiceUid.indexOf(".")+1);
             sInvoiceStatus = getTranNoLink("finance.patientinvoice.status",invoice.getStatus(),sWebLanguage);
@@ -80,21 +81,21 @@
                   .append(" onclick=\"selectInvoice('"+sInvoiceUid+"','"+sInvoiceDate+"','"+sInvoiceNr+"','"+invoice.getBalance()+"','"+HTMLEntities.htmlentities(sInvoiceStatus)+"');\">")
                   .append("<td>"+sInvoiceDate+"</td>")
                   .append("<td>"+sInvoiceNr+"</td>")
-                  .append("<td style='text-align:right;'>"+priceFormat.format(invoice.getBalance())+" </td>")
+                  .append("<td style='text-align:right;'>"+priceFormat.format(invoice.getBalance())+"&nbsp;&nbsp;</td>")
                   .append("<td>"+HTMLEntities.htmlentities(sInvoiceStatus)+"</td>")
                  .append("</tr>");
         }
 
-        if(recsFound){
+        if(recCount > 0){
 		    %>
-			   <table clas="list" width="100%" cellpadding="0" cellspacing="1">
+			   <table class="sortable" id="searchresults" width="100%" cellpadding="0" cellspacing="1">
 			       <%-- header --%>
 			       <tr class="admin">
 			           <td width="100" nowrap><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
 			           <td width="110" nowrap><%=HTMLEntities.htmlentities(getTran("web","invoicenumber",sWebLanguage))%></td>
 			           <td width="120" nowrap style="text-align:right;">
 			               <%=HTMLEntities.htmlentities(getTran("web","balance",sWebLanguage))%>
-			               <%=HTMLEntities.htmlentities(sCurrency)%>
+			               <%=HTMLEntities.htmlentities(sCurrency)%>&nbsp;&nbsp;
 			           </td>
 			           <td width="120" nowrap>
 			               <%=HTMLEntities.htmlentities(getTran("web.finance","patientinvoice.status",sWebLanguage))%>
@@ -103,6 +104,8 @@
 			
 			       <%=sHtml.toString()%>
 			   </table>
+			   
+               <%=recCount%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
 		   <%
         }
         else{

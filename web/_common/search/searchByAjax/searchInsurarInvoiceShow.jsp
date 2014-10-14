@@ -45,13 +45,14 @@
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    String sCurrency = MedwanQuery.getInstance().getConfigParam("currency", "€");
+    String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
     DecimalFormat priceFormat = new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#,##0.00"));
 
     if(sAction.equals("search")){
-        Vector vInvoices = InsurarInvoice.searchInvoices(sFindInvoiceDate,sFindInvoiceNr,sFindInvoiceInsurarUID,sFindInvoiceStatus,sFindInvoiceBalanceMin,sFindInvoiceBalanceMax);
+        Vector vInvoices = InsurarInvoice.searchInvoices(sFindInvoiceDate,sFindInvoiceNr,sFindInvoiceInsurarUID,
+        		                                         sFindInvoiceStatus,sFindInvoiceBalanceMin,sFindInvoiceBalanceMax);
 
-        boolean recsFound = false;
+        int recCount = 0;
         StringBuffer sHtml = new StringBuffer();
         String sClass = "1", sInvoiceUid, sInvoiceDate, sInvoiceNr, sInvoiceStatus, sInsurarUid, sInsurarName;
         InsurarInvoice invoice;
@@ -60,13 +61,13 @@
         while(iter.hasNext()){
             invoice = (InsurarInvoice)iter.next();
             sInvoiceUid = invoice.getUid();
-            recsFound = true;
+            recCount++;
 
             sInvoiceNr = invoice.getInvoiceUid();
             sInvoiceStatus = getTranNoLink("finance.patientinvoice.status",invoice.getStatus(),sWebLanguage);
 
             // date
-            if(invoice.getDate() != null){
+            if(invoice.getDate()!=null){
                 sInvoiceDate = ScreenHelper.stdDateFormat.format(invoice.getDate());
             }
             else{
@@ -76,7 +77,7 @@
             // insurar
             sInsurarUid = "";
             sInsurarName = "";
-            if(invoice.getInsurar() != null){
+            if(invoice.getInsurar()!=null){
                 sInsurarUid = invoice.getInsurar().getUid();
                 sInsurarName = invoice.getInsurar().getName();
             }
@@ -90,27 +91,29 @@
                  .append("<td>"+sInsurarName+"</td>")
                  .append("<td>"+sInvoiceDate+"</td>")
                  .append("<td>"+sInvoiceNr+"</td>")
-                 .append("<td style='text-align:right;'>"+priceFormat.format(invoice.getBalance())+"</td>")
+                 .append("<td style='text-align:right;'>"+priceFormat.format(invoice.getBalance())+"&nbsp;&nbsp;</td>")
                  .append("<td>"+sInvoiceStatus+"</td>");
         }
 
-		if(recsFound){
+		if(recCount > 0){
 		    %>
             <div class="search">
-			    <table id="searchresults" class="sortable" width="100%" cellpadding="1" cellspacing="0"  style="border:1px solid #cccccc;">
+			    <table id="searchresults" class="sortable" width="100%" cellpadding="1" cellspacing="0" style="border:1px solid #ccc;">
 			        <%-- header --%>
 			        <tr class="admin">
-			            <td width="200" nowrap><%=HTMLEntities.htmlentities(getTran("medical.accident", "insurancecompany", sWebLanguage))%></td>
-			            <td width="100" nowrap><%=HTMLEntities.htmlentities(getTran("web", "date", sWebLanguage))%></td>
-			            <td width="110" nowrap><%=HTMLEntities.htmlentities(getTran("web", "invoicenumber", sWebLanguage))%></td>
-			            <td width="130" nowrap style="text-align:right;"><%=HTMLEntities.htmlentities(getTran("web", "balance", sWebLanguage))%>nbsp;<%=HTMLEntities.htmlentities((sCurrency))%></td>
-			            <td width="120" nowrap><%=HTMLEntities.htmlentities(getTran("web.finance", "patientinvoice.status", sWebLanguage))%></td>
+			            <td width="200" nowrap><%=HTMLEntities.htmlentities(getTran("medical.accident","insurancecompany",sWebLanguage))%></td>
+			            <td width="100" nowrap><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
+			            <td width="110" nowrap><%=HTMLEntities.htmlentities(getTran("web","invoicenumber",sWebLanguage))%></td>
+			            <td width="130" nowrap style="text-align:right;"><%=HTMLEntities.htmlentities(getTran("web","balance",sWebLanguage))%>&nbsp;<%=HTMLEntities.htmlentities((sCurrency))%></td>
+			            <td width="120" nowrap><%=HTMLEntities.htmlentities(getTran("web.finance","patientinvoice.status",sWebLanguage))%></td>
 			        </tr>
 			
 			        <tbody class="hand">
 			            <%=HTMLEntities.htmlentities(sHtml.toString())%>
 			        </tbody>
 			    </table>
+			    
+                <%=recCount%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
 			</div>
 		    <%
 	    }

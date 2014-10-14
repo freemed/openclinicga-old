@@ -2,8 +2,8 @@
                 java.util.Vector,
                 be.mxs.common.util.system.HTMLEntities,
                 be.openclinic.finance.Insurance"%>
-<%@ page errorPage="/includes/error.jsp"%>
-<%@ include file="/includes/validateUser.jsp"%>
+<%@page errorPage="/includes/error.jsp"%>
+<%@include file="/includes/validateUser.jsp"%>
 
 <%
 	String sAction = checkString(request.getParameter("Action"));
@@ -53,10 +53,11 @@
 
             String sClass = "", sUid, sCode, sDescr, sType, sTypeTran, sPrice, sSupplement;
             String sSelectTran = getTranNoLink("web","select",sWebLanguage);
-            boolean recsFound = false;
+            int recCount = 0;
             StringBuffer sHtml = new StringBuffer();
             Prestation prestation;
-            String category = "";
+            
+            String category = "";            
             Insurance insurance = activePatient!=null?Insurance.getMostInterestingInsuranceForPatient(checkString(activePatient.personid)):null;
             if(insurance!=null){
                 category = insurance.getType();
@@ -65,7 +66,7 @@
             while(prestationsIter.hasNext()){
                 prestation = (Prestation)prestationsIter.next();
                 if(prestation!=null && !checkString(prestation.getType()).equalsIgnoreCase("con.openinsurance")){
-	                recsFound = true;
+                	recCount++;
 	
 	                // names
 	                sUid = prestation.getUid();
@@ -113,7 +114,7 @@
                 }
             }
 
-            if(recsFound){
+            if(recCount > 0){
 			    %>
 			    <table id="searchresults" class="sortable" width="100%" cellpadding="1" cellspacing="0" style="border:1px solid #ccc;">
 			        <%-- header --%>
@@ -128,6 +129,8 @@
 			
 			        <tbody class="hand"><%=HTMLEntities.htmlentities(sHtml.toString())%></tbody>
 			    </table>
+			    
+	            <%=recCount%> <%=HTMLEntities.htmlentities(getTran("web","norecordsfound",sWebLanguage))%>
 			    <%
 	    }
         else{

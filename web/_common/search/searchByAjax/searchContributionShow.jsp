@@ -54,7 +54,7 @@
 
         String sClass = "", sUid, sCode, sDescr, sType, sTypeTran, sPrice;
         String sSelectTran = getTranNoLink("web","select",sWebLanguage);
-        boolean recsFound = false;
+        int recCount = 0;
         StringBuffer sHtml = new StringBuffer();
         Prestation prestation;
         
@@ -66,39 +66,40 @@
 
         while(prestationsIter.hasNext()){
             prestation = (Prestation)prestationsIter.next();
+            
             if(prestation.getType().equalsIgnoreCase("con.openinsurance")){
-             recsFound = true;
+                recCount++;
 
-             // names
-             sUid = prestation.getUid();
-             sCode = checkString(prestation.getCode());
-             sDescr = checkString(prestation.getDescription());
+                // names
+                sUid = prestation.getUid();
+                sCode = checkString(prestation.getCode());
+                sDescr = checkString(prestation.getDescription());
 
-             // type
-             sType = checkString(prestation.getType());
-             sTypeTran = getTran("prestation.type",sType,sWebLanguage);
+                // type
+                sType = checkString(prestation.getType());
+                sTypeTran = getTran("prestation.type",sType,sWebLanguage);
 
-             // price
-             double price = prestation.getPrice();
-             if(price==0) sPrice = "";
-             else         sPrice = price+"";
+                // price
+                double price = prestation.getPrice();
+                if(price==0) sPrice = "";
+                else         sPrice = price+"";
 
-             // alternate row-style
-             if(sClass.equals("")) sClass = "1";
-             else                  sClass = "";
+                // alternate row-style
+                if(sClass.equals("")) sClass = "1";
+                else                  sClass = "";
 
-             sHtml.append("<tr class='list"+sClass+"' title='"+sSelectTran+"' onclick=\"setPrestation('"+sUid+"','"+sCode+"','"+sDescr+"','"+sType+"','"+sPrice+"');\">")
-                   .append("<td width='60px'>"+prestation.getUid()+"</td>")
-                   .append("<td>"+sCode+"</td>")
-                   .append("<td>"+sDescr+"</td>")
-                   .append("<td>"+sTypeTran+"</td>")
-                   .append("<td nowrap>"+prestation.getPriceFormatted(category)+"</td>")
-                   .append("<td>"+checkString(prestation.getCategoriesFormatted(category))+"</td>")
-                  .append("</tr>");
+                sHtml.append("<tr class='list"+sClass+"' title='"+sSelectTran+"' onclick=\"setPrestation('"+sUid+"','"+sCode+"','"+sDescr+"','"+sType+"','"+sPrice+"');\">")
+                      .append("<td width='60px'>"+prestation.getUid()+"</td>")
+                      .append("<td>"+sCode+"</td>")
+                      .append("<td>"+sDescr+"</td>")
+                      .append("<td>"+sTypeTran+"</td>")
+                      .append("<td nowrap>"+prestation.getPriceFormatted(category)+"</td>")
+                      .append("<td>"+checkString(prestation.getCategoriesFormatted(category))+"</td>")
+                     .append("</tr>");
             }
         }
 
-        if(recsFound){
+        if(recCount > 0){
 	        %>
 	        <table id="searchresults" class="sortable" width="100%" cellpadding="1" cellspacing="0" style="border:1px solid #ccc;">
 		        <%-- header --%>
@@ -113,6 +114,8 @@
 		
 		        <tbody class="hand"><%=HTMLEntities.htmlentities(sHtml.toString())%></tbody>
 	        </table>
+            
+            <%=recCount%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
 	        <%
 	    } 
 	    else{

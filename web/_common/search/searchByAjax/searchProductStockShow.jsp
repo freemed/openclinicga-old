@@ -5,7 +5,6 @@
                 be.mxs.common.util.system.HTMLEntities"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%=sJSSORTTABLE%>
 
 <%
     String sAction = checkString(request.getParameter("Action"));
@@ -53,10 +52,10 @@
     Debug.println("@@@ displayProductStocksOfActiveUserService : "+displayProductStocksOfActiveUserService);
 
     if(sAction.length()==0){
-        if(sSearchServiceUid.length() == 0){
+        if(sSearchServiceUid.length()==0){
             if(displayProductStocksOfActiveUserService){
                 sSearchServiceUid = activeUser.activeService.code;
-                sSearchServiceName = getTran("service", sSearchServiceUid, sWebLanguage);
+                sSearchServiceName = getTran("service",sSearchServiceUid,sWebLanguage);
             }
         }
     }
@@ -64,7 +63,6 @@
     if(sAction.length()==0) sAction = "find"; // default action
 
     StringBuffer sOut = new StringBuffer();
-    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
     int iTotal = 0;
 
     //--- FIND ------------------------------------------------------------------------------------
@@ -94,8 +92,8 @@
 
             // servicestock and service name
             serviceStock = productStock.getServiceStock();
-            if(serviceStock == null){
-                sServiceStockName = "<font color='red'>"+getTran("web","nonexistingserviceStock",sWebLanguage)+"</font>";
+            if(serviceStock==null){
+                sServiceStockName = "<font color='red'>"+getTran("web","nonexistingServiceStock",sWebLanguage)+"</font>";
                 sServiceName = "";
             } 
             else{
@@ -106,7 +104,7 @@
 
                 // service name
                 if(serviceStock.getServiceUid().length() > 0){
-                    sServiceName = getTran("service", serviceStock.getServiceUid(), sWebLanguage);
+                    sServiceName = getTran("service",serviceStock.getServiceUid(),sWebLanguage);
                 }
                 else{
                     sServiceName = "";
@@ -116,7 +114,7 @@
             // only search product-name when different product-UID
             product = productStock.getProduct();
             if(product==null){
-            	sProductName = "<font color='red'>"+getTran("web.manage", "unexistingproduct", sWebLanguage)+"</font>";
+            	sProductName = "<font color='red'>"+getTran("web.manage","unexistingProduct",sWebLanguage)+"</font>";
             }
             else{
             	sProductName = product.getName();
@@ -124,14 +122,14 @@
 
             // format begin date
             java.util.Date tmpDate = productStock.getBegin();
-            if(tmpDate != null) sStockBegin = stdDateFormat.format(tmpDate);
+            if(tmpDate!=null) sStockBegin = ScreenHelper.formatDate(tmpDate);
 
             // levels
-            String sStockLevel = (productStock.getLevel() < 0 ? "" : productStock.getLevel()+"");
+            String sStockLevel = (productStock.getLevel()<0?"":productStock.getLevel()+"");
             if(sStockLevel.length() > 0) stockLevel = Integer.parseInt(sStockLevel);
             else                         stockLevel = -1;
 
-            String sOrderLevel = (productStock.getOrderLevel() < 0 ? "" : productStock.getOrderLevel()+"");
+            String sOrderLevel = (productStock.getOrderLevel()<0?"":productStock.getOrderLevel()+"");
             if(sOrderLevel.length() > 0) orderLevel = Integer.parseInt(sOrderLevel);
             else                         orderLevel = -1;
 
@@ -154,7 +152,7 @@
 
             //*** display stock in one row ***
             if(stockEnabled){
-                String onClick = "onClick=\"selectProductStock('"+productStock.getUid()+"','"+(sProductName.length() == 0 ? getTran("web", "nonexistingproduct", sWebLanguage) : sProductName)+"','"+sServiceStockUid+"','"+sServiceStockName+"','"+stockLevel+"');\"";
+                String onClick = "onClick=\"selectProductStock('"+productStock.getUid()+"','"+(sProductName.length()==0?getTranNoLink("web","nonexistingproduct",sWebLanguage):sProductName)+"','"+sServiceStockUid+"','"+sServiceStockName+"','"+stockLevel+"');\"";
                 sOut.append("<tr onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" title='"+chooseTran+"' class='"+sClass+"' "+onClick+">");
             }
             else{
@@ -171,8 +169,8 @@
                 .append("<td>"+sServiceStockName+"</td>");
 
             // if current level < orderlevel -> mark record in red
-            sOut.append("<td align='center'>"+(stockLevel < orderLevel ? "<font color='red'>"+stockLevel+"</font>" : stockLevel+"")+"</td>")
-                .append("<td align='center'>"+(orderLevel > -1 ? orderLevel+"" : "")+"</td>");
+            sOut.append("<td align='center'>"+(stockLevel<orderLevel?"<font color='red'>"+stockLevel+"</font>":stockLevel+"")+"</td>")
+                .append("<td align='center'>"+(orderLevel>-1?orderLevel+"":"")+"</td>");
 
             sOut.append("<td>"+sStockBegin+"</td>")
                 .append("</tr>");
@@ -185,7 +183,7 @@
 <%
     // display search results
     if(sAction.equals("find")){
-        if(iTotal == 0){
+        if(iTotal==0){
             // 'no results' message
             %><div><%=HTMLEntities.htmlentities(getTran("web","norecordsfound",sWebLanguage))%></div><%
         }

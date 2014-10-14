@@ -1,8 +1,8 @@
 <%@page import="be.openclinic.finance.InsurarInvoice,
                 java.util.Vector,
                 be.mxs.common.util.system.HTMLEntities,
-                java.text.DecimalFormat"%>
-<%@page import="be.openclinic.finance.ExtraInsurarInvoice"%>
+                java.text.DecimalFormat,
+                be.openclinic.finance.ExtraInsurarInvoice"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
@@ -53,7 +53,7 @@
         Vector vInvoices = ExtraInsurarInvoice.searchInvoices(sFindInvoiceDate,sFindInvoiceNr,sFindInvoiceInsurarUID,
         		                                              sFindInvoiceStatus,sFindInvoiceBalanceMin,sFindInvoiceBalanceMax);
 
-        boolean recsFound = false;
+        int recCount = 0;
         StringBuffer sHtml = new StringBuffer();
         String sClass = "1", sInvoiceUid, sInvoiceDate, sInvoiceNr, sInvoiceStatus, sInsurarUid, sInsurarName;
         ExtraInsurarInvoice invoice;
@@ -62,7 +62,7 @@
         while(iter.hasNext()){
             invoice = (ExtraInsurarInvoice)iter.next();
             sInvoiceUid = invoice.getUid();
-            recsFound = true;
+            recCount++;
 
             sInvoiceNr = invoice.getInvoiceUid();
             sInvoiceStatus = getTranNoLink("finance.patientinvoice.status",invoice.getStatus(),sWebLanguage);
@@ -97,7 +97,7 @@
                  .append("</tr>");
         }
 
-        if(recsFound){
+        if(recCount > 0){
 	        %>
 		    <table id="searchresults" class="sortable" width="100%" cellpadding="1" cellspacing="0" style="border:1px solid #ccc;">
 		        <%-- header --%>
@@ -111,11 +111,13 @@
 		
 		        <%=HTMLEntities.htmlentities(sHtml.toString())%>
 		    </table>
+            
+            <%=recCount%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
     		<%
    		} 
    		else{
             // display 'no results' message
-            %><%=HTMLEntities.htmlentities(getTran("web", "norecordsfound", sWebLanguage))%><%
+            %><%=HTMLEntities.htmlentities(getTran("web","norecordsfound",sWebLanguage))%><%
         }
     }
 %>

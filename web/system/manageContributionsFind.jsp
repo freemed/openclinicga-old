@@ -5,7 +5,6 @@
 <script src='<%=sCONTEXTPATH%>/_common/_script/prototype.js'></script>
 <script src='<%=sCONTEXTPATH%>/_common/_script/stringFunctions.js'></script>
 <%
-	try{
 	String sFindPrestationCode  = checkString(request.getParameter("FindPrestationCode")),
            sFindPrestationDescr = checkString(request.getParameter("FindPrestationDescr")),
            sFindPrestationType  = checkString(request.getParameter("FindPrestationType")),
@@ -101,9 +100,3 @@ else{
     }
   }
 </script>
-<%
-	}
-	catch(Exception r){
-		r.printStackTrace();
-	}
-%>

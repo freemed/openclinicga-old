@@ -1,5 +1,5 @@
-<%@page errorPage="/includes/error.jsp" %>
-<%@include file="/includes/validateUser.jsp" %>
+<%@page errorPage="/includes/error.jsp"%>
+<%@include file="/includes/validateUser.jsp"%>
 <%=sJSSORTTABLE%>
 
 <%
@@ -18,17 +18,19 @@
            sReturnFieldType      = checkString(request.getParameter("ReturnFieldType")),
            sReturnFieldPrice     = checkString(request.getParameter("ReturnFieldPrice"));
 
-    String sCurrency = MedwanQuery.getInstance().getConfigParam("currency", "€");
+    String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
     
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-    	Debug.println("\n################## _common/search/searchPrestation.jsp #################");
+    	Debug.println("\n****************** _common/search/searchPrestation.jsp *****************");
     	Debug.println("sFindPrestationCode   : "+sFindPrestationCode);
     	Debug.println("sFindPrestationDescr  : "+sFindPrestationDescr);
     	Debug.println("sFindPrestationType   : "+sFindPrestationType);
     	Debug.println("sFindPrestationPrice  : "+sFindPrestationPrice+"\n");
+    	
     	Debug.println("sFunction             : "+sFunction);
     	Debug.println("sFunctionVariable     : "+sFunctionVariable+"\n");
+    	
     	Debug.println("sReturnFieldUid       : "+sReturnFieldUid);
     	Debug.println("sReturnFieldCode      : "+sReturnFieldCode);
     	Debug.println("sReturnFieldDescr     : "+sReturnFieldDescr);
@@ -47,48 +49,36 @@
     <input type="hidden" name="ReturnFieldType" value="<%=sReturnFieldType%>">
     <input type="hidden" name="ReturnFieldPrice" value="<%=sReturnFieldPrice%>">
 
+    <%=writeTableHeader("web","searchprestation",sWebLanguage," window.close();")%>
     <table width="100%" cellspacing="1" cellpadding="0" class="menu">
         <%
             if(!"no".equalsIgnoreCase(request.getParameter("header"))){
         %>
-        <%-- TITLE --%>
-        <tr class="admin">
-            <td colspan="4"><%=getTran("web", "searchprestation", sWebLanguage)%>
-            </td>
-        </tr>
         <tr>
-            <td class="admin2" width="120" nowrap><%=getTran("web", "code", sWebLanguage)%>
-            </td>
+            <td class="admin2" width="120" nowrap><%=getTran("web","code",sWebLanguage)%></td>
             <td class="admin2" width="380" nowrap>
-                <input type="text" class="text" name="FindPrestationCode" size="20" maxlength="20"
-                       value="<%=sFindPrestationCode%>">
+                <input type="text" class="text" name="FindPrestationCode" size="20" maxlength="20" value="<%=sFindPrestationCode%>">
             </td>
         </tr>
         <tr>
-            <td class="admin2"><%=getTran("web", "description", sWebLanguage)%>
-            </td>
+            <td class="admin2"><%=getTran("web","description",sWebLanguage)%></td>
             <td class="admin2">
-                <input type="text" class="text" name="FindPrestationDescr" size="60" maxlength="60"
-                       value="<%=sFindPrestationDescr%>">
+                <input type="text" class="text" name="FindPrestationDescr" size="60" maxlength="60" value="<%=sFindPrestationDescr%>">
             </td>
         </tr>
         <tr>
-            <td class="admin2"><%=getTran("web", "type", sWebLanguage)%>
-            </td>
+            <td class="admin2"><%=getTran("web","type",sWebLanguage)%></td>
             <td class="admin2">
                 <select class="text" name="FindPrestationType">
                     <option value=""></option>
-                    <%=ScreenHelper.writeSelect("prestation.type", sFindPrestationType, sWebLanguage)%>
+                    <%=ScreenHelper.writeSelect("prestation.type",sFindPrestationType,sWebLanguage)%>
                 </select>
             </td>
         </tr>
         <tr>
-            <td class="admin2"><%=getTran("web", "price", sWebLanguage)%>
-            </td>
+            <td class="admin2"><%=getTran("web","price",sWebLanguage)%></td>
             <td class="admin2">
-                <input type="text" class="text" name="FindPrestationPrice" size="10" maxlength="8"
-                       onKeyUp="if(!isNumber(this)){this.value='';}" value="<%=sFindPrestationPrice%>">&nbsp;<%=
-                sCurrency%>
+                <input type="text" class="text" name="FindPrestationPrice" size="10" maxlength="8" onKeyUp="if(!isNumber(this)){this.value='';}" value="<%=sFindPrestationPrice%>">&nbsp;<%=sCurrency%>
             </td>
         </tr>
         <tr>
@@ -101,18 +91,19 @@
                 </select>
             </td>
         </tr>
+        
+        <%-- BUTTONS --%>
         <tr height="25">
             <td class="admin2">&nbsp;</td>
             <td class="admin2">
-                <input class="button" type="button" onClick="searchPrestations();" name="searchButton"
-                       value="<%=getTranNoLink("Web","search",sWebLanguage)%>">&nbsp;
-                <input class="button" type="button" onClick="clearFields();" name="clearButton"
-                       value="<%=getTranNoLink("Web","clear",sWebLanguage)%>">
+                <input class="button" type="button" onClick="searchPrestations();" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>">&nbsp;
+                <input class="button" type="button" onClick="clearFields();" name="clearButton" value="<%=getTranNoLink("Web","clear",sWebLanguage)%>">
             </td>
         </tr>
         <%
             }
         %>
+        
         <%-- SEARCH RESULTS TABLE --%>
         <tr>
             <td style="vertical-align:top;" colspan="2" class="white" width="100%">
@@ -128,7 +119,7 @@
 </form>
 
 <script>
-  window.resizeTo(800, 600);
+  window.resizeTo(800,600);
   SearchForm.FindPrestationDescr.focus();
 
   <%-- CLEAR FIELDS --%>
@@ -144,7 +135,7 @@
   <%-- SEARCH PRESTATIONS --%>
   function searchPrestations(){
     SearchForm.Action.value = "search";
-    ajaxChangeSearchResults('_common/search/searchByAjax/searchPrestationShow.jsp', SearchForm);
+    ajaxChangeSearchResults('_common/search/searchByAjax/searchPrestationShow.jsp',SearchForm);
   }
 
   <%-- SET PRESTATION --%>
@@ -207,5 +198,5 @@
     window.close();
   }
     
-  window.setTimeout("document.getElementsByName('FindPrestationDescr')[0].focus();")
+  window.setTimeout("document.getElementsByName('FindPrestationDescr')[0].focus();",300);
 </script>

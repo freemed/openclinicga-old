@@ -1,5 +1,5 @@
-<%@page import="be.openclinic.pharmacy.ProductStock"%>
-<%@page import="java.text.DecimalFormat,
+<%@page import="be.openclinic.pharmacy.ProductStock,
+                java.text.DecimalFormat,
                 be.openclinic.pharmacy.Product,
                 java.util.Vector,
                 be.mxs.common.util.system.HTMLEntities"%>
@@ -15,9 +15,10 @@
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
         Debug.println("\n*********** _common/search/searchByAjax/searchProductShow.jsp **********");
-        Debug.println("sSearchProductName  : "+sSearchProductName);
-        Debug.println("sSearchSupplierUid  : "+sSearchSupplierUid);
-        Debug.println("sSearchProductGroup : "+sSearchProductGroup+"\n");
+        Debug.println("sSearchProductName     : "+sSearchProductName);
+        Debug.println("sSearchSupplierUid     : "+sSearchSupplierUid);
+        Debug.println("sSearchProductSubGroup : "+sSearchProductSubGroup);
+        Debug.println("sSearchProductGroup    : "+sSearchProductGroup+"\n");
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,14 +46,14 @@
          .append("</tr>");
 
     // tbody
-    sHtml.append("<tbody onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\">");
+    sHtml.append("<tbody class='hand'>");
     
     Vector products = new Vector();
     if(sSearchProductName.length() > 0 || sSearchSupplierUid.length() > 0 || sSearchProductGroup.length() > 0 || sSearchProductSubGroup.length() > 0){
         products = Product.find(sSearchProductName,"","","","","",sSearchSupplierUid,sSearchProductGroup,sSearchProductSubGroup,"OC_PRODUCT_NAME","ASC");
     }
     
-    // run thru found products
+    // run through found products
     Product product;
     int iTotal = 0;
     for(int i=0; i<products.size() && i<iMaxRecordsToShow; i++){
@@ -65,7 +66,7 @@
         }
 
         // translate unit
-        sUnitTran = getTranNoLink("product.unit",product.getUnit(), sWebLanguage);
+        sUnitTran = getTranNoLink("product.unit",product.getUnit(),sWebLanguage);
 
         // line unit price out
         sUnitPrice = priceDeci.format(product.getUnitPrice());
@@ -85,20 +86,20 @@
         if(sClass.length()==0) sClass = "1";
         else                   sClass = "";
 
-        boolean inStock=product.isInServiceStock(sSearchSupplierUid);
+        boolean inStock = product.isInServiceStock(sSearchSupplierUid);
         if(MedwanQuery.getInstance().getConfigInt("assumeStock",0)==1){
         	inStock = true;
         }
 
         sProductName = checkString(product.getName());
-        sProductName = sProductName.replaceAll("'", "");
+        sProductName = sProductName.replaceAll("'","");
         sProductSubGroup = getTranNoLink("drug.category",checkString(product.getProductSubGroup()),sWebLanguage);
 
         //*** display product in one row ***
-        sHtml.append("<tr title='"+chooseTran+"' class='list"+sClass+"' onClick=\"selectProduct('"+product.getUid()+"','"+sProductName+"','"+product.getUnit()+"','"+sUnitsPerTimeUnit+"','"+sSupplierUid+"','"+sSupplierName+"','"+product.getPackageUnits()+"');\">")
+        sHtml.append("<tr title='").append(chooseTran).append("' class='list"+sClass+"' onClick=\"selectProduct('"+product.getUid()+"','"+sProductName+"','"+product.getUnit()+"','"+sUnitsPerTimeUnit+"','"+sSupplierUid+"','"+sSupplierName+"','"+product.getPackageUnits()+"');\">")
               .append("<td nowrap "+(inStock?"":" class='strikeonly'")+">"+sProductName+"</td>")
               .append("<td"+(inStock?"":" class='strikeonly'")+">"+sUnitTran+"</td>")
-              .append("<td align='right'"+(inStock?"":" class='strikeonly'")+">"+sUnitPrice+" "+sCurrency+" </td>")
+              .append("<td align='right'"+(inStock?"":" class='strikeonly'")+">"+sUnitPrice+" "+sCurrency+"&nbsp;</td>")
               .append("<td"+(inStock?"":" class='strikeonly'")+">"+sSupplierName+"</td>")
               .append("<td"+(inStock?"":" class='strikeonly'")+">"+sProductGroup+"</td>")
               .append("<td"+(inStock?"":" class='strikeonly'")+">"+sProductSubGroup+"</td>")
@@ -111,7 +112,7 @@
 
     // display search results
     if(iTotal==0){
-        %><%=HTMLEntities.htmlentities(getTranNoLink("web","norecordsfound",sWebLanguage))%><%
+        %><%=HTMLEntities.htmlentities(getTranNoLink("web","noRecordsfound",sWebLanguage))%><%
 	}
 	else{
 	    String html = HTMLEntities.unhtmlentities(sHtml.toString());
@@ -120,12 +121,11 @@
 		%>
 		<table width="100%" class="sortable" id="searchresults" cellpadding="0" cellspacing="1">
 		    <%=html.toString()%>
-		</table>        
-		<%=iTotal%> <%=HTMLEntities.htmlentities(getTranNoLink("web","recordsfound",sWebLanguage))%>
+		</table>   
+		     
+		<%=iTotal%> <%=HTMLEntities.htmlentities(getTranNoLink("web","recordsFound",sWebLanguage))%>
 		<%
     }
 %>
 
-<script>
-  var setMax = setMaxRows;
-</script>
+<script>var setMax = setMaxRows;</script>
