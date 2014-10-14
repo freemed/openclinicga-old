@@ -241,6 +241,6 @@
 <script>
   <%-- DO TODAY --%>
   function doToday(){
-    window.location.href = "<c:url value='main.do'>?Page=pharmacy/manageAdministrations.jsp&startdate=<%=ScreenHelper.formatDate(new java.util.Date())%>";
+    window.location.href = "<c:url value='main.do'/>?Page=pharmacy/manageAdministrations.jsp&startdate=<%=ScreenHelper.formatDate(new java.util.Date())%>";
   }
 </script>
