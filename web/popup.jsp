@@ -226,6 +226,29 @@
   
   if(typeof focusfield!="undefined") focusfield.focus();
   window.setTimeout('resizeMe();',200);
+  
+  <%-- The following script is used to hide the calendar whenever you click the document. --%>
+  <%-- When using it you should set the name of popup button or image to "popcal", otherwise the calendar won't show up. --%>
+  document.onmousedown = function(e){
+    var n = !e?self.event.srcElement.name:e.target.name;
+
+    if(document.layers){
+      with(gfPop) var l = pageX, t = pageY, r = l+clip.width, b = t+clip.height;
+      if(n!="popcal" && (e.pageX > r || e.pageX < l || e.pageY > b || e.pageY < t)){
+        gfPop1.fHideCal();
+        gfPop2.fHideCal();
+        gfPop3.fHideCal();
+      }
+      return routeEvent(e);
+    }
+    else if(n!="popcal"){
+      gfPop1.fHideCal();
+      gfPop2.fHideCal();
+      gfPop3.fHideCal();
+    }
+  }
+    
+  if(document.layers) document.captureEvents(Event.MOUSEDOWN);
 </script>
 </body>
 </html>
