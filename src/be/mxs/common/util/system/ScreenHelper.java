@@ -1655,7 +1655,11 @@ public class ScreenHelper {
     }
     
     public static String writeTblChild(String sPath, String sHeader, String sCONTEXTDIR, int rowIdx){
-        return "<tr"+(rowIdx>-1?(rowIdx%2==0?" class='list1'":" class='list'"):"")+">"+
+        return writeTblChild(sPath,sHeader,sCONTEXTDIR,rowIdx,false);
+    }
+    
+    public static String writeTblChild(String sPath, String sHeader, String sCONTEXTDIR, int rowIdx, boolean smallRows){
+        return "<tr"+(rowIdx>-1?(rowIdx%2==0?" class='list1'":" class='list'"):"")+(smallRows?" style='height:17px'":"")+">"+
                 "<td class='arrow'><img src='"+sCONTEXTDIR+"/_img/themes/default/pijl.gif'></td>"+
                 "<td width='99%' nowrap>"+
                  "<button class='buttoninvisible' accesskey='"+getAccessKey(sHeader)+"' onclick='window.location.href=\""+sCONTEXTDIR+"/"+sPath+"\"'></button><a href='"+sCONTEXTDIR+"/"+sPath+"' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
@@ -1678,7 +1682,8 @@ public class ScreenHelper {
         return "<tr>"+
                 "<td class='arrow'><img src='"+sCONTEXTDIR+"/_img/themes/default/pijl.gif'></td>"+
                 "<td width='99%' nowrap>"+
-                 "<button class='buttoninvisible' accesskey='"+getAccessKey(sHeader)+"' onclick='"+sCommand+"'></button><a href='"+sCommand+"' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
+                 "<button class='buttoninvisible' accesskey='"+getAccessKey(sHeader)+"' onclick='"+sCommand+"'></button>"+
+                 "<a href='"+sCommand+"' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
                 "</td>"+
                "</tr>";
     }
