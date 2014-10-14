@@ -253,7 +253,7 @@
             else                    sEditSrcDestName = "";
         }
 
-        sEditOperationDate = stdDateFormat.format(new java.util.Date()); // now
+        sEditOperationDate = ScreenHelper.formatDate(new java.util.Date()); // now
         if(sEditUnitsChanged.length()==0){
             sEditUnitsChanged = "1";
         }
