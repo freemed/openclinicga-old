@@ -31,7 +31,9 @@ public class ScanDirectoryMonitor implements Runnable{
 		loadConfig();
 		
 		if(Debug.enabled){
-			Debug.println("\n******************************** ScanDirectoryMonitor ********************************");
+			Debug.println("\n******************************************************************************************");
+			Debug.println("******************************** ScanDirectoryMonitor ************************************");
+			Debug.println("******************************************************************************************");
 			Debug.println("'scanDirectoryMonitor_basePath'                   : "+SCANDIR_BASE);
 			Debug.println("'scanDirectoryMonitor_dirFrom'                    : "+SCANDIR_FROM);
 			Debug.println("'scanDirectoryMonitor_dirTo'                      : "+SCANDIR_TO);
@@ -138,7 +140,7 @@ public class ScanDirectoryMonitor implements Runnable{
 				
 		FILES_PER_DIRECTORY = MedwanQuery.getInstance().getConfigInt("scanDirectoryMonitor_filesPerDirectory",1024);
 		MONITORING_INTERVAL = MedwanQuery.getInstance().getConfigInt("scanDirectoryMonitor_interval",60*1000);
-	    EXCLUDED_EXTENSIONS = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_notScannableFileExtensions").toLowerCase();
+	    EXCLUDED_EXTENSIONS = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_notScannableFileExtensions","").toLowerCase();
 	}
 			
 	//--- IS ACTIVE -------------------------------------------------------------------------------

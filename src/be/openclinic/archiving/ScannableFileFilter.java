@@ -3,6 +3,8 @@ package be.openclinic.archiving;
 import java.io.File;
 import java.io.FileFilter;
 
+import be.mxs.common.util.system.Debug;
+
 public class ScannableFileFilter implements FileFilter {
     private String sExcludedExtensions = "";
 

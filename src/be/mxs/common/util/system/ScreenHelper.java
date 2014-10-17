@@ -336,8 +336,8 @@ public class ScreenHelper {
     
     //--- CUSTOMER INCLUDE ------------------------------------------------------------------------
     public static String customerInclude(String fileName, String sAPPFULLDIR, String sAPPDIR){
-        if(fileName.indexOf("?")>0){
-            fileName=fileName.substring(0,fileName.indexOf("?"));
+        if(fileName.indexOf("?") > 0){
+            fileName = fileName.substring(0,fileName.indexOf("?"));
         }
 
         if(new File((sAPPFULLDIR+"/"+sAPPDIR+"/"+fileName).replaceAll("//","/")).exists()){
@@ -453,39 +453,39 @@ public class ScreenHelper {
                 labelValue = MedwanQuery.getInstance().getLabel(sType.toLowerCase(),sID.toLowerCase(),sLanguage);
 
                 if(labelValue.length()==0){
-                    return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
+                    return "<a href='#' onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
                 }
                 else{
-                    return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+labelValue+"</a>";
+                    return "<a href='#' onClick=\"javascript:openPopup('"+url+"');\">"+labelValue+"</a>";
                 }
             }
             else{
                 Hashtable langHashtable = MedwanQuery.getInstance().getLabels();
                 if(langHashtable==null){
                     saveUnknownLabel(sType, sID, sLanguage);
-                    return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
+                    return "<a href='#' onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
                 }
 
                 Hashtable typeHashtable = (Hashtable)langHashtable.get(sLanguage.toLowerCase());
                 if(typeHashtable==null){
-                    return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
+                    return "<a href='#' onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
                 }
 
                 Hashtable idHashtable = (Hashtable)typeHashtable.get(sType.toLowerCase());
                 if(idHashtable==null){
-                    return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
+                    return "<a href='#' onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
                 }
 
                 Label label = (Label)idHashtable.get(sID.toLowerCase());
                 if(label==null){
-                    return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
+                    return "<a href='#' onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
                 }
 
                 labelValue = label.value;
 
                 // display link to label
                 if(labelValue==null || labelValue.trim().length()==0){
-                    return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
+                    return "<a href='#' onClick=\"javascript:openPopup('"+url+"');\">"+sID+"</a>";
                 }
             }
         }
@@ -493,7 +493,7 @@ public class ScreenHelper {
             e.printStackTrace();
         }
 
-        return "<a href=\"#\" onClick=\"javascript:openPopup('"+url+"');\">"+labelValue+"</a>";
+        return "<a href='#' onClick=\"javascript:openPopup('"+url+"');\">"+labelValue+"</a>";
     }
 
     //--- GET TRAN DB -----------------------------------------------------------------------------
@@ -503,9 +503,9 @@ public class ScreenHelper {
 	        PreparedStatement ps = null;
 	        ResultSet rs = null;
 	        
-	        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+	        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
 	        try{
-	            if(sLang.length() != 2) throw new Exception("Language must be a two-letter notation.");
+	            if(sLang.length()!=2) throw new Exception("Language must be a two-letter notation.");
 	
 	            // LOWER
 	            String sSelect = "SELECT OC_LABEL_VALUE FROM OC_LABELS"+
@@ -537,6 +537,7 @@ public class ScreenHelper {
 	            }
 	        }
         }
+        
         return labelValue.replaceAll("##CR##","\n");
     }
 
@@ -553,18 +554,17 @@ public class ScreenHelper {
     	
         String labelValue = "";
         if(sLanguage!=null && sLanguage.equalsIgnoreCase("f")){
-        	sLanguage="fr";
+        	sLanguage = "fr";
         }
         else if(sLanguage!=null && sLanguage.equalsIgnoreCase("n")){
-        	sLanguage="nl";
+        	sLanguage = "nl";
         }
         else if(sLanguage!=null && sLanguage.equalsIgnoreCase("e")){
-        	sLanguage="en";
+        	sLanguage = "en";
         }
 
         try{
-            if(sLanguage!=null && sLanguage.length()==2){
-	
+            if(sLanguage!=null && sLanguage.length()==2){	
 	            if(sType.equalsIgnoreCase("service") || sType.equalsIgnoreCase("function")){
 	                labelValue = MedwanQuery.getInstance().getLabel(sType.toLowerCase(),sID.toLowerCase(),sLanguage);
 	            }
@@ -687,13 +687,13 @@ public class ScreenHelper {
     public static String getTranExists(String sType, String sID, String sLanguage){
         String labelValue = "";
         if(sLanguage!=null && sLanguage.equalsIgnoreCase("f")){
-        	sLanguage="fr";
+        	sLanguage = "fr";
         }
         else if(sLanguage!=null && sLanguage.equalsIgnoreCase("n")){
-        	sLanguage="nl";
+        	sLanguage = "nl";
         }
         else if(sLanguage!=null && sLanguage.equalsIgnoreCase("e")){
-        	sLanguage="en";
+        	sLanguage = "en";
         }
 
         try{
@@ -793,8 +793,9 @@ public class ScreenHelper {
 
         try{
             Statement st = conn.createStatement();
-            ResultSet Configrs = st.executeQuery("SELECT oc_value FROM OC_Config WHERE oc_key like '"+key+"' AND deletetime IS NULL ORDER BY oc_key");
-            while (Configrs.next()){
+            ResultSet Configrs = st.executeQuery("SELECT oc_value FROM OC_Config WHERE oc_key like '"+key+"'"+
+                                                 " AND deletetime IS NULL ORDER BY oc_key");
+            while(Configrs.next()){
                 cs+= Configrs.getString("oc_value");
             }
             Configrs.close();
@@ -831,12 +832,12 @@ public class ScreenHelper {
     //--- SET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
     public static String setMaliAdminPrivateContact(AdminPrivateContact apc, String sLanguage){
         String sCountry = "&nbsp;";
-        if(checkString(apc.country).trim().length()>0){
+        if(checkString(apc.country).trim().length() > 0){
             sCountry = getTran("Country",apc.country,sLanguage);
         }
 
         String sProvince = "&nbsp;";
-        if(checkString(apc.province).trim().length()>0){
+        if(checkString(apc.province).trim().length() > 0){
             sProvince = getTran("province",apc.province,sLanguage);
         }
         return(
@@ -1015,7 +1016,9 @@ public class ScreenHelper {
     }
 
     //--- WRITE LOOSE DATE FIELD YEAR -------------------------------------------------------------
-    public static String writeLooseDateFieldYear(String sName, String sForm, String sValue, boolean allowPastDates, boolean allowFutureDates, String sWebLanguage, String sCONTEXTDIR){
+    public static String writeLooseDateFieldYear(String sName, String sForm, String sValue, 
+    		                                     boolean allowPastDates, boolean allowFutureDates,
+    		                                     String sWebLanguage, String sCONTEXTDIR){
         String gfPopType = "1"; // default        
         if(allowPastDates && allowFutureDates){
             gfPopType = "1";
@@ -1057,21 +1060,49 @@ public class ScreenHelper {
               +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_agenda.gif' alt='"+getTranNoLink("Web","Select",sWebLanguage)+"' onclick='gfPop1.fPopCalendar(document."+sForm+"."+sName+");return false;'>"
               +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_compose.gif' alt='"+getTranNoLink("Web","PutToday",sWebLanguage)+"' onclick='getToday(document."+sForm+"."+sName+");'>";
     }
+    
+    //--- WRITE DATE FIELD WITH DELETE ------------------------------------------------------------
+    public static String writeDateFieldWithDelete(String sName, String sForm, String sValue, boolean allowPastDates,
+    		                                      boolean allowFutureDates, String sWebLanguage, String sCONTEXTDIR){
+    	return writeDateFieldWithDelete(sName,sForm,sValue,allowPastDates,allowFutureDates,sWebLanguage,sCONTEXTDIR,"");    	
+    }
+    
+    public static String writeDateFieldWithDelete(String sName, String sForm, String sValue, boolean allowPastDates, 
+    		                                      boolean allowFutureDates, String sWebLanguage, String sCONTEXTDIR, String sExtraOnBlur){
+        String gfPopType = "1"; // default        
+        if(allowPastDates && allowFutureDates){
+            gfPopType = "1";
+        }
+        else{
+               if(allowFutureDates) gfPopType = "3";
+          else if(allowPastDates) gfPopType = "2";
+        }
+        
+        String sExtraCondition = "";
+        if(!allowFutureDates){
+        	sExtraCondition = " || isFutureDate(this.value)";
+        }
+        
+        return "<input type='text' maxlength='10' class='text' id='"+sName+"' name='"+sName+"' value='"+sValue+"' size='12' onblur='if(!checkDate(this)"+sExtraCondition+"){dateError(this);}else{"+sExtraOnBlur+"}'>"
+              +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_agenda.gif' alt='"+getTranNoLink("web","Select",sWebLanguage)+"' onclick='gfPop1.fPopCalendar(document."+sForm+"."+sName+");return false;'>"
+              +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_compose.gif' alt='"+getTranNoLink("web","PutToday",sWebLanguage)+"' onclick='getToday(document."+sForm+"."+sName+");'>"
+              +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_delete.gif' alt='"+getTranNoLink("web","clear",sWebLanguage)+"' onclick=\"document."+sForm+"."+sName+".value='';\">";
+    }
 
     //--- NEW WRITE DATE TIME FIELD ---------------------------------------------------------------
     public static String newWriteDateTimeField(String sName, java.util.Date dValue, String sWebLanguage, String sCONTEXTDIR){
         return "<input id='"+sName+"' type='text' maxlength='10' class='text' name='"+sName+"' value='"+getSQLDate(dValue)+"' size='12' onblur='if(!checkDate(this)){dateError(this);this.value=\"\";}'>"
-               +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_agenda.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","Select",sWebLanguage))+"' onclick='gfPop1.fPopCalendar($(\""+sName+"\"));return false;'>"
-               +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_compose.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","putToday",sWebLanguage))+"' onclick=\"putTime($('"+sName+"Time'));getToday($('"+sName+"'));\">"
-               +"&nbsp;"+writeTimeField(sName+"Time", formatSQLDate(dValue, "HH:mm"))
-               +"&nbsp;"+getTran("web.occup", "medwan.common.hour", sWebLanguage);
+              +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_agenda.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","Select",sWebLanguage))+"' onclick='gfPop1.fPopCalendar($(\""+sName+"\"));return false;'>"
+              +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_compose.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","putToday",sWebLanguage))+"' onclick=\"putTime($('"+sName+"Time'));getToday($('"+sName+"'));\">"
+              +"&nbsp;"+writeTimeField(sName+"Time", formatSQLDate(dValue, "HH:mm"))
+              +"&nbsp;"+getTran("web.occup", "medwan.common.hour", sWebLanguage);
     }
     
     //--- PLANNING DATE TIME FIELD ----------------------------------------------------------------
     public static String planningDateTimeField(String sName, String dValue, String sWebLanguage, String sCONTEXTDIR){
         return "<input id='"+sName+"' type='text' maxlength='10' class='text' name='"+sName+"' value='"+dValue+"' size='12' onblur='if(!checkDate(this)){dateError(this);this.value=\"\";}'>"
-               +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_agenda.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","Select",sWebLanguage))+"' onclick='gfPop1.fPopCalendar($(\""+sName+"\"));return false;'>"
-               +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_compose.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","putToday",sWebLanguage))+"' onclick=\"getToday($('"+sName+"'));\">";
+              +"&nbsp;<img name='popcal' class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_agenda.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","Select",sWebLanguage))+"' onclick='gfPop1.fPopCalendar($(\""+sName+"\"));return false;'>"
+              +"&nbsp;<img class='link' src='"+sCONTEXTDIR+"/_img/icons/icon_compose.gif' alt='"+HTMLEntities.htmlentities(getTran("Web","putToday",sWebLanguage))+"' onclick=\"getToday($('"+sName+"'));\">";
     }
     
     //--- WRITE DATEE FIELD WITHOUT TODAY ---------------------------------------------------------
@@ -1095,7 +1126,7 @@ public class ScreenHelper {
                                          boolean screenIsPopup, String sAPPFULLDIR){
         sPermission = sPermission.toLowerCase();
         String jsAlert = "Error in checkPermission : no screen specified !";
-        if(sScreen.trim().length()>0){
+        if(sScreen.trim().length() > 0){
             if(Application.isDisabled(sScreen)){
             	// empty
             }
@@ -1124,14 +1155,14 @@ public class ScreenHelper {
                 if(jsAlert.length() > 0){
                     String sMessage = getTranNoLink("web","nopermission",activeUser.person.language);
                     jsAlert = "<script>"+(screenIsPopup?"window.close();":"window.history.go(-1);")+
-                              "var popupUrl = '"+sAPPFULLDIR+"/_common/search/okPopup.jsp?ts="+getTs()+"&labelValue="+sMessage;
+                               "var popupUrl = '"+sAPPFULLDIR+"/_common/search/okPopup.jsp?ts="+getTs()+"&labelValue="+sMessage;
 
                     // display permission when in Debug mode
                     if(Debug.enabled) jsAlert+= " --> "+sScreen+(sPermission.length()==0?"":"."+sPermission);
 
-                    jsAlert+= "';"+
-                              "  var modalities = 'dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;';"+
-                              "   var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,\"\",modalities):window.confirm(\""+sMessage+"\");"+
+                    jsAlert+=  "';"+
+                               "var modalities = 'dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;';"+
+                               "var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,\"\",modalities):window.confirm(\""+sMessage+"\");"+
                               "</script>";
                 }
             }
@@ -1142,17 +1173,17 @@ public class ScreenHelper {
 
     //--- CHECK TRANSACTION PERMISSION ------------------------------------------------------------
     static public String checkTransactionPermission(TransactionVO transaction, User activeUser, boolean screenIsPopup, String sAPPFULLDIR){
-    	String jsAlert="";
+    	String jsAlert = "";
     	if(checkString(transaction.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PRIVATETRANSACTION")).equalsIgnoreCase("1")){
     		try{
 	    		if(!(transaction.getUser().getUserId()+"").equalsIgnoreCase(activeUser.userid)){
 	                String sMessage = getTranNoLink("web","privatetransactionerror",activeUser.person.language);
 	                jsAlert = "<script>"+(screenIsPopup?"window.close();":"window.history.go(-1);")+
-	                          "var popupUrl = '"+sAPPFULLDIR+"/_common/search/okPopup.jsp?ts="+getTs()+"&labelValue="+sMessage;
+	                           "var popupUrl = '"+sAPPFULLDIR+"/_common/search/okPopup.jsp?ts="+getTs()+"&labelValue="+sMessage;
 	
-	                jsAlert+= "';"+
-	                          "  var modalities = 'dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;';"+
-	                          "   var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,\"\",modalities):window.confirm(\""+sMessage+"\");"+
+	                jsAlert+=  "';"+
+	                           "var modalities = 'dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;';"+
+	                           "var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,\"\",modalities):window.confirm(\""+sMessage+"\");"+
 	                          "</script>";
 	            }
     		}
@@ -1165,7 +1196,8 @@ public class ScreenHelper {
     }
     
     //--- CHECK PERMISSION ------------------------------------------------------------------------
-    public static String checkPrestationToday(String sPersonId, String sAPPFULLDIR, boolean screenIsPopup, User activeUser, TransactionVO transaction){
+    public static String checkPrestationToday(String sPersonId, String sAPPFULLDIR, boolean screenIsPopup,
+    		                                  User activeUser, TransactionVO transaction){
         String jsAlert = "";
         String sMessage ="";
         String sEncounterUid="";
@@ -1175,20 +1207,23 @@ public class ScreenHelper {
     	}
     	
         if(sEncounterUid.length()>0 && sEncounterUid.split("\\.").length==2 && transaction.getTransactionId()<0 && MedwanQuery.getInstance().getConfigInt("activateOutpatientConsultationPrestationCheck",0)==1){
-        	String sPrestationCode=MedwanQuery.getInstance().getConfigString(transaction.getTransactionType()+".requiredPrestation","");
-        	if(checkString(sPrestationCode).length()>0){
+        	String sPrestationCode = MedwanQuery.getInstance().getConfigString(transaction.getTransactionType()+".requiredPrestation","");
+        	if(checkString(sPrestationCode).length() > 0){
     			Prestation prestation = Prestation.getByCode(sPrestationCode);
     			if(prestation.getUid()!=null && prestation.getUid().split("\\.").length==2){
 	        		try{
 		        		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
-		        		String sQuery="select * from oc_debets where oc_debet_date>=? and oc_debet_encounteruid=? and oc_debet_prestationuid=?";
+		        		String sQuery = "select * from oc_debets"+
+		        		                " where oc_debet_date>=? and oc_debet_encounteruid=? and oc_debet_prestationuid=?";
 		        		if(MedwanQuery.getInstance().getConfigInt(transaction.getTransactionType()+".requiredPrestation.invoiced",0)==1){
-		        			sQuery="select * from oc_debets where oc_debet_date>=? and oc_debet_encounteruid=? and oc_debet_prestationuid=? and oc_debet_patientinvoiceuid like '%.%'";
+		        			sQuery = "select * from oc_debets"+
+		        		             " where oc_debet_date>=? and oc_debet_encounteruid=? and oc_debet_prestationuid=?"+
+		        		             "  and oc_debet_patientinvoiceuid like '%.%'";
 		        		}
 		        		PreparedStatement ps = conn.prepareStatement(sQuery);
-		        		ps.setDate(1, new java.sql.Date(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new java.util.Date())).getTime()));
-		        		ps.setString(2, sEncounterUid);
-		        		ps.setString(3, prestation.getUid());
+		        		ps.setDate(1,new java.sql.Date(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new java.util.Date())).getTime()));
+		        		ps.setString(2,sEncounterUid);
+		        		ps.setString(3,prestation.getUid());
 		        		ResultSet rs = ps.executeQuery();
 		        		if(!rs.next()){
 		        			sMessage = getTranNoLink("web","noactiveprestation",activeUser.person.language)+" `"+prestation.getCode()+": "+prestation.getDescription()+"`";
@@ -1202,25 +1237,27 @@ public class ScreenHelper {
 	        		}
     			}
         	}
-        	int nInvoicable=MedwanQuery.getInstance().getConfigInt(transaction.getTransactionType()+".requiredInvoicable",0);
+        	
+        	int nInvoicable = MedwanQuery.getInstance().getConfigInt(transaction.getTransactionType()+".requiredInvoicable",0);
         	if(nInvoicable==1){
         		//Check if invoicing conditions have been met
         		if(Encounter.getActiveEncounter(sPersonId)==null || Insurance.getMostInterestingInsuranceForPatient(sPersonId)==null){
         			sMessage = getTranNoLink("web","notinvoicable",activeUser.person.language);
         		}
         	}
-        	String sPrestationClass=MedwanQuery.getInstance().getConfigString(transaction.getTransactionType()+".requiredPrestationClass","");
-            if(checkString(sPrestationClass).length()>0){
+        	
+        	String sPrestationClass = MedwanQuery.getInstance().getConfigString(transaction.getTransactionType()+".requiredPrestationClass","");
+            if(checkString(sPrestationClass).length() > 0){
         		try{
 	        		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
-	        		String sQuery="select * from oc_debets a, oc_prestations b where a.oc_debet_date>=? and a.oc_debet_encounteruid=? and b.oc_prestation_objectid=replace(a.oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId","1")+".','') and b.oc_prestation_class=?";
+	        		String sQuery = "select * from oc_debets a, oc_prestations b where a.oc_debet_date>=? and a.oc_debet_encounteruid=? and b.oc_prestation_objectid=replace(a.oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId","1")+".','') and b.oc_prestation_class=?";
 	        		if(MedwanQuery.getInstance().getConfigInt(transaction.getTransactionType()+".requiredPrestationClass.invoiced",0)==1){
-	        			sQuery="select * from oc_debets a, oc_prestations b where a.oc_debet_date>=? and a.oc_debet_encounteruid=? and a.oc_debet_patientinvoiceuid like '%.%' and b.oc_prestation_objectid=replace(a.oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId","1")+".','') and b.oc_prestation_class=?";
+	        			sQuery = "select * from oc_debets a, oc_prestations b where a.oc_debet_date>=? and a.oc_debet_encounteruid=? and a.oc_debet_patientinvoiceuid like '%.%' and b.oc_prestation_objectid=replace(a.oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId","1")+".','') and b.oc_prestation_class=?";
 	        		}
 	        		PreparedStatement ps = conn.prepareStatement(sQuery);
-	        		ps.setDate(1, new java.sql.Date(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new java.util.Date())).getTime()));
-	        		ps.setString(2, sEncounterUid);
-	        		ps.setString(3, sPrestationClass);
+	        		ps.setDate(1,new java.sql.Date(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new java.util.Date())).getTime()));
+	        		ps.setString(2,sEncounterUid);
+	        		ps.setString(3,sPrestationClass);
 	        		ResultSet rs = ps.executeQuery();
 	        		if(!rs.next()){
 	        			sMessage = getTranNoLink("web","noactiveprestationclass",activeUser.person.language)+" `"+getTran("prestation.class",sPrestationClass,activeUser.person.language)+"`";
@@ -1238,8 +1275,8 @@ public class ScreenHelper {
 	                      "var popupUrl = '"+sAPPFULLDIR+"/_common/search/okPopup.jsp?ts="+getTs()+"&labelValue="+sMessage;
 	
 	            jsAlert+= "';"+
-	                      "  var modalities = 'dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;';"+
-	                      "   var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,\"\",modalities):window.confirm(\""+sMessage+"\");"+
+	                      " var modalities = 'dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;';"+
+	                      " var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,\"\",modalities):window.confirm(\""+sMessage+"\");"+
 	                      "</script>";
         	}
         }
@@ -1257,7 +1294,7 @@ public class ScreenHelper {
 
     public static String writeSearchButton(String sButtonName, String sLabelType, String sVarCode, String sVarText,
                                            String sShowID,String sWebLanguage, String defaultValue, String sCONTEXTDIR){
-        return  "<img src='"+sCONTEXTDIR+"/_img/icons/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"'"
+        return "<img src='"+sCONTEXTDIR+"/_img/icons/icon_search.gif' id='"+sButtonName+"' class='link' alt='"+getTranNoLink("Web","select",sWebLanguage)+"'"
               +" onclick='openPopup(\"_common/search/searchScreen.jsp&LabelType="+sLabelType+"&VarCode="+sVarCode+"&VarText="+sVarText+"&ShowID="+sShowID+"&DefaultValue="+defaultValue+"\");'>"
               +"&nbsp;<img src='"+sCONTEXTDIR+"/_img/icons/icon_delete.gif' class='link' alt='"+getTranNoLink("Web","clear",sWebLanguage)+"' onclick=\""+sVarCode+".value='';"+sVarText+".value='';\">";
     }
@@ -1304,14 +1341,14 @@ public class ScreenHelper {
 
                 if(sorted){
                     // sorted on value
-                    while (idsEnum.hasMoreElements()){
+                    while(idsEnum.hasMoreElements()){
                         label = (Label)idsEnum.nextElement();
                         hSelected.put(label.value,label.id);
                     }
                 }
                 else{
                     // sorted on id
-                    while (idsEnum.hasMoreElements()){
+                    while(idsEnum.hasMoreElements()){
                         label = (Label)idsEnum.nextElement();
                         hSelected.put(label.id,label.value);
                     }
@@ -1326,7 +1363,7 @@ public class ScreenHelper {
 
                 // to html
                 String sLabelValue, sLabelID;
-                while (it.hasNext()){
+                while(it.hasNext()){
                     if(sorted){
                         sLabelValue = (String)it.next();
                         sLabelID = (String)hSelected.get(sLabelValue);
@@ -1355,7 +1392,8 @@ public class ScreenHelper {
     }
 
     //--- WRITE SELECT ----------------------------------------------------------------------------
-    public static String writeSelectUpperCase(String sLabelType, String sSelected, String sWebLanguage, boolean showLabelID, boolean sorted){
+    public static String writeSelectUpperCase(String sLabelType, String sSelected, String sWebLanguage,
+    		                                  boolean showLabelID, boolean sorted){
         String sOptions = "";
         Label label;
         Iterator it;
@@ -1370,14 +1408,14 @@ public class ScreenHelper {
 
                 if(sorted){
                     // sorted on value
-                    while (idsEnum.hasMoreElements()){
+                    while(idsEnum.hasMoreElements()){
                         label = (Label)idsEnum.nextElement();
                         hSelected.put(label.value.toUpperCase(),label.id);
                     }
                 }
                 else{
                     // sorted on id
-                    while (idsEnum.hasMoreElements()){
+                    while(idsEnum.hasMoreElements()){
                         label = (Label)idsEnum.nextElement();
                         hSelected.put(label.id,label.value.toUpperCase());
                     }
@@ -1392,7 +1430,7 @@ public class ScreenHelper {
 
                 // to html
                 String sLabelValue, sLabelID;
-                while (it.hasNext()){
+                while(it.hasNext()){
                     if(sorted){
                         sLabelValue = (String)it.next();
                         sLabelID = (String)hSelected.get(sLabelValue);
@@ -1420,7 +1458,9 @@ public class ScreenHelper {
         return sOptions;
     }
 
-    public static String writeSelectExclude(String sLabelType, String sSelected, String sWebLanguage, boolean showLabelID, boolean sorted, String sExclude){
+    //--- WRITE SELECT EXCLUDE --------------------------------------------------------------------
+    public static String writeSelectExclude(String sLabelType, String sSelected, String sWebLanguage,
+    		                                boolean showLabelID, boolean sorted, String sExclude){
         String sOptions = "";
         Label label;
         Iterator it;
@@ -1435,14 +1475,14 @@ public class ScreenHelper {
 
                 if(sorted){
                     // sorted on value
-                    while (idsEnum.hasMoreElements()){
+                    while(idsEnum.hasMoreElements()){
                         label = (Label)idsEnum.nextElement();
                         hSelected.put(label.value,label.id);
                     }
                 }
                 else{
                     // sorted on id
-                    while (idsEnum.hasMoreElements()){
+                    while(idsEnum.hasMoreElements()){
                         label = (Label)idsEnum.nextElement();
                         hSelected.put(label.id,label.value);
                     }
@@ -1457,7 +1497,7 @@ public class ScreenHelper {
 
                 // to html
                 String sLabelValue, sLabelID;
-                while (it.hasNext()){
+                while(it.hasNext()){
                     if(sorted){
                         sLabelValue = (String)it.next();
                         sLabelID = (String)hSelected.get(sLabelValue);
@@ -1589,12 +1629,12 @@ public class ScreenHelper {
 
         int iIndex = sLeft.indexOf(sSearch);
         if(iIndex > -1){
-            while (iIndex > -1){
-                sResult += sLeft.substring(0,iIndex)+sReplace;
+            while(iIndex > -1){
+                sResult+= sLeft.substring(0,iIndex)+sReplace;
                 sLeft = sLeft.substring(iIndex+1,sLeft.length());
                 iIndex = sLeft.indexOf(sSearch);
             }
-            sResult += sLeft;
+            sResult+= sLeft;
         }
         else{
             sResult = sValue;
@@ -1838,7 +1878,7 @@ public class ScreenHelper {
 
     //--- GET SQL DATE ----------------------------------------------------------------------------
     public static java.sql.Date getSQLDate(String sDate){
-        try {
+        try{
             if(sDate==null || sDate.trim().length()==0 || sDate.trim().length()<5 || sDate.equals("&nbsp;")){
                 return null;
             }
@@ -1854,7 +1894,7 @@ public class ScreenHelper {
 
     //--- GET DATE ADD ----------------------------------------------------------------------------
     public static String getDateAdd(String sDate, String sAdd){
-        try {
+        try{
             if(sDate==null || sDate.trim().length()==0 || sDate.trim().length()<5 || sDate.equals("&nbsp;")){
                 return null;
             }
@@ -1944,9 +1984,9 @@ public class ScreenHelper {
 
     //--- CLOSE QUIETLY ---------------------------------------------------------------------------
     public static void closeQuietly(Connection connection, Statement statement, ResultSet resultSet){
-        if(resultSet != null) try { resultSet.close(); } catch (SQLException logOrIgnore){logOrIgnore.printStackTrace();}
-        if(statement != null) try { statement.close(); } catch (SQLException logOrIgnore){logOrIgnore.printStackTrace();}
-        if(connection != null) try { connection.close(); } catch (SQLException logOrIgnore){logOrIgnore.printStackTrace();}
+        if(resultSet != null) try{ resultSet.close(); } catch (SQLException logOrIgnore){logOrIgnore.printStackTrace();}
+        if(statement != null) try{ statement.close(); } catch (SQLException logOrIgnore){logOrIgnore.printStackTrace();}
+        if(connection != null) try{ connection.close(); } catch (SQLException logOrIgnore){logOrIgnore.printStackTrace();}
     }
     
     //--- SET INCLUDE PAGE ------------------------------------------------------------------------
@@ -1967,7 +2007,7 @@ public class ScreenHelper {
         else if(sPage.indexOf("ts=")<0){
             sPage+= "&ts="+new java.util.Date().getTime();
         }
-        try {
+        try{
             pageContext.include(sPage);
         }
         catch(Exception e){
@@ -2327,7 +2367,7 @@ public class ScreenHelper {
     public static String getConfigString(String key){
     	Connection co_conn = MedwanQuery.getInstance().getConfigConnection();
         String s= getConfigStringDB(key, co_conn);
-        try {
+        try{
 			co_conn.close();
 		} catch (SQLException e){
 			e.printStackTrace();
@@ -2346,7 +2386,7 @@ public class ScreenHelper {
         Statement st = null;
         ResultSet rs = null;
 
-        try {
+        try{
             st = ConfigdbConnection.createStatement();
             String sQuery = "SELECT oc_value FROM OC_Config" +
                             " WHERE oc_key LIKE '"+key+"' AND deletetime IS NULL ORDER BY oc_key";
@@ -2825,7 +2865,7 @@ public class ScreenHelper {
     public static String contextFooter(HttpServletRequest request){
         String result = "</div>";
 
-        try {
+        try{
             SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
             if(sessionContainerWO.getCurrentTransactionVO().getTransactionId().intValue() > 0
                     || checkString(request.getParameter("be.mxs.healthrecord.transaction_id")).equalsIgnoreCase("currentTransaction")
@@ -2843,7 +2883,7 @@ public class ScreenHelper {
 
     //--- GET LAST ITEM ---------------------------------------------------------------------------
     public static ItemVO getLastItem(HttpServletRequest request, String sType){
-        try {
+        try{
             SessionContainerWO sessionContainerWO = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
             if(sessionContainerWO.getHealthRecordVO() != null && sessionContainerWO.getCurrentTransactionVO() != null){
                 ItemVO actualItem = sessionContainerWO.getCurrentTransactionVO().getItem(sType);

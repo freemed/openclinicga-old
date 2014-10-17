@@ -16,11 +16,13 @@ public class Document {
 	//--- LOAD ------------------------------------------------------------------------------------
     public static String load(String sDocumentId){
         String sFilename = "";
-        if (sDocumentId.length()>0){
+        
+        if(sDocumentId.length() > 0){
             String [] ids = sDocumentId.split("\\.");
-            Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+            Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            
             try{
-                if (ids.length==2){
+                if(ids.length==2){
                     String sSelect = "SELECT * FROM OC_DOCUMENTS WHERE OC_DOCUMENT_SERVERID = ? AND OC_DOCUMENT_OBJECTID = ?";
                     PreparedStatement ps;
                     ResultSet rs;
@@ -34,6 +36,7 @@ public class Document {
                         sFilename = ScreenHelper.checkString(rs.getString("OC_DOCUMENT_NAME"));
                         String sFolderStore = MedwanQuery.getInstance().getConfigString("DocumentsFolder","c:/projects/openclinic/web/documents/");
                         
+                        // write file
                         File file = new File(sFolderStore+"/"+sFilename);
                         FileOutputStream fileOutputStream = new FileOutputStream(file);
                         fileOutputStream.write(rs.getBytes("OC_DOCUMENT_VALUE"));

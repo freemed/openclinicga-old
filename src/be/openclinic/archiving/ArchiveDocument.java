@@ -617,7 +617,7 @@ public class ArchiveDocument extends OC_Object implements Comparable {
 				
 				//*** 3 - update linked transaction ***
 				if(serverId > -1 && tranId > -1){
-					sSql = "UPDATE items SET value = ?, version = version+1, versionserver = ?"+
+					sSql = "UPDATE items SET value = ?, version = version+1, versionserverid = ?"+
 					       " WHERE serverid = ? AND transactionid = ?"+
 						   "  AND type = ?";
 					ps = conn.prepareStatement(sSql);
@@ -650,7 +650,7 @@ public class ArchiveDocument extends OC_Object implements Comparable {
 	                    ps.close();	
 					}
 					
-					Debug.println("--> Storagename set in linked transaction '"+serverId+"."+tranId+"' too : "+sStorageName);
+					Debug.println("--> Storagename set in linked transaction '"+serverId+"."+tranId+"' to '"+sStorageName+"'");
 				}
 				else{			
 					Debug.println("--> WARNING : Storagename NOT set in linked transaction, because no link found for archive-document with UDI '"+sUDI+"'");

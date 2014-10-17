@@ -60,6 +60,7 @@ public class PDFArchiveDocumentBarcodeGenerator extends PDFOfficialBasic {
     	String sBarcode = checkString(req.getParameter("barcodeValue"));
       	int numberOfPrints = Integer.parseInt(checkString(req.getParameter("numberOfPrints")));
 
+    	Debug.println("\n****************** PDFArchiveDocumentBarcodeGenerator ******************");
     	Debug.println("sBarcode       : "+sBarcode);
     	Debug.println("numberOfPrints : "+numberOfPrints);
         ///////////////////////////////////////////////////////////////////////////////////////////
