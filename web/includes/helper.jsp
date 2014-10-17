@@ -228,9 +228,9 @@
             TransactionVO transactionVO = sessionContainerWO.getCurrentTransactionVO();
 
             ItemVO itemVO = null;
-            if(transactionVO != null){
+            if(transactionVO!=null){
                 itemVO = transactionVO.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT");
-                if(itemVO != null){
+                if(itemVO!=null){
                     currentContext = itemVO.getValue();
                 }
 
@@ -253,7 +253,7 @@
                         }
                     }
 
-                    if(lastTransactionVO != null){
+                    if(lastTransactionVO!=null){
                         SimpleDateFormat stdDateFormat = new SimpleDateFormat("yyyy/MM/dd");
                         String sToday = stdDateFormat.format(new java.util.Date());
                         String sTransDate = stdDateFormat.format(lastTransactionVO.getUpdateTime());
@@ -304,7 +304,7 @@
             result+= "</td>";
 
             // context selector
-            result+="<td>"+getLastTransactionAccess("T."+transactionVO.getServerId()+"."+transactionVO.getTransactionId(),language,request,transactionVO.getVersion())+"</td>";
+            result+= "<td>"+getLastTransactionAccess("T."+transactionVO.getServerId()+"."+transactionVO.getTransactionId(),language,request,transactionVO.getVersion())+"</td>";
             result+= "<td align='right'>"+
                       "<select id='ctxt' class='text' onchange=\"document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value')[0].value=this.value;show('content-details');if($('confirm'))hide('confirm');\">";
             UserVO user = sessionContainerWO.getUserVO();
@@ -375,7 +375,7 @@
         return ScreenHelper.getTranNoLink(sType,sID,sLanguage);
     }
 
-    //--- GET TRAN NO LINK ------------------------------------------------------------------------
+    //--- GET TRAN EXISTS -------------------------------------------------------------------------
     public String getTranExists(String sType, String sID, String sLanguage){
         return ScreenHelper.getTranExists(sType,sID,sLanguage);
     }
@@ -410,6 +410,15 @@
         return ScreenHelper.writeDateField(sName,sForm,sValue,true,false,sWebLanguage,sCONTEXTPATH);
     }
 
+    //--- WRITE DATE FIELD WITH DELETE ------------------------------------------------------------
+    public String writeDateFieldWithDelete(String sName, String sForm, String sValue, String sWebLanguage){
+        return ScreenHelper.writeDateFieldWithDelete(sName,sForm,sValue,true,true,sWebLanguage,sCONTEXTPATH,"");
+    }
+    public String writeDateFieldWithDelete(String sName, String sForm, String sValue, String sWebLanguage, String sExtra){
+        return ScreenHelper.writeDateFieldWithDelete(sName,sForm,sValue,true,true,sWebLanguage,sCONTEXTPATH,sExtra);
+    }
+    
+    //--- CHECK PRESTATION TODAY ------------------------------------------------------------------
     public String checkPrestationToday(String sPersonId, boolean screenIsPopup, User activeUser, TransactionVO transaction){
     	String s = ScreenHelper.checkPrestationToday(sPersonId,sCONTEXTPATH,screenIsPopup,activeUser,transaction);
     	s+= ScreenHelper.checkTransactionPermission(transaction,activeUser,screenIsPopup,sCONTEXTPATH);
@@ -452,7 +461,7 @@
         String title = sAPPTITLE;
         AdminPerson activePatient = (AdminPerson)request.getSession().getAttribute("activePatient");
 
-        if(activePatient != null && activePatient.personid.length() > 0 && "On".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("showAdminInTitleBar"))){
+        if(activePatient!=null && activePatient.personid.length() > 0 && "On".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("showAdminInTitleBar"))){
             title+= " - "+checkString(activePatient.lastname)+", "+checkString(activePatient.firstname)+"   -    "+checkString(activePatient.getActivePrivate().address)+"    "+checkString(activePatient.getActivePrivate().zipcode)+" "+checkString(activePatient.getActivePrivate().city);
             if(checkString(activePatient.getActivePrivate().telephone).length() > 0){
                 title+= "   Tel: "+activePatient.getActivePrivate().telephone;
@@ -619,7 +628,7 @@
     public String getObjectReferenceName(ObjectReference or, String sWebLanguage){
         String sReturn = "";
         
-        if((or != null) && (or.getObjectUid() != null) && (or.getObjectUid().length() > 0)){
+        if((or!=null) && (or.getObjectUid()!=null) && (or.getObjectUid().length() > 0)){
             if(or.getObjectType().equalsIgnoreCase("person")){
                 String s = checkString(ScreenHelper.getFullPersonName(or.getObjectUid()));
                 return s;
@@ -812,8 +821,8 @@
 
         // print language
         String sPrintLanguage = checkString(req.getParameter("PrintLanguage"));
-        if(sPrintLanguage.length()==0){
-            sPrintLanguage = activePatient.language;
+        if(sPrintLanguage.length()==0 && activePatient!=null){
+            sPrintLanguage = checkString(activePatient.language);
         }
 	
         if(sAccessRight.length()==0 || !sAccessRight.equalsIgnoreCase("readonly") && ((activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0) || activeUser.getAccessRight(sAccessRight+".add") || activeUser.getAccessRight(sAccessRight+".edit"))){
@@ -884,8 +893,8 @@
         
         // DO BACK
         html.append("function doBack(){")
-             .append("if(checkSaveButton('").append(sCONTEXTPATH).append("','").append(getTran("Web.Occup","medwan.common.buttonquestion",sWebLanguage)).append("')){\n")
-              .append("window.location.href = '").append(sCONTEXTPATH).append("/main.do?Page=curative/index.jsp&ts=").append(getTs()).append("';\n")
+             .append("if(checkSaveButton()){")
+              .append("window.location.href = '").append(sCONTEXTPATH).append("/main.do?Page=curative/index.jsp&ts=").append(getTs()).append("';")
              .append("}")
             .append("}");
 
@@ -895,6 +904,58 @@
         }
 
         html.append("</script>");
+
+        return html.toString();
+    }
+    
+    //--- WRITE PAGING CONTROLS -------------------------------------------------------------------
+    public String writePagingControls(int foundRecordCount, int pageIdx){
+	    StringBuffer html = new StringBuffer();
+	    
+        int maxRecsPerPage = MedwanQuery.getInstance().getConfigInt("maxRecsPerPage",50);
+        if(foundRecordCount > maxRecsPerPage){
+        	html.append("<br><div style='text-align:center;width:100%'>");
+        	
+        	double surroundingButtons = (foundRecordCount/maxRecsPerPage)/3;
+        	int tmpPageIdx = 0;
+        	boolean dotsShownAfter = false, dotsShownBefore = false;
+        	
+        	while(tmpPageIdx < (double)foundRecordCount/maxRecsPerPage){
+        		if(foundRecordCount/maxRecsPerPage > 2){
+        			// skip button
+        			if((pageIdx >= tmpPageIdx-surroundingButtons && pageIdx <= tmpPageIdx+surroundingButtons) || tmpPageIdx==0 || tmpPageIdx>=((double)foundRecordCount/maxRecsPerPage)-1){
+		        		if(tmpPageIdx!=pageIdx){
+		        			html.append("<input type='button' class='button' value=' "+(tmpPageIdx+1)+" ' style='width:24px' onclick=\"showPage('"+tmpPageIdx+"');\"/>&nbsp;");
+		        		}
+		        		else{
+		        			html.append("<input type='button' class='button currentpageButton' style='width:24px' value=' "+(tmpPageIdx+1)+" '/>&nbsp;");
+		        		}
+        			}
+        			else{
+        				if(pageIdx >= tmpPageIdx-surroundingButtons && !dotsShownBefore){
+        					dotsShownBefore = true;
+        					html.append("...&nbsp;");
+        				}
+        				if(pageIdx <= tmpPageIdx+surroundingButtons && !dotsShownAfter){
+        					dotsShownAfter = true;
+        				    html.append("...&nbsp;");
+        				}
+        			}
+        		}
+        		else{
+	        		if(tmpPageIdx!=pageIdx){
+	        			html.append("<input type='button' class='button' value=' "+(tmpPageIdx+1)+" ' style='width:24px' onclick=\"showPage('"+tmpPageIdx+"');\"/>&nbsp;");
+	        		}
+	        		else{
+	                    html.append("<input type='button' class='button currentpageButton' style='width:24px' value=' "+(tmpPageIdx+1)+" '/>&nbsp;");
+	        		}
+        		}
+        		
+        		tmpPageIdx++;
+        	}
+        	
+        	html.append("</div>");
+        }
 
         return html.toString();
     }
@@ -967,8 +1028,8 @@
     String sJSFUSIONCHARTS  = "<script src='"+sCONTEXTPATH+"/_common/_script/FusionCharts.js'></script>";
     String sJSTREEMENU = "<script src='"+sCONTEXTPATH+"/_common/_script/treemenu/dhtmlxtree_std.js'></script>"+ // ".._compacted.js"
                          "<script src='"+sCONTEXTPATH+"/_common/_script/treemenu/dhtmlxcommon.js'></script>";
-	String sJSCOLORPICKER = "<link rel='Stylesheet' type='text/css' href='"+sCONTEXTPATH+"/_common/_css/jPicker-1.1.6.min.css' />"+
-	  						"<link rel='Stylesheet' type='text/css' href='"+sCONTEXTPATH+"/_common/_css/jPicker.css' />"+
+	String sJSCOLORPICKER = "<link rel='Stylesheet' type='text/css' href='"+sCONTEXTPATH+"/_common/_css/jPicker-1.1.6.min.css'/>"+
+	  						"<link rel='Stylesheet' type='text/css' href='"+sCONTEXTPATH+"/_common/_css/jPicker.css'/>"+
 	  						"<script src='"+sCONTEXTPATH+"/_common/_script/jquery-1.4.4.min.js' type='text/javascript'></script>"+
 	  						"<script src='"+sCONTEXTPATH+"/_common/_script/jpicker-1.1.6.min.js' type='text/javascript'></script>";
 	String sJSJQUERY = "<script src='"+sCONTEXTPATH+"/_common/_script/jquery-1.4.4.min.js' type='text/javascript'></script>";

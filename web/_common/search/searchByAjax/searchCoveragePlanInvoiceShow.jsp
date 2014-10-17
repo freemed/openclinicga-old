@@ -3,7 +3,7 @@
                 be.mxs.common.util.system.HTMLEntities,
                 java.text.DecimalFormat"%>
 <%@page errorPage="/includes/error.jsp"%>
-<%@include file="/includes/validateUser.jsp" %>
+<%@include file="/includes/validateUser.jsp"%>
 
 <%
     String sAction = checkString(request.getParameter("Action"));
@@ -58,7 +58,6 @@
         String sClass = "1", sInvoiceUid, sInvoiceDate, sInvoiceNr, sInvoiceStatus, sInsurarUid, sInsurarName;
         CoveragePlanInvoice invoice;
 
-        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         Iterator iter = vInvoices.iterator();
         while(iter.hasNext()){
             invoice = (CoveragePlanInvoice)iter.next();
@@ -70,7 +69,7 @@
 
             // date
             if(invoice.getDate()!=null){
-                sInvoiceDate = stdDateFormat.format(invoice.getDate());
+                sInvoiceDate = ScreenHelper.formatDate(invoice.getDate());
             }
             else{
                 sInvoiceDate = "";
@@ -88,8 +87,7 @@
             if(sClass.equals("")) sClass = "1";
             else                  sClass = "";
 
-            sHtml.append("<tr class='list"+sClass+"' onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" ")
-                  .append("onclick=\"selectInvoice('"+sInvoiceUid+"','"+sInvoiceDate+"','"+sInvoiceNr+"','"+invoice.getBalance()+"','"+sInvoiceStatus+"','"+sInsurarUid+"','"+sInsurarName+"');\">")
+            sHtml.append("<tr class='list"+sClass+"' onclick=\"selectInvoice('"+sInvoiceUid+"','"+sInvoiceDate+"','"+sInvoiceNr+"','"+invoice.getBalance()+"','"+sInvoiceStatus+"','"+sInsurarUid+"','"+sInsurarName+"');\">")
                   .append("<td>"+sInsurarName+"</td>")
                   .append("<td>"+sInvoiceDate+"</td>")
                   .append("<td>"+sInvoiceNr+"</td>")
@@ -113,10 +111,11 @@
 			    </table>
 			   
                 <%=recCount%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
+		    
+		        <script>sortables_init();</script>
 		    <%
 	    }
 	    else{
-	        // display 'no results' message
 	        %><%=HTMLEntities.htmlentities(getTran("web","norecordsfound",sWebLanguage))%><%
 	    }
 	}

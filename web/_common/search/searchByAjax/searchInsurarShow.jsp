@@ -54,7 +54,7 @@
         <td><%=HTMLEntities.htmlentities(getTran("system.manage","insurarContact",sWebLanguage))%></td>
     </tr>
     
-    <tbody>
+    <tbody class="hand">
         <%
             String sClass = "1", sContact;
             Insurar insurar;
@@ -78,7 +78,7 @@
                 else                  sClass = "";
 
 		        %>
-		        <tr class="list<%=sClass%>" onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';">
+		        <tr class="list<%=sClass%>">
 		            <td onClick="selectInsurar('<%=insurar.getUid()%>','<%=HTMLEntities.htmlentities(insurar.getName())%>');"><%=HTMLEntities.htmlentities(checkString(insurar.getName()))%></td>
 		            <td onClick="selectInsurar('<%=insurar.getUid()%>','<%=HTMLEntities.htmlentities(insurar.getName())%>');"><%=HTMLEntities.htmlentities(sContact)%></td>
 		        </tr>
@@ -92,7 +92,10 @@
 	
 	    // number of found records
 	    if(insurarCount > 0){
-	        %><%=insurarCount%> <%=HTMLEntities.htmlentities(getTran("web","recordsFound",sWebLanguage))%><%
+	        %>
+	            <%=insurarCount%> <%=HTMLEntities.htmlentities(getTran("web","recordsFound",sWebLanguage))%>
+	            <script>sortables_init();</script>
+	        <%
 	    }
 	    else{
 	        %><br><%=HTMLEntities.htmlentities(getTran("web","noRecordsFound",sWebLanguage))%><%

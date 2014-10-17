@@ -502,10 +502,10 @@
                     Vector idsVector = getActivePrescriptionsFromRs(prescriptions, vActivePrescriptions , sWebLanguage);
                     int foundPrescrCount = idsVector.size();
 
-                    if (foundPrescrCount > 0) {
+                    if(foundPrescrCount > 0){
                         %>
                             <table width="100%" cellspacing="0" cellpadding="0" class="list">
-                                <%-- clickable header (current sort-col in italic) --%>
+                                <%-- header --%>
                                 <tr class="admin">
                                     <td width="22" nowrap>&nbsp;</td>
                                     <td width="30%"><%=getTran("Web","product",sWebLanguage)%></td>
@@ -514,18 +514,13 @@
                                     <td width="40%"><%=getTran("Web","prescriptionrule",sWebLanguage)%></td>
                                 </tr>
 
-                                <tbody class="hand">
-                                    <%=prescriptions%>
-                                </tbody>
+                                <tbody class="hand"><%=prescriptions%></tbody>
                             </table>
                         <%
                     }
                     else{
                         // no records found
-                        %>
-                            <%=getTran("web","noactiveprescriptionsfound",sWebLanguage)%>
-                            <br>
-                        <%
+                        %><%=getTran("web","noactiveprescriptionsfound",sWebLanguage)%><br><%
                     }
                     %>
                     </td>

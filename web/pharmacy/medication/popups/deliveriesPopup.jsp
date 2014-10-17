@@ -1,73 +1,71 @@
 <%@page import="be.openclinic.pharmacy.ProductStock,
-                be.openclinic.pharmacy.ProductStockOperation,java.util.Vector"%>
+                be.openclinic.pharmacy.ProductStockOperation,
+                java.util.Vector"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/_common/templateAddIns.jsp"%>
 <%=checkPermission("medication.medicationdelivery","all",activeUser)%>
+
 <%!
     //--- OBJECTS TO HTML -------------------------------------------------------------------------
-    private String objectsToHtml(Vector deliveries, String sWebLanguage) {
+    private String objectsToHtml(Vector deliveries, String sWebLanguage){
         StringBuffer html = new StringBuffer();
         ProductStockOperation delivery;
-        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         String sClass = "1";
 
-        // run thru deliveries
-        for (int i = 0; i < deliveries.size(); i++) {
-            delivery = (ProductStockOperation) deliveries.get(i);
+        // run through deliveries
+        for(int i=0; i<deliveries.size(); i++){
+            delivery = (ProductStockOperation)deliveries.get(i);
 
             // alternate row-style
-            if (sClass.equals("")) sClass = "1";
-            else sClass = "";
+            if(sClass.equals("")) sClass = "1";
+            else                  sClass = "";
 
             //*** display product in one row ***
-            html.append("<tr class='list" + sClass + "'>")
-                .append("<td>" + getTran("productstockoperation.medicationdelivery", delivery.getDescription(), sWebLanguage) + "</td>")
-                .append("<td>" + delivery.getUnitsChanged() + "</td>")
-                .append("<td>" + stdDateFormat.format(delivery.getDate()) + "&nbsp;</td>")
-                .append("<td>" + delivery.getProductStock().getServiceStock().getName() + "</td>")
+            html.append("<tr class='list"+sClass+"'>")
+                 .append("<td>"+getTran("productstockoperation.medicationdelivery",delivery.getDescription(),sWebLanguage)+"</td>")
+                 .append("<td>"+delivery.getUnitsChanged()+"</td>")
+                 .append("<td>"+ScreenHelper.formatDate(delivery.getDate())+"&nbsp;</td>")
+                 .append("<td>"+delivery.getProductStock().getServiceStock().getName()+"</td>")
                 .append("</tr>");
         }
 
         return html.toString();
     }
 %>
+
 <%
     // retreive form data
     String sPatientId       = checkString(request.getParameter("PatientId")),
            sProductStockUid = checkString(request.getParameter("ProductStockUid")),
            sSince           = checkString(request.getParameter("Since"));
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("################## deliveriesPopup ################################");
-        Debug.println("* sPatientId       : "+sPatientId);
-        Debug.println("* sProductStockUid : "+sProductStockUid);
-        Debug.println("* sSince           : "+sSince+"\n");
+        Debug.println("\n*************** pharmacy/medication/deliveriesPopup.jsp ***************");
+        Debug.println("sPatientId       : "+sPatientId);
+        Debug.println("sProductStockUid : "+sProductStockUid);
+        Debug.println("sSince           : "+sSince+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 %>
 <form name="transactionForm" method="post">
-    <%-- title --%>
-    <table width="100%" cellspacing="1">
-        <tr class='admin'>
-            <td colspan='2'>&nbsp;&nbsp;<%=getTran("Web.manage","medicationDeliveries",sWebLanguage)%></td>
-        </tr>
+    <%=writeTableHeader("Web.manage","medicationDeliveries",sWebLanguage," window.close();")%>
+    
+    <table width="100%" class="list" cellpadding="0" cellspacing="1">
         <%-- product --%>
-        <%
-            ProductStock productStock = ProductStock.get(sProductStockUid);
-        %>
+        <% ProductStock productStock = ProductStock.get(sProductStockUid); %>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","product",sWebLanguage)%></td>
             <td class="admin2"><%=productStock.getProduct().getName()%></td>
         </tr>
+        
         <%-- patient --%>
-        <%
-            AdminPerson patient = AdminPerson.getAdminPerson(sPatientId);
-        %>
+        <% AdminPerson patient = AdminPerson.getAdminPerson(sPatientId); %>
         <tr>
             <td class="admin"><%=getTran("web","patient",sWebLanguage)%></td>
             <td class="admin2"><%=patient.firstname+" "+patient.lastname%></td>
         </tr>
+        
         <%-- since --%>
         <tr>
             <td class="admin"><%=getTran("web","since_uc",sWebLanguage)%></td>
@@ -75,6 +73,7 @@
         </tr>
     </table>
     <br>
+    
     <%-- found deliveries --%>
     <div class="search" style="width:100%;height:200px;">
     <%
@@ -93,6 +92,7 @@
                     </tr>
                     <%=deliveriesAsHtml%>
                 </table>
+                
                 <%-- number of deliveries found --%>
                 <span style="width:100%;text-align:left;">
                     <%=deliveries.size()%> <%=getTran("web","deliveriesfound",sWebLanguage)%>
@@ -105,6 +105,7 @@
         }
     %>
     </div>
+    
     <%-- close button --%>
     <%=ScreenHelper.alignButtonsStart()%>
         <input type="button" class="button" name="closeButton" value="<%=getTranNoLink("Web","close",sWebLanguage)%>" onclick="window.close();">

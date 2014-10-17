@@ -9,6 +9,14 @@
 
 <%
     String sFindInsurarInvoiceUID = checkString(request.getParameter("FindInsurarInvoiceUID"));
+
+	/// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+	if(Debug.enabled){
+		Debug.println("\n****************** financial/insuranceInvoiceEdit.jsp *****************");
+		Debug.println("sFindInsurarInvoiceUID : "+sFindInsurarInvoiceUID+"\n");
+	}    
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
     InsurarInvoice insurarInvoice;
     String sInsurarText = "";
     if(sFindInsurarInvoiceUID.length() > 0){
@@ -97,44 +105,42 @@
                 
         <%-- DATE --%>
         <tr>
-            <td class="admin"><%=getTran("Web", "date", sWebLanguage)%> *</td>
+            <td class="admin"><%=getTran("Web","date",sWebLanguage)%> *</td>
             <%
                 Date activeDate = insurarInvoice.getDate();
-                if(activeDate==null){
-                    activeDate = new Date();
-                }
+                if(activeDate==null) activeDate = new Date();
             %>
-            <td class="admin2"><%=writeDateField("EditDate", "EditForm", ScreenHelper.getSQLDate(activeDate), sWebLanguage)%></td>
+            <td class="admin2"><%=writeDateField("EditDate","EditForm",ScreenHelper.getSQLDate(activeDate),sWebLanguage)%></td>
         </tr>
                 
         <%-- STATUS --%>
         <tr>
-            <td class='admin'><%=getTran("Web.finance", "patientinvoice.status", sWebLanguage)%> *</td>
+            <td class='admin'><%=getTran("Web.finance","patientinvoice.status",sWebLanguage)%> *</td>
             <td class='admin2'>
                 <select class="text" id="EditStatus" name="EditStatus" onchange="doStatus()" <%=insurarInvoice.getStatus()!=null && (insurarInvoice.getStatus().equalsIgnoreCase("closed") || insurarInvoice.getStatus().equalsIgnoreCase("canceled"))?"disabled":""%>>
                     <option/>
                     <%
                         String activeStatus = checkString(insurarInvoice.getStatus());
-                        if(activeStatus.length() == 0){
+                        if(activeStatus.length()==0){
                             activeStatus = "open";
                         }
                     %>
-                    <%=ScreenHelper.writeSelect("finance.patientinvoice.status", activeStatus, sWebLanguage)%>
+                    <%=ScreenHelper.writeSelect("finance.patientinvoice.status",activeStatus,sWebLanguage)%>
                 </select>
             </td>
         </tr>
                 
         <%-- PERIOD --%>
         <tr id="period" style="visibility:hidden">
-            <td class='admin'><%=getTran("web", "period", sWebLanguage)%></td>
+            <td class='admin'><%=getTran("web","period",sWebLanguage)%></td>
             <td class="admin2">
             	<input type='checkbox' name='showunassigned' id='showunassigned' value='1'/><%=getLabel("web","showunassigned",sWebLanguage,"showunassigned")%>
                 <%
                     Date previousmonth = new Date(ScreenHelper.parseDate(new SimpleDateFormat("01/MM/yyyy").format(new Date())).getTime()-1);
                 %>
-                <%=writeDateField("EditBegin", "EditForm", new SimpleDateFormat("01/MM/yyyy").format(previousmonth), sWebLanguage)%>
+                <%=writeDateField("EditBegin","EditForm",new SimpleDateFormat("01/MM/yyyy").format(previousmonth),sWebLanguage)%>
                 <%=getTran("web","to",sWebLanguage)%>
-                <%=writeDateField("EditEnd", "EditForm", ScreenHelper.stdDateFormat.format(previousmonth), sWebLanguage)%>
+                <%=writeDateField("EditEnd","EditForm",ScreenHelper.stdDateFormat.format(previousmonth),sWebLanguage)%>
                 <input type="hidden" name="EditInvoiceService" id="EditInvoiceService" value="">
                 <%
                     if(insurarInvoice==null || insurarInvoice.getStatus()==null || insurarInvoice.getStatus().equalsIgnoreCase("open")){
@@ -154,7 +160,7 @@
         <tr>
             <td class="admin"><%=getTran("web.finance","balance",sWebLanguage)%></td>
             <td class="admin2">
-                <input class="text" readonly type='text' id='EditBalance' name='EditBalance' value='<%=new DecimalFormat("#.#").format(insurarInvoice.getBalance())%>' size='20'> <%=MedwanQuery.getInstance().getConfigParam("currency", "€")%>
+                <input class="text" readonly type='text' id='EditBalance' name='EditBalance' value='<%=new DecimalFormat("#.#").format(insurarInvoice.getBalance())%>' size='20'> <%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
             </td>
         </tr>
         
@@ -196,7 +202,7 @@
 
                     // pdf print button for existing invoices
                     if(checkString(insurarInvoice.getUid()).length() > 0){
-                        %><%=getTran("Web.Occup", "PrintLanguage", sWebLanguage)%><%
+                        %><%=getTran("Web.Occup","PrintLanguage",sWebLanguage)%><%
                         		
                      String sPrintLanguage = activeUser.person.language;
                      if(sPrintLanguage.length()==0){
@@ -209,8 +215,8 @@
                 <select class="text" name="PrintLanguage">
                     <%
                         String tmpLang;
-                        StringTokenizer tokenizer = new StringTokenizer(sSupportedLanguages, ",");
-                        while (tokenizer.hasMoreTokens()){
+                        StringTokenizer tokenizer = new StringTokenizer(sSupportedLanguages,",");
+                        while(tokenizer.hasMoreTokens()){
                             tmpLang = tokenizer.nextToken();
 
                             %><option value="<%=tmpLang%>"<%if (tmpLang.equalsIgnoreCase(sPrintLanguage)){out.print(" selected");}%>><%=getTranNoLink("Web.language",tmpLang,sWebLanguage)%></option><%
@@ -223,36 +229,38 @@
                     <option value="sortbyservice" <%=MedwanQuery.getInstance().getConfigString("defaultInvoiceSortType","sortbydate").equalsIgnoreCase("sortbyservice")?"selected":""%>><%=getTranNoLink("web","sortbyservice",sWebLanguage)%></option>
                 </select>
                 <%
-                	String defaultmodel=MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default");
+                	String defaultmodel = MedwanQuery.getInstance().getConfigString("defaultInvoiceModel","default");
                 	if(insurarInvoice.getInsurar()!=null && insurarInvoice.getInsurar().getDefaultInsurarInvoiceModel()!=null){
-                		defaultmodel=insurarInvoice.getInsurar().getDefaultInsurarInvoiceModel();
+                		defaultmodel = insurarInvoice.getInsurar().getDefaultInsurarInvoiceModel();
                 	}
                 %>
                 <select class="text" name="PrintModel">
                     <option value="default" <%=defaultmodel.equalsIgnoreCase("default")?"selected":""%>><%=getTranNoLink("web","defaultmodel",sWebLanguage)%></option>
-             	<%
-             		if(MedwanQuery.getInstance().getConfigInt("enableRwanda",1)==1){
-             		%>
-                       <option value="rama" <%=defaultmodel.equalsIgnoreCase("rama")?"selected":""%>><%=getTranNoLink("web","ramamodel",sWebLanguage)%></option>
-                       <option value="ramanew" <%=defaultmodel.equalsIgnoreCase("ramanew")?"selected":""%>><%=getTranNoLink("web","ramanewmodel",sWebLanguage)%></option>
-                       <option value="ramacsv" <%=defaultmodel.equalsIgnoreCase("ramacsv")?"selected":""%>><%=getTranNoLink("web","ramacsvmodel",sWebLanguage)%></option>
-                       <option value="ctams" <%=defaultmodel.equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
-              		<%
-             		}
-              	if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1){
-                    %><option value="mfp" <%=defaultmodel.equalsIgnoreCase("mfp")?"selected":""%>><%=getTranNoLink("web","mfpmodel",sWebLanguage)%></option><%
-           		}
-              	if(MedwanQuery.getInstance().getConfigInt("enableBurundi",0)==1){
-                    %>
-                        <option value="hmk" <%=defaultmodel.equalsIgnoreCase("hmk")?"selected":""%>><%=getTranNoLink("web","hmkmodel",sWebLanguage)%></option>
-                        <option value="ascoma" <%=defaultmodel.equalsIgnoreCase("ascoma")?"selected":""%>><%=getTranNoLink("web","ascomamodel",sWebLanguage)%></option>
-                        <option value="brarudi" <%=defaultmodel.equalsIgnoreCase("brarudi")?"selected":""%>><%=getTranNoLink("web","brarudimodel",sWebLanguage)%></option>
-                        <option value="ambusa" <%=defaultmodel.equalsIgnoreCase("ambusa")?"selected":""%>><%=getTranNoLink("web","ambusamodel",sWebLanguage)%></option>
-                        <option value="cplrcsv" <%=defaultmodel.equalsIgnoreCase("cplrcsv")?"selected":""%>><%=getTranNoLink("web","cplrcsvmodel",sWebLanguage)%></option>
-                        <option value="cmck" <%=defaultmodel.equalsIgnoreCase("cmck")?"selected":""%>><%=getTranNoLink("web","cmckmodel",sWebLanguage)%></option>
-                  	<%
-           		}
-                	%>
+	             	<%
+	             		if(MedwanQuery.getInstance().getConfigInt("enableRwanda",1)==1){
+		             		%>
+		                       <option value="rama" <%=defaultmodel.equalsIgnoreCase("rama")?"selected":""%>><%=getTranNoLink("web","ramamodel",sWebLanguage)%></option>
+		                       <option value="ramanew" <%=defaultmodel.equalsIgnoreCase("ramanew")?"selected":""%>><%=getTranNoLink("web","ramanewmodel",sWebLanguage)%></option>
+		                       <option value="ramacsv" <%=defaultmodel.equalsIgnoreCase("ramacsv")?"selected":""%>><%=getTranNoLink("web","ramacsvmodel",sWebLanguage)%></option>
+		                       <option value="ctams" <%=defaultmodel.equalsIgnoreCase("ctams")?"selected":""%>><%=getTranNoLink("web","ctamsmodel",sWebLanguage)%></option>
+		              		<%
+	             		}
+	             	
+		              	if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1){
+		                    %><option value="mfp" <%=defaultmodel.equalsIgnoreCase("mfp")?"selected":""%>><%=getTranNoLink("web","mfpmodel",sWebLanguage)%></option><%
+		           		}
+		              	
+		              	if(MedwanQuery.getInstance().getConfigInt("enableBurundi",0)==1){
+		                    %>
+		                        <option value="hmk" <%=defaultmodel.equalsIgnoreCase("hmk")?"selected":""%>><%=getTranNoLink("web","hmkmodel",sWebLanguage)%></option>
+		                        <option value="ascoma" <%=defaultmodel.equalsIgnoreCase("ascoma")?"selected":""%>><%=getTranNoLink("web","ascomamodel",sWebLanguage)%></option>
+		                        <option value="brarudi" <%=defaultmodel.equalsIgnoreCase("brarudi")?"selected":""%>><%=getTranNoLink("web","brarudimodel",sWebLanguage)%></option>
+		                        <option value="ambusa" <%=defaultmodel.equalsIgnoreCase("ambusa")?"selected":""%>><%=getTranNoLink("web","ambusamodel",sWebLanguage)%></option>
+		                        <option value="cplrcsv" <%=defaultmodel.equalsIgnoreCase("cplrcsv")?"selected":""%>><%=getTranNoLink("web","cplrcsvmodel",sWebLanguage)%></option>
+		                        <option value="cmck" <%=defaultmodel.equalsIgnoreCase("cmck")?"selected":""%>><%=getTranNoLink("web","cmckmodel",sWebLanguage)%></option>
+		                  	<%
+		           		}
+	                %>
                 </select>
                 <%
                     if(insurarInvoice.getStatus().equalsIgnoreCase("closed")){
@@ -267,7 +275,7 @@
         </tr>
     </tbody>
 </table>
-<%=getTran("Web", "colored_fields_are_obligate", sWebLanguage)%>
+<%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
 
 <div id="divMessage"></div>
 
@@ -349,7 +357,7 @@
 function countCredits(){
   var tot = 0;
   var images = document.getElementsByTagName("img");
-  for (i=0; i<images.length; i++){
+  for(i=0; i<images.length; i++){
     var elm = images[i];
     if(elm.name.indexOf('cbCredit') > -1){
       if(elm.src.indexOf('/check.gif')>0){
@@ -362,7 +370,7 @@ function countCredits(){
 }
 
 <%-- SELECT ALL --%>
-function selectAll(sStartsWith, bValue, buttonDisable, buttonEnable, bAdd){
+function selectAll(sStartsWith,bValue,buttonDisable,buttonEnable,bAdd){
   var images = document.getElementsByTagName("img");
   for(i=0; i<images.length; i++){
     var elm = images[i];
@@ -383,7 +391,7 @@ function selectAll(sStartsWith, bValue, buttonDisable, buttonEnable, bAdd){
 <%-- UPDATE BALANCE --%>
 function updateBalance2(){
   EditForm.EditBalance.value = countDebets()-countCredits();
-  EditForm.EditBalance.value = format_number(EditForm.EditBalance.value*1, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+  EditForm.EditBalance.value = format_number(EditForm.EditBalance.value*1,<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
 }
 
 <%-- DO BALANCE --%>
@@ -413,7 +421,7 @@ function doBalance(oObject,bAdd){
     }
   }
   
-  EditForm.EditBalance.value = format_number(EditForm.EditBalance.value, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+  EditForm.EditBalance.value = format_number(EditForm.EditBalance.value,<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
 }
 
 <%-- PRINT PDF --%>
@@ -486,20 +494,20 @@ function changeInsurar(counter){
       var s = resp.responseText;
       $('divPrestations').innerHTML = s;
       tot = tot+countDebets();
-      document.getElementById('EditBalance').value=format_number(tot, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+      document.getElementById('EditBalance').value=format_number(tot,<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
     }
   });
 
-  var url = '<c:url value="/financial/insurarInvoiceGetCredits.jsp"/>?ts=' +<%=getTs()%>;
+  var url = '<c:url value="/financial/insurarInvoiceGetCredits.jsp"/>?ts='+<%=getTs()%>;
   document.getElementById('divCredits').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading..";
-  new Ajax.Request(url, {
+  new Ajax.Request(url,{
     method: "POST",
     postBody: 'InsurarUid='+EditForm.EditInsurarUID.value+
               '&EditInsurarInvoiceUID=<%=checkString(insurarInvoice.getUid())%>',
     onSuccess: function(resp){
       $('divCredits').innerHTML = resp.responseText;
       tot=tot-countCredits();
-      document.getElementById('EditBalance').value=format_number(tot, <%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+      document.getElementById('EditBalance').value=format_number(tot,<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
     }
   });
   
@@ -520,6 +528,4 @@ function changeInsurar(counter){
   loadOpenInsurarInvoices();
 </script>
 
-<script>
-  window.setTimeout("document.getElementById('updateDebets').onclick();",1000);
-</script>
+<script>window.setTimeout("document.getElementById('updateDebets').onclick();",1000);</script>

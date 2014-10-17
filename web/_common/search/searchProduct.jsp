@@ -189,20 +189,6 @@
 
   var timerId = 0;
   var activeSearch = "", lastSearch = "";
-
-  <%-- SET MAX ROWS --%>
-  var setMaxRows = function setMaxRows(){
-    var foundRecs = $("searchresults").rows.length - 1;
-    if(foundRecs > 0){
-      var maxRecsToShow = <%=MedwanQuery.getInstance().getConfigInt("maxRecordsToShow",100)%>;
-      if(foundRecs==maxRecsToShow){
-        $("divFindRecords").innerHTML+= ">"+foundRecs+" <%=getTranNoLink("web","recordsFound",sWebLanguage)%>";
-      }
-      else{
-        $("divFindRecords").innerHTML+= foundRecs+" <%=getTranNoLink("web","recordsFound",sWebLanguage)%>";
-      }
-    }
-  }
   
   <%-- SELECT PRODUCT --%>
   function selectProduct(productUid,productName,productUnit,unitsPerTimeUnit,
@@ -342,7 +328,7 @@ if(sReturnProductStockUidField.length() > 0){
 %>
 
     if("true"=="<%=checkString(request.getParameter("loadschema"))%>"){
-      window.opener.loadSchema();
+      if(window.opener.loadSchema) window.opener.loadSchema();
     }
 
     if(closeWindow) window.close();

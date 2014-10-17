@@ -16,9 +16,9 @@
            sInstructions   = ScreenHelper.checkString(request.getParameter("instructions"));
 
     
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n************* saveMaintenanceplan.jsp *************");
+        Debug.println("\n********* assets/ajax/maintenancePlan/saveMaintenanceplan.jsp *********");
         Debug.println("sEditPlanUID  : "+sEditPlanUID);
         Debug.println("sAssetUID     : "+sAssetUID);
         Debug.println("sStartDate    : "+sStartDate);
@@ -27,7 +27,7 @@
         Debug.println("sPlanManager  : "+sPlanManager);
         Debug.println("sInstructions : "+sInstructions+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
 
     MaintenancePlan plan = new MaintenancePlan();

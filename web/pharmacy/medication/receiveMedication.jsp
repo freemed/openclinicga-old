@@ -1,9 +1,11 @@
 <%@page import="be.openclinic.pharmacy.ProductStock,
                 be.openclinic.pharmacy.ProductStockOperation,
-                be.openclinic.pharmacy.Product,java.util.Hashtable,java.util.Vector,java.util.Calendar,java.util.GregorianCalendar" %>
+                be.openclinic.pharmacy.Product,
+                java.util.Hashtable,
+                java.util.Vector,
+                java.util.Calendar"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-
 <%=checkPermission("medication.medicationreceipt","all",activeUser)%>
 <%=sJSSORTTABLE%>
 
@@ -13,7 +15,6 @@
         StringBuffer html = new StringBuffer();
         String sClass = "1", sOperationUid, sUserId, sUserName = "", sDescriptionType,
                 sDescription = "", productStockUid, sProductName;
-        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         Hashtable usersHash = new Hashtable(),
                 descrTypeTranHash = new Hashtable(),
                 productStockHash = new Hashtable();
@@ -22,7 +23,7 @@
         Product product;
 
         // frequently used translations
-        String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage);
+        String detailsTran = getTranNoLink("web", "showdetails",sWebLanguage);
 
         // run thru found operations
         for (int i = 0; i < objects.size(); i++) {
@@ -36,7 +37,7 @@
                 // get productStock from DB
                 productStock = ProductStock.get(productStockUid);
                 if (productStock != null) {
-                    productStockHash.put(productStockUid, productStock);
+                    productStockHash.put(productStockUid,productStock);
                 }
             }
             if (productStock != null) {
@@ -46,7 +47,7 @@
                 user = (AdminPerson) usersHash.get(sUserId);
                 if (user == null) {
                     user = AdminPerson.getAdminPerson(sUserId);
-                    usersHash.put(sUserId, user);
+                    usersHash.put(sUserId,user);
                     if (user != null) {
                         sUserName = user.lastname + " " + user.firstname;
                     }
@@ -57,8 +58,8 @@
                 if (sDescriptionType.length() > 0) {
                     sDescription = checkString((String) descrTypeTranHash.get(sDescriptionType));
                     if (sDescription.length() == 0) {
-                        sDescription = getTran("productstockoperation.patientmedicationreceipt", sDescriptionType, sWebLanguage);
-                        descrTypeTranHash.put(sDescriptionType, sDescription);
+                        sDescription = getTran("productstockoperation.patientmedicationreceipt",sDescriptionType,sWebLanguage);
+                        descrTypeTranHash.put(sDescriptionType,sDescription);
                     }
                 }
 
@@ -66,7 +67,7 @@
                 product = productStock.getProduct();
                 if (product != null) sProductName = product.getName();
                 else {
-                    sProductName = "<font color='red'>" + getTran("web.manage", "unexistingproduct", sWebLanguage) + "</font>";
+                    sProductName = "<font color='red'>" + getTran("web.manage","unexistingproduct",sWebLanguage) + "</font>";
                 }
 
                 // alternate row-style
@@ -108,9 +109,9 @@
            sEditOperationDate   = checkString(request.getParameter("EditOperationDate")),
            sEditProductStockUid = checkString(request.getParameter("EditProductStockUid"));
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n################### medication/receiveMedication.jsp ###################");
+        Debug.println("\n************** pharmacy/medication/receiveMedication.jsp ***************");
         Debug.println("sAction              : "+sAction);
         Debug.println("sEditOperationUid    : "+sEditOperationUid);
         Debug.println("sEditOperationDescr  : "+sEditOperationDescr);
@@ -121,7 +122,7 @@
         Debug.println("sEditOperationDate   : "+sEditOperationDate);
         Debug.println("sEditProductStockUid : "+sEditProductStockUid+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     String msg = "", sSelectedOperationDescr = "", sSelectedSrcDestType = "", sSelectedSrcDestUid = "",
            sSelectedSrcDestName = "", sSelectedOperationDate = "", sSelectedProductName = "",
@@ -129,7 +130,6 @@
 
     int foundReceiptCount = 0;
     StringBuffer receiptsHtml = null;
-    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
     // display options
     boolean displayEditFields = true;
@@ -143,15 +143,6 @@
     if(sIsDoctorReceipt.length()==0) sIsDoctorReceipt = "false"; // default
     boolean isDoctorReceipt = sIsDoctorReceipt.equalsIgnoreCase("true");
     Debug.println("@@@ isDoctorReceipt : "+isDoctorReceipt);
-
-    // sortcol
-    String sSortCol = checkString(request.getParameter("SortCol"));
-    if(sSortCol.length()==0) sSortCol = sDefaultSortCol;
-
-    // sortdir
-    String sSortDir = checkString(request.getParameter("SortDir"));
-    if(sSortDir.length()==0) sSortDir = sDefaultSortDir;
-
 
     //*********************************************************************************************
     //*** process actions *************************************************************************
@@ -176,7 +167,7 @@
         operation.setUpdateUser(activeUser.userid);
 
         //***** save operation *****
-        String sResult=operation.store();
+        String sResult = operation.store();
         if(sResult==null){
             if(sEditOperationUid.equals("-1")){
                 msg = getTran("web.manage","medicationreceived",sWebLanguage);
@@ -188,27 +179,19 @@
             sEditOperationUid = operation.getUid();
             sAction = "showDetailsNew";
 
-        // reload opener to see the change in level
-        %>
-        <script>
-          window.opener.location.reload();
-          window.close();
-        </script>
-        <%
+	        // reload opener to see the change in level
+	        %>
+	        <script>
+	          window.opener.location.reload();
+	          window.close();
+	        </script>
+	        <%
         }
-        else {
-        %>
-        <script>
-            alertDialogDirectText('<%=getTranNoLink("web",sResult,sWebLanguage)%>');
-        </script>
-        <%
-        sAction = "showDetailsNew";
+        else{
+	        %><script>alertDialogDirectText('<%=getTranNoLink("web",sResult,sWebLanguage)%>');</script><%
+	        sAction = "showDetailsNew";
         }
 
-    }
-    //--- SORT ------------------------------------------------------------------------------------
-    else if(sAction.equals("sort")){
-        displayDoctorReceipts = true;
     }
 
     //--- RECEIVE MEDICATION ----------------------------------------------------------------------
@@ -218,7 +201,7 @@
         sEditSrcDestType = sDefaultSrcDestType;
         sEditSrcDestUid = activeUser.userid;
         sEditSrcDestName = activeUser.person.firstname+" "+activeUser.person.lastname;
-        sEditOperationDate = stdDateFormat.format(new java.util.Date()); // now
+        sEditOperationDate = ScreenHelper.formatDate(new java.util.Date()); // now
         sEditUnitsChanged = "1";
 
         sAction = "showDetailsNew";
@@ -236,16 +219,16 @@
             // get data from DB
             if(operation!=null){
                 sSelectedOperationDescr = checkString(operation.getDescription());
-                sSelectedUnitsChanged   = operation.getUnitsChanged()+"";
+                sSelectedUnitsChanged = operation.getUnitsChanged()+"";
 
                 // format date
                 java.util.Date tmpDate = operation.getDate();
-                if(tmpDate!=null) sSelectedOperationDate = stdDateFormat.format(tmpDate);
+                if(tmpDate!=null) sSelectedOperationDate = ScreenHelper.formatDate(tmpDate);
 
                 // ProductStock
                 ProductStock selectedProductStock = operation.getProductStock();
                 if(selectedProductStock!=null){
-                    sSelectedProductStockUid   = selectedProductStock.getUid(); 
+                    sSelectedProductStockUid = selectedProductStock.getUid(); 
                     sSelectedProductStockLevel = (selectedProductStock.getLevel()<0?"":selectedProductStock.getLevel()+"");
 
                     // product 
@@ -297,8 +280,8 @@
 %>
 
 <form name="transactionForm" id="transactionForm" method="post" action='<c:url value="/main.do"/>?Page=pharmacy/medication/receiveMedication.jsp&ts=<%=getTs()%>' onKeyDown="if(enterEvent(event,13)){doReceive();}" <%=(displayEditFields?"onClick='clearMessage();'":"onClick='clearMessage();setSaveButton(event);' onKeyUp='setSaveButton(event);'")%>>
-    <%-- page title --%>
     <%=writeTableHeader("Web.manage","medicationreceipt",sWebLanguage,"")%>
+    
     <%
         //*****************************************************************************************
         //*** process display options *************************************************************
@@ -318,6 +301,7 @@
                             </select>
                         </td>
                     </tr>
+                    
                     <%-- SourceDestination type --%>
                     <tr height="23">
                         <td class="admin"><%=getTran("web","receivedfrom",sWebLanguage)%>&nbsp;*</td>
@@ -326,6 +310,7 @@
                                 <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                                 <%=ScreenHelper.writeSelectUnsorted("productstockoperation.patientsourcedestinationtype","patient",sWebLanguage)%>
                             </select>
+                            
                             <%-- SOURCE DESTINATION SELECTOR --%>
                             <span id="SrcDestSelector" style="visibility:hidden;">
                                 <input class="text" type="text" name="EditSrcDestName" readonly size="<%=sTextWidth%>" value="<%=sSelectedSrcDestName%>">
@@ -334,6 +319,7 @@
                             </span>
                         </td>
                     </tr>
+                    
                     <script>
                       var prevSrcDestType;
                       displaySrcDestSelector();
@@ -348,8 +334,8 @@
 
                           <%-- medic --%>
                           if(srcDestType.indexOf('medic') > -1){
-                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchDoctor('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
-                                                                                         +"<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
+                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchDoctor('EditSrcDestUid','EditSrcDestName');\">&nbsp;"+
+                                                                                          "<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
                             if(prevSrcDestType!=srcDestType){
                               transactionForm.EditSrcDestUid.value = "<%=activeUser.userid%>";
                               transactionForm.EditSrcDestName.value = "<%=activeUser.person.firstname+" "+activeUser.person.lastname%>";
@@ -363,8 +349,8 @@
                           }
                           <%-- patient --%>
                           else if(srcDestType.indexOf('patient') > -1){
-                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchPatient('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
-                                                                                         +"<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
+                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchPatient('EditSrcDestUid','EditSrcDestName');\">&nbsp;"+
+                                                                                          "<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
                             if(prevSrcDestType!=srcDestType){
                               transactionForm.EditSrcDestUid.value = "<%=activePatient.personid%>";
                               transactionForm.EditSrcDestName.value = "<%=activePatient.firstname+" "+activePatient.lastname%>";
@@ -378,8 +364,8 @@
                           }
                           <%-- service --%>
                           else if(srcDestType.indexOf('service') > -1){
-                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchService('EditSrcDestUid','EditSrcDestName');\">&nbsp;"
-                                                                                         +"<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
+                            document.getElementById('SearchSrcDestButtonDiv').innerHTML = "<img src='<c:url value="/_img/icons/icon_search.gif"/>' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>' onclick=\"searchService('EditSrcDestUid','EditSrcDestName');\">&nbsp;"+
+                                                                                          "<img src='<c:url value="/_img/icons/icon_delete.gif"/>' class='link' alt='<%=getTranNoLink("Web","clear",sWebLanguage)%>' onclick=\"transactionForm.EditSrcDestUid.value='';transactionForm.EditSrcDestName.value='';\">&nbsp;";
                             if(prevSrcDestType!=srcDestType){
                               if("<%=centralPharmacyCode%>".length > 0){
                                 transactionForm.EditSrcDestUid.value = "<%=centralPharmacyCode%>";
@@ -412,30 +398,35 @@
                         prevSrcDestType = srcDestType;
                       }
                     </script>
+                    
                     <%-- operation date --%>
                     <tr>
                         <td class="admin"><%=getTran("Web","date",sWebLanguage)%> *</td>
                         <td class="admin2"><%=writeDateField("EditOperationDate","transactionForm",sSelectedOperationDate,sWebLanguage)%></td>
                     </tr>
+                    
                     <%-- Product stock --%>
                     <tr>
                         <td class="admin"><%=getTran("Web","product",sWebLanguage)%> *</td>
                         <td class="admin2">
                             <input type="hidden" name="EditProductStockUid" value="<%=sSelectedProductStockUid%>">
                             <input class="text" type="text" name="EditProductStockName" readonly size="<%=sTextWidth%>" value="<%=sSelectedProductName%>">
+                          
                             <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchProductStock('EditProductStockUid','EditProductStockName','ProductStockLevel');">
                             <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditProductStockUid.value='';transactionForm.EditProductStockName.value='';document.getElementById('displayDeliveriesButton').style.visibility='hidden';">&nbsp;
+                         
                             <%-- button to display deliveries in popup --%>
                             <span id="displayDeliveriesButton" style="visibility:hidden;">
                                 <%
                                     // calculate one year ago
-                                    Calendar deliveriesSince = new GregorianCalendar();
-                                    deliveriesSince.add(Calendar.YEAR, -1);
+                                    Calendar deliveriesSince = Calendar.getInstance();
+                                    deliveriesSince.add(Calendar.YEAR,-1);
                                 %>
                                 <input type="button" class="button" value="<%=getTranNoLink("web.manage","medicationDeliveries",sWebLanguage)%>" title="<%=getTranNoLink("web.manage","displayDeliveriesForProduct",sWebLanguage)%>" onClick="showDeliveriesPopup('<%=activePatient.personid%>',EditProductStockUid.value,'<%=stdDateFormat.format(deliveriesSince.getTime())%>');">
                             </span>
                         </td>
                     </tr>
+                    
                     <%-- current productStock level --%>
                     <tr>
                         <td class="admin"><%=getTran("Web","currentstocklevel",sWebLanguage)%></td>
@@ -443,6 +434,7 @@
                             <input type="text" class="text" size="5" maxLength="5" name="ProductStockLevel" value="<%=sSelectedProductStockLevel%>" READONLY>
                         </td>
                     </tr>
+                    
                     <%-- units changed --%>
                     <tr>
                         <td class="admin"><%=getTran("Web","packages",sWebLanguage)%> *</td>
@@ -450,6 +442,7 @@
                             <input class="text" type="text" name="EditUnitsChanged" size="5" maxLength="5" value="<%=sSelectedUnitsChanged%>" onKeyUp="if(this.value=='0'){this.value='';}isNumber(this);" <%=(sAction.equals("showDetails")?"READONLY":"")%>>
                         </td>
                     </tr>
+                    
                     <%-- EDIT BUTTONS --%>
                     <tr>
                         <td class="admin2"/>
@@ -465,20 +458,19 @@
                             <%-- BACK TO OVERVIEW --%>
                             <%
                                 if(sAction.equals("showDetails")){
-                                    %>
-                                        <input class="button" type="button" name="returnButton" value='<%=getTranNoLink("Web","backtooverview",sWebLanguage)%>' onclick="doBackToOverview();">
-                                    <%
+                                    %><input class="button" type="button" name="returnButton" value='<%=getTranNoLink("Web","backtooverview",sWebLanguage)%>' onclick="doBackToOverview();"><%
                                 }
                             %>
+                            
                             <%-- display message --%>
                             <span id="msgArea"><%=msg%></span>
                         </td>
                     </tr>
                 </table>
+                
                 <%-- indication of obligated fields --%>
                 <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
-                <br>
-                <br>
+                <br><br>
             <%
         }
 
@@ -498,10 +490,9 @@
             <%
 
             if(foundReceiptCount > 0){
-                String sortTran = getTran("web","clicktosort",sWebLanguage);
                 %>
                     <table width='100%' cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
-                        <%-- clickable header --%>
+                        <%-- header --%>
                         <tr class="admin">
                             <td width="30%"><%=getTran("Web","description",sWebLanguage)%></td>
                             <td width="8%"><SORTTYPE:DATE><%=getTran("Web","date",sWebLanguage)%></SORTTYPE:DATE></td>
@@ -509,16 +500,16 @@
                             <td width="10%"><%=getTran("Web","unitschanged",sWebLanguage)%></td>
                             <td width="*"><%=getTran("Web","username",sWebLanguage)%></td>
                         </tr>
-                        <tbody class="hand">
-                            <%=receiptsHtml%>
-                        </tbody>
+                        <tbody class="hand"><%=receiptsHtml%></tbody>
                     </table>
-                   <!--
+                    
+                    <!--
                     <%-- number of records found --%>
                     <span style="width:49%;text-align:left;">
                         <%=foundReceiptCount%> <%=getTran("web","receiptsfound",sWebLanguage)%>
                     </span>
                     -->
+                    
                     <%
                         if(foundReceiptCount > 20){
                             // link to top of page
@@ -535,21 +526,17 @@
             }
             else{
                 // no records found
-                %>
-                <%=getTran("web.manage","noreceiptsfound",sWebLanguage)%>
-                <br>
-                <%
+                %><%=getTran("web.manage","noreceiptsfound",sWebLanguage)%><br><%
             }
         }
     %>
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
-    <input type="hidden" name="SortCol" value="<%=sSortCol%>">
-    <input type="hidden" name="SortDir" value="<%=sSortDir%>">
     <input type="hidden" name="EditOperationUid" value="<%=sEditOperationUid%>">
     <input type="hidden" name="DisplayDoctorReceipts" value="<%=displayDoctorReceipts%>">
     <input type="hidden" name="IsDoctorReceipt" value="<%=isDoctorReceipt%>">
 </form>
+
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>
   <%
@@ -558,17 +545,6 @@
           %>transactionForm.EditOperationDescr.focus();<%
       }
   %>
-
-  <%-- DO SORT --%>
-  function doSort(sortCol){
-    transactionForm.Action.value = "sort";
-    transactionForm.SortCol.value = sortCol;
-
-    if(transactionForm.SortDir.value == "ASC") transactionForm.SortDir.value = "DESC";
-    else                                       transactionForm.SortDir.value = "ASC";
-
-    transactionForm.submit();
-  }
 
   <%-- DO RECEIVE --%>
   function doReceive(){
@@ -716,7 +692,7 @@
 
   <%-- DO BACK TO OVERVIEW --%>
   function doBackToOverview(){
-    if(checkSaveButton('<%=sCONTEXTPATH%>','<%=getTranNoLink("Web","areyousuretodiscard",sWebLanguage)%>')){
+    if(checkSaveButton()){
       <%
           if(isDoctorReceipt){
               %>

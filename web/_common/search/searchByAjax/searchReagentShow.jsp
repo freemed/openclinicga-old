@@ -69,9 +69,7 @@
 			            <td><%=HTMLEntities.htmlentities(getTran("web","unit",sWebLanguage))%></td>
 			        </tr>
 			
-			        <tbody class="hand">
-			            <%=HTMLEntities.htmlentities(sHtml.toString())%>
-			        </tbody>
+			        <tbody class="hand"><%=HTMLEntities.htmlentities(sHtml.toString())%></tbody>
 			    </table>
 			    
 			    <%=recCount%> <%=HTMLEntities.htmlentities(getTran("web","recordsFound",sWebLanguage))%>
@@ -84,3 +82,4 @@
     	}
    %>
 </div>
+<script>sortables_init();</script>

@@ -10,6 +10,6 @@
 	}
 %>
 {
-"EncounterUid":"<%=sEncounterUid %>",
-"EncounterName":"<%=sEncounterName %>"
+"EncounterUid":"<%=sEncounterUid%>",
+"EncounterName":"<%=sEncounterName%>"
 }

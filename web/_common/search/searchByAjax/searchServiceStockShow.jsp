@@ -110,3 +110,4 @@
         }
     }
 %>
+<script>sortables_init();</script>

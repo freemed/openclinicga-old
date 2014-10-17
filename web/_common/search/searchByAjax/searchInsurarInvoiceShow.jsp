@@ -108,13 +108,13 @@
 			            <td width="120" nowrap><%=HTMLEntities.htmlentities(getTran("web.finance","patientinvoice.status",sWebLanguage))%></td>
 			        </tr>
 			
-			        <tbody class="hand">
-			            <%=HTMLEntities.htmlentities(sHtml.toString())%>
-			        </tbody>
+			        <tbody class="hand"><%=HTMLEntities.htmlentities(sHtml.toString())%></tbody>
 			    </table>
 			    
                 <%=recCount%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
 			</div>
+		    
+		    <script>sortables_init();</script>
 		    <%
 	    }
 	    else{

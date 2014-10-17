@@ -6,12 +6,12 @@
 <%
     String sOperationUID = checkString(request.getParameter("OperationUID"));
        
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n********* deleteMaintenanceOperation.jsp **********");
+        Debug.println("\n******** assets/ajax/maintenanceOperation/deleteMaintenanceOperation.jsp *********");
         Debug.println("sOperationUID : "+sOperationUID+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     
     boolean errorOccurred = MaintenanceOperation.delete(sOperationUID);

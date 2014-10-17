@@ -11,12 +11,12 @@
 <%=sJSSORTTABLE%>
 
 <%
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n********* manage_maintenanceOperations.jsp *********");
+        Debug.println("\n*************** assets/manage_maintenanceOperations.jsp ***************");
         Debug.println("no parameters\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 %>            
 
 <form name="SearchForm" id="SearchForm" method="POST">
@@ -298,53 +298,48 @@
   function loadMaintenanceOperations(){
     document.getElementById("divMaintenanceOperations").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading..";            
     var url = "<c:url value='/assets/ajax/maintenanceOperation/getMaintenanceOperations.jsp'/>?ts="+new Date().getTime();
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "",
-        onSuccess: function(resp){
-          $("divMaintenanceOperations").innerHTML = resp.responseText;
-          sortables_init();
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'assets/ajax/maintenanceOperation/getMaintenanceOperations.jsp' : "+resp.responseText.trim();
-        }
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "",
+      onSuccess: function(resp){
+        $("divMaintenanceOperations").innerHTML = resp.responseText;
+        sortables_init();
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'assets/ajax/maintenanceOperation/getMaintenanceOperations.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
 
   <%-- DISPLAY MAINTENANCE OPERATION --%>
   function displayMaintenanceOperation(operationUID){
     var url = "<c:url value='/assets/ajax/maintenanceOperation/getMaintenanceOperation.jsp'/>?ts="+new Date().getTime();
-    
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "OperationUID="+operationUID,
-        onSuccess: function(resp){
-          var data = eval("("+resp.responseText+")");
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "OperationUID="+operationUID,
+      onSuccess: function(resp){
+        var data = eval("("+resp.responseText+")");
 
-          $("EditOperationUID").value = operationUID;
-          $("maintenancePlanUID").value = data.maintenancePlanUID;
-          $("maintenancePlanName").value = data.maintenancePlanName.unhtmlEntities();
-          $("date").value = data.date;
-          $("operator").value = data.operator.unhtmlEntities();
-          $("result").value = data.result.unhtmlEntities();
-          $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
-          $("nextDate").value = data.nextDate;
+        $("EditOperationUID").value = operationUID;
+        $("maintenancePlanUID").value = data.maintenancePlanUID;
+        $("maintenancePlanName").value = data.maintenancePlanName.unhtmlEntities();
+        $("date").value = data.date;
+        $("operator").value = data.operator.unhtmlEntities();
+        $("result").value = data.result.unhtmlEntities();
+        $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
+        $("nextDate").value = data.nextDate;
           
-          document.getElementById("divMessage").innerHTML = ""; 
-          resizeAllTextareas(8);
+        document.getElementById("divMessage").innerHTML = ""; 
+        resizeAllTextareas(8);
 
-          <%-- display hidden buttons --%>
-          document.getElementById("buttonDelete").style.visibility = "visible";
-          document.getElementById("buttonNew").style.visibility = "visible";
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'assets/ajax/maintenanceOperation/getMaintenanceOperation.jsp' : "+resp.responseText.trim();
-        }
+        <%-- display hidden buttons --%>
+        document.getElementById("buttonDelete").style.visibility = "visible";
+        document.getElementById("buttonNew").style.visibility = "visible";
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'assets/ajax/maintenanceOperation/getMaintenanceOperation.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
   
   <%-- DELETE MAINTENANCE OPERATION --%>
@@ -353,24 +348,22 @@
       disableButtons();
       
       var url = "<c:url value='/assets/ajax/maintenanceOperation/deleteMaintenanceOperation.jsp'/>?ts="+new Date().getTime();
-      new Ajax.Request(url,
-        {
-          method: "GET",
-          parameters: "OperationUID="+document.getElementById("EditOperationUID").value,
-          onSuccess: function(resp){
-            var data = eval("("+resp.responseText+")");
-            $("divMessage").innerHTML = data.message;
+      new Ajax.Request(url,{
+        method: "GET",
+        parameters: "OperationUID="+document.getElementById("EditOperationUID").value,
+        onSuccess: function(resp){
+          var data = eval("("+resp.responseText+")");
+          $("divMessage").innerHTML = data.message;
 
-            newMaintenanceOperation();
-            //loadMaintenanceOperations();
-            searchMaintenanceOperations();
-            enableButtons();
-          },
-          onFailure: function(resp){
-            $("divMessage").innerHTML = "Error in 'assets/ajax/maintenanceOperation/deleteMaintenanceOperation.jsp' : "+resp.responseText.trim();
-          }  
-        }
-      );
+          newMaintenanceOperation();
+          //loadMaintenanceOperations();
+          searchMaintenanceOperations();
+          enableButtons();
+        },
+        onFailure: function(resp){
+          $("divMessage").innerHTML = "Error in 'assets/ajax/maintenanceOperation/deleteMaintenanceOperation.jsp' : "+resp.responseText.trim();
+        }  
+      });
     }
   }
 

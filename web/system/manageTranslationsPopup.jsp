@@ -169,7 +169,7 @@
 <%-- End Floating layer -------------------------------------------------------------------------%>
 
 <form name="transactionForm" method="post" action="<c:url value='/popup.jsp'/>?Page=system/manageTranslationsPopup.jsp&ts=<%=getTs()%>">
-    <%=writeTableHeader("Web","ManageTranslations",sWebLanguage,"")%>
+    <%=writeTableHeader("Web","ManageTranslations",sWebLanguage," window.close();")%>
 
 <%-- SEARCH TABLE -------------------------------------------------------------------------------%>
 <table width="100%" cellspacing="1" class="menu" onkeydown="if(enterEvent(event,13)){doFind();}">

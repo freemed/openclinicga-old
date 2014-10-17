@@ -87,19 +87,19 @@
 
   <%-- OPEN POPUP --%>
   function openPopup(page,width,height,title){
-    var url = "<c:url value="/popup.jsp"/>?Page="+page;
+    var url = "<c:url value='/popup.jsp'/>?Page="+page;
     if(width!=undefined) url+= "&PopupWidth="+width;
     if(height!=undefined) url+= "&PopupHeight="+height;
     if(title==undefined){
       if(page.indexOf("&") < 0){
         title = page.replace("/","_");
+        title = replaceAll(title,".","_");
       }
       else{
-        title = replaceAll(page.substring(1,page.indexOf("&")),"/", "_");
-        title = replaceAll(title,".", "_");
+        title = replaceAll(page.substring(1,page.indexOf("&")),"/","_");
+        title = replaceAll(title,".","_");
       }
     }
-        
     var w = window.open(url,title,"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=1,height=1,menubar=no");
     w.moveBy(2000,2000);
   }

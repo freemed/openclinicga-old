@@ -1,7 +1,7 @@
 <%@page import="be.openclinic.assets.Asset,
                 be.mxs.common.util.system.HTMLEntities,
-                java.util.*"%>
-<%@page import="java.io.*,
+                java.util.*,
+                java.io.*,
                 org.dom4j.*"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
@@ -151,12 +151,12 @@
 <%
     String sAssetUID = checkString(request.getParameter("AssetUID"));
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n****************** getAsset.jsp ********************");
+        Debug.println("\n******************* assets/ajax/asset/getAsset.jsp *********************");
         Debug.println("sAssetUID : "+sAssetUID+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     Asset asset = Asset.get(sAssetUID);
     

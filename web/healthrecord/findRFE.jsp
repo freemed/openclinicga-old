@@ -65,7 +65,7 @@
                         out.print("<tr class='admin'><td colspan='3'>"+getTran("Web.Occup","ICPC-2",sWebLanguage)+(bManageLocalCodes?" &nbsp;(<a href='javascript:addnewlocalcode(\""+keywords+"\")'>"+getTran("web","managelocalcodes",sWebLanguage)+"</a>)":"")+"</td></tr>");
                     }
 
-                    %><tbody onmouseover='this.style.cursor="pointer"' onmouseout='this.style.cursor="default"'><%
+                    %><tbody class="hand"><%
                     		
                     String oldcodelabel = "";
                     for(int n=0; n<codes.size(); n++){
@@ -109,7 +109,7 @@
 		                    out.print("<tr class='admin'><td colspan='3'>"+getTran("Web.Occup","ICD-10",sWebLanguage)+"</td></tr>");
 		                }
 		
-		                %><tbody onmouseover='this.style.cursor="pointer"' onmouseout='this.style.cursor="default"'><%
+		                %><tbody class="hand"><%
 		                oldcodelabel = "";
 		                for(int n=0; n<codes.size(); n++){		
 		                    code = (ICPCCode)codes.elementAt(n);

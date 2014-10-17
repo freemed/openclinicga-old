@@ -1,13 +1,9 @@
 <%@page import="be.openclinic.pharmacy.*"%>
-<%@page import="org.apache.taglibs.standard.tag.common.core.CatchTag"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%=checkPermission("medication.medicationreceipt","all",activeUser)%>
-<%
-    String centralPharmacyCode = MedwanQuery.getInstance().getConfigString("centralPharmacyCode"),
-           sDefaultSrcDestType = "type2patient", sServiceStockUid = "", sSourceStockName = "", sEditRemaining;
 
-    // action
+<%
     String sAction = checkString(request.getParameter("Action"));
     if(sAction.length()==0) sAction = "receiveMedication"; // default
 
@@ -32,6 +28,9 @@
            sForceNew			= checkString(request.getParameter("forcenew")),
            sEditProductStockUid = checkString(request.getParameter("EditProductStockUid"));
 
+    String centralPharmacyCode = MedwanQuery.getInstance().getConfigString("centralPharmacyCode");
+    String sDefaultSrcDestType = "type2patient", sServiceStockUid = "", sSourceStockName = "", sEditRemaining;
+    
     // lookup productName if none provided
     if(sEditProductStockUid.length() > 0){
         ProductStock productStock = ProductStock.get(sEditProductStockUid);
@@ -42,9 +41,10 @@
         }
     }
     
-    //Fill-in parameters if EditReferenceOperationUid has been provided
+    // Fill-in parameters if EditReferenceOperationUid has been provided
     if(sEditReferenceOperationUid.length()>0 && sForceNew.length()>0){
     	ProductStockOperation operation = ProductStockOperation.get(sEditReferenceOperationUid);
+    	
     	if(operation.getDescription().equalsIgnoreCase("medicationdelivery.2")){
     		sEditOperationDescr = "medicationreceipt.1";
     		sEditUnitsChanged = (operation.getUnitsChanged()-operation.getUnitsReceived())+"";
@@ -66,11 +66,11 @@
     	}
     }
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n######### pharmacy/medication/popups/receiveMedicationPopup.jsp #########");
+        Debug.println("\n******** pharmacy/medication/popups/receiveMedicationPopup.jsp ********");
         Debug.println("sEditOperationUid    : "+sEditOperationUid);
-        Debug.println("sEditReferenceOperationUid    : "+sEditReferenceOperationUid);
+        Debug.println("sEditReferenceOperationUid : "+sEditReferenceOperationUid);
         Debug.println("sEditOperationDescr  : "+sEditOperationDescr);
         Debug.println("sEditUnitsChanged    : "+sEditUnitsChanged);
         Debug.println("sEditSrcDestType     : "+sEditSrcDestType);
@@ -81,7 +81,7 @@
         Debug.println("sEditBatchUid     	  : "+sEditBatchUid);
         Debug.println("sEditProductStockUid : "+sEditProductStockUid+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     String msg = "", sSelectedOperationDescr = "", sSelectedSrcDestType = "",
            sSelectedSrcDestUid = "", sSelectedSrcDestName = "", sSelectedOperationDate = "",
@@ -130,22 +130,22 @@
         ProductStockOperation operation = new ProductStockOperation();
         operation.setUid(sEditOperationUid);
         operation.setDescription(sEditOperationDescr);
+        
         //if the batchnumber does not exist yet, then create one if at least the batchnumber has been provided
-
         if(sEditBatchUid.length()==0 && sEditBatchNumber.length()>0){
-        	//First we'll have a look if the batch doesn't already exist for this productStock
+        	// if the batch doesn't already exist for this productStock
 			Batch batch = Batch.getByBatchNumber(sEditProductStockUid,sEditBatchNumber);   
         	if(batch==null){
 	        	batch = new Batch();
 	        	batch.setUid("-1");
 	        	batch.setProductStockUid(sEditProductStockUid);
 	        	batch.setBatchNumber(sEditBatchNumber);
-	            if(sEditBatchEnd.length()>0){
+	            if(sEditBatchEnd.length() > 0){
 	            	try{
 	            		batch.setEnd(ScreenHelper.parseDate(sEditBatchEnd));
 	            	}
 	            	catch(Exception e){
-	            		
+	            		// empty
 	            	}
 	            }
 	            batch.setComment(sEditBatchComment);
@@ -173,6 +173,7 @@
         	operation.setReceiveComment(sEditReceiveComment);
         }
         operation.setSourceDestination(sourceDestination);
+        
         if(sEditOperationDate.length() > 0) operation.setDate(ScreenHelper.parseDate(sEditOperationDate));
         operation.setProductStockUid(sEditProductStockUid);
         if(sEditUnitsChanged.length() > 0) operation.setUnitsChanged(Integer.parseInt(sEditUnitsChanged));
@@ -180,11 +181,13 @@
 
         String sResult = operation.store(false);
         if(sResult==null){
-        	//In case this is a receipt operation linked to a delivery operation, update the delivery operation
-        	if(sEditReferenceOperationUid.length()>0){
+        	// In case this is a receipt operation linked to a delivery operation, update the delivery operation
+        	if(sEditReferenceOperationUid.length() > 0){
         		operation = ProductStockOperation.get(sEditReferenceOperationUid);
         		if(operation!=null){
-        	        if(sEditUnitsChanged.length() > 0) operation.setUnitsReceived(operation.getUnitsReceived()+Integer.parseInt(sEditUnitsChanged));
+        	        if(sEditUnitsChanged.length() > 0){
+        	        	operation.setUnitsReceived(operation.getUnitsReceived()+Integer.parseInt(sEditUnitsChanged));
+        	        }
         	        operation.setReceiveProductStockUid(sEditProductStockUid);
         	        operation.setReceiveComment(sEditReceiveComment);
         	        operation.store();
@@ -253,7 +256,7 @@
         	sEditUnitsChanged = "1";
         }
 
-        sEditOperationDate = ScreenHelper.stdDateFormat.format(new java.util.Date()); // now
+        sEditOperationDate = ScreenHelper.formatDate(new java.util.Date()); // now
         sAction = "showDetailsNew";
     }
 
@@ -291,27 +294,26 @@
     return true;
   }
 
+  <%-- SHOW BATCH INFO --%>
   function showBatchInfo(){
-
     if(document.getElementById("EditSrcDestType")[document.getElementById("EditSrcDestType").selectedIndex].value=="servicestock"){
-      if(transactionForm.EditSrcDestUid.value.length>0){
-	        var params = "";
-	        var today = new Date();
-		    var url= '<c:url value="/pharmacy/medication/ajax/getProductStockBatches.jsp"/>?destinationproductstockuid=<%=sEditProductStockUid%>&sourceservicestockuid='+transactionForm.EditSrcDestUid.value+'&ts='+today;
-		    new Ajax.Request(url,{
-		      method: "POST",
-		      parameters: params,
-		      onSuccess: function(resp){
-		        $("batch").innerHTML = resp.responseText;
-		      }
-		    }); 
-	    }
-	    else{
-	        document.getElementById("batch").innerHTML = "<table>"+
-	        "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img src='<c:url value="/_img/icons/icon_search.gif"/>' onclick='findbatch();'/></td></tr>"+
-	        "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
-	        "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
-	       "</table>";
+      if(transactionForm.EditSrcDestUid.value.length > 0){
+	    var params = "";
+	    var url= '<c:url value="/pharmacy/medication/ajax/getProductStockBatches.jsp"/>?destinationproductstockuid=<%=sEditProductStockUid%>&sourceservicestockuid='+transactionForm.EditSrcDestUid.value+'&ts='+today;
+		new Ajax.Request(url,{
+		  method: "POST",
+		  parameters: params,
+		  onSuccess: function(resp){
+		    $("batch").innerHTML = resp.responseText;
+		  }
+		}); 
+	  }
+	  else{
+	    document.getElementById("batch").innerHTML = "<table>"+
+                                                      "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img src='<c:url value="/_img/icons/icon_search.gif"/>' onclick='findbatch();'/></td></tr>"+
+	                                                  "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
+	                                                  "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
+	                                                 "</table>";
 		}
 		setTimeout("updateMaxVal();",500);
 	  }
@@ -326,23 +328,24 @@
 	else if(document.getElementById("EditSrcDestType")[document.getElementById("EditSrcDestType").selectedIndex].value=="patient"){
 	  document.getElementById("batch").innerHTML = "<table>"+
 	                                                "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icons/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
-	                                               "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
-	                                               "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
-	                                               "<tr><td><%=getTran("web","origin",sWebLanguage)%></td>"+
-	                                                "<td>"+
-	                					                "<input class='text' TYPE='text' NAME='EditReceiveComment' id='EditReceiveComment' readonly size='50' TITLE='' VALUE='' onchange=''>"+
-	                					                "<img src='/openclinic/_img/icons/icon_search.gif' id='buttonUnit' class='link' alt='Choisir' onclick='findsearchsource(\"EditReceiveCommentID\",\"EditReceiveComment\");'>&nbsp;<img src='/openclinic/_img/icons/icon_delete.gif' class='link' alt='Vider' onclick=\"document.getElementsByName('EditReceiveComment')[0].value='';\">"+
-	                					                "<input TYPE='hidden' NAME='EditReceiveCommentID' id='EditReceiveCommentID' VALUE=''>"+
-	                                                "</td></tr>"+
+	                                                "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
+	                                                "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
+	                                                "<tr><td><%=getTran("web","origin",sWebLanguage)%></td>"+
+	                                                 "<td>"+
+	                					              "<input class='text' type='text' name='EditReceiveComment' id='EditReceiveComment' readonly size='50' TITLE='' VALUE='' onchange=''>"+
+	                					              "<img src='/openclinic/_img/icons/icon_search.gif' id='buttonUnit' class='link' alt='Choisir' onclick='findsearchsource(\"EditReceiveCommentID\",\"EditReceiveComment\");'>&nbsp;<img src='/openclinic/_img/icons/icon_delete.gif' class='link' alt='Vider' onclick=\"document.getElementsByName('EditReceiveComment')[0].value='';\">"+
+	                					              "<input type='hidden' name='EditReceiveCommentID' id='EditReceiveCommentID' VALUE=''>"+
+	                                                 "</td>"+
+	                                                "</tr>"+
 	                                               "</table>";
 	  setMaxQuantityValue(999999);  
 	}	
 	else{
 	    document.getElementById("batch").innerHTML = "<table>"+
-	    "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icons/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
-	   "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
-	   "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
-	   "</table>";
+	                                                  "<tr><td><%=getTran("web","batch.number",sWebLanguage)%> *</td><td><input type='text' name='EditBatchNumber' id='EditBatchNumber' value='' size='40'/> <img class='link' src='<c:url value="/_img/icons/icon_search.png"/>' onclick='findbatch();'/></td></tr>"+
+	                                                  "<tr><td><%=getTran("web","batch.expiration",sWebLanguage)%> *</td><td><%=writeDateField("EditBatchEnd","transactionForm","",sWebLanguage)%></td></tr>"+
+	                                                  "<tr><td><%=getTran("web","comment",sWebLanguage)%></td><td><input type='text' name='EditBatchComment' id='EditBatchComment' value='' size='80'/></td></tr>"+
+	                                                 "</table>";
 	  setMaxQuantityValue(999999);
 	}
   }
@@ -355,7 +358,6 @@
     else{
       document.getElementById("maxquantity").innerHTML = "";
     }
-
   }
 
   function updateMaxVal(){
@@ -368,7 +370,7 @@
   }
   
   function findsearchsource(sourceid,sourcename){
-		openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+sourceid+"&VarText="+sourcename);
+	openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+sourceid+"&VarText="+sourcename);
   }
 
 </script>
@@ -379,18 +381,24 @@
 	//indien neen, toon een generiek ontvangstschermpje
 	if(sForceNew.length()==0 && sServiceStockUid.length()>0 && sProductUid.length()>0){
 		Vector openDeliveries = ProductStockOperation.getOpenProductStockDeliveries(sServiceStockUid, sProductUid);
-		if(openDeliveries.size()>0){
-			displayEditFields=false;
+		if(openDeliveries.size() > 0){
+			displayEditFields = false;
 			out.println("<label class='text'>"+getTran("web","open.deliveries.exist",sWebLanguage)+"</label>");
-			out.println("<table width='100%'>");
-			out.println("<tr class='admin'><td>ID</td><td>"+getTran("web","date",sWebLanguage)+"</a></td><td>"+getTran("web","source",sWebLanguage)+"</td><td>"+getTran("web","quantity",sWebLanguage)+"</td></tr>");
-			for (int n = 0; n<openDeliveries.size(); n++){
+			
+			out.print("<table width='100%'>");
+			 out.print("<tr class='admin'><td>ID</td><td>"+getTran("web","date",sWebLanguage)+"</a></td><td>"+getTran("web","source",sWebLanguage)+"</td><td>"+getTran("web","quantity",sWebLanguage)+"</td></tr>");
+			
+			for(int n=0; n<openDeliveries.size(); n++){
 				ProductStockOperation productStockOperation = (ProductStockOperation)openDeliveries.elementAt(n);
+				
 				out.print("<tr class='admin2'><td>"+productStockOperation.getOperationUID()+"</td><td><a href='javascript:selectOpenDelivery(\""+productStockOperation.getUid()+"\")'>"+ScreenHelper.stdDateFormat.format(productStockOperation.getDate())+"</a></td>");
-				out.print("<td>"+productStockOperation.getProductStock().getServiceStock().getName()+"</td>");
-				out.print("<td>"+(productStockOperation.getUnitsChanged()-productStockOperation.getUnitsReceived())+(productStockOperation.getUnitsReceived()>0?" ("+productStockOperation.getUnitsChanged()+"-"+productStockOperation.getUnitsReceived()+")":"")+"</td></tr>");
+				 out.print("<td>"+productStockOperation.getProductStock().getServiceStock().getName()+"</td>");
+				 out.print("<td>"+(productStockOperation.getUnitsChanged()-productStockOperation.getUnitsReceived())+(productStockOperation.getUnitsReceived()>0?" ("+productStockOperation.getUnitsChanged()+"-"+productStockOperation.getUnitsReceived()+")":"")+"</td>");
+                out.print("</tr>");
 			}
-			out.println("</table>");
+			
+			out.print("</table>");
+			
 			%>
 			<p/>
 			<a href='<c:url value="/popup.jsp"/>?Page=pharmacy/medication/popups/receiveMedicationPopup.jsp&Action=receiveMedication&forcenew=1&ts=<%=getTs()%>&EditProductStockUid=<%=sEditProductStockUid%>&PopupWidth=<%=request.getParameter("PopupWidth") %>&PopupHeight=<%=request.getParameter("PopupHeight") %>'><label class='text'><%=getTran("web","create.new.reception",sWebLanguage)%></label></a>
@@ -413,8 +421,8 @@
         if(displayEditFields){
             %>
 			<form name="transactionForm" id="transactionForm" method="post" action='<c:url value="/popup.jsp"/>?Page=pharmacy/medication/popups/receiveMedicationPopup.jsp&ts=<%=getTs()%>' onClick="clearMessage();">
-			    <%-- page title --%>
-			    <%=writeTableHeader("Web.manage","receiveproducts",sWebLanguage,"")%>
+			    <%=writeTableHeader("Web.manage","receiveproducts",sWebLanguage," window.close();")%>
+             
                 <table class="list" width="100%" cellspacing="1">
                     <%-- Product stock --%>
                     <tr>
@@ -431,13 +439,13 @@
                         <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","description",sWebLanguage)%>&nbsp;*</td>
                         <td class="admin2">
                         	<%
-                        		if(sEditReferenceOperationUid.length()>0){
+                        		if(sEditReferenceOperationUid.length() > 0){
                         	%>
                         		<label class='text'><%=getTran("productstockoperation.medicationreceipt",sSelectedOperationDescr,sWebLanguage)%></label>
                         		<input class='text' type='hidden' name='EditOperationDescr' value='<%=sSelectedOperationDescr %>'/>
                         	<%
                         		}
-                        		else {
+                        		else{
                         	%>
 	                            <select class="text" name="EditOperationDescr" id="EditOperationDescr"  onChange="displaySrcDestSelector();" style="vertical-align:-2px;">
 	                                <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
@@ -448,6 +456,7 @@
                             %>
                         </td>
                     </tr>
+                    
                     <%-- units changed --%>
                     <tr>
                         <td class="admin"><%=getTran("Web","unitschanged",sWebLanguage)%>&nbsp;*</td>
@@ -455,6 +464,7 @@
                             <input class="text" type="text" name="EditUnitsChanged" id="EditUnitsChanged" size="10" maxLength="10" value="<%=sSelectedUnitsChanged%>" onKeyUp="if(this.value=='0'){this.value='';}isNumber(this);setMaxQuantityValue(setMaxQuantity);" <%=(sAction.equals("showDetails")?"READONLY":"")%>><span id="maxquantity"></span>
                         </td>
                     </tr>
+                    
                     <%-- SourceDestination type --%>
                     <tr height="23" id="sourceline">
                         <td class="admin"><%=getTran("web","receivedfrom",sWebLanguage)%>&nbsp;*</td>
@@ -485,6 +495,7 @@
                             %>
                         </td>
                     </tr>
+                    
                     <tr id='documentline'>
                         <td class="admin"><%=getTran("Web","productstockoperationdocument",sWebLanguage)%></td>
 	                    <td class="admin2">
@@ -510,6 +521,7 @@
                         <td class="admin2"><div id="batch" name="batch"/></td>
                     </tr>
                     <%
+                    
                         // get previous used values to reuse in javascript
                         String sPrevUsedSrcDestType  = checkString((String)session.getAttribute("PrevUsedReceiptSrcDestType")),
                         	sPrevUsedSrcDestUid  = checkString((String)session.getAttribute("PrevUsedReceiptSrcDestUid")),
@@ -552,6 +564,7 @@
 						if('<%=MedwanQuery.getInstance().getConfigString("forceproviderforproductstockoperations","medicationreceipt.4")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
 							transactionForm.EditSrcDestType.value='supplier';
 						}
+						
 						if('<%=MedwanQuery.getInstance().getConfigString("productstockoperationswithoutsource","medicationreceipt.3*medicationreceipt.99")%>'.indexOf(document.getElementById('EditOperationDescr').value)>-1){
 							document.getElementById('sourceline').style.visibility="hidden";
 							document.getElementById('documentline').style.visibility="hidden";
@@ -563,6 +576,7 @@
 						else{
 						  document.getElementById('sourceline').style.visibility="visible";
 						}
+						
                         srcDestType = transactionForm.EditSrcDestType.value;
                         if(srcDestType.length > 0){
                           	document.getElementById('SrcDestSelector').style.visibility = 'visible';
@@ -792,8 +806,8 @@
   <%
       if(sEditReferenceOperationUid.length()>0){
    	      // Show batch information
-   	      String sBatchInfo="<input type=\"radio\" checked/>"+(sEditBatchNumber!=null?sEditBatchNumber:"?")+" ("+sEditUnitsChanged+" - exp. "+sEditBatchEnd+")";
-   	      sBatchInfo+="<input type=\"hidden\" name=\"EditBatchUid\" value= \""+sEditBatchUid+"\"/>";
+   	      String sBatchInfo = "<input type='radio' checked/>"+(sEditBatchNumber!=null?sEditBatchNumber:"?")+" ("+sEditUnitsChanged+" - exp. "+sEditBatchEnd+")";
+   	      sBatchInfo+= "<input type='hidden' name='EditBatchUid' value=\""+sEditBatchUid+"\"/>";
    	      out.print("document.getElementById('batch').innerHTML='"+sBatchInfo+"';");
       }
   %>

@@ -1,11 +1,14 @@
-<%@ page import="net.admin.system.MedicalCenter,java.util.Vector" %>
+<%@page import="net.admin.system.MedicalCenter,
+                java.util.Vector"%>
 <%@include file="/_common/patient/patienteditHelper.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%=checkPermission("system.management","all",activeUser)%>
 <%=sJSEMAIL%>
 <%=sJSSORTTABLE%>
+
 <%
     String sAction = checkString(request.getParameter("Action"));
+
     // retreive form data
     String sFindCenterCode      = checkString(request.getParameter("FindCenterCode")),
            sEditCenterCode      = checkString(request.getParameter("EditCenterCode")),
@@ -22,15 +25,12 @@
     String msg = "";
     int foundCenterCount = 0;
 
-    String sSortCol = checkString(request.getParameter("SortCol"));
-    if(sSortCol.length()==0) sSortCol = "code"; // default
-
-
     //--- SAVE ------------------------------------------------------------------------------------
     if(sAction.equals("save") && sEditCenterCode.length()>0 && sEditCenterName.length()>0){
         //***** check existence *****
         boolean bCenterExists = false;
         bCenterExists = MedicalCenter.exists(sEditCenterCode);
+        
         //***** insert *****
         if(!bCenterExists){
             MedicalCenter objMC = new MedicalCenter();
@@ -159,18 +159,17 @@
     <br/>
     <%
         }
-    %>
-    <%
+
         //-- FIND ---------------------------------------------------------------------------------
         if (sAction.equals("find")) {
-            Vector vMC = MedicalCenter.selectMedicalCenters(sFindCenterCode, sFindCenterName, sFindCenterAddress, sFindCenterZipcode, sFindCenterCity, sSortCol);
+            Vector vMC = MedicalCenter.selectMedicalCenters(sFindCenterCode,sFindCenterName,sFindCenterAddress,
+            		                                        sFindCenterZipcode,sFindCenterCity,"code");
             Iterator iter = vMC.iterator();
-
             MedicalCenter objMC;
 
             StringBuffer centers = new StringBuffer();
             String sClass = "1", sCode = "";
-            String detailsTran = getTran("web.occup", "medwan.common.show-details", sWebLanguage);
+            String detailsTran = getTran("web.occup","medwan.common.show-details",sWebLanguage);
             SimpleDateFormat hourDateFormat = ScreenHelper.fullDateFormat;
 
             while (iter.hasNext()) {
@@ -184,35 +183,34 @@
                 sCode = objMC.getCode();
 
                 // display center in row
-                centers.append("<tr class='list" + sClass + "'  onclick=\"doShowDetails('" + sCode + "');\" title='" + detailsTran + "'>")
-                        .append("<td>" + sCode + "</td>")
-                        .append("<td>" + objMC.getName() + "</td>")
-                        .append("<td>" + objMC.getAddress() + "</td>")
-                        .append("<td>" + objMC.getZipcode() + "</td>")
-                        .append("<td>" + objMC.getCity() + "</td>")
-                        .append("<td>" + hourDateFormat.format(objMC.getUpdatetime()) + "</td>")
-                        .append("</tr>");
+                centers.append("<tr class='list"+sClass+"' onclick=\"doShowDetails('"+sCode+"');\" title='"+detailsTran+"'>")
+                        .append("<td>"+sCode+"</td>")
+                        .append("<td>"+objMC.getName()+"</td>")
+                        .append("<td>"+objMC.getAddress()+"</td>")
+                        .append("<td>"+objMC.getZipcode()+"</td>")
+                        .append("<td>"+objMC.getCity()+"</td>")
+                        .append("<td>"+hourDateFormat.format(objMC.getUpdatetime())+"</td>")
+                       .append("</tr>");
             }
 
             if (foundCenterCount == 1) {
                 sAction = "showDetails";
                 sEditCenterCode = sCode;
-            } else if (foundCenterCount > 0) {
-    %>
+            }
+            else if(foundCenterCount > 0){
+                %>
                     <table width="100%" cellspacing="0" cellpadding="0" class="list" id="searchresults">
-                        <tbody class="hand">
-
-                        <%-- clickable header --%>
+                        <%-- header --%>
                         <tr class="admin">
-                            <td width="10%"><a href="#" class="underlined" onClick="doSearch('code');"><%=getTran("Web","code",sWebLanguage)%></a></td>
-                            <td width="25%"><a href="#" class="underlined" onClick="doSearch('name');"><%=getTran("Web","name",sWebLanguage)%></a></td>
-                            <td width="20%"><a href="#" class="underlined" onClick="doSearch('address');"><%=getTran("Web","address",sWebLanguage)%></a></td>
-                            <td width="10%"><a href="#" class="underlined" onClick="doSearch('zipcode');"><%=getTran("Web","zipcode",sWebLanguage)%></a></td>
-                            <td width="20%"><a href="#" class="underlined" onClick="doSearch('city');"><%=getTran("Web","city",sWebLanguage)%></a></td>
-                            <td width="15%"><a href="#" class="underlined" onClick="doSearch('updatetime');"><%=getTran("Web","updatetime",sWebLanguage)%></a></td>
+                            <td width="10%"><%=getTran("Web","code",sWebLanguage)%></td>
+                            <td width="25%"><%=getTran("Web","name",sWebLanguage)%></td>
+                            <td width="20%"><%=getTran("Web","address",sWebLanguage)%></td>
+                            <td width="10%"><%=getTran("Web","zipcode",sWebLanguage)%></td>
+                            <td width="20%"><%=getTran("Web","city",sWebLanguage)%></td>
+                            <td width="15%"><%=getTran("Web","updatetime",sWebLanguage)%></td>
                         </tr>
 
-                        <%=centers%>
+                        <tbody class="hand"><%=centers%></tbody>
                     </table>
 
                     <%-- number of records found --%>
@@ -344,13 +342,13 @@
                             <input type="text" class="text" name="EditCenterComment" value="<%=sSelectedCenterComment%>" size="50" maxLength="255">
                         </td>
                     </tr>
+                    
+                    <%-- BUTTONS --%>
                     <%=ScreenHelper.setFormButtonsStart()%>
                     <%
                         if(sAction.equals("showDetailsAfterReject") || sAction.equals("showDetailsNew")){
-                            // new center : display saveButton with add-label + do not display delete button
-                            %>
-                            <input class="button" type="button" name="saveButton" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="doSave();">
-                            <%
+                            // new center : display saveButton with add-label+do not display delete button
+                            %><input class="button" type="button" name="saveButton" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="doSave();"><%
                         }
                         else if(sAction.equals("showDetails")){
                             // existing center : display saveButton with save-label
@@ -369,6 +367,7 @@
                     %>
                     <%=ScreenHelper.setFormButtonsStop()%>
                 </table>
+                
                 <%-- indication of obligated fields --%>
                 <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
             <%
@@ -376,18 +375,16 @@
     %>
     <%-- display message --%>
     <%=msg%>
+    
+    <input type="hidden" name="Action">
+    
     <%
-        // hidden fields
-        %>
-        <input type="hidden" name="Action">
-        <input type="hidden" name="SortCol" value="<%=sSortCol%>">
-        <%
-
         if(!sAction.startsWith("showDetails")){
             %><input type="hidden" name="EditCenterCode" value="<%=sEditCenterCode%>"><%
         }
     %>
 </form>
+
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>
   <%
@@ -537,13 +534,12 @@
   }
 
   <%-- DO SEARCH --%>
-  function doSearch(sortCol){
+  function doSearch(){
     transactionForm.searchButton.disabled = true;
     transactionForm.clearButton.disabled = true;
     transactionForm.newButton.disabled = true;
 
     transactionForm.Action.value = "find";
-    transactionForm.SortCol.value = sortCol;
     transactionForm.submit();
   }
 

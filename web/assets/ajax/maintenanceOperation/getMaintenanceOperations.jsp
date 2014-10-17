@@ -46,9 +46,9 @@
            sPeriodPerformedEnd   = ScreenHelper.checkString(request.getParameter("periodPerformedEnd"));
 
 
-    /// DEBUG ///////////////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n*********** assets/ajax/getMaintenanceOperations.jsp **********");
+        Debug.println("\n********** assets/ajax/maintenanceOperation/getMaintenanceOperations.jsp *********");
         Debug.println("sPlanUID  : "+sPlanUID);
         Debug.println("sOperator : "+sOperator);
         Debug.println("sResult   : "+sResult+"\n");
@@ -57,7 +57,7 @@
         Debug.println("sPeriodPerformedBegin : "+sPeriodPerformedBegin);
         Debug.println("sPeriodPerformedEnd   : "+sPeriodPerformedEnd+"\n");
     }
-    /////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // compose object to pass search criteria with
     MaintenanceOperation findObject = new MaintenanceOperation();
@@ -117,9 +117,7 @@
         <td width="*" nowrap><%=HTMLEntities.htmlentities(getTran("web.assets","result",sWebLanguage))%></td>
     </tr>
     
-    <tbody class="hand">
-        <%=sReturn%>
-    </tbody>
+    <tbody class="hand"><%=sReturn%></tbody>
 </table> 
 
 &nbsp;<i><%=operations.size()+" "+getTran("web","recordsFound",sWebLanguage)%></i>

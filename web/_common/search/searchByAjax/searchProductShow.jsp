@@ -39,7 +39,7 @@
     sHtml.append("<tr class='admin'>")
           .append("<td nowrap>"+getTranNoLink("web","product",sWebLanguage)+"</td>")
           .append("<td>"+getTranNoLink("web","unit",sWebLanguage)+"</td>")
-          .append("<td>"+getTranNoLink("web","unitprice",sWebLanguage)+"</td>")
+          .append("<td align='right'>"+getTranNoLink("web","unitprice",sWebLanguage)+"</td>")
           .append("<td>"+getTranNoLink("web","supplier",sWebLanguage)+"</td>")
           .append("<td>"+getTranNoLink("web","productGroup",sWebLanguage)+"</td>")
           .append("<td>"+getTranNoLink("web","category",sWebLanguage)+"</td>")
@@ -119,13 +119,12 @@
 	    html = HTMLEntities.htmlentities(html);
 
 		%>
-		<table width="100%" class="sortable" id="searchresults" cellpadding="0" cellspacing="1">
+		<table width="100%" class="sortable" id="searchresults" cellpadding="0" cellspacing="0">
 		    <%=html.toString()%>
 		</table>   
 		     
 		<%=iTotal%> <%=HTMLEntities.htmlentities(getTranNoLink("web","recordsFound",sWebLanguage))%>
+        <script>sortables_init();</script>
 		<%
     }
 %>
-
-<script>var setMax = setMaxRows;</script>

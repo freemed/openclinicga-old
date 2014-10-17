@@ -89,8 +89,7 @@
             if(sClass.equals("")) sClass = "1";
             else                  sClass = "";
 
-            sHtml.append("<tr class='list"+sClass+"' onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\"")
-                 .append(" onclick=\"selectInvoice('"+sInvoiceUid+"','"+sInvoiceDate+"','"+sInvoiceNr+"','"+invoice.getBalance()+"','"+sInvoiceStatus+"','"+sInsurarUid+"','"+sInsurarName+"');\">")
+            sHtml.append("<tr class='list"+sClass+"' onclick=\"selectInvoice('"+sInvoiceUid+"','"+sInvoiceDate+"','"+sInvoiceNr+"','"+invoice.getBalance()+"','"+sInvoiceStatus+"','"+sInsurarUid+"','"+sInsurarName+"');\">")
                   .append("<td>"+sInsurarName+"</td>")
                   .append("<td>"+sInvoiceDate+"</td>")
                   .append("<td>"+sInvoiceNr+"</td>")
@@ -111,12 +110,12 @@
 		            <td width="120" nowrap><%=HTMLEntities.htmlentities(getTran("web.finance","patientinvoice.status",sWebLanguage))%></td>
 		        </tr>
 		
-		        <tbody class="hand">
-		            <%=HTMLEntities.htmlentities(sHtml.toString())%>
-		        </tbody>
+		        <tbody class="hand"><%=HTMLEntities.htmlentities(sHtml.toString())%></tbody>
 		    </table>
             
             <%=recCount%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
+		    
+		    <script>sortables_init();</script>
 		    <%
         }
 	    else{

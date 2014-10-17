@@ -5,8 +5,6 @@
 <%=checkPermission("pharmacy.productorder","edit",activeUser)%>
 
 <%
-    String sDefaultSortCol = "OC_ORDER_DATEORDERED";
-
     String sAction = checkString(request.getParameter("Action"));
     if(sAction.length()==0) sAction = "showDetailsNew"; // default
 
@@ -41,8 +39,6 @@
            sSelectedDateOrdered = "", sSelectedDateDeliveryDue = "", sSelectedImportance = "",
            sSelectedProductName = "";
 
-    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
-
     // defaults
     if(sEditDescription.length()==0) sEditDescription = sEditProductName;
     if(sEditImportance.length()==0) sEditImportance = "type1native";
@@ -65,13 +61,7 @@
         }
     }
 
-    // display options
     boolean displayEditFields = false;
-
-    // sortcol
-    String sSortCol = checkString(request.getParameter("SortCol"));
-    if(sSortCol.length()==0) sSortCol = sDefaultSortCol;
-
 
     //*********************************************************************************************
     //*** process actions *************************************************************************
@@ -130,11 +120,11 @@
 
                 // format date ordered
                 java.util.Date tmpDate = order.getDateOrdered();
-                if(tmpDate!=null) sSelectedDateOrdered = stdDateFormat.format(tmpDate);
+                if(tmpDate!=null) sSelectedDateOrdered = ScreenHelper.formatDate(tmpDate);
 
                 // format date delivery due
                 tmpDate = order.getDateDeliveryDue();
-                if(tmpDate!=null) sSelectedDateDeliveryDue = stdDateFormat.format(tmpDate);
+                if(tmpDate!=null) sSelectedDateDeliveryDue = ScreenHelper.formatDate(tmpDate);
 
                 sSelectedProductName = order.getProductStock().getProduct().getName();
             }

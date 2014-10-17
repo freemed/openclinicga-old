@@ -7,13 +7,23 @@
     String sAction = checkString(request.getParameter("Action")),
            sCAID   = checkString(request.getParameter("EditUID"));
 
-    /// DEBUG //////////////////////////////////////////////////////////////////////
+    // remember search-criteria, when returning to overview
+    String sFindBegin = checkString(request.getParameter("FindBegin")),
+           sFindEnd   = checkString(request.getParameter("FindEnd")),
+           sFindOK    = checkString(request.getParameter("FindOK")),
+           sPageIdx   = checkString(request.getParameter("PageIdx"));
+
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-    	Debug.println("\n*********** medical/controlAnesthesieEdit.jsp ***********");
-    	Debug.println("sAction : "+sAction);
-    	Debug.println("sCAID   : "+sCAID+"\n");
+    	Debug.println("\n****************** medical/controlAnesthesieEdit.jsp ******************");
+    	Debug.println("sAction    : "+sAction);
+    	Debug.println("sCAID      : "+sCAID);
+    	Debug.println("(to return) sFindBegin : "+sFindBegin);
+    	Debug.println("(to return) sFindEnd   : "+sFindEnd);
+    	Debug.println("(to return) sFindOK    : "+sFindOK);
+    	Debug.println("(to return) sPageIdx   : "+sPageIdx+"\n");
     }
-    ////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     
     String sControlByName = "";
     AnesthesieControl ac;
@@ -39,6 +49,8 @@
         ac.setBeginHour(checkString(request.getParameter("EditBeginHour")));
         ac.setEndHour(checkString(request.getParameter("EditEndHour")));
         ac.setDuration(checkString(request.getParameter("EditDuration")));
+        
+        // OK/NOK
         ac.setEquipmentAnesthesie(checkString(request.getParameter("EditEquipmentAnesthesie")));
         ac.setEquipmentAnesthesieRemark(checkString(request.getParameter("EditEquipmentAnesthesieRemark")));
         ac.setEquipmentMonitor(checkString(request.getParameter("EditEquipmentMonitor")));
@@ -51,15 +63,14 @@
         ac.setOxygenRemark(checkString(request.getParameter("EditOxygenRemark")));
         ac.setOther(checkString(request.getParameter("EditOther")));
         ac.setOtherRemark(checkString(request.getParameter("EditOtherRemark")));
+        
         ac.setUpdateDateTime(getSQLTime());
         ac.setUpdateUser(activeUser.userid);
         ac.store();
 
         if(ac.getControlPerformedById().length()>0){
             sControlByName = ScreenHelper.getFullUserName(ac.getControlPerformedById(),ad_conn);
-        }
-        
-        %><script>window.location.href = "<%=sCONTEXTPATH%>/main.jsp?Page=medical/controlAnesthesieFind.jsp&Msg=saved&ts=<%=getTs()%>";</script><%
+        }        
     }
     else if(sCAID.length() > 0){
         ac = AnesthesieControl.get(sCAID);
@@ -78,6 +89,30 @@
 %>
 
 <form name="transactionForm" method="post" action="<c:url value='/main.do'/>?Page=medical/controlAnesthesieEdit.jsp&ts=<%=getTs()%>">
+    <input type="hidden" name="Action" value="">
+    <input type="hidden" name="FindBegin" value="<%=sFindBegin%>">
+    <input type="hidden" name="FindEnd" value="<%=sFindEnd%>">
+    <input type="hidden" name="FindOK" value="<%=sFindOK%>">
+    <input type="hidden" name="PageIdx" value="<%=sPageIdx%>">
+    <input type="hidden" name="EditUID" value="<%=ac.getUid()%>">
+    <input type="hidden" name="Msg" value="">
+    
+    <%
+        // back to overview, remembering the search-criteria
+        if(sAction.equals("SAVE")){
+            %>
+            </form>
+            
+            <script>
+              transactionForm.action = "<c:url value='/main.do?Page=medical/controlAnesthesieFind.jsp'/>&ts="+new Date().getTime();
+              transactionForm.Action.value = "find";
+              transactionForm.Msg.value = "saved";
+              transactionForm.submit();
+            </script>
+            <%    	
+        }
+    %>
+    
     <%=writeTableHeader("Web","controlanesthesie",sWebLanguage," doBack();")%>
     
     <table class="list" width="100%" border="0" cellspacing="1" cellpadding="0">
@@ -93,9 +128,7 @@
             <td class="admin2" colspan="3">
                 <input type="text" class="text" id="abeginhour" name="EditBeginHour"onkeypress="keypressTime(this)" onblur="checkTime(this);calculateInterval('abeginhour','aendhour','aduration')" size="5" value="<%=ac.getBeginHour()%>">
                 
-                <a href="javascript:setCurrentTime('abeginhour');">
-                    <img src="<c:url value="/_img/icons/icon_compose.gif"/>" class="link" title="<%=getTranNoLink("web","currenttime",sWebLanguage)%>" border="0"/>
-                </a>
+                <a href="javascript:setCurrentTime('abeginhour');"><img src="<c:url value="/_img/icons/icon_compose.gif"/>" class="link" title="<%=getTranNoLink("web","currenttime",sWebLanguage)%>"/></a>
             </td>
         </tr>
         
@@ -105,9 +138,7 @@
             <td class="admin2" colspan="3">
                 <input type="text" class="text" id="aendhour" name="EditEndHour"onkeypress="keypressTime(this)" onblur="checkTime(this);calculateInterval('abeginhour','aendhour','aduration');" size="5" value="<%=ac.getEndHour()%>">
                 
-                <a href="javascript:setCurrentTime('aendhour');">
-                    <img src="<c:url value="/_img/icons/icon_compose.gif"/>" class="link" title="<%=getTranNoLink("web","currenttime",sWebLanguage)%>" border="0"/>
-                </a>
+                <a href="javascript:setCurrentTime('aendhour');"><img src="<c:url value="/_img/icons/icon_compose.gif"/>" class="link" title="<%=getTranNoLink("web","currenttime",sWebLanguage)%>"/></a>
             </td>
         </tr>
         
@@ -143,44 +174,41 @@
         </tr>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","equipment_anesthesie",sWebLanguage)%></td>
-            <td class="admin2"><input type="radio" onDblClick="uncheckRadio(this);" name="EditEquipmentAnesthesie" value="ok"<%if(ac.getEquipmentAnesthesie().equals("ok")){out.print(" checked");}%>></td>
-            <td class="admin2"><input type="radio" onDblClick="uncheckRadio(this);" name="EditEquipmentAnesthesie" value="nok"<%if(ac.getEquipmentAnesthesie().equals("nok")){out.print(" checked");}%>></td>
+            <td class="admin2"><input type="radio" class="hand" onDblClick="uncheckRadio(this);" name="EditEquipmentAnesthesie" value="ok" <%=(ac.getEquipmentAnesthesie().equals("ok")?"checked":"")%>></td>
+            <td class="admin2"><input type="radio" class="hand" onDblClick="uncheckRadio(this);" name="EditEquipmentAnesthesie" value="nok" <%=(ac.getEquipmentAnesthesie().equals("nok")?"checked":"")%>></td>
             <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="100" rows="2" name="EditEquipmentAnesthesieRemark"><%=ac.getEquipmentAnesthesieRemark()%></textarea></td>
         </tr>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","equipment_monitor",sWebLanguage)%></td>
-            <td class="admin2"><input type="radio" onDblClick="uncheckRadio(this);" name="EditEquipmentMonitor" value="ok"<%if(ac.getEquipmentMonitor().equals("ok")){out.print(" checked");}%>></td>
-            <td class="admin2"><input type="radio" onDblClick="uncheckRadio(this);" name="EditEquipmentMonitor" value="nok"<%if(ac.getEquipmentMonitor().equals("nok")){out.print(" checked");}%>></td>
+            <td class="admin2"><input type="radio" class="hand" onDblClick="uncheckRadio(this);" name="EditEquipmentMonitor" value="ok"<%if(ac.getEquipmentMonitor().equals("ok")){out.print(" checked");}%>></td>
+            <td class="admin2"><input type="radio" class="hand" onDblClick="uncheckRadio(this);" name="EditEquipmentMonitor" value="nok"<%if(ac.getEquipmentMonitor().equals("nok")){out.print(" checked");}%>></td>
             <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="100" rows="2" name="EditEquipmentMonitorRemark"><%=ac.getEquipmentMonitorRemark()%></textarea></td>
         </tr>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","manage_medicines",sWebLanguage)%></td>
-            <td class="admin2"><input type="radio" onDblClick="uncheckRadio(this);" name="EditManageMedicines" value="ok"<%if(ac.getManageMedicines().equals("ok")){out.print(" checked");}%>></td>
-            <td class="admin2"><input type="radio" onDblClick="uncheckRadio(this);" name="EditManageMedicines" value="nok"<%if(ac.getManageMedicines().equals("nok")){out.print(" checked");}%>></td>
+            <td class="admin2"><input type="radio" class="hand" onDblClick="uncheckRadio(this);" name="EditManageMedicines" value="ok"<%if(ac.getManageMedicines().equals("ok")){out.print(" checked");}%>></td>
+            <td class="admin2"><input type="radio" class="hand" onDblClick="uncheckRadio(this);" name="EditManageMedicines" value="nok"<%if(ac.getManageMedicines().equals("nok")){out.print(" checked");}%>></td>
             <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="100" rows="2" name="EditManageMedicinesRemark"><%=ac.getManageMedicinesRemark()%></textarea></td>
         </tr>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","vacuum_cleaner",sWebLanguage)%></td>
-            <td class="admin2"><input type="radio" onDblClick="uncheckRadio(this);" name="EditVacuumCleaner" value="ok"<%if(ac.getVacuumCleaner().equals("ok")){out.print(" checked");}%>></td>
-            <td class="admin2"><input type="radio" onDblClick="uncheckRadio(this);" name="EditVacuumCleaner" value="nok"<%if(ac.getVacuumCleaner().equals("nok")){out.print(" checked");}%>></td>
+            <td class="admin2"><input type="radio" class="hand" onDblClick="uncheckRadio(this);" name="EditVacuumCleaner" value="ok"<%if(ac.getVacuumCleaner().equals("ok")){out.print(" checked");}%>></td>
+            <td class="admin2"><input type="radio" class="hand" onDblClick="uncheckRadio(this);" name="EditVacuumCleaner" value="nok"<%if(ac.getVacuumCleaner().equals("nok")){out.print(" checked");}%>></td>
             <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="100" rows="2" name="EditVacuumCleanerRemark"><%=ac.getVacuumCleanerRemark()%></textarea></td>
         </tr>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","oxygen",sWebLanguage)%></td>
-            <td class="admin2"><input type="radio" onDblClick="uncheckRadio(this);" name="EditOxygen" value="ok"<%if(ac.getOxygen().equals("ok")){out.print(" checked");}%>></td>
-            <td class="admin2"><input type="radio" onDblClick="uncheckRadio(this);" name="EditOxygen" value="nok"<%if(ac.getOxygen().equals("nok")){out.print(" checked");}%>></td>
+            <td class="admin2"><input type="radio" class="hand" onDblClick="uncheckRadio(this);" name="EditOxygen" value="ok"<%if(ac.getOxygen().equals("ok")){out.print(" checked");}%>></td>
+            <td class="admin2"><input type="radio" class="hand" onDblClick="uncheckRadio(this);" name="EditOxygen" value="nok"<%if(ac.getOxygen().equals("nok")){out.print(" checked");}%>></td>
             <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="100" rows="2" name="EditOxygenRemark"><%=ac.getOxygenRemark()%></textarea></td>
         </tr>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","other",sWebLanguage)%></td>
-            <td class="admin2"><input type="radio" onDblClick="uncheckRadio(this);" name="EditOther" value="ok"<%if(ac.getOther().equals("ok")){out.print(" checked");}%>></td>
-            <td class="admin2"><input type="radio" onDblClick="uncheckRadio(this);" name="EditOther" value="nok"<%if(ac.getOther().equals("nok")){out.print(" checked");}%>></td>
+            <td class="admin2"><input type="radio" class="hand" onDblClick="uncheckRadio(this);" name="EditOther" value="ok"<%if(ac.getOther().equals("ok")){out.print(" checked");}%>></td>
+            <td class="admin2"><input type="radio" class="hand" onDblClick="uncheckRadio(this);" name="EditOther" value="nok"<%if(ac.getOther().equals("nok")){out.print(" checked");}%>></td>
             <td class="admin2"><textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" class="text" cols="100" rows="2" name="EditOtherRemark"><%=ac.getOtherRemark()%></textarea></td>
         </tr>
     </table>
-    
-    <input type="hidden" name="Action" value="">
-    <input type="hidden" name="EditUID" value="<%=ac.getUid()%>">
      
 	<%-- BUTTONS --%>
 	<%=ScreenHelper.alignButtonsStart()%>
@@ -245,12 +273,14 @@
 
   <%-- SEARCH USER --%>
   function searchUser(userID,userName){
-    openPopup("/_common/search/searchUser.jsp&ts=<%=getTs()%>&ReturnUserID="+userID+"&ReturnName="+userName);
+    openPopup("/_common/search/searchUser.jsp&ts="+new Date().getTime()+"&ReturnUserID="+userID+"&ReturnName="+userName);
   }
 
   <%-- SUBMIT FORM --%>
   function submitForm(){
     transactionForm.saveButton.disabled = true;
+    transactionForm.backButton.disabled = true;
+    
     transactionForm.Action.value = "SAVE";
     transactionForm.submit();
   }
@@ -258,7 +288,9 @@
   <%-- DO BACK --%>
   function doBack(){
     if(checkSaveButton()){
-      window.location.href = "<c:url value='/main.do?Page=medical/controlAnesthesieFind.jsp'/>&ts=<%=getTs()%>";
+      transactionForm.action = "<c:url value='/main.do?Page=medical/controlAnesthesieFind.jsp'/>&ts="+new Date().getTime();
+      transactionForm.Action.value = "find";
+      transactionForm.submit();
     }
   }
 </script>

@@ -75,7 +75,7 @@
     <div id="fields" >
         <table width="170" cellspacing="0" cellpadding="0" align="left"  >
             <tr>
-                <td align="left">Successfully logged out&nbsp;</td>
+                <td align="left"><b>Successfully logged out</b>&nbsp;</td>
             </tr>
             <tr>
                 <td>

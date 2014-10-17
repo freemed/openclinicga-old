@@ -30,8 +30,6 @@
     String sPatientId = checkString(request.getParameter("PatientID"));
     String sMonth = checkString(request.getParameter("month"));
     String sDay = checkString(request.getParameter("day"));
-    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat,
-                     fullDateFormat = ScreenHelper.fullDateFormat;
     String sBegin = checkString(activeUser.getParameter("PlanningFindFrom"));
     if (sBegin.length() == 0) {
         sBegin = 8 + "";
@@ -70,7 +68,7 @@
         Date plannedStart=appointment.getPlannedDate();
         Date plannedEnd=appointment.getPlannedEndDate();
         if (Integer.parseInt(new SimpleDateFormat("HH").format(plannedStart)) < Integer.parseInt(sBegin) || (Integer.parseInt(new SimpleDateFormat("HH").format(plannedEnd)) > (Integer.parseInt(sEnd) + 1) || ((Integer.parseInt(new SimpleDateFormat("HH").format(plannedEnd)) == (Integer.parseInt(sEnd) + 1)) && Integer.parseInt(new SimpleDateFormat("mm").format(plannedEnd)) > 0))) {
-            hidden = fullDateFormat.format(plannedStart.getTime()) + " -> " + fullDateFormat.format(plannedEnd.getTime());
+            hidden = ScreenHelper.fullDateFormat.format(plannedStart.getTime()) + " -> " + ScreenHelper.fullDateFormat.format(plannedEnd.getTime());
         }
 
         // user names

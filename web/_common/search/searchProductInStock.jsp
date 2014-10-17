@@ -151,7 +151,7 @@
             if(product != null){
                 // filter out products depending on their productGroup ?
                 boolean productGroupOK;
-                if(sSearchProductGroup.length() == 0){
+                if(sSearchProductGroup.length()==0){
                     productGroupOK = true;
                 }
                 else{
@@ -411,7 +411,7 @@
     %>
 
     if("true"=="<%=checkString(request.getParameter("loadschema"))%>"){
-      window.opener.loadSchema();
+      if(window.opener.loadSchema) window.opener.loadSchema();
     }
 
     if(closeWindow) window.close();

@@ -219,7 +219,7 @@
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n*********************** searchUserProductShow.jsp **********************");
+        Debug.println("\n***************** searchByAjax/searchUserProductShow.jsp ***************");
         Debug.println("sAction             : "+sAction);
         Debug.println("sSearchProductName  : "+sSearchProductName);
         Debug.println("sSearchProductGroup : "+sSearchProductGroup);
@@ -247,26 +247,23 @@
         productsHtml = objectsToHtml(userProducts,sSearchProductName,sSearchProductGroup,sWebLanguage);
         foundProductCount = countProducts(userProducts,sSearchProductName,sSearchProductGroup);
         
-Debug.println("************** foundProductCount : "+foundProductCount);/////////
         if(foundProductCount==0){
             %><%=HTMLEntities.htmlentities(getTran("web","norecordsfound",sWebLanguage))%><%
         }
         else{
 		    %>
-			<table width="100%" class="sortable" id="searchresults" cellspacing="1" cellpadding="0">
+			<table width="100%" class="sortable" id="searchresults" cellspacing="0" cellpadding="0">
 			    <%-- header --%>
 				<tr class="admin">
 				    <td><%=HTMLEntities.htmlentities(getTran("web","product",sWebLanguage))%></td>
 				    <td><%=HTMLEntities.htmlentities(getTran("web","unit",sWebLanguage))%></td>
-				    <td><%=HTMLEntities.htmlentities(getTran("web","unitprice",sWebLanguage))%></td>
+				    <td align="right"><%=HTMLEntities.htmlentities(getTran("web","unitprice",sWebLanguage))%></td>
 				    <td><%=HTMLEntities.htmlentities(getTran("web","supplier",sWebLanguage))%></td>
 				    <td><%=HTMLEntities.htmlentities(getTran("Web","ServiceStock",sWebLanguage))%></td>
 				    <td><%=HTMLEntities.htmlentities(getTran("web","productGroup",sWebLanguage))%></td>
 				</tr>
 			
-				<tbody class="hand">
-				    <%=HTMLEntities.htmlentities(productsHtml.toString())%>
-			    </tbody>
+				<tbody class="hand"><%=HTMLEntities.htmlentities(productsHtml.toString())%></tbody>
 			</table>
 			
 			<%=foundProductCount%> <%=getTran("web","recordsFound",sWebLanguage)%>
@@ -274,3 +271,5 @@ Debug.println("************** foundProductCount : "+foundProductCount);/////////
         }
     }
 %>
+
+<script>sortables_init();</script>

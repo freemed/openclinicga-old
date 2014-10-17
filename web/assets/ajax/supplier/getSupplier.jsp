@@ -7,12 +7,12 @@
 <%
     String sSupplierUID = checkString(request.getParameter("SupplierUID"));
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n***************** getSupplier.jsp ******************");
+        Debug.println("\n**************** assets/ajax/supplier/getSupplier.jsp *****************");
         Debug.println("sSupplierUID : "+sSupplierUID+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     Supplier supplier = Supplier.get(sSupplierUID);
     

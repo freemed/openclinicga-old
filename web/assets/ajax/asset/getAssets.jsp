@@ -17,9 +17,9 @@
            sPurchasePeriodBegin = checkString(request.getParameter("purchasePeriodBegin")),
            sPurchasePeriodEnd   = checkString(request.getParameter("purchasePeriodEnd"));
     
-    /// DEBUG ///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n***************** assets/ajax/getAssets.jsp *****************");
+        Debug.println("\n******************* assets/ajax/asset/getAssets.jsp *******************");
         Debug.println("sCode         : "+sCode);
         Debug.println("sDescription  : "+sDescription);
         Debug.println("sSerialnumber : "+sSerialnumber);
@@ -28,7 +28,7 @@
         Debug.println("sPurchasePeriodBegin : "+sPurchasePeriodBegin);
         Debug.println("sPurchasePeriodEnd   : "+sPurchasePeriodEnd+"\n");
     }
-    /////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     // compose object to pass search criteria with
     Asset findObject = new Asset();

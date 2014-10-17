@@ -139,9 +139,7 @@
 
                     while(rs.next()){
                         sTmpLabeltype = checkString(rs.getString("OC_LABEL_TYPE"));
-                        %>
-                            <option value="<%=sTmpLabeltype%>"<%=(sTmpLabeltype.equals(findLabelType)?" selected":"")%>><%=sTmpLabeltype%></option>
-                        <%
+                        %><option value="<%=sTmpLabeltype%>"<%=(sTmpLabeltype.equals(findLabelType)?" selected":"")%>><%=sTmpLabeltype%></option><%
                     }
 
                     // close DB-stuff
@@ -423,7 +421,7 @@
 
                     //*** In DB, not in ini (DB TO INI) *******************************************
                     if(dataDirection.equals("dbToIni")){
-                        String style, checked, labelType, labelID, labelLang;
+                        String sClass = "1", checked, labelType, labelID, labelLang;
 
                         select = "SELECT * FROM OC_LABELS"+
                                  " WHERE "+MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_TYPE")+" NOT IN ('externalservice','service','function') ";
@@ -484,12 +482,12 @@
                                     labelCount++;
 
                                     // alternate row-class
-                                    style = (labelCount%2==0?"":" class='list'");
+                                    sClass = (labelCount%2==0?"":"1");
 
                                     // red background for invalid key-names
                                     for(int i=0; i<invalidLabelKeyChars.length(); i++){
                                         if(labelUniqueKey.indexOf(invalidLabelKeyChars.charAt(i)) > -1){
-                                            style = " style='background:#ff6666';";
+                                        	sClass = "red\" style='background:#ff6666';";
                                             invalidLabelCount++;
                                             checked = "";
                                             break;
@@ -497,7 +495,7 @@
                                     }
 
                                     %>
-                                        <tr<%=style%> >
+                                        <tr class="list<%=sClass%>">
                                             <td>
                                                 <input type="checkbox" id="cb<%=labelCount%>" name="checkbox$<%=labelUniqueKey%>" <%=checked%>>
                                             </td>

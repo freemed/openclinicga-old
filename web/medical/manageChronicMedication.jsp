@@ -111,9 +111,6 @@
 %>
 
 <%
-    String sDefaultSortCol = "OC_CHRONICMED_BEGIN",
-           sDefaultSortDir = "DESC";
-
     String sAction = checkString(request.getParameter("Action"));
     if(sAction.length()==0) sAction = "find";
 
@@ -168,11 +165,8 @@
 
     // variables
     int foundMedicationCount = 0;
-    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
     StringBuffer medications = null;
     boolean patientIsHospitalized = activePatient.isHospitalized();
-
-    // display options
     boolean displayEditFields = false, displayFoundRecords = false;
 
     String sDisplaySearchFields = checkString(request.getParameter("DisplaySearchFields"));
@@ -184,15 +178,6 @@
     if(sAction.length()==0){
         sFindPrescriberUid = activeUser.person.personid;
     }
-
-    // sortcol
-    String sSortCol = checkString(request.getParameter("SortCol"));
-    if(sSortCol.length()==0) sSortCol = sDefaultSortCol;
-
-    // sortdir
-    String sSortDir = checkString(request.getParameter("SortDir"));
-    if(sSortDir.length()==0) sSortDir = sDefaultSortDir;
-
 
     //*********************************************************************************************
     //*** process actions *************************************************************************
@@ -269,12 +254,6 @@
         sAction = "findShowOverview"; // display overview even if only one record remains
     }
 
-    //--- SORT ------------------------------------------------------------------------------------
-    if(sAction.equals("sort")){
-        displayEditFields = false;
-        sAction = "find";
-    }
-
     //--- FIND ------------------------------------------------------------------------------------
     if(sAction.startsWith("find")){
         displaySearchFields = true;
@@ -282,7 +261,7 @@
         displayEditFields = false;
 
         Vector chronicMedications = ChronicMedication.find(sFindPatientUid,sFindPrescriberUid,sFindProductUid,
-                                                           sFindDateBegin,sSortCol,sSortDir);
+                                                           sFindDateBegin,"OC_CHRONICMED_BEGIN","DESC");
         medications = objectsToHtml(chronicMedications,sWebLanguage);
         foundMedicationCount = chronicMedications.size();
     }
@@ -310,7 +289,7 @@
 
                 // format begin date
                 java.util.Date tmpDate = medication.getBegin();
-                if(tmpDate!=null) sSelectedDateBegin = stdDateFormat.format(tmpDate);
+                if(tmpDate!=null) sSelectedDateBegin = ScreenHelper.formatDate(tmpDate);
 
                 // prescription rule
                 sSelectedTimeUnit         = medication.getTimeUnit();
@@ -348,7 +327,7 @@
             // showDetailsNew : set default values
             sSelectedPrescriberUid      = activeUser.userid;
             sSelectedPrescriberFullName = activeUser.person.lastname+" "+activeUser.person.firstname;
-            sSelectedDateBegin          = stdDateFormat.format(new java.util.Date());
+            sSelectedDateBegin          = ScreenHelper.formatDate(new java.util.Date());
             sSelectedTimeUnit           = "type2day";
             sSelectedTimeUnitCount      = "1";
         }
@@ -357,7 +336,7 @@
     // onclick : when editing, save, else search when pressing 'enter'
     String sOnKeyDown = "";
     if(!sAction.startsWith("showDetails")){
-        sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSearch('"+sDefaultSortCol+"');}\"";
+        sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSearch();}\"";
     }
 %>
 <form name="transactionForm" method="post" <%=sOnKeyDown%> <%=(displaySearchFields?"onClick=\"clearMessage();\"":"onClick=\"clearMessage();\"")%>>
@@ -535,10 +514,9 @@
         //--- SEARCH RESULTS ----------------------------------------------------------------------
         if(displayFoundRecords){
             if(foundMedicationCount > 0){
-                String sortTran = getTran("web","clicktosort",sWebLanguage);
                 %>
                     <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
-                        <%-- clickable header --%>
+                        <%-- header --%>
                         <tr>
                             <td class="admin" width="22" nowrap>&nbsp;</td>
                             <td class="admin" width="25%"><%=getTran("Web","prescriber",sWebLanguage)%></td>
@@ -546,9 +524,7 @@
                             <td class="admin" width="10%"><%=getTran("Web","begindate",sWebLanguage)%></td>
                             <td class="admin" width="45%"><%=getTran("Web","prescriptionrule",sWebLanguage)%></td>
                         </tr>
-                        <tbody class="hand">
-                            <%=medications%>
-                        </tbody>
+                        <tbody class="hand"><%=medications%></tbody>
                     </table>
                     
                     <%-- number of records found --%>
@@ -571,10 +547,7 @@
             }
             else{
                 // no records found
-                %>
-                    <%=getTran("web","norecordsfound",sWebLanguage)%>
-                    <br><br>
-                <%
+                %><%=getTran("web","norecordsfound",sWebLanguage)%><br><br><%
             }
         }
 
@@ -590,8 +563,6 @@
     
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
-    <input type="hidden" name="SortCol" value="<%=sSortCol%>">
-    <input type="hidden" name="SortDir" value="<%=sSortDir%>">
     <input type="hidden" name="EditMedicationUid" value="<%=sEditMedicationUid%>">
     <input type="hidden" name="DisplaySearchFields" value="<%=displaySearchFields%>">
 </form>
@@ -725,24 +696,12 @@
     transactionForm.EditUnitsPerTimeUnit.value = "";
   }
 
-  <%-- DO SORT --%>
-  function doSort(sortCol){
-    transactionForm.Action.value = "sort";
-    transactionForm.SortCol.value = sortCol;
-
-    if(transactionForm.SortDir.value=="ASC") transactionForm.SortDir.value = "DESC";
-    else                                     transactionForm.SortDir.value = "ASC";
-
-    transactionForm.submit();
-  }
-
   <%-- DO SEARCH --%>
-  function doSearch(sortCol){
+  function doSearch(){
     transactionForm.clearButton.disabled = true;
     transactionForm.newButton.disabled = true;
 
     transactionForm.Action.value = "find";
-    transactionForm.SortCol.value = sortCol;
     openSearchInProgressPopup();
     transactionForm.submit();
   }
@@ -843,7 +802,7 @@
 
   <%-- DO BACK TO OVERVIEW --%>
   function doBackToOverview(){
-    if(checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web","areyousuretodiscard",sWebLanguage)%>')){
+    if(checkSaveButton()){
       transactionForm.Action.value = "";
       transactionForm.DisplaySearchFields.value = "false";
       transactionForm.submit();

@@ -33,15 +33,15 @@
         // iterate found operations
         ProductStockOperation operation;
         for(int i=0; i<objects.size(); i++){
-            operation = (ProductStockOperation) objects.get(i);
+            operation = (ProductStockOperation)objects.get(i);
 
             // productStock
             productStockUid = operation.getProductStockUid();
-            productStock = (ProductStock) productStockHash.get(productStockUid);
+            productStock = (ProductStock)productStockHash.get(productStockUid);
             if(productStock==null){
                 // get productStock from DB
                 productStock = ProductStock.get(productStockUid);
-                if(productStock != null){
+                if(productStock!=null){
                     productStockHash.put(productStockUid,productStock);
                 }
             }
@@ -130,9 +130,7 @@
 %>
 
 <%
-    String sDefaultSortCol = "OC_OPERATION_DATE",
-           sDefaultSortDir = "DESC",
-           centralPharmacyCode = MedwanQuery.getInstance().getConfigString("centralPharmacyCode"),
+    String centralPharmacyCode = MedwanQuery.getInstance().getConfigString("centralPharmacyCode"),
            sDefaultSrcDestType = "type2patient",
            sDefaultUnitsChanged = "1";
 
@@ -140,14 +138,14 @@
     if(sAction.length()==0) sAction = "deliverMedication"; // default
 
     // retreive form data
-    String sEditOperationUid = checkString(request.getParameter("EditOperationUid")),
-           sEditOperationDescr = checkString(request.getParameter("EditOperationDescr")),
-           sEditUnitsChanged = checkString(request.getParameter("EditUnitsChanged")),
-           sEditSrcDestType = checkString(request.getParameter("EditSrcDestType")),
-           sEditSrcDestUid = checkString(request.getParameter("EditSrcDestUid")),
-           sEditSrcDestName = checkString(request.getParameter("EditSrcDestName")),
-           sEditProductName = checkString(request.getParameter("EditProductName")),
-           sEditOperationDate = checkString(request.getParameter("EditOperationDate")),
+    String sEditOperationUid    = checkString(request.getParameter("EditOperationUid")),
+           sEditOperationDescr  = checkString(request.getParameter("EditOperationDescr")),
+           sEditUnitsChanged    = checkString(request.getParameter("EditUnitsChanged")),
+           sEditSrcDestType     = checkString(request.getParameter("EditSrcDestType")),
+           sEditSrcDestUid      = checkString(request.getParameter("EditSrcDestUid")),
+           sEditSrcDestName     = checkString(request.getParameter("EditSrcDestName")),
+           sEditProductName     = checkString(request.getParameter("EditProductName")),
+           sEditOperationDate   = checkString(request.getParameter("EditOperationDate")),
            sEditProductStockUid = checkString(request.getParameter("EditProductStockUid"));
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
@@ -171,7 +169,6 @@
 
     int foundDeliveryCount;
     StringBuffer deliveriesHtml;
-    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
     // display options
     boolean displayEditFields = true;
@@ -186,13 +183,6 @@
     boolean isPatientDelivery = sIsPatientDelivery.equalsIgnoreCase("true");
     Debug.println("@@@ isPatientDelivery : "+isPatientDelivery);
 
-    // sortcol
-    String sSortCol = checkString(request.getParameter("SortCol"));
-    if(sSortCol.length()==0) sSortCol = sDefaultSortCol;
-
-    // sortdir
-    String sSortDir = checkString(request.getParameter("SortDir"));
-    if(sSortDir.length()==0) sSortDir = sDefaultSortDir;
 
     //*********************************************************************************************
     //*** process actions *************************************************************************
@@ -277,17 +267,9 @@
         	<%
         }
         else{
-	        %>
-	        <script>
-	          alertDialogDirectText('<%=getTranNoLink("web",sResult,sWebLanguage)%>');
-	        </script>
-	        <%
+	        %><script>alertDialogDirectText('<%=getTranNoLink("web",sResult,sWebLanguage)%>');</script><%
 	        sAction = "showDetailsNew";
         }
-    }
-    //--- SORT ------------------------------------------------------------------------------------
-    else if(sAction.equals("sort")){
-        displayPatientDeliveries = true;
     }
 
     //--- DELIVER MEDICATION ----------------------------------------------------------------------
@@ -297,7 +279,7 @@
         sEditSrcDestType = sDefaultSrcDestType;
         sEditSrcDestUid = activePatient.personid;
         sEditSrcDestName = activePatient.firstname+" "+activePatient.lastname;
-        sEditOperationDate = stdDateFormat.format(new java.util.Date()); // now
+        sEditOperationDate = ScreenHelper.formatDate(new java.util.Date()); // now
         sEditUnitsChanged = sDefaultUnitsChanged;
 
         sAction = "showDetailsNew";
@@ -318,7 +300,7 @@
 
                 // format date
                 java.util.Date tmpDate = operation.getDate();
-                if(tmpDate!=null) sSelectedOperationDate = stdDateFormat.format(tmpDate);
+                if(tmpDate!=null) sSelectedOperationDate = ScreenHelper.formatDate(tmpDate);
 
                 // ProductStock
                 ProductStock sSelectedProductStock = operation.getProductStock();
@@ -386,6 +368,7 @@
                             </select>
                         </td>
                     </tr>
+                    
                     <%-- SourceDestination type --%>
                     <tr height="23">
                         <td class="admin"><%=getTran("web","deliveredto",sWebLanguage)%>&nbsp;*</td>
@@ -394,6 +377,7 @@
                                 <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                                 <%=ScreenHelper.writeSelectUnsorted("productstockoperation.patientsourcedestinationtype","patient",sWebLanguage)%>
                             </select>
+                            
                             <%-- SOURCE DESTINATION SELECTOR --%>
                             <span id="SrcDestSelector" style="visibility:hidden;">
                                 <input type="hidden" name="EditSrcDestUid" value="<%=sSelectedSrcDestUid%>">
@@ -540,7 +524,7 @@
 
         //--- DISPLAY DELIVERIES (to active patient) ----------------------------------------------
         if(displayPatientDeliveries){
-            Vector deliveries = ProductStockOperation.getDeliveries(activePatient.personid,null,null,sSortCol,sSortDir);
+            Vector deliveries = ProductStockOperation.getDeliveries(activePatient.personid,null,null,"OC_OPERATION_DATE","DESC");
             deliveriesHtml = objectsToHtml(deliveries,sWebLanguage);
             foundDeliveryCount = deliveries.size();
 
@@ -554,10 +538,9 @@
             <%
 
             if(foundDeliveryCount > 0){
-                String sortTran = getTran("web","clicktosort",sWebLanguage);
                 %>
                     <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
-                        <%-- clickable header --%>
+                        <%-- header --%>
                         <tr class="admin">
                             <td><%=getTran("Web","description",sWebLanguage)%></td>
                             <td><%=getTran("Web","date",sWebLanguage)%></td>
@@ -566,10 +549,9 @@
                             <td><%=getTran("Web","unitschanged",sWebLanguage)%></td>
                             <td><%=getTran("Web","username",sWebLanguage)%></td>
                         </tr>
-                        <tbody class="hand">
-                            <%=deliveriesHtml%>
-                        </tbody>
+                        <tbody class="hand"><%=deliveriesHtml%></tbody>
                     </table>
+                    
                     <%-- number of records found --%>
                     <span style="width:49%;text-align:left;">
                         <%=foundDeliveryCount%> <%=getTran("web","deliveriesfound",sWebLanguage)%>
@@ -590,17 +572,12 @@
             }
             else{
                 // no records found
-                %>
-                <%=getTran("web.manage","nodeliveriesfound",sWebLanguage)%>
-                <br>
-                <%
+                %><%=getTran("web.manage","nodeliveriesfound",sWebLanguage)%><br><%
             }
         }
     %>
 
     <input type="hidden" name="Action">
-    <input type="hidden" name="SortCol" value="<%=sSortCol%>">
-    <input type="hidden" name="SortDir" value="<%=sSortDir%>">
     <input type="hidden" name="EditOperationUid" value="<%=sEditOperationUid%>">
     <input type="hidden" name="DisplayPatientDeliveries" value="<%=displayPatientDeliveries%>">
     <input type="hidden" name="IsPatientDelivery" value="<%=isPatientDelivery%>">
@@ -614,13 +591,6 @@
           %>transactionForm.EditOperationDescr.focus();<%
       }
   %>
-
-  <%-- DO SORT --%>
-  function doSort(sortCol){
-      transactionForm.SortCol.value = sortCol;
-      transactionForm.Action.value = "sort";
-      transactionForm.submit();
-  }
 
   <%-- DO DELIVER --%>
   function doDeliver(){
@@ -774,7 +744,7 @@
     <%-- calculate totalDeliveryPrice --%>
     var packagePrice = parseFloat(replaceAll(document.getElementById("packagePrice_"+productStockUid).value,",","."));
     var packages     = parseFloat(transactionForm.EditUnitsChanged.value.replace(",","."));
-    document.getElementById('TotalDeliveryPrice').innerHTML = "<%=getTran("web","totalprice",sWebLanguage)%> : "+(packagePrice*packages).toFixed(2)+" <%=MedwanQuery.getInstance().getConfigParam("currency","€")%>";
+    document.getElementById('TotalDeliveryPrice').innerHTML = "<%=getTranNoLink("web","totalprice",sWebLanguage)%> : "+(packagePrice*packages).toFixed(2)+" <%=MedwanQuery.getInstance().getConfigParam("currency","€")%>";
   }
 
   <%-- DESELECT ALL PRESCRIPTIONS --%>
@@ -790,7 +760,7 @@
 
   <%-- DO BACK TO OVERVIEW --%>
   function doBackToOverview(){
-    if(checkSaveButton('<%=sCONTEXTPATH%>','<%=getTranNoLink("Web","areyousuretodiscard",sWebLanguage)%>')){
+    if(checkSaveButton()){
       <%
           if(isPatientDelivery){
               %>

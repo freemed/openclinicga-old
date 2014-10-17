@@ -614,6 +614,7 @@
     w.moveBy(2000,2000);
   }
   
+  <%-- REPLACE ALL --%>
   function replaceAll(s,s1,s2){
     while(s.indexOf(s1) > -1){
       s = s.replace(s1,s2);
@@ -730,6 +731,7 @@
       }
   %>
     
+  <%-- ADD AUTO COMPLETER --%>
   function addAutoCompleter(key,id,div){
     new Ajax.Autocompleter(id,div,'util/loadAutoCompleteItems.jsp?key='+key,{   
       inChars:1,

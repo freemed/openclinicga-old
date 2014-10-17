@@ -1,146 +1,156 @@
-<%@ page import="be.openclinic.medical.RequestedLabAnalysis" %>
+<%@page import="be.openclinic.medical.RequestedLabAnalysis"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-
 <%=checkPermission("system.management","all",activeUser)%>
 <%=sJSSORTTABLE%>
 
 <%!
     //--- OBJECTS TO HTML (type1 : user or patient) -----------------------------------------------
-    private StringBuffer objectsToHtmlType1(Vector objects, String resultType, boolean showOnlyOpenResults, String sWebLanguage, String resultsOnly) {
+    private StringBuffer objectsToHtmlType1(Vector objects, String resultType, boolean showOnlyOpenResults, 
+    		                                String sWebLanguage, String resultsOnly){
         StringBuffer html = new StringBuffer();
         String sClass = "list1", resultDate, personFullName;
-        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
-
+        
         // frequently used translations
-        String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
-                deleteTran = getTranNoLink("Web", "delete", sWebLanguage),
-                labrequestTran = getTranNoLink("Web.manage", "showlabrequest", sWebLanguage);
+        String detailsTran = getTranNoLink("web","showdetails",sWebLanguage),
+               deleteTran = getTranNoLink("Web","delete",sWebLanguage),
+               labrequestTran = getTranNoLink("Web.manage","showlabrequest",sWebLanguage);
 
         // run thru found objects
         RequestedLabAnalysis labResult;
         String activeTransactionId = "";
 
-        for (int i = 0; i < objects.size(); i++) {
-            labResult = (RequestedLabAnalysis) objects.get(i);
-            if (resultsOnly.length() > 0 && (labResult.getResultValue() == null || labResult.getResultValue().length() == 0)) {
+        for(int i=0; i<objects.size(); i++){
+            labResult = (RequestedLabAnalysis)objects.get(i);
+            if(resultsOnly.length() > 0 && (labResult.getResultValue()==null || labResult.getResultValue().length()==0)){
                 continue;
             }
-            String tranId = labResult.getServerId() + "." + labResult.getTransactionId();
+            
+            String tranId = labResult.getServerId()+"."+labResult.getTransactionId();
+            
             // person full name
            	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
 
-            if (resultType.equals("patient")) {
-                personFullName = ScreenHelper.getFullUserName(labResult.getRequestUserId(), ad_conn);
-            } else {
-                personFullName = ScreenHelper.getFullPersonName(labResult.getPatientId(), ad_conn);
+            if(resultType.equals("patient")){
+                personFullName = ScreenHelper.getFullUserName(labResult.getRequestUserId(),ad_conn);
             }
+            else{
+                personFullName = ScreenHelper.getFullPersonName(labResult.getPatientId(),ad_conn);
+            }
+            
 			try{
 				ad_conn.close();
 			}
 			catch(Exception e){
 				e.printStackTrace();
 			}
-            if (!activeTransactionId.equalsIgnoreCase(tranId)) {
+			
+            if(!activeTransactionId.equalsIgnoreCase(tranId)){
                 activeTransactionId = tranId;
-                html.append("<tr class='gray' title='" + detailsTran + "'>")
-                        .append("<td colspan='4'>" + (labResult.getRequestDate() != null ? ScreenHelper.stdDateFormat.format(labResult.getRequestDate()) : "") + "</td>")
-                        .append("<td colspan='4'>" + personFullName + "</td>")
-                        .append("</tr>");
+                html.append("<tr class='gray' title='"+detailsTran+"'>")
+                     .append("<td colspan='4'>"+(labResult.getRequestDate()!=null?ScreenHelper.formatDate(labResult.getRequestDate()) : "")+"</td>")
+                     .append("<td colspan='4'>"+personFullName+"</td>")
+                    .append("</tr>");
             }
 
             // format result date
             resultDate = stdDateFormat.format(labResult.getResultDate());
 
             // alternate row-style
-            if (showOnlyOpenResults) {
-                if (sClass.equals("list")) sClass = "list1";
-                else sClass = "list";
-            } else {
+            if(showOnlyOpenResults) {
+                if(sClass.equals("list")) sClass = "list1";
+                else                      sClass = "list";
+            }
+            else {
                 // red when empty resultModifier
-                if (labResult.getResultModifier().length() != 0 && !labResult.getResultModifier().equalsIgnoreCase("n")) {
+                if(labResult.getResultModifier().length()!=0 && !labResult.getResultModifier().equalsIgnoreCase("n")){
                     sClass = "red";
-                } else {
-                    if (sClass.equals("list")) sClass = "list1";
-                    else sClass = "list";
+                }
+                else{
+                    if(sClass.equals("list")) sClass = "list1";
+                    else                      sClass = "list";
                 }
             }
 
             //*** display product in one row ***
-            html.append("<tr class='" + sClass + "' onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\" title='" + detailsTran + "'>")
-                    .append("<td>&nbsp;</td><td><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' class='link' title='" + deleteTran + "' onclick=\"doDelete('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">")
-                    .append("<td><img src='" + sCONTEXTPATH + "/_img/icons/icon_view.gif' class='link' title='" + labrequestTran + "' onclick=\"showLabRequest('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "');\">")
-                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + labResult.getAnalysisCode() + "</td>")
-                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + getTran("labanalysis", labResult.getAnalysisCode(), sWebLanguage) + "</td>")
-                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + labResult.getResultValue() + " " + labResult.getResultUnit() + "</td>")
-                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + (labResult.getResultValue() != null && labResult.getResultValue().length() > 0 ? resultDate : "") + "</td>")
-                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + (labResult.getResultModifier().length() > 0 ? getTran("labanalysis.resultmodifier", labResult.getResultModifier(), sWebLanguage) : "") + "</td>")
-                    .append("</tr>");
+            html.append("<tr class='"+sClass+"' onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\" title='"+detailsTran+"'>")
+                 .append("<td>&nbsp;</td>")
+                 .append("<td><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link' title='"+deleteTran+"' onclick=\"doDelete('"+labResult.getServerId()+"','"+labResult.getTransactionId()+"','"+labResult.getAnalysisCode()+"');\">")
+                 .append("<td><img src='"+sCONTEXTPATH+"/_img/icons/icon_view.gif' class='link' title='"+labrequestTran+"' onclick=\"showLabRequest('"+labResult.getServerId()+"','"+labResult.getTransactionId()+"');\">")
+                 .append("<td onclick=\"showResultDetails('"+labResult.getServerId()+"','"+labResult.getTransactionId()+"','"+labResult.getAnalysisCode()+"');\">"+labResult.getAnalysisCode()+"</td>")
+                 .append("<td onclick=\"showResultDetails('"+labResult.getServerId()+"','"+labResult.getTransactionId()+"','"+labResult.getAnalysisCode()+"');\">"+getTran("labanalysis",labResult.getAnalysisCode(),sWebLanguage)+"</td>")
+                 .append("<td onclick=\"showResultDetails('"+labResult.getServerId()+"','"+labResult.getTransactionId()+"','"+labResult.getAnalysisCode()+"');\">"+labResult.getResultValue()+" "+labResult.getResultUnit()+"</td>")
+                 .append("<td onclick=\"showResultDetails('"+labResult.getServerId()+"','"+labResult.getTransactionId()+"','"+labResult.getAnalysisCode()+"');\">"+(labResult.getResultValue()!=null && labResult.getResultValue().length()>0?resultDate:"")+"</td>")
+                 .append("<td onclick=\"showResultDetails('"+labResult.getServerId()+"','"+labResult.getTransactionId()+"','"+labResult.getAnalysisCode()+"');\">"+(labResult.getResultModifier().length()>0?getTran("labanalysis.resultmodifier",labResult.getResultModifier(),sWebLanguage):"")+"</td>")
+                .append("</tr>");
         }
 
         return html;
     }
 
     //--- OBJECTS TO HTML (type2 : user NOR patient) ----------------------------------------------
-    private StringBuffer objectsToHtmlType2(Vector objects, boolean showOnlyOpenResults, String sWebLanguage) {
+    private StringBuffer objectsToHtmlType2(Vector objects, boolean showOnlyOpenResults, String sWebLanguage){
         StringBuffer html = new StringBuffer();
         String sClass = "list1", resultDate;
-        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
         // frequently used translations
-        String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
-                deleteTran = getTranNoLink("Web", "delete", sWebLanguage),
-                labrequestTran = getTranNoLink("Web.manage", "showlabrequest", sWebLanguage);
+        String detailsTran = getTranNoLink("web","showdetails",sWebLanguage),
+               deleteTran = getTranNoLink("Web","delete",sWebLanguage),
+               labrequestTran = getTranNoLink("Web.manage","showlabrequest",sWebLanguage);
 
-        // run thru found objects
+        // run through found objects
         RequestedLabAnalysis labResult;
         String activeTransactionId = "";
 
-        for (int i = 0; i < objects.size(); i++) {
-            labResult = (RequestedLabAnalysis) objects.get(i);
-            String tranId = labResult.getServerId() + "." + labResult.getTransactionId();
+        for(int i=0; i<objects.size(); i++){
+            labResult = (RequestedLabAnalysis)objects.get(i);
+            String tranId = labResult.getServerId()+"."+labResult.getTransactionId();
+           
             // person full name
 	      	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-            String userFullName = ScreenHelper.getFullUserName(labResult.getRequestUserId(), ad_conn);
-            String patientFullName = ScreenHelper.getFullPersonName(labResult.getPatientId(), ad_conn);
+            String userFullName = ScreenHelper.getFullUserName(labResult.getRequestUserId(),ad_conn);
+            String patientFullName = ScreenHelper.getFullPersonName(labResult.getPatientId(),ad_conn);
             ad_conn.close();
 
-            if (!activeTransactionId.equalsIgnoreCase(tranId)) {
+            if(!activeTransactionId.equalsIgnoreCase(tranId)){
                 activeTransactionId = tranId;
-                html.append("<tr class='gray' title='" + detailsTran + "'>")
-                        .append("<td colspan='4'>" + (labResult.getRequestDate() != null ? ScreenHelper.stdDateFormat.format(labResult.getRequestDate()) : "") + "</td>")
-                        .append("<td>" + patientFullName + "</td>")
-                        .append("<td colspan='5'>" + userFullName + "</td>")
-                        .append("</tr>");
+                html.append("<tr class='gray' title='"+detailsTran+"'>")
+                     .append("<td colspan='4'>"+(labResult.getRequestDate()!=null?ScreenHelper.formatDate(labResult.getRequestDate()):"")+"</td>")
+                     .append("<td>"+patientFullName+"</td>")
+                     .append("<td colspan='5'>"+userFullName+"</td>")
+                    .append("</tr>");
             }
 
             // format result date
-            resultDate = stdDateFormat.format(labResult.getResultDate());
+            resultDate = ScreenHelper.formatDate(labResult.getResultDate());
 
             // alternate row-style
-            if (showOnlyOpenResults) {
-                if (sClass.equals("list")) sClass = "list1";
-                else sClass = "list";
-            } else {
+            if(showOnlyOpenResults){
+                if(sClass.equals("list")) sClass = "list1";
+                else                      sClass = "list";
+            }
+            else{
                 // red when empty resultModifier
-                if (labResult.getResultModifier().length() != 0 && !labResult.getResultModifier().equalsIgnoreCase("n")) {
+                if(labResult.getResultModifier().length()!=0 && !labResult.getResultModifier().equalsIgnoreCase("n")){
                     sClass = "red";
-                } else {
-                    if (sClass.equals("list")) sClass = "list1";
-                    else sClass = "list";
+                }
+                else{
+                    if(sClass.equals("list")) sClass = "list1";
+                    else                      sClass = "list";
                 }
             }
 
             //*** display product in one row ***
-            html.append("<tr class='" + sClass + "' onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\" title='" + detailsTran + "'>")
-                    .append("<td>&nbsp;</td><td><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.gif' class='link' title='" + deleteTran + "' onclick=\"doDelete('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">")
-                    .append("<td><img src='" + sCONTEXTPATH + "/_img/icons/icon_view.gif' class='link' title='" + labrequestTran + "' onclick=\"showLabRequest('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "');\">")
-                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + labResult.getAnalysisCode() + "</td>")
-                    .append("<td colspan='3' onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + getTran("labanalysis", labResult.getAnalysisCode(), sWebLanguage) + "</td>")
-                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + labResult.getResultValue() + " " + labResult.getResultUnit() + "</td>")
-                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + resultDate + "</td>")
-                    .append("<td onclick=\"showResultDetails('" + labResult.getServerId() + "','" + labResult.getTransactionId() + "','" + labResult.getAnalysisCode() + "');\">" + (labResult.getResultModifier().length() > 0 ? getTran("labanalysis.resultmodifier", labResult.getResultModifier(), sWebLanguage) : "") + "</td>")
-                    .append("</tr>");
+            html.append("<tr class='"+sClass+"' onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\" title='"+detailsTran+"'>")
+                 .append("<td>&nbsp;</td>")
+                 .append("<td><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link' title='"+deleteTran+"' onclick=\"doDelete('"+labResult.getServerId()+"','"+labResult.getTransactionId()+"','"+labResult.getAnalysisCode()+"');\">")
+                 .append("<td><img src='"+sCONTEXTPATH+"/_img/icons/icon_view.gif' class='link' title='"+labrequestTran+"' onclick=\"showLabRequest('"+labResult.getServerId()+"','"+labResult.getTransactionId()+"');\">")
+                 .append("<td onclick=\"showResultDetails('"+labResult.getServerId()+"','"+labResult.getTransactionId()+"','"+labResult.getAnalysisCode()+"');\">"+labResult.getAnalysisCode()+"</td>")
+                 .append("<td colspan='3' onclick=\"showResultDetails('"+labResult.getServerId()+"','"+labResult.getTransactionId()+"','"+labResult.getAnalysisCode()+"');\">"+getTran("labanalysis",labResult.getAnalysisCode(),sWebLanguage)+"</td>")
+                 .append("<td onclick=\"showResultDetails('"+labResult.getServerId()+"','"+labResult.getTransactionId()+"','"+labResult.getAnalysisCode()+"');\">"+labResult.getResultValue()+" "+labResult.getResultUnit()+"</td>")
+                 .append("<td onclick=\"showResultDetails('"+labResult.getServerId()+"','"+labResult.getTransactionId()+"','"+labResult.getAnalysisCode()+"');\">"+resultDate+"</td>")
+                 .append("<td onclick=\"showResultDetails('"+labResult.getServerId()+"','"+labResult.getTransactionId()+"','"+labResult.getAnalysisCode()+"');\">"+(labResult.getResultModifier().length()>0?getTran("labanalysis.resultmodifier",labResult.getResultModifier(),sWebLanguage):"")+"</td>")
+                .append("</tr>");
         }
 
         return html;
@@ -148,9 +158,6 @@
 %>
 
 <%
-    String sDefaultSortCol = "updateTime DESC,a.serverid,a.transactionid,resultDate",
-           sDefaultSortDir = "DESC";
-
     // action
     String sAction = checkString(request.getParameter("Action"));
     if(sAction.length()==0){
@@ -159,16 +166,14 @@
 
     // form data
     String sEditServerId      = checkString(request.getParameter("EditServerId")),
-            sResultsOnly = checkString(request.getParameter("resultsOnly")),
-            sEditTransactionId = checkString(request.getParameter("EditTransactionId")),
+           sResultsOnly       = checkString(request.getParameter("resultsOnly")),
+           sEditTransactionId = checkString(request.getParameter("EditTransactionId")),
            sEditPatientId     = checkString(request.getParameter("EditPatientId")),
            sEditLabCode       = checkString(request.getParameter("EditLabCode")).toLowerCase(),
            sFindLabCode       = checkString(request.getParameter("FindLabCode")).toLowerCase(),
            sFindResultDate    = checkString(request.getParameter("FindResultDate"));
 
-    // variables
     String msg = "";
-    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
     // default search date : one month ago
     if(sFindResultDate.length()==0){
@@ -186,27 +191,20 @@
         showOpenResultsOnly = true;
     }
 
-    /*
-    // DEBUG ////////////////////////////////////////////////////////////////////////////
-    Debug.println("### ACTION = "+sAction+" ####################################");
-    Debug.println("### sEditServerId       = "+sEditServerId);
-    Debug.println("### sEditTransactionId  = "+sEditTransactionId);
-    Debug.println("### sEditLabCode        = "+sEditLabCode);
-    Debug.println("### sFindLabCode        = "+sFindLabCode);
-    Debug.println("### sFindResultDate     = "+sFindResultDate);
-    Debug.println("### param : resultType          = "+resultType);
-    Debug.println("### param : showOpenResultsOnly = "+showOpenResultsOnly+"\n\n");
-    /////////////////////////////////////////////////////////////////////////////////////
-    */
-
-    // sortCol
-    String sSortCol = checkString(request.getParameter("SortCol"));
-    if(sSortCol.length()==0) sSortCol = sDefaultSortCol;
-
-    // sortDir
-    String sSortDir = checkString(request.getParameter("SortDir"));
-    if(sSortDir.length()==0) sSortDir = sDefaultSortDir;
-
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n********************** system/manageLaboResults.jsp ********************");
+    	Debug.println("sAction             : "+sAction);
+    	Debug.println("sEditServerId       : "+sEditServerId);
+    	Debug.println("sEditTransactionId  : "+sEditTransactionId);
+    	Debug.println("sEditLabCode        : "+sEditLabCode);
+    	Debug.println("sFindLabCode        : "+sFindLabCode);
+    	Debug.println("sFindResultDate     : "+sFindResultDate);
+    	Debug.println("resultType          : "+resultType);
+    	Debug.println("showOpenResultsOnly : "+showOpenResultsOnly+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    
     // supported languages
     String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
     if(supportedLanguages.length()==0) supportedLanguages = "nl,fr";
@@ -305,34 +303,35 @@
         if(resultType.equals("user")){
             // search labResults for activeUser
             foundObjects = RequestedLabAnalysis.find("","","",sFindLabCode,"","","","","","","","",
-                                                     sFindResultDate,sSortCol,sSortDir,showOpenResultsOnly,activeUser.userid);
+                                                     sFindResultDate,"updateTime DESC,a.serverid,a.transactionid,resultDate","DESC",
+                                                     showOpenResultsOnly,activeUser.userid);
         }
         else if(resultType.equals("patient")){
             // search labresults for activePatient
             foundObjects = RequestedLabAnalysis.find("","",activePatient.personid,sFindLabCode,"","","","","","","","",
-                                                     sFindResultDate,sSortCol,sSortDir,showOpenResultsOnly,"");
+                                                     sFindResultDate,"updateTime DESC,a.serverid,a.transactionid,resultDate","DESC",
+                                                     showOpenResultsOnly,"");
         }
         else{
             // search all open labresults
             foundObjects = RequestedLabAnalysis.find("","","",sFindLabCode,"","","","","","","","",
-                                                     sFindResultDate,sSortCol,sSortDir,showOpenResultsOnly,"");
+                                                     sFindResultDate,"updateTime DESC,a.serverid,a.transactionid,resultDate","DESC",
+                                                     showOpenResultsOnly,"");
         }
 
         StringBuffer labResultsHtml;
         if(resultType.length() > 0){
-            labResultsHtml= objectsToHtmlType1(foundObjects,resultType,showOpenResultsOnly,sWebLanguage,sResultsOnly);
+            labResultsHtml = objectsToHtmlType1(foundObjects,resultType,showOpenResultsOnly,sWebLanguage,sResultsOnly);
         }
         else{
-            labResultsHtml= objectsToHtmlType2(foundObjects,showOpenResultsOnly,sWebLanguage);
+            labResultsHtml = objectsToHtmlType2(foundObjects,showOpenResultsOnly,sWebLanguage);
         }
+        
         int foundObjectCount = foundObjects.size();
-
         if(foundObjectCount > 0){
-            String sortTran = getTran("web","clicktosort",sWebLanguage);
-
             %>
                 <table id="tblLA" width="100%" cellspacing="0" class="sortable">
-                    <%-- clickable header --%>
+                    <%-- header --%>
                     <tr class="admin">
                         <td width="18"></td>
                         <td width="18"></td>
@@ -468,13 +467,13 @@
   <%-- SHOW LAB LABRESULT DETAILS --%>
   function showResultDetails(serverId,transactionId,analysisCode){
     var url = "<%=sCONTEXTPATH%>/healthrecord/labResultPopup.jsp?serverId="+serverId+"&transactionId="+transactionId+"&analysisCode="+analysisCode+"&editable=true";
-    window.open(url,"","height=1, width=1, toolbar=no, status=no, scrollbars=no, resizable=no, menubar=no");
+    window.open(url,"","height=1,width=1,toolbar=no,status=no,scrollbars=no,resizable=no,menubar=no");
   }
 
   <%-- SHOW LAB LABREQUEST --%>
   function showLabRequest(serverId,transactionId){
     var url = "<%=sCONTEXTPATH%>/healthrecord/editTransaction.do?be.mxs.healthrecord.createTransaction.transactionType=be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_LAB_REQUESTpopup&be.mxs.healthrecord.createTransaction.context=<%=activeUser.activeService.defaultContext%>&be.mxs.healthrecord.transaction_id="+transactionId+"&be.mxs.healthrecord.server_id="+serverId;
-    window.open(url,"","height=1, width=1, toolbar=no, status=no, scrollbars=no, resizable=yes, menubar=no");
+    window.open(url,"","height=1,width=1,toolbar=no,status=no,scrollbars=no,resizable=yes,menubar=no");
   }
 
   <%-- REFRESH CONTENT --%>
@@ -482,4 +481,5 @@
     window.location.href = "<c:url value='../main.jsp?Page=system/manageLaboResults.jsp'/>&AutoAction=find&type=<%=resultType%>&open=<%=showOpenResultsOnly%>&resultsOnly=<%=sResultsOnly%>&ts=<%=getTs()%>";
   }
 </script>
+
 <%=writeJSButtons("transactionForm","SaveButton")%>

@@ -1,31 +1,34 @@
 <%@page import="java.util.Enumeration,
-                be.openclinic.pharmacy.ServiceStock,java.util.*,be.openclinic.finance.*" %>
+                be.openclinic.pharmacy.ServiceStock,
+                java.util.*,
+                be.openclinic.finance.*"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 
 <%=checkPermission("system.manageservices","all",activeUser)%>
 
 <%
-    String sAction             = checkString(request.getParameter("Action")),
-           sFindServiceCode    = checkString(request.getParameter("FindServiceCode")),
+    String sAction = checkString(request.getParameter("Action"));
+
+    String sFindServiceCode    = checkString(request.getParameter("FindServiceCode")),
            sFindServiceText    = checkString(request.getParameter("FindServiceText")),
            sEditOldServiceCode = checkString(request.getParameter("EditOldServiceCode"));
 
-    // DEBUG ////////////////////////////////////////////////////////////////////////////
+    // DEBUG //////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n### mngServices #############################################");
-        Debug.println("# sAction             : " + sAction);
-        Debug.println("# sFindServiceCode    : " + sFindServiceCode);
-        Debug.println("# sFindServiceText    : " + sFindServiceText);
-        Debug.println("# sEditOldServiceCode : " + sEditOldServiceCode + "\n");
+        Debug.println("\n************************ system/manageServices.jsp *********************");
+        Debug.println("sAction             : "+sAction);
+        Debug.println("sFindServiceCode    : "+sFindServiceCode);
+        Debug.println("sFindServiceText    : "+sFindServiceText);
+        Debug.println("sEditOldServiceCode : "+sEditOldServiceCode+"\n");
     }
-    /////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     String tmpLang;
 
     // supported languages
     String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
-    if (supportedLanguages.length() == 0) supportedLanguages = "nl,fr";
+    if(supportedLanguages.length()==0) supportedLanguages = "nl,fr";
     supportedLanguages = supportedLanguages.toLowerCase();
 
     // get all params starting with 'EditLabelValueXX', representing labels in different languages
@@ -33,52 +36,52 @@
     Enumeration paramEnum = request.getParameterNames();
     String tmpParamName, tmpParamValue;
 
-    if (sAction.equals("save")) {
-        while (paramEnum.hasMoreElements()) {
-            tmpParamName = (String) paramEnum.nextElement();
+    if(sAction.equals("save")){
+        while (paramEnum.hasMoreElements()){
+            tmpParamName = (String)paramEnum.nextElement();
 
-            if (tmpParamName.startsWith("EditLabelValue")) {
+            if(tmpParamName.startsWith("EditLabelValue")){
                 tmpParamValue = request.getParameter(tmpParamName);
-                labelValues.put(tmpParamName.substring(14), tmpParamValue); // language, value
+                labelValues.put(tmpParamName.substring(14),tmpParamValue); // language, value
             }
         }
     }
-    else if (sAction.equals("edit")) {
-        StringTokenizer tokenizer = new StringTokenizer(supportedLanguages, ",");
-        while (tokenizer.hasMoreTokens()) {
+    else if(sAction.equals("edit")){
+        StringTokenizer tokenizer = new StringTokenizer(supportedLanguages,",");
+        while(tokenizer.hasMoreTokens()){
             tmpLang = tokenizer.nextToken();
-            labelValues.put(tmpLang, getTranDb("service", sFindServiceCode, tmpLang)); // language, value
+            labelValues.put(tmpLang,getTranDb("service",sFindServiceCode,tmpLang)); // language, value
         }
     }
 
     //--- SAVE ------------------------------------------------------------------------------------
-    if (sAction.equals("save") && sEditOldServiceCode.length() > 0) {
+    if(sAction.equals("save") && sEditOldServiceCode.length() > 0){
         String sEditServiceCode = checkString(request.getParameter("EditServiceCode")),
-                sEditServiceAddress = checkString(request.getParameter("EditServiceAddress")),
-                sEditServiceCity = checkString(request.getParameter("EditServiceCity")),
-                sEditServiceZipcode = checkString(request.getParameter("EditServiceZipcode")),
-                sEditServiceCountry = checkString(request.getParameter("EditServiceCountry")),
-                sEditServiceTelephone = checkString(request.getParameter("EditServiceTelephone")),
-                sEditServiceFax = checkString(request.getParameter("EditServiceFax")),
-                sEditServiceComment = checkString(request.getParameter("EditServiceComment")),
-                sEditServiceEmail = checkString(request.getParameter("EditServiceEmail")),
-                sEditServiceParentID = checkString(request.getParameter("EditServiceParentCode")),
-                sEditServiceInscode = checkString(request.getParameter("EditServiceInscode")),
-                sEditServiceShowOrder = checkString(request.getParameter("EditServiceShowOrder")),
-                sEditServiceLanguage = checkString(request.getParameter("EditServiceLanguage")),
-                sEditServiceContract = checkString(request.getParameter("EditServiceContract")),
-                sEditServiceContractType = checkString(request.getParameter("EditServiceContractType")),
-                sEditServiceContactPerson = checkString(request.getParameter("EditServiceContactPerson")),
-                sEditServiceContractDate = checkString(request.getParameter("EditServiceContractDate")),
-                sEditServiceDefaultContext = checkString(request.getParameter("EditServiceDefaultContext")),
-                sEditDefaultServiceStockUid = checkString(request.getParameter("EditDefaultServiceStockUid")),
-                sEditTotalBeds = checkString(request.getParameter("EditTotalBeds")),
-                sEditServiceWicket = checkString(request.getParameter("EditServiceWicket")),
-                sEditServiceCostcenter = checkString(request.getParameter("EditServiceCostcenter")),
-                sEditServiceAcceptsVisits = checkString(request.getParameter("EditServiceAcceptsVisits")),
-                sEditCareProvider = checkString(request.getParameter("EditCareProvider")),
-                sEditStayPrestationUid = checkString(request.getParameter("EditStayPrestationUid")),
-                sEditServiceInactive =checkString(request.getParameter("EditServiceInactive"));
+               sEditServiceAddress = checkString(request.getParameter("EditServiceAddress")),
+               sEditServiceCity = checkString(request.getParameter("EditServiceCity")),
+               sEditServiceZipcode = checkString(request.getParameter("EditServiceZipcode")),
+               sEditServiceCountry = checkString(request.getParameter("EditServiceCountry")),
+               sEditServiceTelephone = checkString(request.getParameter("EditServiceTelephone")),
+               sEditServiceFax = checkString(request.getParameter("EditServiceFax")),
+               sEditServiceComment = checkString(request.getParameter("EditServiceComment")),
+               sEditServiceEmail = checkString(request.getParameter("EditServiceEmail")),
+               sEditServiceParentID = checkString(request.getParameter("EditServiceParentCode")),
+               sEditServiceInscode = checkString(request.getParameter("EditServiceInscode")),
+               sEditServiceShowOrder = checkString(request.getParameter("EditServiceShowOrder")),
+               sEditServiceLanguage = checkString(request.getParameter("EditServiceLanguage")),
+               sEditServiceContract = checkString(request.getParameter("EditServiceContract")),
+               sEditServiceContractType = checkString(request.getParameter("EditServiceContractType")),
+               sEditServiceContactPerson = checkString(request.getParameter("EditServiceContactPerson")),
+               sEditServiceContractDate = checkString(request.getParameter("EditServiceContractDate")),
+               sEditServiceDefaultContext = checkString(request.getParameter("EditServiceDefaultContext")),
+               sEditDefaultServiceStockUid = checkString(request.getParameter("EditDefaultServiceStockUid")),
+               sEditTotalBeds = checkString(request.getParameter("EditTotalBeds")),
+               sEditServiceWicket = checkString(request.getParameter("EditServiceWicket")),
+               sEditServiceCostcenter = checkString(request.getParameter("EditServiceCostcenter")),
+               sEditServiceAcceptsVisits = checkString(request.getParameter("EditServiceAcceptsVisits")),
+               sEditCareProvider = checkString(request.getParameter("EditCareProvider")),
+               sEditStayPrestationUid = checkString(request.getParameter("EditStayPrestationUid")),
+               sEditServiceInactive =checkString(request.getParameter("EditServiceInactive"));
 
         // codes
         String //sEditServiceCode1 = checkString(request.getParameter("EditServiceCode1")),
@@ -89,18 +92,18 @@
 
         // contact data ('post-adres')
         String sEditContactAddress = checkString(request.getParameter("EditContactAddress")),
-                sEditContactZipcode = checkString(request.getParameter("EditContactZipcode")),
-                sEditContactCity = checkString(request.getParameter("EditContactCity")),
-                sEditContactCountry = checkString(request.getParameter("EditContactCountry")),
-                sEditContactTelephone = checkString(request.getParameter("EditContactTelephone")),
-                sEditContactFax = checkString(request.getParameter("EditContactFax")),
-                sEditContactEmail = checkString(request.getParameter("EditContactEmail"));
+               sEditContactZipcode = checkString(request.getParameter("EditContactZipcode")),
+               sEditContactCity    = checkString(request.getParameter("EditContactCity")),
+               sEditContactCountry = checkString(request.getParameter("EditContactCountry")),
+               sEditContactTelephone = checkString(request.getParameter("EditContactTelephone")),
+               sEditContactFax     = checkString(request.getParameter("EditContactFax")),
+               sEditContactEmail   = checkString(request.getParameter("EditContactEmail"));
 
         boolean isExternalService = Service.isExternalService(sEditServiceCode);
 
         // new
-        if (sEditOldServiceCode.equals("-1")) {
-            //*** INSERT SERVICE ******************************************************************
+        if(sEditOldServiceCode.equals("-1")){
+            //*** INSERT SERVICE **********************************************
             Hashtable hServiceInfo = new Hashtable();
             hServiceInfo.put("serviceid",sEditServiceCode.toUpperCase());
             hServiceInfo.put("address",sEditServiceAddress);
@@ -139,30 +142,36 @@
             catch(Exception a){
                 hServiceInfo.put("totalbeds",new Integer(0));
             }
+            
             // codes
             hServiceInfo.put("code3",sEditServiceCode3);
             hServiceInfo.put("code5",sEditServiceCode5);
-            if (sEditServiceWicket.equals("on")) {
+            if(sEditServiceWicket.equals("on")){
                 hServiceInfo.put("wicket",new Integer(1));
-            } else {
+            }
+            else{
                 hServiceInfo.put("wicket",new Integer(0));
             }
-            if (sEditServiceAcceptsVisits.equals("on")) {
+            
+            if(sEditServiceAcceptsVisits.equals("on")){
                 hServiceInfo.put("acceptsVisits",new Integer(1));
-            } else {
+            }
+            else{
                 hServiceInfo.put("acceptsVisits",new Integer(0));
             }
-            if (sEditServiceInactive.equals("on")) {
+            
+            if(sEditServiceInactive.equals("on")){
                 hServiceInfo.put("inactive",new Integer(1));
-            } else {
+            }
+            else{
                 hServiceInfo.put("inactive",new Integer(0));
             }
 
             Service.manageServiceSave(hServiceInfo);
 
             Label objLabel;
-            StringTokenizer tokenizer = new StringTokenizer(supportedLanguages, ",");
-            while (tokenizer.hasMoreTokens()) {
+            StringTokenizer tokenizer = new StringTokenizer(supportedLanguages,",");
+            while(tokenizer.hasMoreTokens()){
                 tmpLang = tokenizer.nextToken();
 
                 objLabel = new Label();
@@ -176,17 +185,17 @@
                 objLabel.saveToDB();
 
                 if(isExternalService){
-                    MedwanQuery.getInstance().removeLabelFromCache("externalService", sEditServiceCode, tmpLang);
-                    MedwanQuery.getInstance().getLabel("externalService", sEditServiceCode, tmpLang);
+                    MedwanQuery.getInstance().removeLabelFromCache("externalService",sEditServiceCode,tmpLang);
+                    MedwanQuery.getInstance().getLabel("externalService",sEditServiceCode,tmpLang);
                 }
                 else{
-                    MedwanQuery.getInstance().removeLabelFromCache("service", sEditServiceCode, tmpLang);
-                    MedwanQuery.getInstance().getLabel("service", sEditServiceCode, tmpLang);
+                    MedwanQuery.getInstance().removeLabelFromCache("service",sEditServiceCode,tmpLang);
+                    MedwanQuery.getInstance().getLabel("service",sEditServiceCode,tmpLang);
                 }
             }
         }
-        //*** UPDATE SERVICE **********************************************************************
-        else {
+        //*** UPDATE SERVICE **************************************************
+        else{
             Hashtable hServiceInfo = new Hashtable();
             hServiceInfo.put("serviceid",sEditServiceCode);
             hServiceInfo.put("address",sEditServiceAddress);
@@ -224,19 +233,19 @@
 
             hServiceInfo.put("code3",sEditServiceCode3);// NACE
             hServiceInfo.put("code5",sEditServiceCode5);// MED CENTRE
-            if (sEditServiceAcceptsVisits.equals("on")) {
+            if(sEditServiceAcceptsVisits.equals("on")){
                 hServiceInfo.put("acceptsVisits",new Integer(1));
-            } else {
+            } else{
                 hServiceInfo.put("acceptsVisits",new Integer(0));
             }
-            if (sEditServiceWicket.equals("on")) {
+            if(sEditServiceWicket.equals("on")){
                 hServiceInfo.put("wicket",new Integer(1));
-            } else {
+            } else{
                 hServiceInfo.put("wicket",new Integer(0));
             }
-            if (sEditServiceInactive.equals("on")) {
+            if(sEditServiceInactive.equals("on")){
                 hServiceInfo.put("inactive",new Integer(1));
-            } else {
+            } else{
                 hServiceInfo.put("inactive",new Integer(0));
             }
             hServiceInfo.put("oldserviceid",sEditOldServiceCode);
@@ -245,9 +254,9 @@
 
             //***** update labels for all supported languages *****
 
-            StringTokenizer tokenizer = new StringTokenizer(supportedLanguages, ",");
+            StringTokenizer tokenizer = new StringTokenizer(supportedLanguages,",");
             Label objLabel;
-            while (tokenizer.hasMoreTokens()) {
+            while(tokenizer.hasMoreTokens()){
                 tmpLang = tokenizer.nextToken();
 
                 objLabel = new Label();
@@ -260,26 +269,26 @@
 
                 objLabel.saveToDB();
 
-                MedwanQuery.getInstance().removeLabelFromCache("service", sEditServiceCode, tmpLang);
-                MedwanQuery.getInstance().getLabel("service", sEditServiceCode, tmpLang);
+                MedwanQuery.getInstance().removeLabelFromCache("service",sEditServiceCode,tmpLang);
+                MedwanQuery.getInstance().getLabel("service",sEditServiceCode,tmpLang);
             }
         }
 
         reloadSingleton(session);
 
         sFindServiceCode = sEditServiceCode;
-        if (sFindServiceCode.length() > 0) {
-            sFindServiceText = getTranNoLink("service", sEditServiceCode, sWebLanguage);
+        if(sFindServiceCode.length() > 0){
+            sFindServiceText = getTranNoLink("service",sEditServiceCode,sWebLanguage);
         }
         MedwanQuery.getInstance().removeServiceExaminations(sEditServiceCode);
     }
     //--- DELETE ----------------------------------------------------------------------------------
-    else if (sAction.equals("delete")) {
-        //*** delete service **********************************************************************
+    else if(sAction.equals("delete")){
+        //*** delete service **********
         try {
-            if (sFindServiceCode.length() > 0) {
+            if(sFindServiceCode.length() > 0){
                 Service service = Service.getService(sFindServiceCode);
-                if (service != null) {
+                if(service != null){
                   	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
                     service.delete(ad_conn);
                     ad_conn.close();
@@ -287,22 +296,22 @@
                 }
             }
         }
-        catch (Exception e) {
+        catch (Exception e){
             e.printStackTrace();
         }
 
-        //*** delete label ************************************************************************
+        //*** delete label ************
         try {
-            if (sFindServiceCode.length() > 0) {
-                StringTokenizer tokenizer = new StringTokenizer(supportedLanguages, ",");
-                while (tokenizer.hasMoreTokens()) {
+            if(sFindServiceCode.length() > 0){
+                StringTokenizer tokenizer = new StringTokenizer(supportedLanguages,",");
+                while (tokenizer.hasMoreTokens()){
                     tmpLang = tokenizer.nextToken();
-                    Label.delete("service", sFindServiceCode, tmpLang);
+                    Label.delete("service",sFindServiceCode,tmpLang);
                 }
                 labelValues = new Hashtable();
             }
         }
-        catch (Exception e) {
+        catch (Exception e){
             e.printStackTrace();
         }
 
@@ -312,8 +321,10 @@
     }
 %>
 <%=sJSEMAIL%>
+
 <form name="transactionForm" id="transactionForm" method="post">
 <input type="hidden" name="Action">
+
 <%-- SEARCH FIELDS ------------------------------------------------------------------------------%>
 <%
     // only display header when not editing the data
@@ -329,6 +340,7 @@
                         <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('FindServiceCode','FindServiceText');">
                         <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindServiceCode.value='';transactionForm.FindServiceText.value='';">
                         <input type="hidden" name="FindServiceCode" value="<%=sFindServiceCode%>">&nbsp;
+                   
                         <%-- BUTTONS --%>
                         <input type="button" class="button" name="editButton" value="<%=getTranNoLink("Web","Edit",sWebLanguage)%>" onclick="doEdit(transactionForm.FindServiceCode.value);">
                         <input type="button" class="button" name="clearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearFields();">
@@ -384,7 +396,7 @@
   }
 
   <%-- CLEAR FIELDS --%>
-  function clearFields() {
+  function clearFields(){
     transactionForm.FindServiceCode.value = "";
     transactionForm.FindServiceText.value = "";
   }
@@ -404,15 +416,16 @@
         service = Service.getService(sFindServiceCode);
         if(service!=null){
             // translate
-                if(service.parentcode.trim().length()>0) {
-                    sServiceParentCodeText = getTran("service",service.parentcode,sWebLanguage);
-                }
-                if(service.country.trim().length()>0) {
-                    sServiceCountryText = getTran("Country",service.country,sWebLanguage);
-                }
-                if(service.contactcountry.trim().length()>0) {
-                    sContactCountryText = getTran("Country",service.contactcountry,sWebLanguage);
-                }
+            if(service.parentcode.trim().length()>0){
+                sServiceParentCodeText = getTran("service",service.parentcode,sWebLanguage);
+            }
+            if(service.country.trim().length()>0){
+                sServiceCountryText = getTran("Country",service.country,sWebLanguage);
+            }
+            if(service.contactcountry.trim().length()>0){
+                sContactCountryText = getTran("Country",service.contactcountry,sWebLanguage);
+            }
+            
             StringTokenizer tokenizer = new StringTokenizer(supportedLanguages,",");
             Label objLabel;
             while(tokenizer.hasMoreTokens()){
@@ -422,13 +435,15 @@
                 service.labels.add(objLabel);
                 service.labels.add(label);
             }
-        }else{
+        }
+        else{
             service = new Service();
         }
         %>
             <input type="hidden" name="EditOldServiceCode" value="<%=sFindServiceCode%>">
             <%-- page title --%>
             <%=writeTableHeader("Web.manage","ManageServices",sWebLanguage," doBackToMenu();")%>
+            
             <%-- SERVICE DETAILS ----------------------------------------------------------------%>
             <table width="100%" class="list" cellspacing="1">
                 <%-- Service --%>
@@ -519,7 +534,7 @@
                     <td class="admin"> <%=getTran("Web","Country",sWebLanguage)%></td>
                     <td class="admin2">
                         <input type="text" readonly class="text" name="EditServiceCountryText" value="<%=sServiceCountryText%>" size="<%=sTextWidth%>">
-                        <%=ScreenHelper.writeSearchButton("buttonCountry","Country", "EditServiceCountry", "EditServiceCountryText", "",sWebLanguage,sCONTEXTPATH)%>
+                        <%=ScreenHelper.writeSearchButton("buttonCountry","Country","EditServiceCountry","EditServiceCountryText","",sWebLanguage,sCONTEXTPATH)%>
                         <input type="hidden" name="EditServiceCountry" value="<%=service.country%>">
                     </td>
                 </tr>
@@ -598,7 +613,7 @@
 		                	<option value=''></option>
 		                    <%
 		                        Vector prestations = Prestation.getPrestationsByClass("stay");
-		                        for (int n=0;n<prestations.size();n++){
+		                        for(int n=0; n<prestations.size(); n++){
 		                            Prestation prestation = (Prestation)prestations.elementAt(n);
 		                            if(prestation!=null){
 		                                out.println("<option value='"+prestation.getUid()+"' "+(checkString(service.stayprestationuid).equalsIgnoreCase(prestation.getUid())?"selected":"")+">"+prestation.getCode()+": "+prestation.getDescription()+"</option>");
@@ -615,17 +630,18 @@
 		            	<select class='text' name='EditCareProvider' id='EditCareProvider'>
 		            		<option value=''></option>
 				            <%
-				            	Vector users = UserParameter.getUserIds("invoicingcareprovider", "on");
+				            	Vector users = UserParameter.getUserIds("invoicingcareprovider","on");
 				            	SortedMap usernames = new TreeMap();
-				            	for(int n=0;n<users.size();n++){
+				            	for(int n=0; n<users.size(); n++){
 				            		User user = User.get(Integer.parseInt((String)users.elementAt(n)));
 				            		usernames.put(user.person.lastname.toUpperCase()+", "+user.person.firstname,user.userid);
 				            	}
-			            		String sSelectedValue=checkString(service.performeruid);
+				            	
+			            		String sSelectedValue = checkString(service.performeruid);
 				            	Iterator i = usernames.keySet().iterator();
 				            	while(i.hasNext()){
-				            		String username=(String)i.next();
-				            		out.println("<option value='"+usernames.get(username)+"'"+(sSelectedValue.equals(usernames.get(username))?" selected":"")+">"+username+"</option>");
+				            		String username = (String)i.next();
+				            		out.print("<option value='"+usernames.get(username)+"'"+(sSelectedValue.equals(usernames.get(username))?" selected":"")+">"+username+"</option>");
 				            	}
 				            %>
 		            	</select>
@@ -642,6 +658,7 @@
                     	</select>
                     </td>
                 </tr>
+                
                 <%--- for internal services only (exclude external services) --------------------%>
                 <%
                     if(!Service.isExternalService(service.code)){
@@ -655,13 +672,13 @@
                                         <%
                                             // list possible contexts from XML-file
                                             String sDoc = MedwanQuery.getInstance().getConfigString("templateSource")+"contexts.xml";
-                                            if (sDoc.length()>0){
+                                            if(sDoc.length() > 0){
                                                 SAXReader reader = new SAXReader(false);
                                                 Document document = reader.read(new URL(sDoc));
                                                 Iterator elements = document.getRootElement().elementIterator("context");
 
                                                 Element element;
-                                                while (elements.hasNext()){
+                                                while(elements.hasNext()){
                                                     element = (Element)elements.next();
                                                     out.println("<option value='"+element.attribute("id").getValue()+"' "+(element.attribute("id").getValue().equalsIgnoreCase(service.defaultContext)?"selected":"")+"/>"+getTran("Web.Occup",element.attribute("id").getValue(),sWebLanguage));
                                                 }
@@ -696,7 +713,6 @@
                 <%-- WICKET --%>
                 <%
                     String sChecked = "";
-
                     if(service.wicket.equals("1")){
                         sChecked = " checked";
                     }
@@ -704,7 +720,7 @@
                 <tr>
                     <td class="admin"><%=getTran("web","wicket",sWebLanguage)%></td>
                     <td class="admin2">
-                        <input class="text" type="checkbox" name="EditServiceWicket" <%=sChecked%>/>
+                        <input type="checkbox" class="hand" name="EditServiceWicket" <%=sChecked%>/>
                     </td>
                 </tr>
                 <%
@@ -716,7 +732,7 @@
                 <tr>
                     <td class="admin"> <%=getTran("Web","acceptsvisits",sWebLanguage)%></td>
                     <td class="admin2">
-                        <input class="text" type="checkbox" name="EditServiceAcceptsVisits" <%=sChecked%>/>
+                        <input type="checkbox" class="hand" name="EditServiceAcceptsVisits" <%=sChecked%>/>
                     </td>
                 </tr>
                 <%-- INACTIVE --%>
@@ -729,7 +745,7 @@
                 <tr>
                     <td class="admin"><%=getTran("web","inactive",sWebLanguage)%></td>
                     <td class="admin2">
-                        <input class="text" type="checkbox" name="EditServiceInactive" <%=sChecked%>/>
+                        <input type="checkbox" class="hand" name="EditServiceInactive" <%=sChecked%>/>
                     </td>
                 </tr>
                 <%-- COMMENT --%>
@@ -774,7 +790,7 @@
                     <td class="admin"> <%=getTran("Web","Country",sWebLanguage)%></td>
                     <td class="admin2">
                         <input type="text" readonly class="text" name="EditContactCountryText" value="<%=sContactCountryText%>" size="<%=sTextWidth%>" onblur="limitLength(this);">
-                        <%=ScreenHelper.writeSearchButton("buttonContactCountry", "Country", "EditContactCountry", "EditContactCountryText", "",sWebLanguage,sCONTEXTPATH)%>
+                        <%=ScreenHelper.writeSearchButton("buttonContactCountry","Country","EditContactCountry","EditContactCountryText","",sWebLanguage,sCONTEXTPATH)%>
                         <input type="hidden" name="EditContactCountry" value="<%=service.contactcountry%>">
                     </td>
                 </tr>
@@ -800,14 +816,17 @@
                     </td>
                 </tr>
             </table>
+            
             <%-- indication of obligated fields --%>
             <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
+            
             <%-- EDIT BUTTONS --%>
             <%=ScreenHelper.alignButtonsStart()%>
                 <input class="button" type="button" name="saveButton" value='<%=getTranNoLink("Web","Save",sWebLanguage)%>' onclick="doSave();">
                 <input type="button" class="button" name="deleteButton" value="<%=getTranNoLink("Web","delete",sWebLanguage)%>" onclick="doDelete(transactionForm.EditServiceCode.value);">
                 <input class="button" type="button" name="backButton" value='<%=getTranNoLink("Web","Back",sWebLanguage)%>' OnClick='doBack();'>
             <%=ScreenHelper.alignButtonsStop()%>
+            
             <script>
               transactionForm.EditServiceCode.focus();
 
@@ -859,7 +878,7 @@
                                 transactionForm.EditLabelValue<%=tmpLang%>.value = trim(transactionForm.EditLabelValue<%=tmpLang%>.value);
 
                                 if(allLabelsHaveAValue){
-                                  if(transactionForm.EditLabelValue<%=tmpLang%>.value.length == 0){
+                                  if(transactionForm.EditLabelValue<%=tmpLang%>.value.length==0){
                                     allLabelsHaveAValue = false;
                                     emptyLabelField = transactionForm.EditLabelValue<%=tmpLang%>;
                                   }
@@ -881,7 +900,7 @@
                   else{
                     alertDialog("web.manage","datamissing");
                     
-                    if(transactionForm.EditServiceCode.value.length == 0){
+                    if(transactionForm.EditServiceCode.value.length==0){
                       transactionForm.EditServiceCode.focus();
                     }
                     <%
@@ -890,7 +909,7 @@
                             tmpLang = tokenizer.nextToken();
 
                             %>
-                              else if(transactionForm.EditLabelValue<%=tmpLang%>.value.length == 0){
+                              else if(transactionForm.EditLabelValue<%=tmpLang%>.value.length==0){
                                 transactionForm.EditLabelValue<%=tmpLang%>.focus();
                               }
                             <%
@@ -901,11 +920,11 @@
               }
 
               <%-- FIND ZIPCODE LANGUAGE SPECIFIED --%>
-              function findZipcodeLanguageSpecified(oZipcode, oCity, buttonId, sDisplayLang){
-                if (oZipcode.value.length==0) {
+              function findZipcodeLanguageSpecified(oZipcode,oCity,buttonId,sDisplayLang){
+                if(oZipcode.value.length==0){
                   oCity.value = "";
                 }
-                else {
+                else{
                   oCity.value = "";
                   openPopup("/_common/search/blurZipcode.jsp&ZipcodeValue="+oZipcode.value+"&CityName="+oCity.name+"&CityValue="+oCity.value+"&DisplayLang="+sDisplayLang+"&VarButton="+buttonId);
                 }

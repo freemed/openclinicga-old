@@ -3,6 +3,7 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@include file="../../assets/includes/commonFunctions.jsp"%>
+<%=sJSPROTOTYPE%>
 <%=sJSSORTTABLE%>
 
 <body style="padding:5px;">

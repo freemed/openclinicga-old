@@ -52,7 +52,7 @@ String sPatientUid=request.getParameter("patientuid");
                     out.print("<tr class='admin'><td colspan='2'>" + getTran("Web.Occup", "DSM4", sWebLanguage) + " (<a href='javascript:addnewlocalcode(\""+keywords+"\")'>"+getTran("web","managelocalcodes",sWebLanguage)+"</a>)</td><td colspan='1'><a href='javascript:addnewkeyword()'>"+getTran("web","addDSM4code",sWebLanguage)+"</a></td></tr>");
                 }
 
-        %><tbody onmouseover='this.style.cursor="pointer"' onmouseout='this.style.cursor="default"'><%
+        %><tbody class="hand"><%
                 String oldcodelabel="";
                 for (int n=0; n<codes.size(); n++){
 
@@ -120,7 +120,7 @@ String sPatientUid=request.getParameter("patientuid");
                 if (diagnoses.size() > 0) {
                     out.print("<tr class='admin'><td colspan='3'>" + getTran("Web", "manageuserdiagnoses", sWebLanguage) + "</td></tr>");
                 }
-                %><tbody onmouseover='this.style.cursor="pointer"' onmouseout='this.style.cursor="default"'><%
+                %><tbody class="hand"><%
             	for(int n=0;n<diagnoses.size();n++){
             		UserDiagnosis d = (UserDiagnosis)diagnoses.elementAt(n);
             		if(d.getCodeType().equalsIgnoreCase("dsm4")){

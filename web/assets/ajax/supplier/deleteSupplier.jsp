@@ -6,12 +6,12 @@
 <%
     String sSupplierUID = checkString(request.getParameter("SupplierUID"));
        
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n*************** deleteSupplier.jsp ****************");
+        Debug.println("\n**************** assets/ajax/supplier/deleteSupplier.jsp **************");
         Debug.println("sSupplierUID : "+sSupplierUID+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     
     boolean errorOccurred = Supplier.delete(sSupplierUID);

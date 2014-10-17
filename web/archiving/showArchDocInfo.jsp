@@ -6,13 +6,13 @@
     String sUDI      = checkString(request.getParameter("UDI")),
     	   sPersonId = checkString(request.getParameter("PersonId"));
 
-    /// DEBUG ///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n################ archiving/showArchDocInfo.jsp ###############");
+        Debug.println("\n******************** archiving/showArchDocInfo.jsp ********************");
         Debug.println("sUDI      : "+sUDI);
         Debug.println("sPersonId : "+sPersonId+"\n");
     }
-    /////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     
     //ArchiveDocument doc = ArchiveDocument.get(sUDI);   
     ArchiveDocument doc = ArchiveDocument.getThroughTransactions(sUDI,Integer.parseInt(sPersonId));   

@@ -35,15 +35,14 @@
            sAssetUID = checkString(request.getParameter("assetUID")),
            sOperator = checkString(request.getParameter("operator"));
 
-
-    /// DEBUG ///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n************* assets/ajax/getMaintenancePlans.jsp ************");
+        Debug.println("\n********** assets/ajax/maintenancePlan/getMaintenancePlans.jsp *********");
         Debug.println("sName     : "+sName);
         Debug.println("sAssetUID : "+sAssetUID);
         Debug.println("sOperator : "+sOperator+"\n");
     }
-    /////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     // compose object to pass search criteria with
     MaintenancePlan findObject = new MaintenancePlan();
@@ -103,9 +102,7 @@
         <td width="*" nowrap><%=HTMLEntities.htmlentities(getTran("web.assets","operator",sWebLanguage))%></td>
     </tr>
     
-    <tbody class="hand">
-        <%=sReturn%>
-    </tbody>
+    <tbody class="hand"><%=sReturn%></tbody>
 </table> 
 
 &nbsp;<i><%=plans.size()+" "+getTran("web","recordsFound",sWebLanguage)%></i>

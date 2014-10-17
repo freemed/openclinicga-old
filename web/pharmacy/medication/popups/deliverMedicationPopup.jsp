@@ -67,7 +67,7 @@
     }
     else if(sEditProductStockUid.length() > 0 && sEditProductName.length() == 0){
         ProductStock productStock = ProductStock.get(sEditProductStockUid);
-        if(productStock != null){
+        if(productStock!=null){
             sEditProductName = productStock.getProduct().getName();
 			
             ServiceStock stock = ServiceStock.get(productStock.getServiceStockUid());
@@ -79,7 +79,7 @@
     }
     else if(sEditProductStockUid.length() > 0){
         ProductStock productStock = ProductStock.get(sEditProductStockUid);
-        if(productStock != null){
+        if(productStock!=null){
 			ServiceStock stock = ServiceStock.get(productStock.getServiceStockUid());
 			
 			if(stock.isAuthorizedUser(activeUser.userid)){
@@ -531,7 +531,6 @@
 					else{
 					  document.getElementById('destinationline').style.visibility = "visible";
 					}
-					//End forced EditSrcDestType
 						
                     srcDestType = transactionForm.EditSrcDestType.value;
                     if(srcDestType.length > 0){

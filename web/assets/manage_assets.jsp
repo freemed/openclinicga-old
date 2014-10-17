@@ -4,7 +4,6 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%@include file="../assets/includes/commonFunctions.jsp"%>
 <%=checkPermission("assets","edit",activeUser)%>
-
 <%=sJSPROTOTYPE%>
 <%=sJSNUMBER%> 
 <%=sJSSTRINGFUNCTIONS%>
@@ -263,7 +262,7 @@
         <%-- PURCHASE DOCUMENTS (multi-add) --%>   
         <tr>
             <td class="admin" nowrap><%=getTran("web.assets","purchaseDocuments",sWebLanguage)%>&nbsp;</td>
-            <td class="admin2">
+            <td class="admin2" style="padding:5px;padding-bottom:0;">
                 <input type="hidden" id="purchaseDocuments" name="purchaseDocuments" value="">
                                     
                 <div id="pdScroller" style="overflow:none;width:263px;height:50px;border:none;">   
@@ -352,7 +351,7 @@
         <%-- GAINS (multi-add: date, value (+currency)) --%>
         <tr>
             <td class="admin" nowrap><%=getTran("web.assets","gains",sWebLanguage)%>&nbsp;</td>
-            <td class="admin2">
+            <td class="admin2" style="padding:5px;">
                 <input type="hidden" id="gains" name="gains" value="">
                                      
                 <table width="45%" class="sortable" id="tblGA" cellspacing="1" headerRowCount="2"> 
@@ -399,7 +398,7 @@
         <%-- LOSSES (multi-add: date, value (+currency)) --%>  
         <tr>
             <td class="admin" nowrap><%=getTran("web.assets","losses",sWebLanguage)%>&nbsp;</td>
-            <td class="admin2">
+            <td class="admin2" style="padding:5px;">
                 <input type="hidden" id="losses" name="losses" value="">
                                      
                 <table width="45%" class="sortable" id="tblLO" cellspacing="1" headerRowCount="2"> 
@@ -491,7 +490,7 @@
             <%-- LOAN REIMBURSEMENT PLAN (multi-add: date, capital, interest, total (calculated)) --%>  
             <tr>
                 <td class="admin" nowrap><%=getTran("web.assets","loadReimbursementPlan",sWebLanguage)%>&nbsp;</td>
-                <td class="admin2">
+                <td class="admin2" style="padding:5px;">
                     <input type="hidden" id="loanReimbursementPlan" name="loanReimbursementPlan" value="">
                                          
                     <table width="60%" class="sortable" id="tblRP" cellspacing="1" headerRowCount="2" bottomRowCount="1"> 
@@ -562,7 +561,7 @@
             <%-- LOAN DOCUMENTS (multi-add) --%>
             <tr>
                 <td class="admin" nowrap><%=getTran("web.assets","loanDocuments",sWebLanguage)%>&nbsp;</td>
-                <td class="admin2">
+                <td class="admin2" style="padding:5px;padding-bottom:0;">
                     <input type="hidden" id="loanDocuments" name="loanDocuments" value="">
                               
                     <div id="ldScroller" style="overflow:none;width:270px;height:50px;border:none;">           
@@ -692,6 +691,7 @@
             partTwo = 1*docId.substr(9,2);
 
         if(partOne%97==97-partTwo){
+          docIdField.value = docId;
           return true;
         }
       }
@@ -1184,10 +1184,10 @@
 
     var td = tr.insertCell(0);
     td.innerHTML = "<a href='javascript:deleteGA(rowGA"+iGAIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>'>"+
                    "</a> "+
                    "<a href='javascript:editGA(rowGA"+iGAIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' class='link' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' style='vertical-align:-3px;'>"+
                    "</a>";
     tr.appendChild(td);
 
@@ -1226,10 +1226,10 @@
 
           var td = tr.insertCell(0);
           td.innerHTML = "<a href='javascript:deleteGA(rowGA"+iGAIndex+")'>"+
-                          "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                          "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>'>"+
                          "</a> "+
                          "<a href='javascript:editGA(rowGA"+iGAIndex+")'>"+
-                          "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                          "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' class='link' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>'>"+
                          "</a>";
           tr.appendChild(td);
 
@@ -1290,10 +1290,10 @@
         <%-- update table object --%>
         var row = tblGA.rows[editGARowid.rowIndex];
         row.cells[0].innerHTML = "<a href='javascript:deleteGA("+editGARowid.id+")'>"+
-                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>'>"+
                                  "</a> "+
                                  "<a href='javascript:editGA("+editGARowid.id+")'>"+
-                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' class='link' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>'>"+
                                  "</a>";
 
         row.cells[1].innerHTML = "&nbsp;"+EditForm.gaDate.value;
@@ -1404,10 +1404,10 @@
 
     var td = tr.insertCell(0);
     td.innerHTML = "<a href='javascript:deleteLO(rowLO"+iLOIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>'>"+
                    "</a> "+
                    "<a href='javascript:editLO(rowLO"+iLOIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' class='link' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' style='vertical-align:-3px;'>"+
                    "</a>";
     tr.appendChild(td);
 
@@ -1446,10 +1446,10 @@
 
           var td = tr.insertCell(0);
           td.innerHTML = "<a href='javascript:deleteLO(rowLO"+iLOIndex+")'>"+
-                          "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                          "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>'>"+
                          "</a> "+
                          "<a href='javascript:editLO(rowLO"+iLOIndex+")'>"+
-                          "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                          "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' class='link' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>'>"+
                          "</a>";
           tr.appendChild(td);
 
@@ -1510,10 +1510,10 @@
         <%-- update table object --%>
         var row = tblLO.rows[editLORowid.rowIndex];
         row.cells[0].innerHTML = "<a href='javascript:deleteLO("+editLORowid.id+")'>"+
-                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>'>"+
                                  "</a> "+
                                  "<a href='javascript:editLO("+editLORowid.id+")'>"+
-                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' class='link' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>'>"+
                                  "</a>";
 
         row.cells[1].innerHTML = "&nbsp;"+EditForm.loDate.value;
@@ -1587,36 +1587,8 @@
   
   <%-- DISPLAY DOCUMENT --%>
   function displayDocument(documentId,msgDivId){
-    <%
-        String sDocumentBase = MedwanQuery.getInstance().getConfigParam("documentBase","");
-        if(sDocumentBase.length() > 0){  
-            sDocumentBase = sDocumentBase.replaceAll("\\\\","/");
-            
-            %>
-              var url = "<c:url value='/assets/ajax/asset/getDocumentInfo.jsp'/>?ts="+new Date().getTime();
-            
-              new Ajax.Request(url,{
-                method: "GET",
-                parameters: "DocumentId="+documentId,
-                onSuccess: function(resp){
-                  var data = eval("("+resp.responseText+")");
-                  if(data.message=="ok"){
-                    openPopup("<%=sDocumentBase%>/"+data.documentName);
-                  }
-                  else{
-                    $(msgDivId).innerHTML = data.message;
-                  }
-                },
-                onFailure: function(resp){
-                  $(msgDivId).innerHTML = "Error in 'assets/ajax/asset/getDocumentInfo.jsp' : "+resp.responseText.trim();
-                }  
-              });
-            <%
-        }
-        else{
-            %>alertDialog("web","documentBaseNotConfigured");<%
-        }
-    %>
+	var url = "<%=sCONTEXTPATH%>/assets/ajax/asset/openDocument.jsp?DocumentId="+documentId+"&ts="+new Date().getTime();
+    window.open(url,"Document<%=getTs()%>","height=600,width=845,toolbar=no,status=no,scrollbars=yes,resizable=yes,menubar=yes,left=50,top=30");
   }
   
 
@@ -1658,10 +1630,10 @@
 
     var td = tr.insertCell(0);
     td.innerHTML = "<a href='javascript:deletePD(rowPD"+iPDIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>'>"+
                    "</a> "+
                    "<a href='javascript:editPD(rowPD"+iPDIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' class='link' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' style='vertical-align:-3px;'>"+
                    "</a>";
     tr.appendChild(td);
 
@@ -1705,10 +1677,10 @@
 
         var td = tr.insertCell(0);
         td.innerHTML = "<a href='javascript:deletePD(rowPD"+iPDIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>'>"+
                        "</a> "+
                        "<a href='javascript:editPD(rowPD"+iPDIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' class='link' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>'>"+
                        "</a>";
         tr.appendChild(td);
 
@@ -1760,10 +1732,10 @@
       <%-- update table object --%>
       var row = tblPD.rows[editPDRowid.rowIndex];
       row.cells[0].innerHTML = "<a href='javascript:deletePD("+editPDRowid.id+")'>"+
-                                "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                                "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>'>"+
                                "</a> "+
                                "<a href='javascript:editPD("+editPDRowid.id+")'>"+
-                                "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                                "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' class='link' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>'>"+
                                "</a>";
 
       row.cells[1].innerHTML = "&nbsp;"+makeDocumentLink(EditForm.pdID.value,"purchaseDocumentMsgDiv");
@@ -1880,10 +1852,10 @@
 
     var td = tr.insertCell(0);
     td.innerHTML = "<a href='javascript:deleteRP(rowRP"+iRPIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>'>"+
                    "</a> "+
                    "<a href='javascript:editRP(rowRP"+iRPIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' class='link' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' style='vertical-align:-3px;'>"+
                    "</a>";
     tr.appendChild(td);
 
@@ -1974,10 +1946,10 @@
 
         var td = tr.insertCell(0);
         td.innerHTML = "<a href='javascript:deleteRP(rowRP"+iRPIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>'>"+
                        "</a> "+
                        "<a href='javascript:editRP(rowRP"+iRPIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' class='link' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>'>"+
                        "</a>";
         tr.appendChild(td);
 
@@ -2046,10 +2018,10 @@
       <%-- update table object --%>
       var row = tblRP.rows[editRPRowid.rowIndex];
       row.cells[0].innerHTML = "<a href='javascript:deleteRP("+editRPRowid.id+")'>"+
-                                "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                                "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>'>"+
                                "</a> "+
                                "<a href='javascript:editRP("+editRPRowid.id+")'>"+
-                                "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                                "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' class='link' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>'>"+
                                "</a>";
 
       row.cells[1].innerHTML = "&nbsp;"+EditForm.rpDate.value;
@@ -2172,10 +2144,10 @@
 
     var td = tr.insertCell(0);
     td.innerHTML = "<a href='javascript:deleteLD(rowLD"+iLDIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0' style='vertical-align:-2px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>'>"+
                    "</a> "+
                    "<a href='javascript:editLD(rowLD"+iLDIndex+")'>"+
-                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0' style='vertical-align:-3px;'>"+
+                    "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' class='link' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' style='vertical-align:-3px;'>"+
                    "</a>";
     tr.appendChild(td);
 
@@ -2219,10 +2191,10 @@
 
         var td = tr.insertCell(0);
         td.innerHTML = "<a href='javascript:deleteLD(rowLD"+iLDIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>'>"+
                        "</a> "+
                        "<a href='javascript:editLD(rowLD"+iLDIndex+")'>"+
-                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                        "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' class='link' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>'>"+
                        "</a>";
         tr.appendChild(td);
 
@@ -2294,10 +2266,10 @@
       <%-- update table object --%>
       var row = tblLD.rows[editLDRowid.rowIndex];
       row.cells[0].innerHTML = "<a href='javascript:deleteLD("+editLDRowid.id+")'>"+
-                                "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' border='0'>"+
+                                "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' alt='<%=getTranNoLink("web","delete",sWebLanguage)%>'>"+
                                "</a> "+
                                "<a href='javascript:editLD("+editLDRowid.id+")'>"+
-                                "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' border='0'>"+
+                                "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' class='link' alt='<%=getTranNoLink("web","edit",sWebLanguage)%>'>"+
                                "</a>";
 
       row.cells[1].innerHTML = "&nbsp;"+makeDocumentLink(EditForm.ldID.value,"loanDocumentMsgDiv");

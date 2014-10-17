@@ -20,12 +20,12 @@
 <%
     String sOperationUID = checkString(request.getParameter("OperationUID"));
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n*********** getMaintenanceOperation.jsp ************");
+        Debug.println("\n********* assets/ajax/maintenanceOperation/getMaintenanceOperation.jsp **********");
         Debug.println("sOperationUID : "+sOperationUID+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     MaintenanceOperation operation = MaintenanceOperation.get(sOperationUID);
     

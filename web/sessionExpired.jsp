@@ -78,7 +78,7 @@
         <table>
             <tr>
                 <td>
-                    <br><br> Session expired <br>
+                    <br><br> <b>Session expired</b> <br>
                 </td>
             </tr>
             <tr>

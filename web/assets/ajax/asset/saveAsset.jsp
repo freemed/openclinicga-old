@@ -200,9 +200,9 @@
            sSaleValue  = checkString(request.getParameter("saleValue")),
            sSaleClient = checkString(request.getParameter("saleClient"));
            
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n****************** saveAsset.jsp ******************");
+        Debug.println("\n******************* assets/ajax/asset/saveAsset.jsp *******************");
         Debug.println("sEditAssetUID      : "+sEditAssetUID);
         Debug.println("sCode              : "+sCode);
         Debug.println("sParentUID         : "+sParentUID);
@@ -236,7 +236,7 @@
         Debug.println("saleValue          : "+sSaleValue);
         Debug.println("saleClient         : "+sSaleClient+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
 
     Asset asset = new Asset();

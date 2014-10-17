@@ -1,7 +1,6 @@
 <%@page import="be.openclinic.archiving.ArchiveDocument"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-
 <%=checkPermission("archiving.listArchiveDocuments","select",activeUser)%>
 <%=sJSSORTTABLE%>
 
@@ -59,16 +58,16 @@
            sFindBegin    = checkString(request.getParameter("FindBegin")),
            sFindEnd      = checkString(request.getParameter("FindEnd"));
 
-    /// DEBUG ///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n############## archiving/listArchiveDocuments.jsp ############");
+        Debug.println("\n****************** archiving/listArchiveDocuments.jsp *****************");
         Debug.println("sAction       : "+sAction);
         Debug.println("sFindTitle    : "+sFindTitle);
         Debug.println("sFindCategory : "+sFindCategory);
         Debug.println("sFindBegin    : "+sFindBegin);
         Debug.println("sFindEnd      : "+sFindEnd+"\n");
     }
-    /////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     
     StringBuffer sHTML = new StringBuffer();
     int foundDocsCount = 0;

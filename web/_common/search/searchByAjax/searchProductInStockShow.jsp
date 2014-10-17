@@ -42,9 +42,9 @@
     String centralPharmacyCode = MedwanQuery.getInstance().getConfigString("centralPharmacyCode"),
            centralPharmacyName = getTranNoLink("Service",centralPharmacyCode,sWebLanguage);
 
-    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n******* _common/search/searchByAjax/searchProductInStockShow.jsp *******");
+        Debug.println("\n************ _common/search/searchByAjax/searchProductInStockShow.jsp ************");
         Debug.println("sAction             : "+sAction);
         Debug.println("sSearchProductName  : "+sSearchProductName);
         Debug.println("sSearchServiceUid   : "+sSearchServiceUid);
@@ -62,7 +62,7 @@
         Debug.println("sReturnSupplierNameField     : "+sReturnSupplierNameField);
         Debug.println("sReturnProductStockUidField  : "+sReturnProductStockUidField+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // display products of user-service by default (on first page load)
     boolean displayProductsOfDoctorService = checkString(request.getParameter("DisplayProductsOfDoctorService")).equals("true");
@@ -196,7 +196,7 @@
 		                    else                  sClass = "";
 		
 		                    //*** display product in one row ***
-		                    sOut.append("<tr title='"+chooseTran+"' class='list"+sClass+"' onMouseOver=\"this.className='list_select'\" onMouseOut=\"this.className='list"+sClass+"'\" onClick=\"selectProduct('"+product.getUid()+"','"+product.getName()+"','"+product.getUnit()+"','"+sUnitsPerTimeUnit+"','"+supplyingServiceUid+"','"+supplyingServiceName+"','"+sSupplierUid+"','"+sSupplierName+"','"+sUnitsPerPackage+"','"+sProductStockUid+"','"+serviceStock.getUid()+"','"+serviceStock.getName()+"');\">")
+		                    sOut.append("<tr title='"+chooseTran+"' class='list"+sClass+"' onClick=\"selectProduct('"+product.getUid()+"','"+product.getName()+"','"+product.getUnit()+"','"+sUnitsPerTimeUnit+"','"+supplyingServiceUid+"','"+supplyingServiceName+"','"+sSupplierUid+"','"+sSupplierName+"','"+sUnitsPerPackage+"','"+sProductStockUid+"','"+serviceStock.getUid()+"','"+serviceStock.getName()+"');\">")
 		                         .append("<td>"+product.getName()+"</td>")
 		                         .append("<td>"+sUnitTran+"</td>")
 		                         .append("<td align='right'>"+priceDeci.format(product.getUnitPrice())+" "+sCurrency+"&nbsp;</td>")
@@ -227,6 +227,7 @@
                 </table>
                 
                 <%=iTotal%> <%=HTMLEntities.htmlentities(getTran("web","recordsFound",sWebLanguage))%>
+                <script>sortables_init();</script>
             <%
         }
     }

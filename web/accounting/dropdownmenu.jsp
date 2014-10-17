@@ -50,9 +50,9 @@
             }
         }
         //--- MAKE MENU ---------------------------------------------------------------------------
-        public String makeMenu(boolean bMenu, String sWebLanguage, String sParentMenu, User user, boolean last,AdminPerson activePatient){
+        public String makeMenu(boolean bMenu, String sWebLanguage, String sParentMenu, User user, boolean last, AdminPerson activePatient){
             String sReturn = "";
-            try {
+            try{
                 if(this.accessrights.length() > 0){
                     // permission 'sa' can see everything
                     //                   if(user.getParameter("sa").length()==0){
@@ -77,14 +77,17 @@
                     }
                     //                 }
                 }
+                
                 if(this.activeencounter.equalsIgnoreCase("true")){
                 	if(activePatient==null || Encounter.getActiveEncounter(activePatient.personid)==null){
                 		return "";
+                	
                 	}
                 }
                 if((patientselected.equalsIgnoreCase("true")) && !bMenu){
                     return "";
                 }
+                
                 if(this.url.length() > 0){
                     // leave url as-is if it contains a javascript call
                     if(!this.url.startsWith("javascript:")){
@@ -98,112 +101,128 @@
                 }
 
                 // menu has submenus
-                String sTranslation = getTranNoLink("Web", this.labelid, sWebLanguage);
+                String sTranslation = getTranNoLink("Web",this.labelid,sWebLanguage);
                 String subsubMenu = "";
                 if(this.menus.size() > 0){
                     Menu subMenu;
                     for (int y = 0; y < this.menus.size(); y++){
                         subMenu = (Menu) this.menus.elementAt(y);
-                        subsubMenu += subMenu.makeMenu(bMenu, sWebLanguage, this.labelid, user, (y==this.menus.size() - 1),activePatient);
+                        subsubMenu += subMenu.makeMenu(bMenu,sWebLanguage,this.labelid,user,(y==this.menus.size() - 1),activePatient);
                     }
+                    
                     if(this.target.length() > 0){
-                        sReturn += "<li><a href='javascript:void(0); class='subparent''>"+sTranslation+"</a>";
-                        sReturn += "<ul class='level3'>";
-                        sReturn += (subsubMenu.length()>0)?subsubMenu:"<li><a href='javascript:void(0);'>empty</a></li>";
-                        sReturn += "</ul></li>";
-                    } else {
-                        sReturn += "<li><a href='javascript:void(0);' class='subparent'>"+sTranslation+"</a>";
-                        sReturn += "<ul class='level3'>";
-                        sReturn += (subsubMenu.length()>0)?subsubMenu:"<li><a href='javascript:void(0);'>empty</a></li>";
-                        sReturn += "</ul></li>";
+                        sReturn+= "<li><a href='javascript:void(0); class='subparent''>"+sTranslation+"</a>";
+                        sReturn+= "<ul class='level3'>";
+                        sReturn+= (subsubMenu.length()>0)?subsubMenu:"<li><a href='javascript:void(0);'>empty</a></li>";
+                        sReturn+= "</ul></li>";
                     }
-                } else {
+                    else{
+                        sReturn+= "<li><a href='javascript:void(0);' class='subparent'>"+sTranslation+"</a>";
+                        sReturn+= "<ul class='level3'>";
+                        sReturn+= (subsubMenu.length()>0)?subsubMenu:"<li><a href='javascript:void(0);'>empty</a></li>";
+                        sReturn+= "</ul></li>";
+                    }
+                }
+                else{
                     if(this.target.length() > 0){
-                        sReturn += "<li><a href=\""+this.url+"\">"+sTranslation+"</a></li>";
-                    } else {
-                        sReturn += "<li><a href=\""+this.url+"\">"+sTranslation+"</a></li>";
+                        sReturn+= "<li><a href=\""+this.url+"\">"+sTranslation+"</a></li>";
+                    }
+                    else{
+                        sReturn+= "<li><a href=\""+this.url+"\">"+sTranslation+"</a></li>";
                     }
                 }
             }
-            catch (Exception e){
+            catch(Exception e){
                 e.printStackTrace();
             }
+            
             return sReturn;
         }
-    }%>
-<%
- 
+    }
+%>
+    
+<% 
     String sPage = checkString(request.getParameter("Page")).toLowerCase();
     String sPersonID = checkString(request.getParameter("personid"));
     String sPatientNew = checkString(request.getParameter("PatientNew"));
+  
     if(sPage.startsWith("start") || sPage.startsWith("_common/patientslist") || sPatientNew.equals("true")){
         session.removeAttribute("activePatient");
         activePatient = null;
         SessionContainerWO sessionContainerWO = (SessionContainerWO) session.getAttribute("be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER");
         sessionContainerWO.setPersonVO(null);
-       %>
-<script>
-    window.document.title = "<%=sWEBTITLE+" "+getWindowTitle(request,sWebLanguage)%>";
-</script>
-<%} else if(sPersonID.length() > 0){
-        activePatient = AdminPerson.getAdminPerson(sPersonID);
-        session.setAttribute("activePatient", activePatient);
 %>
 <script>
     window.document.title = "<%=sWEBTITLE+" "+getWindowTitle(request,sWebLanguage)%>";
 </script>
-<%} else {
-    sPersonID = checkString(request.getParameter("PersonID"));
-    if(sPersonID.length() > 0){
-        session.removeAttribute("activePatient");
-        activePatient = AdminPerson.getAdminPerson(sPersonID);
+<%
     }
-}
-	//First check if user has access to the active patient
+    else if(sPersonID.length() > 0){
+        activePatient = AdminPerson.getAdminPerson(sPersonID);
+        session.setAttribute("activePatient",activePatient);
+%>
+<script>
+    window.document.title = "<%=sWEBTITLE+" "+getWindowTitle(request,sWebLanguage)%>";
+</script>
+<% 
+    }
+    else {
+	    sPersonID = checkString(request.getParameter("PersonID"));
+	    if(sPersonID.length() > 0){
+	        session.removeAttribute("activePatient");
+	        activePatient = AdminPerson.getAdminPerson(sPersonID);
+	    }
+    }
+    
+	// check if user has access to the active patient
 	if(sPage.indexOf("novipaccess")<0 && activePatient!=null && "1".equalsIgnoreCase((String)activePatient.adminextends.get("vip")) && !activeUser.getAccessRight("vipaccess.select")){
-		//User has no access, redirect to warning screen
-		%>
-		<script>window.location.href='<c:url value="main.do?Page=novipaccess.jsp"/>';</script>
-		<%
+		// User has no access, redirect to warning screen
+		%><script>window.location.href='<c:url value="main.do?Page=novipaccess.jsp"/>';</script><%
 		out.flush();
 	}
-    session.setAttribute("activePatient", activePatient);
+	
+    session.setAttribute("activePatient",activePatient);
     boolean bMenu = false;
     if((activePatient!=null) && (activePatient.lastname!=null) && (activePatient.personid.trim().length() > 0)){
         if(!sPage.equals("patientslist.jsp")){
             bMenu = true;
         }
-    } else {
+    }
+    else {
         activePatient = new AdminPerson();
-    }%>
+    }
+%>
 <table width="100%" cellspacing="0" cellpadding="0">
     <tr>
         <td width="*">
             <div id="topmenu">
                 <ul class="level1" id="root">
-                    <%//-- menus ------------------------------------------------------------------------------------
+                    <%
+                        //-- menus ------------------------------------------------------------------------------------
                         SAXReader xmlReader = new SAXReader();
                         String sMenu = checkString((String) session.getAttribute("AccountancyMenuXML"));
                         Document document;
                         if(sMenu.length() > 0){
                             document = xmlReader.read(new StringReader(sMenu));
-                        } else {
+                        }
+                        else{
                             String sMenuXML = MedwanQuery.getInstance().getConfigString("AccountancyMenuXMLFile");
                             if(sMenuXML.length()==0) sMenuXML = "menu_accountancy.xml";
-                            String sMenuXMLUrl = "http://"+request.getServerName()+request.getRequestURI().replaceAll(request.getServletPath(), "")+"/"+sAPPDIR+"/_common/xml/"+sMenuXML+"&ts="+getTs();
+                            String sMenuXMLUrl = "http://"+request.getServerName()+request.getRequestURI().replaceAll(request.getServletPath(),"")+"/"+sAPPDIR+"/_common/xml/"+sMenuXML+"&ts="+getTs();
 
                             // Check if menu file exists, else use file at templateSource location.
-                            try {
+                            try{
                                 document = xmlReader.read(new URL(sMenuXMLUrl));
                                 Debug.println("Using custom menu file : "+sMenuXMLUrl);
                             }
-                            catch (DocumentException e){
+                            catch(DocumentException e){
                                 sMenuXMLUrl = MedwanQuery.getInstance().getConfigString("templateSource")+"/"+sMenuXML;
                                 document = xmlReader.read(new URL(sMenuXMLUrl));
                                 Debug.println("Using default menu file : "+sMenuXMLUrl);
                             }
-                            session.setAttribute("AccountancyMenuXML", document.asXML());
+                            session.setAttribute("AccountancyMenuXML",document.asXML());
                         }
+                        
                         Vector vMenus = new Vector();
                         Menu menu;
                         if(document!=null){
@@ -220,25 +239,25 @@
 
                         //menus
                         Menu subMenu;
-                        for (int i = 0; i < vMenus.size(); i++){
-                            menu = (Menu) vMenus.elementAt(i);
+                        for(int i=0; i<vMenus.size(); i++){
+                            menu = (Menu)vMenus.elementAt(i);
                             String subs = "";
                             if(menu.patientselected.equalsIgnoreCase("true")&!bMenu){
                             	continue;
                             }
                             else if(menu.menus.size() > 0){
-                                for (int y = 0; y < menu.menus.size(); y++){
+                                for(int y=0; y<menu.menus.size(); y++){
                                     subMenu = (Menu) menu.menus.elementAt(y);
-                                    subs += subMenu.makeMenu(bMenu, sWebLanguage, menu.labelid, activeUser, (y==menu.menus.size() - 1),activePatient);
+                                    subs+= subMenu.makeMenu(bMenu,sWebLanguage,menu.labelid,activeUser,(y==menu.menus.size() - 1),activePatient);
                                 }
                                 out.write("<li class='menu_"+menu.labelid+"'>");
-                                out.write("<a href='javascript:void(0)' class='parent'>"+getTranNoLink("Web", menu.labelid, sWebLanguage)+"</a>");
+                                out.write("<a href='javascript:void(0)' class='parent'>"+getTranNoLink("Web",menu.labelid,sWebLanguage)+"</a>");
                                 out.write("<ul class='level2'>");
                                 out.write(subs);
                                 out.write("</ul></li>");
                             }
                             // no submenus
-                            else {
+                            else{
                                 if(!menu.patientselected.equalsIgnoreCase("true") || bMenu){
                                     if(menu.url.length() > 0){
                                         if(menu.url.startsWith("/")){
@@ -256,10 +275,10 @@
                                             menu.accessrights.length()==0) /*|| activeUser.getParameter("sa").length()>0)*/ {
                                         if(menu.target.length() > 0){
                                             out.write("<li class='menu_"+menu.labelid+"'>");
-                                            out.write("<a href="+menu.url+">"+getTranNoLink("Web", menu.labelid, sWebLanguage)+"</a>");
+                                            out.write("<a href="+menu.url+">"+getTranNoLink("Web",menu.labelid,sWebLanguage)+"</a>");
                                             out.write("</li>");
                                         } else {
-                                            out.write("<li class='menu_"+menu.labelid+"'><a href="+menu.url+">"+getTranNoLink("Web", menu.labelid, sWebLanguage)+"</a></li>");
+                                            out.write("<li class='menu_"+menu.labelid+"'><a href="+menu.url+">"+getTranNoLink("Web",menu.labelid,sWebLanguage)+"</a></li>");
                                         }
                                     }
                                 }
@@ -289,7 +308,8 @@
 		}
 	%>
   }
-  
+
+  <%-- NEW FAST ENCOUNTER --%>
   function newFastEncounter(init){
 	<%
 	    activeEncounter = Encounter.getActiveEncounter(activePatient.personid);
@@ -298,12 +318,10 @@
 	    }
 		else{
 		    %>
-		      var params = '';
-		      var today = new Date();
 		      var url = '<c:url value="/"/>/adt/newEncounter.jsp?ts=<%=getTs()%>&init='+init;
 		      new Ajax.Request(url,{
 		        method: "GET",
-		        parameters: params,
+		        parameters: "",
 		        onSuccess: function(resp){
 			      window.location.reload();
 		        }
@@ -313,6 +331,7 @@
 	%>
   }
 	
+  <%-- NEW FAST TRANSACTION --%>
   function newFastTransaction(transactionType){
 	if(<%=Encounter.selectEncounters("","","","","","","","",activePatient.personid,"").size()%>>0){
       window.location.href='<c:url value="/"/>healthrecord/createTransaction.do?be.mxs.healthrecord.createTransaction.transactionType='+transactionType+'&ts=<%=getTs()%>';
@@ -326,6 +345,7 @@
   function readBarcode(){
     openPopup("/_common/readBarcode.jsp&ts=<%=getTs()%>");
   }
+  
   function readBarcode2(barcode){
     var transform = "<%=MedwanQuery.getInstance().getConfigString("CCDKeyboardTransformString","à&é\\\"'(§è!ç")%>";
     var oldbarcode = barcode;
@@ -339,6 +359,7 @@
       }
     }
     document.getElementsByName('barcode')[0].style.visibility = "hidden";
+    
     if(barcode.substring(0,1)=="0"){
       window.location.href = "<c:url value='/main.do'/>?Page=curative/index.jsp&ts=<%=ScreenHelper.getTs()%>&PersonID="+barcode.substring(1);
     }
@@ -349,12 +370,12 @@
     else if(barcode.substring(0,1)=="2"){
       //Registration of sample-entry
       if(document.getElementsByName('sampleReceiver')[0]!=undefined){
-        document.getElementsByName('sampleReceiver')[0].innerHTML = "<input type='hidden' name='receive."+barcode.substring(1, 3)+"."+barcode.substring(3, 11)+"."+(barcode.length > 11 ? barcode.substring(11) : "?")+"' value='1'/>";
+        document.getElementsByName('sampleReceiver')[0].innerHTML = "<input type='hidden' name='receive."+barcode.substring(1,3)+"."+barcode.substring(3,11)+"."+(barcode.length > 11 ? barcode.substring(11) : "?")+"' value='1'/>";
         frmSampleReception.submit();
       }
     }
     else if(barcode.substring(0,1)=="4" || barcode.substring(0,1)=="5"){
-      window.open("<c:url value='/popup.jsp'/>?Page=_common/readBarcode.jsp&ts=<%=ScreenHelper.getTs()%>&barcode="+barcode, "barcode","toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=1, height=1, menubar=no");
+      window.open("<c:url value='/popup.jsp'/>?Page=_common/readBarcode.jsp&ts=<%=ScreenHelper.getTs()%>&barcode="+barcode,"barcode","toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=1,height=1,menubar=no");
     }
     else if(barcode.substring(0,1)=="7"){
       url = "<c:url value='/main.do'/>?Page=financial/patientInvoiceEdit.jsp&ts=<%=ScreenHelper.getTs()%>&LoadPatientId=true&FindPatientInvoiceUID="+barcode.substring(1);
@@ -372,19 +393,20 @@
     barcode = "";
     for(var n=0; n<oldbarcode.length; n++){
       if(transform.indexOf(oldbarcode.substring(n,n+1)) > -1){
-        barcode = barcode+transform.indexOf(oldbarcode.substring(n, n+1));
+        barcode = barcode+transform.indexOf(oldbarcode.substring(n,n+1));
       }
       else{
-        barcode = barcode+oldbarcode.substring(n, n+1);
+        barcode = barcode+oldbarcode.substring(n,n+1);
       }
     }
     document.getElementsByName('barcode')[0].style.visibility = "hidden";
     if(barcode.substring(0,1)=="0"){
       var url = "<c:url value='/main.do'/>?Page=curative/index.jsp&ts=<%=ScreenHelper.getTs()%>&PersonID="+barcode.substring(1);
-      window.open(url,"Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=800,height=600,menubar=no").moveTo((screen.width - 800) / 2, (screen.height - 600) / 2);
+      window.open(url,"Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=800,height=600,menubar=no").moveTo((screen.width - 800) / 2,(screen.height - 600) / 2);
     }
   }
-  <%-- READ BARCODE --%>
+  
+  <%-- CREATE ARCHIVE FILE --%>
   function createArchiveFile(){
     openPopup("_common/createArchiveFile.jsp&ts=<%=getTs()%>",1,1);
   }
@@ -400,7 +422,8 @@
 	    }
     %>
   }
-  
+
+  <%-- ENROLL FINGERPRINT --%>
   function enrollFingerPrint(){
     <%
         if(checkString(MedwanQuery.getInstance().getConfigString("referringServer")).length()==0){
@@ -413,45 +436,47 @@
   }
   
   function printPatientCard(){
-    window.open("<c:url value='/'/>/util/setprinter.jsp?printer=cardprinter","Popup"+new Date().getTime(), "toolbar=no, status=no, scrollbars=no, resizable=no, width=1, height=1, menubar=no").moveBy(-1000, -1000);
-    window.open("<c:url value='/adt/createPatientCardPdf.jsp'/>?ts=<%=getTs()%>","Popup"+new Date().getTime(), "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=400, height=300, menubar=no").moveTo((screen.width - 400) / 2, (screen.height - 300) / 2);
+    window.open("<c:url value='/'/>/util/setprinter.jsp?printer=cardprinter","Popup"+new Date().getTime(),"toolbar=no,status=no,scrollbars=no,resizable=no,width=1,height=1,menubar=no").moveBy(-1000,-1000);
+    window.open("<c:url value='/adt/createPatientCardPdf.jsp'/>?ts=<%=getTs()%>","Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=400,height=300,menubar=no").moveTo((screen.width - 400) / 2,(screen.height - 300) / 2);
   }
   function printInsuranceCard(){
-    window.open("<c:url value='/'/>/util/setprinter.jsp?printer=cardprinter","Popup"+new Date().getTime(), "toolbar=no, status=no, scrollbars=no, resizable=no, width=1, height=1, menubar=no").moveBy(-1000, -1000);
-    window.open("<c:url value='/adt/createInsuranceCardPdf.jsp'/>?ts=<%=getTs()%>","Popup"+new Date().getTime(), "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=400, height=300, menubar=no").moveTo((screen.width - 400) / 2, (screen.height - 300) / 2);
+    window.open("<c:url value='/'/>/util/setprinter.jsp?printer=cardprinter","Popup"+new Date().getTime(),"toolbar=no,status=no,scrollbars=no,resizable=no,width=1,height=1,menubar=no").moveBy(-1000,-1000);
+    window.open("<c:url value='/adt/createInsuranceCardPdf.jsp'/>?ts=<%=getTs()%>","Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=400,height=300,menubar=no").moveTo((screen.width - 400) / 2,(screen.height - 300) / 2);
   }
   function printCNOMCard(){
-    window.open("<c:url value='/'/>/util/setprinter.jsp?printer=cardprinter","Popup"+new Date().getTime(), "toolbar=no, status=no, scrollbars=no, resizable=no, width=1, height=1, menubar=no").moveBy(-1000, -1000);
-    window.open("<c:url value='/adt/createCNOMCardPdf.jsp'/>?ts=<%=getTs()%>","Popup"+new Date().getTime(), "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=400, height=300, menubar=no").moveTo((screen.width - 400) / 2, (screen.height - 300) / 2);
+    window.open("<c:url value='/'/>/util/setprinter.jsp?printer=cardprinter","Popup"+new Date().getTime(),"toolbar=no,status=no,scrollbars=no,resizable=no,width=1,height=1,menubar=no").moveBy(-1000,-1000);
+    window.open("<c:url value='/adt/createCNOMCardPdf.jsp'/>?ts=<%=getTs()%>","Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=400,height=300,menubar=no").moveTo((screen.width - 400) / 2,(screen.height - 300) / 2);
   }
   function printPatientLabel(){
-    window.open("<c:url value='/adt/createPatientLabelPdf.jsp'/>?ts=<%=getTs()%>","Popup"+new Date().getTime(), "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=400, height=300, menubar=no").moveTo((screen.width - 400) / 2, (screen.height - 300) / 2);
+    window.open("<c:url value='/adt/createPatientLabelPdf.jsp'/>?ts=<%=getTs()%>","Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=400,height=300,menubar=no").moveTo((screen.width - 400) / 2,(screen.height - 300) / 2);
   }
   function storePicture(){
-    //window.open("<c:url value='/util/storePicture.jsp'/>?ts=<%=getTs()%>&personid=<%=activePatient!=null?activePatient.personid:"0"%>","Popup"+new Date().getTime(), "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=400, height=300, menubar=no").moveTo((screen.width - 400) / 2, (screen.height - 300) / 2);
+    <%-- window.open("<c:url value='/util/storePicture.jsp'/>?ts=<%=getTs()%>&personid=<%=activePatient!=null?activePatient.personid:"0"%>","Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=400,height=300,menubar=no").moveTo((screen.width - 400) / 2,(screen.height - 300) / 2); --%>
     var url = "<c:url value='/util/ajax/webcam.jsp'/>?ts="+new Date().getTime();
-    Modalbox.show(url, {title: '<%=getTranNoLink("web","loadPicture", sWebLanguage)%>', width:650} );
+    Modalbox.show(url,{title:'<%=getTranNoLink("web","loadPicture",sWebLanguage)%>',width:650});
   }
   function showPicture(){
-    //openPopup("util/showPicture.jsp&ts=<%=getTs()%>&personid=<%=activePatient!=null?activePatient.personid:"0"%>", 400, 400);
+    <%-- openPopup("util/showPicture.jsp&ts=<%=getTs()%>&personid=<%=activePatient!=null?activePatient.personid:"0"%>",400,400); --%>
     var url = "<c:url value="/util/ajax/showPicture.jsp"/>?personid=<%=activePatient!=null?activePatient.personid:"0"%>&ts="+new Date().getTime();
-    Modalbox.show(url, {title: '<%=getTranNoLink("web","showPicture", sWebLanguage)%>', width:162} );
+    Modalbox.show(url,{title:'<%=getTranNoLink("web","showPicture",sWebLanguage)%>',width:162});
   }
   function deletePicture(){
     var url = "<c:url value='/util/ajax/deletePicture.jsp'/>?ts="+new Date().getTime();
-    Modalbox.show(url, {title: '<%=getTranNoLink("web","loadPicture", sWebLanguage)%>', width:162} );
+    Modalbox.show(url,{title:'<%=getTranNoLink("web","loadPicture",sWebLanguage)%>',width:162});
   }
   <%-- DO PRINT --%>
   function doPrint(){
     openPopup("/_common/print/printPatient.jsp&Field=mijn&ts=<%=getTs()%>");
   }
     
+  <%-- DELETE PAPER PRESCRIPTION --%>
   function deletepaperprescription(prescriptionuid){
 	if(yesnoDialog("Web","areYouSureToDelete")){
-      var w = window.open('<c:url value='/medical/deletePaperPrescription.jsp'/>?ts=<%=getTs()%>&prescriptionuid='+prescriptionuid, "delete","toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=1, height=1, menubar=no");
+      var w = window.open('<c:url value='/medical/deletePaperPrescription.jsp'/>?ts=<%=getTs()%>&prescriptionuid='+prescriptionuid,"delete","toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=1,height=1,menubar=no");
     }
   }
     
+  <%-- GET POS PRINTER SERVER --%>
   function getPOSPrinterServer(){
 	var POSPrinterServer = 'http://localhost/openclinic';
 	var url = '<%=MedwanQuery.getInstance().getConfigString("javaPOSServer","http://localhost/openclinic")%>/util/getPOSPrinterServer.jsp';
@@ -481,9 +506,10 @@
   function closeModalbox(msg,time){
     if(!msg){
       Modalbox.hide();
-    }else{
-      if(!time)time=1000;
-      Modalbox.show('<div class=\'valid\'><p>'+msg+'</p><p style="text-align:center"><input class=\'button\' type=\'button\' style=\'padding-left:7px;padding-right:7px\' value=\'<%=getTranNoLink("web","ok",sWebLanguage)%>\' onclick=\'Modalbox.hide()\' /></p></div>',{title: "...", width:200});
+    }
+    else{
+      if(!time) time = 1000;
+      Modalbox.show('<div class=\'valid\'><p>'+msg+'</p><p style="text-align:center"><input class=\'button\' type=\'button\' style=\'padding-left:7px;padding-right:7px\' value=\'<%=getTranNoLink("web","ok",sWebLanguage)%>\' onclick=\'Modalbox.hide()\' /></p></div>',{title: "...",width:200});
       setTimeout("Modalbox.hide()",time);
     }
   }
@@ -493,11 +519,11 @@
     
   <%-- MODALBOX YES OR NO --%>
   function yesOrNo(myfunction,msg){
-    Modalbox.show('<div class=\'warning\'><p>'+msg+'</p><p style="text-align:center"><input class=\'button\' type=\'button\' style=\'padding-left:7px;padding-right:7px\' value=\'<%=getTranNoLink("web","yes",sWebLanguage)%>\' onclick=\'eval("'+myfunction+'");Modalbox.hide()\' />&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<input type=\'button\' class=\'button\' style=\'padding-left:7px;padding-right:7px\' value=\'<%=getTranNoLink("web","no",sWebLanguage)%>\' onclick=\'Modalbox.hide()\' /></p></div>',{title: "<%=getTranNoLink("web","areyousure",sWebLanguage)%>", width:300});
+    Modalbox.show('<div class=\'warning\'><p>'+msg+'</p><p style="text-align:center"><input class=\'button\' type=\'button\' style=\'padding-left:7px;padding-right:7px\' value=\'<%=getTranNoLink("web","yes",sWebLanguage)%>\' onclick=\'eval("'+myfunction+'");Modalbox.hide()\' />&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<input type=\'button\' class=\'button\' style=\'padding-left:7px;padding-right:7px\' value=\'<%=getTranNoLink("web","no",sWebLanguage)%>\' onclick=\'Modalbox.hide()\' /></p></div>',{title: "<%=getTranNoLink("web","areyousure",sWebLanguage)%>",width:300});
   }
 
   <%-- OPEN POPUP --%>
-  function openPopup(page, width, height, title){
+  function openPopup(page,width,height,title){
     var url = "<c:url value='/popup.jsp'/>?Page="+page;
     if(width!=undefined) url+= "&PopupWidth="+width;
     if(height!=undefined) url+= "&PopupHeight="+height;
@@ -518,7 +544,7 @@
   <%-- REPLACE ALL --%>
   function replaceAll(s,s1,s2){
     while(s.indexOf(s1) > -1){
-      s = s.replace(s1, s2);
+      s = s.replace(s1,s2);
     }
     return s;
   }
@@ -534,7 +560,7 @@
     popup.document.write("<table width='100%' height='100%' cellspacing='0' cellpadding='0'>");
      popup.document.write("<tr>");
       popup.document.write("<td bgcolor='#eeeeee' style='text-align:center'>");
-       popup.document.write("<%=getTran("web","searchInProgress",sWebLanguage)%>");
+       popup.document.write("<%=getTranNoLink("web","searchInProgress",sWebLanguage)%>");
       popup.document.write("</td>");
      popup.document.write("</tr>");
     popup.document.write("</table>");
@@ -591,38 +617,37 @@
   <%
     if(MedwanQuery.getInstance().getConfigInt("enableNationalBarcodeID",0)==1){
   %>
-    function redirectNationalBarcodeId(id, lastname, firstname){
+    function redirectNationalBarcodeId(id,lastname,firstname){
       window.location.href = '<c:url value="/"/>/main.do?Page=_common/patientslist.jsp?findnatreg='+id+'&findName='+lastname+'&findFirstname='+firstname;
     }
     
     function checkNationalBarcodeIdRedirect(){
       var url = '<c:url value="/adt/ajaxActions/checkNationalBarcodeId.jsp"/>?natreg=<%=activePatient==null?"":activePatient.getID("natreg")%>&ts='+new Date();
-      new Ajax.Request(url, {
-        method: "GET",
-        parameters: "",
-        onSuccess: function(resp){
+      new Ajax.Request(url,{
+        method:"GET",
+        parameters:"",
+        onSuccess:function(resp){
           var data = resp.responseText.split("$");
           if(data.length > 1){
-            redirectNationalBarcodeId(data[0], data[1], data[2]);
+            redirectNationalBarcodeId(data[0],data[1],data[2]);
           }
         }
       });
     }
-    window.setInterval('checkNationalBarcodeIdRedirect();', 2000);
+    window.setInterval('checkNationalBarcodeIdRedirect();',2000);
   <%
       }
   %>
     
   function addAutoCompleter(key,id,div){
     new Ajax.Autocompleter(id,div,'util/loadAutoCompleteItems.jsp?key='+key,{   
-	  minChars: 1,
-	  method: 'post',
+	  minChars:1,
+	  method:'post',
 	  callback:genericEventDateCallback
 	});
   }
 	
-  function genericEventDateCallback(element, entry){
-    var serialized =  "search="+element.value;
-    return serialized;
+  function genericEventDateCallback(element,entry){
+    return "search="+element.value;
   }
 </script>

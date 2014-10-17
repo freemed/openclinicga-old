@@ -23,7 +23,7 @@
 
     /// DEBUG//////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n****************** search/searchPatientInvoice.jsp *********************");
+        Debug.println("\n************** _common/search/searchPatientInvoice.jsp *****************");
         Debug.println("sAction                   : "+sAction);
         Debug.println("sFindInvoicePatientId     : "+sFindInvoicePatientId);
         Debug.println("sFindInvoiceDate          : "+sFindInvoiceDate);
@@ -183,12 +183,12 @@
         }
     %>
 
-      window.close();
-    }
+    window.close();
+  }
 
-    <%
-        if(sAction.equalsIgnoreCase("search")){
-            out.print("searchInvoices();") ;
-        }
-    %>
+  <%
+      if(sAction.equalsIgnoreCase("search")){
+          out.print("searchInvoices();") ;
+      }
+  %>
 </script>

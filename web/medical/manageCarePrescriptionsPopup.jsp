@@ -71,25 +71,13 @@
 %>
 
 <%
-    String sDefaultSortCol = "OC_CAREPRESCR_BEGIN",
-           sDefaultSortDir = "DESC",
-           sAction = checkString(request.getParameter("Action"));
+    String sAction = checkString(request.getParameter("Action"));
 
-    // retreive form data
     String sEditPrescrUid = checkString(request.getParameter("EditPrescrUid"));
+    
     String msg = "";
-
-    // variables
     int foundPrescrCount;
     StringBuffer prescriptionsHtml;
-
-    // sortcol
-    String sSortCol = checkString(request.getParameter("SortCol"));
-    if(sSortCol.length()==0) sSortCol = sDefaultSortCol;
-
-    // sortdir
-    String sSortDir = checkString(request.getParameter("SortDir"));
-    if(sSortDir.length()==0) sSortDir = sDefaultSortDir;
 
     //*********************************************************************************************
     //*** process actions *************************************************************************
@@ -101,22 +89,11 @@
 
         msg = getTran("web","dataisdeleted",sWebLanguage);
     }
-
-    //--- SORT ------------------------------------------------------------------------------------
-    if(sAction.equals("sort")){
-        sAction = "find";
-    }
+    
+    String sTitle = getTran("Web.manage","ManagePatientCarePrescriptions",sWebLanguage)+"&nbsp;"+activePatient.lastname+" "+activePatient.firstname;
 %>
 <form name="transactionForm" id="transactionForm" method="post" onClick='setSaveButton(event);clearMessage();' onKeyUp='setSaveButton(event);'>
-    <%-- title --%>
-    <table width="100%" cellspacing="0">
-        <tr class="admin">
-            <td><%=getTran("Web.manage","ManagePatientCarePrescriptions",sWebLanguage)%>&nbsp;<%=activePatient.lastname+" "+activePatient.firstname%></td>
-            <td align="right">
-                <img class="link" onClick="window.close();" src='<%=sCONTEXTPATH%>/_img/themes/default/arrow_left.gif' alt='<%=getTranNoLink("web","close",sWebLanguage)%>'>
-            </td>
-        </tr>
-    </table>
+    <%=writeTableHeaderDirectText(sTitle,sWebLanguage," window.close();")%>
     <%
         if(activePatient==null){
             // display message
@@ -125,15 +102,14 @@
         else{
             //--- DISPLAY ACTIVE PRESCRIPTIONS (for activePatient) --------------------------------
             if(!sAction.startsWith("showDetails")){
-                Vector activePrescrs = CarePrescription.findActive(activePatient.personid,"","",ScreenHelper.formatDate(ScreenHelper.getDate(new Date(new Date().getTime()-48*60*60000))),"","",sSortCol,sSortDir);
+                Vector activePrescrs = CarePrescription.findActive(activePatient.personid,"","",ScreenHelper.formatDate(ScreenHelper.getDate(new Date(new Date().getTime()-48*60*60000))),"","","OC_CAREPRESCR_BEGIN","DESC");
                 prescriptionsHtml = objectsToHtml(activePrescrs,sWebLanguage);
                 foundPrescrCount = activePrescrs.size();
 
                 if(foundPrescrCount > 0 || !"1".equals(request.getParameter("skipEmpty"))){
-                    String sortTran = getTran("web","clicktosort",sWebLanguage);
                 %>
                 <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
-                    <%-- clickable header --%>
+                    <%-- header --%>
                     <tr class="gray">
                         <td width="20" nowrap>&nbsp;</td>
                         <td><%=getTran("Web","care_type",sWebLanguage)%></td>
@@ -143,10 +119,9 @@
                     </tr>
                     <tbody class="hand"><%=prescriptionsHtml%></tbody>
                 </table>
+                
                 <%-- number of records found --%>
-                <span style="width:49%;text-align:left;">
-                    &nbsp;<%=foundPrescrCount%> <%=getTran("web","activecareprescriptionsfound",sWebLanguage)%>
-                </span>
+                <span style="width:49%;text-align:left;">&nbsp;<%=foundPrescrCount%> <%=getTran("web","activecareprescriptionsfound",sWebLanguage)%></span>
                 <%
                     if(foundPrescrCount > 20){
                         // link to top of page
@@ -182,8 +157,6 @@
     %>
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
-    <input type="hidden" name="SortCol" value="<%=sSortCol%>">
-    <input type="hidden" name="SortDir" value="<%=sSortDir%>">
     <input type="hidden" name="EditPrescrUid">
 </form>
 
@@ -217,17 +190,6 @@
     transactionForm.EditTimeUnit.value = "";
     transactionForm.EditTimeUnitCount.value = "";
     transactionForm.EditUnitsPerTimeUnit.value = "";
-  }
-
-  <%-- DO SORT --%>
-  function doSort(sortCol){
-    transactionForm.Action.value = "sort";
-    transactionForm.SortCol.value = sortCol;
-
-    if(transactionForm.SortDir.value=="ASC") transactionForm.SortDir.value = "DESC";
-    else                                     transactionForm.SortDir.value = "ASC";
-
-    transactionForm.submit();
   }
 
   <%-- popup : search product --%>

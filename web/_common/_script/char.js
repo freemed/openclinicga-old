@@ -31,7 +31,7 @@ function limitRows(textarea,maxrows){
 
     for(var i=0; i<textarea.value.length; i++){
       var oneChar = textarea.value.substring(i,i+1);
-      if(oneChar == '\r'){
+      if(oneChar=='\r'){
         lineCounter++;
         if(lineCounter==maxrows){
           textarea.value = strTemp;
@@ -97,8 +97,13 @@ function isNumber(sObject){
   var dotCount = 0;
 
   for(var i=0; i < string.length; i++){
-    if(vchar.indexOf(string.charAt(i)) == -1){
-      setTimeout('var txt = document.getElementById(\''+sObject.id+'\'); txt.focus(); txt.select();', 1);
+    if(vchar.indexOf(string.charAt(i))==-1){
+      if(sObject.id){
+        setTimeout('var txt = document.getElementById(\''+sObject.id+'\'); txt.focus(); txt.select();',1);
+      }
+      else{
+        setTimeout('var txt = document.all[\''+sObject.name+'\']; txt.focus(); txt.select();',1);
+      }
       //sObject.focus();
       return false;
     }
@@ -106,7 +111,12 @@ function isNumber(sObject){
       if(string.charAt(i)=="."){
         dotCount++;
         if(dotCount > 1){
-           setTimeout('var txt = document.getElementById(\''+sObject.id+'\'); txt.focus(); txt.select();', 1);
+          if(sObject.id){
+            setTimeout('var txt = document.getElementById(\''+sObject.id+'\'); txt.focus(); txt.select();',1);
+          }
+          else{
+            setTimeout('var txt = document.all[\''+sObject.name+'\']; txt.focus(); txt.select();',1);
+          }
           //sObject.focus();
           return false;
         }
@@ -129,7 +139,7 @@ function isInteger(sObject){
   var dotCount = 0;
 
   for(var i=0; i<string.length; i++){
-    if(vchar.indexOf(string.charAt(i)) == -1){
+    if(vchar.indexOf(string.charAt(i))==-1){
       sObject.value = "";
       return false;
     }
@@ -150,7 +160,7 @@ function isIntegerNegativeAllowed(sObject){
   var dotCount = 0;
 
   for(var i=0; i < string.length; i++){
-    if(vchar.indexOf(string.charAt(i)) == -1){
+    if(vchar.indexOf(string.charAt(i))==-1){
       sObject.value = "";
       return false;
     }
@@ -170,7 +180,7 @@ function isNumberNegativeAllowed(inputField){
   var dotCount = 0;
 
   for(var i=0; i < number.length; i++){
-    if(vchar.indexOf(number.charAt(i)) == -1){
+    if(vchar.indexOf(number.charAt(i))==-1){
       inputField.value = "";
       return false;
     }

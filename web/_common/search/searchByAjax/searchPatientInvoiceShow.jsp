@@ -88,7 +88,7 @@
 
         if(recCount > 0){
 		    %>
-			   <table class="sortable" id="searchresults" width="100%" cellpadding="0" cellspacing="1">
+			   <table class="sortable" id="searchresults" width="100%" cellpadding="0" cellspacing="0">
 			       <%-- header --%>
 			       <tr class="admin">
 			           <td width="100" nowrap><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
@@ -114,3 +114,5 @@
         }
     }
 %>
+
+<script>sortables_init();</script>

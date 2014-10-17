@@ -22,11 +22,11 @@
 
         // frequently used translations
         String deleteTran = getTranNoLink("Web","delete",sWebLanguage);
-        String sCurrency = MedwanQuery.getInstance().getConfigParam("currency", "€");
+        String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
 
         // run thru objects
         for(int i=0; i<objects.size(); i++){
-            userProduct = (UserProduct) objects.get(i);
+            userProduct = (UserProduct)objects.get(i);
             product = userProduct.getProduct();
 
             if(product!=null){
@@ -87,7 +87,7 @@
                     sProductGroup = getTran("product.productgroup",sProductGroup,sWebLanguage);
                 }
             }
-            else {
+            else{
                 sProductName = "<font color='red'>"+getTran("web.manage","unexistingproduct",sWebLanguage)+"</font>";
             }
 
@@ -112,8 +112,6 @@
 %>
 
 <%
-    String sDefaultSortDir = "DESC";
-
     String sAction = checkString(request.getParameter("Action"));
     if(sAction.length()==0) sAction = "find"; // display all userproducts by default
 
@@ -124,7 +122,7 @@
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n#################### pharmacy/manageUserProducts.jsp ##################");
+        Debug.println("\n******************** pharmacy/manageUserProducts.jsp ******************");
         Debug.println("sAction              : "+sAction);
         Debug.println("sEditProductUid      : "+sEditProductUid);
         Debug.println("sEditProductName     : "+sEditProductName);
@@ -137,9 +135,6 @@
     int foundProductCount = 0;
     StringBuffer userProductsHtml = null;
 
-    // sortDir
-    String sSortDir = checkString(request.getParameter("SortDir"));
-    if(sSortDir.length() == 0) sSortDir = sDefaultSortDir;
 
     //*********************************************************************************************
     //*** process actions *************************************************************************
@@ -186,23 +181,16 @@
         sAction = "findShowOverview"; // display overview even if only one record remains
     }
 
-    //--- SORT ------------------------------------------------------------------------------------
-    if(sAction.equals("sort")){
-        sAction = "find";
-    }
-
     //-- FIND -------------------------------------------------------------------------------------
     if(sAction.startsWith("find")){
         Vector userProducts = UserProduct.find(activeUser.userid);
         Collections.sort(userProducts);
-        if(sSortDir.equals("ASC")) Collections.reverse(userProducts);
         userProductsHtml = objectsToHtml(userProducts,sWebLanguage);
         foundProductCount = userProducts.size();
     }
 %>
 
 <form name="transactionForm" method="post" onKeyDown="if(enterEvent(event,13)){doAddProduct();return false;}" onClick="clearMessage();">
-    <%-- title --%>
     <%=writeTableHeader("web.manage","manageUserProducts",sWebLanguage,"")%>
     
     <%
@@ -211,12 +199,10 @@
         //*****************************************************************************************
 
         //--- SEARCH RESULTS ----------------------------------------------------------------------
-        if(foundProductCount > 0){
-            String sortTran = getTran("web","clicktosort",sWebLanguage);
-            
+        if(foundProductCount > 0){            
             %>
                 <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
-                    <%-- clickable header --%>
+                    <%-- header --%>
                     <tr class="admin">
                         <td width="30"/>
                         <td width="25%"><%=getTran("Web","productName",sWebLanguage)%></td>
@@ -250,10 +236,7 @@
         }
         else{
             // no records found
-            %>
-                <%=getTran("web","norecordsfound",sWebLanguage)%>
-                <br><br>
-            <%
+            %><%=getTran("web","norecordsfound",sWebLanguage)%><br><br><%
         }
     %>
     
@@ -284,7 +267,6 @@
     
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
-    <input type="hidden" name="SortDir" value="<%=sSortDir%>">
 </form>
 
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
@@ -326,16 +308,6 @@
   function clearEditFields(){
     transactionForm.EditProductUid.value = "";
     transactionForm.EditProductName.value = "";
-  }
-
-  <%-- DO SORT --%>
-  function doSort(){
-    transactionForm.Action.value = "sort";
-
-    if(transactionForm.SortDir.value == "ASC") transactionForm.SortDir.value = "DESC";
-    else                                       transactionForm.SortDir.value = "ASC";
-
-    transactionForm.submit();
   }
 
   <%-- CLEAR MESSAGE --%>

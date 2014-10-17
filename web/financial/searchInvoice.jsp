@@ -150,9 +150,8 @@
                 <td width="*"><%=getTran("web.finance","patientinvoice.status",sWebLanguage)%></td>
             </tr>
             
-            <tbody onmouseover='this.style.cursor="pointer"' onmouseout='this.style.cursor="default"'>
+            <tbody class="hand">
             <%
-
                 String sClass = "1", sRowDate = "", sRowDestination = "", sRowType = "",
                        sRowAmount = "", sRowPayed = "", sRowStatus = "";
                 Integer iInvoiceId;

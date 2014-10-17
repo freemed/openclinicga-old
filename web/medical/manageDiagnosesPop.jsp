@@ -28,10 +28,6 @@
 %>
 
 <%
-    String sDefaultSortDir = "ASC";
-    String sSortDir = checkString(request.getParameter("SortDir"));
-    if(sSortDir.length()==0) sSortDir = sDefaultSortDir;
-
     String sAction = checkString(request.getParameter("Action"));
 
     String sPatientID = checkString(request.getParameter("PatientID"));
@@ -100,14 +96,16 @@
         Debug.println("sEditDiagnosisLateralisation : "+sEditDiagnosisLateralisation+"\n");
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
-
     
    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+    
+    //*** SAVE ************************************************************************************
     if(sAction.equals("SAVE")){
         Diagnosis tmpDiagnosis = new Diagnosis();
         if(sEditDiagnosisUID.length() > 0){
             tmpDiagnosis = Diagnosis.get(sEditDiagnosisUID);
-        } else{
+        }
+        else{
             tmpDiagnosis.setCreateDateTime(ScreenHelper.getSQLDate(getDate()));
             tmpDiagnosis.setReferenceType("");
             tmpDiagnosis.setReferenceUID("");
@@ -173,7 +171,6 @@
         sEditDiagnosisLateralisation = tmpDiagnosis.getLateralisation().toString();
     }
 
-
     if(sEditDiagnosisDate.length()==0){
         sEditDiagnosisDate = checkString(ScreenHelper.stdDateFormat.format(ScreenHelper.getSQLDate(getDate())));
     }
@@ -187,6 +184,7 @@
             }
         }
     }
+    
     if(sEditDiagnosisAuthor.length()==0){
         sEditDiagnosisAuthor = activeUser.userid;
         sEditDiagnosisAuthorName = ScreenHelper.getFullUserName(activeUser.userid, ad_conn);
@@ -197,7 +195,6 @@
 %>
 <form name="FindDiagnosisForm" id="FindDiagnosisForm" method="POST" action="<c:url value='/main.do'/>?Page=medical/manageDiagnosesPop.jsp&ts=<%=getTs()%>">
     <input type="hidden" name="Action" value="">
-    <input type="hidden" name="FindSortColumn" value="">
         
     <%=writeTableHeader("Web","manageDiagnosesPop",sWebLanguage," doBack();")%>
     
@@ -316,7 +313,7 @@
 
     //*** SEARCH **********************************************************************************
     if(sAction.equals("SEARCH")){
-	    StringBuffer sbResuslts = new StringBuffer();
+	    StringBuffer sbResults = new StringBuffer();
 	    Vector vDiagnoses = new Vector();
 	
 	    int iCountResults = 0;
@@ -397,7 +394,7 @@
 	                sEndDate = "";
 	            }
 	
-	            sbResuslts.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" onclick=\"doSelect('"+dTmp.getUid()+"','"+dTmp.getEncounter().getPatientUID()+"');\">"+
+	            sbResults.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.style.cursor='hand';\" onmouseout=\"this.style.cursor='default';\" onclick=\"doSelect('"+dTmp.getUid()+"','"+dTmp.getEncounter().getPatientUID()+"');\">"+
 				                   "<td nowrap><b>"+sPatientName+"</b></td>"+
 				                   "<td>"+checkString(ScreenHelper.stdDateFormat.format(dTmp.getDate()))+"</td>"+
 				                   "<td>"+sEndDate+"</td>"+
@@ -410,26 +407,25 @@
 	    }
 	    catch(Exception e){
 	        e.printStackTrace();
-	    }
-	
-	    String sortTran = getTran("web","clicktosort",sWebLanguage);
+	    }	
 %>
 <table width='100%' cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
+    <%-- header --%>
     <tr class="admin">
         <td><%=getTranNoLink("web","patient",sWebLanguage)%></td>
-        <td><a href="#" class="underlined" title="<%=sortTran%>"><<%=sSortDir%>><%=getTranNoLink("web","date",sWebLanguage)%></<%=sSortDir%>></a></td>
-        <td><a href="#" class="underlined"><%=getTranNoLink("web","enddate",sWebLanguage)%></a></td>
-        <td><a href="#" class="underlined"><%=getTranNoLink("medical.diagnosis","diagnosiscode",sWebLanguage)%></a></td>
-        <td><a href="#" class="underlined"><%=getTranNoLink("medical.diagnosis","author",sWebLanguage)%></a></td>
-        <td><a href="#" class="underlined"><%=getTranNoLink("medical.diagnosis","certainty",sWebLanguage)%></a> / <a href="#" class="underlined"><%=getTranNoLink("medical.diagnosis","gravity",sWebLanguage)%></a></td>
-        <td><a href="#" class="underlined"><%=getTranNoLink("medical.diagnosis","days",sWebLanguage)%></a></td>
+        <td><%=getTranNoLink("web","date",sWebLanguage)%></td>
+        <td><%=getTranNoLink("web","enddate",sWebLanguage)%></td>
+        <td><%=getTranNoLink("medical.diagnosis","diagnosiscode",sWebLanguage)%></td>
+        <td><%=getTranNoLink("medical.diagnosis","author",sWebLanguage)%></td>
+        <td><%=getTranNoLink("medical.diagnosis","certainty",sWebLanguage)%> / <%=getTranNoLink("medical.diagnosis","gravity",sWebLanguage)%></td>
+        <td><%=getTranNoLink("medical.diagnosis","days",sWebLanguage)%></td>
     </tr>
     
-    <%=sbResuslts%>
+    <%=sbResults%>
 </table>
 	
 <%
-	    if(sbResuslts.length()==0){
+	    if(sbResults.length()==0){
 	        out.print(getTran("web","norecordsfound",sWebLanguage));
 	    }
 	    else{
@@ -533,6 +529,7 @@
             </td>
         </tr>
         
+        <%-- BUTTONS --%>
         <%=ScreenHelper.setFormButtonsStart()%>
             <input class="button" type="button" name="EditSaveButton" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="doSave();">&nbsp;
             <input class="button" type="button" name="BackButton" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="doSearchBack();">&nbsp;
@@ -543,11 +540,10 @@
 </form>
 
 <script>EditDiagnosisForm.EditDiagnosisDate.focus();</script>
-<%-- END EDIT BLOCK --%>
 <%
     }
+    
 	ad_conn.close();
-
 %>
 <script>           
   function doFind(){
@@ -577,15 +573,14 @@
     FindDiagnosisForm.submit();
   }
 
-  function doSearch(col){
-    FindDiagnosisForm.FindSortColumn.value = col;
+  function doSearch(){
     FindDiagnosisForm.Action.value = "SEARCH";
     FindDiagnosisForm.submit();
   }
 
   function doBack(){
     <%
-       if(activePatient != null){
+       if(activePatient!=null){
            %>window.location.href = "<c:url value='/main.do'/>?Page=curative/index.jsp&ts=<%=getTs()%>";<%
        }
        else{
@@ -603,6 +598,7 @@
     else           return true;
   }
 
+  <%-- DO SAVE --%>
   function doSave(){
     if(EditDiagnosisForm.EditDiagnosisDate.value==""){
       alertDialog("medical","no_date");
@@ -650,6 +646,7 @@
     openPopup("/_common/search/searchUser.jsp&ts=<%=getTs()%>&ReturnUserID="+authorUidField+"&ReturnName="+authorNameField+"&displayImmatNew=no");
   }
 
+  <%-- DO SELECT --%>
   function doSelect(diagnosis,patientID){
     <%
         if(request.getParameter("selectrecord")==null){

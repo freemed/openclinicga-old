@@ -88,7 +88,7 @@ String sPatientUid=request.getParameter("patientuid");
                 if (diagnoses.size() > 0) {
                     out.print("<tr class='admin'><td colspan='3'>" + getTran("Web", "manageuserdiagnoses", sWebLanguage) + "</td></tr>");
                 }
-                %><tbody onmouseover='this.style.cursor="pointer"' onmouseout='this.style.cursor="default"'><%
+                %><tbody class="hand"><%
             	for(int n=0;n<diagnoses.size();n++){
             		UserDiagnosis d = (UserDiagnosis)diagnoses.elementAt(n);
             		if(d.getCodeType().equalsIgnoreCase("icpc")){

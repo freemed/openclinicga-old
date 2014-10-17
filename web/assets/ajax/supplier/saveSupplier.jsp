@@ -22,9 +22,9 @@
            sComment        = ScreenHelper.checkString(request.getParameter("comment"));
     
     
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n***************** saveSupplier.jsp *****************");
+        Debug.println("\n**************** assets/ajax/supplier/saveSupplier.jsp ****************");
         Debug.println("sEditSupplierUID : "+sEditSupplierUID);
         Debug.println("sCode            : "+sCode);
         Debug.println("sName            : "+sName);
@@ -40,7 +40,7 @@
         Debug.println("sAccountingCode  : "+sAccountingCode);
         Debug.println("sComment         : "+sComment+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
 
     Supplier supplier = new Supplier();

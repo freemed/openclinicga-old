@@ -3,7 +3,6 @@
                 java.util.Calendar"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-
 <%=checkPermission("pharmacy.productstockfiche","all",activeUser)%>
 <%=sJSSORTTABLE%>
 
@@ -35,7 +34,7 @@
         Debug.println("sGetYear  : "+sGetYear);
         Debug.println("sFindYear : "+sFindYear+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     // variables
     ProductStock productStock = null;

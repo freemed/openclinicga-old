@@ -1,9 +1,10 @@
-<%@include file="/includes/validateUser.jsp"%>
-<%@page errorPage="/includes/error.jsp"%>
 <%@page import="java.io.ByteArrayOutputStream,
                 com.itextpdf.text.DocumentException,
                 java.io.PrintWriter,
                 be.mxs.common.util.pdf.general.PDFArchiveDocumentBarcodeGenerator"%>
+<%@include file="/includes/validateUser.jsp"%>
+<%@page errorPage="/includes/error.jsp"%>
+
 <%
     ByteArrayOutputStream baosPDF = null;
 
@@ -20,7 +21,7 @@
         // prepare response
         response.setHeader("Cache-Control","max-age=30");
         response.setContentType("application/pdf");
-        response.setHeader("Content-disposition", sbContentDispValue.toString());
+        response.setHeader("Content-disposition",sbContentDispValue.toString());
         response.setContentLength(baosPDF.size());
 
         // write PDF to servlet

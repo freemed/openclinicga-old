@@ -22,9 +22,9 @@
            //sComment        = checkString(request.getParameter("comment"));
 
 
-    /// DEBUG ///////////////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n**************** seests/ajax/getSuppliers.jsp ***************");
+        Debug.println("\n***************** assets/ajax/supplier/getSuppliers.jsp ****************");
         Debug.println("sCode           : "+sCode);
         Debug.println("sName           : "+sName);
         //Debug.println("sAddress        : "+sAddress);
@@ -39,7 +39,7 @@
         //Debug.println("sAccountingCode : "+sAccountingCode);
         //Debug.println("sComment        : "+sComment+"\n");
     }
-    /////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     // compose object to pass search criteria with
     Supplier findObject = new Supplier();
@@ -97,9 +97,7 @@
         <td width="*" nowrap><%=HTMLEntities.htmlentities(getTran("web","email",sWebLanguage))%></td>
     </tr>
     
-    <tbody class="hand">
-        <%=sReturn%>
-    </tbody>
+    <tbody class="hand"><%=sReturn%></tbody>
 </table> 
 
 &nbsp;<i><%=suppliers.size()+" "+getTran("web","recordsFound",sWebLanguage)%></i>

@@ -6,7 +6,7 @@
                 be.openclinic.common.KeyValue,
                 be.openclinic.pharmacy.PrescriptionSchema,
                 be.openclinic.pharmacy.ProductSchema,
-                java.util.Vector" %>
+                java.util.Vector"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%=checkPermission("medical.managecareprescriptionspopup","select",activeUser)%>
@@ -18,7 +18,6 @@
         StringBuffer html = new StringBuffer();
         String sClass = "1", sDateBeginFormatted, sDateEndFormatted = "",
                sProductName = "", sProductUid, sPreviousProductUid = "";
-        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         java.util.Date tmpDate;
         Product product;
 
@@ -33,12 +32,12 @@
 
             // format date begin
             tmpDate = prescr.getBegin();
-            if(tmpDate!=null) sDateBeginFormatted = stdDateFormat.format(tmpDate);
+            if(tmpDate!=null) sDateBeginFormatted = ScreenHelper.formatDate(tmpDate);
             else              sDateBeginFormatted = "";
 
             // format date end
             tmpDate = prescr.getEnd();
-            if(tmpDate!=null) sDateEndFormatted = stdDateFormat.format(tmpDate);
+            if(tmpDate!=null) sDateEndFormatted = ScreenHelper.formatDate(tmpDate);
             else              sDateEndFormatted = "";
 
             // only search product-name when different product-UID
@@ -51,7 +50,7 @@
                     sProductName = product.getName();
                 }
                 else {
-                    sProductName = "<font color='red'>"+getTran("web", "nonexistingproduct", sWebLanguage)+"</font>";
+                    sProductName = "<font color='red'>"+getTran("web","nonexistingproduct",sWebLanguage)+"</font>";
                 }
             }
 
@@ -68,12 +67,12 @@
             //*** display prescription in one row ***
           	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
             html.append("<tr class='list"+sClass+"' title='"+detailsTran+"'>")
-                 .append("<td align='center'>"+(((prescr==null || (prescr!=null && prescr.getDeliveredQuantity()==0)) ||(activeUser.getAccessRight("sa"))) && (activeUser.getAccessRight("prescriptions.drugs.delete"))?"<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+prescr.getUid()+"');\">":"")+"</td>")
-                 .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+ScreenHelper.getFullUserName(prescr.getPrescriberUid(), ad_conn)+"</td>")
+                 .append("<td>"+(((prescr==null || (prescr!=null && prescr.getDeliveredQuantity()==0)) ||(activeUser.getAccessRight("sa"))) && (activeUser.getAccessRight("prescriptions.drugs.delete"))?"<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+prescr.getUid()+"');\">":"")+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+ScreenHelper.getFullUserName(prescr.getPrescriberUid(),ad_conn)+"</td>")
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sProductName+"</td>")
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sDateBeginFormatted+"</td>")
                  .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+sDateEndFormatted+"</td>")
-                 .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+(prescr.getSupplyingServiceUid()!=null?getTranNoLink("Service", prescr.getSupplyingServiceUid(), sWebLanguage):"")+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+prescr.getUid()+"');\">"+(prescr.getSupplyingServiceUid()!=null?getTranNoLink("Service",prescr.getSupplyingServiceUid(),sWebLanguage):"")+"</td>")
                 .append("</tr>");
             
             try{
@@ -102,7 +101,7 @@
                deleteTran = getTranNoLink("Web","delete",sWebLanguage);
 
         Prescription prescr;
-        for (int i = 0; i < objects.size(); i++){
+        for(int i = 0; i < objects.size(); i++){
             prescr = (Prescription) objects.get(i);
 
             // format date begin
@@ -137,7 +136,7 @@
 
             // only compose prescriptio-rule if all data is available
             if(!sTimeUnit.equals("0") && !sTimeUnitCount.equals("0") && !sUnitsPerTimeUnit.equals("0") && product!=null){
-                sPrescrRule = getTran("web.prescriptions", "prescriptionrule",sWebLanguage);
+                sPrescrRule = getTran("web.prescriptions","prescriptionrule",sWebLanguage);
                 sPrescrRule = sPrescrRule.replaceAll("#unitspertimeunit#",unitCountDeci.format(Double.parseDouble(sUnitsPerTimeUnit)));
 
                 // productunits
@@ -166,15 +165,17 @@
             else                  sClass = "";
 
           	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+          	
             //*** display prescription in one row ***
             html.append("<tr class='list"+sClass+"' onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\" title='"+detailsTran+"'>")
                  .append("<td align='center'>"+((prescr==null || (prescr!=null && prescr.getDeliveredQuantity()==0)) && (activeUser.getAccessRight("prescriptions.drugs.delete"))?"<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+prescr.getUid()+"');\">":"")+"</td>")
-                 .append("<td onclick=\"doShowDetailsActive('"+prescr.getUid()+"');\">"+ScreenHelper.getFullUserName(prescr.getPrescriberUid(), ad_conn)+"</td>")
+                 .append("<td onclick=\"doShowDetailsActive('"+prescr.getUid()+"');\">"+ScreenHelper.getFullUserName(prescr.getPrescriberUid(),ad_conn)+"</td>")
                  .append("<td onclick=\"doShowDetailsActive('"+prescr.getUid()+"');\">"+sProductName+"</td>")
                  .append("<td onclick=\"doShowDetailsActive('"+prescr.getUid()+"');\">"+sDateBeginFormatted+"</td>")
                  .append("<td onclick=\"doShowDetailsActive('"+prescr.getUid()+"');\">"+sDateEndFormatted+"</td>")
                  .append("<td onclick=\"doShowDetailsActive('"+prescr.getUid()+"');\">"+sPrescrRule.toLowerCase()+"</td>")
                 .append("</tr>");
+            
             try{
             	ad_conn.close();
             }
@@ -188,23 +189,20 @@
 %>
 
 <%
-    String sDefaultSortCol = "OC_PRESCR_BEGIN",
-           sDefaultSortDir = "DESC";
-
     String sAction = checkString(request.getParameter("Action"));
 
     // retreive form data
-    String sEditPrescrUid = checkString(request.getParameter("EditPrescrUid")),
+    String sEditPrescrUid     = checkString(request.getParameter("EditPrescrUid")),
            sEditPrescriberUid = checkString(request.getParameter("EditPrescriberUid")),
-           sEditProductUid = checkString(request.getParameter("EditProductUid")),
-           sEditDateBegin = checkString(request.getParameter("EditDateBegin")),
-           sEditDateEnd = checkString(request.getParameter("EditDateEnd")),
-           sEditTimeUnit = checkString(request.getParameter("EditTimeUnit")),
+           sEditProductUid    = checkString(request.getParameter("EditProductUid")),
+           sEditDateBegin     = checkString(request.getParameter("EditDateBegin")),
+           sEditDateEnd       = checkString(request.getParameter("EditDateEnd")),
+           sEditTimeUnit      = checkString(request.getParameter("EditTimeUnit")),
            sEditTimeUnitCount = checkString(request.getParameter("EditTimeUnitCount")),
-           sEditUnitsPerTimeUnit = checkString(request.getParameter("EditUnitsPerTimeUnit")),
+           sEditUnitsPerTimeUnit    = checkString(request.getParameter("EditUnitsPerTimeUnit")),
            sEditSupplyingServiceUid = checkString(request.getParameter("EditSupplyingServiceUid")),
-           sEditServiceStockUid = checkString(request.getParameter("EditServiceStockUid")),
-           sEditRequiredPackages = checkString(request.getParameter("EditRequiredPackages"));
+           sEditServiceStockUid     = checkString(request.getParameter("EditServiceStockUid")),
+           sEditRequiredPackages    = checkString(request.getParameter("EditRequiredPackages"));
 
     String sTime1 = checkString(request.getParameter("time1")),
            sTime2 = checkString(request.getParameter("time2")),
@@ -222,33 +220,33 @@
 
     PrescriptionSchema prescriptionSchema = new PrescriptionSchema();
     if(sTime1.length() > 0){
-        prescriptionSchema.getTimequantities().add(new KeyValue(sTime1, sQuantity1));
+        prescriptionSchema.getTimequantities().add(new KeyValue(sTime1,sQuantity1));
     }
     if(sTime2.length() > 0){
-        prescriptionSchema.getTimequantities().add(new KeyValue(sTime2, sQuantity2));
+        prescriptionSchema.getTimequantities().add(new KeyValue(sTime2,sQuantity2));
     }
     if(sTime3.length() > 0){
-        prescriptionSchema.getTimequantities().add(new KeyValue(sTime3, sQuantity3));
+        prescriptionSchema.getTimequantities().add(new KeyValue(sTime3,sQuantity3));
     }
     if(sTime4.length() > 0){
-        prescriptionSchema.getTimequantities().add(new KeyValue(sTime4, sQuantity4));
+        prescriptionSchema.getTimequantities().add(new KeyValue(sTime4,sQuantity4));
     }
     if(sTime5.length() > 0){
-        prescriptionSchema.getTimequantities().add(new KeyValue(sTime5, sQuantity5));
+        prescriptionSchema.getTimequantities().add(new KeyValue(sTime5,sQuantity5));
     }
     if(sTime6.length() > 0){
-        prescriptionSchema.getTimequantities().add(new KeyValue(sTime6, sQuantity6));
+        prescriptionSchema.getTimequantities().add(new KeyValue(sTime6,sQuantity6));
     }
 
     // afgeleide data
-    String sEditPatientFullName       = checkString(request.getParameter("EditPatientFullName")),
-            sEditPrescriberFullName   = checkString(request.getParameter("EditPrescriberFullName")),
-            sEditProductName          = checkString(request.getParameter("EditProductName")),
-            sEditSupplyingServiceName = checkString(request.getParameter("EditSupplyingServiceName"));
+    String sEditPatientFullName      = checkString(request.getParameter("EditPatientFullName")),
+           sEditPrescriberFullName   = checkString(request.getParameter("EditPrescriberFullName")),
+           sEditProductName          = checkString(request.getParameter("EditProductName")),
+           sEditSupplyingServiceName = checkString(request.getParameter("EditSupplyingServiceName"));
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n**************** medical/managePrescriptions.jsp ****************");
+        Debug.println("\n******************* medical/managePrescriptions.jsp *******************");
         Debug.println("sAction                   : "+sAction);
         Debug.println("sEditPrescrUid            : "+sEditPrescrUid);
         Debug.println("sEditPrescriberUid        : "+sEditPrescriberUid);
@@ -266,7 +264,7 @@
         Debug.println("sEditSupplyingServiceName : "+sEditSupplyingServiceName);
         Debug.println("sEditRequiredPackages     : "+sEditRequiredPackages+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     String msg = "", sFindPatientUid, sFindPrescriberUid, sFindProductUid, sFindDateBegin, sFindDateEnd,
            sFindSupplyingServiceUid, sSelectedDateEnd = "", sSelectedPrescriberUid = "",
@@ -282,17 +280,16 @@
 
     // get data from form
     sFindPrescriberUid = checkString(request.getParameter("FindPrescriberUid"));
-    sFindProductUid = checkString(request.getParameter("FindProductUid"));
-    sFindDateBegin = checkString(request.getParameter("FindDateBegin"));
-    sFindDateEnd = checkString(request.getParameter("FindDateEnd"));
-    sFindSupplyingServiceUid = checkString(request.getParameter("FindSupplyingServiceUid"));
-    sFindPrescriberFullName = checkString(request.getParameter("FindPrescriberFullName"));
-    sFindProductName = checkString(request.getParameter("FindProductName"));
+    sFindProductUid    = checkString(request.getParameter("FindProductUid"));
+    sFindDateBegin     = checkString(request.getParameter("FindDateBegin"));
+    sFindDateEnd       = checkString(request.getParameter("FindDateEnd"));
+    sFindSupplyingServiceUid  = checkString(request.getParameter("FindSupplyingServiceUid"));
+    sFindPrescriberFullName   = checkString(request.getParameter("FindPrescriberFullName"));
+    sFindProductName          = checkString(request.getParameter("FindProductName"));
     sFindSupplyingServiceName = checkString(request.getParameter("FindSupplyingServiceName"));
 
     // variables
     int foundPrescrCount = 0;
-    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
     StringBuffer prescriptionsHtml = null;
     boolean patientIsHospitalized = activePatient.isHospitalized();
 
@@ -319,14 +316,6 @@
         sFindPrescriberUid = "";
         sFindPrescriberFullName = "";
     }
-
-    // sortcol
-    String sSortCol = checkString(request.getParameter("SortCol"));
-    if(sSortCol.length()==0) sSortCol = sDefaultSortCol;
-
-    // sortdir
-    String sSortDir = checkString(request.getParameter("SortDir"));
-    if(sSortDir.length()==0) sSortDir = sDefaultSortDir;
 
     //*********************************************************************************************
     //*** process actions *************************************************************************
@@ -446,15 +435,8 @@
         Prescription.delete(sEditPrescrUid);
         PrescriptionSchema prescriptionSchemaToDelete = PrescriptionSchema.getPrescriptionSchema(sEditPrescrUid);
         prescriptionSchemaToDelete.delete();
-        msg = getTran("web", "dataisdeleted", sWebLanguage);
+        msg = getTran("web","dataisdeleted",sWebLanguage);
         sAction = "findShowOverview"; // display overview even if only one record remains
-    }
-
-    //--- SORT ------------------------------------------------------------------------------------
-    if(sAction.equals("sort")){
-        displayEditFields = false;
-        displayActivePrescr = true;
-        sAction = "find";
     }
 
     //--- FIND ------------------------------------------------------------------------------------
@@ -465,9 +447,9 @@
         displaySearchFields = true;
         displayEditFields = false;
 
-        Vector prescriptions = Prescription.find(sFindPatientUid, sFindPrescriberUid, sFindProductUid, sFindDateBegin,
-               sFindDateEnd, sFindSupplyingServiceUid, sSortCol, sSortDir);
-        prescriptionsHtml = objectsToHtml(prescriptions, sWebLanguage,activeUser);
+        Vector prescriptions = Prescription.find(sFindPatientUid,sFindPrescriberUid,sFindProductUid,sFindDateBegin,
+                                                 sFindDateEnd,sFindSupplyingServiceUid,"OC_PRESCR_BEGIN","DESC");
+        prescriptionsHtml = objectsToHtml(prescriptions,sWebLanguage,activeUser);
         foundPrescrCount = prescriptions.size();
     }
 
@@ -488,11 +470,11 @@
 
                 // format begin date
                 java.util.Date tmpDate = prescr.getBegin();
-                if(tmpDate!=null) sSelectedDateBegin = stdDateFormat.format(tmpDate);
+                if(tmpDate!=null) sSelectedDateBegin = ScreenHelper.formatDate(tmpDate);
 
                 // format end date
                 tmpDate = prescr.getEnd();
-                if(tmpDate!=null) sSelectedDateEnd = stdDateFormat.format(tmpDate);
+                if(tmpDate!=null) sSelectedDateEnd = ScreenHelper.formatDate(tmpDate);
 
                 sSelectedTimeUnit = checkString(prescr.getTimeUnit());
                 sSelectedTimeUnitCount = prescr.getTimeUnitCount()+"";
@@ -503,12 +485,12 @@
 
                 // afgeleide data
 	          	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                sSelectedPrescriberFullName = ScreenHelper.getFullUserName(sSelectedPrescriberUid, ad_conn);
+                sSelectedPrescriberFullName = ScreenHelper.getFullUserName(sSelectedPrescriberUid,ad_conn);
                 ad_conn.close();
 
                 // supplying service name
                 if(sSelectedSupplyingServiceUid.length() > 0){
-                    sSelectedSupplyingServiceName = getTranNoLink("Service", sSelectedSupplyingServiceUid, sWebLanguage);
+                    sSelectedSupplyingServiceName = getTranNoLink("Service",sSelectedSupplyingServiceUid,sWebLanguage);
                 }
 
                 // service stock name
@@ -523,7 +505,7 @@
                     sSelectedProductName = product.getName();
 
                     if(sSelectedProductName.length()==0){
-                        sSelectedProductName = "<font color='red'>"+getTran("web", "nonexistingproduct", sWebLanguage)+"</font>";
+                        sSelectedProductName = "<font color='red'>"+getTran("web","nonexistingproduct",sWebLanguage)+"</font>";
                     }
                 }
                 prescriptionSchema = PrescriptionSchema.getPrescriptionSchema(prescr.getUid());
@@ -552,7 +534,7 @@
             // showDetailsNew : set default values
             sSelectedPrescriberUid = activeUser.userid;
             sSelectedPrescriberFullName = activeUser.person.lastname+" "+activeUser.person.firstname;
-            sSelectedDateBegin = stdDateFormat.format(new java.util.Date());
+            sSelectedDateBegin = ScreenHelper.formatDate(new java.util.Date());
             sSelectedTimeUnit = "type2day";
             sSelectedTimeUnitCount = "1";
         }
@@ -566,7 +548,7 @@
         sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSave();}\"";
     }
     else{
-        sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSearch('"+sDefaultSortCol+"');}\"";
+        sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSearch();}\"";
     }
 %>
 <form name="transactionForm" id="transactionForm" method="post" <%=sOnKeyDown%> <%=(displaySearchFields?"onClick=\"clearMessage();\"":"onClick=\"setSaveButton(event);clearMessage();\" onKeyUp=\"setSaveButton(event);\"")%>>
@@ -585,7 +567,7 @@
             //-- SEARCH FIELDS --------------------------------------------------------------------
             if(displaySearchFields){
                 %>
-                    <table width="100%" class="list" cellspacing="1" onClick="transactionForm.onkeydown='if(enterEvent(event,13)){doSearch(\'<%=sDefaultSortCol%>\');}';" onKeyDown="if(enterEvent(event,13)){doSearch('<%=sDefaultSortCol%>');}">
+                    <table width="100%" class="list" cellspacing="1" onClick="transactionForm.onkeydown='if(enterEvent(event,13)){doSearch();}';" onKeyDown="if(enterEvent(event,13)){doSearch();}">
                         <%-- prescriber --%>
                         <tr>
                             <td class="admin2" width="<%=sTDAdminWidth%>" nowrap><%=getTran("Web","prescriber",sWebLanguage)%>&nbsp;</td>
@@ -638,7 +620,7 @@
                         <tr>
                             <td class="admin2">&nbsp;</td>
                             <td class="admin2">
-                                <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearch('<%=sDefaultSortCol%>');">
+                                <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearch();">
                                 <input type="button" class="button" name="clearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearSearchFields();">
                                 <input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">
                                 
@@ -1054,8 +1036,7 @@
 
             //--- SEARCH RESULTS ------------------------------------------------------------------
             if(displayFoundRecords){
-                if(foundPrescrCount > 0){
-                    String sortTran = getTran("web","clicktosort",sWebLanguage);
+                if(foundPrescrCount > 0){                    
                     %>
                         <%-- title --%>
                         <table width="100%" cellspacing="0">
@@ -1063,25 +1044,25 @@
                                 <td class="titleadmin">&nbsp;<%=getTran("Web.manage","PrescriptionsForActivepatient",sWebLanguage)%>&nbsp;<%=activePatient.lastname+" "+activePatient.firstname%></td>
                             </tr>
                         </table>
+                        
                         <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
-                            <%-- clickable header --%>
+                            <%-- header --%>
                             <tr class="admin">
-                                <td width="22" nowrap>&nbsp;</td>
+                                <td width="20" nowrap>&nbsp;</td>
                                 <td width="25%"><%=getTran("Web","prescriber",sWebLanguage)%></td>
                                 <td width="20%"><%=getTran("Web","product",sWebLanguage)%></td>
                                 <td width="10%"><%=getTran("Web","begindate",sWebLanguage)%></td>
                                 <td width="10%"><%=getTran("Web","enddate",sWebLanguage)%></td>
                                 <td width="35%"><%=getTran("Web","supplyingservice",sWebLanguage)%></td>
                             </tr>
-                            <tbody class="hand">
-                                <%=prescriptionsHtml%>
-                            </tbody>
+                            <tbody class="hand"><%=prescriptionsHtml%></tbody>
                         </table>
                         
                         <%-- number of records found --%>
                         <span style="width:49%;text-align:left;">
                             <%=foundPrescrCount%> <%=getTran("web","recordsfound",sWebLanguage)%>
                         </span>
+                        
                         <%
                             if(foundPrescrCount > 20){
                                 // link to top of page
@@ -1102,7 +1083,7 @@
 
             //--- DISPLAY ACTIVE PRESCRIPTIONS (of activePatient) ---------------------------------
             if(displayActivePrescr && !sAction.equals("showDetails")){
-                Vector activePrescrs = Prescription.findActive(sFindPatientUid,sFindPrescriberUid,sFindProductUid,sFindDateBegin,sFindDateEnd,sFindSupplyingServiceUid,sSortCol,sSortDir);
+                Vector activePrescrs = Prescription.findActive(sFindPatientUid,sFindPrescriberUid,sFindProductUid,sFindDateBegin,sFindDateEnd,sFindSupplyingServiceUid,"OC_PRESCR_BEGIN","DESC");
                 prescriptionsHtml = activePrescriptionsToHtml(activePrescrs,sWebLanguage,activeUser);
                 foundPrescrCount = activePrescrs.size();
 
@@ -1116,12 +1097,11 @@
                 <%
 
                 if(foundPrescrCount > 0){
-                    String sortTran = getTran("web","clicktosort",sWebLanguage);
                     %>
                         <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
-                            <%-- clickable header --%>
+                            <%-- header --%>
                             <tr class="admin">
-                                <td width="22" nowrap>&nbsp;</td>
+                                <td width="20" nowrap>&nbsp;</td>
                                 <td width="25%"><%=getTran("Web","prescriber",sWebLanguage)%></td>
                                 <td width="20%"><%=getTran("Web","product",sWebLanguage)%></td>
                                 <td width="10%"><%=getTran("Web","begindate",sWebLanguage)%></td>
@@ -1129,9 +1109,7 @@
                                 <td width="35%"><%=getTran("Web","prescriptionrule",sWebLanguage)%></td>
                             </tr>
 
-                            <tbody class="hand">
-                                <%=prescriptionsHtml%>
-                            </tbody>
+                            <tbody class="hand"><%=prescriptionsHtml%></tbody>
                         </table>
 
                         <%-- number of records found --%>
@@ -1162,8 +1140,6 @@
 
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
-    <input type="hidden" name="SortCol" value="<%=sSortCol%>">
-    <input type="hidden" name="SortDir" value="<%=sSortDir%>">
     <input type="hidden" name="EditPrescrUid" value="<%=sEditPrescrUid%>">
     <input type="hidden" name="DisplaySearchFields" value="<%=displaySearchFields%>">
     <input type="hidden" name="DisplayActivePrescriptions" value="<%=displayActivePrescr%>">
@@ -1359,17 +1335,6 @@
     transactionForm.EditUnitsPerTimeUnit.value = "";
   }
 
-  <%-- DO SORT --%>
-  function doSort(sortCol){
-    transactionForm.Action.value = "sort";
-    transactionForm.SortCol.value = sortCol;
-
-    if(transactionForm.SortDir.value=="ASC") transactionForm.SortDir.value = "DESC";
-    else                                     transactionForm.SortDir.value = "ASC";
-
-    transactionForm.submit();
-  }
-
   <%-- DO SEARCH --%>
   function doSearch(sortCol){
     if(transactionForm.FindPrescriberUid.value.length>0 ||
@@ -1447,7 +1412,7 @@
   <%-- popup : search userProduct --%>
   function searchUserProduct(productUidField,productNameField,productUnitField,
 		                     unitsPerTimeUnitField,unitsPerPackageField,productStockUidField,serviceStockUidField){
-    var url = "<%=sCONTEXTPATH%>/_common/search/searchUserProduct.jsp?ts=<%=getTs()%>"+
+    var url = "/_common/search/searchUserProduct.jsp&ts=<%=getTs()%>"+
     		  "&loadschema=true"+
     		  "&ReturnProductUidField="+productUidField+
     		  "&ReturnProductNameField="+productNameField;
@@ -1540,7 +1505,7 @@
 
   <%-- DO BACK TO OVERVIEW --%>
   function doBackToOverview(){
-    if(checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web","areyousuretodiscard",sWebLanguage)%>')){
+    if(checkSaveButton()){
       <%
           if(displayActivePrescr){
               %>

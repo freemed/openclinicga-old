@@ -13,6 +13,7 @@
 	static Hashtable pumps = new Hashtable(),
 	                 pumpcounts = new Hashtable();
 
+    //--- GET LAST YEARS AVERAGE PRICE ------------------------------------------------------------
 	public double getLastYearsAveragePrice(Product product){
 		double price = 0;
 		if(pumps.get(product.getUid())!=null && pumpcounts.get(product.getUid())!=null){
@@ -24,11 +25,10 @@
 
 <%!
     //--- OBJECTS TO HTML (layout 1) --------------------------------------------------------------
-    private StringBuffer objectsToHtml1(Vector objects, String sWebLanguage) {
+    private StringBuffer objectsToHtml1(Vector objects, String sWebLanguage){
         StringBuffer html = new StringBuffer();
         String sClass = "1", sStockUid = "", sServiceStockName = "", sProductName = "", sStockBegin = "",
-                sOrderLevel = "", sMinimumLevel = "";
-        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
+               sOrderLevel = "", sMinimumLevel = "";
         Product product;
         int stockLevel;
 
@@ -38,34 +38,36 @@
 
         // run thru found productstocks
         ProductStock productStock;
-        for (int i = 0; i < objects.size(); i++) {
-            productStock = (ProductStock) objects.get(i);
+        for(int i=0; i<objects.size(); i++){
+            productStock = (ProductStock)objects.get(i);
             sStockUid = productStock.getUid();
 
             // get service stock name
             ServiceStock serviceStock = productStock.getServiceStock();
-            if(serviceStock != null) {
+            if(serviceStock!=null){
                 sServiceStockName = serviceStock.getName();
-            } else {
+            }
+            else{
                 sServiceStockName = "<font color='red'>"+getTran("web","nonexistingserviceStock",sWebLanguage)+"</font>";
             }
 
             // get product name
             product = productStock.getProduct();
-            if(product != null) {
+            if(product!=null){
                 sProductName = product.getName();
-            } else {
+            }
+            else{
                 sProductName = "<font color='red'>"+getTran("web","nonexistingproduct",sWebLanguage)+"</font>";
             }
 
             // format begin date
             java.util.Date tmpDate = productStock.getBegin();
-            if(tmpDate != null) sStockBegin = stdDateFormat.format(tmpDate);
+            if(tmpDate!=null) sStockBegin = ScreenHelper.formatDate(tmpDate);
 
             // levels
             stockLevel = productStock.getLevel();
-            sOrderLevel = (productStock.getOrderLevel() < 0 ? "" : productStock.getOrderLevel()+"");
-            sMinimumLevel = (productStock.getMinimumLevel() < 0 ? "" : productStock.getMinimumLevel()+"");
+            sOrderLevel = (productStock.getOrderLevel()<0?"":productStock.getOrderLevel()+"");
+            sMinimumLevel = (productStock.getMinimumLevel()<0?"":productStock.getMinimumLevel()+"");
 
             // alternate row-style
             if(sClass.equals("")) sClass = "1";
@@ -77,15 +79,15 @@
                  .append("<td onclick=\"doShowDetails('"+sStockUid+"');\">"+sServiceStockName+"</td>")
                  .append("<td onclick=\"doShowDetails('"+sStockUid+"');\">"+sProductName+"</td>");
 
-            if(sMinimumLevel.length() > 0 && sOrderLevel.length() > 0) {
+            if(sMinimumLevel.length() > 0 && sOrderLevel.length() > 0){
                 int minimumLevel = Integer.parseInt(sMinimumLevel),
                         orderLevel = Integer.parseInt(sOrderLevel);
 
                 // indicate level in orange or red
-                if(stockLevel <= minimumLevel) {
+                if(stockLevel <= minimumLevel){
                     html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\"><font color='red'>"+stockLevel+"</font>&nbsp;&nbsp;</td>");
                 }
-                else if(stockLevel <= orderLevel) {
+                else if(stockLevel <= orderLevel){
                     html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\"><font color='orange'>"+stockLevel+"</font>&nbsp;&nbsp;</td>");
                 }
                 else {
@@ -105,10 +107,9 @@
     }
 
     //--- OBJECTS TO HTML (layout 2) --------------------------------------------------------------
-    private StringBuffer objectsToHtml2(Vector objects, String serviceUid, String sWebLanguage,User activeUser) {
+    private StringBuffer objectsToHtml2(Vector objects, String serviceUid, String sWebLanguage,User activeUser){
         StringBuffer html = new StringBuffer();
         String sClass = "1", sStockUid = "", sProductUid = "", sProductName = "", sStockBegin = "";
-        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         Product product;
 
         // frequently used translations
@@ -126,25 +127,24 @@
 
         // run thru found productstocks
         ProductStock productStock;
-        for (int i = 0; i < objects.size(); i++) {
-            productStock = (ProductStock) objects.get(i);
+        for (int i=0; i<objects.size(); i++){
+            productStock = (ProductStock)objects.get(i);
             sStockUid = productStock.getUid();
 
             product = productStock.getProduct();
-            if(product != null) {
+            if(product!=null){
                 sProductName = product.getName();
                 sProductUid = product.getUid();
             } 
-            else {
+            else{
                 sProductName = "<font color='red'>"+getTran("web","nonexistingproduct",sWebLanguage)+"</font>";
             }
 
             // format begin date
             java.util.Date tmpDate = productStock.getBegin();
-            if(tmpDate != null) sStockBegin = stdDateFormat.format(tmpDate);
+            if(tmpDate!=null) sStockBegin = ScreenHelper.formatDate(tmpDate);
 
             double nPUMP = getLastYearsAveragePrice(product);
-            //double nPUMP = 0;
             int commandLevel = ProductOrder.getOpenOrderedQuantity(productStock.getUid());
 
             // alternate row-style
@@ -152,7 +152,7 @@
             else                  sClass = "";
             
             //*** display stock in one row ***
-            html.append("<tr class='list"+sClass+"' >")
+            html.append("<tr class='list"+sClass+"'>")
                  .append("<td width='16'>"+(activeUser.getAccessRight("pharmacy.manageproductstocks.delete")?"<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link' alt='"+deleteTran+"' onclick=\"doDelete('"+sStockUid+"');\" title='"+deleteTran+"'></td>":"<td/>"))
 		         .append("<td width='16'>"+(activeUser.getAccessRight("pharmacy.viewproductstockfiches.select")?"<img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' class='link' onclick=\"printFiche('"+sStockUid+"');\" title='"+ficheTran+"'></td>":"<td/>"));
             if(productStock.hasOpenDeliveries()){
@@ -172,25 +172,26 @@
 
             // level
             int stockLevel = productStock.getLevel();
-            String sOrderLevel = (productStock.getOrderLevel() < 0 ? "" : productStock.getOrderLevel()+""),
-                   sMinimumLevel = (productStock.getMinimumLevel() < 0 ? "" : productStock.getMinimumLevel()+""),
-                   sMaximumLevel = (productStock.getMaximumLevel() < 0 ? "" : productStock.getMaximumLevel()+"");
+            String sOrderLevel = (productStock.getOrderLevel()<0?"":productStock.getOrderLevel()+""),
+                   sMinimumLevel = (productStock.getMinimumLevel()<0?"":productStock.getMinimumLevel()+""),
+                   sMaximumLevel = (productStock.getMaximumLevel()<0?"":productStock.getMaximumLevel()+"");
 
-            if(sMinimumLevel.length() > 0 && sOrderLevel.length() > 0) {
+            if(sMinimumLevel.length() > 0 && sOrderLevel.length() > 0){
                 int minimumLevel = Integer.parseInt(sMinimumLevel),
                     orderLevel = Integer.parseInt(sOrderLevel);
 
                 // indicate level in orange or red
-                if(stockLevel <= minimumLevel) {
+                if(stockLevel <= minimumLevel){
                     html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\"><font color='red'>"+stockLevel+"</font>&nbsp;&nbsp;</td>");
                 } 
-                else if(stockLevel <= orderLevel) {
+                else if(stockLevel <= orderLevel){
                     html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\"><font color='orange'>"+stockLevel+"</font>&nbsp;&nbsp;</td>");
                 } 
-                else {
+                else{
                     html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+stockLevel+"&nbsp;&nbsp;</td>");
                 }
-            } else {
+            }
+            else{
                 html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+stockLevel+"&nbsp;&nbsp;</td>");
             }
 
@@ -205,7 +206,7 @@
             html.append("<td style=\"text-align:right;\" nowrap>&nbsp;");
 
             // no buttons for unexisting product
-            if(product != null){
+            if(product!=null){
                 if(productStock.getLevel() > 0){
                     html.append("<input type='button' title='"+changeLevelOutTran+"' class='button' style='width:30px;' value=\""+outTran+"\" onclick=\"deliverProduct('"+sStockUid+"','"+sProductName+"','"+stockLevel+"');\">&nbsp;");
                 }
@@ -229,7 +230,10 @@
 	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
 	PreparedStatement ps = null;
 	try{
-		ps=conn.prepareStatement("select OC_POINTER_KEY,OC_POINTER_VALUE from OC_POINTERS where OC_POINTER_KEY like 'drugprice.%' and OC_POINTER_UPDATETIME between ? and ? order by OC_POINTER_VALUE");
+		ps=conn.prepareStatement("select OC_POINTER_KEY,OC_POINTER_VALUE from OC_POINTERS"+
+	                             " where OC_POINTER_KEY like 'drugprice.%'"+
+				                 "  and OC_POINTER_UPDATETIME between ? and ?"+
+	                             " order by OC_POINTER_VALUE");
 		ps.setTimestamp(1,new java.sql.Timestamp(new java.util.Date(new java.util.Date().getTime()-year).getTime()));
 		ps.setTimestamp(2,new java.sql.Timestamp(new java.util.Date().getTime()));
 		ResultSet rs = ps.executeQuery();
@@ -260,9 +264,6 @@
 		e.printStackTrace();
 	}
   
-	String sDefaultSortCol = "OC_PRODUCT_NAME",
-           sDefaultSortDir = "ASC";
-
     String sAction = checkString(request.getParameter("Action"));
 
     // retreive form data
@@ -286,9 +287,9 @@
     // external data
     String sServiceId = checkString(request.getParameter("ServiceId"));
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n#################### pharacy/manageProductStocks.jsp ###################");
+        Debug.println("\n******************** pharacy/manageProductStocks.jsp *******************");
         Debug.println("sAction                : "+sAction);
         Debug.println("sEditStockUid          : "+sEditStockUid);
         Debug.println("sEditServiceStockUid   : "+sEditServiceStockUid);
@@ -305,7 +306,7 @@
         Debug.println("sEditSupplierName      : "+sEditSupplierName);
         Debug.println("sEditProductName       : "+sEditProductName+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     String msg = "", sFindServiceStockUid = "", sFindProductUid = "", sFindLevel = "",
            sFindMinimumLevel = "", sFindMaximumLevel = "", sFindOrderLevel = "", sFindBegin = "",
@@ -330,14 +331,6 @@
     String sDisplayLowStocks = checkString(request.getParameter("DisplayLowStocks"));
     if(sDisplayLowStocks.length()==0) sDisplayLowStocks = "false"; // default
     boolean displayLowStocks = sDisplayLowStocks.equalsIgnoreCase("true");
-
-    // sortcol
-    String sSortCol = checkString(request.getParameter("SortCol"));
-    if(sSortCol.length()==0) sSortCol = sDefaultSortCol;
-
-    // sortDir
-    String sSortDir = checkString(request.getParameter("SortDir"));
-    if(sSortDir.length()==0) sSortDir = sDefaultSortDir;
 
 
     //*********************************************************************************************
@@ -420,12 +413,6 @@
         sAction = "findShowOverview"; // display overview even if only one record remains
     }
 
-    //--- SORT ------------------------------------------------------------------------------------
-    if(sAction.equals("sort")){
-        displayEditFields = false;
-        sAction = "find";
-    }
-
     //--- FIND ------------------------------------------------------------------------------------
     if(sAction.startsWith("find")){
         if(sAction.equals("findShowOverview")){
@@ -462,7 +449,7 @@
 
         Vector productStocks = ProductStock.find(sFindServiceStockUid,sFindProductUid,sFindLevel,sFindMinimumLevel,
                                                  sFindMaximumLevel,sFindOrderLevel,sFindBegin,sFindEnd,sFindDefaultImportance,
-                                                 sFindSupplierUid,"",sSortCol,sSortDir);
+                                                 sFindSupplierUid,"","OC_PRODUCT_NAME","DESC");
 
         // display other layout if stocks of only one service are shown
         if(sServiceId.length()==0) stocksHtml = objectsToHtml1(productStocks,sWebLanguage);
@@ -559,7 +546,7 @@
     }
     else{
         if(!sAction.equals("findShowOverview")){
-            sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSearch('"+sDefaultSortCol+"');}\"";
+            sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSearch();}\"";
         }
     }
 %>
@@ -634,7 +621,7 @@
                    sFindProductName      = checkString(request.getParameter("FindProductName"));
 
             %>
-                <table width="100%" class="list" cellspacing="1" onClick="transactionForm.onkeydown='if(enterEvent(event,13)){doSearch(\'<%=sDefaultSortCol%>\');}';" onKeyDown="if(enterEvent(event,13)){doSearch('<%=sDefaultSortCol%>');}">
+                <table width="100%" class="list" cellspacing="1" onClick="transactionForm.onkeydown='if(enterEvent(event,13)){doSearch();}';" onKeyDown="if(enterEvent(event,13)){doSearch();}">
                     <%-- Service Stock --%>
                     <tr>
                         <td class="admin2" width="<%=sTDAdminWidth%>" nowrap><%=getTran("Web","servicestock",sWebLanguage)%></td>
@@ -721,7 +708,7 @@
                     <tr>
                         <td class="admin2">&nbsp;</td>
                         <td class="admin2">
-                            <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearch('<%=sDefaultSortCol%>');">
+                            <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearch();">
                             <input type="button" class="button" name="clearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearSearchFields();">
                             <input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">&nbsp;
                            
@@ -737,10 +724,9 @@
         //--- SEARCH RESULTS (layout 1) -----------------------------------------------------------
         if(displayFoundRecordsLayout1){
             if(foundStockCount > 0){
-                String sortTran = getTran("web","clicktosort",sWebLanguage);
                 %>
                     <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
-                        <%-- clickable header --%>
+                        <%-- header --%>
                         <tr class="admin">
                             <td/>
                             <td><%=getTran("Web","servicestock",sWebLanguage)%></td>
@@ -749,9 +735,7 @@
                             <td align="right"><%=getTran("Web","orderlevel",sWebLanguage)%>&nbsp;&nbsp;</td>
                             <td><SORTTYPE:DATE><%=getTran("Web","begindate",sWebLanguage)%></SORTTYPE:DATE></td>
                         </tr>
-                        <tbody class="hand">
-                            <%=stocksHtml%>
-                        </tbody>
+                        <tbody class="hand"><%=stocksHtml%></tbody>
                     </table>
                     
                     <%-- number of records found --%>
@@ -775,10 +759,7 @@
             }
             else{
 	            // no records found
-	            %>
-	                <%=getTran("web","norecordsfound",sWebLanguage)%>
-	                <br><br>
-	            <%
+	            %><%=getTran("web","norecordsfound",sWebLanguage)%><br><br><%
             }
         }
 
@@ -786,10 +767,9 @@
         // used for showing productStocks in one serviceStock
         if(displayFoundRecordsLayout2){
             if(foundStockCount > 0){
-                String sortTran = getTran("web","clicktosort",sWebLanguage);
                 %>
                     <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
-                        <%-- clickable header --%>
+                        <%-- header --%>
                         <tr class="admin">
                             <td/>
                             <td/>
@@ -804,9 +784,7 @@
                             <td><%=getTran("Web.manage","PUMP",sWebLanguage)%></td>
                             <td/>
                         </tr>
-                        <tbody class="hand">
-                            <%=stocksHtml%>
-                        </tbody>
+                        <tbody class="hand"><%=stocksHtml%></tbody>
                     </table>
                     
                     <%-- number of records found --%>
@@ -868,27 +846,28 @@
                 <table class="list" width="100%" cellspacing="1">
                     <%
                         // do not show service-stock-selector if serviceStock is yet specified
-                        if(sEditServiceStockUid.length() == 0){
-                        %>
-                        <%-- Service Stock --%>
-                        <tr>
-                            <td class="admin" nowrap><%=getTran("Web","servicestock",sWebLanguage)%> *</td>
-                            <td class="admin2">
-                                <input class="text" type="text" name="EditServiceStockName" readonly size="<%=sTextWidth%>" value="<%=sSelectedServiceStockName%>">
-
-                                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchServiceStock('EditServiceStockUid','EditServiceStockName');">
-                                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditServiceStockUid.value='';transactionForm.EditServiceStockName.value='';">
-                            </td>
-                        </tr>
-                        <%
+                        if(sEditServiceStockUid.length()==0){
+	                        %>
+	                        <%-- Service Stock --%>
+	                        <tr>
+	                            <td class="admin" nowrap><%=getTran("Web","servicestock",sWebLanguage)%> *</td>
+	                            <td class="admin2">
+	                                <input class="text" type="text" name="EditServiceStockName" readonly size="<%=sTextWidth%>" value="<%=sSelectedServiceStockName%>">
+	
+	                                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchServiceStock('EditServiceStockUid','EditServiceStockName');">
+	                                <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditServiceStockUid.value='';transactionForm.EditServiceStockName.value='';">
+	                            </td>
+	                        </tr>
+	                        <%
                         }
                         else{
                             %><%-- hidden Service Stock --%><%
                         }
                     %>
+                    
                     <%-- Product --%>
-                    <tr>
-                        <td class="admin" colspan="2"><%=getTran("Web","productstuckid",sWebLanguage)%>: <%=sEditStockUid %></td>
+	                <tr class="gray">
+                        <td colspan="2">&nbsp;<%=getTran("Web","productstockid",sWebLanguage)%>: <%=sEditStockUid %></td>
                     </tr>
                     <tr>
                         <td class="admin" width="<%=sTDAdminWidth%>" nowrap><%=getTran("Web","product",sWebLanguage)%> *</td>
@@ -900,6 +879,7 @@
                             <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditProductUid.value='';transactionForm.EditProductName.value='';">
                         </td>
                     </tr>
+                    
                     <%-- Level (required) --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","Level",sWebLanguage)%> *</td>
@@ -907,6 +887,7 @@
                             <input class="text" type="text" <%=(sAction.equals("showDetailsNew")?"":"style='color:#999;'")%> name="EditLevel" <%=(sAction.equals("showDetailsNew")?"":"readonly")%> size="10" maxLength="10" value="<%=sSelectedLevel%>" <%=(sAction.equals("showDetailsNew")?"onKeyUp='isNumber(this);'":"")%>>
                         </td>
                     </tr>
+                    
                     <%-- MinimumLevel (required) --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","MinimumLevel",sWebLanguage)%> *</td>
@@ -914,6 +895,7 @@
                             <input class="text" type="text" name="EditMinimumLevel" size="10" maxLength="10" value="<%=sSelectedMinimumLevel%>" onKeyUp="isNumber(this);">
                         </td>
                     </tr>
+                    
                     <%-- MaximumLevel (implied) --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","MaximumLevel",sWebLanguage)%></td>
@@ -921,6 +903,7 @@
                             <input class="text" type="text" name="EditMaximumLevel" size="10" maxLength="10" value="<%=sSelectedMaximumLevel%>" onKeyUp="isNumber(this);">
                         </td>
                     </tr>
+                    
                     <%-- OrderLevel (required) --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","OrderLevel",sWebLanguage)%>&nbsp;*</td>
@@ -928,6 +911,7 @@
                             <input class="text" type="text" name="EditOrderLevel" size="10" maxLength="10" value="<%=sSelectedOrderLevel%>" onKeyUp="isNumber(this);">
                         </td>
                     </tr>
+                    
                     <%-- Begin --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","begindate",sWebLanguage)%>&nbsp;*</td>
@@ -940,11 +924,13 @@
                             %>
                         </td>
                     </tr>
+                    
                     <%-- End --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","enddate",sWebLanguage)%></td>
                         <td class="admin2"><%=writeDateField("EditEnd","transactionForm",sSelectedEnd,sWebLanguage)%></td>
                     </tr>
+                    
                     <%-- DefaultImportance (dropdown : native|low|high) --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","DefaultImportance",sWebLanguage)%> *</td>
@@ -955,6 +941,7 @@
                             </select>
                         </td>
                     </tr>
+                    
                     <%-- supplier --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","supplier",sWebLanguage)%>&nbsp;</td>
@@ -966,9 +953,10 @@
                             <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditSupplierUid.value='';transactionForm.EditSupplierName.value='';">
                         </td>
                     </tr>
+                    
                     <%-- EDIT BUTTONS --%>
                     <tr>
-                        <td class="admin2">&nbsp;</td>
+                        <td class="admin">&nbsp;</td>
                         <td class="admin2">
                             <%
                                 if(sAction.equals("showDetails") || sAction.equals("showDetailsAfterUpdateReject")){
@@ -1006,10 +994,9 @@
             <%
         }
     %>
+    
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
-    <input type="hidden" name="SortCol" value="<%=sSortCol%>">
-    <input type="hidden" name="SortDir" value="<%=sSortDir%>">
     <input type="hidden" name="EditStockUid" value="<%=sEditStockUid%>">
     <input type="hidden" name="DisplaySearchFields" value="<%=displaySearchFields%>">
     <input type="hidden" name="DisplayLowStocks" value="<%=displayLowStocks%>">
@@ -1205,20 +1192,9 @@
     transactionForm.EditSupplierUid.value = "";
     transactionForm.EditDefaultSupplierName.value = "";
   }
-
-  <%-- DO SORT --%>
-  function doSort(sortCol){
-    transactionForm.Action.value = "sort";
-    transactionForm.SortCol.value = sortCol;
-
-    if(transactionForm.SortDir.value == "ASC") transactionForm.SortDir.value = "DESC";
-    else                                       transactionForm.SortDir.value = "ASC";
-
-    transactionForm.submit();
-  }
-
+  
   <%-- DO SEARCH --%>
-  function doSearch(sortCol){
+  function doSearch(){
     if(transactionForm.FindServiceStockUid.value.length>0 ||
        transactionForm.FindProductUid.value.length>0 ||
        transactionForm.FindLevel.value.length>0 ||
@@ -1232,7 +1208,6 @@
       transactionForm.newButton.disabled = true;
 
       transactionForm.Action.value = "find";
-      transactionForm.SortCol.value = sortCol;
       openSearchInProgressPopup();
       transactionForm.submit();
     }
@@ -1316,7 +1291,7 @@
 
   <%-- DO BACK TO OVERVIEW --%>
   function doBackToOverview(){
-    if(checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web","areyousuretodiscard",sWebLanguage)%>')){
+    if(checkSaveButton()){
       transactionForm.Action.value = "findShowOverview";
       transactionForm.DisplaySearchFields.value = "false";
       transactionForm.returnButton.disabled = true;
@@ -1339,7 +1314,7 @@
 	}
   }
   
-  <%-- DO BACK TO PREVIOUS MODULE --%>
+  <%-- DO BACK TO PREVious MODULE --%>
   function doBackToPrevModule(){
     window.location.href = "<%=sCONTEXTPATH%>/main.do?Page=pharmacy/manageServiceStocks.jsp&DisplaySearchFields=true&ts=<%=getTs()%>";
   }
@@ -1350,20 +1325,113 @@
   }
 
   if('<%=sAction%>'=='findShowOverview' || '<%=sAction%>'=='find'){
-     if(document.getElementById('filtersection')!=null){
-       document.getElementById('filtersection').style.display='';
-     }
+    if(document.getElementById('filtersection')!=null){
+      document.getElementById('filtersection').style.display = '';
+    }
      
-	 <%-- close "search in progress"-popup that might still be open --%>
-	 var popup = window.open("","Searching","width=1,height=1");
-	 popup.close();
-	 if(document.getElementById("filter")){
-       window.setTimeout("document.getElementById('filter').focus()",500);
-     }
-   }
-   else{
-	 if(document.getElementById('filtersection')!=null){
-       document.getElementById('filtersection').style.display='none';
-	 }
-   }
+	<%-- close "search in progress"-popup that might still be open --%>
+	var popup = window.open("","Searching","width=1,height=1");
+	popup.close();
+	if(document.getElementById("filter")){
+      window.setTimeout("document.getElementById('filter').focus()",500);
+    }
+  }
+  else{
+	if(document.getElementById('filtersection')!=null){
+      document.getElementById('filtersection').style.display = 'none';
+	}
+  }
+
+  <%-- popup : search product --%>
+  function searchProduct(productUidField,productNameField,productUnitField,unitsPerTimeUnitField,
+		                 unitsPerPackageField,productStockUidField,serviceStockUidField){
+    var url = "/_common/search/searchProduct.jsp&ts=<%=getTs()%>"+
+              "&loadschema=true&ReturnProductUidField="+productUidField+
+              "&ReturnProductNameField="+productNameField;
+
+    if(productUnitField!=undefined){
+      url+= "&ReturnProductUnitField="+productUnitField;
+    }
+
+    if(unitsPerTimeUnitField!=undefined){
+      url+= "&ReturnUnitsPerTimeUnitField="+unitsPerTimeUnitField;
+    }
+
+    if(unitsPerPackageField!=undefined){
+      url+= "&ReturnUnitsPerPackageField="+unitsPerPackageField;
+    }
+
+    if(productStockUidField!=undefined){
+      url+= "&ReturnProductStockUidField="+productStockUidField;
+    }
+
+    if(serviceStockUidField!=undefined){
+      url+= "&ReturnServiceStockUidField="+serviceStockUidField;
+    }
+
+    openPopup(url);
+  }
+  
+  <%-- popup : search userProduct --%>
+  function searchUserProduct(productUidField,productNameField,productUnitField,
+		                     unitsPerTimeUnitField,unitsPerPackageField,productStockUidField,serviceStockUidField){
+    var url = "/_common/search/searchUserProduct.jsp&ts=<%=getTs()%>"+
+    		  "&loadschema=true"+
+    		  "&ReturnProductUidField="+productUidField+
+    		  "&ReturnProductNameField="+productNameField;
+
+    if(productUnitField!=undefined){
+      url+= "&ReturnProductUnitField="+productUnitField;
+    }
+
+    if(unitsPerTimeUnitField!=undefined){
+      url+= "&ReturnUnitsPerTimeUnitField="+unitsPerTimeUnitField;
+    }
+
+    if(unitsPerPackageField!=undefined){
+      url+= "&ReturnUnitsPerPackageField="+unitsPerPackageField;
+    }
+
+    if(productStockUidField!=undefined){
+      url+= "&ReturnProductStockUidField="+productStockUidField;
+    }
+
+    if(serviceStockUidField!=undefined){
+      url+= "&ReturnServiceStockUidField="+serviceStockUidField;
+    }
+
+    openPopup(url);
+  }
+
+  <%-- popup : search product in service stock --%>
+  function searchProductInServiceStock(productUidField,productNameField,productUnitField,unitsPerTimeUnitField,
+		                               unitsPerPackageField,productStockUidField,serviceStockUidField){
+    var url = "/_common/search/searchProductInStock.jsp&ts=<%=getTs()%>"+
+              "&loadschema=true"+
+              "&DisplayProductsOfPatientService=true"+
+              "&ReturnProductUidField="+productUidField+
+              "&ReturnProductNameField="+productNameField;
+
+    if(productUnitField!=undefined){
+      url+= "&ReturnProductUnitField="+productUnitField;
+    }
+
+    if(unitsPerTimeUnitField!=undefined){
+      url+= "&ReturnUnitsPerTimeUnitField="+unitsPerTimeUnitField;
+    }
+
+    if(unitsPerPackageField!=undefined){
+      url+= "&ReturnUnitsPerPackageField="+unitsPerPackageField;
+    }
+
+    if(productStockUidField!=undefined){
+      url+= "&ReturnProductStockUidField="+productStockUidField;
+    }
+
+    if(serviceStockUidField!=undefined){
+      url+= "&ReturnServiceStockUidField="+serviceStockUidField;
+    }
+
+    openPopup(url);
+  }
 </script>

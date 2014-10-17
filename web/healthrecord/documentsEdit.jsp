@@ -3,9 +3,7 @@
 <%=checkPermission("occup.documents","select",activeUser)%>
 <%=sJSPROTOTYPE%>
 
-<script>
-  var docNames = new Array();
-</script>
+<script>var docNames = new Array();</script>
 
 <form name="transactionForm" id="transactionForm" method="POST" action="<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>" onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
@@ -96,7 +94,7 @@
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","doc_upload",sWebLanguage)%></td>
             <td class="admin2">
-                <input class="text" name="filename" type="file" title="" size='<%=sTextWidth%>' onchange="uploadFile()"/>
+                <input class="text" name="filename" type="file" title="" size="80" onchange="uploadFile();"/>
             </td>
         </tr>
     </table>
@@ -115,6 +113,7 @@
     window._newForm.close();
   }
   
+  <%-- SUBMIT FORM --%>
   function submitForm(){
     document.transactionForm.buttonSave.style.visibility = "hidden";
     <%

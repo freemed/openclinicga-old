@@ -3,7 +3,6 @@
                 java.util.Vector"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-
 <%=checkPermission("pharmacy.manageservicestocks","select",activeUser)%>
 <%=sJSSORTTABLE%>
 
@@ -103,13 +102,11 @@
 %>
 
 <%
-    String sDefaultSortCol = "OC_STOCK_NAME",
-           sDefaultSortDir = "ASC",
-           centralPharmacyCode = MedwanQuery.getInstance().getConfigString("centralPharmacyCode");
+    String centralPharmacyCode = MedwanQuery.getInstance().getConfigString("centralPharmacyCode");
 
     String sAction = checkString(request.getParameter("Action"));
     if(sAction.length()==0){
-    	sAction="find";
+    	sAction = "find";
     }
 
     // retreive form data
@@ -154,11 +151,11 @@
            sSelectedServiceUid = "", sSelectedBegin = "", sSelectedEnd = "", sSelectedManagerUid = "",
            sSelectedServiceName = "", sSelectedManagerName = "", authorizedUserId = "",
            authorizedUserName = "", sFindDefaultSupplierUid = "", sFindDefaultSupplierName = "",
-           sSelectedDefaultSupplierUid = "", sSelectedDefaultSupplierName = "", sSelectedOrderPeriod = "", sSelectedNosync="";
+           sSelectedDefaultSupplierUid = "", sSelectedDefaultSupplierName = "", sSelectedOrderPeriod = "",
+           sSelectedNosync="";
 
     StringBuffer stocksHtml = null;
     int foundStockCount = 0, authorisedUsersIdx = 1;
-    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
     StringBuffer authorizedUsersHTML = new StringBuffer(),
                  authorizedUsersJS = new StringBuffer(),
                  authorizedUsersDB = new StringBuffer();
@@ -175,14 +172,6 @@
     if(sDisplayActiveServiceStocks.length()==0) sDisplayActiveServiceStocks = "true"; // default
     boolean displayActiveServiceStocks = sDisplayActiveServiceStocks.equalsIgnoreCase("true");
     Debug.println("@@@ displayActiveServiceStocks : "+displayActiveServiceStocks);
-
-    // sortcol
-    String sSortCol = checkString(request.getParameter("SortCol"));
-    if(sSortCol.length()==0) sSortCol = sDefaultSortCol;
-
-    // sortDir
-    String sSortDir = checkString(request.getParameter("SortDir"));
-    if(sSortDir.length()==0) sSortDir = sDefaultSortDir;
 
     //*********************************************************************************************
     //*** process actions *************************************************************************
@@ -275,12 +264,6 @@
         sAction = "findShowOverview"; // display overview even if only one record remains
     }
 
-    //--- SORT ------------------------------------------------------------------------------------
-    if(sAction.equals("sort")){
-        displayEditFields = false;
-        sAction = "find";
-    }
-
     //--- FIND ------------------------------------------------------------------------------------
     if(sAction.startsWith("find")){
         displayActiveServiceStocks = false;
@@ -300,7 +283,7 @@
         sFindDefaultSupplierUid = checkString(request.getParameter("FindDefaultSupplierUid"));
 
         Vector serviceStocks = ServiceStock.find(sFindStockName,sFindServiceUid,sFindBegin,sFindEnd,
-                                                 sFindManagerUid,sFindDefaultSupplierUid,sSortCol,sSortDir);
+                                                 sFindManagerUid,sFindDefaultSupplierUid,"OC_STOCK_NAME","DESC");
         stocksHtml = objectsToHtml(serviceStocks,sWebLanguage,activeUser);
         foundStockCount = serviceStocks.size();
     }
@@ -406,7 +389,7 @@
         sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSave();}\"";
     }
     else{
-        sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSearch('"+sDefaultSortCol+"');}\"";
+        sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSearch();}\"";
     }
 %>
 <form name="transactionForm" id="transactionForm" method="post" action='<c:url value="/main.do"/>?Page=pharmacy/manageServiceStocks.jsp&ts=<%=getTs()%>' <%=sOnKeyDown%> <%=(displaySearchFields?"onClick=\"clearMessage();\"":"onclick=\"setSaveButton(event);clearMessage();\" onkeyup=\"setSaveButton(event);\"")%>>
@@ -431,7 +414,7 @@
             }
 
             %>
-                <table width="100%" class="list" cellspacing="1" onClick="transactionForm.onkeydown='if(enterEvent(event,13)){doSearch(\'<%=sDefaultSortCol%>\');}';" onKeyDown="if(enterEvent(event,13)){doSearch('<%=sDefaultSortCol%>');}">
+                <table width="100%" class="list" cellspacing="1" onClick="transactionForm.onkeydown='if(enterEvent(event,13)){doSearch();}';" onKeyDown="if(enterEvent(event,13)){doSearch();}">
                     <%-- Stock Name --%>
                     <tr>
                         <td class="admin2" width="<%=sTDAdminWidth%>" nowrap><%=getTran("Web","Name",sWebLanguage)%>&nbsp;</td>
@@ -484,7 +467,7 @@
                     <tr>
                         <td class="admin2"/>
                         <td class="admin2">
-                            <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearch('<%=sDefaultSortCol%>');">
+                            <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearch();">
                             <input type="button" class="button" name="clearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearSearchFields();">
                             <%
                                 if(activeUser.getAccessRight("pharmacy.manageservicestocks.add")){
@@ -527,10 +510,9 @@
         //--- SEARCH RESULTS ----------------------------------------------------------------------
         if(displayFoundRecords){
             if(foundStockCount > 0){
-                String sortTran = getTran("web","clicktosort",sWebLanguage);
-                %>
+            	%>
                     <table width='100%' cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
-                        <%-- clickable header --%>
+                        <%-- header --%>
                         <tr class="admin">
                             <td width="90" nowrap>&nbsp;</td>
                             <td><%=getTran("Web","name",sWebLanguage)%></td>
@@ -539,15 +521,14 @@
                             <td><%=getTran("Web.manage","productstockcount",sWebLanguage)%></td>
                             <td/>
                         </tr>
-                        <tbody onmouseover='this.style.cursor="pointer"' onmouseout='this.style.cursor="default"'>
-                            <%=stocksHtml%>
-                        </tbody>
+                        <tbody class="hand"><%=stocksHtml%></tbody>
                     </table>
                     
                     <%-- number of records found --%>
                     <span style="width:49%;text-align:left;">
                         <%=foundStockCount%> <%=getTran("web","recordsfound",sWebLanguage)%>
                     </span>
+                    
                     <%
                         if(foundStockCount > 20){
                             // link to top of page
@@ -563,10 +544,7 @@
             }
             else{
                 // no records found
-                %>
-                    <%=getTran("web","norecordsfound",sWebLanguage)%>
-                    <br><br>
-                <%
+                %><%=getTran("web","norecordsfound",sWebLanguage)%><br><br><%
             }
         }
 
@@ -577,9 +555,7 @@
                     <%-- Stock Name --%>
                     <tr>
                         <td class="admin" width="<%=sTDAdminWidth%>" nowrap><%=getTran("Web","ID",sWebLanguage)%></td>
-                        <td class="admin2">
-                            <%=sEditStockUid%>
-                        </td>
+                        <td class="admin2"><%=sEditStockUid%></td>
                     </tr>
                     <tr>
                         <td class="admin" width="<%=sTDAdminWidth%>" nowrap><%=getTran("Web","Name",sWebLanguage)%>&nbsp;*</td>
@@ -587,6 +563,7 @@
                             <input class="text" type="text" name="EditStockName" size="<%=sTextWidth%>" maxLength="255" value="<%=sSelectedStockName%>">
                         </td>
                     </tr>
+                    
                     <%-- Service --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","service",sWebLanguage)%>&nbsp;*</td>
@@ -598,6 +575,7 @@
                             <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditServiceUid.value='';transactionForm.EditServiceName.value='';">
                         </td>
                     </tr>
+                    
                     <%-- Begin date --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","begindate",sWebLanguage)%>&nbsp;*</td>
@@ -610,11 +588,13 @@
                             %>
                         </td>
                     </tr>
+                    
                     <%-- End date --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","enddate",sWebLanguage)%>&nbsp;</td>
                         <td class="admin2"><%=writeDateField("EditEnd","transactionForm",sSelectedEnd,sWebLanguage)%></td>
                     </tr>
+                    
                     <%-- Manager --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","manager",sWebLanguage)%>&nbsp;</td>
@@ -626,6 +606,7 @@
                             <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditManagerName.value='';transactionForm.EditManagerUid.value='';">
                         </td>
                     </tr>
+                    
                     <%-- Authorized users --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","Authorizedusers",sWebLanguage)%>&nbsp;</td>
@@ -746,7 +727,6 @@
 
             //*** display found records ***
             if(foundStockCount > 0){
-                String sortTran = getTran("web","clicktosort",sWebLanguage);
                 %>
                     <%-- title --%>
                     <table width="100%" cellspacing="0">
@@ -756,7 +736,7 @@
                     </table>
                     
                     <table width='100%' cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
-                        <%-- clickable header --%>
+                        <%-- header --%>
                         <tr class="admin">
                             <td width="22"/>
                             <td width="20%"><%=getTran("Web","name",sWebLanguage)%></td>
@@ -765,9 +745,7 @@
                             <td width="15%"><%=getTran("Web.manage","productstockcount",sWebLanguage)%></td>
                             <td/>
                         </tr>
-                        <tbody class="hand">
-                            <%=stocksHtml%>
-                        </tbody>
+                        <tbody class="hand"><%=stocksHtml%></tbody>
                     </table>
                     
                     <%-- number of records found --%>
@@ -808,8 +786,6 @@
     
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
-    <input type="hidden" name="SortCol" value="<%=sSortCol%>">
-    <input type="hidden" name="SortDir" value="<%=sSortDir%>">
     <input type="hidden" name="EditStockUid" value="<%=sEditStockUid%>">
     <input type="hidden" name="DisplaySearchFields" value="<%=displaySearchFields%>">
     <input type="hidden" name="DisplayActiveServiceStocks" value="<%=displayActiveServiceStocks%>">
@@ -1048,19 +1024,8 @@
     transactionForm.EditOrderPeriodInMonths.value = "";
   }
 
-  <%-- DO SORT --%>
-  function doSort(sortCol){
-    transactionForm.Action.value = "sort";
-    transactionForm.SortCol.value = sortCol;
-
-    if(transactionForm.SortDir.value == "ASC") transactionForm.SortDir.value = "DESC";
-    else                                       transactionForm.SortDir.value = "ASC";
-
-    transactionForm.submit();
-  }
-
   <%-- DO SEARCH SERVICE STOCK --%>
-  function doSearch(sortCol){
+  function doSearch(){
     if(transactionForm.FindStockName.value.length>0 || transactionForm.FindServiceUid.value.length>0 ||
        transactionForm.FindBegin.value.length>0 || transactionForm.FindEnd.value.length>0 ||
        transactionForm.FindManagerUid.value.length>0 || transactionForm.FindDefaultSupplierUid.value.length>0){
@@ -1069,7 +1034,6 @@
       transactionForm.newButton.disabled = true;
 
       transactionForm.Action.value = "find";
-      transactionForm.SortCol.value = sortCol;
       openSearchInProgressPopup();
       transactionForm.submit();
     }
@@ -1114,7 +1078,7 @@
 
   <%-- DO BACK TO OVERVIEW --%>
   function doBackToOverview(){
-    if(checkSaveButton('<%=sCONTEXTPATH%>','<%=getTranNoLink("Web","areyousuretodiscard",sWebLanguage)%>')){
+    if(checkSaveButton()){
       <%
           if(displayActiveServiceStocks){
               %>

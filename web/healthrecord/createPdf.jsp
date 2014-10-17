@@ -154,13 +154,13 @@
                 .append("</tr>");
 
             // records
-            sOut.append("<tbody onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\">");
+            sOut.append("<tbody class='hand'>");
 
-            while (iterator.hasNext()) {
-                transaction = (TransactionVO) iterator.next();
+            while(iterator.hasNext()){
+                transaction = (TransactionVO)iterator.next();
                 tranDate = new Timestamp(transaction.getUpdateTime().getTime());
 
-                if (tranDate.getTime() >= dateFrom.getTime() && tranDate.getTime() <= dateTo.getTime()) {
+                if(tranDate.getTime() >= dateFrom.getTime() && tranDate.getTime() <= dateTo.getTime()){
                     tranID = transaction.getTransactionId()+"";
                     serverID = transaction.getServerId()+"";
                     tranType = transaction.getTransactionType();
@@ -302,7 +302,7 @@
                 .append("</tr>");
 
             // records
-            sOut.append("<tbody onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\">");
+            sOut.append("<tbody class='hand'>");
 
             if (hTrans != null) {
                 Iterator setIter = set.iterator();
@@ -422,7 +422,7 @@
                 .append("</tr>");
 
             // records
-            sOut.append("<tbody onmouseover=\"this.style.cursor='hand'\" onmouseout=\"this.style.cursor='default'\">");
+            sOut.append("<tbody class='hand'>");
 
             if (hTrans != null) {
                 Iterator setIter = set.iterator();

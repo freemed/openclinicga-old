@@ -226,7 +226,7 @@
     String sTitle = getTran("Web.manage","ManagePatientCarePrescriptions",sWebLanguage)+"&nbsp;"+activePatient.lastname+" "+activePatient.firstname;
     
     String sCloseAction = "window.close();";
-    if(sAction.startsWith("showDetails")){
+    if(sAction.length()==0 || sAction.startsWith("showDetails")){
         sCloseAction = "doBack();";
     }
 %>

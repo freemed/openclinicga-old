@@ -6,12 +6,12 @@
 <%
     String sPlanUID = checkString(request.getParameter("PlanUID"));
        
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n************ deleteMaintenancePlan.jsp *************");
+        Debug.println("\n******** assets/ajax/maintenancePlan/deleteMaintenancePlan.jsp *********");
         Debug.println("sPlanUID : "+sPlanUID+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     
     boolean errorOccurred = MaintenancePlan.delete(sPlanUID);

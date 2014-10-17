@@ -345,7 +345,7 @@ if(sReturnUnitsPerTimeUnitField.length() > 0){
 // set unitsPerPackage
 if(sReturnUnitsPerPackageField.length() > 0){
 	%>
-	    if(unitsPerPackage == 0) unitsPerPackage = 1;
+	    if(unitsPerPackage==0) unitsPerPackage = 1;
 	
 	    window.opener.document.getElementsByName('<%=sReturnUnitsPerPackageField%>')[0].value = unitsPerPackage;
 	    isNumber(window.opener.document.getElementsByName('<%=sReturnUnitsPerTimeUnitField%>')[0]);
@@ -372,8 +372,8 @@ if(sReturnProductStockUidField.length() > 0){
 }
 %>
 
-    if("true" == "<%=checkString(request.getParameter("loadschema"))%>"){
-      window.opener.loadSchema();
+    if("true"=="<%=checkString(request.getParameter("loadschema"))%>"){
+      if(window.opener.loadSchema) window.opener.loadSchema();
     }
 
     if(closeWindow) window.close();

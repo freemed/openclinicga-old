@@ -965,6 +965,12 @@ input.hiddenredbutton {
  background-color:#ff3300;
 }
 
+input.currentpageButton {
+ font-weight:bolder;
+ color:#ff3300;
+ cursor:none;
+}
+
 input.button:focus {
  outline:none;
 }

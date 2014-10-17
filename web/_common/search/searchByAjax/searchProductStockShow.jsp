@@ -178,9 +178,7 @@
             iTotal++;
         }
     }
-%>
 
-<%
     // display search results
     if(sAction.equals("find")){
         if(iTotal==0){
@@ -202,4 +200,5 @@
             %><div><%=iTotal%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%></div><%
         }
     }
-%> 
+%>
+<script>sortables_init();</script>

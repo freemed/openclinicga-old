@@ -43,20 +43,25 @@
     }
 %>
 <script>
+  var msgDiv = window.opener.document.getElementById("divMessage");
+  if(msgDiv!=null) msgDiv.innerHTML = "";
+  
   <%
       if(sDocumentId.startsWith("ERR_")){
 	      %>window.opener.document.getElementById("divMessage").innerHTML = "<font color='red'><%=sDocumentId.substring(4)%></font>";<%
       }
       else{
           %>
-    	    window.opener.document.getElementById('divDocuments').innerHTML += "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' onClick='deleteDoc(\"<%=sDocumentId%>\");'>&nbsp;"+
-    	                                                                       "<a href='javascript:openDocument(\"<%=sDocumentId%>\");'><%=sFileName%></a><br>";
-    	    window.opener.document.getElementById('EditDocument').value += "<%=sDocumentId%>;";
+    	    window.opener.document.getElementById('divDocuments').innerHTML+= "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' class='link' onClick='deleteDoc(\"<%=sDocumentId%>\");'>&nbsp;"+
+    	                                                                      "<a href='javascript:openDocument(\"<%=sDocumentId%>\");'><%=sFileName%></a><br>";
+    	    window.opener.document.getElementById('EditDocument').value+= "<%=sDocumentId%>;";
     	    window.opener.addDocName("<%=sFileName%>");
+    	    msgDiv.innerHTML = "<%=getTranNoLink("web","fileAdded",sWebLanguage)%>";
 	      <%
       }
   %>
-  var ie7 = (document.all && !window.opera && window.XMLHttpRequest) ? true : false;
+  
+  var ie7 = (document.all && !window.opera && window.XMLHttpRequest)?true:false;
   if(ie7){     
     // required to close window without prompt for IE7
     window.open('','_parent','');

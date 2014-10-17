@@ -15,9 +15,9 @@
            sNextDate           = ScreenHelper.checkString(request.getParameter("nextDate"));
         
     
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG ///////////////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n*********** saveMaintenanceOperation.jsp ***********");
+        Debug.println("\n********** assets/ajax/maintenanceOperation/saveMaintenanceOperation.jsp *********");
         Debug.println("sEditOperationUID     : "+sEditOperationUID);
         Debug.println("sMaintenancePlanUID   : "+sMaintenancePlanUID);
         Debug.println("sDate                 : "+sDate);
@@ -26,7 +26,7 @@
         Debug.println("sComment              : "+sComment);
         Debug.println("sNextDate             : "+sNextDate+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     MaintenanceOperation operation = new MaintenanceOperation();

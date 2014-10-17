@@ -1,109 +1,40 @@
-<%@page import="be.openclinic.assets.Asset,
-                be.mxs.common.util.system.HTMLEntities,
-                java.util.*"%>
-<%@page import="java.io.*,
-                org.dom4j.*"%>
+<%@page import="be.mxs.common.util.system.HTMLEntities,
+                be.openclinic.archiving.ArchiveDocument,
+                java.util.*,
+                java.io.*"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
        
-<%!
-    //### INNER CLASS Document ####################################################################
-    static class Document {
-        public static String name;
-        public static String filename;
-        public static java.util.Date date;
-        public static String author;
-        
-        //--- GET ---------------------------------------------------------------------------------
-        public static Document get(){
-            Document docu = null; 
-                        
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            docu = new Document();
-            docu.name = "Testverslag";
-            docu.filename = "test.pdf";
-            docu.date = new java.util.Date();
-            docu.author = "Stijn@mxs";
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            
-            /*
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            
-            Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
-            
-            try{
-                String sSql = "SELECT * FROM oc_assets"+
-                              " WHERE (OC_ASSET_SERVERID = ? AND OC_ASSET_OBJECTID = ?)";
-                ps = oc_conn.prepareStatement(sSql);
-                ps.setInt(1,Integer.parseInt(sAssetUID.substring(0,sAssetUID.indexOf("."))));
-                ps.setInt(2,Integer.parseInt(sAssetUID.substring(sAssetUID.indexOf(".")+1)));
-
-                // execute
-                rs = ps.executeQuery();
-                if(rs.next()){
-                    docu = new Document();
-                    docu.setUid(rs.getString("OC_DOCUMENT_SERVERID")+"."+rs.getString("OC_DOCUMENT_OBJECTID"));
-                    docu.serverId = Integer.parseInt(rs.getString("OC_DOCUMENT_SERVERID"));
-                    docu.objectId = Integer.parseInt(rs.getString("OC_DOCUMENT_OBJECTID"));
-
-                    docu.name     = checkString(rs.getString("OC_DOCUMENT_NAME"));
-                    docu.filename = checkString(rs.getString("OC_DOCUMENT_FILENAME"));
-                    docu.date     = checkString(rs.getString("OC_DOCUMENT_DATE"));
-                    docu.author   = checkString(rs.getString("OC_DOCUMENT_AUTHOR"));
-                    
-                    // update-info
-                    docu.setUpdateDateTime(rs.getTimestamp("OC_DOCUMENT_UPDATETIME"));
-                    docu.setUpdateUser(rs.getString("OC_DOCUMENT_UPDATEID"));
-                }
-            }
-            catch(Exception e){
-                if(Debug.enabled) e.printStackTrace();
-                Debug.printProjectErr(e,Thread.currentThread().getStackTrace());
-            }
-            finally{
-                try{
-                    if(rs!=null) rs.close();
-                    if(ps!=null) ps.close();
-                    oc_conn.close();
-                }
-                catch(SQLException se){
-                    Debug.printProjectErr(se,Thread.currentThread().getStackTrace());
-                }
-            }
-            */
-
-            return docu;
-        }
-    }
-    //#############################################################################################
-%>
-
 <%
     String sDocumentId = checkString(request.getParameter("DocumentId"));
-
-    String sDocumentBase = MedwanQuery.getInstance().getConfigParam("documentBase","");
-    sDocumentBase = sDocumentBase.replaceAll("\\\\","/");
-
-    /// DEBUG /////////////////////////////////////////////////////////////////
-    if(Debug.enabled){
-        Debug.println("\n*************** getDocumentInfo.jsp ***************");
-        Debug.println("sDocumentBase : "+sDocumentBase);
+	
+	/// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+	if(Debug.enabled){
+	    Debug.println("\n***************** assets/ajax:asset/getDocumentInfo.jsp ****************");
         Debug.println("sDocumentId   : "+sDocumentId+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
    
-    Document docu = Document.get();
+    ArchiveDocument docu = ArchiveDocument.get(sDocumentId);
     if(docu!=null){
         if(Debug.enabled){
-            Debug.println("docu.name     : "+docu.name);
-            Debug.println("docu.filename : "+docu.filename);
-            Debug.println("docu.date     : "+ScreenHelper.stdDateFormat.format(docu.date));
-            Debug.println("docu.author   : "+docu.author+"\n");
+            Debug.println("docu.author       : "+docu.author);
+            Debug.println("docu.category     : "+docu.category);
+            Debug.println("docu.description  : "+docu.description);
+            Debug.println("docu.destination  : "+docu.destination);
+            Debug.println("docu.personId     : "+docu.personId);
+            Debug.println("docu.reference    : "+docu.reference);
+            Debug.println("docu.storageName  : "+docu.storageName);
+            Debug.println("docu.title        : "+docu.title);
+            Debug.println("docu.tranServerId : "+docu.tranServerId);
+            Debug.println("docu.tranTranId   : "+docu.tranTranId);
+            Debug.println("docu.udi          : "+docu.udi);
+            Debug.println("docu.date         : "+ScreenHelper.stdDateFormat.format(docu.date));
+            Debug.println("docu.deleteDate   : "+ScreenHelper.stdDateFormat.format(docu.deleteDate)+"\n");
         }
         
         // check wether the referred document exists as a file
-        File docuFile = new File(sDocumentBase+"/"+docu.filename);
+        File docuFile = new File(docu.storageName);
         boolean documentExistsAsFile = (docuFile.exists() && !docuFile.isDirectory());
         
         if(documentExistsAsFile){
@@ -111,8 +42,8 @@
             %>
 {
   "message":"ok",
-  "documentName":"<%=HTMLEntities.htmlentities(docu.name)%>",
-  "documentFilename":"<%=HTMLEntities.htmlentities(docu.filename)%>",
+  "documentUdi":"<%=HTMLEntities.htmlentities(docu.udi)%>",
+  "documentFilename":"<%=HTMLEntities.htmlentities(docu.storageName)%>",
   "documentDate":"<%=HTMLEntities.htmlentities(ScreenHelper.stdDateFormat.format(docu.date))%>",
   "documentAuthor":"<%=HTMLEntities.htmlentities(docu.author)%>"
 }
@@ -120,13 +51,13 @@
         }
         else{
             // 2 : not found as file
-            String sMessage = "<font color='red'>"+getTranNoLink("web","fileNotFound",sWebLanguage)+" : "+sDocumentBase+"/"+docu.filename+"</font>";
+            String sMessage = "<font color='red'>"+getTranNoLink("web","fileNotFound",sWebLanguage)+" : "+docu.storageName+"</font>";
             
             %>
 {
   "message":"<%=HTMLEntities.htmlentities(sMessage)%>",
-  "documentName":"<%=HTMLEntities.htmlentities(docu.name)%>",
-  "documentFilename":"<%=HTMLEntities.htmlentities(docu.filename)%>",
+  "documentUdi":"<%=HTMLEntities.htmlentities(docu.udi)%>",
+  "documentFilename":"<%=HTMLEntities.htmlentities(docu.storageName)%>",
   "documentDate":"<%=HTMLEntities.htmlentities(ScreenHelper.stdDateFormat.format(docu.date))%>",
   "documentAuthor":"<%=HTMLEntities.htmlentities(docu.author)%>"
 }
@@ -140,7 +71,7 @@
         %>
 {
   "message":"<%=HTMLEntities.htmlentities(sMessage)%>",
-  "documentName":"",
+  "documentUdi":"",
   "documentFilename":"",
   "documentDate":"",
   "documentAuthor":""

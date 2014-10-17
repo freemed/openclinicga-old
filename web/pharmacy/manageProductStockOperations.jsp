@@ -1,11 +1,10 @@
 <%@page import="be.openclinic.pharmacy.ProductStockOperation,
                 be.openclinic.common.ObjectReference,
                 be.openclinic.pharmacy.ProductStock,
-                java.util.Vector" %>
-<%@ page import="be.openclinic.pharmacy.ServiceStock" %>
+                be.openclinic.pharmacy.ServiceStock,
+                java.util.Vector"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
-
 <%=checkPermission("pharmacy.manageproductstockoperations","all",activeUser)%>
 <%=sJSSORTTABLE%>
 
@@ -15,14 +14,13 @@
         Vector idsVector = new Vector();
         String sClass = "1", sOperationUid, srcDestType = "", srcDestUid, srcDestTypeTran = "",
                 srcDestName = "", sOperationDescr, labelType, sProductName;
-        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         java.util.Date operationDate;
         ProductStock productStock;
         Iterator iter = vOperations.iterator();
 
         // frequently used translations
-        String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
-                deleteTran = getTranNoLink("Web", "delete", sWebLanguage);
+        String detailsTran = getTranNoLink("web","showdetails",sWebLanguage),
+                deleteTran = getTranNoLink("Web","delete",sWebLanguage);
 
         // run thru found operations
         ProductStockOperation operation;
@@ -53,12 +51,12 @@
                 }
             }
 
-            srcDestTypeTran = getTran("productstockoperation.sourcedestinationtype", srcDestType, sWebLanguage);
+            srcDestTypeTran = getTran("productstockoperation.sourcedestinationtype",srcDestType,sWebLanguage);
 
             // translate description
             sOperationDescr = operation.getDescription();
-            labelType = "productstockoperation." + sOperationDescr.substring(0, sOperationDescr.indexOf("."));
-            sOperationDescr = getTranNoLink(labelType, sOperationDescr, sWebLanguage);
+            labelType = "productstockoperation." + sOperationDescr.substring(0,sOperationDescr.indexOf("."));
+            sOperationDescr = getTranNoLink(labelType,sOperationDescr,sWebLanguage);
 
             // alternate row-style
             if (sClass.equals("")) sClass = "1";
@@ -80,7 +78,6 @@
 %>
 
 <%
-    String sDefaultSortCol = "OC_OPERATION_DATE";
     String sAction = checkString(request.getParameter("Action"));
 
     // retreive form data
@@ -94,19 +91,20 @@
            sEditOperationDate   = checkString(request.getParameter("EditOperationDate")),
            sEditProductStockUid = checkString(request.getParameter("EditProductStockUid"));
 
-    ///////////////////////////// <DEBUG> /////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n\n################## sAction : "+sAction+" ############################");
-        Debug.println("* sEditOperationUid      : "+sEditOperationUid);
-        Debug.println("* sEditOperationDescr    : "+sEditOperationDescr);
-        Debug.println("* sEditUnitsChanged      : "+sEditUnitsChanged);
-        Debug.println("* sEditSrcDestType       : "+sEditSrcDestType);
-        Debug.println("* sEditSrcDestUid        : "+sEditSrcDestUid);
-        Debug.println("* sEditSrcDestName       : "+sEditSrcDestName);
-        Debug.println("* sEditOperationDate     : "+sEditOperationDate);
-        Debug.println("* sEditProductStockUid   : "+sEditProductStockUid+"\n");
+        Debug.println("\n*************** pharmacy/manageProductStockOperations.jsp *************");
+        Debug.println("sAction              : "+sEditOperationUid);
+        Debug.println("sEditOperationUid    : "+sEditOperationUid);
+        Debug.println("sEditOperationDescr  : "+sEditOperationDescr);
+        Debug.println("sEditUnitsChanged    : "+sEditUnitsChanged);
+        Debug.println("sEditSrcDestType     : "+sEditSrcDestType);
+        Debug.println("sEditSrcDestUid      : "+sEditSrcDestUid);
+        Debug.println("sEditSrcDestName     : "+sEditSrcDestName);
+        Debug.println("sEditOperationDate   : "+sEditOperationDate);
+        Debug.println("sEditProductStockUid : "+sEditProductStockUid+"\n");
     }
-    ///////////////////////////// </DEBUG> ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     // variables
     String msg = "", sFindOperationDescr, sFindSrcDestType = "", sFindOperationDate,
@@ -114,11 +112,9 @@
            sSelectedSrcDestType = "", sSelectedSrcDestUid = "", sSelectedSrcDestName = "",
            sSelectedOperationDate = "", sSelectedProductName = "", sSelectedUnitsChanged = "",
            sSelectedProductStockUid = "";
-
     
     int foundOperationCount = 0;
     StringBuffer operationsHtml = null;
-    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
 
     // get data from form
     sFindOperationDescr  = checkString(request.getParameter("FindOperationDescr"));
@@ -137,11 +133,6 @@
 
     // frequently used translations
     String clearTran = getTranNoLink("Web","clear",sWebLanguage);
-
-    // sortcol
-    String sSortCol = checkString(request.getParameter("SortCol"));
-    if(sSortCol.length()==0) sSortCol = sDefaultSortCol;
-
 
     //*********************************************************************************************
     //*** process actions *************************************************************************
@@ -186,7 +177,8 @@
         displaySearchFields = true;
         displayFoundRecords = true;
 
-        Vector vOperations =  ProductStockOperation.searchProductStockOperations(sFindOperationDescr,sFindSrcDestType,sFindOperationDate,sFindProductStockUid,sFindUnitsChanged,sSortCol);
+        Vector vOperations =  ProductStockOperation.searchProductStockOperations(sFindOperationDescr,sFindSrcDestType,
+        		               sFindOperationDate,sFindProductStockUid,sFindUnitsChanged,"OC_OPERATION_DATE");
         operationsHtml = new StringBuffer();
         Vector idsVector = getFoundOperationsFromRs(operationsHtml,vOperations,sWebLanguage);
         foundOperationCount = idsVector.size();
@@ -253,7 +245,7 @@
         sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSave();}\"";
     }
     else{
-        sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSearch('"+sDefaultSortCol+"');}\"";
+        sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSearch();}\"";
     }
 %>
 
@@ -271,7 +263,7 @@
             String sFindProductStockName = checkString(request.getParameter("FindProductStockName"));
 
             %>
-                <table width="100%" class="list" cellspacing="1" onClick="transactionForm.onkeydown='if(enterEvent(event,13)){doSearch(\'<%=sDefaultSortCol%>\');}';" onKeyDown="if(enterEvent(event,13)){doSearch('<%=sDefaultSortCol%>');}">
+                <table width="100%" class="list" cellspacing="1" onClick="transactionForm.onkeydown='if(enterEvent(event,13)){doSearch();}';" onKeyDown="if(enterEvent(event,13)){doSearch();}">
                     <%-- description --%>
                     <tr>
                         <td class="admin2" width="<%=sTDAdminWidth%>" nowrap><%=getTran("Web","description",sWebLanguage)%>&nbsp;</td>
@@ -316,11 +308,12 @@
                             <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindProductStockUid.value='';transactionForm.FindProductStockName.value='';">
                         </td>
                     </tr>
+                    
                     <%-- SEARCH BUTTONS --%>
                     <tr>
                         <td class="admin2">&nbsp;</td>
                         <td class="admin2">
-                            <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearch('<%=sDefaultSortCol%>');">
+                            <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearch();">
                             <input type="button" class="button" name="clearButton" value="<%=clearTran%>" onclick="clearSearchFields();">
                             <input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew();">&nbsp;
 
@@ -336,33 +329,32 @@
         //--- SEARCH RESULTS ----------------------------------------------------------------------
         if(displayFoundRecords){
             if(foundOperationCount > 0){
-                String sortTran = getTran("web","clicktosort",sWebLanguage);
                 %>
                     <table width='100%' cellspacing="0" cellpadding="0" class="sortable" id="searchresults">
-                        <%-- clickable header --%>
+                        <%-- header --%>
                         <tr class="admin">
-                            <td width="22" nowrap>&nbsp;</td>
-                            <td width="20%"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSearch('OC_OPERATION_DESCRIPTION');"><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_DESCRIPTION")?"<i>":"")%><%=getTran("Web","description",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_DESCRIPTION")?"</i>":"")%></a></td>
+                            <td width="20" nowrap>&nbsp;</td>
+                            <td width="20%"><%=getTran("Web","description",sWebLanguage)%></td>
                             <td width="20%"><%=getTran("Web","product",sWebLanguage)%></td>
-                            <td width="10%"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSearch('OC_OPERATION_SRCDESTTYPE');"><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_SRCDESTTYPE")?"<i>":"")%><%=getTran("Web","sourcedestinationtype",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_SRCDESTTYPE")?"</i>":"")%></a></td>
+                            <td width="10%"><%=getTran("Web","sourcedestinationtype",sWebLanguage)%></td>
                             <td width="30%"><%=getTran("Web","sourcedestinationname",sWebLanguage)%></td>
-                            <td width="10%"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSearch('OC_OPERATION_DATE');"><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_DATE")?"<i>":"")%><%=getTran("Web","date",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_DATE")?"</i>":"")%></a></td>
-                            <td width="*"><a href="#" title="<%=sortTran%>" class="underlined" onClick="doSearch('OC_OPERATION_UNITSCHANGED');"><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_UNITSCHANGED")?"<i>":"")%><%=getTran("Web","unitschanged",sWebLanguage)%><%=(sSortCol.equalsIgnoreCase("OC_OPERATION_UNITSCHANGED")?"</i>":"")%></a></td>
+                            <td width="10%"><%=getTran("Web","date",sWebLanguage)%></td>
+                            <td width="*"><%=getTran("Web","unitschanged",sWebLanguage)%></td>
                         </tr>
-                        <tbody class="hand">
-                            <%=operationsHtml%>
-                        </tbody>
+                        <tbody class="hand"><%=operationsHtml%></tbody>
                     </table>
+                    
                     <%-- number of records found --%>
                     <span style="width:49%;text-align:left;">
                         <%=foundOperationCount%> <%=getTran("web","recordsfound",sWebLanguage)%>
                     </span>
+                    
                     <%
                         if(foundOperationCount > 20){
                             // link to top of page
                             %>
                                 <span style="width:51%;text-align:right;">
-                                        <a href="#topp" class="topbutton">&nbsp;</a>
+                                    <a href="#topp" class="topbutton">&nbsp;</a>
                                 </span>
                                 <br>
                             <%
@@ -373,10 +365,7 @@
             }
             else{
                 // no records found
-                %>
-                    <%=getTran("web","norecordsfound",sWebLanguage)%>
-                    <br><br>
-                <%
+                %><%=getTran("web","norecordsfound",sWebLanguage)%><br><br><%
             }
         }
 
@@ -411,6 +400,7 @@
                                 <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                                 <%=ScreenHelper.writeSelectUnsorted("productstockoperation.sourcedestinationtype",sSelectedSrcDestType,sWebLanguage)%>
                             </select>
+                            
                             <%-- SOURCE DESTINATION SELECTOR --%>
                             <span id="SrcDestSelector" style="visibility:hidden;">
                                 <input type="hidden" name="EditSrcDestUid" value="<%=sSelectedSrcDestUid%>">
@@ -419,6 +409,7 @@
                             </span>
                         </td>
                     </tr>
+                    
                     <script>
                       displaySrcDestSelector();
 
@@ -504,6 +495,7 @@
                         }
                       }
                     </script>
+                    
                     <%-- operation date --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","date",sWebLanguage)%> *</td>
@@ -515,6 +507,7 @@
                             }
                         %>
                     </tr>
+                    
                     <%-- Product stock --%>
                     <tr>
                         <td class="admin" nowrap><%=getTran("Web","productstock",sWebLanguage)%> *</td>
@@ -526,6 +519,7 @@
                             <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.EditProductStockUid.value='';transactionForm.EditProductStockName.value='';">
                         </td>
                     </tr>
+                    
                     <%-- EDIT BUTTONS --%>
                     <tr>
                         <td class="admin2">&nbsp;</td>
@@ -552,6 +546,7 @@
                         </td>
                     </tr>
                 </table>
+                
                 <%-- indication of obligated fields --%>
                 <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
                 <br><br>
@@ -560,10 +555,10 @@
     %>
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
-    <input type="hidden" name="SortCol" value="<%=sSortCol%>">
     <input type="hidden" name="EditOperationUid" value="<%=sEditOperationUid%>">
     <input type="hidden" name="DisplaySearchFields" value="<%=displaySearchFields%>">
 </form>
+
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>
   <%
@@ -695,7 +690,7 @@
   }
 
   <%-- DO SEARCH --%>
-  function doSearch(sortCol){
+  function doSearch(){
     if(transactionForm.FindOperationDescr.value.length>0 ||
        transactionForm.FindSrcDestType.value.length>0 ||
        transactionForm.FindOperationDate.value.length>0 ||
@@ -706,7 +701,6 @@
       transactionForm.newButton.disabled = true;
 
       transactionForm.Action.value = "find";
-      transactionForm.SortCol.value = sortCol;
       openSearchInProgressPopup();
       transactionForm.submit();
     }

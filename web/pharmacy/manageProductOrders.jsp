@@ -14,25 +14,24 @@
                 sDateOrdered = "", sDateDelivered = "", sProductName = "", sServiceStockName = "";
         java.util.Date tmpDate;
         ProductStock productStock;
-        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
-
+        
         // frequently used translations
-        String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
-                deleteTran = getTranNoLink("Web", "delete", sWebLanguage);
+        String detailsTran = getTranNoLink("web","showdetails",sWebLanguage),
+                deleteTran = getTranNoLink("Web","delete",sWebLanguage);
 
         // run thru found orders
         ProductOrder order;
         for (int i = 0; i < orders.size(); i++){
-            order = (ProductOrder) orders.get(i);
+            order = (ProductOrder)orders.get(i);
 
             // Date Ordered
             tmpDate = order.getDateOrdered();
-            if(tmpDate != null) sDateOrdered = stdDateFormat.format(tmpDate);
-            else sDateOrdered = "";
+            if(tmpDate!=null) sDateOrdered = ScreenHelper.formatDate(tmpDate);
+            else         sDateOrdered = "";
 
             // Date Delivered
             tmpDate = order.getDateDelivered();
-            if(tmpDate != null) sDateDelivered = stdDateFormat.format(tmpDate);
+            if(tmpDate!=null) sDateDelivered = ScreenHelper.formatDate(tmpDate);
             else sDateDelivered = "";
 
             // only search product-name when different productstock-UID
@@ -49,7 +48,7 @@
             // translate importance
             sImportance = checkString(order.getImportance());
             if(sImportance.length() > 0){
-                sImportance = getTran("productorder.importance", sImportance, sWebLanguage);
+                sImportance = getTran("productorder.importance",sImportance,sWebLanguage);
             }
 
             // alternate row-style
@@ -78,30 +77,29 @@
         StringBuffer html = new StringBuffer();
         String sClass = "1", sProductStockUid = "", sPreviousProductStockUid = "", sImportance = "",
                 sDateOrdered = "", sDateDeliveryDue = "", sProductName = "", sServiceStockName = "";
-        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         ProductStock productStock;
         java.util.Date tmpDate;
         ServiceStock serviceStock;
         Product product;
 
         // frequently used translations
-        String detailsTran = getTranNoLink("web", "showdetails", sWebLanguage),
-                deleteTran = getTranNoLink("Web", "delete", sWebLanguage);
+        String detailsTran = getTranNoLink("web","showdetails",sWebLanguage),
+               deleteTran  = getTranNoLink("Web","delete",sWebLanguage);
 
         // run thru found orders
         ProductOrder order;
-        for (int i = 0; i < orders.size(); i++){
-            order = (ProductOrder) orders.get(i);
+        for(int i=0; i<orders.size(); i++){
+            order = (ProductOrder)orders.get(i);
 
             // Date Ordered
             tmpDate = order.getDateOrdered();
-            if(tmpDate != null) sDateOrdered = stdDateFormat.format(tmpDate);
-            else sDateOrdered = "";
+            if(tmpDate!=null) sDateOrdered = ScreenHelper.formatDate(tmpDate);
+            else              sDateOrdered = "";
 
             // Date DeliveryDue
             tmpDate = order.getDateDeliveryDue();
-            if(tmpDate != null) sDateDeliveryDue = stdDateFormat.format(tmpDate);
-            else sDateDeliveryDue = "";
+            if(tmpDate!=null) sDateDeliveryDue = ScreenHelper.formatDate(tmpDate);
+            else              sDateDeliveryDue = "";
 
             // only search product-name ans serviceStock-name when different productstock-UID
             sProductStockUid = order.getProductStockUid();
@@ -109,32 +107,35 @@
                 sPreviousProductStockUid = sProductStockUid;
                 productStock = ProductStock.get(sProductStockUid);
 
-                if(productStock != null){
+                if(productStock!=null){
                     // product
                     product = productStock.getProduct();
-                    if(product != null){
+                    if(product!=null){
                         sProductName = product.getName();
-                    } else {
-                        sProductName = "<font color='red'>"+getTran("web.manage", "unexistingproduct", sWebLanguage)+"</font>";
+                    }
+                    else{
+                        sProductName = "<font color='red'>"+getTran("web.manage","unexistingproduct",sWebLanguage)+"</font>";
                     }
 
                     // service stock
                     serviceStock = productStock.getServiceStock();
-                    if(serviceStock != null){
+                    if(serviceStock!=null){
                         sServiceStockName = serviceStock.getName();
-                    } else {
-                        sServiceStockName = "<font color='red'>"+getTran("web.manage", "unexistingservicestock", sWebLanguage)+"</font>";
                     }
-                } else {
-                    sProductName = "<font color='red'>"+getTran("web.manage", "unexistingproduct", sWebLanguage)+"</font>";
-                    sServiceStockName = "<font color='red'>"+getTran("web.manage", "unexistingservicestock", sWebLanguage)+"</font>";
+                    else{
+                        sServiceStockName = "<font color='red'>"+getTran("web.manage","unexistingservicestock",sWebLanguage)+"</font>";
+                    }
+                }
+                else{
+                    sProductName = "<font color='red'>"+getTran("web.manage","unexistingproduct",sWebLanguage)+"</font>";
+                    sServiceStockName = "<font color='red'>"+getTran("web.manage","unexistingservicestock",sWebLanguage)+"</font>";
                 }
             }
 
             // translate importance
             sImportance = checkString(order.getImportance());
             if(sImportance.length() > 0){
-                sImportance = getTran("productorder.importance", sImportance, sWebLanguage);
+                sImportance = getTran("productorder.importance",sImportance,sWebLanguage);
             }
 
             // alternate row-style
@@ -143,16 +144,16 @@
 
             //*** display order in one row ***
             html.append("<tr class='list"+sClass+"' onmouseover=\"this.style.cursor='pointer';\" onmouseout=\"this.style.cursor='default';\" title='"+detailsTran+"'>")
-                    .append("<td align='center'><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+order.getUid()+"');\">")
-                    .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+checkString(order.getDescription())+"</td>")
-                    .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sServiceStockName+"</td>")
-                    .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sProductName+"</td>")
-                    .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+order.getPackagesOrdered()+"</td>")
-                    .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+order.getPackagesDelivered()+"</td>")
-                    .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sDateOrdered+"</td>")
-                    .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sDateDeliveryDue+"</td>")
-                    .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sImportance+"</td>")
-                    .append("</tr>");
+                 .append("<td><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' border='0' title='"+deleteTran+"' onclick=\"doDelete('"+order.getUid()+"');\">")
+                 .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+checkString(order.getDescription())+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sServiceStockName+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sProductName+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+order.getPackagesOrdered()+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+order.getPackagesDelivered()+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sDateOrdered+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sDateDeliveryDue+"</td>")
+                 .append("<td onclick=\"doShowDetails('"+order.getUid()+"');\">"+sImportance+"</td>")
+                .append("</tr>");
         }
 
         return html;
@@ -160,40 +161,37 @@
 %>
 
 <%
-    String sDefaultSortCol = "OC_ORDER_DATEORDERED",
-            sDefaultSortDir = "DESC";
-
     String sAction = checkString(request.getParameter("Action"));
 
     // retreive form data
-    String sEditOrderUid = checkString(request.getParameter("EditOrderUid")),
-           sEditDescription = checkString(request.getParameter("EditDescription")),
-           sEditSupplierUid = checkString(request.getParameter("EditSupplierUid")),
+    String sEditOrderUid        = checkString(request.getParameter("EditOrderUid")),
+           sEditDescription     = checkString(request.getParameter("EditDescription")),
+           sEditSupplierUid     = checkString(request.getParameter("EditSupplierUid")),
            sEditProductStockUid = checkString(request.getParameter("EditProductStockUid")),
            sEditPackagesOrdered = checkString(request.getParameter("EditPackagesOrdered")),
            sEditPackagesDelivered = checkString(request.getParameter("EditPackagesDelivered")),
-           sEditDateOrdered = checkString(request.getParameter("EditDateOrdered")),
+           sEditDateOrdered     = checkString(request.getParameter("EditDateOrdered")),
            sEditDateDeliveryDue = checkString(request.getParameter("EditDateDeliveryDue")),
-           sEditDateDelivered = checkString(request.getParameter("EditDateDelivered")),
-           sEditBatchNumber = checkString(request.getParameter("EditBatchNumber")),
-           sEditBatchComment = checkString(request.getParameter("EditBatchComment")),
-           sEditSupplier = checkString(request.getParameter("EditSupplier")),
-           sEditBatchEnd = checkString(request.getParameter("EditBatchEnd")),
-           sEditProductStockDocumentUid = checkString(request.getParameter("EditProductStockDocumentUid")),
-           sEditProductStockDocumentUidText = "",
-           sEditProductStockOperationUid = checkString(request.getParameter("EditProductStockOperationUid")),
+           sEditDateDelivered   = checkString(request.getParameter("EditDateDelivered")),
+           sEditBatchNumber     = checkString(request.getParameter("EditBatchNumber")),
+           sEditBatchComment    = checkString(request.getParameter("EditBatchComment")),
+           sEditSupplier        = checkString(request.getParameter("EditSupplier")),
+           sEditBatchEnd        = checkString(request.getParameter("EditBatchEnd")),
            sEditImportance = checkString(request.getParameter("EditImportance")); // (native|high|low)
-
-           if(sEditProductStockDocumentUid.length()>0){
-               sEditProductStockDocumentUidText=getTran("operationdocumenttypes",OperationDocument.get(sEditProductStockDocumentUid).getType(),sWebLanguage);
-           }
            
-    // afgeleide data
+    String sEditProductStockDocumentUid = checkString(request.getParameter("EditProductStockDocumentUid")),
+           sEditProductStockOperationUid = checkString(request.getParameter("EditProductStockOperationUid"));
+
+    String sEditProductStockDocumentUidText = "";
+    if(sEditProductStockDocumentUid.length() > 0){
+        sEditProductStockDocumentUidText = getTran("operationdocumenttypes",OperationDocument.get(sEditProductStockDocumentUid).getType(),sWebLanguage);
+    }
+           
     String sEditProductName = checkString(request.getParameter("EditProductName"));
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n******************** pharmacy/managePrductOrders.jsp *******************");
+        Debug.println("\n******************** pharmacy/manageProductOrders.jsp ******************");
         Debug.println("sAction                : "+sAction);
         Debug.println("sEditOrderUid          : "+sEditOrderUid);
         Debug.println("sEditDescription       : "+sEditDescription);
@@ -218,10 +216,10 @@
            sFindServiceName = "", sFindServiceStockName = "", sFindProductName = "", sDeliveredQuantity="",
            sFindSupplierUid = "", sFindSupplierName = "", sFindDateDeliveredSince = "";
 
-    int nTotalPackagesDelivered=0, nPackagesActualOrder=0;
+    int nTotalPackagesDelivered = 0, nPackagesActualOrder = 0;
     
     // get find-data from form
-    sFindDescription = (checkString(request.getParameter("FindDescription"))+"%").replaceAll("%%", "%");
+    sFindDescription = (checkString(request.getParameter("FindDescription"))+"%").replaceAll("%%","%");
     sFindSupplierUid = checkString(request.getParameter("FindSupplierUid"));
     sFindServiceUid = checkString(request.getParameter("FindServiceUid"));
     sFindServiceStockUid = checkString(request.getParameter("FindServiceStockUid"));
@@ -253,50 +251,40 @@
     
     int foundOrderCount = 0;
     StringBuffer ordersHtml = null;
-    SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
     boolean orderIsClosed = false;
-
-    // display options
     boolean displayEditFields = false;
 
     String sDisplaySearchFields = checkString(request.getParameter("DisplaySearchFields"));
-    if(sDisplaySearchFields.length() == 0) sDisplaySearchFields = "true"; // default
+    if(sDisplaySearchFields.length()==0) sDisplaySearchFields = "true"; // default
     boolean displaySearchFields = sDisplaySearchFields.equalsIgnoreCase("true");
     Debug.println("displaySearchFields      : "+displaySearchFields);
     
     String sDisplayDeliveredOrders = checkString(request.getParameter("DisplayDeliveredOrders"));
-    if(sDisplayDeliveredOrders.length() == 0) sDisplayDeliveredOrders = "false"; // default
+    if(sDisplayDeliveredOrders.length()==0) sDisplayDeliveredOrders = "false"; // default
     boolean displayDeliveredOrders = sDisplayDeliveredOrders.equalsIgnoreCase("true");
     Debug.println("displayDeliveredOrders   : "+displayDeliveredOrders);
 
     String sDisplayUndeliveredOrders = checkString(request.getParameter("DisplayUndeliveredOrders"));
-    if(sDisplayUndeliveredOrders.length() == 0) sDisplayUndeliveredOrders = "true"; // default
+    if(sDisplayUndeliveredOrders.length()==0) sDisplayUndeliveredOrders = "true"; // default
     boolean displayUndeliveredOrders = sDisplayUndeliveredOrders.equalsIgnoreCase("true");
     Debug.println("sDisplayUndeliveredOrders : "+sDisplayUndeliveredOrders);
 
-    // sortcol
-    String sSortCol = checkString(request.getParameter("SortCol"));
-    if(sSortCol.length() == 0) sSortCol = sDefaultSortCol;
-
-    // sortDir
-    String sSortDir = checkString(request.getParameter("SortDir"));
-    if(sSortDir.length() == 0) sSortDir = sDefaultSortDir;
-
     // default since-date is one week ago
-    if(sFindDateDeliveredSince.length() == 0){
+    if(sFindDateDeliveredSince.length()==0){
         Calendar oneWeekAgo = new GregorianCalendar();
         String sShowDeliveriesSince = MedwanQuery.getInstance().getConfigString("ShowDeliveriesSinceInDays");
         if(sShowDeliveriesSince.length() > 0){
-            oneWeekAgo.add(Calendar.DATE, -(Integer.parseInt(sShowDeliveriesSince)));
-        } else {
-            oneWeekAgo.add(Calendar.DATE, -7); // default one week
+            oneWeekAgo.add(Calendar.DATE,-(Integer.parseInt(sShowDeliveriesSince)));
+        }
+        else{
+            oneWeekAgo.add(Calendar.DATE,-7); // default one week
         }
         sFindDateDeliveredSince = ScreenHelper.formatDate(oneWeekAgo.getTime());
     }
 
     // supplier name
     if(sFindSupplierUid.length() > 0){
-        sFindSupplierName = getTranNoLink("service", sFindSupplierUid, sWebLanguage);
+        sFindSupplierName = getTranNoLink("service",sFindSupplierUid,sWebLanguage);
     }
 
     //*** is order closed ? ***
@@ -304,33 +292,36 @@
     if(sEditOrderUid.length() > 0 && !sEditOrderUid.equals("-1")){
         // get ordered-date (if one)
         ProductOrder existingOrder = ProductOrder.get(sEditOrderUid);
-        if(existingOrder != null){
+        if(existingOrder!=null){
             dPrevDateDelivered = existingOrder.getDateDelivered();
             orderIsClosed = checkString(existingOrder.getStatus()).equalsIgnoreCase("closed");
         }
-        else {
+        else{
         	orderIsClosed = false;
         }
     }
 
-    if(sAction.length() == 0) sAction = "find"; // default action
+    if(sAction.length()==0) sAction = "find"; // default action
 
     //*********************************************************************************************
     //*** process actions *************************************************************************
     //*********************************************************************************************
     
     //--- SAVE ------------------------------------------------------------------------------------
-   	 int nPackagesDelivered=0;
-   	 try{
-   		nPackagesDelivered=Integer.parseInt(sEditPackagesDelivered);
+   	 int nPackagesDelivered = 0;
+   	 try{ 
+   		nPackagesDelivered = Integer.parseInt(sEditPackagesDelivered);
    	 }
-   	 catch(Exception e){}
+   	 catch(Exception e){
+   		 // empty
+   	 }
+   	 
      ProductStockOperation operation = new ProductStockOperation();
      if(sEditProductStockOperationUid.length()>0){
      	operation = ProductStockOperation.get(sEditProductStockOperationUid);
      	nPackagesActualOrder = operation.getUnitsChanged();
      }
-     else {
+     else{
      	 operation.setUid("-1");
          operation.setCreateDateTime(new java.util.Date());
      }
@@ -342,32 +333,33 @@
         order.setPackagesDelivered(order.getDeliveredQuantity());
         if(order.getPackagesDelivered()==order.getPackagesOrdered() || request.getParameter("closeOrder")!=null){
         	order.setStatus("closed");
-        	orderIsClosed=true;
+        	orderIsClosed = true;
         }
-        else {
+        else{
         	order.setStatus("open");
-        	orderIsClosed=false;
+        	orderIsClosed = false;
         }
         order.store();
-        sAction="showDetails";
+        sAction = "showDetails";
      }
      
    	 if(sAction.equals("save") && sEditOrderUid.length() > 0){
         String sPrevUsedDocument = checkString((String) session.getAttribute("PrevUsedDocument"));
         if(!sPrevUsedDocument.equals(sEditProductStockDocumentUid)){
-            session.setAttribute("PrevUsedDocument", sEditProductStockDocumentUid);
+            session.setAttribute("PrevUsedDocument",sEditProductStockDocumentUid);
         }
         
         ProductOrder order=null;
         // save order
         if(sEditOrderUid.length()>0){
         	if(nPackagesDelivered>0 || sEditProductStockOperationUid.length()>0){
-	            //first save the productstock operation
+	            // save the productstock operation
 	            operation.setDate(ScreenHelper.stdDateFormat.parse(sEditDateDelivered));
 	            operation.setDescription(MedwanQuery.getInstance().getConfigString("pharmacyOrderReceptionDescription","medicationreceipt.4"));
 	            operation.setProductStockUid(sEditProductStockUid);
+	            
 	            if(sEditBatchNumber.length()>0){
-	            	//First we'll have a look if the batch doesn't already exist for this productStock
+	            	// if the batch doesn't already exist for this productStock
 	    			Batch batch = Batch.getByBatchNumber(sEditProductStockUid,sEditBatchNumber);   
 	            	if(batch==null){
 	    	        	batch = new Batch();
@@ -375,11 +367,11 @@
 	    	        	batch.setProductStockUid(sEditProductStockUid);
 	    	        	batch.setBatchNumber(sEditBatchNumber);
 	    	            if(sEditBatchEnd.length()>0){
-	    	            	try {
+	    	            	try{
 	    	            		batch.setEnd(ScreenHelper.parseDate(sEditBatchEnd));
 	    	            	}
 	    	            	catch(Exception e){
-	    	            		
+	    	            		// empty
 	    	            	}
 	    	            }
 	    	            batch.setComment(sEditBatchComment);
@@ -389,6 +381,7 @@
 	    	            batch.setUpdateUser(activeUser.userid);
 	    	            batch.store();
 	            	}
+	            	
 	            	//If the batchnumber differs from an existing previous one, we must transfer the quantity from the old to the new batch
 	            	if(operation.getBatchUid()!=null && operation.getBatchUid().length()>0 && !sEditBatchNumber.equalsIgnoreCase(operation.getBatchNumber())){
 	            		Batch oldbatch = Batch.get(operation.getBatchUid());
@@ -403,7 +396,7 @@
 	            }
 	            
 	            ProductStock productStock = ProductStock.get(sEditProductStockUid);
-	            ObjectReference sd=new ObjectReference("supplier",sEditSupplier);
+	            ObjectReference sd = new ObjectReference("supplier",sEditSupplier);
 	            operation.setSourceDestination(sd);
 	            operation.setDocumentUID(sEditProductStockDocumentUid);
 	            operation.setUnitsChanged(nPackagesDelivered);
@@ -431,11 +424,11 @@
             order.setPackagesDelivered(order.getDeliveredQuantity());
             if(order.getPackagesDelivered()==order.getPackagesOrdered() || request.getParameter("closeOrder")!=null){
             	order.setStatus("closed");
-            	orderIsClosed=true;
+            	orderIsClosed = true;
             }
-            else {
+            else{
             	order.setStatus("open");
-            	orderIsClosed=false;
+            	orderIsClosed = false;
             }
             order.store();
         }
@@ -443,18 +436,13 @@
         Debug.println("*** orderIsClosed : "+orderIsClosed);
 
         sEditOrderUid = order.getUid();
-        sAction="find";
+        sAction = "find";
     }
     //--- DELETE ----------------------------------------------------------------------------------
     else if(sAction.equals("delete") && sEditOrderUid.length() > 0){
         ProductOrder.delete(sEditOrderUid);
-        msg = getTran("web", "dataisdeleted", sWebLanguage);
+        msg = getTran("web","dataisdeleted",sWebLanguage);
         sAction = "findShowOverview"; // display overview even if only one record remains
-    }
-
-    //--- SORT ------------------------------------------------------------------------------------
-    if(sAction.equals("sort")){
-        sAction = "find";
     }
 
     //--- FIND ------------------------------------------------------------------------------------
@@ -462,13 +450,14 @@
         displaySearchFields = true;
         if(sAction.equals("findShowOverview")) displayEditFields = false;
 
-        Vector orders = ProductOrder.find(displayDeliveredOrders, displayUndeliveredOrders,
-						                  sFindDescription, sFindServiceUid, sFindProductStockUid,
-						                  sFindPackagesOrdered, sFindDateDeliveryDue, sFindDateOrdered,
-						                  sFindSupplierUid, sFindServiceStockUid, sSortCol, sSortDir,sFindDateDeliveredSince);
+        Vector orders = ProductOrder.find(displayDeliveredOrders,displayUndeliveredOrders,
+						                  sFindDescription,sFindServiceUid,sFindProductStockUid,
+						                  sFindPackagesOrdered,sFindDateDeliveryDue,sFindDateOrdered,
+						                  sFindSupplierUid,sFindServiceStockUid,"OC_ORDER_DATEORDERED","DESC",
+						                  sFindDateDeliveredSince);
 
-        if(displayDeliveredOrders) ordersHtml = ordersToHtml(orders, sWebLanguage);
-        if(displayUndeliveredOrders) ordersHtml = undeliveredOrdersToHtml(orders, sWebLanguage);
+        if(displayDeliveredOrders) ordersHtml = ordersToHtml(orders,sWebLanguage);
+        if(displayUndeliveredOrders) ordersHtml = undeliveredOrdersToHtml(orders,sWebLanguage);
         foundOrderCount = orders.size();
     }
 
@@ -477,11 +466,11 @@
         displayEditFields = true;
         displaySearchFields = false;
         String sPrevUsedDocument = checkString((String) session.getAttribute("PrevUsedDocument"));
-        if(sEditProductStockDocumentUid.length() == 0 && sPrevUsedDocument.length() > 0){
+        if(sEditProductStockDocumentUid.length()==0 && sPrevUsedDocument.length() > 0){
         	sEditProductStockDocumentUid = sPrevUsedDocument;
         }
-        if(sEditProductStockDocumentUid.length()>0){
-        	sEditProductStockDocumentUidText=getTran("operationdocumenttypes",OperationDocument.get(sEditProductStockDocumentUid).getType(),sWebLanguage);
+        if(sEditProductStockDocumentUid.length() > 0){
+        	sEditProductStockDocumentUidText = getTran("operationdocumenttypes",OperationDocument.get(sEditProductStockDocumentUid).getType(),sWebLanguage);
         }
 
         // get specified record
@@ -490,31 +479,31 @@
 
             sSelectedProductStockUid = order.getProductStockUid();
             sSelectedDescription = checkString(order.getDescription());
-            sSelectedPackagesOrdered = (order.getPackagesOrdered() < 0 ? "" : order.getPackagesOrdered()+"");
-            sSelectedPackagesDelivered = (order.getPackagesDelivered() < 0 ? "" : order.getPackagesDelivered()+"");
+            sSelectedPackagesOrdered = (order.getPackagesOrdered()<0?"":order.getPackagesOrdered()+"");
+            sSelectedPackagesDelivered = (order.getPackagesDelivered()<0?"":order.getPackagesDelivered()+"");
             sSelectedImportance = checkString(order.getImportance());
 			
             // format date ordered
             java.util.Date tmpDate = order.getDateOrdered();
-            if(tmpDate != null) sSelectedDateOrdered = stdDateFormat.format(tmpDate);
+            if(tmpDate!=null) sSelectedDateOrdered = ScreenHelper.formatDate(tmpDate);
 
             // format date delivery due
             tmpDate = order.getDateDeliveryDue();
-            if(tmpDate != null) sSelectedDateDeliveryDue = stdDateFormat.format(tmpDate);
+            if(tmpDate!=null) sSelectedDateDeliveryDue = ScreenHelper.formatDate(tmpDate);
 
             // format date delivered
             tmpDate = order.getDateDelivered();
-            if(tmpDate != null) sSelectedDateDelivered = stdDateFormat.format(tmpDate);
+            if(tmpDate!=null) sSelectedDateDelivered = ScreenHelper.formatDate(tmpDate);
 
             // afgeleide data
             ProductStock productStock = ProductStock.get(sSelectedProductStockUid);
             if(productStock!=null){
             	if(productStock.getProduct()!=null){
-            		sSelectedProductName=productStock.getProduct().getName();
+            		sSelectedProductName = productStock.getProduct().getName();
             	}
             	ServiceStock serviceStock = productStock.getServiceStock();
             	if(serviceStock!=null){
-            		sSelectedServiceStockName=serviceStock.getName();
+            		sSelectedServiceStockName = serviceStock.getName();
             	}
             }
             
@@ -546,7 +535,7 @@
     }
 
     // clear 0 if no delivered date
-    if(sSelectedDateDelivered.length() == 0){
+    if(sSelectedDateDelivered.length()==0){
         if(sSelectedPackagesDelivered.equals("0")) sSelectedPackagesDelivered = "";
     }
     
@@ -569,7 +558,7 @@
         
         if(displaySearchFields){
             %>
-                <table width="100%" class="list" cellpadding="0" cellspacing="1" onKeyDown="if(enterEvent(event,13)){doSearch(<%=displayDeliveredOrders%>,'<%=sDefaultSortCol%>');}">
+                <table width="100%" class="list" cellpadding="0" cellspacing="1" onKeyDown="if(enterEvent(event,13)){doSearch(<%=displayDeliveredOrders%>);}">
                     <%-- description --%>
                     <tr>
                         <td class="admin2" width="<%=sTDAdminWidth%>" nowrap><%=getTran("Web","description",sWebLanguage)%>&nbsp;</td>
@@ -665,7 +654,7 @@
                     <tr height="25">
                         <td class="admin2">&nbsp;</td>
                         <td class="admin2">
-                            <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearch(<%=displayDeliveredOrders%>,'<%=sDefaultSortCol%>');">
+                            <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearch(<%=displayDeliveredOrders%>);">
 
                             <%-- since 1 --%>
                             <%if(displayDeliveredOrders){ %>
@@ -674,7 +663,7 @@
                             </span>
 							<%} %>
                             <input type="button" class="button" name="clearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearSearchFields();">
-                            <input type="button" class="button" name="searchComplementButton" value="<%=getTranNoLink("Web.manage",(displayDeliveredOrders?"undeliveredOrders":"deliveredOrders"),sWebLanguage)%>" onclick="doSearch(<%=!displayDeliveredOrders%>,'<%=sSortCol%>');">
+                            <input type="button" class="button" name="searchComplementButton" value="<%=getTranNoLink("Web.manage",(displayDeliveredOrders?"undeliveredOrders":"deliveredOrders"),sWebLanguage)%>" onclick="doSearch(<%=!displayDeliveredOrders%>);">
 
                             <%-- since 2 --%>
                             <%if(displayUndeliveredOrders){ %>
@@ -715,9 +704,7 @@
         if(!sAction.equals("showDetails")){
             //*** UNDELIVERED ORDERS ***
             if(displayUndeliveredOrders){
-                if(foundOrderCount > 0){
-	                String sortTran = getTran("web","clicktosort",sWebLanguage);
-	                
+                if(foundOrderCount > 0){	                
 	                %>
 	                    <%-- sub title --%>
 	                    <table width="100%" cellspacing="0" cellpadding="0" class="list" style="border-bottom:none;">
@@ -736,7 +723,7 @@
 	                    </table>
 	                    
 	                    <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults" style="border-top:none;">
-	                        <%-- clickable header --%>
+	                        <%-- header --%>
 	                        <tr class="admin">
 	                            <td nowrap>&nbsp;</td>
 	                            <td><%=HTMLEntities.htmlentities(getTran("Web","description",sWebLanguage))%></td>
@@ -748,9 +735,7 @@
 	                            <td><%=HTMLEntities.htmlentities(getTran("Web","datedeliverydue",sWebLanguage))%></td>
 	                            <td><%=HTMLEntities.htmlentities(getTran("Web","importance",sWebLanguage))%></td>
 	                        </tr>
-	                        <tbody class="hand">
-	                            <%=ordersHtml%>
-	                        </tbody>
+	                        <tbody class="hand"><%=ordersHtml%></tbody>
 	                    </table>
 	                    
 	                    <%-- number of records found --%>
@@ -773,10 +758,7 @@
             	}
                 else{
                     // no records found
-                    %>
-                    <%=getTran("web","noUndeliveredOrdersFound",sWebLanguage)%>
-                    <br>
-                    <%
+                    %><%=getTran("web","noUndeliveredOrdersFound",sWebLanguage)%><br><%
                 }
             }
 
@@ -801,12 +783,10 @@
 	                    </table>
 	                <%
                                 
-                    // display found orders
-                    String sortTran = getTran("web","clicktosort",sWebLanguage);
-                    
+                    // display found orders                    
 	                %>                    
 		            <table width="100%" cellspacing="0" cellpadding="0" class="sortable" id="searchresults" style="border-top:none;">
-		                <%-- clickable header --%>
+		                <%-- header --%>
 		                <tr class="admin">
 		                    <td nowrap>&nbsp;</td>
 		                    <td><%=HTMLEntities.htmlentities(getTran("Web","description",sWebLanguage))%></td>
@@ -818,22 +798,16 @@
 		                    <td><%=HTMLEntities.htmlentities(getTran("Web","datedelivered",sWebLanguage))%></td>
 		                    <td><%=HTMLEntities.htmlentities(getTran("Web","importance",sWebLanguage))%></td>
 		                </tr>
-		                <tbody class="hand">
-		                    <%=ordersHtml%>
-		                </tbody>
+		                <tbody class="hand"><%=ordersHtml%></tbody>
 		            </table>
                     
                     <%-- number of records found --%>
-                    <%=foundOrderCount%> <%=getTran("web","deliveredOrdersFound",sWebLanguage)%>
-                    <br>
+                    <%=foundOrderCount%> <%=getTran("web","deliveredOrdersFound",sWebLanguage)%><br>
                     <%
                 }
                 else{
                     // no records found
-                    %>
-                    <%=getTran("web","noDeliveredOrdersFound",sWebLanguage)%>
-                    <br>
-                    <%
+                    %><%=getTran("web","noDeliveredOrdersFound",sWebLanguage)%><br><%
                 }
             }
         }
@@ -1025,8 +999,7 @@
                     
                     <%-- indication of obligated fields --%>
                     <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
-                    <br>
-                    <br>
+                    <br><br>
                 <%
             }
             else{
@@ -1145,8 +1118,6 @@
     %>
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
-    <input type="hidden" name="SortCol" value="<%=sSortCol%>">
-    <input type="hidden" name="SortDir" value="<%=sSortDir%>">
     <input type="hidden" name="forceedit" value="0">
     <input type="hidden" name="EditOrderUid" value="<%=sEditOrderUid%>">
     <input type="hidden" name="DisplaySearchFields" value="<%=displaySearchFields%>">
@@ -1331,6 +1302,7 @@
 	  transactionForm.submit();
 	}
   }
+  
   function doEditDetails(orderUid){
     if(transactionForm.searchButton!=undefined) transactionForm.searchButton.disabled = true;
     if(transactionForm.clearButton!=undefined) transactionForm.clearButton.disabled = true;
@@ -1379,19 +1351,8 @@
     transactionForm.EditImportance.value = "";
   }
 
-  <%-- DO SORT --%>
-  function doSort(sortCol){
-    transactionForm.Action.value = "sort";
-    transactionForm.SortCol.value = sortCol;
-
-    if(transactionForm.SortDir.value=="ASC") transactionForm.SortDir.value = "DESC";
-    else                                     transactionForm.SortDir.value = "ASC";
-
-    transactionForm.submit();
-  }
-
   <%-- DO SEARCH --%>
-  function doSearch(deliverdOrUndelivered,sortCol){
+  function doSearch(deliverdOrUndelivered){
     if(!transactionForm.FindProductStockUid.value.length==0 ||
        !transactionForm.FindSupplierUid.value.length==0 ||
        !transactionForm.FindServiceUid.value.length==0 ||
@@ -1414,7 +1375,6 @@
       transactionForm.DisplayUndeliveredOrders.value = !deliverdOrUndelivered;
 
       transactionForm.Action.value = "find";
-      transactionForm.SortCol.value = sortCol;
       openSearchInProgressPopup();
       transactionForm.submit();
     }
@@ -1464,7 +1424,7 @@
 
   <%-- DO BACK TO OVERVIEW --%>
   function doBackToOverview(){
-    if(checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web","areyousuretodiscard",sWebLanguage)%>')){
+    if(checkSaveButton()){
       <%
           if(displayDeliveredOrders || displayUndeliveredOrders){
               %>transactionForm.Action.value = "";<%
@@ -1479,15 +1439,16 @@
       transactionForm.submit();
     }
   }
+  
   <%-- popup : search document --%>
   function searchDocument(documentUidField,documentUidTextField){
 	<%
 	    String sDocumentSource = "", sDocumentSourceText = "", sFindMinDate = "";
 		ProductStock productStock = ProductStock.get(sEditProductStockUid);
 		if(productStock!=null && productStock.getServiceStockUid()!=null){
-			sDocumentSource=productStock.getServiceStockUid();
-			sDocumentSourceText=productStock.getServiceStock().getName();
-			sFindMinDate=ScreenHelper.formatDate(new java.util.Date().getTime()-7*24*3600*1000);
+			sDocumentSource = productStock.getServiceStockUid();
+			sDocumentSourceText = productStock.getServiceStock().getName();
+			sFindMinDate = ScreenHelper.formatDate(new java.util.Date(new java.util.Date().getTime()-7*24*3600*1000));
 		}
 		
 	%>

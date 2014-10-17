@@ -2,7 +2,7 @@
                 be.openclinic.pharmacy.ProductStock,
                 java.util.Vector,
                 java.util.Hashtable,
-                java.util.Collections" %>
+                java.util.Collections"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%=checkPermission("pharmacy.viewordertickets","all",activeUser)%>
@@ -10,12 +10,11 @@
 
 <%!
     //--- OBJECTS TO HTML -------------------------------------------------------------------------
-    private StringBuffer objectsToHtml(Vector objects, String sSortCol, String sSortDir, String sWebLanguage) {
+    private StringBuffer objectsToHtml(Vector objects, String sWebLanguage){
         StringBuffer html = new StringBuffer();
         String sClass = "1", sSupplierUid = "", sPrevSupplierUid = "", sProductStockUid = "",
                sPreviousProductStockUid = "", sDateOrdered = "", sDateDeliveryDue = "", sProductName = "",
                sServiceStockName = "";
-        SimpleDateFormat stdDateFormat = ScreenHelper.stdDateFormat;
         ProductStock productStock = null;
         java.util.Date tmpDate;
 
@@ -27,7 +26,6 @@
         // frequently used translations
         String selectTran = getTranNoLink("Web","select",sWebLanguage),
                ordersTran = getTranNoLink("web","orders",sWebLanguage),
-               sortTran = getTranNoLink("web","clicktosort",sWebLanguage),
                showOrdersTran = getTranNoLink("web.manage","showOrders",sWebLanguage);
 
         // run thru found orders
@@ -47,11 +45,11 @@
 
             // only search product-name when different productstock-UID
             sProductStockUid = order.getProductStockUid();
-            if (sProductStockUid!=null && !sProductStockUid.equals(sPreviousProductStockUid)) {
+            if (sProductStockUid!=null && !sProductStockUid.equals(sPreviousProductStockUid)){
                 sPreviousProductStockUid = sProductStockUid;
                 productStock = ProductStock.get(sProductStockUid);
 
-                if (productStock != null && productStock.getProduct()!=null &&  productStock.getServiceStock()!=null) {
+                if (productStock!=null && productStock.getProduct()!=null &&  productStock.getServiceStock()!=null){
                     sProductName = productStock.getProduct().getName();
                     sServiceStockName = productStock.getServiceStock().getName();
                     sSupplierUid = checkString(productStock.getSupplierUid());
@@ -71,8 +69,8 @@
             if(productStock!=null){
                 // Date DeliveryDue
                 tmpDate = order.getDateDeliveryDue();
-                if(tmpDate != null) sDateDeliveryDue = stdDateFormat.format(tmpDate);
-                else                sDateDeliveryDue = "";
+                if(tmpDate!=null) sDateDeliveryDue = ScreenHelper.format(tmpDate);
+                else              sDateDeliveryDue = "";
 
                 //*** add data we need later on to orderData-object *******************************
                 orderData.put("orderUid",order.getUid());
@@ -134,13 +132,13 @@
             // header
             html.append("<tr class='admin'>")
                  .append("<td nowrap>&nbsp;</td>")
-                 .append("<td style='text-indent:0'><a href='#' class='underlined' title='"+sortTran+"' onClick=\"doSort('OC_ORDER_DESCRIPTION');\">"+(sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION") ? "<"+sSortDir+">" : "")+getTran("Web", "description", sWebLanguage)+(sSortCol.equalsIgnoreCase("OC_ORDER_DESCRIPTION") ? "<"+sSortDir+">" : "")+"</a></td>")
+                 .append("<td style='text-indent:0'>"+getTran("Web","description",sWebLanguage)+"</td>")
                  .append("<td style='text-indent:0'>"+getTran("Web","servicestock",sWebLanguage)+"</td>")
                  .append("<td style='text-indent:0'>"+getTran("Web","product",sWebLanguage)+"</td>")
-                 .append("<td style='text-indent:0'><a href='#' class='underlined' title='"+sortTran+"' onClick=\"doSort('OC_ORDER_PACKAGESORDERED');\">"+(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED") ? "<"+sSortDir+">" : "")+getTran("Web", "packagesordered", sWebLanguage)+(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESORDERED") ? "<"+sSortDir+">" : "")+"</a></td>")
-                 .append("<td style='text-indent:0'><a href='#' class='underlined' title='"+sortTran+"' onClick=\"doSort('OC_ORDER_PACKAGESDELIVERED');\">"+(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESDELIVERED") ? "<"+sSortDir+">" : "")+getTran("Web", "packagesdelivered", sWebLanguage)+(sSortCol.equalsIgnoreCase("OC_ORDER_PACKAGESDELIVERED") ? "<"+sSortDir+">" : "")+"</a></td>")
-                 .append("<td style='text-indent:0'><a href='#' class='underlined' title='"+sortTran+"' onClick=\"doSort('OC_ORDER_DATEORDERED');\">"+(sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED") ? "<"+sSortDir+">" : "")+getTran("Web", "dateordered", sWebLanguage)+(sSortCol.equalsIgnoreCase("OC_ORDER_DATEORDERED") ? "<"+sSortDir+">" : "")+"</a></td>")
-                 .append("<td style='text-indent:0'><a href='#' class='underlined' title='"+sortTran+"' onClick=\"doSort('OC_ORDER_DATEDELIVERYDUE');\">"+(sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERYDUE") ? "<"+sSortDir+">" : "")+getTran("Web", "dateDeliveryDue", sWebLanguage)+(sSortCol.equalsIgnoreCase("OC_ORDER_DATEDELIVERYDUE") ? "<"+sSortDir+">" : "")+"</a></td>")
+                 .append("<td style='text-indent:0'>"+getTran("Web","packagesordered",sWebLanguage)+"</td>")
+                 .append("<td style='text-indent:0'>"+getTran("Web","packagesdelivered",sWebLanguage)+"</td>")
+                 .append("<td style='text-indent:0'>"+getTran("Web","dateordered",sWebLanguage)+"</td>")
+                 .append("<td style='text-indent:0'>"+getTran("Web","dateDeliveryDue",sWebLanguage)+"</td>")
                 .append("</tr>");
 
             // run thru orders of this Supplier
@@ -175,9 +173,6 @@
 %>
 
 <%
-    String sDefaultSortCol = "OC_ORDER_DATEORDERED",
-           sDefaultSortDir = "DESC";
-
     String sAction = checkString(request.getParameter("Action"));
 
     // retreive form data
@@ -228,16 +223,6 @@
     boolean displaySearchFields = sDisplaySearchFields.equalsIgnoreCase("true");
     Debug.println("@@@ displaySearchFields : "+displaySearchFields);
 
-    // sortcol
-    String sSortCol = checkString(request.getParameter("SortCol"));
-    if(sSortCol.length()==0) sSortCol = sDefaultSortCol;
-    Debug.println("@@@ SortCol : "+sSortCol);
-
-    // sortDir
-    String sSortDir = checkString(request.getParameter("SortDir"));
-    if(sSortDir.length()==0) sSortDir = sDefaultSortDir;
-    Debug.println("@@@ SortDir : "+sSortDir);
-
     // supplier name
     if(sFindSupplierUid.length() > 0){
        sFindSupplierName = getTranNoLink("service",sFindSupplierUid,sWebLanguage);
@@ -247,11 +232,6 @@
     //*** process actions *************************************************************************
     //*********************************************************************************************
 
-    //--- SORT ------------------------------------------------------------------------------------
-    if(sAction.equals("sort")){
-        sAction = "find";
-    }
-
     //--- FIND ------------------------------------------------------------------------------------
     if(sAction.length()==0 || sAction.startsWith("find")){
         displaySearchFields = true;
@@ -260,17 +240,17 @@
         Vector orders = ProductOrder.find(false,true, // displayDeliveredOrders,displayUndeliveredOrders
                                           sFindDescription,sFindServiceUid,sFindProductStockUid,
                                           sFindPackagesOrdered,sFindDateDeliveryDue,sFindDateOrdered,
-                                          sFindSupplierUid,sFindServiceStockUid,sSortCol,sSortDir);
+                                          sFindSupplierUid,sFindServiceStockUid,"OC_ORDER_DATEORDERED","DESC");
 
-        ordersHtml = objectsToHtml(orders,sSortCol,sSortDir,sWebLanguage);
+        ordersHtml = objectsToHtml(orders,sWebLanguage);
         foundOrderCount = orders.size();
     }
 
-    String sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSearch('"+sDefaultSortCol+"');}\"";
+    String sOnKeyDown = "onKeyDown=\"if(enterEvent(event,13)){doSearch();}\"";
 %>
 <form name="transactionForm" id="transactionForm" method="post" <%=sOnKeyDown%> <%=(displaySearchFields?"onClick=\"clearMessage();\"":"onClick=\"setSaveButton(event);clearMessage();\" onKeyUp=\"setSaveButton(event);\"")%>>
-    <%-- page title --%>
     <%=writeTableHeader("Web.manage","viewOrderTickets",sWebLanguage," doBack();")%>
+ 
     <%
         //*****************************************************************************************
         //*** process display options *************************************************************
@@ -283,7 +263,7 @@
 
         if(displaySearchFields){
             %>
-                <table width="100%" class="list" cellspacing="1" onClick="transactionForm.onkeydown='if(enterEvent(event,13)){doSearch(\'<%=sDefaultSortCol%>\');}';" onKeyDown="if(enterEvent(event,13)){doSearch('<%=sDefaultSortCol%>');}">
+                <table width="100%" class="list" cellspacing="1" onClick="transactionForm.onkeydown='if(enterEvent(event,13)){doSearch();}';" onKeyDown="if(enterEvent(event,13)){doSearch();}">
                     <%-- description --%>
                     <tr>
                         <td class="admin2" width="<%=sTDAdminWidth%>"><%=getTran("Web","description",sWebLanguage)%>&nbsp;</td>
@@ -297,6 +277,7 @@
                         <td class="admin2">
                             <input type="hidden" name="FindSupplierUid" value="<%=sFindSupplierUid%>">
                             <input class="text" type="text" name="FindSupplierName" readonly size="<%=sTextWidth%>" value="<%=sFindSupplierName%>">
+                         
                             <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchSupplier('FindSupplierUid','FindSupplierName');">
                             <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindSupplierUid.value='';transactionForm.FindSupplierName.value='';">
                         </td>
@@ -307,6 +288,7 @@
                         <td class="admin2">
                             <input type="hidden" name="FindServiceUid" value="<%=sFindServiceUid%>">
                             <input class="text" type="text" name="FindServiceName" readonly size="<%=sTextWidth%>" value="<%=sFindServiceName%>">
+                           
                             <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchService('FindServiceUid','FindServiceName');">
                             <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindServiceUid.value='';transactionForm.FindServiceName.value='';">
                         </td>
@@ -317,6 +299,7 @@
                         <td class="admin2">
                             <input type="hidden" name="FindServiceStockUid" value="<%=sFindServiceStockUid%>">
                             <input class="text" type="text" name="FindServiceStockName" readonly size="<%=sTextWidth%>" value="<%=sFindServiceStockName%>">
+                           
                             <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchServiceStock('FindServiceStockUid','FindServiceStockName');">
                             <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindServiceStockUid.value='';transactionForm.FindServiceStockName.value='';">
                         </td>
@@ -327,6 +310,7 @@
                         <td class="admin2">
                             <input type="hidden" name="FindProductStockUid" value="<%=sFindProductStockUid%>">
                             <input class="text" type="text" name="FindProductName" readonly size="<%=sTextWidth%>" value="<%=sFindProductName%>">
+                           
                             <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchProductStock('FindProductStockUid','FindProductName');">
                             <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindProductStockUid.value='';transactionForm.FindProductName.value='';">
                         </td>
@@ -348,12 +332,14 @@
                         <td class="admin2"><%=getTran("Web","DateDeliveryDue",sWebLanguage)%>&nbsp;</td>
                         <td class="admin2"><%=writeDateField("FindDateDeliveryDue","transactionForm",sFindDateDeliveryDue,sWebLanguage)%></td>
                     </tr>
+                    
                     <%-- SEARCH BUTTONS --%>
                     <tr>
                         <td class="admin2"/>
                         <td class="admin2">
-                            <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearch('<%=sDefaultSortCol%>');">
+                            <input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearch();">
                             <input type="button" class="button" name="clearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearSearchFields();">
+                            
                             <%-- display message --%>
                             <span id="msgArea"><%=msg%></span>
                         </td>
@@ -372,9 +358,7 @@
                         <tr class="admin">
                             <td colspan="3"><%=getTran("Web.manage","orderspersupplier",sWebLanguage)%></td>
                         </tr>
-                        <tbody class="hand">
-                            <%=ordersHtml%>
-                        </tbody>
+                        <tbody class="hand"><%=ordersHtml%></tbody>
                     </table>
                     
                     <%-- CHECK ALL --%>
@@ -409,17 +393,12 @@
             }
             else{
                 // no records found
-                %>
-                <%=getTran("web","norecordsfound",sWebLanguage)%>
-                <br><br>
-                <%
+                %><%=getTran("web","norecordsfound",sWebLanguage)%><br><br><%
             }
         }
     %>
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
-    <input type="hidden" name="SortCol" value="<%=sSortCol%>">
-    <input type="hidden" name="SortDir" value="<%=sSortDir%>">
     <input type="hidden" name="EditOrderUid" value="<%=sEditOrderUid%>">
     <input type="hidden" name="DisplaySearchFields" value="<%=displaySearchFields%>">
 </form>
@@ -453,19 +432,8 @@
     transactionForm.FindDateDeliveryDue.value = "";
   }
 
-  <%-- DO SORT --%>
-  function doSort(sortCol){
-    transactionForm.Action.value = "sort";
-    transactionForm.SortCol.value = sortCol;
-
-    if(transactionForm.SortDir.value=="ASC") transactionForm.SortDir.value = "DESC";
-    else                                     transactionForm.SortDir.value = "ASC";
-
-    transactionForm.submit();
-  }
-
   <%-- DO SEARCH --%>
-  function doSearch(sortCol){
+  function doSearch(){
     if(!transactionForm.FindProductStockUid.value.length==0 ||
        !transactionForm.FindSupplierUid.value.length==0 ||
        !transactionForm.FindServiceUid.value.length==0 ||
@@ -478,7 +446,6 @@
       transactionForm.clearButton.disabled = true;
 
       transactionForm.Action.value = "find";
-      transactionForm.SortCol.value = sortCol;
       openSearchInProgressPopup();
       transactionForm.submit();
     }
@@ -568,7 +535,7 @@
       }
       <%-- popup to display pdf in --%>
       var url = "<c:url value='/pharmacy/createOrderTicketsPdf.jsp'/>?OrderUids="+orderUids+"&ts=<%=getTs()%>";
-      window.open(url,"OrderTicketsPDF<%=getTs()%>","height=600, width=845, toolbar=yes, status=no, scrollbars=yes, resizable=yes, menubar=yes");
+      window.open(url,"OrderTicketsPDF<%=getTs()%>","height=600,width=845,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
     }
     else{
       alertDialog("web.manage","selectatleastoneorder");
@@ -593,7 +560,7 @@
 		}
 		<%-- popup to display pdf in --%>
 		var url = "<c:url value='/pharmacy/deleteOrderTickets.jsp'/>?OrderUids="+orderUids+"&ts=<%=getTs()%>";
-		window.open(url,"DeleteOrderTickets<%=getTs()%>","height=600, width=845, toolbar=yes, status=no, scrollbars=yes, resizable=yes, menubar=yes");
+		window.open(url,"DeleteOrderTickets<%=getTs()%>","height=600,width=845,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
 	  }
 	}
 	else{
@@ -608,7 +575,7 @@
 
   <%-- DO BACK TO OVERVIEW --%>
   function doBackToOverview(){
-    if(checkSaveButton('<%=sCONTEXTPATH%>','<%=getTran("Web","areyousuretodiscard",sWebLanguage)%>')){
+    if(checkSaveButton()){
       transactionForm.Action.value = "find";
       transactionForm.DisplaySearchFields.value = "true";
       transactionForm.submit();

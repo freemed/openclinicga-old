@@ -42,35 +42,36 @@
     List lResults = null;
     int iMaxResultSet = 100, iCounter = 0, iOverallCounter = 0;
 
-    if (checkString(request.getParameter("ListAction")).length() > 0){
-        lResults = (List) session.getAttribute("searchResultsList");
+    if(checkString(request.getParameter("ListAction")).length() > 0){
+        lResults = (List)session.getAttribute("searchResultsList");
     }
-    if ((lResults == null) && (activeUser != null)){
-        if (sAction.equals("MY_HOSPITALIZED")){
+    
+    if(lResults==null && activeUser!=null){
+        if(sAction.equals("MY_HOSPITALIZED")){
             lResults = AdminPerson.getUserHospitalized(activeUser.userid);
         } 
-        else if (sAction.equals("MY_VISITS")){
+        else if(sAction.equals("MY_VISITS")){
             lResults = AdminPerson.getUserVisits(activeUser.userid);
         } 
-        else if (sUnit.length() > 0){
+        else if(sUnit.length() > 0){
         	sDateOfBirth = ScreenHelper.convertToEUDate(sDateOfBirth); // to match with EU-date in database
-            lResults = AdminPerson.getPatientsInEncounterServiceUID(simmatnew, sArchiveFileCode, snatreg, sName, sFirstname, sDateOfBirth, sUnit, sPersonID,sDistrict);
+            lResults = AdminPerson.getPatientsInEncounterServiceUID(simmatnew,sArchiveFileCode,snatreg,sName,sFirstname,sDateOfBirth,sUnit,sPersonID,sDistrict);
         } 
-        else {
+        else{
             if((simmatnew+sArchiveFileCode+snatreg+sName+sFirstname+sDateOfBirth+sPersonID+sDistrict).length()>0){
             	sDateOfBirth = ScreenHelper.convertToEUDate(sDateOfBirth); // to match with EU-date in database
-            	lResults = AdminPerson.getAllPatients(simmatnew, sArchiveFileCode, snatreg, sName, sFirstname, sDateOfBirth, sPersonID,sDistrict,iMaxResultSet);
+            	lResults = AdminPerson.getAllPatients(simmatnew,sArchiveFileCode,snatreg,sName,sFirstname,sDateOfBirth,sPersonID,sDistrict,iMaxResultSet);
             }
             else {
             	lResults = new ArrayList();
             }
         }
-        session.setAttribute("searchResultsList", lResults);
+        session.setAttribute("searchResultsList",lResults);
     }
 
     boolean bRS = false;
 
-    if (lResults.size() > 0){
+    if(lResults.size() > 0){
         String sResult = "", sLink = "", sClass = "", sPage;
         sPage = activeUser.getParameter("DefaultPage");
 
@@ -78,10 +79,10 @@
         // otherwise 'Previousvalue' has the content of the previous patient.
         // Keep the user !
         SessionContainerWO sessionContainerWO_old = (SessionContainerWO) session.getAttribute("be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER");
-        session.setAttribute("be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER", null);
-        SessionContainerWO sessionContainerWO_new = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
+        session.setAttribute("be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER",null);
+        SessionContainerWO sessionContainerWO_new = (SessionContainerWO) SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
         sessionContainerWO_new.setUserVO(sessionContainerWO_old.getUserVO());
-        session.setAttribute("be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER", sessionContainerWO_new);
+        session.setAttribute("be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER",sessionContainerWO_new);
 
         SAXReader xmlReader = new SAXReader();
         String sDefaultPageXML = MedwanQuery.getInstance().getConfigString("templateSource")+"defaultPages.xml";
@@ -89,11 +90,11 @@
 
         Hashtable hDefaultPages = new Hashtable();
         boolean bXMLDocumentError = false;
-        try {
+        try{
             document = xmlReader.read(new URL(sDefaultPageXML));
-            if (document != null){
+            if(document!=null){
                 Element root = document.getRootElement();
-                if (root != null){
+                if(root!=null){
                     Element ePage;
                     Iterator elements = root.elementIterator("defaultPage");
                     String sType, sPageLink;
@@ -101,59 +102,61 @@
                         ePage = (Element) elements.next();
                         sType = checkString(ePage.attributeValue("type")).toLowerCase();
                         sPageLink = checkString(ePage.elementText("page"));
-                        hDefaultPages.put(sType, sPageLink);
+                        hDefaultPages.put(sType,sPageLink);
                     }
                 }
             }
         }
-        catch (DocumentException e){
+        catch(DocumentException e){
             Debug.println("XML-Document Exception in patientslist.jsp");
             bXMLDocumentError = true;
         }
 
-        if ((sPage == null) || (sPage.trim().length() == 0) || bXMLDocumentError && (activeUser.getAccessRight("patient.administration.select"))){
+        if(sPage==null || sPage.trim().length()==0 || bXMLDocumentError && (activeUser.getAccessRight("patient.administration.select"))){
             sPage = "patientdata.do?ts="+getTs()+"&personid=";
         }
         else {
             String sType = checkString((String) hDefaultPages.get(sPage.toLowerCase()));
-            if (sType.length() > 0){
-                if (sPage.equals("administration")){
+            if(sType.length() > 0){
+                if(sPage.equals("administration")){
                     sPage = "patientdata.do?ts="+getTs()+"&personid=";
-                } else {
+                }
+                else{
                     sPage = sType+"&ts="+getTs()+"&PersonID=";
                 }
             }
-            else {
+            else{
                 sPage = "";
             }
         }
 
-        if (sRSIndex.length() > 0){
+        if(sRSIndex.length() > 0){
             iOverallCounter = Integer.parseInt(sRSIndex);
         }
+        
         String sTmpServiceID, sInactive, sBed;
         AdminPerson tempPat;
         Encounter enc;
 
-        while ((iOverallCounter+iCounter) < lResults.size() && iCounter < iMaxResultSet){
+        while((iOverallCounter+iCounter) < lResults.size() && iCounter < iMaxResultSet){
             tempPat = (AdminPerson) lResults.get(iCounter+iOverallCounter);
             sTmpServiceID = "";
             sBed="";
 
             enc = Encounter.getActiveEncounter(tempPat.personid);
-            if (enc != null){
+            if(enc!=null){
                 sInactive = "";
                 sTmpServiceID = enc.getServiceUID();
                 if(enc.getBed()!=null){
-                	sBed=enc.getBed().getName();
+                	sBed = enc.getBed().getName();
                 }
             }
             else {
                 sInactive = "Text";
             }
             
-            if ("On".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("showServiceInPatientList"))){
-                if (sTmpServiceID.trim().length() > 0){
+            if("On".equalsIgnoreCase(MedwanQuery.getInstance().getConfigString("showServiceInPatientList"))){
+                if(sTmpServiceID.trim().length() > 0){
                 	String img="";
                 	if(MedwanQuery.getInstance().getConfigInt("checkPatientListInvoices",0)==1 && enc.hasInvoices()){
                 		img+="<img src='"+sCONTEXTPATH+"/_img/icons/icon_money.gif'/>";
@@ -167,13 +170,13 @@
                     long days = 24 * 3600 * 1000;
                     days = days * 90;
                     if(enc.getEnd()!=null){
-	                    sTmpServiceID = "<td style='text-decoration: line-through'>"+sTmpServiceID+" "+getTran("Service", sTmpServiceID, sWebLanguage)+"</td><td style='text-decoration: line-through'>"+sBed+"</td><td style='text-decoration: line-through'>"+ScreenHelper.stdDateFormat.format(enc.getBegin())+" "+img+"</td>";
+	                    sTmpServiceID = "<td style='text-decoration: line-through'>"+sTmpServiceID+" "+getTran("Service",sTmpServiceID,sWebLanguage)+"</td><td style='text-decoration: line-through'>"+sBed+"</td><td style='text-decoration: line-through'>"+ScreenHelper.stdDateFormat.format(enc.getBegin())+" "+img+"</td>";
                     }
-                    else {
-	                    if (duration > days || duration < 0){
-	                        sHospDate = "<td style='color: red'>"+ScreenHelper.stdDateFormat.format(enc.getBegin()) +" "+img+ "</td>";
+                    else{
+	                    if(duration > days || duration < 0){
+	                        sHospDate = "<td style='color: red'>"+ScreenHelper.formatDate(enc.getBegin())+" "+img+ "</td>";
 	                    }
-	                    sTmpServiceID = "<td>"+sTmpServiceID+" "+getTran("Service", sTmpServiceID, sWebLanguage)+"</td><td>"+sBed+"</td>"+sHospDate;
+	                    sTmpServiceID = "<td>"+sTmpServiceID+" "+getTran("Service",sTmpServiceID,sWebLanguage)+"</td><td>"+sBed+"</td>"+sHospDate;
                     }
                 }
                 else {
@@ -181,16 +184,17 @@
                 }
             }
 
+            // alternate row-style
             if(sClass.equals("")) sClass = "1";
             else                  sClass = "";
             
             if(sPage.trim().length() > 0){
                 sLink = sPage+checkString(tempPat.personid);
-                sResult += ("<tr onClick='window.location.href=\""+sLink+"\";'");
+                sResult+= ("<tr onClick='window.location.href=\""+sLink+"\";'");
             }
             else{
                 sLink = "";
-                sResult += ("<tr");
+                sResult+= ("<tr");
             }
             
             String sImmatNew = "";
@@ -198,44 +202,45 @@
             Iterator iter = tempPat.ids.iterator();
             AdminID tempAdminID;
 
-            while (iter.hasNext()){
-                tempAdminID = (AdminID) iter.next();
+            while(iter.hasNext()){
+                tempAdminID = (AdminID)iter.next();
                 
-                if (tempAdminID.type.equals("ImmatNew")){
+                if(tempAdminID.type.equals("ImmatNew")){
                     sImmatNew = tempAdminID.value;
                 } 
-                else if (tempAdminID.type.equals("NatReg")){
+                else if(tempAdminID.type.equals("NatReg")){
                     sNatReg = tempAdminID.value;
                 }
             }
-            sResult += (" class=list"+sInactive+sClass+" >"
-                   +"<td><img src='"+sCONTEXTPATH+"/_img/icons/icon_view.gif' alt='"+getTranNoLink("Web", "view", sWebLanguage)+"'></td>"
+            sResult+= (" class=list"+sInactive+sClass+" >"
+                   +"<td><img src='"+sCONTEXTPATH+"/_img/icons/icon_view.gif' alt='"+getTranNoLink("Web","view",sWebLanguage)+"'></td>"
                    +"<td>"+checkString(sImmatNew)+"</td>"
                    +"<td>"+checkString(sNatReg)+"</td>"
                    +"<td>"+checkString(tempPat.lastname)+"  "+checkString(tempPat.firstname)+"</td>"
                    +"<td>"+checkString(tempPat.gender.toUpperCase())+"</td>"
-                   +"<td>"+tempPat.dateOfBirth+"</td>" +
-                    ""+sTmpServiceID
+                   +"<td>"+tempPat.dateOfBirth+"</td>"
+                   +""+sTmpServiceID
                    +"</tr>");
 
             iCounter++;
         }
 
         String sNext = "", sPrevious = "&nbsp;";
-        if (iOverallCounter > 0){
-            sPrevious = "<A href='#' class='previousButton' title='"+getTranNoLink("Web", "Previous", sWebLanguage)
+        if(iOverallCounter > 0){
+            sPrevious = "<A href='#' class='previousButton' title='"+getTranNoLink("Web","Previous",sWebLanguage)
                    +"' OnClick=\"SF.RSIndex.value='"+(iOverallCounter - iCounter - (iMaxResultSet - iCounter))+"';SF.ListAction.value='Previous';SF.submit();\">"
                    +"&nbsp;</a>";
         }
-        if (lResults.size() > iOverallCounter+iCounter){
-            sNext = "<a href='#' title='"+getTranNoLink("Web", "Next", sWebLanguage)+"' OnClick=\"SF.RSIndex.value='"
+        if(lResults.size() > iOverallCounter+iCounter){
+            sNext = "<a href='#' title='"+getTranNoLink("Web","Next",sWebLanguage)+"' OnClick=\"SF.RSIndex.value='"
                    +(iOverallCounter+iCounter)+"';SF.ListAction.value='Next';SF.submit();\"><img src='"+sCONTEXTPATH+"/_img/themes/default/arrow-right.gif' border='0'></a>";
         }
-        if (iCounter == 0){
+        
+        if(iCounter==0){
             // display 'no results' message
             %><tr><td><%=getTran("web","nopatientsfound",sWebLanguage)%></td></tr><%
         }
-        else if ((iOverallCounter+iCounter == 1)&&(!bRS)&&(sLink.length()>0)){
+        else if(iOverallCounter+iCounter==1 && !bRS && sLink.length()>0){
             %><script>window.location.href = "<c:url value=''/><%=sLink%>";</script><%
         }
         else{
@@ -263,9 +268,7 @@
 				            }
 				        %>
 				    </tr>
-				    <tbody onmouseover='this.style.cursor="pointer"' onmouseout='this.style.cursor="default"'>
-				        <%=sResult%>
-				    </tbody>
+				    <tbody class="hand"><%=sResult%></tbody>
 				</table>
 
                 <%-- previous, patient-count, next --%>

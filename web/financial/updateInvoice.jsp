@@ -179,7 +179,7 @@
 	                <td width="*">&nbsp;</td>
 	            </tr>
 	            
-	            <tbody onmouseover='this.style.cursor="pointer"' onmouseout='this.style.cursor="default"'>
+	            <tbody class="hand">
 	            <%
 	                String sClass = "", sRowDate = "", sRowDestination = "", sRowType = "",
 	                       sRowAmount = "", sRowPayed = "", sRowStatus = "";
