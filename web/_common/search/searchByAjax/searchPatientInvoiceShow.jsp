@@ -106,6 +106,7 @@
 			   </table>
 			   
                <%=recCount%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
+               <script>sortables_init();</script>
 		   <%
         }
         else{
@@ -114,5 +115,3 @@
         }
     }
 %>
-
-<script>sortables_init();</script>

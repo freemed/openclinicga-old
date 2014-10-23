@@ -39,7 +39,7 @@
   function deleteRFE(serverid,objectid){
     if(yesnoDialog("Web","areYouSureToDelete")){
       var params = "serverid="+serverid+"&objectid="+objectid+"&encounterUid=<%=encounter.getUid()%>&language=<%=sWebLanguage%>";
-      var url = '<c:url value="/healthrecord/deleteRFE.jsp"/>?ts='+new Date();
+      var url = '<c:url value="/healthrecord/deleteRFE.jsp"/>?ts='+new Date().getTime();
       new Ajax.Request(url,{
         method: "GET",
         parameters: params,

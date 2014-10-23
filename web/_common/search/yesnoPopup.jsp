@@ -32,9 +32,8 @@
 </table>
 
 <script>
-  <%=sCenterWindow%>
+  setTimeout("self.moveTo((self.screen.width-266)/2,(self.screen.height-133)/2);",50);  
   setTimeout("document.getElementById('buttonNo').focus()",100);
-  //window.resizeTo(400,300);
 
   <%-- DO CLOSE --%>
   function doClose(iReturn){

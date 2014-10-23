@@ -6,9 +6,9 @@
 
     String sMessage = ScreenHelper.getTranExists("systemMessages","mainMessage",sWebLanguage);
 
-    /// DEBUG /////////////////////////////////////////////////////////////////
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled && 1==2){
-        Debug.println("\n*************** checkForMessage.jsp ***************");
+        Debug.println("\n****************** includes/ajax/checkForMessage.jsp ******************");
         
         if(sMessage.length()==0){
             Debug.println("--> NO MESSAGE SET ('systemMessages','mainMessage')\n");
@@ -17,7 +17,7 @@
             Debug.println("--> sMessage : "+sMessage+"\n");
         }
     }
-    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     
     // add snooze-question to message, if any
     if(sMessage.length() > 0){

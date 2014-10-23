@@ -16,7 +16,7 @@
     <%=writeHistoryFunctions(((TransactionVO)transaction).getTransactionType(),sWebLanguage)%>
     <% TransactionVO tran = (TransactionVO)transaction; %>
     
-    <table class="list" width="100%" border="0" cellspacing="1"> 
+    <table class="list" width="100%" cellspacing="1"> 
         <% String sDocUID = tran.getItemValue(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_DOC_UID"); %>
         <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_UID" property="itemId"/>]>.value" value="<%=sDocUID%>">
         <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_PERSONID" property="itemId"/>]>.value" value="<%=activePatient.personid%>">              
@@ -39,11 +39,9 @@
 			        <tr>
 			            <td width="<%=sTDAdminWidth%>" class="admin"><%=getTran("web","udi",sWebLanguage)%>&nbsp;</td>
 			            <td class="admin2">
-			                <%
-			                    String sUDI = tran.getItemValue(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_DOC_UDI");
-			                %>   
+			                <% String sUDI = tran.getItemValue(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_DOC_UDI"); %>   
 			                <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_UDI" property="itemId"/>]>.value" value="<%=sUDI%>">              
-			                <div onClick="printBarcode('<%=sUDI%>');" style="cursor:pointer"><b><font style="background-color:yellow;border:1px solid orange;padding:2px;height:18px;">&nbsp;<%=sUDI%>&nbsp;</font></b></div>
+			                <span onClick="printBarcode('<%=sUDI%>');" class="hand"><b><font style="background-color:yellow;border:1px solid orange;padding:2px;height:18px;">&nbsp;<%=sUDI%>&nbsp;</font></b></span>
 			            </td>
 			        </tr>
 			    <%
@@ -108,9 +106,7 @@
 			        <tr>
 			            <td class="admin"><%=getTran("web","storageName",sWebLanguage)%>&nbsp;</td>
 			            <td class="admin2">
-			                <%
-			                    String sStorageName = tran.getItemValue(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_DOC_STORAGENAME");
-			                %>   
+			                <% String sStorageName = tran.getItemValue(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_DOC_STORAGENAME"); %>   
 			                <input type="hidden" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_STORAGENAME" property="itemId"/>]>.value" value="<%=sStorageName%>">
 			                <%
 			                    if(sStorageName.length()==0){

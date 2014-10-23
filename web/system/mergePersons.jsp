@@ -63,18 +63,12 @@
         }
 
         %>
-            <table width="100%" class="menu" cellspacing="1" cellpadding="0">
-                <%-- TITLE --%>
-                <tr>
-                    <td colspan="3">
-                        <%=writeTableHeader("Web.manage","merge_persons",sWebLanguage," doBack();")%>
-                    </td>
-                </tr>
-
+            <%=writeTableHeader("Web.manage","merge_persons",sWebLanguage," doBack();")%>
+            <table width="100%" class="menu" cellspacing="0" cellpadding="0">
                 <%-- CHOOSE A QUERY --%>
                 <tr>
-                    <td>&nbsp;<%=getTran("web","searchon",sWebLanguage)%></td>
-                    <td colspan="2">
+                    <td class="admin2" width="120">&nbsp;<%=getTran("web","searchon",sWebLanguage)%></td>
+                    <td class="admin2" colspan="2">
                         <select class="text" name="selectedFields">
                             <option><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                             <option value="1" <%=(selectedFields==1?"selected":"")%>><%=getTran("Web","immatnew",sWebLanguage)%></option>
@@ -88,27 +82,28 @@
                         &nbsp;<span id="searchButtonSpan"></span>
                     </td>
                 </tr>
+            </table>
+            <br>
 
-                <script>
-                  setSearchButton();
+            <script>
+              setSearchButton();
 
-                  <%-- SET SEARCH BUTTON --%>
-                  function setSearchButton(){
-                    if(!mergeForm.automaticProcessing.checked){
-                      document.getElementById("searchButtonSpan").innerHTML = "<input type='button' class='button' name='searchButton' value='<%=getTranNoLink("web","search",sWebLanguage)%>' onClick=\"checkSelectedQuery('SearchDoubles');\">";
-                    }
-                    else{
-                      document.getElementById("searchButtonSpan").innerHTML = "<input type='button' class='button' name='searchButton' value='<%=getTranNoLink("web.manage","merge",sWebLanguage)%>' onClick=\"checkSelectedQuery('ProcessDoubles');\">";
-                    }
-                  }
-                </script>
+              <%-- SET SEARCH BUTTON --%>
+              function setSearchButton(){
+                if(!mergeForm.automaticProcessing.checked){
+                  document.getElementById("searchButtonSpan").innerHTML = "<input type='button' class='button' name='searchButton' value='<%=getTranNoLink("web","search",sWebLanguage)%>' onClick=\"checkSelectedQuery('SearchDoubles');\">";
+                }
+                else{
+                  document.getElementById("searchButtonSpan").innerHTML = "<input type='button' class='button' name='searchButton' value='<%=getTranNoLink("web.manage","merge",sWebLanguage)%>' onClick=\"checkSelectedQuery('ProcessDoubles');\">";
+                }
+              }
+            </script>
 
-                <tr><td colspan="3"><hr style="height:1px;"></td></tr>
-
+            <table width="100%" class="menu" cellspacing="0" cellpadding="0">
                 <%-- CHOOSE PERSON A --%>
                 <tr>
-                    <td>&nbsp;<%=getTran("web","person",sWebLanguage)%> A</td>
-                    <td colspan="2">
+                    <td class="admin2" width="120">&nbsp;<%=getTran("web","person",sWebLanguage)%> A</td>
+                    <td class="admin2" colspan="2">
                         <input type="text" class="text" name="personA" size="40" READONLY>
                         <input class="button" type="button" value="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="showSearchPatientPopup('pid1','personA');">&nbsp;
                     </td>
@@ -116,14 +111,14 @@
 
                 <%-- CHOOSE PERSON B --%>
                 <tr>
-                    <td width="80">&nbsp;<%=getTran("web","person",sWebLanguage)%> B</td>
-                    <td width="300">
+                    <td class="admin2" width="80">&nbsp;<%=getTran("web","person",sWebLanguage)%> B</td>
+                    <td class="admin2" width="300">
                         <input type="text" class="text" name="personB" size="40" READONLY>
                         <input class="button" type="button" value="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="showSearchPatientPopup('pid2','personB');">&nbsp;
                     </td>
 
                     <%-- BUTTONS --%>
-                    <td>
+                    <td class="admin2">
                         <input type="button" class="button" value="<%=getTranNoLink("web.manage","merge",sWebLanguage)%>" onclick="checkSelectedPersons();">&nbsp;
                         <input type="button" class="button" value="<%=getTranNoLink("web","clear",sWebLanguage)%>" onclick="clearFields();">
                     </td>

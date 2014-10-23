@@ -45,7 +45,6 @@
     String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
 %>
 
-<div class="search">
 <%
     if(sAction.equals("search")){
         Vector foundPrestations = Prestation.searchPrestations(sFindPrestationCode,sFindPrestationDescr.replaceAll("e",MedwanQuery.getInstance().getConfigString("equivalentofe","[eéèê]")).replaceAll("a",MedwanQuery.getInstance().getConfigString("equivalentofa","[aàá]")),
@@ -125,4 +124,3 @@
         }
     }
 %>
-</div>

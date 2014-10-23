@@ -24,6 +24,7 @@
 
 <script>
   <%=sCenterWindow%>
+  setTimeout("document.getElementById('buttonNo').focus()",100);
 
   <%-- DO CLOSE --%>
   function doClose(iReturn){

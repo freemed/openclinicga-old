@@ -4,15 +4,7 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
-<script>
-  function setButtonCheckDropDown(){
-    //if(!bSaveHasNotChanged){
-      if(checkSaveButton()){
-        //target.click();
-      }
-    //}
-  }
-    
+<script>    
   function checkDropdown(evt){
     if(window.myButton){
       lastevt = evt || window.event;
@@ -23,17 +15,18 @@
       else{
         target = lastevt.srcElement;
       }
-      if((target.id.indexOf("menu") > -1) || (target.id.indexOf("ddIcon") > -1)){
-        setButtonCheckDropDown();
+      
+      if(target.id.indexOf("menu") > -1 || target.id.indexOf("ddIcon") > -1){
+    	return checkSaveButton();
       }
     }
   }
 </script>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" class="topline">
+<table width="100%" cellspacing="0" cellpadding="0" class="topline">
     <tr>
         <%-- ADMIN HEADER --%>
-        <td width="100%" valign='top' align="left">
+        <td width="100%" valign="top" align="left">
             <table width="100%" cellspacing="0" cellpadding="0" border="0">
                 <%
                     if(!"datacenter".equalsIgnoreCase((String)session.getAttribute("edition"))){
@@ -60,7 +53,6 @@
 <%
     if(!"datacenter".equalsIgnoreCase((String)session.getAttribute("edition"))){        
         String sVersion = checkString((String)session.getAttribute("ProjectVersion"));
-        //Debug.println("--> sVersion : "+sVersion);
 
         String bgi = "";
         String sEdition = MedwanQuery.getInstance().getConfigString("edition","");
@@ -87,7 +79,6 @@
 			        // only show logo-div when logo-file was found
 			   	    if(bgi.length() > 0){
 			   	   	    String sLogoUrl = sAPPFULLDIR+"/"+bgi;
-			   	   	    //Debug.println("--> sLogoUrl : "+sLogoUrl);
 			   	   	    
 			   	   	    java.io.File file = new java.io.File(sLogoUrl); 
 			   	   	    if(!(file.exists() && file.isFile())){
@@ -110,7 +101,7 @@
 				        else{
 				            String sWorkTimeMessage = checkString((String)session.getAttribute("WorkTimeMessage"));
 				            if(sWorkTimeMessage.length() > 0){
-				                %><img style="float:right;" src="<c:url value='/_img/men_at_work.gif'/>" alt="<%=(getTran("Web.Occup","medwan.common.workuntil",sWebLanguage)+" "+sWorkTimeMessage)%>"/><%
+				                %><img style="float:right;" src="<c:url value='/_img/men_at_work.gif'/>" alt="<%=(getTranNoLink("Web.Occup","medwan.common.workuntil",sWebLanguage)+" "+sWorkTimeMessage)%>"/><%
 				            }
 				        }
 		
@@ -121,7 +112,7 @@
 		                
 		                if(sTmpPersonid.length() > 0){
 		                	try{
-		                		sTmpPersonid=Integer.parseInt(sTmpPersonid)+"";
+		                		sTmpPersonid = Integer.parseInt(sTmpPersonid)+"";
 		                	}
 		                	catch(Exception e){
 		                		e.printStackTrace();

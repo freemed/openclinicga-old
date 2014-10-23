@@ -2,10 +2,10 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%
 	// prevent caching
-    response.setHeader("Content-Type","text/html; charset=ISO-8859-1");
+    response.setHeader("Content-Type","text/html;charset=ISO-8859-1");
     response.setHeader("Expires","Sat,6 May 1995 12:00:00 GMT");
-    response.setHeader("Cache-Control","no-store, no-cache, must-revalidate");
-    response.addHeader("Cache-Control","post-check=0, pre-check=0");
+    response.setHeader("Cache-Control","no-store,no-cache,must-revalidate");
+    response.addHeader("Cache-Control","post-check=0,pre-check=0");
     response.setHeader("Pragma","no-cache");
     
     // WorkTime-message
@@ -15,21 +15,21 @@
     // only show message on server
     if(MedwanQuery.getInstance().getConfigString("masterEnabled").equals("1")){
         // get message from DB
-        if(checkString((String) session.getAttribute("WorkTimeMessage")).length() == 0){
-            sWorkTimeMessage = getTranDb("WorkTime", "WorkTimeMessage", sWebLanguage);
+        if(checkString((String)session.getAttribute("WorkTimeMessage")).length()==0){
+            sWorkTimeMessage = getTranDb("WorkTime","WorkTimeMessage",sWebLanguage);
 
             // add WorkTimeMessage to session
             if(sWorkTimeMessage.length() > 0 && !sWorkTimeMessage.equalsIgnoreCase("WorkTimeMessage")){
                 alertWorkTimeMsg = true;
-                session.setAttribute("WorkTimeMessage", sWorkTimeMessage);
+                session.setAttribute("WorkTimeMessage",sWorkTimeMessage);
             } 
-            else {
+            else{
                 session.removeAttribute("WorkTimeMessage");
             }
         }
-        else {
+        else{
             // get message from session
-            sWorkTimeMessage = checkString((String) session.getAttribute("WorkTimeMessage"));
+            sWorkTimeMessage = checkString((String)session.getAttribute("WorkTimeMessage"));
         }
     }
 %>
@@ -51,30 +51,30 @@
 
 <body id="body" onresize="pageResize();">
 <%
-    if(request.getParameter("exitmessage") != null){
+    if(request.getParameter("exitmessage")!=null){
         if(request.getParameter("exitmessage").startsWith("printlabels")){
-            int serverid = Integer.parseInt(request.getParameter("exitmessage").split("\\.")[1]);
-            int transactionId = Integer.parseInt(request.getParameter("exitmessage").split("\\.")[2]);
+            int serverid      = Integer.parseInt(request.getParameter("exitmessage").split("\\.")[1]),
+                transactionId = Integer.parseInt(request.getParameter("exitmessage").split("\\.")[2]);
 			
 			%><script>window.open("<c:url value='/healthrecord/createLabSampleLabelPdf.jsp'/>?serverid=<%=serverid%>&transactionid=<%=transactionId%>&ts=<%=getTs()%>", "Popup"+new Date().getTime(), "toolbar=no, status=yes, scrollbars=yes, resizable=yes, width=400, height=300, menubar=no").moveTo((screen.width - 400) / 2, (screen.height - 300) / 2);</script><%
         }
     }
 %>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0"  id="holder">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" id="holder">
     <tr>
-        <td colspan="2" style="vertical-align:top;" id="header"><%ScreenHelper.setIncludePage("/_common/header.jsp", pageContext);%></td>
+        <td colspan="2" style="vertical-align:top;" id="header"><%ScreenHelper.setIncludePage("/_common/header.jsp",pageContext);%></td>
     </tr>
     <% if(!"datacenter".equalsIgnoreCase((String)session.getAttribute("edition"))){ %>
     <tr class="menu_navigation">
         <td align="left" id="menu">
-            <%ScreenHelper.setIncludePage("/_common/navigation.jsp", pageContext);%>
+            <%ScreenHelper.setIncludePage("/_common/navigation.jsp",pageContext);%>
         </td>
         <td align="right" style="padding-top:3px;">
-            <%ScreenHelper.setIncludePage("/_common/iconsRight.jsp", pageContext);%>
+            <%ScreenHelper.setIncludePage("/_common/iconsRight.jsp",pageContext);%>
         </td>
     </tr>
-    <% }%>
+    <% } %>
     <%-- INCLUDE PAGE --%>
     <tr>
         <td colspan="2" height="100%" style="vertical-align:top;" class="white">
@@ -89,7 +89,7 @@ if(sPage.length() > 0 && !sPage.equalsIgnoreCase("null")){
     ScreenHelper.setIncludePage(customerInclude("/"+sPage),pageContext);
 } 
 else{
-    ScreenHelper.setIncludePage("/_common/start.jsp", pageContext);
+    ScreenHelper.setIncludePage("/_common/start.jsp",pageContext);
 }
                             %>
                         </td>

@@ -54,18 +54,23 @@
         <%
             if(!"no".equalsIgnoreCase(request.getParameter("header"))){
         %>
+        <%-- CODE --%>
         <tr>
             <td class="admin2" width="120" nowrap><%=getTran("web","code",sWebLanguage)%></td>
             <td class="admin2" width="380" nowrap>
                 <input type="text" class="text" name="FindPrestationCode" size="20" maxlength="20" value="<%=sFindPrestationCode%>">
             </td>
         </tr>
+        
+        <%-- DESCRIPTION --%>
         <tr>
             <td class="admin2"><%=getTran("web","description",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="text" class="text" name="FindPrestationDescr" size="60" maxlength="60" value="<%=sFindPrestationDescr%>">
             </td>
         </tr>
+        
+        <%-- TYPE --%>
         <tr>
             <td class="admin2"><%=getTran("web","type",sWebLanguage)%></td>
             <td class="admin2">
@@ -75,16 +80,21 @@
                 </select>
             </td>
         </tr>
+        
+        <%-- PRICE --%>
         <tr>
             <td class="admin2"><%=getTran("web","price",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="text" class="text" name="FindPrestationPrice" size="10" maxlength="8" onKeyUp="if(!isNumber(this)){this.value='';}" value="<%=sFindPrestationPrice%>">&nbsp;<%=sCurrency%>
             </td>
         </tr>
+        
+        <%-- SORT --%>
         <tr>
             <td class="admin2"><%=getTran("web","sort",sWebLanguage)%></td>
             <td class="admin2">
                 <select class="text" name="FindPrestationSort">
+                    <option value="">
                     <option value="OC_PRESTATION_DESCRIPTION"><%=getTran("web","description",sWebLanguage)%></option>
                     <option value="OC_PRESTATION_CODE"><%=getTran("web","code",sWebLanguage)%></option>
                     <option value="OC_PRESTATION_PRICE"><%=getTran("web","price",sWebLanguage)%></option>
@@ -103,19 +113,15 @@
         <%
             }
         %>
-        
-        <%-- SEARCH RESULTS TABLE --%>
-        <tr>
-            <td style="vertical-align:top;" colspan="2" class="white" width="100%">
-                <div id="divFindRecords"></div>
-            </td>
-        </tr>
     </table>
     <br>
     
-    <center>
+    <div id="divFindRecords"></div>
+        
+    <%-- BUTTONS --%>
+    <%=ScreenHelper.alignButtonsStart()%>
         <input type="button" class="button" name="buttonclose" value="<%=getTranNoLink("Web","Close",sWebLanguage)%>" onclick="window.close();">
-    </center>
+    <%=ScreenHelper.alignButtonsStop()%>
 </form>
 
 <script>
@@ -124,11 +130,12 @@
 
   <%-- CLEAR FIELDS --%>
   function clearFields(){
-    SearchForm.FindPrestationRefName.value = "";
     SearchForm.FindPrestationCode.value = "";
     SearchForm.FindPrestationDescr.value = "";
-    SearchForm.FindPrestationType.value = "";
+    SearchForm.FindPrestationType.selectedIndex = 0;
     SearchForm.FindPrestationPrice.value = "";
+    SearchForm.FindPrestationSort.selectedIndex = 0;
+        
     SearchForm.FindPrestationCode.focus();
   }
 
@@ -160,7 +167,7 @@
     }
 
 	<%
-	    if(sFunction.length()>0){
+	    if(sFunction.length() > 0){
 	        out.print("window.opener."+sFunction+";");
 	    }
 	%>

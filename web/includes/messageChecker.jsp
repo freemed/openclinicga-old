@@ -8,13 +8,13 @@
         checkTimeInMillis  = MedwanQuery.getInstance().getConfigInt("messageCheckerTimeout",10*1000); // 10 seconds
 
     /*
-	/// DEBUG /////////////////////////////////////////////////////////////////
+	/// DEBUG /////////////////////////////////////////////////////////////////////////////////////
 	if(Debug.enabled){
-	    Debug.println("\n**************** messageChecker.jsp ****************");
+	    Debug.println("\n********************* includes/messageChecker.jsp *********************");
 	    Debug.println("snoozeTimeInMillis : "+snoozeTimeInMillis);
 	    Debug.println("checkTimeInMillis  : "+checkTimeInMillis+"\n");
 	}
-	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
     */
 %>   
                    

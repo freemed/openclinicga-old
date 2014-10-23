@@ -96,24 +96,21 @@
         }
 
 		if(recCount > 0){
-		    %>
-            <div class="search">
-			    <table id="searchresults" class="sortable" width="100%" cellpadding="1" cellspacing="0" style="border:1px solid #ccc;">
-			        <%-- header --%>
-			        <tr class="admin">
-			            <td width="200" nowrap><%=HTMLEntities.htmlentities(getTran("medical.accident","insurancecompany",sWebLanguage))%></td>
-			            <td width="100" nowrap><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
-			            <td width="110" nowrap><%=HTMLEntities.htmlentities(getTran("web","invoicenumber",sWebLanguage))%></td>
-			            <td width="130" nowrap style="text-align:right;"><%=HTMLEntities.htmlentities(getTran("web","balance",sWebLanguage))%>&nbsp;<%=HTMLEntities.htmlentities((sCurrency))%></td>
-			            <td width="120" nowrap><%=HTMLEntities.htmlentities(getTran("web.finance","patientinvoice.status",sWebLanguage))%></td>
-			        </tr>
-			
-			        <tbody class="hand"><%=HTMLEntities.htmlentities(sHtml.toString())%></tbody>
-			    </table>
-			    
-                <%=recCount%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
-			</div>
+		    %>            
+		    <table id="searchresults" class="sortable" width="100%" cellpadding="1" cellspacing="0" style="border:1px solid #ccc;">
+		        <%-- header --%>
+		        <tr class="admin">
+		            <td width="200" nowrap><%=HTMLEntities.htmlentities(getTran("medical.accident","insurancecompany",sWebLanguage))%></td>
+		            <td width="100" nowrap><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
+		            <td width="110" nowrap><%=HTMLEntities.htmlentities(getTran("web","invoicenumber",sWebLanguage))%></td>
+		            <td width="130" nowrap style="text-align:right;"><%=HTMLEntities.htmlentities(getTran("web","balance",sWebLanguage))%>&nbsp;<%=HTMLEntities.htmlentities((sCurrency))%></td>
+		            <td width="120" nowrap><%=HTMLEntities.htmlentities(getTran("web.finance","patientinvoice.status",sWebLanguage))%></td>
+		        </tr>
+		
+		        <tbody class="hand"><%=HTMLEntities.htmlentities(sHtml.toString())%></tbody>
+		    </table>
 		    
+            <%=recCount%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
 		    <script>sortables_init();</script>
 		    <%
 	    }

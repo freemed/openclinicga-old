@@ -47,9 +47,8 @@
 
     String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
     DecimalFormat priceFormat = new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#,##0.00"));
-%>
-<div class="search">
-<%
+
+    //*** SEARCH **********************************************************************************
     if(sAction.equals("search")){
         Vector vInvoices = CoveragePlanInvoice.searchInvoices(sFindInvoiceDate,sFindInvoiceNr,sFindInvoiceInsurarUID,
         		                                              sFindInvoiceStatus,sFindInvoiceBalanceMin,sFindInvoiceBalanceMax);
@@ -111,7 +110,6 @@
 			    </table>
 			   
                 <%=recCount%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
-		    
 		        <script>sortables_init();</script>
 		    <%
 	    }
@@ -120,4 +118,3 @@
 	    }
 	}
 %>
-</div>

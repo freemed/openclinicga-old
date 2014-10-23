@@ -22,10 +22,9 @@
     	Debug.println("sReturnFieldDescr     : "+sReturnFieldDescr+"\n");
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
-%>
 
-<div class="search">
-<%
+
+    //*** SEARCH **********************************************************************************
     if(sAction.equals("search")){
         Vector foundLabProcedures = LabProcedure.searchLabProcedures(sFindLabProcedureName);
         Iterator proceduresIter = foundLabProcedures.iterator();
@@ -91,4 +90,3 @@
 	    }
 	}
 %>
-</div>

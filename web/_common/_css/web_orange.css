@@ -101,7 +101,7 @@ tr.menu_navigation a:hover {
  text-decoration:underline;
  color:#fff;
  margin:0;
- padding:5px 1px 1px 23px;
+ padding:5px 2px 1px 23px;
  border:1px solid transparent;
  background:url(../../_img/themes/default/buttons_transparent.png) left 0 no-repeat;
  _background:url(../../_img/themes/default/buttons_transparent.gif) left 0 no-repeat;
@@ -110,7 +110,7 @@ tr.menu_navigation a:hover {
 #topmenu ul li a:hover {
  text-decoration:none;
  border:1px solid #eee;
- padding:5px 1px 1px 23px;
+ padding:5px 2px 1px 23px;
 }
 
 #topmenu ul li.menu_employee a {
@@ -224,7 +224,7 @@ div.version{
 
 div.topicones {
  position:absolute;
- right:168px;
+ right:173px;
  top:5px;
  width:200px;
  height:36px;

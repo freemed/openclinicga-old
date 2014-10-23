@@ -366,6 +366,7 @@ function setItemsMenu(bSet){
     else{
       sDisp = 'none';
     }
+    
     if(ie){
       if(SetDefaultValue.url.length > 0){
         SetDefaultValue.style.display = sDisp;
@@ -411,13 +412,14 @@ function checkDropdown(evt){
     if(window.myButton){
       var target;
       if(evt.target){
-        target = evt.target.getAttribute("targert");
+        target = evt.target.getAttribute("target");
       }
       else{
         target = evt.srcElement.target;
       }
-      if((target.id.indexOf("menu") > -1) || (target.id.indexOf("ddIcon") > -1)){
-        if(bSaveHasNotChanged == false) {
+      
+      if(target.id.indexOf("menu") > -1 || target.id.indexOf("ddIcon") > -1){
+        if(bSaveHasNotChanged==false){
           dropDownChecked = true;
           if(checkSaveButton()==true){
             target.click();
@@ -454,7 +456,7 @@ function printGrowthGraphAuto(printLang,ageInMonths,gender){
                            "&gender="+gender +
                            "&ts=<%=getTs()%>";
   }
-  else if (ageInMonths > 60 && ageInMonths <= 240){
+  else if(ageInMonths > 60 && ageInMonths <= 240){
     window.location.href = "<%=sCONTEXTPATH%>/healthrecord/createOfficialPdf.jsp"+
                            "?PrintLanguage="+printLang+
                            "&dummyTransactionType=be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_GROWTH_GRAPH_5_TO_20_YEAR"+

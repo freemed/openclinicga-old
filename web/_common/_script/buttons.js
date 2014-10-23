@@ -26,7 +26,7 @@ function getFormData(){
 
   elems = myForm.getElementsByTagName("textarea");
   for(var i=0; i<elems.length; i++){
-    formValues+= elems[i].innerHTML;
+    formValues+= elems[i].value; // FF : not 'innerHTML'
   }
 
   return formValues.replace(/\s+/,"");

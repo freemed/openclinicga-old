@@ -6,28 +6,28 @@
 <%@taglib uri="/WEB-INF/c-1_0.tld" prefix="c"%>
 
 <%@page import="net.admin.*,
+                net.admin.system.AccessLog,
                 java.text.SimpleDateFormat,
+                java.sql.*,
+                java.net.URL,
+                java.util.*,
+                java.util.regex.*,
+                java.io.IOException,
                 be.dpms.medwan.webapp.wo.common.system.SessionContainerWO,
                 be.mxs.webapp.wl.session.SessionContainerFactory,
                 be.mxs.common.util.system.Debug,
                 be.mxs.common.util.system.ScreenHelper,
-                java.sql.*,
                 be.mxs.common.model.vo.healthrecord.TransactionVO,
                 be.mxs.common.model.vo.healthrecord.ItemVO,
-                org.dom4j.io.SAXReader,
-                java.net.URL,
-                org.dom4j.Document,
-                org.dom4j.Element,
-                java.io.IOException,
                 be.openclinic.common.ObjectReference,
                 be.openclinic.adt.Encounter,
                 be.openclinic.system.Config,
                 be.dpms.medwan.common.model.vo.authentication.UserVO,
-                java.util.regex.*,
                 be.mxs.common.model.vo.IdentifierFactory,
-                be.mxs.common.util.db.MedwanQuery" %>
-<%@page import="net.admin.system.AccessLog" %>
-<%@page import="java.util.*" %>
+                be.mxs.common.util.db.MedwanQuery,
+                org.dom4j.io.SAXReader,
+                org.dom4j.Document,
+                org.dom4j.Element"%>
 
 <%
     if(session==null){
@@ -119,14 +119,16 @@
         return ScreenHelper.getTs();
     }
 
-    //--- SET TYPE ITEM TO SHORT STRING ------------------------------------------------------------
+    //--- SET TYPE TO SHORT -----------------------------------------------------------------------
     public String[] setTypeToShort(String type){
         String[] result = new String[2];
+        
         String re1 = ".*";    // Non-greedy match on filler
         String re2 = "(ICONSTANTS)";    // Word 1
         String re3 = "(.?)";    // Non-greedy match on filler
         String re4 = "(.*)";    // Word 2
-        Pattern p = Pattern.compile(re1+re2+re3+re4, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        
+        Pattern p = Pattern.compile(re1+re2+re3+re4,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
         Matcher m = p.matcher(type);
         if(m.find()){
             result[0] = m.group(3);
@@ -135,29 +137,32 @@
             result[0] = type;
         }
         result[1] = type;
+        
         return result;
     }
 
     //--- GET SELECTED ITEMS FROM USER FOR AUTOCOMPLETION FIELDS ------------------------------------------------------------
     public java.util.List getItemTypeFromUser(String type, int user){
-        java.util.List itemsTypes = MedwanQuery.getInstance().getAllAutocompleteTypeItemsByUser(user);
+        java.util.List itemTypes = MedwanQuery.getInstance().getAllAutocompleteTypeItemsByUser(user);
+        
         String re1 = ".*";    // Non-greedy match on filler
         String re2 = "("+type+")";    // Word 1
         String re3 = "(.?)";    // Non-greedy match on filler
         String re4 = "(.*)";    // Word 2
-        Iterator it = itemsTypes.iterator();
+        
+        Iterator it = itemTypes.iterator();
         while(it.hasNext()){
             type = (String)it.next();
+            
             // test if type exists in item type string
             Pattern p = Pattern.compile(re1+re2+re3+re4, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
             Matcher m = p.matcher(type);
             if(!m.find()){
-                // if net es-xists remove then from the list
                 it.remove();
             }
 
         }
-        return itemsTypes;
+        return itemTypes;
     }
 
     //--- REPEAT ----------------------------------------------------------------------------------
@@ -243,20 +248,20 @@
                         Iterator iTrans = colTrans.iterator();
                         TransactionVO tmpVO;
                         while(iTrans.hasNext()){
-                            tmpVO = (TransactionVO) iTrans.next();
+                            tmpVO = (TransactionVO)iTrans.next();
                             if(lastTransactionVO==null){
                                 lastTransactionVO = tmpVO;
                             }
-                            else if (lastTransactionVO.getUpdateTime().compareTo(tmpVO.getUpdateTime()) < 0){
+                            else if(lastTransactionVO.getUpdateTime().compareTo(tmpVO.getUpdateTime()) < 0){
                                 lastTransactionVO = tmpVO;
                             }
                         }
                     }
 
                     if(lastTransactionVO!=null){
-                        SimpleDateFormat stdDateFormat = new SimpleDateFormat("yyyy/MM/dd");
-                        String sToday = stdDateFormat.format(new java.util.Date());
-                        String sTransDate = stdDateFormat.format(lastTransactionVO.getUpdateTime());
+                        SimpleDateFormat reverseDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                        String sToday = reverseDateFormat.format(new java.util.Date());
+                        String sTransDate = reverseDateFormat.format(lastTransactionVO.getUpdateTime());
 
                         if(sToday.equals(sTransDate)){
                             try{
@@ -317,7 +322,7 @@
                 if(service.code.equals(activeUser.activeService.code)){
                     result+= " selected";
                 }
-                result+= ">"+getTran("Service", service.code, language)+"</option>";
+                result+= ">"+getTran("Service",service.code,language)+"</option>";
             }
             result+= "</select>&nbsp;";
             result+= "<input id='confirm' type='button' value='OK' name='confirm' class='button' onclick=\"show('content-details');hide('confirm');\"/>";
@@ -349,13 +354,15 @@
         String sReturn = "";
 
         //SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy '"+getTranNoLink("web.occup"," - ",sWebLanguage)+"' HH:mm:ss");
-        java.util.List l = AccessLog.getLastAccess(sTrans,2);
-        if(l.size() > 1){
-            Object[] ss = (Object[])l.get(1);
+        java.util.List list = AccessLog.getLastAccess(sTrans,2);
+        if(list.size() > 1){
+            Object[] ss = (Object[])list.get(1);
             Timestamp t = (Timestamp)ss[0];
             Hashtable u = User.getUserName((String)ss[1]);
             sReturn+= "<div style='float:right'><span style='font-weight:normal'>"+getTranNoLink("web.occup","last.access",sWebLanguage)+"  "+ScreenHelper.fullDateFormat.format(t)+" "+getTranNoLink("web","by",sWebLanguage)+" <b>"+u.get("firstname")+" "+u.get("lastname")+"</b></span>";
-            sReturn+= " | <a href='javascript:void(0)' onclick=\"Modalbox.show('"+sCONTEXTPATH+"/healthrecord/ajax/getTransHistoryAccess.jsp?ts="+getTs()+"&trans="+sTrans+"&nb=15', {title: '"+getTranNoLink("web", "accesshistory", sWebLanguage)+"', width: 420,height:370},{evalScripts: true} );\" class='link linkdark history' title='"+getTranNoLink("web","accesshistory",sWebLanguage)+"' alt=\""+getTranNoLink("web","accesshistory",sWebLanguage)+"\">...</a>"+(version>1?"<a href='javascript:void(0)' onclick='getTransactionHistory(\""+sTrans+"\",20)' class='link linkdark transactionhistory' title='"+getTranNoLink("web","modificationshistory",sWebLanguage)+"' alt=\""+getTranNoLink("web","modificationshistory",sWebLanguage)+"\">...</a>":"")+"</div>";
+            sReturn+= " | <a href='javascript:void(0)' onclick=\"Modalbox.show('"+sCONTEXTPATH+"/healthrecord/ajax/getTransHistoryAccess.jsp?ts="+getTs()+"&trans="+sTrans+"&nb=15', {title: '"+getTranNoLink("web","accesshistory",sWebLanguage)+"',width:420,height:370},{evalScripts:true});\""+
+                      " class='link linkdark history' title='"+getTranNoLink("web","accesshistory",sWebLanguage)+"' alt=\""+getTranNoLink("web","accesshistory",sWebLanguage)+"\">...</a>"+(version>1?"<a href='javascript:void(0)' onclick='getTransactionHistory(\""+sTrans+"\",20)'"+
+                      " class='link linkdark transactionhistory' title='"+getTranNoLink("web","modificationshistory",sWebLanguage)+"' alt=\""+getTranNoLink("web","modificationshistory",sWebLanguage)+"\">...</a>":"")+"</div>";
         }
 
         return sReturn;
@@ -432,7 +439,7 @@
 
     //--- CHECK PERMISSION POPUP (screen is a popup) ----------------------------------------------
     public String checkPermissionPopup(String sScreen, String sPermission, User activeUser){
-        return ScreenHelper.checkPermission(sScreen,sPermission, activeUser,true,sCONTEXTPATH);
+        return ScreenHelper.checkPermission(sScreen,sPermission,activeUser,true,sCONTEXTPATH);
     }
 
     //--- CHECK PERMISSION (screen is a parent window) --------------------------------------------
@@ -507,7 +514,7 @@
             tableHeader+= "</td>";
         }
 
-        tableHeader+= " </tr>"+
+        tableHeader+=  "</tr>"+
                       "</table>";
 
         return tableHeader;
@@ -548,10 +555,10 @@
         sJS+= "userinterval=window.setInterval(";
 
         // put NOW and username in statusbar
-        sJS+= "'window.status=\""+ScreenHelper.stdDateFormat.format(new java.util.Date())+"  -  "+activeUser.person.firstname+" "+activeUser.person.lastname;
+        sJS+= "'window.status=\""+ScreenHelper.formatDate(new java.util.Date())+"  -  "+activeUser.person.firstname+" "+activeUser.person.lastname;
 
         // add medical centre to statusbar if medical center specified
-        sJS+= (checkString((String) (session.getAttribute("activeMedicalCenter"))).length() > 0 ? " ("+getTran("Web.Occup", "MedicalCenter", activeUser.person.language)+" = "+session.getAttribute("activeMedicalCenter")+")" : "");
+        sJS+= (checkString((String) (session.getAttribute("activeMedicalCenter"))).length()>0?" ("+getTran("Web.Occup","MedicalCenter",activeUser.person.language)+" = "+session.getAttribute("activeMedicalCenter")+")":"");
 
         // show remaining seconds till session expiration
         //sJS+= "  [\"+(Math.round((starttime-new Date().getTime())/1000))+\" seconds till session expiration]";
@@ -580,7 +587,7 @@
         if(tran!=null){
             if((tran.getTransactionId().intValue() > 0) && (!activeUser.userid.equals(tran.getUser().getUserId().intValue()+""))){
                 sReturn = "var url_source = '"+sCONTEXTPATH+"/popup.jsp?Page=_common/search/takeOverTransaction.jsp&ts="+getTs()+"';"+
-                          "var modal_dim = 'dialogWidth:260px; dialogHeight:160px; center:yes;scrollbars:no; resizable:no; status:no; location:no;';"+
+                          "var modal_dim = 'dialogWidth:260px; dialogHeight:160px;center:yes;scrollbars:no;resizable:no;status:no;location:no;';"+
                           "var answer = window.showModalDialog(url_source,'',modal_dim);"+
                           "if(answer==1){"+
                            "openPopup('/_common/search/takeOverTransactionSave.jsp&ts="+getTs()+"');"+
@@ -600,7 +607,7 @@
 
         buf.append("function openHistoryPopupOLD(){")
             .append("var url = '").append(sCONTEXTPATH).append("/healthrecord/managePrintHistoryPopup.do?transactionType=").append(transactionType).append("&ts=").append(getTs()).append("';")
-            .append("historyPopup = window.open(url,'History','height=1, width=1, toolbar=no, status=no, scrollbars=yes, resizable=yes, menubar=no');")
+            .append("historyPopup = window.open(url,'History','height=1,width=1,toolbar=no,status=no,scrollbars=yes,resizable=yes,menubar=no');")
             //.append("openPopup('/healthrecord/printHistoryPopup.do&transactionType="+transactionType+"&ts="+getTs()+"');")
            .append("}");
 
@@ -628,12 +635,12 @@
     public String getObjectReferenceName(ObjectReference or, String sWebLanguage){
         String sReturn = "";
         
-        if((or!=null) && (or.getObjectUid()!=null) && (or.getObjectUid().length() > 0)){
+        if(or!=null && or.getObjectUid()!=null && or.getObjectUid().length() > 0){
             if(or.getObjectType().equalsIgnoreCase("person")){
                 String s = checkString(ScreenHelper.getFullPersonName(or.getObjectUid()));
                 return s;
             } 
-            else if (or.getObjectType().equalsIgnoreCase("service")){
+            else if(or.getObjectType().equalsIgnoreCase("service")){
                 sReturn = getTranDb("service", or.getObjectUid(), sWebLanguage);
             }
         }
@@ -736,10 +743,10 @@
     	try{
     		int tmpPos; 
     		ag = ag.toLowerCase();
-    		if (ag.contains("msie")){
+    		if(ag.contains("msie")){
     			browser = "Internet Explorer";
     		    String str = ag.substring(ag.indexOf("msie")+5);
-    		    version = str.substring(0, str.indexOf(";"));
+    		    version = str.substring(0,str.indexOf(";"));
     		}
     		else if(ag.contains("opera")){
     			browser = "Opera";
@@ -747,7 +754,7 @@
     			String str = "";
     			if(ag.indexOf(" ")>-1){
     				str = (ag.substring(tmpPos = (ag.indexOf("/"))+1,tmpPos+ag.indexOf(" "))).trim();
-    			    version = str.substring(0, str.indexOf(" "));
+    			    version = str.substring(0,str.indexOf(" "));
     			}
     			else{
     				version = (ag.substring(tmpPos = (ag.indexOf("/"))+1)).trim();
@@ -759,7 +766,7 @@
     			String str = "";
     			if(ag.indexOf(" ")>-1){
     				str = (ag.substring(tmpPos = (ag.indexOf("/"))+1,tmpPos+ag.indexOf(" "))).trim();
-    			    version = str.substring(0, str.indexOf(" "));
+    			    version = str.substring(0,str.indexOf(" "));
     			}
     			else{
     				version = (ag.substring(tmpPos = (ag.indexOf("/"))+1)).trim();
@@ -771,7 +778,7 @@
     			String str = "";
     			if(ag.indexOf(" ")>-1){
     				str = (ag.substring(tmpPos = (ag.indexOf("/"))+1,tmpPos+ag.indexOf(" "))).trim();
-    			    version = str.substring(0, str.indexOf(" "));
+    			    version = str.substring(0,str.indexOf(" "));
     			}
     			else{
     				version = (ag.substring(tmpPos = (ag.indexOf("/"))+1)).trim();
@@ -783,7 +790,7 @@
     			String str = "";
     			if(ag.indexOf(" ")>-1){
     				str = (ag.substring(tmpPos = (ag.indexOf("/"))+1,tmpPos+ag.indexOf(" "))).trim();
-    			    version = str.substring(0, str.indexOf(" "));
+    			    version = str.substring(0,str.indexOf(" "));
     			}
     			else{
     				version = (ag.substring(tmpPos = (ag.indexOf("/"))+1)).trim();
@@ -1024,15 +1031,16 @@
     String sJSPROTOCHART  = "<script src='"+sCONTEXTPATH+"/_common/_script/protochart/ProtoChart.js'></script>";
     String sJSEXCANVAS  = "<script src='"+sCONTEXTPATH+"/_common/_script/protochart/excanvas.js'></script>";
     String sJSROTATE  = "<script src='"+sCONTEXTPATH+"/_common/_script/rotate.js'></script>";
-    String sPROGRESSBAR  = "<script src='"+sCONTEXTPATH+"/_common/_script/pb_prototype.js'></script><script src='"+sCONTEXTPATH+"/_common/_script/pb_ProgressBarHandler.js'></script>";
+    String sPROGRESSBAR  = "<script src='"+sCONTEXTPATH+"/_common/_script/pb_prototype.js'></script>"+
+                           "<script src='"+sCONTEXTPATH+"/_common/_script/pb_ProgressBarHandler.js'></script>";
     String sJSFUSIONCHARTS  = "<script src='"+sCONTEXTPATH+"/_common/_script/FusionCharts.js'></script>";
     String sJSTREEMENU = "<script src='"+sCONTEXTPATH+"/_common/_script/treemenu/dhtmlxtree_std.js'></script>"+ // ".._compacted.js"
                          "<script src='"+sCONTEXTPATH+"/_common/_script/treemenu/dhtmlxcommon.js'></script>";
 	String sJSCOLORPICKER = "<link rel='Stylesheet' type='text/css' href='"+sCONTEXTPATH+"/_common/_css/jPicker-1.1.6.min.css'/>"+
 	  						"<link rel='Stylesheet' type='text/css' href='"+sCONTEXTPATH+"/_common/_css/jPicker.css'/>"+
-	  						"<script src='"+sCONTEXTPATH+"/_common/_script/jquery-1.4.4.min.js' type='text/javascript'></script>"+
-	  						"<script src='"+sCONTEXTPATH+"/_common/_script/jpicker-1.1.6.min.js' type='text/javascript'></script>";
-	String sJSJQUERY = "<script src='"+sCONTEXTPATH+"/_common/_script/jquery-1.4.4.min.js' type='text/javascript'></script>";
+	  						"<script src='"+sCONTEXTPATH+"/_common/_script/jquery-1.4.4.min.js'></script>"+
+	  						"<script src='"+sCONTEXTPATH+"/_common/_script/jpicker-1.1.6.min.js'></script>";
+	String sJSJQUERY = "<script src='"+sCONTEXTPATH+"/_common/_script/jquery-1.4.4.min.js'></script>";
 
     // varia
     String sTDAdminWidth = "200";

@@ -59,13 +59,14 @@
             </td>
         </tr>
     </table>
+    <br>
 
     <div id="divFindRecords"></div>
-    <br>
-    
-    <center>
+        
+    <%-- BUTTONS --%>
+    <%=ScreenHelper.alignButtonsStart()%>
         <input type="button" class="button" name="closeButton" value="<%=getTranNoLink("Web","Close",sWebLanguage)%>" onclick="window.close();">
-    </center>
+    <%=ScreenHelper.alignButtonsStop()%>
 </form>
 
 <script>

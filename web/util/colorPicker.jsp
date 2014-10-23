@@ -1,38 +1,50 @@
 <%@include file="/includes/helper.jsp"%>
+<%=sJSCOLORPICKER%>
 
 <%
-	String sColorFields=checkString(request.getParameter("colorfields"));
-	String sValueField=checkString(request.getParameter("valuefield"));
-	String sDefaultColor=checkString(request.getParameter("defaultcolor"));
+	String sColorFields  = checkString(request.getParameter("colorfields")),
+	       sValueField   = checkString(request.getParameter("valuefield")),
+	       sDefaultColor = checkString(request.getParameter("defaultcolor"));
+	       
+	/// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+	if(Debug.enabled){
+		Debug.println("\n*********************** util/colorPicker.jsp **************************");
+		Debug.println("sColorFields  : "+sColorFields);
+		Debug.println("sValueField   : "+sValueField);
+		Debug.println("sDefaultColor : "+sDefaultColor+"\n");
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////
 %>
 
-<head>
-	<%=sJSCOLORPICKER %>
-</head>
-
 <script>        
-  $(document).ready(
-    function()
-    {
-      $('#inline').jPicker(
-    		  {window: { position: {y: 'bottom'}}, color: {active: new $.jPicker.Color({ hex: '<%=sDefaultColor.length()>0?sDefaultColor:"ffee00"%>' })}, images: {clientPath: '<%=sCONTEXTPATH+"/_common/_script/images/"%>'}},
-    		  function(color, context) {chooseColor(color.val('hex'));}, function(color, context) {}, function(color, context) {window.close();}
-    	);
-    });      
+  $(document).ready(function(){
+    $('#inline').jPicker(
+      {window: { position: {y: 'bottom'}}, color: {
+    	  active: new $.jPicker.Color({ hex: '<%=sDefaultColor.length()>0?sDefaultColor:"ffee00"%>' })},
+    	  images: {clientPath: '<%=sCONTEXTPATH+"/_common/_script/images/"%>'}},
+       function(color,context){chooseColor(color.val('hex'));}, 
+       function(color,context){},
+       function(color,context){window.close();}
+    );
+  });      
 </script>
+
 <div id="inline"></div>
 
 <script>
-	function chooseColor(hexcolor){
-		fields = '<%=sColorFields%>'.split(";");
-		for(n=0;n<fields.length;n++){
-			if(window.opener.document.getElementById(fields[n])){
-				window.opener.document.getElementById(fields[n]).style.backgroundColor=hexcolor;
-			}
-		}
-		if(window.opener.document.getElementById('<%=sValueField%>')){
-			window.opener.document.getElementById('<%=sValueField%>').value=hexcolor;
-		}
-		window.close();
+  <%-- CHOOSE COLOR --%>
+  function chooseColor(hexcolor){
+	fields = '<%=sColorFields%>'.split(";");
+	for(n=0; n<fields.length; n++){
+	  if(window.opener.document.getElementById(fields[n])){
+		window.opener.document.getElementById(fields[n]).style.backgroundColor = hexcolor;
+	  }
 	}
+	
+	if(window.opener.document.getElementById('<%=sValueField%>')){
+	  window.opener.document.getElementById('<%=sValueField%>').value = hexcolor;
+	}
+	
+	window.close();
+  }
 </script>

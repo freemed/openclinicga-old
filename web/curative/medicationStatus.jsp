@@ -1,8 +1,8 @@
 <%@page import="be.openclinic.medical.Prescription,
                 be.openclinic.medical.ChronicMedication,
-                java.util.Vector,
                 be.openclinic.medical.PaperPrescription,
-                be.openclinic.pharmacy.*"%>
+                be.openclinic.pharmacy.*,
+                java.util.Vector"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
@@ -182,9 +182,9 @@
     }
     
 	//--- 4:DELIVERED -----------------------------------------------------------------------------
-	long day=24*3600*1000;
-	Vector medicationHistory = ProductStockOperation.getPatientDeliveries(activePatient.personid, new java.util.Date(new java.util.Date().getTime()-MedwanQuery.getInstance().getConfigInt("patientMedicationDeliveryHistoryDuration",14)*day), new java.util.Date(), "OC_OPERATION_DATE", "DESC");
-	if(medicationHistory.size()>0){
+	long day = 24*3600*1000;
+	Vector medicationHistory = ProductStockOperation.getPatientDeliveries(activePatient.personid,new java.util.Date(new java.util.Date().getTime()-MedwanQuery.getInstance().getConfigInt("patientMedicationDeliveryHistoryDuration",14)*day), new java.util.Date(),"OC_OPERATION_DATE","DESC");
+	if(medicationHistory.size() > 0){
 		%>
         <tr>
             <td class="admin2" style="vertical-align:top;border-bottom:1px solid #fff;"><b><%=getTran("curative","medication.deliveries",sWebLanguage)%><br/> &lt;<%= MedwanQuery.getInstance().getConfigInt("patientMedicationDeliveryHistoryDuration",14)%> <%=getTran("web","days",sWebLanguage).toLowerCase()%></b></td>
@@ -192,7 +192,7 @@
                 <table width="100%">
                     <% 
                         ProductStockOperation operation;
-						for(int n=0;n<medicationHistory.size();n++){
+						for(int n=0; n<medicationHistory.size(); n++){
 							operation = (ProductStockOperation)medicationHistory.elementAt(n);
 							
 							String product = "";
@@ -209,10 +209,9 @@
         </tr>
 	    <%
 	}
-%>
-
-        <tr height="99%"><td/></tr>
-    </tr>
+	
+    %>
+    <tr height="99%"><td/></tr>
 </table>
 
 <script>

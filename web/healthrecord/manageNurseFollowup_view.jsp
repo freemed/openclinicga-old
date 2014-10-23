@@ -126,7 +126,8 @@
                                     out.print("<table width='100%' cellspacing='1' cellpadding='0'><tr class='gray'><td>"+getTran("web.occup","medwan.common.description",sWebLanguage)+"</td><td width='100'>"+getTran("web.occup","medwan.common.datebegin",sWebLanguage)+"</td></tr>");
 
                                     String sClass = "1";
-	                                for(int n=0;n<activeProblems.size();n++){
+	                                for(int n=0; n<activeProblems.size(); n++){
+	                                	// alternate row-style
 	                                    if(sClass.equals("")) sClass = "1";
 	                                    else                  sClass = "";
 	

@@ -6,16 +6,6 @@
  * Modified by Sven Wappler http://www.wappler.eu
  * Use it as you need it; it is distributed under a BSD style license
  */
-
-/**
- * Container Class (Prototype) for the dropDownMenu
- *
- * @param idOrElement     String|HTMLElement  root Node of the menu (ul)
- * @param name            String              name of the variable that stores the result
- *                                            of this constructor function
- * @param customConfigFunction  Function      optional config function to override the default settings
- *                                            for an example see Menu.prototype.config
- */
 var Menu = Class.create();
 Menu.prototype = {
   initialize: function(idOrElement, name, customConfigFunction){
@@ -125,7 +115,7 @@ MenuContainer.prototype = {
     if(this.menuType == "dropdown"){
       Element.setStyle(this.element, {
         left: (Position.positionedOffset(this.parent.element)[0])+"px",
-        top: (Position.positionedOffset(this.parent.element)[1]+Element.getHeight(this.parent.element))+"px"
+        top: (Position.positionedOffset(this.parent.element)[1]+Element.getHeight(this.parent.element)+3)+"px"
       });
     } 
     else if(this.menuType == "flyout"){
@@ -157,7 +147,7 @@ MenuContainer.prototype = {
   },
 
   closeAll: function(trigger){
-    for(var i = 0; i < this.menuItems.length; ++i){
+    for(var i=0; i<this.menuItems.length; ++i){
       this.menuItems[i].closeItem(trigger);
     }
   }
@@ -170,31 +160,37 @@ Object.extend(Object.extend(MenuItem.prototype, MenuContainer.prototype),{
     this.type = "menuItem";
     this.subMenu;
     this.init(idOrElement,parent);
+    
     if(this.subMenu){
       this.element.onmouseover = function(){
-        if(menu.menuvisible)
-          menuItem.subMenu.open();
-        }
-      }else{
-        if(this.root.quickCollapse){
-          this.element.onmouseover = function(){
+        if(menu.menuvisible) menuItem.subMenu.open();
+      }
+    }
+    else{
+      if(this.root.quickCollapse){
+        this.element.onmouseover = function(){
           menuItem.parentMenu.closeAll();
-          if(menu.menuvisible){
-            //menuItem.parentMenu.closeAll();
-            //menu.hideMenu();
-          }
         }
       }
     }
+    
     this.element.onmousedown = function(){
       if(!menu.menuvisible){
         if(menuItem.subMenu){
           menu.showMenu();
           menuItem.subMenu.open();
         }
-        setButtonCheckDropDown();
+        else{
+          var childNodes = menuItem.element.childNodes;
+          if(childNodes.length==1){
+            if(childNodes[0].tagName.toLowerCase()=="a"){
+        	  clickMenuItem(childNodes[0].href);
+            }
+          }
+        }        
       }
     }
+    
     var linkTag = this.element.getElementsByTagName("A")[0];
     if(linkTag){
       linkTag.onfocus = this.element.onmouseover;
@@ -226,9 +222,22 @@ Object.extend(Object.extend(MenuItem.prototype, MenuContainer.prototype),{
 
 var menu;
 function configMenu(){
-  this.closeDelayTime = 10;
+  this.closeDelayTime = 100;
 }
 function initMenu(){
   menu = new Menu('root','topmenu',configMenu);
 }
 Event.observe(window,'load',initMenu,false);
+
+function clickMenuItem(clickedUrl){
+  if(clickedUrl.toLowerCase().startsWith("javascript")){
+	if(checkSaveButton()){
+	  eval(clickedUrl);  
+	}
+  }
+  else{
+	if(checkSaveButton()){
+      window.location.href = clickedUrl;
+	}
+  }
+}

@@ -75,7 +75,6 @@
     String sSelectBedName = ScreenHelper.normalizeSpecialCharacters(sFindBedName);
 %>
 
-<div class="search">
 <table width="100%" cellspacing="0" cellpadding="0" class="list">
     <%
         String sortColumn = " OC_BED_NAME";
@@ -121,7 +120,7 @@
                 sClassOccupied = "occupied";
             }
             else{
-                //if not occupied
+                // if not occupied
                 sSelectable = "onclick=\"setBed('"+tmpBed.getUid()+"','"+tmpBed.getName().toUpperCase()+"');\"";
                 sClassOccupied = "";
             }
@@ -156,16 +155,15 @@
 
         if(recsFound){
 		    %>
+		        <%-- HEADER --%>
 			    <tr class="admin">
 			        <td width="20"/>
 			        <td width="20"/>
-			        <td width='100'><%=getTran("web","bed",sWebLanguage)%></td>
+			        <td width="100"><%=HTMLEntities.htmlentities(getTran("web","bed",sWebLanguage))%></td>
 			        <td><%=HTMLEntities.htmlentities(getTran("Web","patient",sWebLanguage))%></td>
 			    </tr>
 			    
-			    <tbody class="hand">
-			        <%=HTMLEntities.htmlentities(results.toString())%>
-			    </tbody>
+			    <tbody class="hand"><%=HTMLEntities.htmlentities(results.toString())%></tbody>
 		    <%
         }
     %>
@@ -177,4 +175,3 @@
         %><div style='text-align:left;'><%=HTMLEntities.htmlentities(getTran("web","noRecordsFound",sWebLanguage))%></div><%
     }
 %>
-</div>
