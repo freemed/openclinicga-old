@@ -99,7 +99,7 @@
 		}
 		
 		if(request.getParameter("UserQuickLabList")!=null){
-			MedwanQuery.getInstance().setConfigString("quickLabList_"+activeUser.userid,pars);
+			MedwanQuery.getInstance().setConfigString("quickLabList."+activeUser.userid,pars);
 			Debug.println("--> SAVE : config 'quickLabList."+activeUser.userid+"' = "+pars);
 		}
 		else{
