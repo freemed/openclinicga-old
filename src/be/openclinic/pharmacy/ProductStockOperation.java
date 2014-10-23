@@ -1045,6 +1045,122 @@ public class ProductStockOperation extends OC_Object{
     }
 
     //--- GET DELIVERIES --------------------------------------------------------------------------
+    public static Vector getServiceStockDeliveries(String sServiceStockUid, java.util.Date dateFrom, java.util.Date dateUntil,
+                                       String sSortCol, String sSortDir){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Vector foundRecords = new Vector();
+
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            String sSelect = "SELECT OC_OPERATION_SERVERID,OC_OPERATION_OBJECTID"+
+                             "  FROM OC_PRODUCTSTOCKOPERATIONS,OC_PRODUCTSTOCKS"+
+                             " WHERE "
+                             + " OC_STOCK_OBJECTID=replace(OC_OPERATION_PRODUCTSTOCKUID,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') AND"
+                             + " OC_OPERATION_DESCRIPTION LIKE 'medicationdelivery.%'";
+
+            if(sServiceStockUid.length() > 0){
+                sSelect+= " AND OC_STOCK_SERVICESTOCKUID = ?";
+            }
+
+            // dates
+            if(dateFrom!=null)  sSelect+= " AND OC_OPERATION_DATE >= ?";
+            if(dateUntil!=null) sSelect+= " AND OC_OPERATION_DATE < ?";
+
+            // order by selected col or default col
+            sSelect+= " ORDER BY "+sSortCol+" "+sSortDir;
+            ps = oc_conn.prepareStatement(sSelect);
+
+            // set questionmark-values
+            int questionMarkIdx = 1;
+            if(sServiceStockUid.length() > 0) ps.setString(questionMarkIdx++,sServiceStockUid);
+            if(dateFrom!=null)                     ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateFrom.getTime()));
+            if(dateUntil!=null)                    ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateUntil.getTime()));
+
+            // execute
+            rs = ps.executeQuery();
+            while(rs.next()){
+                foundRecords.add(get(rs.getString("OC_OPERATION_SERVERID")+"."+rs.getString("OC_OPERATION_OBJECTID")));
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                oc_conn.close();
+            }
+            catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+
+        return foundRecords;
+    }
+
+    //--- GET DELIVERIES --------------------------------------------------------------------------
+    public static Vector getServiceDestinationStockDeliveries(String sServiceStockUid, String sourceDestionationUid, java.util.Date dateFrom, java.util.Date dateUntil,
+                                       String sSortCol, String sSortDir){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Vector foundRecords = new Vector();
+
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            String sSelect = "SELECT OC_OPERATION_SERVERID,OC_OPERATION_OBJECTID"+
+                             "  FROM OC_PRODUCTSTOCKOPERATIONS,OC_PRODUCTSTOCKS"+
+                             " WHERE "
+                             + " OC_STOCK_OBJECTID=replace(OC_OPERATION_PRODUCTSTOCKUID,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') AND"
+                             + " OC_OPERATION_DESCRIPTION LIKE 'medicationdelivery.%'";
+
+            if(sServiceStockUid.length() > 0){
+                sSelect+= " AND OC_STOCK_SERVICESTOCKUID = ?";
+            }
+            if(sourceDestionationUid.length() > 0){
+                sSelect+= " AND OC_OPERATION_SRCDESTUID = ?";
+            }
+
+            // dates
+            if(dateFrom!=null)  sSelect+= " AND OC_OPERATION_DATE >= ?";
+            if(dateUntil!=null) sSelect+= " AND OC_OPERATION_DATE < ?";
+
+            // order by selected col or default col
+            sSelect+= " ORDER BY "+sSortCol+" "+sSortDir;
+            ps = oc_conn.prepareStatement(sSelect);
+
+            // set questionmark-values
+            int questionMarkIdx = 1;
+            if(sServiceStockUid.length() > 0) ps.setString(questionMarkIdx++,sServiceStockUid);
+            if(sourceDestionationUid.length() > 0) ps.setString(questionMarkIdx++,sourceDestionationUid);
+            if(dateFrom!=null)                     ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateFrom.getTime()));
+            if(dateUntil!=null)                    ps.setTimestamp(questionMarkIdx++,new java.sql.Timestamp(dateUntil.getTime()));
+
+            // execute
+            rs = ps.executeQuery();
+            while(rs.next()){
+                foundRecords.add(get(rs.getString("OC_OPERATION_SERVERID")+"."+rs.getString("OC_OPERATION_OBJECTID")));
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                oc_conn.close();
+            }
+            catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+
+        return foundRecords;
+    }
+
+    //--- GET DELIVERIES --------------------------------------------------------------------------
     public static Vector getPatientDeliveries(String personid, java.util.Date dateFrom, java.util.Date dateUntil,
                                        String sSortCol, String sSortDir){
         PreparedStatement ps = null;

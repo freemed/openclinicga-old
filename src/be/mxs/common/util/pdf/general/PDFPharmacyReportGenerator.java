@@ -543,9 +543,9 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
  			java.util.Date date = ScreenHelper.parseDate(sDate);
  			//Nu printen we de gegevens van de productstock
  	        row =t.addElement("row");
- 			addCol(row,20,stock.getProduct()==null?"":stock.getProduct().getPrestationcode());
- 			addCol(row,80,stock.getProduct()==null?"":stock.getProduct().getName());
- 			addCol(row,20,stock.getProduct()==null?"":ScreenHelper.getTranNoLink("product.unit",stock.getProduct().getUnit(),sPrintLanguage),7);
+ 			addCol(row,20,stock.getProduct()==null || stock.getProduct().getPrestationcode()==null?"":stock.getProduct().getPrestationcode());
+ 			addCol(row,80,stock.getProduct()==null || stock.getProduct().getName()==null?"":stock.getProduct().getName());
+ 			addCol(row,20,stock.getProduct()==null || stock.getProduct().getUnit()==null?"":ScreenHelper.getTranNoLink("product.unit",stock.getProduct().getUnit(),sPrintLanguage),7);
  			int averageConsumption=0;
  			if(stock.getProduct()!=null){
  				averageConsumption=stock.getAverageConsumption(new java.util.Date(date.getTime()+day),bIncludePatients,bIncludeStocks,bOther);
@@ -773,7 +773,7 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
 		java.util.Date begin = ScreenHelper.parseDate(sDateBegin);
 		java.util.Date end = ScreenHelper.parseDate(sDateEnd);
 		double subtotal=0, generaltotal=0;
- 		Vector deliveries = ProductStockOperation.getDeliveries("", begin, new java.util.Date(end.getTime()+day), "OC_OPERATION_DATE,OC_OPERATION_SRCDESTUID,OC_OPERATION_DOCUMENTUID", "ASC");
+ 		Vector deliveries = ProductStockOperation.getServiceStockDeliveries(sServiceStockUID, begin, new java.util.Date(end.getTime()+day), "OC_OPERATION_DATE,OC_OPERATION_SRCDESTUID,OC_OPERATION_DOCUMENTUID", "ASC");
  		String activedate="",activedestination="$$$";
  		for(int n=0;n<deliveries.size();n++){
  			ProductStockOperation operation = (ProductStockOperation)deliveries.elementAt(n);
@@ -1249,7 +1249,7 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
 		java.util.Date begin = ScreenHelper.parseDate(sDateBegin);
 		java.util.Date end = ScreenHelper.parseDate(sDateEnd);
 		double subtotal=0, generaltotal=0;
- 		Vector deliveries = ProductStockOperation.getDeliveries(destinationStockUID, begin, new java.util.Date(end.getTime()+day), "OC_OPERATION_DATE,OC_OPERATION_DOCUMENTUID", "ASC");
+ 		Vector deliveries = ProductStockOperation.getServiceDestinationStockDeliveries(sServiceStockUID,destinationStockUID, begin, new java.util.Date(end.getTime()+day), "OC_OPERATION_DATE,OC_OPERATION_DOCUMENTUID", "ASC");
  		String activedate="",activedestination="$$$";
  		for(int n=0;n<deliveries.size();n++){
  			ProductStockOperation operation = (ProductStockOperation)deliveries.elementAt(n);
@@ -1313,7 +1313,7 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
 		java.util.Date begin = ScreenHelper.parseDate(sDateBegin);
 		java.util.Date end = ScreenHelper.parseDate(sDateEnd);
 		double subtotal=0, generaltotal=0;
- 		Vector deliveries = ProductStockOperation.getDeliveries("", begin, new java.util.Date(end.getTime()+day), "OC_OPERATION_DATE,OC_OPERATION_DOCUMENTUID", "ASC");
+ 		Vector deliveries = ProductStockOperation.getServiceStockDeliveries(sServiceStockUID, begin, new java.util.Date(end.getTime()+day), "OC_OPERATION_DATE,OC_OPERATION_DOCUMENTUID", "ASC");
  		for(int n=0;n<deliveries.size();n++){
  			ProductStockOperation operation = (ProductStockOperation)deliveries.elementAt(n);
  			String date=ScreenHelper.stdDateFormat.format(operation.getDate());
