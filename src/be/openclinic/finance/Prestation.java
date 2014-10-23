@@ -39,37 +39,38 @@ public class Prestation extends OC_Object{
     private String prestationClass;
     private String serviceUid;
     private String nomenclature;
-    public String getNomenclature() {
+    
+    public String getNomenclature(){
 		return nomenclature;
 	}
 
-	public void setNomenclature(String nomenclature) {
+	public void setNomenclature(String nomenclature){
 		this.nomenclature = nomenclature;
 	}
 
-	private String modifiers; //0=anesthesiaPercentage,1=mfpadmissionpercentage,2=flag1
+	private String modifiers; // 0=anesthesiaPercentage, 1=mfpadmissionpercentage, 2=flag1
     
-    public String getServiceUid() {
+    public String getServiceUid(){
 		return serviceUid;
 	}
 
-	public void setServiceUid(String serviceUid) {
+	public void setServiceUid(String serviceUid){
 		this.serviceUid = serviceUid;
 	}
 
-	public String getModifiers() {
+	public String getModifiers(){
 		return modifiers;
 	}
 
-	public void setModifiers(String modifiers) {
+	public void setModifiers(String modifiers){
 		this.modifiers = modifiers;
 	}
 	
 	public double getAnesthesiaPercentage(){
-		double pct=0;
+		double pct = 0;
 		if(getModifiers()!=null){
 			try{
-				pct=Double.parseDouble(getModifiers().split(";")[0]);
+				pct =Double.parseDouble(getModifiers().split(";")[0]);
 			}
 			catch(Exception e){
 				//e.printStackTrace();
@@ -86,7 +87,7 @@ public class Prestation extends OC_Object{
 		double pct=0;
 		if(getModifiers()!=null){
 			try{
-				pct=Double.parseDouble(getModifiers().split(";")[1]);
+				pct = Double.parseDouble(getModifiers().split(";")[1]);
 			}
 			catch(Exception e){
 				//e.printStackTrace();
@@ -100,10 +101,10 @@ public class Prestation extends OC_Object{
 	}
 	
 	public String getFlag1(){
-		String flag="";
+		String flag = "";
 		if(getModifiers()!=null){
 			try{
-				flag=getModifiers().split(";")[2];
+				flag = getModifiers().split(";")[2];
 			}
 			catch(Exception e){
 				//e.printStackTrace();
@@ -116,51 +117,53 @@ public class Prestation extends OC_Object{
 		setModifier(2,flag);
 	}
 	
-	public void setModifier(int index,String value){
+	//--- SET MODIFIER ----------------------------------------------------------------------------
+	public void setModifier(int index, String value){
 		if(getModifiers()==null){
 			setModifiers("");
 		}
+		
 		String[] m = getModifiers().split(";");
-		if(m.length<=index){
+		if(m.length <= index){
 			setModifiers(getModifiers()+"; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ;".substring(0,(index+1-m.length)*2));
 			m = getModifiers().split(";");
 		}
-		m[index]=value;
-		modifiers="";
-		for(int n=0;n<m.length;n++){
-			modifiers+=m[n]+";";
+		m[index] = value;
+		modifiers = "";
+		for(int n=0; n<m.length; n++){
+			modifiers+= m[n]+";";
 		}
 	}
 
-	public String getPrestationClass() {
+	public String getPrestationClass(){
 		return prestationClass;
 	}
 
-	public void setPrestationClass(String prestationClass) {
+	public void setPrestationClass(String prestationClass){
 		this.prestationClass = prestationClass;
 	}
 
-	public String getPerformerUid() {
+	public String getPerformerUid(){
 		return performerUid;
 	}
 
-	public void setPerformerUid(String performerUid) {
+	public void setPerformerUid(String performerUid){
 		this.performerUid = performerUid;
 	}
 
-	public int getInactive() {
+	public int getInactive(){
 		return inactive;
 	}
 
-	public void setInactive(int inactive) {
+	public void setInactive(int inactive){
 		this.inactive = inactive;
 	}
 
-	public int getVariablePrice() {
+	public int getVariablePrice(){
 		return variablePrice;
 	}
 
-	public void setVariablePrice(int variablePrice) {
+	public void setVariablePrice(int variablePrice){
 		this.variablePrice = variablePrice;
 	}
 
@@ -188,43 +191,43 @@ public class Prestation extends OC_Object{
     	return s;
     }
 
-    public String getCoveragePlanCategory() {
+    public String getCoveragePlanCategory(){
 		return coveragePlanCategory;
 	}
 
-	public void setCoveragePlanCategory(String coveragePlanCategory) {
+	public void setCoveragePlanCategory(String coveragePlanCategory){
 		this.coveragePlanCategory = coveragePlanCategory;
 	}
 
-	public String getInvoicegroup() {
+	public String getInvoicegroup(){
 		return invoicegroup;
 	}
 
-	public void setInvoicegroup(String invoicegroup) {
+	public void setInvoicegroup(String invoicegroup){
 		this.invoicegroup = invoicegroup;
 	}
 
-	public String getCoveragePlan() {
+	public String getCoveragePlan(){
 		return coveragePlan;
 	}
 
-	public void setCoveragePlan(String coveragePlan) {
+	public void setCoveragePlan(String coveragePlan){
 		this.coveragePlan = coveragePlan;
 	}
 
-	public int getRenewalInterval() {
+	public int getRenewalInterval(){
 		return renewalInterval;
 	}
 
-	public void setRenewalInterval(int renewalInterval) {
+	public void setRenewalInterval(int renewalInterval){
 		this.renewalInterval = renewalInterval;
 	}
 
-	public int getMfpPercentage() {
+	public int getMfpPercentage(){
 		return mfpPercentage;
 	}
 
-	public void setMfpPercentage(int mfpPercentage) {
+	public void setMfpPercentage(int mfpPercentage){
 		this.mfpPercentage = mfpPercentage;
 	}
 
@@ -278,7 +281,7 @@ public class Prestation extends OC_Object{
     	if (price==getPrice(category)){
             return "<b>"+price+"</b> "+s;
         }
-        else {
+        else{
             return price+s;
         }
     }
@@ -287,36 +290,40 @@ public class Prestation extends OC_Object{
         this.price = price;
     }
 
-    public static void saveInsuranceTariff(String prestationUid, String insurarUid, String insuranceCategory,double price){
+    //--- SAVE INSURANCE TARIFF (1) ---------------------------------------------------------------
+    public static void saveInsuranceTariff(String prestationUid, String insurarUid, String insuranceCategory, double price){
     	if(prestationUid!=null){
     		Prestation prestation = Prestation.get(prestationUid);
     		if(prestation!=null){
-    			saveInsuranceTariff(prestationUid, insurarUid, insuranceCategory, price, prestation.getVersion());
+    			saveInsuranceTariff(prestationUid,insurarUid,insuranceCategory,price,prestation.getVersion());
     		}
     	}
     }
-    
-    public static void saveInsuranceTariff(String prestationUid, String insurarUid, String insuranceCategory,double price,int version){
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+ 
+    //--- SAVE INSURANCE TARIFF (2) ---------------------------------------------------------------
+    public static void saveInsuranceTariff(String prestationUid, String insurarUid, String insuranceCategory, double price, int version){
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
     	try{
-    		String sSql = "delete from OC_TARIFFS where OC_TARIFF_PRESTATIONUID=? and " +
-    				" OC_TARIFF_INSURARUID=? and " +
-    				" OC_TARIFF_INSURANCECATEGORY=? and " +
-    				" OC_TARIFF_VERSION=?";
+    		String sSql = "delete from OC_TARIFFS where OC_TARIFF_PRESTATIONUID=? and "+
+    	                  " OC_TARIFF_INSURARUID=? and "+
+    				      " OC_TARIFF_INSURANCECATEGORY=? and "+
+    				      " OC_TARIFF_VERSION=?";
 			PreparedStatement ps = oc_conn.prepareStatement(sSql);
-			ps.setString(1, prestationUid);
-			ps.setString(2, insurarUid);
-			ps.setString(3, insuranceCategory);
-			ps.setInt(4, version);
+			ps.setString(1,prestationUid);
+			ps.setString(2,insurarUid);
+			ps.setString(3,insuranceCategory);
+			ps.setInt(4,version);
 			ps.executeUpdate();
 			ps.close();
+			
 			if(price>=0){
-	    		sSql = "insert into OC_TARIFFS(OC_TARIFF_PRESTATIONUID,OC_TARIFF_INSURARUID,OC_TARIFF_INSURANCECATEGORY,OC_TARIFF_PRICE,OC_TARIFF_VERSION) values (?,?,?,?,?)";
+	    		sSql = "insert into OC_TARIFFS(OC_TARIFF_PRESTATIONUID,OC_TARIFF_INSURARUID,OC_TARIFF_INSURANCECATEGORY,"+
+			            " OC_TARIFF_PRICE,OC_TARIFF_VERSION) values (?,?,?,?,?)";
 				ps = oc_conn.prepareStatement(sSql);
-				ps.setString(1, prestationUid);
-				ps.setString(2, insurarUid);
-				ps.setString(3, insuranceCategory);
-				ps.setDouble(4, price);
+				ps.setString(1,prestationUid);
+				ps.setString(2,insurarUid);
+				ps.setString(3,insuranceCategory);
+				ps.setDouble(4,price);
 				ps.setInt(5, version);
 				ps.executeUpdate();
 				ps.close();
@@ -325,25 +332,28 @@ public class Prestation extends OC_Object{
     	catch(Exception e){
     		e.printStackTrace();
     	}
-    	try {
+    	
+    	try{
 			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		}
+    	catch(SQLException e){
 			e.printStackTrace();
 		}
     }
     
+    //--- GET PRESTATIONS BY CLASS ----------------------------------------------------------------
     public static Vector getPrestationsByClass(String prestationClass){
         Vector prestations = new Vector();
-    	Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-    	try {
-    		String sSql="SELECT * FROM OC_PRESTATIONS WHERE OC_PRESTATION_CLASS=?";
+        
+    	Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+    	try{
+    		String sSql = "SELECT * FROM OC_PRESTATIONS WHERE OC_PRESTATION_CLASS=?";
     		PreparedStatement ps = oc_conn.prepareStatement(sSql);
-    		ps.setString(1, prestationClass);
+    		ps.setString(1,prestationClass);
     		ResultSet rs = ps.executeQuery();
     		while(rs.next()){
     			Prestation prestation = new Prestation();
-                prestation.setUid(rs.getString("OC_PRESTATION_SERVERID") + "." + rs.getString("OC_PRESTATION_OBJECTID"));
+                prestation.setUid(rs.getString("OC_PRESTATION_SERVERID")+"."+ rs.getString("OC_PRESTATION_OBJECTID"));
                 prestation.setCode(rs.getString("OC_PRESTATION_CODE"));
                 prestation.setDescription(rs.getString("OC_PRESTATION_DESCRIPTION"));
                 prestation.setPrice(rs.getDouble("OC_PRESTATION_PRICE"));
@@ -380,47 +390,52 @@ public class Prestation extends OC_Object{
     	catch(Exception e){
     		e.printStackTrace();
     	}
-    	try {
+    	
+    	try{
 			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		}
+    	catch (SQLException e){
 			e.printStackTrace();
 		}
+    	
     	return prestations;
     }
     
+    //--- GET INSURANCE TARIFF --------------------------------------------------------------------
     public double getInsuranceTariff(String insurarUid, String insuranceCategory){
     	double p = -1;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+    	
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
     	try {
-    		String sSql = "select * from OC_TARIFFS where OC_TARIFF_PRESTATIONUID=? and " +
-    				" OC_TARIFF_INSURARUID=? and " +
-    				" OC_TARIFF_INSURANCECATEGORY=? and " +
-    				" OC_TARIFF_VERSION=?";
+    		String sSql = "select * from OC_TARIFFS where OC_TARIFF_PRESTATIONUID=? and "+
+    		              " OC_TARIFF_INSURARUID=? and "+
+    				      " OC_TARIFF_INSURANCECATEGORY=? and "+
+    			          " OC_TARIFF_VERSION=?";
     		PreparedStatement ps = oc_conn.prepareStatement(sSql);
-    		ps.setString(1, this.getUid());
-    		ps.setString(2, insurarUid);
-    		ps.setString(3, insuranceCategory);
+    		ps.setString(1,this.getUid());
+    		ps.setString(2,insurarUid);
+    		ps.setString(3,insuranceCategory);
     		ps.setInt(4,this.getVersion());
     		ResultSet rs = ps.executeQuery();
     		if(rs.next()){
-    			p=rs.getDouble("OC_TARIFF_PRICE");
+    			p = rs.getDouble("OC_TARIFF_PRICE");
     		}
-    		else {
-    			//Let's try it without the insurance category
+    		else{
+    			// Let's try it without the insurance category
     			rs.close();
     			ps.close();
-        		sSql = "select * from OC_TARIFFS where OC_TARIFF_PRESTATIONUID=? and " +
-				" OC_TARIFF_INSURARUID=? and " +
-				" (OC_TARIFF_INSURANCECATEGORY is null or OC_TARIFF_INSURANCECATEGORY='') and " +
-				" OC_TARIFF_VERSION=?";
+    			
+        		sSql = "select * from OC_TARIFFS where OC_TARIFF_PRESTATIONUID=? and "+
+				       " OC_TARIFF_INSURARUID=? and "+
+				       " (OC_TARIFF_INSURANCECATEGORY is null or OC_TARIFF_INSURANCECATEGORY='') and "+
+	                   " OC_TARIFF_VERSION = ?";
 				ps = oc_conn.prepareStatement(sSql);
-				ps.setString(1, this.getUid());
-				ps.setString(2, insurarUid);
+				ps.setString(1,this.getUid());
+				ps.setString(2,insurarUid);
 	    		ps.setInt(3,this.getVersion());
 				rs = ps.executeQuery();
 				if(rs.next()){
-					p=rs.getDouble("OC_TARIFF_PRICE");
+					p = rs.getDouble("OC_TARIFF_PRICE");
 				}
     		}
     		rs.close();
@@ -429,101 +444,116 @@ public class Prestation extends OC_Object{
     	catch(Exception e){
     		e.printStackTrace();
     	}
-    	try {
+    	
+    	try{
 			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		}
+    	catch(SQLException e){
 			e.printStackTrace();
 		}
+    	
     	return p;
     }
-    
+
+    //--- GET PRICE -------------------------------------------------------------------------------
     public double getPrice(String category){
-        double price=getPrice();
+        double price = getPrice();
+        
         if(categories!=null && categories.length()>0){
 	        String[] cats = categories.split(";");
-	        for(int n=0;n<cats.length;n++){
+	        for(int n=0; n<cats.length; n++){
 	            if(cats[n].indexOf("=")>-1 && cats[n].split("=")[0].equalsIgnoreCase(category)){
 	                try{
-	                    price=Double.parseDouble(cats[n].split("=")[1]);
-	                    if(price>0){
+	                    price = Double.parseDouble(cats[n].split("=")[1]);
+	                    if(price > 0){
 	                        return price;
 	                    }
 	                }
 	                catch(Exception e){
-	
+	                    // empty
 	                }
 	            }
 	        }
         }
+        
         return getPrice();
     }
 
     public String getCategories(){
         return categories;
     }
-    
-    public double getPatientPrice(Insurance insurance,String category){
+
+    //--- GET PATIENT PRICE -----------------------------------------------------------------------
+    public double getPatientPrice(Insurance insurance, String category){
     	double dPatientAmount=getPrice("C")+getSupplement(),dInsurarAmount=0;
         double dPrice = getPrice(category);
         double dInsuranceMaxPrice = getInsuranceTariff(insurance.getInsurar().getUid(),insurance.getInsuranceCategoryLetter());
-        String sShare=ScreenHelper.checkString(getPatientShare(insurance)+"");
-        if (sShare.length()>0){
+        
+        String sShare = ScreenHelper.checkString(getPatientShare(insurance)+"");
+        if(sShare.length() > 0){
             dPatientAmount = dPrice * Double.parseDouble(sShare) / 100;
             dInsurarAmount = dPrice - dPatientAmount;
             if(dInsuranceMaxPrice>-1){
-            	dInsurarAmount=dInsuranceMaxPrice;
-           		dPatientAmount=dPrice - dInsurarAmount;
+            	dInsurarAmount = dInsuranceMaxPrice;
+           		dPatientAmount = dPrice - dInsurarAmount;
             }
-            dPatientAmount+=getSupplement();
+            dPatientAmount+= getSupplement();
         }
+        
         return dPatientAmount;
     }
 
-    public double getInsurarPrice(Insurance insurance,String category){
-    	double dPatientAmount=getPrice("C")+getSupplement(),dInsurarAmount=0;
+    //--- GET INSURAR PRICE -----------------------------------------------------------------------
+    public double getInsurarPrice(Insurance insurance, String category){
+    	double dPatientAmount = getPrice("C")+getSupplement(), dInsurarAmount = 0;
         double dPrice = getPrice(category);
         double dInsuranceMaxPrice = getInsuranceTariff(insurance.getInsurar().getUid(),insurance.getInsuranceCategoryLetter());
-        String sShare=ScreenHelper.checkString(getPatientShare(insurance)+"");
-        if (sShare.length()>0){
+        
+        String sShare = ScreenHelper.checkString(getPatientShare(insurance)+"");
+        if(sShare.length() > 0){
             dPatientAmount = dPrice * Double.parseDouble(sShare) / 100;
             dInsurarAmount = dPrice - dPatientAmount;
             if(dInsuranceMaxPrice>-1){
             	dInsurarAmount=dInsuranceMaxPrice;
            		dPatientAmount=dPrice - dInsurarAmount;
             }
+            
             dPatientAmount+=getSupplement();
         }
+        
         return dInsurarAmount;
     }
 
+    //--- GET PATIENT SHARE (1) -------------------------------------------------------------------
     public int getPatientShare(Insurance insurance){
-        int patientShare=100;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        int patientShare = 100;
+        
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            //Eerst zoeken of er geen specifieke regeling bestaat voor dit artikel
-            String sQuery="select * from OC_PRESTATION_REIMBURSEMENTS where OC_PR_INSURARUID=? and OC_PR_PRESTATIONUID=?";
-            PreparedStatement ps=oc_conn.prepareStatement(sQuery);
+            // Zoeken of er geen specifieke regeling bestaat voor dit artikel
+            String sQuery = "select * from OC_PRESTATION_REIMBURSEMENTS where OC_PR_INSURARUID=? and OC_PR_PRESTATIONUID=?";
+            PreparedStatement ps = oc_conn.prepareStatement(sQuery);
             ps.setString(1,insurance.getInsurarUid());
             ps.setString(2,this.getUid());
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 patientShare=rs.getInt("OC_PR_PATIENTSHARE");
             }
-            else {
+            else{
                 rs.close();
                 ps.close();
-                //Zoeken of er geen specifieke regeling bestaat voor de familie van het artikel
-                sQuery="select * from OC_PRESTATIONFAMILY_REIMBURSEMENTS where OC_PR_INSURARUID=? and OC_PR_PRESTATIONTYPE=?";
+                
+                // Zoeken of er geen specifieke regeling bestaat voor de familie van het artikel
+                sQuery = "select * from OC_PRESTATIONFAMILY_REIMBURSEMENTS where OC_PR_INSURARUID=? and OC_PR_PRESTATIONTYPE=?";
                 ps=oc_conn.prepareStatement(sQuery);
                 ps.setString(1,insurance.getInsurarUid());
                 ps.setString(2,this.getType());
                 rs = ps.executeQuery();
                 if(rs.next()){
-                    patientShare=rs.getInt("OC_PR_PATIENTSHARE");
+                    patientShare = rs.getInt("OC_PR_PATIENTSHARE");
                 }
                 else {
-                    patientShare=Integer.parseInt(insurance.getInsuranceCategory().getPatientShare());
+                    patientShare = Integer.parseInt(insurance.getInsuranceCategory().getPatientShare());
                 }
             }
             rs.close();
@@ -532,42 +562,47 @@ public class Prestation extends OC_Object{
         catch(Exception e){
             e.printStackTrace();
         }
-        try {
+        
+        try{
 			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		}
+        catch(SQLException e){
 			e.printStackTrace();
 		}
+        
         return patientShare;
     }
 
-    public int getPatientShare(Insurar insurar,String category){
-        int patientShare=100;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+    //--- GET PATIENT SHARE (2) -------------------------------------------------------------------
+    public int getPatientShare(Insurar insurar, String category){
+        int patientShare = 100;
+        
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            //Eerst zoeken of er geen specifieke regeling bestaat voor dit artikel
+            // Zoek of er geen specifieke regeling bestaat voor dit artikel
             String sQuery="select * from OC_PRESTATION_REIMBURSEMENTS where OC_PR_INSURARUID=? and OC_PR_PRESTATIONUID=?";
             PreparedStatement ps=oc_conn.prepareStatement(sQuery);
             ps.setString(1,insurar.getUid());
             ps.setString(2,this.getUid());
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                patientShare=rs.getInt("OC_PR_PATIENTSHARE");
+                patientShare = rs.getInt("OC_PR_PATIENTSHARE");
             }
-            else {
+            else{
                 rs.close();
                 ps.close();
-                //Zoeken of er geen specifieke regeling bestaat voor de familie van het artikel
-                sQuery="select * from OC_PRESTATIONFAMILY_REIMBURSEMENTS where OC_PR_INSURARUID=? and OC_PR_PRESTATIONTYPE=?";
+                
+                // Zoek of er geen specifieke regeling bestaat voor de familie van het artikel
+                sQuery = "select * from OC_PRESTATIONFAMILY_REIMBURSEMENTS where OC_PR_INSURARUID=? and OC_PR_PRESTATIONTYPE=?";
                 ps=oc_conn.prepareStatement(sQuery);
                 ps.setString(1,insurar.getUid());
                 ps.setString(2,this.getType());
                 rs = ps.executeQuery();
                 if(rs.next()){
-                    patientShare=rs.getInt("OC_PR_PATIENTSHARE");
+                    patientShare = rs.getInt("OC_PR_PATIENTSHARE");
                 }
-                else {
-                    patientShare=Integer.parseInt(insurar.getInsuranceCategory(category).getPatientShare());
+                else{
+                    patientShare = Integer.parseInt(insurar.getInsuranceCategory(category).getPatientShare());
                 }
             }
             rs.close();
@@ -576,19 +611,22 @@ public class Prestation extends OC_Object{
         catch(Exception e){
             e.printStackTrace();
         }
-        try {
+        
+        try{
 			oc_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		}
+        catch(SQLException e){
 			e.printStackTrace();
 		}
+        
         return patientShare;
     }
 
+    //--- GET CATEGORIES FORMATTED (1) ------------------------------------------------------------
     public String getCategoriesFormatted(){
         String categoriesFormatted="";
         String[] cats = categories.split(";");
-        for(int n=0;n<cats.length;n++){
+        for(int n=0; n<cats.length; n++){
             if(cats[n].indexOf("=")>-1){
                 if(n>0){
                     categoriesFormatted+=", ";
@@ -599,30 +637,33 @@ public class Prestation extends OC_Object{
         return categoriesFormatted;
     }
 
+    //--- GET CATEGORIES FORMATTED (2) ------------------------------------------------------------
     public String getCategoriesFormatted(String category){
-        String categoriesFormatted="";
-        try{
-	        if(ScreenHelper.checkString(categories).length()>0){
+        String categoriesFormatted = "";
+        
+	    if(ScreenHelper.checkString(categories).length() > 0){
+            try{
 	            String[] cats = ScreenHelper.checkString(categories).split(";");
-	            for(int n=0;n<cats.length;n++){
+	            for(int n=0; n<cats.length; n++){
 	                if(cats[n].indexOf("=")>-1){
-	                    if(n>0){
+	                    if(n > 0){
 	                        categoriesFormatted+=", ";
 	                    }
 	                    if(cats[n].split("=")[0].equalsIgnoreCase(category)){
-	                        categoriesFormatted+="<b>";
+	                        categoriesFormatted+= "<b>";
 	                    }
-	                    categoriesFormatted+=cats[n].split("=")[0].toUpperCase()+": "+cats[n].split("=")[1];
+	                    categoriesFormatted+= cats[n].split("=")[0].toUpperCase()+": "+cats[n].split("=")[1];
 	                    if(cats[n].split("=")[0].equalsIgnoreCase(category)){
-	                        categoriesFormatted+="</b>";
+	                        categoriesFormatted+= "</b>";
 	                    }
 	                }
 	            }
-	        }
+            }
+            catch(Exception e){
+            	// empty
+            }
         }
-        catch(Exception e){
-        	
-        }
+        
         return categoriesFormatted;
     }
 
@@ -638,9 +679,11 @@ public class Prestation extends OC_Object{
         this.referenceObject = referenceObject;
     }
 
-    public DebetTransaction getDebetTransaction(Date date, IObjectReference balanceOwner,Encounter encounter,IObjectReference referenceObject,ObjectReference supplier){
+    //--- GET DEBET TRANSACTION -------------------------------------------------------------------
+    public DebetTransaction getDebetTransaction(Date date, IObjectReference balanceOwner, Encounter encounter,
+    		                                    IObjectReference referenceObject, ObjectReference supplier){
         Balance balance = Balance.getActiveBalance(balanceOwner.getObjectUid());
-        if (balance==null){
+        if(balance==null){
             balance = new Balance();
             balance.setBalance(0);
             balance.setDate(new Date());
@@ -648,8 +691,10 @@ public class Prestation extends OC_Object{
             balance.setMinimumBalance(MedwanQuery.getInstance().getConfigInt("defaultMinimumBalance",0));
             balance.setMaximumBalance(MedwanQuery.getInstance().getConfigInt("defaultMaximumBalance",999999999));
             balance.store();
+            
             balance = Balance.getActiveBalance(balanceOwner.getObjectUid());
         }
+        
         DebetTransaction debetTransaction = new DebetTransaction();
         debetTransaction.setDate(date);
         debetTransaction.setAmount(this.price);
@@ -660,6 +705,7 @@ public class Prestation extends OC_Object{
         debetTransaction.setReferenceObject(referenceObject.getObjectReference());
         debetTransaction.setSupplier(supplier);
         debetTransaction.store();
+        
         return debetTransaction;
     }
 
@@ -669,17 +715,18 @@ public class Prestation extends OC_Object{
         if(prestation!=null){
             return prestation;
         }
+        
         prestation = new Prestation();
 
         if(uid!=null && uid.length() > 0){
             PreparedStatement ps = null;
             ResultSet rs = null;
 
-            Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+            Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
             try{
                 String[] ids = uid.split("\\.");
 
-                if(ids.length == 2){
+                if(ids.length==2){
                     String sSelect = "SELECT * FROM OC_PRESTATIONS"+
                                      " WHERE OC_PRESTATION_SERVERID = ?"+
                                      "  AND OC_PRESTATION_OBJECTID = ?";
@@ -689,7 +736,7 @@ public class Prestation extends OC_Object{
                     rs = ps.executeQuery();
 
                     if(rs.next()){
-                        prestation.setUid(rs.getString("OC_PRESTATION_SERVERID") + "." + rs.getString("OC_PRESTATION_OBJECTID"));
+                        prestation.setUid(rs.getString("OC_PRESTATION_SERVERID")+"."+ rs.getString("OC_PRESTATION_OBJECTID"));
                         prestation.setCode(rs.getString("OC_PRESTATION_CODE"));
                         prestation.setDescription(rs.getString("OC_PRESTATION_DESCRIPTION"));
                         prestation.setPrice(rs.getDouble("OC_PRESTATION_PRICE"));
@@ -736,35 +783,38 @@ public class Prestation extends OC_Object{
                 }
             }
         }
+        
         MedwanQuery.getInstance().getObjectCache().putObject("prestation",prestation);
         return prestation;
     }
 
-    //--- GET active on Date-------------------------------------------------------------------------------------
+    //--- GET (active on Date) --------------------------------------------------------------------
     public static Prestation get(String uid, java.util.Date date){
     	if(date==null){
     		return Prestation.get(uid);
     	}
+    	
         Prestation prestation = Prestation.get(uid);
         if(prestation!=null && prestation.getUpdateDateTime()!=null && !prestation.getUpdateDateTime().after(date)){
             return prestation;
         }
+        
         prestation = new Prestation();
 
         if(uid!=null && uid.length() > 0){
             PreparedStatement ps = null;
             ResultSet rs = null;
 
-            Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+            Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
             try{
                 String[] ids = uid.split("\\.");
 
-                if(ids.length == 2){
+                if(ids.length==2){
                     String sSelect = "SELECT * FROM OC_PRESTATIONS_HISTORY"+
                                      " WHERE OC_PRESTATION_SERVERID = ?"+
-                                     "  AND OC_PRESTATION_OBJECTID = ?" +
-                                     "  AND OC_PRESTATION_UPDATETIME<=?" +
-                                     "  ORDER BY OC_PRESTATION_UPDATETIME DESC,OC_PRESTATION_VERSION DESC";
+                                     "  AND OC_PRESTATION_OBJECTID = ?"+
+                                     "  AND OC_PRESTATION_UPDATETIME<=?"+
+                                     " ORDER BY OC_PRESTATION_UPDATETIME DESC, OC_PRESTATION_VERSION DESC";
                     ps = oc_conn.prepareStatement(sSelect);
                     ps.setInt(1,Integer.parseInt(ids[0]));
                     ps.setInt(2,Integer.parseInt(ids[1]));
@@ -772,7 +822,7 @@ public class Prestation extends OC_Object{
                     rs = ps.executeQuery();
 
                     if(rs.next()){
-                        prestation.setUid(rs.getString("OC_PRESTATION_SERVERID") + "." + rs.getString("OC_PRESTATION_OBJECTID"));
+                        prestation.setUid(rs.getString("OC_PRESTATION_SERVERID")+"."+ rs.getString("OC_PRESTATION_OBJECTID"));
                         prestation.setCode(rs.getString("OC_PRESTATION_CODE"));
                         prestation.setDescription(rs.getString("OC_PRESTATION_DESCRIPTION"));
                         prestation.setPrice(rs.getDouble("OC_PRESTATION_PRICE"));
@@ -803,11 +853,11 @@ public class Prestation extends OC_Object{
                         prestation.setNomenclature(rs.getString("OC_PRESTATION_NOMENCLATURE"));
                     }
                     else{
-                    	prestation=Prestation.get(uid);
+                    	prestation = Prestation.get(uid);
                     }
                 }
                 else{
-                	prestation=Prestation.get(uid);
+                	prestation = Prestation.get(uid);
                 }
             }
             catch(Exception e){
@@ -825,12 +875,14 @@ public class Prestation extends OC_Object{
                 }
             }
         }
+        
         return prestation;
     }
 
     //--- GET PRESTATION CODE ---------------------------------------------------------------------
     public static String getPrestationCode(String uid){
-        return getPrestationCode(Integer.parseInt(uid.split("\\.")[0]),Integer.parseInt(uid.split("\\.")[1]));
+        return getPrestationCode(Integer.parseInt(uid.split("\\.")[0]),
+        		                 Integer.parseInt(uid.split("\\.")[1]));
     }
 
     public static String getPrestationCode(int serverId, int objectId){
@@ -838,7 +890,7 @@ public class Prestation extends OC_Object{
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             String sSelect = "SELECT OC_PRESTATION_CODE FROM OC_PRESTATIONS"+
                              " WHERE OC_PRESTATION_SERVERID = ?"+
@@ -869,11 +921,13 @@ public class Prestation extends OC_Object{
         return sPrestationCode;
     }
 
+    //--- GET ALL ---------------------------------------------------------------------------------
     public static Hashtable getAll(){
     	Hashtable allPrestations = new Hashtable();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
     	try{
             String sSelect = "SELECT * FROM OC_PRESTATIONS";
             ps = oc_conn.prepareStatement(sSelect);
@@ -881,7 +935,7 @@ public class Prestation extends OC_Object{
 
             while(rs.next()){
                 Prestation prestation = new Prestation();
-                prestation.setUid(rs.getString("OC_PRESTATION_SERVERID") + "." + rs.getString("OC_PRESTATION_OBJECTID"));
+                prestation.setUid(rs.getString("OC_PRESTATION_SERVERID")+"."+ rs.getString("OC_PRESTATION_OBJECTID"));
                 prestation.setCode(rs.getString("OC_PRESTATION_CODE"));
                 prestation.setDescription(rs.getString("OC_PRESTATION_DESCRIPTION"));
                 prestation.setPrice(rs.getDouble("OC_PRESTATION_PRICE"));
@@ -910,7 +964,7 @@ public class Prestation extends OC_Object{
                 prestation.setModifiers(rs.getString("OC_PRESTATION_MODIFIERS"));
                 prestation.setServiceUid(rs.getString("OC_PRESTATION_SERVICEUID"));
                 prestation.setNomenclature(rs.getString("OC_PRESTATION_NOMENCLATURE"));
-                allPrestations.put(prestation.getCode(), prestation);
+                allPrestations.put(prestation.getCode(),prestation);
             }
         }
         catch(Exception e){
@@ -927,6 +981,7 @@ public class Prestation extends OC_Object{
                 e.printStackTrace();
             }
         }
+    	
     	return allPrestations;
     }
     
@@ -938,7 +993,7 @@ public class Prestation extends OC_Object{
             PreparedStatement ps = null;
             ResultSet rs = null;
 
-            Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+            Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
             try{
                 String sSelect = "SELECT * FROM OC_PRESTATIONS"+
                                  " WHERE OC_PRESTATION_CODE = ?";
@@ -947,7 +1002,7 @@ public class Prestation extends OC_Object{
                 rs = ps.executeQuery();
 
                 if(rs.next()){
-                    prestation.setUid(rs.getString("OC_PRESTATION_SERVERID") + "." + rs.getString("OC_PRESTATION_OBJECTID"));
+                    prestation.setUid(rs.getString("OC_PRESTATION_SERVERID")+"."+ rs.getString("OC_PRESTATION_OBJECTID"));
                     prestation.setCode(rs.getString("OC_PRESTATION_CODE"));
                     prestation.setDescription(rs.getString("OC_PRESTATION_DESCRIPTION"));
                     prestation.setPrice(rs.getDouble("OC_PRESTATION_PRICE"));
@@ -997,22 +1052,25 @@ public class Prestation extends OC_Object{
         return prestation;
     }
 
+    //--- SET CATEGORY PRICE ----------------------------------------------------------------------
     public void setCategoryPrice(String category,String price){
         String[] prices = getCategories().split(";");
-        boolean updated=false;
-        for(int n=0;n<prices.length;n++){
+        boolean updated = false;
+        
+        for(int n=0; n<prices.length; n++){
             if(category.equalsIgnoreCase(prices[n].split("=")[0])){
-                prices[n]=category+"="+price;
+                prices[n] = category+"="+price;
                 updated = true;
             }
         }
-        if (!updated){
+        
+        if(!updated){
             setCategories(getCategories()+category+"="+price+";");
         }
         else{
-            String s ="";
-            for(int n=0;n<prices.length;n++){
-                s+=prices[n]+";";
+            String s = "";
+            for(int n=0; n<prices.length; n++){
+                s+= prices[n]+";";
             }
             setCategories(s);
         }
@@ -1023,34 +1081,42 @@ public class Prestation extends OC_Object{
         String sPrestationPrice){
     	return searchPrestations(sPrestationCode,sPrestationDescr,sPrestationType,sPrestationPrice,"");
 	}
+    
     public static Vector searchActivePrestations(String sPrestationCode, String sPrestationDescr, String sPrestationType,
         String sPrestationPrice){
     	return searchActivePrestations(sPrestationCode,sPrestationDescr,sPrestationType,sPrestationPrice,"");
     }
+    
     public static Vector searchPrestations(String sPrestationCode, String sPrestationDescr, String sPrestationType,
         String sPrestationPrice, String sPrestationRefUid){
-    	return searchPrestations(sPrestationCode,sPrestationDescr,sPrestationType,sPrestationPrice,sPrestationRefUid,"OC_PRESTATION_DESCRIPTION,OC_PRESTATION_CODE");
-
+    	return searchPrestations(sPrestationCode,sPrestationDescr,sPrestationType,sPrestationPrice,sPrestationRefUid,
+    			                 "OC_PRESTATION_DESCRIPTION,OC_PRESTATION_CODE");
     }
+    
     public static Vector searchActivePrestations(String sPrestationCode, String sPrestationDescr, String sPrestationType,
         String sPrestationPrice, String sPrestationRefUid){
-    	return searchActivePrestations(sPrestationCode,sPrestationDescr,sPrestationType,sPrestationPrice,sPrestationRefUid,"OC_PRESTATION_DESCRIPTION,OC_PRESTATION_CODE");
+    	return searchActivePrestations(sPrestationCode,sPrestationDescr,sPrestationType,sPrestationPrice,sPrestationRefUid,
+    			                       "OC_PRESTATION_DESCRIPTION,OC_PRESTATION_CODE");
     }
-    public static String getDefaultPerformer(Prestation prestation,Service service){
-    	String sPerformerUid="";
+    
+    //--- GET DEFAULT PERFORMER -------------------------------------------------------------------
+    public static String getDefaultPerformer(Prestation prestation, Service service){
+    	String sPerformerUid = "";
     	if(prestation.getPerformerUid()!=null && prestation.getPerformerUid().length()>0){
-    		sPerformerUid=prestation.getPerformerUid();
+    		sPerformerUid = prestation.getPerformerUid();
     	}
+    	
     	return sPerformerUid;
     }
     
+    //--- SEARCH PRESTATIONS ----------------------------------------------------------------------
     public static Vector searchPrestations(String sPrestationCode, String sPrestationDescr, String sPrestationType,
-        String sPrestationPrice, String sPrestationRefUid, String sPrestationSort){
+                                           String sPrestationPrice, String sPrestationRefUid, String sPrestationSort){
         Vector prestations = new Vector();
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             // compose query
             String sSql = "SELECT * FROM OC_PRESTATIONS";
@@ -1081,23 +1147,25 @@ public class Prestation extends OC_Object{
 
             sSql+= " ORDER BY "+sPrestationSort;
             ps = oc_conn.prepareStatement(sSql);
+            
             // set question marks
             int qmIdx = 1;
-            if(sPrestationCode.length() > 0)ps.setString(qmIdx++,sPrestationCode+"%");
-            if(sPrestationCode.length() > 0)ps.setString(qmIdx++,sPrestationCode.toUpperCase()+"%");
-            if(sPrestationDescr.length() > 0)  {
+            if(sPrestationCode.length() > 0) ps.setString(qmIdx++,sPrestationCode+"%");
+            if(sPrestationCode.length() > 0) ps.setString(qmIdx++,sPrestationCode.toUpperCase()+"%");
+            if(sPrestationDescr.length() > 0){
             	ps.setString(qmIdx++,"%"+sPrestationDescr+"%");
             }
-            if(sPrestationDescr.length() > 0)  ps.setString(qmIdx++,"%"+sPrestationDescr.toUpperCase()+"%");
-            if(sPrestationType.length() > 0)   ps.setString(qmIdx++,sPrestationType);
-            if(sPrestationPrice.length() > 0)  {
-                float fPrice=0;
+            if(sPrestationDescr.length() > 0) ps.setString(qmIdx++,"%"+sPrestationDescr.toUpperCase()+"%");
+            if(sPrestationType.length() > 0) ps.setString(qmIdx++,sPrestationType);
+            if(sPrestationPrice.length() > 0){
+                float fPrice = 0;
                 try{
-                	fPrice=Float.parseFloat(sPrestationPrice.replaceAll(",","."));
+                	fPrice = Float.parseFloat(sPrestationPrice.replaceAll(",","."));
                 }
                 catch(Exception e2){
                 	e2.printStackTrace();
                 }
+                
             	ps.setFloat(qmIdx++,fPrice);
             }
             if(sPrestationRefUid.length() > 0) ps.setString(qmIdx,sPrestationRefUid+"%");
@@ -1109,7 +1177,7 @@ public class Prestation extends OC_Object{
             while(rs.next()){
                 prestation = new Prestation();
 
-                prestation.setUid(rs.getString("OC_PRESTATION_SERVERID") + "." + rs.getString("OC_PRESTATION_OBJECTID"));
+                prestation.setUid(rs.getString("OC_PRESTATION_SERVERID")+"."+ rs.getString("OC_PRESTATION_OBJECTID"));
                 prestation.setCode(rs.getString("OC_PRESTATION_CODE"));
                 prestation.setDescription(rs.getString("OC_PRESTATION_DESCRIPTION"));
                 prestation.setPrice(rs.getDouble("OC_PRESTATION_PRICE"));
@@ -1159,13 +1227,14 @@ public class Prestation extends OC_Object{
         return prestations;
     }
 
+    //--- SEARCH ACTIVE PRESTATIONS ---------------------------------------------------------------
     public static Vector searchActivePrestations(String sPrestationCode, String sPrestationDescr, String sPrestationType,
-        String sPrestationPrice, String sPrestationRefUid, String sPrestationSort){
+                                                 String sPrestationPrice, String sPrestationRefUid, String sPrestationSort){
         Vector prestations = new Vector();
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             // compose query
             String sSql = "SELECT * FROM OC_PRESTATIONS WHERE (OC_PRESTATION_INACTIVE IS NULL OR OC_PRESTATION_INACTIVE<>1) AND";
@@ -1191,24 +1260,27 @@ public class Prestation extends OC_Object{
             }
 
             sSql+= " ORDER BY "+sPrestationSort;
+            Debug.println(sSql);
             ps = oc_conn.prepareStatement(sSql);
+            
             // set question marks
             int qmIdx = 1;
-            if(sPrestationCode.length() > 0)ps.setString(qmIdx++,sPrestationCode+"%");
-            if(sPrestationCode.length() > 0)ps.setString(qmIdx++,sPrestationCode.toUpperCase()+"%");
-            if(sPrestationDescr.length() > 0)  {
+            if(sPrestationCode.length() > 0) ps.setString(qmIdx++,sPrestationCode+"%");
+            if(sPrestationCode.length() > 0) ps.setString(qmIdx++,sPrestationCode.toUpperCase()+"%");
+            if(sPrestationDescr.length() > 0){
             	ps.setString(qmIdx++,"%"+sPrestationDescr+"%");
             }
-            if(sPrestationDescr.length() > 0)  ps.setString(qmIdx++,"%"+sPrestationDescr.toUpperCase()+"%");
-            if(sPrestationType.length() > 0)   ps.setString(qmIdx++,sPrestationType);
-            if(sPrestationPrice.length() > 0)  {
-                float fPrice=0;
+            if(sPrestationDescr.length() > 0) ps.setString(qmIdx++,"%"+sPrestationDescr.toUpperCase()+"%");
+            if(sPrestationType.length() > 0) ps.setString(qmIdx++,sPrestationType);
+            if(sPrestationPrice.length() > 0){
+                float fPrice = 0;
                 try{
-                	fPrice=Float.parseFloat(sPrestationPrice.replaceAll(",","."));
+                	fPrice = Float.parseFloat(sPrestationPrice.replaceAll(",","."));
                 }
                 catch(Exception e2){
                 	e2.printStackTrace();
                 }
+                
             	ps.setFloat(qmIdx++,fPrice);
             }
             if(sPrestationRefUid.length() > 0) ps.setString(qmIdx,sPrestationRefUid+"%");
@@ -1220,7 +1292,7 @@ public class Prestation extends OC_Object{
             while(rs.next()){
                 prestation = new Prestation();
 
-                prestation.setUid(rs.getString("OC_PRESTATION_SERVERID") + "." + rs.getString("OC_PRESTATION_OBJECTID"));
+                prestation.setUid(rs.getString("OC_PRESTATION_SERVERID")+"."+ rs.getString("OC_PRESTATION_OBJECTID"));
                 prestation.setCode(rs.getString("OC_PRESTATION_CODE"));
                 prestation.setDescription(rs.getString("OC_PRESTATION_DESCRIPTION"));
                 prestation.setPrice(rs.getDouble("OC_PRESTATION_PRICE"));
@@ -1278,47 +1350,50 @@ public class Prestation extends OC_Object{
         ResultSet rs = null;
         String sSql;
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             if(this.getUid()!=null && this.getUid().length() > 0){
                 ids = this.getUid().split("\\.");
 
-                if(ids.length == 2){
+                if(ids.length==2){
                 	//Eerst copiëren we het bestaande record naar de history
-                	sSql="insert into OC_PRESTATIONS_HISTORY(OC_PRESTATION_CODE,OC_PRESTATION_DESCRIPTION,OC_PRESTATION_PRICE,OC_PRESTATION_REFTYPE," +
-                			"OC_PRESTATION_REFUID,OC_PRESTATION_UPDATETIME,OC_PRESTATION_UPDATEUID,OC_PRESTATION_VERSION,OC_PRESTATION_TYPE,OC_PRESTATION_CATEGORIES," +
-                			"OC_PRESTATION_MFPPERCENTAGE,OC_PRESTATION_INVOICEGROUP,OC_PRESTATION_RENEWALINTERVAL,OC_PRESTATION_COVERAGEPLAN,OC_PRESTATION_COVERAGEPLANCATEGORY," +
-                			"OC_PRESTATION_VARIABLEPRICE,OC_PRESTATION_INACTIVE,OC_PRESTATION_PERFORMERUID,OC_PRESTATION_SUPPLEMENT,OC_PRESTATION_CLASS," +
-                			"OC_PRESTATION_MODIFIERS,OC_PRESTATION_SERVICEUID,OC_PRESTATION_SERVERID,OC_PRESTATION_OBJECTID,OC_PRESTATION_CREATETIME,OC_PRESTATION_NOMENCLATURE) " +
-                			"" +
-                			"select OC_PRESTATION_CODE,OC_PRESTATION_DESCRIPTION,OC_PRESTATION_PRICE,OC_PRESTATION_REFTYPE," +
-                			"OC_PRESTATION_REFUID,OC_PRESTATION_UPDATETIME,OC_PRESTATION_UPDATEUID,OC_PRESTATION_VERSION,OC_PRESTATION_TYPE,OC_PRESTATION_CATEGORIES," +
-                			"OC_PRESTATION_MFPPERCENTAGE,OC_PRESTATION_INVOICEGROUP,OC_PRESTATION_RENEWALINTERVAL,OC_PRESTATION_COVERAGEPLAN,OC_PRESTATION_COVERAGEPLANCATEGORY," +
-                			"OC_PRESTATION_VARIABLEPRICE,OC_PRESTATION_INACTIVE,OC_PRESTATION_PERFORMERUID,OC_PRESTATION_SUPPLEMENT,OC_PRESTATION_CLASS," +
-                			"OC_PRESTATION_MODIFIERS,OC_PRESTATION_SERVICEUID,OC_PRESTATION_SERVERID,OC_PRESTATION_OBJECTID,OC_PRESTATION_CREATETIME,OC_PRESTATION_NOMENCLATURE from OC_PRESTATIONS where " +
+                	sSql = "insert into OC_PRESTATIONS_HISTORY(OC_PRESTATION_CODE,OC_PRESTATION_DESCRIPTION,OC_PRESTATION_PRICE,OC_PRESTATION_REFTYPE,"+
+                			"OC_PRESTATION_REFUID,OC_PRESTATION_UPDATETIME,OC_PRESTATION_UPDATEUID,OC_PRESTATION_VERSION,OC_PRESTATION_TYPE,OC_PRESTATION_CATEGORIES,"+
+                			"OC_PRESTATION_MFPPERCENTAGE,OC_PRESTATION_INVOICEGROUP,OC_PRESTATION_RENEWALINTERVAL,OC_PRESTATION_COVERAGEPLAN,OC_PRESTATION_COVERAGEPLANCATEGORY,"+
+                			"OC_PRESTATION_VARIABLEPRICE,OC_PRESTATION_INACTIVE,OC_PRESTATION_PERFORMERUID,OC_PRESTATION_SUPPLEMENT,OC_PRESTATION_CLASS,"+
+                			"OC_PRESTATION_MODIFIERS,OC_PRESTATION_SERVICEUID,OC_PRESTATION_SERVERID,OC_PRESTATION_OBJECTID,OC_PRESTATION_CREATETIME,OC_PRESTATION_NOMENCLATURE) "+
+                			""+
+                			"select OC_PRESTATION_CODE,OC_PRESTATION_DESCRIPTION,OC_PRESTATION_PRICE,OC_PRESTATION_REFTYPE,"+
+                			"OC_PRESTATION_REFUID,OC_PRESTATION_UPDATETIME,OC_PRESTATION_UPDATEUID,OC_PRESTATION_VERSION,OC_PRESTATION_TYPE,OC_PRESTATION_CATEGORIES,"+
+                			"OC_PRESTATION_MFPPERCENTAGE,OC_PRESTATION_INVOICEGROUP,OC_PRESTATION_RENEWALINTERVAL,OC_PRESTATION_COVERAGEPLAN,OC_PRESTATION_COVERAGEPLANCATEGORY,"+
+                			"OC_PRESTATION_VARIABLEPRICE,OC_PRESTATION_INACTIVE,OC_PRESTATION_PERFORMERUID,OC_PRESTATION_SUPPLEMENT,OC_PRESTATION_CLASS,"+
+                			"OC_PRESTATION_MODIFIERS,OC_PRESTATION_SERVICEUID,OC_PRESTATION_SERVERID,OC_PRESTATION_OBJECTID,OC_PRESTATION_CREATETIME,OC_PRESTATION_NOMENCLATURE from OC_PRESTATIONS where "+
                 			"OC_PRESTATION_SERVERID=? and OC_PRESTATION_OBJECTID=?";
-                	ps=oc_conn.prepareStatement(sSql);
-                	ps.setInt(1, Integer.parseInt(ids[0]));
-                	ps.setInt(2, Integer.parseInt(ids[1]));
+                	ps = oc_conn.prepareStatement(sSql);
+                	ps.setInt(1,Integer.parseInt(ids[0]));
+                	ps.setInt(2,Integer.parseInt(ids[1]));
                 	ps.execute();
                 	ps.close();
+                	
                 	//Vervolgens copiëren we de actieve tarieven naar de nieuwe versie
-                	sSql="insert into OC_TARIFFS(OC_TARIFF_INSURARUID,OC_TARIFF_PRESTATIONUID,OC_TARIFF_INSURANCECATEGORY,OC_TARIFF_PRICE,OC_TARIFF_VERSION) " +
-                			" select OC_TARIFF_INSURARUID,OC_TARIFF_PRESTATIONUID,OC_TARIFF_INSURANCECATEGORY,OC_TARIFF_PRICE,OC_TARIFF_VERSION+1 from OC_TARIFFS where" +
-                			" OC_TARIFF_PRESTATIONUID=? and" +
+                	sSql="insert into OC_TARIFFS(OC_TARIFF_INSURARUID,OC_TARIFF_PRESTATIONUID,OC_TARIFF_INSURANCECATEGORY,OC_TARIFF_PRICE,OC_TARIFF_VERSION) "+
+                			" select OC_TARIFF_INSURARUID,OC_TARIFF_PRESTATIONUID,OC_TARIFF_INSURANCECATEGORY,OC_TARIFF_PRICE,OC_TARIFF_VERSION+1 from OC_TARIFFS where"+
+                			" OC_TARIFF_PRESTATIONUID=? and"+
                 			" OC_TARIFF_VERSION=?";
-                	ps=oc_conn.prepareStatement(sSql);
-                	ps.setString(1, ids[0]+"."+ids[1]);
+                	ps = oc_conn.prepareStatement(sSql);
+                	ps.setString(1,ids[0]+"."+ids[1]);
                 	ps.setInt(2, this.getVersion());
                 	ps.execute();
                 	ps.close();
+                	
                 	//Vervolgens deleten we het bestaande record uit OC_Prestations
-                	sSql="delete from OC_PRESTATIONS where OC_PRESTATION_SERVERID=? and OC_PRESTATION_OBJECTID=?";
-                	ps=oc_conn.prepareStatement(sSql);
-                	ps.setInt(1, Integer.parseInt(ids[0]));
-                	ps.setInt(2, Integer.parseInt(ids[1]));
+                	sSql = "delete from OC_PRESTATIONS where OC_PRESTATION_SERVERID=? and OC_PRESTATION_OBJECTID=?";
+                	ps = oc_conn.prepareStatement(sSql);
+                	ps.setInt(1,Integer.parseInt(ids[0]));
+                	ps.setInt(2,Integer.parseInt(ids[1]));
                 	ps.execute();
                 	ps.close();
+                	
                 	this.setVersion(this.getVersion()+1);
                 }
                 else{
@@ -1334,31 +1409,31 @@ public class Prestation extends OC_Object{
             }
 
             //*** INSERT ***
-            sSql = "INSERT INTO OC_PRESTATIONS (" +
-                   "  OC_PRESTATION_SERVERID," +
-                   "  OC_PRESTATION_OBJECTID," +
-                   "  OC_PRESTATION_CODE," +
-                   "  OC_PRESTATION_DESCRIPTION," +
-                   "  OC_PRESTATION_PRICE," +
-                   "  OC_PRESTATION_REFTYPE," +
-                   "  OC_PRESTATION_REFUID," +
-                   "  OC_PRESTATION_CREATETIME," +
-                   "  OC_PRESTATION_UPDATETIME," +
-                   "  OC_PRESTATION_UPDATEUID," +
-                   "  OC_PRESTATION_VERSION," +
-                   "  OC_PRESTATION_TYPE," +
-                   "  OC_PRESTATION_CATEGORIES," +
-                   "  OC_PRESTATION_MFPPERCENTAGE," +
-                   "  OC_PRESTATION_INVOICEGROUP," +
-                   "  OC_PRESTATION_RENEWALINTERVAL," +
-                   "  OC_PRESTATION_COVERAGEPLAN," +
-                   "  OC_PRESTATION_COVERAGEPLANCATEGORY," +
-                   "  OC_PRESTATION_VARIABLEPRICE," +
-                   "  OC_PRESTATION_INACTIVE," +
-                   "  OC_PRESTATION_PERFORMERUID," +
-                   "  OC_PRESTATION_SUPPLEMENT," +
-                   "  OC_PRESTATION_CLASS," +
-                   "  OC_PRESTATION_MODIFIERS," +
+            sSql = "INSERT INTO OC_PRESTATIONS ("+
+                   "  OC_PRESTATION_SERVERID,"+
+                   "  OC_PRESTATION_OBJECTID,"+
+                   "  OC_PRESTATION_CODE,"+
+                   "  OC_PRESTATION_DESCRIPTION,"+
+                   "  OC_PRESTATION_PRICE,"+
+                   "  OC_PRESTATION_REFTYPE,"+
+                   "  OC_PRESTATION_REFUID,"+
+                   "  OC_PRESTATION_CREATETIME,"+
+                   "  OC_PRESTATION_UPDATETIME,"+
+                   "  OC_PRESTATION_UPDATEUID,"+
+                   "  OC_PRESTATION_VERSION,"+
+                   "  OC_PRESTATION_TYPE,"+
+                   "  OC_PRESTATION_CATEGORIES,"+
+                   "  OC_PRESTATION_MFPPERCENTAGE,"+
+                   "  OC_PRESTATION_INVOICEGROUP,"+
+                   "  OC_PRESTATION_RENEWALINTERVAL,"+
+                   "  OC_PRESTATION_COVERAGEPLAN,"+
+                   "  OC_PRESTATION_COVERAGEPLANCATEGORY,"+
+                   "  OC_PRESTATION_VARIABLEPRICE,"+
+                   "  OC_PRESTATION_INACTIVE,"+
+                   "  OC_PRESTATION_PERFORMERUID,"+
+                   "  OC_PRESTATION_SUPPLEMENT,"+
+                   "  OC_PRESTATION_CLASS,"+
+                   "  OC_PRESTATION_MODIFIERS,"+
                    "  OC_PRESTATION_SERVICEUID,"+
                    "  OC_PRESTATION_NOMENCLATURE)"+
                    " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -1391,27 +1466,32 @@ public class Prestation extends OC_Object{
             ps.setString(26, this.getNomenclature());
             ps.executeUpdate();
             ps.close();
+            
             setUid(ids[0]+"."+ids[1]);
+            
             //If MfpPercentage provided, create tariff
             if(getMfpPercentage()>=0){
             	Insurar insurar = Insurar.get(MedwanQuery.getInstance().getConfigString("MFP","-1"));
             	if(insurar!=null && insurar.getUid()!=null){
             		double price = getPrice(insurar.getType());
-                	Vector cats=insurar.getInsuraceCategories();
-                	for(int n=0;n<cats.size();n++){
+            		
+                	Vector cats = insurar.getInsuraceCategories();
+                	for(int n=0; n<cats.size(); n++){
                 		InsuranceCategory cat = (InsuranceCategory)cats.elementAt(n);
                 		saveInsuranceTariff(getUid(), insurar.getUid(), cat.getCategory(), price*getMfpPercentage()/100,this.getVersion());
                 	}
             	}
             }
+            
             if(getMfpAdmissionPercentage()>=0){
             	Insurar insurar = Insurar.get(MedwanQuery.getInstance().getConfigString("MFP","-1"));
             	if(insurar!=null && insurar.getUid()!=null){
             		double price = getPrice(insurar.getType());
-                	Vector cats=insurar.getInsuraceCategories();
-                	for(int n=0;n<cats.size();n++){
+            		
+                	Vector cats = insurar.getInsuraceCategories();
+                	for(int n=0; n<cats.size(); n++){
                 		InsuranceCategory cat = (InsuranceCategory)cats.elementAt(n);
-                		saveInsuranceTariff(getUid(), insurar.getUid(),"*H", price*getMfpAdmissionPercentage()/100,this.getVersion());
+                		saveInsuranceTariff(getUid(),insurar.getUid(),"*H",price*getMfpAdmissionPercentage()/100,this.getVersion());
                 	}
             	}
             }
@@ -1430,6 +1510,7 @@ public class Prestation extends OC_Object{
                 e.printStackTrace();
             }
         }
+        
         MedwanQuery.getInstance().getObjectCache().putObject("prestation",this);
     }
 
@@ -1468,7 +1549,9 @@ public class Prestation extends OC_Object{
         return prestations;
     }
 
-    public void registerPrestationAsDebetTransaction(String balanceuid,Date date,String encounterid,ObjectReference supplier,ObjectReference ref,String userid,String patientuid){
+    //--- REGISTER PRESTATION AS DEBET TRANSACTION ------------------------------------------------
+    public void registerPrestationAsDebetTransaction(String balanceuid, Date date, String encounterid, ObjectReference supplier, 
+    		                                         ObjectReference ref, String userid, String patientuid){
         Balance balance;
         if(balanceuid==null){
             balance = Balance.getActiveBalance(patientuid);
@@ -1476,7 +1559,8 @@ public class Prestation extends OC_Object{
         else{
             balance = Balance.get(balanceuid);
         }
-        if (balance==null){
+        
+        if(balance==null){
             balance = new Balance();
             balance.setBalance(0);
             balance.setDate(new Date());
@@ -1485,6 +1569,7 @@ public class Prestation extends OC_Object{
             balance.setMaximumBalance(MedwanQuery.getInstance().getConfigInt("defaultMaximumBalance",999999999));
             balance.store();
         }
+        
         DebetTransaction debetTransaction = new DebetTransaction();
         debetTransaction.setDate(date);
         debetTransaction.setAmount(this.price);
@@ -1506,11 +1591,14 @@ public class Prestation extends OC_Object{
         debetTransaction.storeUnique();
     }
 
-    public static void registerPrestationsAsDebetTransactions(String prestationCode,String balanceuid,Date date,String encounterid,ObjectReference supplier,ObjectReference ref,String userid,String patientuid){
+    //--- REGISTER PRESTATIONS AS DEBET TRANSACTION -----------------------------------------------
+    public static void registerPrestationsAsDebetTransactions(String prestationCode, String balanceuid,
+    		                                                  Date date, String encounterid, ObjectReference supplier,
+    		                                                  ObjectReference ref, String userid, String patientuid){
         Debug.println("Looking for "+prestationCode);
-        Vector prestations=getPrestationsByCode(prestationCode);
+        Vector prestations = getPrestationsByCode(prestationCode);
         Prestation prestation;
-        for(int n=0;n<prestations.size();n++){
+        for(int n=0; n<prestations.size(); n++){
             prestation = (Prestation)prestations.elementAt(n);
             prestation.registerPrestationAsDebetTransaction(balanceuid,date,encounterid,supplier,ref,userid,patientuid);
         }
@@ -1529,7 +1617,7 @@ public class Prestation extends OC_Object{
     public static void delete(int serverId, int objectId){
         PreparedStatement ps = null;
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             String sSql = "DELETE FROM OC_PRESTATIONS"+
                           " WHERE OC_PRESTATION_SERVERID = ?"+
@@ -1553,13 +1641,19 @@ public class Prestation extends OC_Object{
         }
     }
 
+    //--- GET POPULAR PRESTATIONS -----------------------------------------------------------------
     public static Vector getPopularPrestations(String userid){
         Vector vPrestations = new Vector();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            String sSql = "select "+MedwanQuery.getInstance().topFunction("10")+" count(*),OC_DEBET_PRESTATIONUID from oc_debets WHERE OC_DEBET_UPDATEUID=? group by OC_DEBET_PRESTATIONUID order by count(*) DESC"+MedwanQuery.getInstance().limitFunction("10");
+            String sSql = "select "+MedwanQuery.getInstance().topFunction("10")+" count(*),OC_DEBET_PRESTATIONUID"+
+                          " from oc_debets"+
+            		      "  WHERE OC_DEBET_UPDATEUID=?"+
+                          "   group by OC_DEBET_PRESTATIONUID"+
+            		      "   order by count(*) DESC"+MedwanQuery.getInstance().limitFunction("10");
             ps = oc_conn.prepareStatement(sSql);
             ps.setString(1,userid);
             rs = ps.executeQuery();
@@ -1581,14 +1675,16 @@ public class Prestation extends OC_Object{
                 e.printStackTrace();
             }
         }
+        
         return vPrestations;
     }
 
-	public double getSupplement() {
+	public double getSupplement(){
 		return supplement;
 	}
 
-	public void setSupplement(double supplement) {
+	public void setSupplement(double supplement){
 		this.supplement = supplement;
 	}
+	
 }
