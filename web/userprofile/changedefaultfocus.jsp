@@ -1,27 +1,27 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-<%
 
-%>
 <script>
   function doBack(){
     window.location.href = "<c:url value='/main.do'/>?Page=userprofile/index.jsp";
   }
 </script>
+
 <%!
     //--- WRITE OPTION ----------------------------------------------------------------------------
-    private String writeOption(String sKey, String sCode, String sValue, User activeUser, String sWebLanguage) {
+    private String writeOption(String sKey, String sCode, String sValue, User activeUser, String sWebLanguage){
         String sSelected = checkString(activeUser.getParameter(sKey));
-        if (sSelected.equals(sValue)) {
+        if(sSelected.equals(sValue)){
             sSelected = " selected";
         }
-        else {
+        else{
             sSelected = "";
         }
 
         return "<option value='"+sValue+"'"+sSelected+">"+getTran(sCode,sValue,sWebLanguage)+"</option>";
     }
 %>
+
 <%
     String sAction = checkString(request.getParameter("Action"));
 
@@ -31,6 +31,7 @@
             <form name='UserProfile' method='post'>
                 <input type="hidden" name="Action">
                 <%=writeTableHeader("Web.UserProfile","changeFocus",sWebLanguage," doBack();")%>
+                
                 <table width='100%' cellspacing="1" cellpadding="0" class="list">
                     <tr>
                         <td class="admin" width='<%=sTDAdminWidth%>'><%=getTran("Web.UserProfile","Focus",sWebLanguage)%></td>
@@ -44,6 +45,7 @@
                             </select>
                         </td>
                     </tr>
+                    
                     <%-- BUTTONS --%>
                     <%=ScreenHelper.setFormButtonsStart()%>
                         <input type='button' name='saveButton' class="button" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onClick="doSave();">
