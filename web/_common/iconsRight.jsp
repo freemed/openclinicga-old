@@ -138,15 +138,14 @@
        	
        	// for links containing a regular url, add an open command
        	if(!sIconOnClick.toLowerCase().startsWith("javascript")){
-      		sIconOnClick = "window.location.href = '"+sCONTEXTPATH+"/"+sIconOnClick+
-       				       "&ts="+getTs()+"';";
+      		sIconOnClick = "javascript:clickMenuItem('"+sCONTEXTPATH+"/"+sIconOnClick+"&ts="+getTs()+"');";
    		}
        	
        	// replace placeholders for parameters
        	if(sLongLabelId.startsWith("hidden.clinicalDocuments$")){
        	    sIconOnClick = sIconOnClick.replaceAll("@parameter1@",sSubtype);
        	}
-
+       	
        	//*** fetch extra data from xml (accessrights and such) ***
        	boolean okToDisplayIcon = false;
     	menuElem = getMenuElement(session,sLongLabelId);
@@ -218,7 +217,7 @@
     }
     else{
         %>
-            <input type="text" id="barcode" name="barcode" size="8" class="text" style="{visibility:hidden;color:#FFFFFF;background:#EEEEEE;background-color:#EEEEEE;border-style:none;}" onKeyDown="if(enterEvent(event,13)){readBarcode2(this.value);}"/>
+            <input type="text" id="barcode" name="barcode" size="8" class="text" style="{visibility:hidden;color:#FFFFFF;background:#EEEEEE;background-color:#EEEEEE;border-style:none;}" onKeyDown="if(enterEvent(event,13)){if(checkSaveButton())readBarcode2(this.value);}"/>
             <script>document.getElementsByName('barcode')[0].style.visibility = "hidden";</script>
         <%
                 
@@ -275,32 +274,32 @@
 				if(MedwanQuery.getInstance().getConfigInt("enableImageHub",0)==1){
                     %><img class="link" onclick="openImageHub()" border='0' src="<c:url value='/_img/icons/icon_imagehub.png'/>" title="<%=getTranNoLink("web","imagehub",sWebLanguage)%>"/><%
 				}
-		        %><img class="link" onclick="window.location.href='<c:url value="/mobile/patientMenu.jsp"/>'" border='0' src="<c:url value='/_img/icons/icon_mobile.gif'/>" title="<%=getTranNoLink("web","mobile.interface",sWebLanguage)%>"/>&nbsp;<%
+		        %><img class="link" onclick="clickMenuItem('<c:url value="/mobile/patientMenu.jsp"/>');" border='0' src="<c:url value='/_img/icons/icon_mobile.gif'/>" title="<%=getTranNoLink("web","mobile.interface",sWebLanguage)%>"/>&nbsp;<%
 			}
 			else{
-                %><img class="link" onclick="window.location.href='<c:url value="/mobile/searchPatient.jsp"/>'" border='0' src="<c:url value='/_img/icons/icon_mobile.gif'/>" title="<%=getTranNoLink("web","mobile.interface",sWebLanguage)%>"/>&nbsp;<%
+                %><img class="link" onclick="clickMenuItem('<c:url value="/mobile/searchPatient.jsp"/>');" border='0' src="<c:url value='/_img/icons/icon_mobile.gif'/>" title="<%=getTranNoLink("web","mobile.interface",sWebLanguage)%>"/>&nbsp;<%
 			}
         
         if(activeUser.getAccessRight("labos.patientlaboresults.select") && activePatient!=null && activePatient.personid.length()>0 && activePatient.hasLabRequests()){
-            %><img class="link" onclick="searchLab();" title="<%=getTranNoLink("Web","labresults",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_labo.png'/>"/><%
+            %><img class="link" onclick="clickMenuItem('javascript:searchLab();');" title="<%=getTranNoLink("Web","labresults",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_labo.png'/>"/><%
         }
         if(bMenu && activeUser.getAccessRight("labos.fastresults.select")){
-            %><img class="link" onclick="showLabResultsEdit();" title="<%=getTranNoLink("Web","fastresultsedit",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_labo_insert.png'/>"/><%
+            %><img class="link" onclick="clickMenuItem('javascript:showLabResultsEdit();');" title="<%=getTranNoLink("Web","fastresultsedit",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_labo_insert.png'/>"/><%
         }
         if(bMenu && activeUser.getAccessRight("patient.administration.select")){
-            %><img class="link" onclick="showAdminPopup();" style="padding:2px" title="<%=getTranNoLink("Web","Administration",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_admin.gif'/>"/><%
+            %><img class="link" onclick="clickMenuItem('javascript:showAdminPopup();');" style="padding:2px" title="<%=getTranNoLink("Web","Administration",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_admin.gif'/>"/><%
         }
     
-        %><img class="link" onclick="searchMyHospitalized();" alt="<%=getTranNoLink("Web","my_hospitalized_patients",sWebLanguage)%>" title="<%=getTranNoLink("Web","my_hospitalized_patients",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_bed.gif'/>"/><%
+        %><img class="link" onclick="clickMenuItem('javascript:searchMyHospitalized();');" alt="<%=getTranNoLink("Web","my_hospitalized_patients",sWebLanguage)%>" title="<%=getTranNoLink("Web","my_hospitalized_patients",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_bed.gif'/>"/><%
   
         if(activeUser.getAccessRight("manage.meals.select")){
-            %><img class="link" onclick="window.location = '<c:url value="/main.do" />?Page=meals/manageMeals.jsp&ts='+new Date().getTime()" alt="<%=getTranNoLink("web","meals",sWebLanguage)%>" title="<%=getTranNoLink("web","meals",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_meals.png'/>"/><%
+            %><img class="link" onclick="clickMenuItem('<c:url value="/main.do" />?Page=meals/manageMeals.jsp&ts='+new Date().getTime());" alt="<%=getTranNoLink("web","meals",sWebLanguage)%>" title="<%=getTranNoLink("web","meals",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_meals.png'/>"/><%
         }
         
         %>
-            <img class="link" onclick="searchMyVisits();" title="<%=getTranNoLink("Web","my_on_visit_patients",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_visits.png'/>"/>
+            <img class="link" onclick="clickMenuItem('javascript:searchMyVisits();');" title="<%=getTranNoLink("Web","my_on_visit_patients",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_visits.png'/>"/>
             <img class="link" onclick="doPrint();" title="<%=getTranNoLink("Web","Print",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_print.gif'/>" />
-            <img class="link" id="ddIconAgenda" onclick="window.location='<c:url value='/main.do'/>?Page=planning/findPlanning.jsp&ts='+new Date().getTime()" title="<%=getTranNoLink("Web","Planning",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_calendar.gif'/>"/>
+            <img class="link" id="ddIconAgenda" onclick="clickMenuItem('<c:url value='/main.do'/>?Page=planning/findPlanning.jsp&ts='+new Date().getTime());" title="<%=getTranNoLink("Web","Planning",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_calendar.gif'/>"/>
         <%
         
         String sHelp = MedwanQuery.getInstance().getConfigString("HelpFile");
@@ -312,5 +311,5 @@
     }
 %>
 
-<img class="link" id="ddIconLogoff" onclick="confirmLogout();" title="<%=getTranNoLink("Web","LogOff",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_logout.png'/>"/>
+<img class="link" id="ddIconLogoff" onclick="clickMenuItem('javascript:confirmLogout();');" title="<%=getTranNoLink("Web","LogOff",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_logout.png'/>"/>
 &nbsp;   
