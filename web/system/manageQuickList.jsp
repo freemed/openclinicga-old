@@ -94,7 +94,7 @@
 		}
 		
 		if(request.getParameter("UserQuickList")!=null){
-			MedwanQuery.getInstance().setConfigString("quickList_"+activeUser.userid,pars);
+			MedwanQuery.getInstance().setConfigString("quickList."+activeUser.userid,pars);
 			Debug.println("--> SAVE : config 'quickList_"+activeUser.userid+"' = "+pars);
 		}
 		else{
@@ -108,7 +108,7 @@
     //*** fetch saved prestations for display ***
     String sPrestations, prestations[] = null;
     		
-    sPrestations = MedwanQuery.getInstance().getConfigString("quickList_"+activeUser.userid,"");
+    sPrestations = MedwanQuery.getInstance().getConfigString("quickList."+activeUser.userid,"");
 	if(request.getParameter("UserQuickList")!=null && sPrestations.length() > 0){
 		Debug.println("--> LOAD : config 'quickList_"+activeUser.userid+"' = "+sPrestations);		
 	}
