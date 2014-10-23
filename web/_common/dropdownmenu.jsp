@@ -149,7 +149,12 @@
                     sReturn+= "</ul></li>";
                 } 
                 else{
-                    sReturn+= "<li><a href=\"javascript:clickMenuItem('"+this.url+"');\">"+sTranslation+"</a></li>";
+                	if(this.url.startsWith("javascript:")){
+                        sReturn+= "<li><a href='#' onClick=\""+this.url+"\">"+sTranslation+"</a></li>";
+                	}
+                	else{
+                		sReturn+= "<li><a href='#' onClick=\"javascript:clickMenuItem('"+this.url+"');\">"+sTranslation+"</a></li>";
+                    }
                 }
             }
             catch(Exception e){
@@ -335,9 +340,16 @@
                                         if(menu.url.endsWith(";")){
                                         	menu.url = menu.url.substring(0,menu.url.indexOf(";")-1);
                                         }
-                                        
+
                                         out.print("<li class='menu_"+menu.labelid+"'>");
-                                         out.print("<a href='#' onClick=\"clickMenuItem('"+menu.url+"')\">"+getTranNoLink("Web",menu.labelid,sWebLanguage)+"</a>");
+
+                                    	if(menu.url.startsWith("javascript:")){
+                                    		out.print("<a href='#' onClick=\""+menu.url+"\">"+getTranNoLink("Web",menu.labelid,sWebLanguage)+"</a>");                                            
+                                    	}
+                                    	else{
+                                    		out.print("<a href='#' onClick=\"javascript:clickMenuItem('"+menu.url+"');\">"+getTranNoLink("Web",menu.labelid,sWebLanguage)+"</a>");
+                                        }
+                                    	
                                         out.print("</li>");                                       
                                     }
                                 }
