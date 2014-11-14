@@ -60,8 +60,8 @@
     <%-- SEARCH SERVICE --%>
     <table width="100%" class="menu" cellspacing="0">
         <tr height="22">
-            <td width="<%=sTDAdminWidth%>">&nbsp;<%=getTran("Web","Unit",sWebLanguage)%></td>
-            <td>
+            <td class="admin2" width="<%=sTDAdminWidth%>">&nbsp;<%=getTran("Web","Unit",sWebLanguage)%></td>
+            <td class="admin2">
                 <input class="text" type="text" name="FindServiceText" READONLY size="<%=sTextWidth%>" title="<%=sFindServiceText%>" value="<%=sFindServiceText%>">                
                 <img src='<%=sCONTEXTPATH%>/_img/icons/icon_search.gif' id='buttonService' class='link' alt='<%=getTranNoLink("Web","select",sWebLanguage)%>'
                  onclick="hideServicesTable();openPopup('_common/search/searchService.jsp&VarCode=FindServiceCode&VarText=FindServiceText&onlySelectContractWithDivision=false');">
@@ -77,115 +77,124 @@
     
     <div id="msgDiv" style="height:20px"><%=sMsg%></div>
     
-	<table width="100%" id="servicesTable">
-	    <%
-	        //--- EDIT FIELDS -------------------------------------------------------------------------
-	        if(sAction.equals("edit") && sFindServiceCode.length() > 0){
-	        	Vector examinations = ServiceExamination.selectServiceExaminations(sFindServiceCode);
-	        	Hashtable hExaminations = new Hashtable();
-	        	ServiceExamination examination;
-	        	for(int n=0; n<examinations.size(); n++){
-	        		examination = (ServiceExamination)examinations.elementAt(n);
-	        		hExaminations.put(examination.getExaminationid(),"1");
-	        	}
-	        	
-	        	// Load available examinations and put them in a sorted map
-	        	SortedMap exams = new TreeMap();
-	    		SAXReader xmlReader = new SAXReader();
-		        String sMenuXML = MedwanQuery.getInstance().getConfigString("examinationsXMLFile","examinations.xml");
-		        String sMenuXMLUrl = MedwanQuery.getInstance().getConfigString("templateSource") + sMenuXML;
-		        Debug.println("Reading '"+sMenuXMLUrl+"'");
-		        
-		        // Check if menu file exists, else use file at templateSource location.
-		        Document document = xmlReader.read(new URL(sMenuXMLUrl));
-		        if(document!=null){
-		            Element root = document.getRootElement();
-		            if(root!=null){
-		                Iterator elements = root.elementIterator("Row");
-		                while(elements.hasNext()){
-		                    Element e = (Element) elements.next();
-		                    if(e!=null){
-			                    String elementClass = "?";
-			                    Element eClass = e.element("class");
-			                    if(eClass!=null){
-			                    	elementClass = eClass.getText();
-			                    }
-			                    if(exams.get(elementClass)==null){
-			                    	exams.put(elementClass,new TreeMap());
-			                    }
-			                    
-			                    SortedMap serviceExams = (TreeMap)exams.get(elementClass);
-			                    serviceExams.put(e.element("id").getText(),e.element("id").getText()+";"+e.element("transactiontype").getText());
-		                    }
-		                }
-		            }
-		        }
-		        
-		        // display examinations per service
-				Iterator examIter = exams.keySet().iterator();
-		        String sServiceId, sServiceName;
-		        while(examIter.hasNext()){
-		        	sServiceId = (String)examIter.next();
-		        	sServiceName = getTran("web",sServiceId,sWebLanguage);
-		           
-		        	// header
-		        	%>
-		        	    <tr class="admin">
-		        	        <td colspan="5"><b><%=sServiceName%></b>&nbsp;
-		        	            <a href="javascript:void(0);" onclick="checkAll(true,'<%=sServiceId%>');"><%=getTran("web.manage.checkDb","checkAll",sWebLanguage)%></a>
-	                            <a href="javascript:void(0);" onclick="checkAll(false,'<%=sServiceId%>');"><%=getTran("web.manage.checkDb","uncheckAll",sWebLanguage)%></a>
-	                        </td>
-	                    </tr>
-	                <%
-	                
-		        	SortedMap serviceExams = (TreeMap)exams.get(sServiceId);
-		        	Iterator examsIter = serviceExams.keySet().iterator();
-		        	
-					int examCounter = 0;	
-					String sExamId, sExamName;
-		        	while(examsIter.hasNext()){
-		        		if(examCounter%5==0){
-		        			out.println("<tr>");
-		        		}
-		        		
-		        		sExamId = (String)examsIter.next();
-		        		sExamName = getTran("examination",sExamId,sWebLanguage)+" ("+sExamId+")";
-		        		
-						String screen = MedwanQuery.getInstance().getForward(((String)serviceExams.get(sExamId)).split(";")[1]);
-		        		out.println("<td class='admin'><input type='checkbox' name='cb_"+sServiceId+"_"+sExamId+"' id='cb_"+sServiceId+"_"+sExamId+"' "+(hExaminations.get(((String)serviceExams.get(sExamId)).split(";")[0])!=null?"checked":"")+"/><label for='cb_"+sServiceId+"_"+sExamId+"'>"+sExamName+"</label></td>");
-		        		examCounter++;
-		        		
-		        		if(examCounter%5 ==0){
-		        			out.println("</tr>");
-		        		}
+    <%
+        if(sAction.equals("edit") && sFindServiceCode.length() > 0){
+            %>
+			<table width="100%" id="servicesTable" class="list" cellpadding="0" cellspacing="1">
+			    <%
+		        	Vector examinations = ServiceExamination.selectServiceExaminations(sFindServiceCode);
+		        	Hashtable hExaminations = new Hashtable();
+		        	ServiceExamination examination;
+		        	for(int n=0; n<examinations.size(); n++){
+		        		examination = (ServiceExamination)examinations.elementAt(n);
+		        		hExaminations.put(examination.getExaminationid(),"1");
 		        	}
 		        	
-		        	if(examCounter%5!=0){
-			        	while(examCounter%5!=0){
-			        		out.println("<td class='admin2'/>");
+		        	// Load available examinations and put them in a sorted map
+		        	SortedMap exams = new TreeMap();
+		    		SAXReader xmlReader = new SAXReader();
+			        String sMenuXML = MedwanQuery.getInstance().getConfigString("examinationsXMLFile","examinations.xml");
+			        String sMenuXMLUrl = MedwanQuery.getInstance().getConfigString("templateSource") + sMenuXML;
+			        Debug.println("Reading '"+sMenuXMLUrl+"'");
+			        
+			        // Check if menu file exists, else use file at templateSource location.
+			        Document document = xmlReader.read(new URL(sMenuXMLUrl));
+			        if(document!=null){
+			            Element root = document.getRootElement();
+			            if(root!=null){
+			                Iterator elements = root.elementIterator("Row");
+			                while(elements.hasNext()){
+			                    Element e = (Element) elements.next();
+			                    if(e!=null){
+				                    String elementClass = "?";
+				                    Element eClass = e.element("class");
+				                    if(eClass!=null){
+				                    	elementClass = eClass.getText();
+				                    }
+				                    if(exams.get(elementClass)==null){
+				                    	exams.put(elementClass,new TreeMap());
+				                    }
+				                    
+				                    SortedMap serviceExams = (TreeMap)exams.get(elementClass);
+				                    serviceExams.put(e.element("id").getText(),e.element("id").getText()+";"+e.element("transactiontype").getText());
+			                    }
+			                }
+			            }
+			        }
+			        
+			        // display examinations per service
+					Iterator examIter = exams.keySet().iterator();
+			        String sServiceId, sServiceName;
+			        while(examIter.hasNext()){
+			        	sServiceId = (String)examIter.next();
+			        	sServiceName = getTran("web",sServiceId,sWebLanguage);
+			           
+			        	// header
+			        	%>
+			        	    <tr class="admin">
+			        	        <td colspan="5"><b><%=sServiceName%></b>&nbsp;
+			        	            <a href="javascript:void(0);" onclick="checkAll(true,'<%=sServiceId%>');"><%=getTran("web.manage.checkDb","checkAll",sWebLanguage)%></a>
+		                            <a href="javascript:void(0);" onclick="checkAll(false,'<%=sServiceId%>');"><%=getTran("web.manage.checkDb","uncheckAll",sWebLanguage)%></a>
+		                        </td>
+		                    </tr>
+		                <%
+		                
+			        	SortedMap serviceExams = (TreeMap)exams.get(sServiceId);
+			        	Iterator examsIter = serviceExams.keySet().iterator();
+			        	
+						int examCounter = 0;	
+						String sExamId, sExamName;
+			        	while(examsIter.hasNext()){
+			        		if(examCounter%5==0){
+			        			out.print("<tr>");
+			        		}
+			        		
+			        		sExamId = (String)examsIter.next();
+			        		sExamName = getTran("examination",sExamId,sWebLanguage)+" ("+sExamId+")";
+			        		
+							String screen = MedwanQuery.getInstance().getForward(((String)serviceExams.get(sExamId)).split(";")[1]);
+			        		out.print("<td class='admin'>"+
+							           "<input type='checkbox' name='cb_"+sServiceId+"_"+sExamId+"' id='cb_"+sServiceId+"_"+sExamId+"' "+(hExaminations.get(((String)serviceExams.get(sExamId)).split(";")[0])!=null?"checked":"")+"/><label for='cb_"+sServiceId+"_"+sExamId+"'>"+sExamName+"</label>"+
+			        		          "</td>");
 			        		examCounter++;
+			        		
+			        		if(examCounter%5 ==0){
+			        			out.print("</tr>");
+			        		}
 			        	}
-	        			out.println("</tr>");
-		        	}
-		        }
-	        }
-	    %>
-    
-	    <tr>
-	        <td colspan="5">
-				<a href="javascript:void(0);" onclick="checkAll(true,'all');"><%=getTran("web.manage.checkDb","checkAll",sWebLanguage)%></a>
-				<a href="javascript:void(0);" onclick="checkAll(false,'all');"><%=getTran("web.manage.checkDb","uncheckAll",sWebLanguage)%></a>
-		    </td>
-	    </tr>
-	    
-	    <%-- BUTTONS --%>
-	    <tr>
-	        <td colspan="5" style="text-align:center;">
-			    <input type="button" class="button" name="saveButton" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="doAction('save');">&nbsp;
-			    <input type="button" class="button" name="backButton" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="doBack();">	
-		    </td>
-	    </tr>
-    </table>
+			        	
+			        	if(examCounter%5!=0){
+			        		// add empty cells
+				        	while(examCounter%5!=0){
+				        		out.print("<td class='admin2'/>");
+				        		examCounter++;
+				        	}
+		        			out.print("</tr>");
+			        	}
+			        }
+		    	%>
+		    </table>    
+		    
+			<%-- UN/CHECK ALL --%>
+			<a href="javascript:void(0);" onclick="checkAll(true,'all');"><%=getTran("web.manage.checkDb","checkAll",sWebLanguage)%></a>
+			<a href="javascript:void(0);" onclick="checkAll(false,'all');"><%=getTran("web.manage.checkDb","uncheckAll",sWebLanguage)%></a>
+					
+			<%-- BUTTONS --%>
+			<%=ScreenHelper.alignButtonsStart()%>
+				<input type="button" class="button" name="saveButton" value="<%=getTranNoLink("web","save",sWebLanguage)%>" onclick="doAction('save');">&nbsp;
+				<input type="button" class="button" name="backButton" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="doBack();">
+			<%=ScreenHelper.alignButtonsStop()%>
+        <%
+        }
+        else{
+        	%>
+				<%-- BACK BUTTON --%>
+				<%=ScreenHelper.alignButtonsStart()%>
+					<input type="button" class="button" name="backButton" value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="doBack();">
+				<%=ScreenHelper.alignButtonsStop()%>
+        	<%
+        }
+    %>
 </form>
 
 <script>
@@ -216,7 +225,9 @@
   
   <%-- HIDE SERVICES TABLE --%>
   function hideServicesTable(){
-    document.getElementById("servicesTable").style.display = "none";
+    if(document.getElementById("servicesTable")){
+      document.getElementById("servicesTable").style.display = "none";
+    }
     document.getElementById("msgDiv").innerHTML = "";
   }
   
