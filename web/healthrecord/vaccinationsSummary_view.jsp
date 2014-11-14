@@ -4,14 +4,15 @@
 <%=checkPermission("occup.vaccinations","select",activeUser)%>
 
 <form name="vaccinationForm" method="POST" action='/healthrecord/updateTransaction.do?ts=<%=getTs()%>' focus='type'>
-<%=writeTableHeader("Web.Occup","be.mxs.healthrecord.vaccination.vaccination-card",sWebLanguage,sCONTEXTPATH+"/main.do?Page=curative/index.jsp&ts="+getTs())%>
 
-<table border="0" width="100%" align="center" cellspacing="1" class="list">
+<%--- 1 - GIVEN VACCINATIONS --------------------------------------------------------------------%>
+<%=writeTableHeader("Web.Occup","be.mxs.healthrecord.vaccination.vaccination-card",sWebLanguage,sCONTEXTPATH+"/main.do?Page=curative/index.jsp&ts="+getTs())%>
+<table width="100%" align="center" cellspacing="1" cellpadding="0" class="list">
   <tr>
     <td>
-      <table class="list" width="100%" cellspacing="1">
+      <table class="list" width="100%" cellspacing="0">
         <%--- header ---%>
-        <tr class="admin">
+        <tr class="gray">
           <td width="5%"><%=getTran("Web.Occup","be.mxs.healthrecord.vaccination.administer",sWebLanguage)%>&nbsp;</td>
           <td width="*"><%=getTran("Web.Occup","be.mxs.healthrecord.vaccination.Vaccination",sWebLanguage)%>&nbsp;</td>
           <td width="15%"><%=getTran("Web.Occup","be.mxs.healthrecord.vaccination.status",sWebLanguage)%>&nbsp;</td>
@@ -34,7 +35,7 @@
 
               <%--- VACCINATION NAME ---%>
               <td>
-                &nbsp;<a href="<c:url value='/healthrecord/showVaccinationHistory.do'/>?VaccinType=<mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE" property="value" translate="false"/>&vaccination=<mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE" translate="false" property="value"/>&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE" property="value"/></a>
+                <a href="<c:url value='/healthrecord/showVaccinationHistory.do'/>?VaccinType=<mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE" property="value" translate="false"/>&vaccination=<mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE" translate="false" property="value"/>&ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE" property="value"/></a>
                 <mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" output="false" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_NAME" property="value" translate="false" toBean="vaccinName" toScope="page"/>
                 <logic:present name="vaccinName">
                   <logic:notEqual name="vaccinName" scope="page" value="">
@@ -53,7 +54,7 @@
               
               <%--- STATUS ---%>
               <td>
-                &nbsp;<mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" output="false" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_STATUS" property="value" translate="false" toBean="vaccinationCurrentStatus" toScope="page"/>
+                <mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" output="false" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_STATUS" property="value" translate="false" toBean="vaccinationCurrentStatus" toScope="page"/>
                 <logic:notEqual name="vaccinationCurrentStatus" scope="page" value="be.mxs.healthrecord.vaccination.status-none">
                   <bean:define id="tranid" name="vaccinationInfoVO" property="transactionVO"/>
                   <a href="<c:url value='/healthrecord/manageVaccination.do'/>?vaccination=<mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_TYPE" translate="false" property="value"/>&be.mxs.healthrecord.transaction_id=<bean:write name="tranid" scope="page" property="transactionId"/>&be.mxs.healthrecord.server_id=<bean:write name="tranid" scope="page" property="serverId"/>&ts=<%=getTs()%>" onMouseOver="window.status='';return true;">
@@ -65,7 +66,7 @@
               </td>
               
               <%--- INFO ---%>
-              <td align="center">
+              <td>
                 <mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" output="false" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_COMMENT" property="value" translate="true" toBean="comment" toScope="page"/>
                 <logic:present name="comment">
                   <logic:notEqual name="comment" scope="page" value="">
@@ -79,7 +80,7 @@
                 <mxs:propertyAccessorI18N name="vaccinationInfoVO.transactionVO.items" output="false" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE" property="value" translate="false" toBean="date" toScope="page"/>
                 <logic:present name="date">
                   <logic:notEqual name="date" scope="page" value="">
-                    &nbsp;<bean:write name="date" scope="page"/>
+                    <bean:write name="date" scope="page"/>
                   </logic:notEqual>
                 </logic:present>
               </td>
@@ -89,12 +90,12 @@
                 <logic:present name="nextdate">
                   <logic:notEqual name="nextdate" scope="page" value="">
                     <%--- NEXT STATUS ---%>
-                    <td bgcolor="<bean:write name="vaccinationInfoVO" scope="page" property="color"/>">
-                      &nbsp;<mxs:beanTranslator name="vaccinationInfoVO" scope="page" property="nextStatus"/>
+                    <td style="padding-left:3px;" bgcolor="<bean:write name="vaccinationInfoVO" scope="page" property="color"/>">
+                      <mxs:beanTranslator name="vaccinationInfoVO" scope="page" property="nextStatus"/>
                     </td>
                     <%--- NEXT DATE ---%>
                     <td bgcolor="<bean:write name="vaccinationInfoVO" scope="page" property="color"/>">
-                      &nbsp;<bean:write name="nextdate" scope="page"/>
+                      <bean:write name="nextdate" scope="page"/>
                     </td>
                   </logic:notEqual>
                   <logic:equal name="nextdate" scope="page" value="">
@@ -108,24 +109,25 @@
       </table>
     </td>
   </tr>
-  <tr><td>&nbsp;</td></tr>
-  <tr><td>&nbsp;</td></tr>
+</table>
+<br>
   
-  <%--- OTHER VACCINATIONS -----------------------------------------------------------------------%>
-  <tr class="admin">
-    <td><%=getTran("Web.Occup","be.mxs.healthrecord.vaccination.autres-vaccins",sWebLanguage)%></td>
-  </tr>
+<%-- 2 - OTHER VACCINATIONS ---------------------------------------------------------------------%>
+<% int vaccIdx = 0; %>
+  
+<%=writeTableHeader("web.occup","be.mxs.healthrecord.vaccination.autres-vaccins",sWebLanguage,sCONTEXTPATH+"/main.do?Page=curative/index.jsp&ts="+getTs())%>
+<table width="100%" align="center" cellspacing="1" cellpadding="0" class="list"> 
   <tr>
     <td>
-      <table class="list" width="100%" cellspacing="1">
+      <table class="list" width="100%" cellspacing="0">
         <%-- header --%>
-        <tr class="admin">
+        <tr class="gray">
           <td width="5%"><%=getTran("Web.Occup","be.mxs.healthrecord.vaccination.administer",sWebLanguage)%>&nbsp;</td>
           <td width="*"><%=getTran("Web.Occup","be.mxs.healthrecord.vaccination.Vaccination",sWebLanguage)%>&nbsp;</td>
         </tr>
         <logic:present name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="personalVaccinationsInfoVO">
           <logic:iterate id="examinationVO" scope="session" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="personalVaccinationsInfoVO.otherVaccinations">
-            <tr class="list">
+            <tr class="list<%=(vaccIdx++%2==0?"1":"0")%>">
               <td align="center">
                 <a href="<c:url value='/healthrecord/manageVaccination.do'/>?vaccination=<bean:write name='examinationVO' scope='page' property='messageKey'/>&ts=<%=getTs()%>"  onMouseOver="window.status='';return true;" title="<%=getTranNoLink("Web.Occup","be.mxs.healthrecord.vaccination.administer",sWebLanguage)%>"><img border="0" src='<c:url value="/_img/icons/icon_needle.gif"/>'></a>
               </td>
@@ -136,9 +138,11 @@
       </table>
     </td>
   </tr>
-  <tr><td>&nbsp;</td></tr>
+</table>
+<br>
   
-  <%--- 3 ARROWS ---------------------------------------------------------------------------------%>
+<%-- 3 - LINKS ----------------------------------------------------------------------------------%>
+<table width="100%" align="center" cellspacing="1" cellpadding="0">
   <tr>
     <bean:define id="flags" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="flags"/>
     <td>
