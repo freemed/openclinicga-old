@@ -45,6 +45,16 @@ function limitRows(textarea,maxrows){
   }
 }
 
+function limitChars(textFieldObj,maxCharsAllowed){
+  var text = textFieldObj.value;
+  text = replaceAll(text,"\r\n","<br>");
+    
+  if(text.length > maxCharsAllowed){
+    textFieldObj.value = text.substring(0,maxCharsAllowed);
+    textFieldObj.value = replaceAll(text.substring(0,maxCharsAllowed),"<br>","\r\n");
+  }
+}
+
 function limitLength(sObject){
   var iMaxLength = 250;
   if(sObject.value.length>iMaxLength){
@@ -252,6 +262,10 @@ function textCounter(field,cntfield,maxlimit){
     // update 'characters left' counter
     cntfield.value = maxlimit - field.value.length;
   }
+}
+
+function replaceAll(source,target,substitute){
+  return source.replace(new RegExp(target,"g"),substitute);
 }
 
 function LTrim(value){

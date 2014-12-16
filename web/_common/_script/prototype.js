@@ -3813,7 +3813,7 @@ ClientMsg.prototype = {
  }
  }
  else{
- this.div.update("<span class='error'><img src='_img/icons/icon_warning.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
+ this.div.update("<span class='error'><img src='_img/themes/default/icon_warning.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
  }
  Effect.Appear(this.div, {duration:0.3});
  },
@@ -3821,14 +3821,14 @@ ClientMsg.prototype = {
  this.div.innerHTML = "";
  if(option){
  if(option=="before"){
- this.div.update("<span class='valid'><img src='_img/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span><br>"+this.div.innerHTML);
+ this.div.update("<span class='valid'><img src='_img/themes/default/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span><br>"+this.div.innerHTML);
  }
  else if(option=="after"){
- this.div.update(this.div.innerHTML+"<br><span class='valid'><img src='_img/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
+ this.div.update(this.div.innerHTML+"<br><span class='valid'><img src='_img/themes/default/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
  }
  }
  else{
- this.div.update("<span class='valid'><img src='_img/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
+ this.div.update("<span class='valid'><img src='_img/themes/default/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
  }
  Effect.Appear(this.div, {duration:0.3});
  },
@@ -3842,7 +3842,7 @@ ClientMsg.prototype = {
  }
 }
 var setWaitMsg = function(div_id){
- $(div_id).update("<div class='wait'><img src='"+sCONTEXTPATH+"/_img/load.gif'></div>");
+ $(div_id).update("<div class='wait'><img src='_img/themes/default/ajax-loader.gif'></div>");
  $(div_id).style.display = "block";
 }
 var setHighlightBtns = function(){}

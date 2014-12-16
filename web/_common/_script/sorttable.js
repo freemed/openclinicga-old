@@ -223,7 +223,7 @@ function ts_resortTable(lnk,clid,changeDirection,headerRowCount,bottomRowCount,s
   span.innerHTML = ARROW;
 
   if(updateRowStyles!=null){
-    updateRowStyles(headerRowCount);
+    updateRowStyles(headerRowCount,table.id);
   }
 }
 
@@ -308,15 +308,16 @@ function addEvent(elm,evType,fn,useCapture){
 }
 
 // UPDATE ROW STYLES (after sorting)
-function updateRowStyles(headerRowCount){
-  var searchresults = document.getElementById("searchresults");
+function updateRowStyles(headerRowCount,tableId){
+  if(tableId==null) tableId = "searchresults";
+  var searchresults = document.getElementById(tableId);
 
   if(searchresults!=null){
     for(var i=headerRowCount; i<searchresults.rows.length; i++){
       if(searchresults.rows[i].className.indexOf("strike")==-1){
         searchresults.rows[i].className = "";
       }
-      //searchresults.rows[i].style.cursor = "pointer";
+      searchresults.rows[i].style.cursor = "pointer";
     }
 
     for(var i=headerRowCount; i<searchresults.rows.length; i++){
