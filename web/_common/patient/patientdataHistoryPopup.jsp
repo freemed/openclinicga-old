@@ -43,7 +43,7 @@
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
             <td class='tabs' width='5'>&nbsp;</td>
-            <td class='tabunselected' width="1%" onclick="activateTab('Admin')" id="td0" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' nowrap>&nbsp;<b><%=getTran("Web","actualpersonaldata",sWebLanguage)%></b>&nbsp;</td>
+            <td class='tabunselected' width="1%" onclick="activateTab('Admin')" id="td0" nowrap>&nbsp;<b><%=getTran("Web","actualpersonaldata",sWebLanguage)%></b>&nbsp;</td>
         </tr>
     </table>
     <%-- ONE TAB -------------------------------------------------------------------------------------%>
