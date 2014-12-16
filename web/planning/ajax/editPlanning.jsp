@@ -184,7 +184,6 @@
             boolean bRefresh = setDates(planning, request,new int[]{startHourOfWeekPlanner,startMinOfWeekPlanner,endHourOfWeekPlanner,endMinOfWeekPlanner});
             if(planning.updateDate(sEditPlanningUID)){
                 out.write("<script>clientMsg.setValid('"+HTMLEntities.htmlentities(getTranNoLink("web.control","dataissaved",sWebLanguage))+"',null,1000);"+((bRefresh)?"refreshAppointments();":"")+"</script>");
-
             }
         }
         catch (Exception e){
@@ -205,6 +204,7 @@
             planning.setUserUID(activeUser.userid);
         }
         setDates(planning, request,new int[]{startHourOfWeekPlanner,startMinOfWeekPlanner,endHourOfWeekPlanner,endMinOfWeekPlanner});
+     
         // appointment date
         if (planning.getPlannedDate()!=null){
             appointmentDateDay = ScreenHelper.formatDate(planning.getPlannedDate());
@@ -221,7 +221,8 @@
             appointmentDateEndDay = ScreenHelper.formatDate(planning.getPlannedEndDate());
             appointmentDateEndHour = new SimpleDateFormat("HH").format(planning.getPlannedEndDate());
             appointmentDateEndMinutes = new SimpleDateFormat("mm").format(planning.getPlannedEndDate());
-        } else {
+        }
+        else {
             appointmentDateEndDay = appointmentDateDay;
             appointmentDateEndHour = appointmentDateHour;
             appointmentDateEndMinutes = appointmentDateMinutes;
@@ -237,7 +238,8 @@
             appointmentDateDay = ScreenHelper.formatDate(planning.getPlannedDate());
             appointmentDateHour = new SimpleDateFormat("HH").format(planning.getPlannedDate());
             appointmentDateMinutes = new SimpleDateFormat("mm").format(planning.getPlannedDate());
-        } else {
+        }
+        else {
             appointmentDateDay = "";
             appointmentDateHour = new SimpleDateFormat("HH").format(sFrom+"");
             appointmentDateMinutes = "";
@@ -247,13 +249,16 @@
             appointmentDateEndDay = ScreenHelper.formatDate(planning.getPlannedEndDate());
             appointmentDateEndHour = new SimpleDateFormat("HH").format(planning.getPlannedEndDate());
             appointmentDateEndMinutes = new SimpleDateFormat("mm").format(planning.getPlannedEndDate());
-        } else {
+        }
+        else {
             appointmentDateEndDay = appointmentDateDay;
             appointmentDateEndHour = appointmentDateHour;
             appointmentDateEndMinutes = appointmentDateMinutes;
         }
+        
         show = true;
     }
+    
     if (show){
 %>
 
@@ -460,9 +465,11 @@
 <script>
   checkContext();
   changeInputColor();
-  updateSelect = function(){
+  
+  function updateSelect(){
     setCorrectAppointmentDate(<%=startHourOfWeekPlanner+","+startMinOfWeekPlanner+","+endHourOfWeekPlanner+","+endMinOfWeekPlanner%>);
   }
+  
   updateSelect();
 </script>
 </div>

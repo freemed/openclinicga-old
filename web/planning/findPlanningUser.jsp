@@ -30,7 +30,7 @@
 <form name="formFindUser" method="post" action="<c:url value='/main.do'/>?Page=planning/findPlanning.jsp&Tab=user&ts=<%=getTs()%>">
     <%=writeTableHeader("planning","useropenplanning",sWebLanguage," doBack();")%>
     
-    <table width="100%" class="list" cellspacing="0" cellpadding="0" style="border:none;" onKeyDown='if(event.keyCode==13){if(checkDate($("beginDate"))){refreshAppointments();}return false;}else{return true;}' >
+    <table width="100%" class="list" cellspacing="0" cellpadding="0" style="border:none;" onKeyDown='if(enterEvent(event,13)){if(checkDate($("beginDate"))){refreshAppointments();}return false;}else{return true;}' >
         <tr style="height:30px;">
             <td width="80" class="admin2" id="FindUserUID_td"><%=getTran("planning","user",sWebLanguage)%></td>
             <td class="admin2" width="150">

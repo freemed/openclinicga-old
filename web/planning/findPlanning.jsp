@@ -7,6 +7,7 @@
     public String writeTab(String sId, String sFocusField, String sLanguage){
         return "<script>sTabs+= ',"+sId+"';</script>"+
                "<td style='border-bottom:1px solid #000;width:10px'>&nbsp;</td>"+
+               // "<td class='tabs' width='5'>&nbsp;</td>"+
                "<td class='tabunselected' width='1%' style='padding:2px 4px;text-align:center;' onclick='activateTab(\""+sId+"\")' id='tab"+sId+"' nowrap><b>"+getTran("planning",sId,sLanguage)+"</b></td>";
     }
 
@@ -57,14 +58,14 @@ ClientMsg.prototype = {
       if(!time) time = 5000;
       if(option){
         if(option=="before"){
-          this.div.update("<span class='valid'><img src='<%=sCONTEXTPATH%>/_img/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span><br>"+this.div.innerHTML);
+          this.div.update("<span class='valid'><img src='<%=sCONTEXTPATH%>/_img/themes/default/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span><br>"+this.div.innerHTML);
         }
         else if(option=="after"){
-          this.div.update(this.div.innerHTML+"<br><span class='valid'><img src='<%=sCONTEXTPATH%>/_img/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
+          this.div.update(this.div.innerHTML+"<br><span class='valid'><img src='<%=sCONTEXTPATH%>/_img/themes/default/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
         }
       }
       else{
-        this.div.update("<span class='valid'><img src='<%=sCONTEXTPATH%>/_img/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
+        this.div.update("<span class='valid'><img src='<%=sCONTEXTPATH%>/_img/themes/default/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
       }
       this.div.style.display = "block";
       setTimeout(function(){$(clientMsg.div).style.display = 'none';},time);

@@ -38,7 +38,7 @@
         <%-- PRODUCT --%>
         <tr>
             <td class='admin'><%=getTran("web","product",sWebLanguage)%></td>
-            <td class='admin2'><input type='text' class='text' name='drugbarcode' id='drugbarcode' size='20' onkeyup='if(event.keyCode==13){doAdd("");}'/></td>
+            <td class='admin2'><input type='text' class='text' name='drugbarcode' id='drugbarcode' size='20' onkeyup='if(enterEvent(event,13)){doAdd("");}'/></td>
         </tr>
         
         <%-- QUANTITY --%>
