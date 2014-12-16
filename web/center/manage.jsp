@@ -19,7 +19,7 @@
     public String writeTab(String sId, String sFocusField, String sLanguage){
         return "<script>sTabs+= ',"+sId+"';</script>"+
                "<td class='tabs'>&nbsp;</td>"+
-               "<td class='tabunselected' width='1%' onclick='activateTab(\""+sId+"\")' id='tab"+sId+"' name='tab"+sId+"' nowrap><b>"+getTran("centerinfo", sId, sLanguage)+"</b></td>";
+               "<td class='tabunselected' width='1%' onclick='activateTab(\""+sId+"\")' id='tab"+sId+"' name='tab"+sId+"' nowrap><b>"+getTran("centerinfo",sId,sLanguage)+"</b></td>";
     }
 
     //--- WRITE TAB BEGIN -------------------------------------------------------------------------
