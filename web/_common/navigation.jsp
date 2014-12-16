@@ -4,8 +4,9 @@
 &nbsp;&nbsp;<a href="#" onMouseOver="window.status='';return true;" onClick="doClick('<c:url value="/main.do"/>?ts=<%=getTs()%>');">Home</a>
 <%
     String sPage = checkString(request.getParameter("Page"));
+    Debug.println("sPage : "+sPage); ////
 
-    if(sPage.length()>0 && !sPage.equalsIgnoreCase("null")){
+    if(sPage.length() > 0 && !sPage.equalsIgnoreCase("null")){
         String sPatientID = "";
         if(activePatient!=null){
             sPatientID = checkString(activePatient.personid);
@@ -33,7 +34,7 @@
             %>
                 <img src="<c:url value="/_img/themes/default/pijl.gif"/>">&nbsp;Patient&nbsp;
                 <img src="<c:url value="/_img/themes/default/pijl.gif"/>">&nbsp;<%=getTran("Web","Find",sWebLanguage)%>
-             <%
+            <%
         }
         else if(sPage.indexOf("userprofile")>-1){
             %>
@@ -72,10 +73,12 @@
             %><img src="<c:url value="/_img/themes/default/pijl.gif"/>">&nbsp;<a href="#" onMouseOver="window.status='';return true;" onClick="doClick('<c:url value="/main.do"/>?Page=center/index.jsp');"><%=getTran("Web","centerinfo",sWebLanguage)%></a><%
         }
         else{
-            String [] aPages = sPage.split("/");
-            if(aPages.length>0){
-                %><img src="<c:url value="/_img/themes/default/pijl.gif"/>">&nbsp;<%=getTran("Web",aPages[0],sWebLanguage)%><%
-            }
+        	if(!sPage.endsWith("start.jsp")){
+	            String [] aPages = sPage.split("/");
+	            if(aPages.length > 0){
+	                %><img src="<c:url value="/_img/themes/default/pijl.gif"/>">&nbsp;<%=getTran("web",aPages[0],sWebLanguage)%><%
+	            }
+        	}
         }
     }
 %>

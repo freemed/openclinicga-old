@@ -1,7 +1,7 @@
-<%@page import="be.openclinic.id.FingerPrint"%>
-<%@page import="be.mxs.common.util.system.Picture"%>
-<%@page import="be.openclinic.id.Barcode"%>
-<%@page import="java.io.StringReader"%>
+<%@page import="be.openclinic.id.FingerPrint,
+                be.mxs.common.util.system.Picture,
+                be.openclinic.id.Barcode,
+                java.io.StringReader"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
@@ -292,8 +292,8 @@
     
         %><img class="link" onclick="clickMenuItem('javascript:searchMyHospitalized();');" alt="<%=getTranNoLink("Web","my_hospitalized_patients",sWebLanguage)%>" title="<%=getTranNoLink("Web","my_hospitalized_patients",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_bed.gif'/>"/><%
   
-        if(activeUser.getAccessRight("manage.meals.select")){
-            %><img class="link" onclick="clickMenuItem('<c:url value="/main.do" />?Page=meals/manageMeals.jsp&ts='+new Date().getTime());" alt="<%=getTranNoLink("web","meals",sWebLanguage)%>" title="<%=getTranNoLink("web","meals",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_meals.png'/>"/><%
+        if(1==1){ // activeUser.getAccessRight("manage.meals.select") /////////////////////////////////////////////////////////!!!!!!!!!!
+            %>&nbsp;<img class="link" onclick="clickMenuItem('<c:url value="/main.do" />?Page=meals/index.jsp&ts='+new Date().getTime());" alt="<%=getTranNoLink("web","meals",sWebLanguage)%>" title="<%=getTranNoLink("web","meals",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_meals.png'/>"/><%
         }
         
         %>
@@ -303,7 +303,7 @@
         <%
         
         String sHelp = MedwanQuery.getInstance().getConfigString("HelpFile");
-        if(sHelp.length()>0){
+        if(sHelp.length() > 0){
             %><img id="ddIconHelp" src="<c:url value='/_img/icons/icon_help.gif'/>" height="16" width="16" border="0" alt="Help" onclick="showmanual();" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'><%
         }
         

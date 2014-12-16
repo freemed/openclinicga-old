@@ -267,7 +267,7 @@ function resizeSearchFields(){
 
 <%-- SHOW ARCHIVE CODE --%>
 function showArchiveCode(){
-  openPopup("util/showArchiveLabel.jsp&ts=<%=getTs()%>",20,370);
+  openPopup("util/showArchiveLabel.jsp&ts=<%=getTs()%>",200,370);
 }
 
 <%-- CHECK KEY DOWN --%>

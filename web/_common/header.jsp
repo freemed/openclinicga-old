@@ -117,6 +117,7 @@
 		                	catch(Exception e){
 		                		e.printStackTrace();
 		                	}
+		                	
 		                    boolean bFingerPrint = FingerPrint.exists(Integer.parseInt(sTmpPersonid)),
 		                            bPicture     = Picture.exists(Integer.parseInt(sTmpPersonid)),
 		                            bBarcode     = Barcode.exists(Integer.parseInt(sTmpPersonid));
