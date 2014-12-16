@@ -203,7 +203,7 @@
             
             <%-- varia division TR --%>
             <td class="tabs" width="5">&nbsp;</td>
-            <td style="cursor:pointer" class="tabunselected" width="1%" onclick="activateTab('tab_varia')" id="td<%=xmlServiceIds.size()%>" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' nowrap>
+            <td style="cursor:pointer" class="tabunselected" width="1%" onclick="activateTab('tab_varia')" id="td<%=xmlServiceIds.size()%>" nowrap>
                 &nbsp;<b><%=HTMLEntities.htmlentities(getTranNoLink("web","varia",sWebLanguage))%></b>&nbsp;
             </td>
             
