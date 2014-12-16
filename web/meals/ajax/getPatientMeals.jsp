@@ -1,44 +1,71 @@
-<%@ page import="be.mxs.common.util.system.HTMLEntities" %>
-<%@ page import="java.util.*" %>
-<%@ page import="be.openclinic.meals.Meal" %>
-<%@include file="/includes/validateUser.jsp" %>
+<%@page import="be.mxs.common.util.system.HTMLEntities,
+                be.openclinic.meals.Meal,
+                java.util.*"%>
+<%@include file="/includes/validateUser.jsp"%>
+
 <%
     String sFindMealByDay = checkString(request.getParameter("FindMealByDay"));
-    boolean bWithSearch = checkString(request.getParameter("withSearchFields")).trim().length() > 0;
-    Meal item = null;
-    List lMeals = Meal.getPatientMeals(activePatient, sFindMealByDay, null);
-    if (lMeals.size() > 0) {%>
-<%-- SEARCH RESULTS --%>
-<table width="100%" align="center" class='sortable' cellspacing="0" id="patientmeals">
-    <%-- HEADER --%>
-    <tr class="gray">
-        <td width="28">&nbsp;</td>
-        <td width="35">&nbsp;</td>
-        <td width="80"><%=HTMLEntities.htmlentities(getTranNoLink("web", "time", sWebLanguage))%>
-        </td>
-        <td width="*"><%=HTMLEntities.htmlentities(getTranNoLink("meals", "mealName", sWebLanguage))%>
-        </td>
-    </tr>
-        
-    <%
-        Iterator it = lMeals.iterator();
-        int i = 0;
-        while (it.hasNext()) {
-            item = (Meal) it.next();
-            String sClass = ((i % 2) == 0) ? "list" : "list1";
-            out.write("<tr id=\"patientmeal_"+item.getUid()+"\" class='" + sClass + " ' >");
-            out.write("<td align='center'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.png' class='link' title='" + (HTMLEntities.htmlentities(getTranNoLink("web", "delete", sWebLanguage))) + "' onclick=\"deleteMealFromPatient('" + item.patientMealUid + "');\"></td>");
-            if (item.taken) {
-                out.write("<td align='center'><img src='" + sCONTEXTPATH + "/_img/checked.png' class='link' title='" + (HTMLEntities.htmlentities(getTranNoLink("meals", "mealtaken", sWebLanguage))) + "' onclick=\"setMealTaken('" + item.patientMealUid  + "','');\"></td>");
-            } else {
-                out.write("<td align='center'><img src='" + sCONTEXTPATH + "/_img/unchecked.png' class='link' title='" + (HTMLEntities.htmlentities(getTranNoLink("meals", "mealnottaken", sWebLanguage))) + "' onclick=\"setMealTaken('" + item.patientMealUid  + "','ok');\"></td>");
-            }
-            out.write("<td onclick='getPatientMeal(\"" + item.getUid() + "\",true,\""+item.patientMealUid+"\")'><strong>" + HTMLEntities.htmlentities(new SimpleDateFormat("HH:mm").format(item.mealDatetime)) + "</strong></td>");
-            out.write("<td onclick='getPatientMeal(\"" + item.getUid() + "\",true,\""+item.patientMealUid+"\")'>" + HTMLEntities.htmlentities(item.name) + "</td>");
-            out.write("</tr>");
-            i++;
-        }%>
-</table>
-<%}
-    out.write("<div class='resultsDisplay'>" + lMeals.size() + " " + HTMLEntities.htmlentities(getTran("web", "recordsfound", sWebLanguage)) + "</div>");%>
+    boolean bWithSearch = checkString(request.getParameter("withSearchFields")).length() > 0;
 
+	/// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+	if(Debug.enabled){
+		Debug.println("\n********************* meals/ajax/getPatientMeals.jsp *******************");
+		Debug.println("sFindMealByDay : "+sFindMealByDay);
+		Debug.println("bWithSearch    : "+bWithSearch+"\n");
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+    List lMeals = Meal.getPatientMeals(activePatient,sFindMealByDay,null);
+    
+    if(lMeals.size() > 0){
+        %>
+		<table width="100%" cellspacing="1" cellpadding="1" class="sortable" id="patientmeals">
+		    <%-- HEADER --%>
+		    <tr class="gray">
+		        <td width="30">&nbsp;</td>
+		        <td width="80"><%=HTMLEntities.htmlentities(getTran("meals","mealTaken",sWebLanguage))%></td>
+		        <td width="80"><%=HTMLEntities.htmlentities(getTran("meals","mealTime",sWebLanguage))%></td>
+		        <td width="*"><%=HTMLEntities.htmlentities(getTran("meals","mealName",sWebLanguage))%></td>
+		    </tr>
+		        
+		    <%
+		        Iterator iter = lMeals.iterator();
+    		    Meal item = null;
+		        int i = 0;
+		        
+		        while(iter.hasNext()){
+		            item = (Meal)iter.next();
+		            
+		            out.write("<tr id='patientmeal_"+item.getUid()+"' class='list"+(i%2==0?"":"1")+"' style='cursor:hand;'>");
+		             out.write("<td>"+
+		                        "<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.png' class='link' title='"+(HTMLEntities.htmlentities(getTran("web","delete",sWebLanguage)))+"' onclick=\"deleteMealFromPatient('"+item.patientMealUid+"');\">"+
+		                       "</td>");
+		             
+		            out.write("<td>");        		            
+		            if(item.taken){
+		                out.write("<img src='"+sCONTEXTPATH+"/_img/themes/default/check.gif' class='link' title='"+(HTMLEntities.htmlentities(getTran("meals","mealTaken",sWebLanguage)))+"' onclick=\"setMealTaken('"+item.patientMealUid+"','');\">");
+		            }
+		            else{
+		                out.write("<img src='"+sCONTEXTPATH+"/_img/themes/default/uncheck.gif' class='link' title='"+(HTMLEntities.htmlentities(getTran("meals","mealNotTaken",sWebLanguage)))+"' onclick=\"setMealTaken('"+item.patientMealUid+"','ok');\">");
+		            }
+		            out.write("</td>");
+		            
+		             out.write("<td onclick='getPatientMeal(\""+item.getUid()+"\",true,\""+item.patientMealUid+"\")'><b>"+HTMLEntities.htmlentities(new SimpleDateFormat("HH:mm").format(item.mealDatetime))+"</b></td>");
+		             out.write("<td onclick='getPatientMeal(\""+item.getUid()+"\",true,\""+item.patientMealUid+"\")'>"+HTMLEntities.htmlentities(item.name)+"</td>");
+		            out.write("</tr>");
+		            
+		            i++;
+		        }
+		    %>
+		</table>
+        <%
+    }
+
+    if(lMeals.size() > 0){
+    	%><script>ts_makeSortable(document.getElementById("patientmeals"));</script><%
+    	%><%=lMeals.size()%> <%=HTMLEntities.htmlentities(getTran("web","recordsFound",sWebLanguage))%><%
+    }
+    else{
+    	%><%=HTMLEntities.htmlentities(getTran("web","noRecordsFound",sWebLanguage))%><%
+    }
+%>

@@ -1,42 +1,78 @@
-<%@ page import="be.mxs.common.util.system.HTMLEntities" %>
-<%@ page import="java.util.*" %>
-<%@ page import="be.openclinic.meals.MealItem" %>
-<%@ page import="be.openclinic.meals.NutricientItem" %>
-<%@ page import="be.openclinic.meals.Meal" %>
-<%@include file="/includes/validateUser.jsp" %>
-<%
-    String sItems = checkString(request.getParameter("items"));
-    Map finalList = new LinkedHashMap();
-    List l = new LinkedList();
-    if (sItems.trim().length() > 0) {
-        List mealItems = new LinkedList();
-        String[] mealitems = sItems.split(",");
-        MealItem mealitem = null;
-        for (int i = 0; i < mealitems.length; i++) {
-            String[] values = mealitems[i].split("-");
-            mealitem = new MealItem(values[0]);
-            mealitem.quantity = Float.parseFloat(values[1].replace(",","."));
-            Iterator it = MealItem.get(mealitem).nutricientItems.iterator();
-            while (it.hasNext()) {
-                NutricientItem nutricient = (NutricientItem) it.next();
-                if (finalList.keySet().contains(nutricient.name + "$" + nutricient.unit)) {
-                	float tmp = ((Float) finalList.get(nutricient.name + "$" + nutricient.unit)).floatValue();
-                    finalList.put(nutricient.name + "$" + nutricient.unit, Float.valueOf( tmp + (nutricient.quantity * mealitem.quantity)));
+<%@page import="be.mxs.common.util.system.HTMLEntities,
+                java.util.*,
+                be.openclinic.meals.MealItem,
+                be.openclinic.meals.NutricientItem,
+                be.openclinic.meals.Meal"%>
+<%@include file="/includes/validateUser.jsp"%>
 
-                } else {
-                    finalList.put(nutricient.name + "$" + nutricient.unit, Float.valueOf((nutricient.quantity * mealitem.quantity)));
-                }
-            }
-        }
+<%
+    String sMeals = checkString(request.getParameter("meals"));
+    boolean resizeModalbox = checkString(request.getParameter("resizeModalbox")).equals("true");
+
+	/// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+	if(Debug.enabled){
+		Debug.println("\n******************* meals/ajax/getMealNutricients.jsp *****************");
+		Debug.println("sMeals         : "+sMeals);
+		Debug.println("resizeModalbox : "+resizeModalbox+"\n");
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    Map nameUnitQuantity = new LinkedHashMap();
+
+    if(sMeals.length() > 0){
+	    String[] meals = sMeals.split("\\,");
+	    Meal meal = null;
+	    
+	    for(int i=0; i<meals.length; i++){
+	        meal = new Meal(meals[i]);
+	        meal = Meal.get(meal);
+	        
+	        if(meal.mealItems.size() > 0){
+	            Iterator iter = meal.mealItems.iterator();
+	        	MealItem mealitem = null;
+	        	
+	            while(iter.hasNext()){
+	                mealitem = (MealItem)iter.next();
+	                
+	                Iterator nutrItems = MealItem.get(mealitem).nutricientItems.iterator();
+	                while(nutrItems.hasNext()){
+	                    NutricientItem nutricient = (NutricientItem)nutrItems.next();
+	                    
+	                    if(nameUnitQuantity.keySet().contains(nutricient.name+"$"+nutricient.unit)){
+	                        float tmp = ((Float)nameUnitQuantity.get(nutricient.name+"$"+nutricient.unit)).floatValue();
+	                        nameUnitQuantity.put(nutricient.name+"$"+nutricient.unit,Float.valueOf(tmp+(nutricient.quantity*mealitem.quantity)));
+	                    }
+	                    else{
+	                    	nameUnitQuantity.put(nutricient.name+"$"+nutricient.unit,Float.valueOf((nutricient.quantity*mealitem.quantity)));
+	                    }
+	                }
+	            }
+	        }
+	    }
     }
-    Iterator it = finalList.keySet().iterator();
-    int i = 3;
-    while (it.hasNext()) {
-        String s = (String) it.next();
-        if (i > 9) i = 1;
-        out.write("<li class='color" + i + "'><div style='width:210px;padding-left:10px'>" + s.split("\\$")[0] + "</div><div style='width:80px;padding-left:10px'>" + finalList.get(s) + "</div><div style='width:50px'>" + s.split("\\$")[1] + "</div></li>");
-        i++;
-    }%>
-<script>
-    Modalbox.resizeToContent();
-</script>
+    
+    if(nameUnitQuantity.size() > 0){
+	    Iterator iter = nameUnitQuantity.keySet().iterator();
+	    int i = 3;
+	    
+	    while(iter.hasNext()){
+	        String sNameUnitQuantity = (String)iter.next();
+	        if(i > 9) i = 1;
+	        
+	        out.write("<li class='color"+i+"'>"+
+	                   "<div style='width:200px;'>"+sNameUnitQuantity.split("\\$")[0]+"</div>"+
+	                   "<div style='width:100px;text-align:right'>"+nameUnitQuantity.get(sNameUnitQuantity)+"</div>"+
+	                   "<div style='width:40px'>"+sNameUnitQuantity.split("\\$")[1]+"</div>"+
+	                  "</li>");
+	        i++;
+	    }
+    }
+	else{
+		%><%=HTMLEntities.htmlentities(getTran("web","noRecordsfound",sWebLanguage))%><%
+	}
+    
+    if(resizeModalbox){
+        %><script>Modalbox.resizeToContent();</script><%    	
+    }
+%>

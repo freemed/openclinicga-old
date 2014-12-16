@@ -1,77 +1,147 @@
-<%@ page import="be.mxs.common.util.system.HTMLEntities" %>
-<%@ page import="java.util.*" %>
-<%@ page import="be.openclinic.meals.NutricientItem" %>
-<%@include file="/includes/validateUser.jsp" %>
+<%@page import="be.mxs.common.util.system.HTMLEntities,
+                be.openclinic.meals.NutricientItem,
+                java.util.*"%>
+<%@include file="/includes/validateUser.jsp"%>
+
 <%
-    String sFindMealName = checkString(request.getParameter("FindNutricientName"));
-    String sFindNutricientNameWindow = checkString(request.getParameter("FindNutricientNameWindow"));
-    boolean bWithSearch = checkString(request.getParameter("withSearchFields")).trim().length() > 0;
-    if (bWithSearch) {
-        sFindMealName = sFindNutricientNameWindow;
+    String sAction = checkString(request.getParameter("Action"));
+
+    String sFindNutricientName       = checkString(request.getParameter("FindNutricientName")),
+           sFindNutricientNameWindow = checkString(request.getParameter("FindNutricientNameWindow"));
+    
+    boolean bWithSearchFields = (checkString(request.getParameter("withSearchFields")).length() > 0);
+	if(bWithSearchFields){
+        sFindNutricientName = sFindNutricientNameWindow;
     }
+    
+	/// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+	if(Debug.enabled){
+		Debug.println("\n****************** meals/ajax/getNutricientItems.jsp ******************");
+		Debug.println("sAction                   : "+sAction);
+		Debug.println("sFindNutricientName       : "+sFindNutricientName);
+		Debug.println("sFindNutricientNameWindow : "+sFindNutricientNameWindow);
+		Debug.println("bWithSearchFields         : "+bWithSearchFields+"\n");
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
     NutricientItem item = new NutricientItem();
-    item.name = sFindMealName;
-    List lnutricientsitems = NutricientItem.getList(item);
-    // IF TO SHOW SERACH FIELDS
-    if (bWithSearch) {%>
-<table width="100%" cellspacing="1" class="list" onKeyDown='if(event.keyCode==13){searchNutricientItemsWindow();return false;}'>
-    <tr>
-        <td class="admin" width="<%=sTDAdminWidth%>">
-            <%=getTran("meals", "nutricientItemName", sWebLanguage)%>
-        </td>
-        <td class="admin2">
-            <input type="text" class="text search" id="FindNutricientNameWindow" name="FindNutricientNameWindow" size="170" maxLength="255" style="width:170px"> &nbsp;&nbsp;<input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="searchNutricientItemsWindow();"> 
-        </td>
-    </tr>
-</table>
-<%-- SEARCH RESULTS --%>
-<table width="100%" align="center" class='sortable' cellspacing="0">
-    <%-- HEADER --%>
-    <tr class="gray">
-        <td width="24%"><%=HTMLEntities.htmlentities(getTranNoLink("meals", "nutricientItemName", sWebLanguage))%>
-        </td>
-        <td width="25%"><%=HTMLEntities.htmlentities(getTranNoLink("meals", "nutricientItemUnit", sWebLanguage))%>
-        </td>
-    </tr>
-    <%Iterator it = lnutricientsitems.iterator();
-        int i = 0;
-        while (it.hasNext()) {
-            item = (NutricientItem) it.next();
-            String sClass = ((i % 2) == 0) ? "list" : "list1";
-            out.write("<tr onclick='insertNutricientItem(\"" + item.getUid() + "\",\"" + HTMLEntities.htmlQuotes(HTMLEntities.htmlentities(item.name)) + "\",\"" + HTMLEntities.htmlQuotes(HTMLEntities.htmlentities(item.unit)) + "\")' class='" + sClass + "' >");
-            out.write("<td>" + HTMLEntities.htmlentities(item.name) + "</td>");
-            out.write("<td>" + HTMLEntities.htmlentities(item.unit) + "</td>");
-            out.write("</tr>");
-            i++;
-        }%>
-</table>
-<%="<div class='resultsDisplay'>" + lnutricientsitems.size() + " " + HTMLEntities.htmlentities(getTran("web", "recordsfound", sWebLanguage)) + "</div>"%>
-<div class="clear">&nbsp;</div>
-<input type="button" class="button" name="backButton" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="openBackMealItem();">
-<script>
-    Modalbox.resizeToContent();
-</script>
-<% } else { %><%-- SEARCH RESULTS --%>
-<table width="100%" align="center" class='sortable' cellspacing="0">
-    <%-- HEADER --%>
-    <tr class="gray">
-        <td width="2%">&nbsp;</td>
-        <td width="24%"><%=HTMLEntities.htmlentities(getTranNoLink("meals", "nutricientItemName", sWebLanguage))%>
-        </td>
-        <td width="25%"><%=HTMLEntities.htmlentities(getTranNoLink("meals", "nutricientItemUnit", sWebLanguage))%>
-        </td>
-    </tr>
-    <%Iterator it = lnutricientsitems.iterator();
-        int i = 0;
-        while (it.hasNext()) {
-            item = (NutricientItem) it.next();
-            String sClass = ((i % 2) == 0) ? "list" : "list1";
-            out.write("<tr class='" + sClass + "' >");
-            out.write(" <td align='center'><img src='" + sCONTEXTPATH + "/_img/icons/icon_delete.png' class='link' title='" + (getTranNoLink("web", "delete", sWebLanguage)) + "' onclick=\"deleteNutricientItem('" + item.getUid() + "');\"></td>");
-            out.write("<td onclick='openNutricientItem(\"" + item.getUid() + "\")'>" + HTMLEntities.htmlentities(item.name) + "</td>");
-            out.write("<td onclick='openNutricientItem(\"" + item.getUid() + "\")'>" + HTMLEntities.htmlentities(item.unit) + "</td>");
-            out.write("</tr>");
-            i++;
-        }%>
-</table>
-<%="<div class='resultsDisplay'>" + lnutricientsitems.size() + " " + HTMLEntities.htmlentities(getTran("web", "recordsfound", sWebLanguage)) + "</div>"%><%} %>
+    item.name = sFindNutricientName;
+   
+    //*** SEARCH FIELDS *******************************************************
+    if(bWithSearchFields){
+        %>
+		<div id="nutrientsSearchDiv" style="width:514px"> 
+			<table class="list" width="100%" cellspacing="1" cellpadding="1" onKeyDown="if(enterEvent(event,13)){searchNutricientItemsWindow();return false;}">
+                <%-- NUTRIENT NAME --%>
+			    <tr>
+			        <td class="admin" width="100"><%=getTran("meals","nutricientName",sWebLanguage)%></td>
+			        <td class="admin2">
+			            <input type="text" class="text" id="FindNutricientNameWindow" name="FindNutricientNameWindow" value="<%=sFindNutricientNameWindow%>" size="30" maxLength="255">&nbsp;&nbsp;
+			            
+			            <%-- BUTTONS --%>
+			            <input type="button" class="button" name="searchButton" value="<%=HTMLEntities.htmlentities(getTranNoLink("web","search",sWebLanguage))%>" onclick="searchNutricientItemsWindow();">
+			            <img src="<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif" class="link" title="<%=HTMLEntities.htmlentities(getTranNoLink("web","clear",sWebLanguage))%>" onclick="FindNutricientNameWindow.value='';FindNutricientNameWindow.focus();">
+			        </td>
+			    </tr>
+			</table>
+	        <br>
+			
+			<script>setTimeout("document.getElementById('FindNutricientNameWindow').focus()",200);</script>
+        <%
+
+        //*** SEARCH **************************************
+        if(sAction.equalsIgnoreCase("search")){
+	        List lNutricientItems = NutricientItem.getList(item);
+	        
+	        if(lNutricientItems.size() > 0){
+		        %>	         	
+	      		<table width="100%" class="sortable" id="searchresultsNutrients" cellspacing="0" cellpadding="0">
+				    <%-- HEADER --%>
+				    <tr class="gray">
+				        <td width="150"><%=HTMLEntities.htmlentities(getTran("meals","name",sWebLanguage))%></td>
+				        <td width="*"><%=HTMLEntities.htmlentities(getTran("meals","unit",sWebLanguage))%></td>
+				    </tr>
+				    
+				    <tbody class="hand">
+				    <%
+				        Iterator iter = lNutricientItems.iterator();
+				        int i = 0;
+				        
+				        while(iter.hasNext()){
+				            item = (NutricientItem)iter.next();
+				                        
+				            out.write("<tr onclick='insertNutricientItem(\""+item.getUid()+"\",\""+HTMLEntities.htmlQuotes(HTMLEntities.htmlentities(item.name))+"\",\""+HTMLEntities.htmlQuotes(HTMLEntities.htmlentities(item.unit))+"\")' class='list"+(i%2==0?"":"1")+"'>");
+				             out.write("<td>"+HTMLEntities.htmlentities(item.name)+"</td>");
+				             out.write("<td>"+HTMLEntities.htmlentities(item.unit)+"</td>");
+				            out.write("</tr>");
+				            
+				            i++;
+				        }
+			        %>
+			        </tbody>
+				</table>
+		
+				<%=lNutricientItems.size()%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
+                <script>ts_makeSortable(document.getElementById("searchresultsNutrients"));</script>	
+		        <%
+	        }
+	        else{
+        		%><%=HTMLEntities.htmlentities(getTran("web","noRecordsfound",sWebLanguage))%><%
+	        }
+	    }
+        
+        %>
+        	<br><br>		
+			<input type="button" class="button" name="backButton" value="<%=HTMLEntities.htmlentities(getTranNoLink("web","back",sWebLanguage))%>" onclick="openBackMealItem();">
+            <script>Modalbox.resizeToContent();</script>
+		</div>
+        <%
+	}
+    //*** NO SEARCH FIELDS ****************************************************
+    else{
+    	//*** SEARCH **************************************
+        if(sAction.equalsIgnoreCase("search")){
+     	    List lNutricientItems = NutricientItem.getList(item);
+     	    
+        	if(lNutricientItems.size() > 0){
+			    %>
+			    <div id="nutrientsSearchDiv" style="width:100%"> 
+					<table width="100%" class="sortable" id="searchresultsNutrients" cellspacing="0" cellpadding="0">
+					    <%-- HEADER --%>
+					    <tr class="gray">
+					        <td width="25">&nbsp;</td>
+					        <td width="150"><%=HTMLEntities.htmlentities(getTran("meals","name",sWebLanguage))%></td>
+					        <td width="*"><%=HTMLEntities.htmlentities(getTran("meals","unit",sWebLanguage))%></td>
+					    </tr>
+				    
+				        <tbody class="hand">
+					    <%
+					        Iterator iter = lNutricientItems.iterator();
+					        int i = 0;
+					        while(iter.hasNext()){
+					            item = (NutricientItem)iter.next();
+					                      
+					            out.write("<tr class='list"+(i%2==0?"":"1")+"' onmouseover=\"this.className='list_select'\" onmouseout=\"this.className='list"+(i%2==0?"":"1")+"'\">");
+					             out.write("<td><img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.png' class='link' title='"+getTranNoLink("web","delete",sWebLanguage)+"' onclick=\"deleteNutricientItem('"+item.getUid()+"');\"></td>");
+					             out.write("<td onclick='openNutricientItem(\""+item.getUid()+"\")'>"+HTMLEntities.htmlentities(item.name)+"</td>");
+					             out.write("<td onclick='openNutricientItem(\""+item.getUid()+"\")'>"+HTMLEntities.htmlentities(item.unit)+"</td>");
+					            out.write("</tr>");
+					           
+					            i++;
+					        }
+					    %>
+					    </tbody>
+					</table>
+			
+					<%=lNutricientItems.size()%> <%=HTMLEntities.htmlentities(getTran("web","recordsfound",sWebLanguage))%>
+                    <script>ts_makeSortable(document.getElementById("searchresultsNutrients"));</script>	
+				</div>
+				<%
+        	}
+        	else{
+        		%><%=HTMLEntities.htmlentities(getTran("web","noRecordsfound",sWebLanguage))%><%
+        	}
+        }
+	}
+%>		
