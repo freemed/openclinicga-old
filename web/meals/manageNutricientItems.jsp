@@ -1,74 +1,95 @@
-<%@page import="be.openclinic.pharmacy.AdministrationSchema,
-                be.openclinic.common.KeyValue,
-                be.mxs.webapp.wl.servlet.http.RequestParameterParser,
-                java.util.Hashtable,
-                be.openclinic.medical.CarePrescriptionAdministrationSchema" %>
-<%@include file="/includes/validateUser.jsp" %>
-<%@page errorPage="/includes/error.jsp" %>
-<link type="text/css" rel="stylesheet" href='<c:url value="/" />_common/_css/meals.css'/>
-<%=checkPermission("manage.meals", "all", activeUser)%><%=writeTableHeader("Web", "manageNutricients", sWebLanguage)%>
-<table width="100%" cellspacing="1" class="list" onKeyDown='if(event.keyCode==13){searchNutricientItems();return false;}'>
+<%@page import="be.mxs.common.util.system.HTMLEntities"%>
+<%@include file="/includes/validateUser.jsp"%>
+<%@page errorPage="/includes/error.jsp"%>
+<link type="text/css" rel="stylesheet" href='<c:url value="/"/>_common/_css/meals.css'/>
+<%=checkPermission("manage.meals","all",activeUser)%>
+
+<%
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n******************** meals/manageNutricientItems.jsp *******************");
+    	Debug.println("No parameters\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+%>
+
+<table class="list" width="100%" cellspacing="1" onKeyDown="if(enterEvent(event,13)){searchNutricientItems();return false;}">
+    <%-- NUTRIENT NAME --%>
     <tr>
-        <td class="admin" width="<%=sTDAdminWidth%>">
-            <%=getTran("meals", "nutricientItemName", sWebLanguage)%>
-        </td>
+        <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("meals","name",sWebLanguage)%></td>
         <td class="admin2">
-            <input type="text" class="text search" id="FindNutricientName" name="FindNutricientName" size="<%=sTextWidth%>" maxLength="255">
-            &nbsp;&nbsp;<input type="button" class="button" name="searchButton" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="searchNutricientItems();"> &nbsp;&nbsp;<input type="button" class="button" name="newButton" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="openNutricientItem('-1');">
+            <input type="text" class="text" id="FindNutricientName" name="FindNutricientName" size="50" maxLength="100">&nbsp;&nbsp;
+            
+            <%-- BUTTONS --%>
+            <input type="button" class="button" name="searchButton" value="<%=HTMLEntities.htmlentities(getTranNoLink("web","search",sWebLanguage))%>" onclick="searchNutricientItems();">
+            <img src="<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif" class="link" title="<%=HTMLEntities.htmlentities(getTranNoLink("web","clear",sWebLanguage))%>" onclick="FindNutricientName.value='';FindNutricientName.focus();">&nbsp;&nbsp;
+			<input type="button" class="button" name="newButton" value="<%=HTMLEntities.htmlentities(getTranNoLink("web","new",sWebLanguage))%>" onclick="openNutricientItem('-1');">
         </td>
     </tr>
 </table>
-<div id="nutricientItemsResultsByAjax">&nbsp;</div>
+<br>
+
+<div id="nutricientItemResultsByAjax">&nbsp;</div>
+
 <script>
-    function searchNutricientItems() {
-        var id = "nutricientItemsResultsByAjax";
-        $(id).update("<div id='wait'>&nbsp;</div>");
-        var params = "FindNutricientName=" + $F("FindNutricientName");
-        if ($("FindNutricientNameWindow")) {
-            params += "&FindNutricientNameWindow=" + $F("FindNutricientNameWindow") + "&withSearchFields=1";
-        }
-        var url = "<c:url value="/meals/ajax/getNutricientItems.jsp" />?ts=" + new Date().getTime();
-        new Ajax.Updater(id, url,
-        {   parameters:params,
-            evalScripts: true,
-            asynchronous:false
+  var itemuid = "";
 
-        });
+  <%-- SEARCH NUTRICIENT ITEMS --%>
+  function searchNutricientItems(doSearch){
+	if(doSearch==null) doSearch = true;
+    var id = "nutricientItemResultsByAjax";
+    $(id).update("<div id='wait'></div>");
+    var params = (doSearch?"Action=search&":"")+
+                 "FindNutricientName="+encodeURI($F("FindNutricientName"));
+    if($("FindNutricientNameWindow")){
+      params+= "&FindNutricientNameWindow="+encodeURI($F("FindNutricientNameWindow"))+
+               "&withSearchFields=1";
     }
-    openNutricientItem = function(id) {
-        var params = "nutricientItemId=" + id;
-        var url = "<c:url value="/meals/ajax/getNutricientItem.jsp" />?ts=" + new Date().getTime();
-        Modalbox.show(url, {title:"<%=getTranNoLink("meals","nutricientitem",sWebLanguage)%>",params:params});
-    }
-    setNutricientItem = function () {
-        var params = "action=save&nutricientItemId=" + $F("nutricientItemId") + "&nutricientItemUnit=" + encodeURI($("nutricientItemUnit").value) + "&nutricientItemName=" + $F("nutricientItemName");
-        var id = "operationByAjax";
-        $(id).update("<div id='wait'>&nbsp;</div>");
-        var url = "<c:url value="/meals/ajax/setNutricientItem.jsp" />?ts=" + new Date().getTime();
-        new Ajax.Updater(id, url,
-        {  method:'post', parameters:params,
-            evalScripts: true
+    var url = "<c:url value='/meals/ajax/getNutricientItems.jsp'/>?ts="+new Date().getTime();
+    new Ajax.Updater(id,url,{parameters:params,evalScripts:true});
+  }
 
-        });
+  <%-- OPEN NUTRICIENT ITEM --%>
+  function openNutricientItem(id){
+    var params = "nutricientItemId="+id;
+    var url = "<c:url value='/meals/ajax/getNutricientItem.jsp'/>?ts="+new Date().getTime();
+    Modalbox.show(url,{title:"<%=getTran("meals","nutricientitem",sWebLanguage)%>",params:params,width:530});
+  }
+
+  <%-- SET NUTRICIENT ITEM --%>
+  function setNutricientItem(){
+	if($F("nutricientItemName").length > 0 && $F("nutricientItemUnit").length > 0){
+      var params = "action=save"+
+                   "&nutricientItemId="+$F("nutricientItemId")+
+                   "&nutricientItemName="+encodeURI($F("nutricientItemName"))+
+                   "&nutricientItemUnit="+encodeURI($F("nutricientItemUnit"));
+      $("operationByAjax").update("<div id='wait'></div>");
+      var url = "<c:url value='/meals/ajax/setNutricientItem.jsp'/>?ts="+new Date().getTime();
+      new Ajax.Updater("operationByAjax",url,{parameters:params,evalScripts:true});
+	}
+	else{
+           if($F("nutricientItemName").length==0) $("nutricientItemName").focus();
+ 	  else if($F("nutricientItemUnit").length==0) $("nutricientItemUnit").focus();
+	 	  
+ 	  alertDialog("web.manage","dataMissing");
+	}
+  }
+  
+  <%-- DELETE NUTRICIENT ITEM --%>
+  function deleteNutricientItem(id){
+    itemuid = id;
+    yesnoModalBox("deleteNutricientItemNext()","<%=getTranNoLink("web","areYouSureToDelete",sWebLanguage)%>");
+  }
+
+  <%-- DELETE NUTRICIENT ITEM NEXT --%>
+  function deleteNutricientItemNext(){
+    if(itemuid.length > 0){
+      $("operationByAjax").update("<div id='wait'></div>");
+      var url = "<c:url value='/meals/ajax/setNutricientItem.jsp'/>"+
+    		    "?action=delete"+
+    		    "&nutricientItemId="+itemuid+
+    		    "&ts="+new Date().getTime();
+      new Ajax.Updater("operationByAjax",url,{evalScripts:true});
     }
-    var itemuid = "";
-    deleteNutricientItem = function(id) {
-        itemuid = id;
-        yesOrNo("deleteNutricientItemNext()", "<%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>");
-    }
-    deleteNutricientItemNext = function() {
-        if (itemuid.length > 0) {
-            var id = "operationByAjax";
-            $(id).update("<div id='wait'>&nbsp;</div>");
-            var url = "<c:url value="/meals/ajax/setNutricientItem.jsp" />?action=delete&nutricientItemId=" + itemuid + "&ts=" + new Date().getTime();
-            new Ajax.Updater(id, url,
-            {
-                evalScripts: true
-            });
-        }
-    }
-    refreshNutricientItems = function() {
-        searchNutricientItems();
-    }
+  }
 </script>
-
