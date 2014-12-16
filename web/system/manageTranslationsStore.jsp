@@ -1,20 +1,8 @@
 <%@page import="be.mxs.common.util.system.HTMLEntities"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+
 <%
-    // supported languages
-    String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
-    if(supportedLanguages.length()==0) supportedLanguages = "nl,fr";
-
-    String tmpLang;
-    Hashtable hTranslations = new Hashtable();
-    StringTokenizer tokenizer = new StringTokenizer(supportedLanguages, ",");
-    while(tokenizer.hasMoreTokens()){
-        tmpLang = tokenizer.nextToken();
-        String val=checkString(request.getParameter("EditLabelValue"+tmpLang.toUpperCase())).replaceAll("<BR>","\n").replaceAll("<PLUS>","+");
-        hTranslations.put(tmpLang.toUpperCase(),val);
-    }
-
     String sAction = checkString(request.getParameter("Action"));
 
     // get values from form
@@ -26,6 +14,33 @@
 
     String editShowLink = checkString(request.getParameter("EditShowLink"));
 
+    // supported languages
+    String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
+    if(supportedLanguages.length()==0) supportedLanguages = "nl,fr";
+    
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n***************** system/manageTranslationsStore.jsp *******************");
+    	Debug.println("sAction            : "+sAction);
+    	Debug.println("editLabelID        : "+editLabelID);
+    	Debug.println("editLabelType      : "+editLabelType);
+    	Debug.println("editOldLabelID     : "+editOldLabelID);
+    	Debug.println("editOldLabelType   : "+editOldLabelType);
+    	Debug.println("editShowLink       : "+editShowLink);
+        Debug.println("supportedLanguages : "+supportedLanguages+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    String tmpLang;
+    Hashtable hTranslations = new Hashtable();
+    StringTokenizer tokenizer = new StringTokenizer(supportedLanguages, ",");
+    while(tokenizer.hasMoreTokens()){
+        tmpLang = tokenizer.nextToken();
+        String val = checkString(request.getParameter("EditLabelValue"+tmpLang.toUpperCase())).replaceAll("<BR>","\n").replaceAll("<PLUS>","+");
+        Debug.println("EditLabelValue"+tmpLang.toUpperCase()+" : "+val);
+        hTranslations.put(tmpLang.toUpperCase(),val);
+    }
+    
     boolean invalidCharFound;
     boolean bExists = false;
     String msg = getTran("web.manage", "labelsaved", sWebLanguage);
@@ -37,7 +52,7 @@
 
         // check label type and id for invalid chars
         invalidCharFound = false;
-        for (int i = 0; i < invalidLabelKeyChars.length(); i++){
+        for(int i = 0; i < invalidLabelKeyChars.length(); i++){
             if((editLabelType+editLabelID).indexOf(invalidLabelKeyChars.charAt(i)) > -1){
                 invalidCharFound = true;
                 msg = getTran("Web.manage","invalidcharsfound",sWebLanguage)+" '"+invalidLabelKeyChars+"'";
@@ -57,6 +72,8 @@
                 oldLabel.language = tmpLang;
 
                 if(oldLabel.exists()){
+                    Debug.println("Adding '"+oldLabel.type+"."+oldLabel.id+"."+oldLabel.language+"' "+sValue);
+                    
                     Label label = new Label();
                     label.type = editLabelType;
                     label.id = editLabelID;
@@ -92,7 +109,7 @@
 
         // check label type and id for invalid chars
         invalidCharFound = false;
-        for (int i = 0; i < invalidLabelKeyChars.length(); i++){
+        for(int i = 0; i < invalidLabelKeyChars.length(); i++){
             if((editLabelType+editLabelID).indexOf(invalidLabelKeyChars.charAt(i)) > -1){
                 invalidCharFound = true;
                 msg = getTran("Web.manage","invalidcharsfound",sWebLanguage)+" '"+invalidLabelKeyChars+"'";
@@ -101,10 +118,10 @@
         }
 
         if(!invalidCharFound){
-            // exists ?
             boolean labelExists;
-            tokenizer = new StringTokenizer(supportedLanguages, ",");
-            while (tokenizer.hasMoreTokens()){
+            
+            tokenizer = new StringTokenizer(supportedLanguages,",");
+            while(tokenizer.hasMoreTokens()){
                 tmpLang = tokenizer.nextToken();
 
                 Label label = new Label();
@@ -113,19 +130,22 @@
                 label.language = tmpLang;
                 label.showLink = editShowLink;
                 label.value = checkString((String)hTranslations.get(tmpLang.toUpperCase()));
-                label.updateUserId = activeUser.userid;
-                labelExists = label.exists();
+                
+                if(label.value.length() > 0){
+                    label.updateUserId = activeUser.userid;
+                    labelExists = label.exists();
 
-                Debug.println("Saving "+label.value);
-                // INSERT
-                if(!labelExists){
-                    label.saveToDB();
-                    msg = "'"+editLabelType+"$"+editLabelID+"$"+checkString((String)hTranslations.get(sWebLanguage.toUpperCase()))+"' "+getTran("Web", "added", sWebLanguage);
-
-                }
-                else{
-                    // a label with the given ids allready exists
-                    msg = getTran("Web.Manage","labelExists",sWebLanguage);
+                    Debug.println("Adding '"+label.type+"."+label.id+"."+label.language+"' : "+label.value);
+                  
+                    // INSERT
+                    if(!labelExists){
+                        label.saveToDB();
+                        msg = "'"+editLabelType+"$"+editLabelID+"$"+checkString((String)hTranslations.get(sWebLanguage.toUpperCase()))+"' "+getTran("Web", "added", sWebLanguage);
+                    }
+                    else{
+                        // a label with the given ids allready exists
+                        msg = getTran("Web.Manage","labelExists",sWebLanguage);
+                    }
                 }
             }
             editOldLabelID = editLabelID;

@@ -134,8 +134,8 @@
     <table width="100%" class="menu" cellspacing="0">
         <%-- SEARCH --%>
         <tr>
-            <td width="<%=sTDAdminWidth%>">&nbsp;<%=getTran("Web.manage","examination",sWebLanguage)%></td>
-            <td>
+            <td class="admin2" width="<%=sTDAdminWidth%>">&nbsp;<%=getTran("Web.manage","examination",sWebLanguage)%></td>
+            <td class="admin2">
                 <select name="FindExamID" class="text" onChange="transactionForm.submit();">
                     <option value="-1"><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                     <%

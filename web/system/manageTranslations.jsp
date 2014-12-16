@@ -26,6 +26,25 @@
     boolean excludeServices  = checkString(request.getParameter("excludeServices")).equals("true"),
             excludeFunctions = checkString(request.getParameter("excludeFunctions")).equals("true");
 
+
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n****************** system/manageTranslations.jsp *********************");
+      	Debug.println("findLabelID      : "+findLabelID);
+       	Debug.println("findLabelType    : "+findLabelType);
+       	Debug.println("findLabelLang    : "+findLabelLang);
+       	Debug.println("findLabelValue   : "+findLabelValue);
+       	
+       	Debug.println("editLabelID   : "+editLabelID);
+       	Debug.println("editLabelType : "+editLabelType);
+       	Debug.println("editShowLink  : "+editShowLink);
+       	
+       	Debug.println("supportedLanguages : "+supportedLanguages);       	
+       	Debug.println("excludeServices    : "+excludeServices);
+       	Debug.println("excludeFunctions   : "+excludeFunctions+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    
     boolean labelAllreadyExists = false;
     boolean invalidCharFound = false;
     String msg = null;
@@ -39,7 +58,7 @@
     <%-- LABEL TYPE --%>
     <tr>
       <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("Web","type",sWebLanguage)%></td>
-      <td class="admin2">
+      <td class="admin2" id="FindLabelTypeDiv">
           <select id="FindLabelType" class="text">
               <option></option>
               <%
@@ -117,8 +136,7 @@
 <script>  
   <%-- do find --%>
   function doFind(){
-    if($('FindLabelType').value.length>0 || $('FindLabelID').value.length>0 ||
-       $('FindLabelLang').value.length>0 || $('FindLabelValue').value.length>0){
+    if($('FindLabelType').value.length>0 || $('FindLabelID').value.length>0 || $('FindLabelValue').value.length>0){
       var params = "FindLabelType="+document.getElementById('FindLabelType').value+
                    "&FindLabelID="+document.getElementById('FindLabelID').value+
                    "&FindLabelLang="+document.getElementById('FindLabelLang').value+
@@ -144,7 +162,8 @@
     transactionForm.EditLabelType.value = sType;
     transactionForm.EditLabelID.value = sID;
 
-    var params = 'EditOldLabelType='+sType+"&EditOldLabelID="+sID;
+    var params = "EditOldLabelType="+sType+
+                 "&EditOldLabelID="+sID;
 	var url = "<%=sCONTEXTPATH%>/system/manageTranslationsEdit.jsp?ts="+new Date();
 	new Ajax.Request(url,{
       method: "GET",
@@ -289,7 +308,8 @@
   function checkSave(sAction){
     if(formComplete()){
       var url = "<%=sCONTEXTPATH%>/system/manageTranslationsStore.jsp?ts="+new Date();
-      var pb = 'Action='+sAction+'&EditLabelID='+transactionForm.EditLabelID.value+
+      var pb = 'Action='+sAction+
+               '&EditLabelID='+transactionForm.EditLabelID.value+
 	           '&EditLabelType='+transactionForm.EditLabelType.value+
 	           '&EditOldLabelID='+transactionForm.EditOldLabelID.value+
 	           '&EditOldLabelType='+transactionForm.EditOldLabelType.value;
@@ -297,7 +317,7 @@
 	      tokenizer = new StringTokenizer(supportedLanguages,",");
 	      while(tokenizer.hasMoreTokens()){
 	          tmpLang = tokenizer.nextToken();
-	          out.print("+'&EditLabelValue"+tmpLang.toUpperCase()+"='+encodeURIComponent(transactionForm.EditLabelValue"+tmpLang.toUpperCase()+".value)");
+	          out.print("pb+= '&EditLabelValue"+tmpLang.toUpperCase()+"='+encodeURIComponent(transactionForm.EditLabelValue"+tmpLang.toUpperCase()+".value);");
 	      }
 	  %>
 	  new Ajax.Request(url,{
@@ -305,15 +325,68 @@
         postBody: pb,
         onSuccess: function(resp){
           $('divMessage').innerHTML = resp.responseText;
-          doFind();
           $('EditOldLabelType').value = $('EditLabelType').value;
           $('EditOldLabelID').value = $('EditLabelID').value;
+          updateTypeSelectAndSearch();
         },
         onFailure: function(){
           $('divMessage').innerHTML = "Error in function manageTranslationsStore() => AJAX";
         }
       });
     }
+  }
+
+  <%-- ASK DELETE --%>
+  function askDelete(){
+    if(formComplete()){
+      if(yesnoDialog("Web","areYouSureToDeleteLabelForAllLanguages")){
+        var url = "<%=sCONTEXTPATH%>/system/manageTranslationsStore.jsp?ts="+new Date();
+        new Ajax.Request(url,{
+          method: "POST",
+          postBody: 'Action=Delete'+
+                    '&EditLabelID='+$('EditLabelID').value+
+                    '&EditLabelType='+$('EditLabelType').value,
+          onSuccess: function(resp){
+            $('divMessage').innerHTML = resp.responseText;
+            doNew();
+            updateTypeSelect();
+            clearSearchResults();
+          },
+          onFailure: function(){
+            $('divMessage').innerHTML = "Error in function askDelete() => AJAX";
+          }
+        });
+      }
+    }
+  }
+  
+  <%-- CLEAR SEARCH RESULTS --%>
+  function clearSearchResults(){
+    document.getElementById("divFindRecords").innerHTML = "";  
+  }
+  
+  <%-- UPDATE TYPE SELECT AND SEARCH --%>
+  function updateTypeSelectAndSearch(){
+    var url = "<%=sCONTEXTPATH%>/system/ajax/manageTranslationsGetTypeSelect.jsp?ts="+new Date().getTime();
+    new Ajax.Request(url,{
+      onSuccess: function(resp){
+        document.getElementById("FindLabelTypeDiv").innerHTML = resp.responseText.trim();     
+        
+        transactionForm.FindLabelType.value = transactionForm.EditLabelType.value;
+        transactionForm.FindLabelID.value = transactionForm.EditLabelID.value;    
+        doFind();
+      }
+    });
+  }
+  
+  <%-- UPDATE TYPE SELECT --%>
+  function updateTypeSelect(){
+    var url = "<%=sCONTEXTPATH%>/system/ajax/manageTranslationsGetTypeSelect.jsp?ts="+new Date().getTime();
+    new Ajax.Request(url,{
+      onSuccess: function(resp){
+        document.getElementById("FindLabelTypeDiv").innerHTML = resp.responseText.trim();
+      }
+    });
   }
 
   <%-- FORM COMPLETE --%>
@@ -332,28 +405,6 @@
     }
 
     return true;
-  }
-
-  <%-- ASK DELETE --%>
-  function askDelete(){
-    if(formComplete()){
-      if(yesnoDialog("Web","areYouSureToDelete")){
-        var url = "<%=sCONTEXTPATH%>/system/manageTranslationsStore.jsp?ts="+new Date();
-        new Ajax.Request(url,{
-          method: "POST",
-          postBody: 'Action=Delete&EditLabelID='+$('EditLabelID').value+
-                    '&EditLabelType='+$('EditLabelType').value,
-          onSuccess: function(resp){
-            $('divMessage').innerHTML = resp.responseText;
-            doNew();
-            doFind();
-          },
-          onFailure: function(){
-            $('divMessage').innerHTML = "Error in function askDelete() => AJAX";
-          }
-        });
-      }
-    }
   }
 </script>
 

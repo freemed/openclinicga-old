@@ -17,10 +17,10 @@
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
     	Debug.println("\n***************** system/manageTranslationsFind.jsp *******************");
-    	Debug.println("findLabelID    : "+findLabelID);
-    	Debug.println("findLabelType  : "+findLabelType);
-    	Debug.println("findLabelLang  : "+findLabelLang);
-    	Debug.println("findLabelValue : "+findLabelValue);
+    	Debug.println("findLabelID      : "+findLabelID);
+    	Debug.println("findLabelType    : "+findLabelType);
+    	Debug.println("findLabelLang    : "+findLabelLang);
+    	Debug.println("findLabelValue   : "+findLabelValue);
     	Debug.println("excludeServices  : "+excludeServices);
     	Debug.println("excludeFunctions : "+excludeFunctions+"\n");
     }

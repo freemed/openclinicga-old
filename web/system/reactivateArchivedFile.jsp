@@ -69,7 +69,7 @@
         out.flush();
     }
 %>
-<form name="reactivateForm" method="post" action="<%=sCONTEXTPATH%>/main.do?Page=system/reactivateArchivedFile.jsp?ts=<%=getTs()%>" onKeyDown="if(event.keyCode==13){searchHistoryPatient();}">
+<form name="reactivateForm" method="post" action="<%=sCONTEXTPATH%>/main.do?Page=system/reactivateArchivedFile.jsp?ts=<%=getTs()%>" onKeyDown="if(enterEvent(event,13)){searchHistoryPatient();}">
     <input type="hidden" name="Action" value="">
     <input type="hidden" name="historyPersonid" value="">
     <%=writeTableHeader("Web.manage","reactivatearchivedfile",sWebLanguage,"main.do?Page=system/menu.jsp")%>
