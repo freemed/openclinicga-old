@@ -32,7 +32,7 @@
 
     int foundRecords = 0;
 %>    
-<form name="icpcForm" method="post" onSubmit="doFind();" onKeyDown='if(event.keyCode==13){doFind();return false;}else{return true;}'>
+<form name="icpcForm" method="post" onSubmit="doFind();" onKeyDown='if(enterEvent(event,13)){doFind();return false;}else{return true;}'>
     <input type="hidden" name="ListMode" value="">
     
     <%=writeTableHeader("web","icpc",sWebLanguage)%>
