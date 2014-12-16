@@ -136,7 +136,7 @@
       action="popup.jsp?Page=medical/manageProblems.jsp&ts=<%=getTs()%>">
     <%=writeTableHeader("Web.manage", "manageProblems", sWebLanguage, "")%>
     <table class="list" width="100%" cellspacing="1"
-           onKeyDown='if(event.keyCode==13){doFind();return false;}else{return true;}'>
+           onKeyDown='if(enterEvent(event,13)){doFind();return false;}else{return true;}'>
         <tr>
             <td class="admin2" width="<%=sTDAdminWidth%>">
                 <%=getTran("medical.diagnosis", "period", sWebLanguage)%>

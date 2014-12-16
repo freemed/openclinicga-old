@@ -209,7 +209,7 @@
         
     <%=writeTableHeader("Web","manageDiagnosesPatient",sWebLanguage," doBack();")%>
     
-    <table class='list' width="100%" cellspacing="1" onKeyDown='if(event.keyCode==13){doFind();return false;}else{return true;}'>
+    <table class='list' width="100%" cellspacing="1" onKeyDown='if(enterEvent(event,13)){doFind();return false;}else{return true;}'>
         <%-- date --%>
         <tr>
             <td class="admin2" width='<%=sTDAdminWidth%>'>
@@ -668,7 +668,7 @@
     else{
 %>
     <%=writeTableHeader("Web","manageDiagnosesPatient",sWebLanguage," doBack();")%>
-    <table class='list' width="100%" cellspacing="1" onKeyDown='if(event.keyCode==13){doFind();return false;}else{return true;}'>
+    <table class='list' width="100%" cellspacing="1" onKeyDown='if(enterEvent(event,13)){doFind();return false;}else{return true;}'>
         <tr>
             <td colspan="2"><%=getTranNoLink("web","nopatientselected",sWebLanguage)%></td>
         </tr>

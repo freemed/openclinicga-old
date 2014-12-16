@@ -9,7 +9,7 @@
                 <%-- FIND --%>
                 <tr>
                     <td nowrap>
-                        <input type="text" class="text" name="findproduct" id="findproduct" size="40" onKeyDown="if(event.keyCode==13){document.getElementById('findproductbutton').onclick();}">
+                        <input type="text" class="text" name="findproduct" id="findproduct" size="40" onKeyDown="if(enterEvent(event,13)){document.getElementById('findproductbutton').onclick();}">
                         <input align="right" type="button" class="button" name="findproductbutton" id="findproductbutton" value="<%=getTranNoLink("web","find",sWebLanguage)%>" onclick="findProduct();">
                     </td>
                 </tr>
