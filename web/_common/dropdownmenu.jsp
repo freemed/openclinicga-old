@@ -530,7 +530,7 @@
   }
   function storePicture(){
     var url = "<c:url value='/util/ajax/webcam.jsp'/>?ts="+new Date().getTime();
-    Modalbox.show(url,{title:'<%=getTranNoLink("web","loadPicture",sWebLanguage)%>',width:650});
+    Modalbox.show(url,{title:'<%=getTranNoLink("web","storePicture",sWebLanguage)%>',width:650});
   }
   function showPicture(){
     var url = "<c:url value="/util/ajax/showPicture.jsp"/>?personid=<%=activePatient!=null?activePatient.personid:"0"%>&ts="+new Date().getTime();
@@ -538,8 +538,9 @@
   }
   function deletePicture(){
     var url = "<c:url value='/util/ajax/deletePicture.jsp'/>?ts="+new Date().getTime();
-    Modalbox.show(url,{title:'<%=getTranNoLink("web","loadPicture",sWebLanguage)%>',width:162});
+    Modalbox.show(url,{title:'<%=getTranNoLink("web","deletePicture",sWebLanguage)%>',width:162});
   }
+  
   <%-- DO PRINT --%>
   function doPrint(){
     openPopup("/_common/print/printPatient.jsp&Field=mijn&ts=<%=getTs()%>");
@@ -583,7 +584,7 @@
     }
     else{
       if(!time) time = 1000;
-      Modalbox.show('<div class=\'valid\'><p>'+msg+'</p><p style="text-align:center"><input class=\'button\' type=\'button\' style=\'padding-left:7px;padding-right:7px\' value=\'<%=getTranNoLink("web","ok",sWebLanguage)%>\' onclick=\'Modalbox.hide()\' /></p></div>',{title:"...",width: 200});
+      Modalbox.show('<div class=\'valid\'><p>'+msg+'</p><p style="text-align:center"><input class=\'button\' type=\'button\' style=\'padding-left:7px;padding-right:7px\' value=\'<%=getTranNoLink("web","ok",sWebLanguage)%>\' onclick=\'Modalbox.hide()\'/></p></div>',{title:"...",width:200});
       setTimeout("Modalbox.hide()",time);
     }
   }
@@ -591,12 +592,19 @@
   function refreshWindow(){
     window.location.reload(true);
   }
-    
-  <%-- MODALBOX YES OR NO --%>
-  function yesOrNo(myfunction,msg){
-    Modalbox.show('<div class=\'warning\'><p>'+msg+'</p><p style="text-align:center"><input class=\'button\' type=\'button\' style=\'padding-left:7px;padding-right:7px\' value=\'<%=getTranNoLink("web","yes",sWebLanguage)%>\' onclick=\'eval("'+myfunction+'");Modalbox.hide()\' />&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<input type=\'button\' class=\'button\' style=\'padding-left:7px;padding-right:7px\' value=\'<%=getTranNoLink("web","no",sWebLanguage)%>\' onclick=\'Modalbox.hide()\' /></p></div>',{title:"<%=getTranNoLink("web","areyousure",sWebLanguage)%>",width:300});
-  }
 
+  <%-- YESNO MODALBOX (2 buttons) --%>
+  function yesnoModalBox(yesFunction,msg){
+    var html = "<div style='border:1px solid #bbccff;padding:1px;'>"+
+			    "<p style='text-align:center'>"+msg+"</p>"+
+			    "<p style='text-align:center'>"+
+			     "<input type='button' class='button' style='padding-left:7px;padding-right:7px' value='<%=getTranNoLink("web","yes",sWebLanguage)%>' onclick='eval(\""+yesFunction+"\");Modalbox.hide();'/>&nbsp;&nbsp;"+
+			     "<input type='button' class='button' style='padding-left:7px;padding-right:7px' value='<%=getTranNoLink("web","no",sWebLanguage)%>' onclick='Modalbox.hide();'/>"+
+			    "</p>"+
+			   "</div>";
+    Modalbox.show(html,{title:'<%=getTranNoLink("web","message",sWebLanguage)%>',width:300});
+  }
+  
   <%-- OPEN POPUP --%>
   function openPopup(page,width,height,title){
     var url = "<c:url value='/popup.jsp'/>?Page="+page;
