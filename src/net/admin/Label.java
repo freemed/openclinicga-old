@@ -20,7 +20,7 @@ public class Label implements Serializable {
     public String updateUserId;
 
 
-    //--- CONSTRUCTOR -----------------------------------------------------------------------------
+    //--- CONSTRUCTOR (1) -------------------------------------------------------------------------
     public Label(String type, String id, String language, String value, String showLink, String updateUserId){
         this.type         = type;
         this.id           = id;
@@ -30,8 +30,8 @@ public class Label implements Serializable {
         this.updateUserId = updateUserId;
     }
 
-    //--- EMPTY CONSTRUCTOR -----------------------------------------------------------------------
-    public Label() {
+    //--- CONSTRUCTOR (2) -------------------------------------------------------------------------
+    public Label(){
         this.type         = "";
         this.id           = "";
         this.language     = "";
@@ -40,8 +40,7 @@ public class Label implements Serializable {
         this.updateUserId = "";
     }
 
-    //--- Start Copied from AdminLabel --------------
-    //--- CONSTRUCTOR 3 ------
+    //--- CONSTRUCTOR 3 ---------------------------------------------------------------------------
     public Label(String sLanguage, String sValue){
         this.type         = "";
         this.id           = "";
@@ -50,17 +49,16 @@ public class Label implements Serializable {
         this.showLink     = "1";
         this.updateUserId = "";
     }
-    //--- End Copied from AdminLabel --------------
 
-    //--- COMPLETE --------------------------------------------------------------------------------
-    public void complete() throws Exception {
-        if(this.showLink.length()==0) this.showLink = "1"; //show by default
+    //--- IS COMPLETE -----------------------------------------------------------------------------
+    public void isComplete() throws Exception {
+        if(this.showLink.length()==0) this.showLink = "1"; // show by default
 
-        if(this.type.length()==0)         throw new Exception("Label is not complete : 'type' missing");
-        if(this.id.length()==0)           throw new Exception("Label is not complete : 'id' missing");
-        if(this.language.length()==0)     throw new Exception("Label is not complete : 'language' missing");
-        if(this.value.length()==0)        throw new Exception("Label is not complete : 'value' missing");
-        if(this.updateUserId.length()==0) throw new Exception("Label is not complete : 'updateUserId' missing");
+        if(this.type.length()==0)         throw new Exception("Label ("+id+"$MISSING$"+language+") is not complete : type missing");
+        if(this.id.length()==0)           throw new Exception("Label (MISSING$"+type+"$"+language+") is not complete : id missing");
+        if(this.language.length()==0)     throw new Exception("Label ("+id+"$"+type+"$MISSING) is not complete : language missing");
+        if(this.value.length()==0)        System.out.println("Label ("+id+"$"+type+"$"+language+") is not complete : value missing");
+        if(this.updateUserId.length()==0) throw new Exception("Label ("+id+"$"+type+"$"+language+") is not complete : updateUserId missing");
     }
 
     //--- SAVE TO DB ------------------------------------------------------------------------------
@@ -84,12 +82,11 @@ public class Label implements Serializable {
                lcaseLabelID   = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_ID"),
                lcaseLabelLang = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_LANGUAGE");
 
-        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            String sSelect = "SELECT * FROM OC_LABELS"+
-                             " WHERE "+lcaseLabelType+"=? AND "+lcaseLabelID+"=? AND "+lcaseLabelLang+"=?";
-
-            ps = loc_conn.prepareStatement(sSelect);
+            String sSql = "SELECT * FROM OC_LABELS"+
+                          " WHERE "+lcaseLabelType+"=? AND "+lcaseLabelID+"=? AND "+lcaseLabelLang+"=?";
+            ps = conn.prepareStatement(sSql);
             ps.setString(1,this.type.toLowerCase());
             ps.setString(2,this.id.toLowerCase());
             ps.setString(3,this.language.toLowerCase());
@@ -104,10 +101,10 @@ public class Label implements Serializable {
             try{
                 if(rs!=null) rs.close();
                 if(ps!=null) ps.close();
-                loc_conn.close();
+                conn.close();
             }
-            catch(SQLException sqle){
-                sqle.printStackTrace();
+            catch(SQLException e){
+                e.printStackTrace();
             }
         }
 
@@ -116,56 +113,56 @@ public class Label implements Serializable {
 
     //--- INSERT ----------------------------------------------------------------------------------
     private void insert() throws Exception {
-        complete();
-        PreparedStatement ps = null;
-
-        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try{
-            String sSelect = "INSERT INTO OC_LABELS (OC_LABEL_TYPE,OC_LABEL_ID,OC_LABEL_LANGUAGE,"+
-                             "  OC_LABEL_VALUE,OC_LABEL_UPDATETIME,OC_LABEL_SHOWLINK,OC_LABEL_UPDATEUSERID)"+
-                             " VALUES(?,?,?,?,?,?,?)";
-
-            ps = loc_conn.prepareStatement(sSelect);
-            ps.setString(1,this.type.toLowerCase());
-            ps.setString(2,this.id.toLowerCase());
-            ps.setString(3,this.language.toLowerCase());
-            ps.setString(4,this.value);
-            ps.setTimestamp(5,new java.sql.Timestamp(new java.util.Date().getTime())); // now
-            ps.setInt(6,this.showLink.equals("1")?1:0);
-            ps.setInt(7,Integer.parseInt(this.updateUserId));
-            ps.executeUpdate();
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-        finally{
-            try{
-                if(ps!=null) ps.close();
-                loc_conn.close();
-            }
-            catch(SQLException sqle){
-                sqle.printStackTrace();
-            }
+        isComplete();
+        
+        if(this.value.length() > 0){
+	        PreparedStatement ps = null;
+	
+	        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+	        try{
+	            String sSql = "INSERT INTO OC_LABELS (OC_LABEL_TYPE,OC_LABEL_ID,OC_LABEL_LANGUAGE,"+
+	                          "  OC_LABEL_VALUE,OC_LABEL_UPDATETIME,OC_LABEL_SHOWLINK,OC_LABEL_UPDATEUSERID)"+
+	                          " VALUES(?,?,?,?,?,?,?)";
+	            ps = conn.prepareStatement(sSql);
+	            ps.setString(1,this.type.toLowerCase());
+	            ps.setString(2,this.id.toLowerCase());
+	            ps.setString(3,this.language.toLowerCase());
+	            ps.setString(4,this.value);
+	            ps.setTimestamp(5,new java.sql.Timestamp(new java.util.Date().getTime())); // now
+	            ps.setInt(6,this.showLink.equals("1")?1:0);
+	            ps.setInt(7,Integer.parseInt(this.updateUserId));
+	            ps.executeUpdate();
+	        }
+	        catch(Exception e){
+	            e.printStackTrace();
+	        }
+	        finally{
+	            try{
+	                if(ps!=null) ps.close();
+	                conn.close();
+	            }
+	            catch(SQLException e){
+	                e.printStackTrace();
+	            }
+	        }
         }
     }
 
     //--- UPDATE ----------------------------------------------------------------------------------
     private void update() throws Exception {
-        complete();
-
+    	isComplete();
         PreparedStatement ps = null;
 
         String lcaseLabelType = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_TYPE"),
                lcaseLabelID   = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_ID"),
                lcaseLabelLang = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_LANGUAGE");
 
-        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            String sSelect = "UPDATE OC_LABELS"+
-                             "  SET OC_LABEL_VALUE=?,OC_LABEL_UPDATETIME=?, OC_LABEL_SHOWLINK=?, OC_LABEL_UPDATEUSERID=?"+
-                             " WHERE "+lcaseLabelType+"=? AND "+lcaseLabelID+"=? AND "+lcaseLabelLang+"=?";
-
-            ps = loc_conn.prepareStatement(sSelect);
+            String sSql = "UPDATE OC_LABELS"+
+                          "  SET OC_LABEL_VALUE=?, OC_LABEL_UPDATETIME=?, OC_LABEL_SHOWLINK=?, OC_LABEL_UPDATEUSERID=?"+
+                          " WHERE "+lcaseLabelType+"=? AND "+lcaseLabelID+"=? AND "+lcaseLabelLang+"=?";
+            ps = conn.prepareStatement(sSql);
             ps.setString(1,this.value);
             ps.setTimestamp(2,new java.sql.Timestamp(new java.util.Date().getTime())); // now
             ps.setBoolean(3,this.showLink.equals("1"));
@@ -184,31 +181,30 @@ public class Label implements Serializable {
         finally{
             try{
                 if(ps!=null) ps.close();
-                loc_conn.close();
+                conn.close();
             }
-            catch(SQLException sqle){
-                sqle.printStackTrace();
+            catch(SQLException e){
+                e.printStackTrace();
             }
         }
     }
 
-    public void updateByTypeIdLanguage(String sOldLabelType,String sOldLabelId, String sOldLabelLanguage) throws Exception {
-        complete();
-
+    //--- UPDATE BY TYPE ID LANGUAGE --------------------------------------------------------------
+    public void updateByTypeIdLanguage(String sOldLabelType, String sOldLabelId, String sOldLabelLanguage) throws Exception {
+    	isComplete();
         PreparedStatement ps = null;
 
         String lcaseLabelType = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_TYPE"),
                lcaseLabelID   = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_ID"),
                lcaseLabelLang = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_LANGUAGE");
 
-        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            String sSelect = " UPDATE OC_LABELS"+
-                             " SET OC_LABEL_TYPE=?, OC_LABEL_ID=?, OC_LABEL_LANGUAGE=?, OC_LABEL_VALUE=?,"+
-                             "     OC_LABEL_UPDATETIME=?, OC_LABEL_SHOWLINK=?, OC_LABEL_UPDATEUSERID=?"+
-                             " WHERE "+lcaseLabelType+"=? AND "+lcaseLabelID+"=? AND "+lcaseLabelLang+"=?";
-
-            ps = loc_conn.prepareStatement(sSelect);
+            String sSql = "UPDATE OC_LABELS"+
+                          " SET OC_LABEL_TYPE=?, OC_LABEL_ID=?, OC_LABEL_LANGUAGE=?, OC_LABEL_VALUE=?,"+
+                          "     OC_LABEL_UPDATETIME=?, OC_LABEL_SHOWLINK=?, OC_LABEL_UPDATEUSERID=?"+
+                          " WHERE "+lcaseLabelType+"=? AND "+lcaseLabelID+"=? AND "+lcaseLabelLang+"=?";
+            ps = conn.prepareStatement(sSql);
             ps.setString(1,this.type);
             ps.setString(2,this.id);
             ps.setString(3,this.language);
@@ -230,14 +226,13 @@ public class Label implements Serializable {
         finally{
             try{
                 if(ps!=null) ps.close();
-                loc_conn.close();
+                conn.close();
             }
             catch(SQLException sqle){
                 sqle.printStackTrace();
             }
         }
     }
-
 
     //--- GET -------------------------------------------------------------------------------------
     public static Label get(String type, String id, String lang){
@@ -249,12 +244,11 @@ public class Label implements Serializable {
                lcaseLabelID   = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_ID"),
                lcaseLabelLang = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_LANGUAGE");
 
-        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            String sSelect = "SELECT * FROM OC_LABELS"+
-                             " WHERE "+lcaseLabelType+"=? AND "+lcaseLabelID+"=? AND "+lcaseLabelLang+"=?";
-
-            ps = loc_conn.prepareStatement(sSelect);
+            String sSql = "SELECT * FROM OC_LABELS"+
+                          " WHERE "+lcaseLabelType+"=? AND "+lcaseLabelID+"=? AND "+lcaseLabelLang+"=?";
+            ps = conn.prepareStatement(sSql);
             ps.setString(1,type.toLowerCase());
             ps.setString(2,id.toLowerCase());
             ps.setString(3,lang.toLowerCase());
@@ -268,8 +262,6 @@ public class Label implements Serializable {
                 label.showLink = (rs.getBoolean("OC_LABEL_SHOWLINK")?"1":"0");
                 label.value = ScreenHelper.checkString(rs.getString("OC_LABEL_VALUE"));
             }
-            rs.close();
-            ps.close();
         }
         catch(Exception e){
             e.printStackTrace();
@@ -278,7 +270,7 @@ public class Label implements Serializable {
             try{
                 if(rs!=null) rs.close();
                 if(ps!=null) ps.close();
-                loc_conn.close();
+                conn.close();
             }
             catch(SQLException sqle){
                 sqle.printStackTrace();
@@ -298,11 +290,11 @@ public class Label implements Serializable {
                lcaseLabelValue = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_VALUE"),
                lcaseLabelLang  = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_LANGUAGE");
 
-        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            String sSelect = "SELECT * FROM OC_LABELS"+
-                             " WHERE "+lcaseLabelType+"=? AND "+lcaseLabelValue+"=? AND "+lcaseLabelLang+"=?";
-            ps = loc_conn.prepareStatement(sSelect);
+            String sSql = "SELECT * FROM OC_LABELS"+
+                          " WHERE "+lcaseLabelType+"=? AND "+lcaseLabelValue+"=? AND "+lcaseLabelLang+"=?";
+            ps = conn.prepareStatement(sSql);
             ps.setString(1,type.toLowerCase());
             ps.setString(2,value);
             ps.setString(3,lang.toLowerCase());
@@ -317,7 +309,7 @@ public class Label implements Serializable {
             try{
                 if(rs!=null) rs.close();
                 if(ps!=null) ps.close();
-                loc_conn.close();
+                conn.close();
             }
             catch(SQLException sqle){
                 sqle.printStackTrace();
@@ -335,12 +327,11 @@ public class Label implements Serializable {
                lcaseLabelID   = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_ID"),
                lcaseLabelLang = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_LANGUAGE");
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            String sSelect = "DELETE FROM OC_LABELS"+
-                             " WHERE "+lcaseLabelType+"=? AND "+lcaseLabelID+"=? AND "+lcaseLabelLang+"=?";
-
-            ps = oc_conn.prepareStatement(sSelect);
+            String sSql = "DELETE FROM OC_LABELS"+
+                          " WHERE "+lcaseLabelType+"=? AND "+lcaseLabelID+"=? AND "+lcaseLabelLang+"=?";
+            ps = oc_conn.prepareStatement(sSql);
             ps.setString(1,sType.toLowerCase());
             ps.setString(2,sId.toLowerCase());
             ps.setString(3,sLanguage.toLowerCase());
@@ -360,6 +351,7 @@ public class Label implements Serializable {
         }
     }
     
+    //--- SAVE TO DB ------------------------------------------------------------------------------
     public void saveToDB(String sType, String sCode){
         Label label = new Label();
         label.type = sType;
@@ -371,57 +363,57 @@ public class Label implements Serializable {
 
         label.saveToDB();
     }
-    //--- End Copied from AdminLabel ---
 
-    public static Vector getLabels(String sType,String sCode,String sText,String sLanguage, String sSort){
+    //--- GET LABELS ------------------------------------------------------------------------------
+    public static Vector getLabels(String sType, String sCode, String sText, String sLanguage, String sSort){
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         Vector vLabels = new Vector();
 
-        String sSelect = "SELECT * FROM OC_LABELS";
+        String sSql = "SELECT * FROM OC_LABELS";
         String sAdd = "";
         if(sType.length() > 0){
-            sAdd += MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_TYPE") + " like ? AND ";
+            sAdd+= MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_TYPE")+" like ? AND ";
         }
 
-        if (sCode.length() > 0) {
-            sAdd += MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_ID") + " like ? AND ";
+        if(sCode.length() > 0){
+            sAdd+= MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_ID")+" like ? AND ";
         }
 
-        if (sLanguage.length() > 0) {
-            sAdd += MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_LANGUAGE") + " like ? AND ";
+        if(sLanguage.length() > 0){
+            sAdd+= MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_LANGUAGE")+" like ? AND ";
         }
 
-        if (sText.length() > 0) {
-            sAdd += MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_VALUE") + " like ? AND ";
+        if(sText.length() > 0){
+            sAdd+= MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_VALUE")+" like ? AND ";
         }
 
         if(sAdd.length() > 0){
-            sSelect = sSelect + " WHERE " + sAdd.substring(0,sAdd.length()-4);
+            sSql = sSql+" WHERE "+sAdd.substring(0,sAdd.length()-4);
         }
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             if(sSort.length() > 0){
-                sSelect += " ORDER BY " + sSort;
+                sSql+= " ORDER BY "+sSort;
             }
-            ps = oc_conn.prepareStatement(sSelect);
+            ps = oc_conn.prepareStatement(sSql);
             int iIndex = 1;
-            if (sType.length() > 0) {
-                ps.setString(iIndex++, "%" + sType.toLowerCase() + "%");
+            if(sType.length() > 0){
+                ps.setString(iIndex++,"%"+sType.toLowerCase()+"%");
             }
 
-            if (sCode.length() > 0) {
-                ps.setString(iIndex++, "%" + sCode.toLowerCase() + "%");
+            if(sCode.length() > 0){
+                ps.setString(iIndex++,"%"+sCode.toLowerCase()+"%");
             }
 
-            if (sLanguage.length() > 0) {
-                ps.setString(iIndex++, "%" + sLanguage.toLowerCase() + "%");
+            if(sLanguage.length() > 0){
+                ps.setString(iIndex++,"%"+sLanguage.toLowerCase()+"%");
             }
 
-            if (sText.length() > 0) {
-                ps.setString(iIndex++, "%" + sText.toLowerCase() + "%");
+            if(sText.length() > 0){
+                ps.setString(iIndex++,"%"+sText.toLowerCase()+"%");
             }
 
             rs = ps.executeQuery();
@@ -435,44 +427,47 @@ public class Label implements Serializable {
                 label.showLink = (rs.getBoolean("OC_LABEL_SHOWLINK")?"1":"0");
                 label.value = ScreenHelper.checkString(rs.getString("OC_LABEL_VALUE"));
                 vLabels.addElement(label);
-            }
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+            }          
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(rs!=null)rs.close();
-                if(ps!=null)ps.close();
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return vLabels;
     }
 
-    public static Vector getExternalContactsLabels(String sType, String sText,String sLanguage){
+    //--- GET EXTERNAL CONTACTS LABELS ------------------------------------------------------------
+    public static Vector getExternalContactsLabels(String sType, String sText, String sLanguage){
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         Vector vLabels = new Vector();
 
-        String sQuery = "SELECT * FROM OC_LABELS" +
-                " WHERE " + MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_TYPE") + sType +
-                "  AND " + MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_LANGUAGE") + " LIKE ?" +
-                "  AND (" + MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_ID") + " LIKE ?" +
-                "   OR " + MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_ID") + " LIKE ?" +
-                "   OR " + MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_VALUE") + " LIKE ?" +
+        String sQuery = "SELECT * FROM OC_LABELS"+
+                " WHERE "+MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_TYPE")+sType +
+                "  AND "+MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_LANGUAGE")+" LIKE ?"+
+                "  AND ("+MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_ID")+" LIKE ?"+
+                "   OR "+MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_ID")+" LIKE ?"+
+                "   OR "+MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_VALUE")+" LIKE ?"+
                 "  )";
 
-        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            ps = loc_conn.prepareStatement(sQuery);
-            ps.setString(1, "%" + sLanguage.toLowerCase() + "%");
-            ps.setString(2, "%" + sText.toLowerCase() + "%");
-            ps.setString(3, "%" + sText.toLowerCase() + ".%");
-            ps.setString(4, "%" + sText.toLowerCase() + "%");
+            ps = conn.prepareStatement(sQuery);
+            ps.setString(1,"%"+sLanguage.toLowerCase()+"%");
+            ps.setString(2,"%"+sText.toLowerCase()+"%");
+            ps.setString(3,"%"+sText.toLowerCase()+".%");
+            ps.setString(4,"%"+sText.toLowerCase()+"%");
             rs = ps.executeQuery();
 
             Label label;
@@ -485,38 +480,40 @@ public class Label implements Serializable {
                 label.value = ScreenHelper.checkString(rs.getString("OC_LABEL_VALUE"));
                 vLabels.addElement(label);
             }
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(rs!=null)rs.close();
-                if(ps!=null)ps.close();
-                loc_conn.close();
-            }catch(Exception e){
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return vLabels;
     }
 
+    //--- GET NON-SERVICE FUNCTION LABELS ---------------------------------------------------------
     public static Vector getNonServiceFunctionLabels(){
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         Vector vLabels = new Vector();
 
-        String sSelect = "SELECT * FROM OC_LABELS" +
-                    " WHERE " + MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_TYPE") +
-                    "  NOT IN ('service','function')";
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        String sSql = "SELECT * FROM OC_LABELS"+
+                      " WHERE "+MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_TYPE")+
+                      "  NOT IN ('service','function')";
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            ps = oc_conn.prepareStatement(sSelect);
+            ps = oc_conn.prepareStatement(sSql);
             rs = ps.executeQuery();
             
             Label label;
-
             while(rs.next()){
                 label = new Label();
                 label.type = ScreenHelper.checkString(rs.getString("OC_LABEL_TYPE"));
@@ -527,96 +524,107 @@ public class Label implements Serializable {
 
                 vLabels.addElement(label);
             }
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(rs!=null)rs.close();
-                if(ps!=null)ps.close();
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return vLabels;
     }
 
+    //--- UPDATE LABELTYPE BY TYPE ----------------------------------------------------------------
     public static void UpdateLabelTypeByType(String sOldType, String sNewType){
         PreparedStatement ps = null;
 
         String sUpdate = "UPDATE OC_LABELS SET OC_LABEL_TYPE = ? WHERE OC_LABEL_TYPE = ?";
-
-        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            ps = loc_conn.prepareStatement(sUpdate);
+            ps = conn.prepareStatement(sUpdate);
             ps.setString(1,sNewType);
             ps.setString(2,sOldType);
             ps.executeUpdate();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(ps!=null)ps.close();
-                loc_conn.close();
-            }catch(Exception e){
+                if(ps!=null) ps.close();
+                conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
     }
 
-    public static void UpdateNonServiceFunctionLabels(String sNewLabelType,String sNewLabelId,String sNewLabelLanguage, String sOldLabelType){
+    //--- UPDATE NON-SERVICE FUNCTION LABELS ------------------------------------------------------
+    public static void UpdateNonServiceFunctionLabels(String sNewLabelType, String sNewLabelId,
+    		                                          String sNewLabelLanguage, String sOldLabelType){
         PreparedStatement ps = null;
         
         StringBuffer query = new StringBuffer();
         query.append("UPDATE OC_LABELS")
-                .append(" SET OC_LABEL_TYPE = " + sNewLabelType + ",")
-                .append("     OC_LABEL_ID = " + sNewLabelId + ",")
-                .append("     OC_LABEL_LANGUAGE = " + sNewLabelLanguage)
-                .append(" WHERE " + sOldLabelType + " NOT IN ('service','function')");
+             .append(" SET OC_LABEL_TYPE = "+sNewLabelType+",")
+             .append("     OC_LABEL_ID = "+sNewLabelId+",")
+             .append("     OC_LABEL_LANGUAGE = "+sNewLabelLanguage)
+             .append(" WHERE "+sOldLabelType+" NOT IN ('service','function')");
 
-        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            ps = loc_conn.prepareStatement(query.toString());
+            ps = conn.prepareStatement(query.toString());
             ps.executeUpdate();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(ps!=null)ps.close();
-                loc_conn.close();
-            }catch(Exception e){
+                if(ps!=null) ps.close();
+                conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
     }
 
+    //--- GET LABELTYPES --------------------------------------------------------------------------
     public static Vector getLabelTypes(){
+        Vector vLabelTypes = new Vector();
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        Vector vLabelTypes = new Vector();
-
-        String sSelect = "SELECT DISTINCT OC_LABEL_TYPE FROM OC_LABELS ORDER BY 1";
-
-        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        String sSql = "SELECT DISTINCT OC_LABEL_TYPE FROM OC_LABELS ORDER BY 1";
+        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            ps = loc_conn.prepareStatement(sSelect);
+            ps = conn.prepareStatement(sSql);
             rs = ps.executeQuery();
 
             while(rs.next()){
                 vLabelTypes.addElement(ScreenHelper.checkString(rs.getString("OC_LABEL_TYPE")));
             }
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(rs!=null)rs.close();
-                if(ps!=null)ps.close();
-                loc_conn.close();
-            }catch(Exception e){
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
@@ -624,40 +632,42 @@ public class Label implements Serializable {
         return vLabelTypes;
     }
 
-    public static Vector findFunction_manageTranslationsPage(String findLabelType,String findLabelID,String findLabelLang, String findLabelValue,boolean excludeFunctions,boolean excludeServices){
+    //--- FIND FUNCTION MANAGE TRANSLATIONSPAGE ---------------------------------------------------
+    public static Vector findFunction_manageTranslationsPage(String findLabelType, String findLabelID, String findLabelLang,
+    		                                                 String findLabelValue, boolean excludeFunctions, boolean excludeServices){
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String sSelect = "SELECT * FROM OC_LABELS WHERE ";
+        String sSql = "SELECT * FROM OC_LABELS WHERE ";
 
-        if(findLabelType.length()>0) {
-            sSelect+= MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_TYPE")+" = '"+ScreenHelper.checkDbString(findLabelType).toLowerCase()+"' AND ";
+        if(findLabelType.length() > 0){
+            sSql+= MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_TYPE")+" = '"+ScreenHelper.checkDbString(findLabelType).toLowerCase()+"' AND ";
         }
 
-        if(findLabelID.length()>0) {
-            sSelect+= MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_ID")+" like '%"+ScreenHelper.checkDbString(findLabelID).toLowerCase()+"%' AND ";
+        if(findLabelID.length() > 0){
+            sSql+= MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_ID")+" like '%"+ScreenHelper.checkDbString(findLabelID).toLowerCase()+"%' AND ";
         }
 
-        if(findLabelLang.length()>0) {
-            sSelect+= MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_LANGUAGE")+" = '"+ScreenHelper.checkDbString(findLabelLang).toLowerCase()+"' AND ";
+        if(findLabelLang.length() > 0){
+            sSql+= MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_LANGUAGE")+" = '"+ScreenHelper.checkDbString(findLabelLang).toLowerCase()+"' AND ";
         }
 
-        if(findLabelValue.length()>0) {
-            sSelect+= MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_VALUE")+" like '%"+ScreenHelper.checkDbString(findLabelValue).toLowerCase()+"%' AND ";
+        if(findLabelValue.length() > 0){
+            sSql+= MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_VALUE")+" like '%"+ScreenHelper.checkDbString(findLabelValue).toLowerCase()+"%' AND ";
         }
 
         // exclusions on labeltype
-        if(excludeFunctions) sSelect+= MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_TYPE")+" <> 'function' AND ";
-        if(excludeServices)  sSelect+= MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_TYPE")+" NOT IN ('service','externalservice') AND ";
+        if(excludeFunctions) sSql+= MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_TYPE")+" <> 'function' AND ";
+        if(excludeServices)  sSql+= MedwanQuery.getInstance().getConfigParam("lowerCompare","OC_LABEL_TYPE")+" NOT IN ('service','externalservice') AND ";
 
-        sSelect = sSelect.substring(0,sSelect.length()-4); // remove last " AND"
-        sSelect+= "ORDER BY OC_LABEL_TYPE, OC_LABEL_ID, OC_LABEL_LANGUAGE";
+        sSql = sSql.substring(0,sSql.length()-4); // remove last " AND"
+        sSql+= "ORDER BY OC_LABEL_TYPE, OC_LABEL_ID, OC_LABEL_LANGUAGE";
 
         Vector vLabels = new Vector();
 
-        Connection loc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            ps = loc_conn.prepareStatement(sSelect);
+            ps = conn.prepareStatement(sSql);
             rs = ps.executeQuery();
 
             Label label;
@@ -672,47 +682,51 @@ public class Label implements Serializable {
 
                 vLabels.addElement(label);
             }
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(rs!=null)rs.close();
-                if(ps!=null)ps.close();
-                loc_conn.close();
-            }catch(Exception e){
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return vLabels;
     }
 
-    public static Vector findFunctionServiceLabels(String sLabelType,String sLabelLang, String sFindText){
+    //--- FIND FUNCTION SERVICELABELS -------------------------------------------------------------
+    public static Vector findFunctionServiceLabels(String sLabelType, String sLabelLang, String sFindText){
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         Vector vLabels = new Vector();
 
-        String sSelect = " SELECT OC_LABEL_VALUE, OC_LABEL_ID FROM OC_LABELS" +
-                         " WHERE " + MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_TYPE") + " = ?" +
-                         "  AND " + MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_LANGUAGE") + " = ?" +
-                         "  AND (" + MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_ID") + " LIKE ?" +
-                         "   OR " + MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_VALUE") + " LIKE ?" +
-                         "  )" +
-                         " ORDER BY OC_LABEL_VALUE ASC";
+        String sSql = "SELECT OC_LABEL_VALUE, OC_LABEL_ID FROM OC_LABELS"+
+                      " WHERE "+MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_TYPE")+" = ?"+
+                      "  AND "+MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_LANGUAGE")+" = ?"+
+                      "  AND ("+MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_ID")+" LIKE ?"+
+                      "   OR "+MedwanQuery.getInstance().getConfigParam("lowerCompare", "OC_LABEL_VALUE")+" LIKE ?"+
+                      "  )"+
+                      " ORDER BY OC_LABEL_VALUE ASC";
 
         // functions never have special characters, so search them with normalised characters.
-        if (sLabelType.equalsIgnoreCase("function")) {
+        if(sLabelType.equalsIgnoreCase("function")){
             sFindText = ScreenHelper.normalizeSpecialCharacters(sFindText);
         }
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            ps = oc_conn.prepareStatement(sSelect);
-            ps.setString(1, sLabelType.toLowerCase());
-            ps.setString(2, sLabelLang.toLowerCase());
-            ps.setString(3, "%" + sFindText.toLowerCase() + "%");
-            ps.setString(4, "%" + sFindText.toLowerCase() + "%");
+            ps = oc_conn.prepareStatement(sSql);
+            ps.setString(1,sLabelType.toLowerCase());
+            ps.setString(2,sLabelLang.toLowerCase());
+            ps.setString(3,"%"+sFindText.toLowerCase()+"%");
+            ps.setString(4,"%"+sFindText.toLowerCase()+"%");
             rs = ps.executeQuery();
 
             Label label;
@@ -723,19 +737,22 @@ public class Label implements Serializable {
 
                 vLabels.addElement(label);
             }
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(rs!=null)rs.close();
-                if(ps!=null)ps.close();
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
                 oc_conn.close();
-            }catch(Exception e){
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return vLabels;
     }
+    
 }

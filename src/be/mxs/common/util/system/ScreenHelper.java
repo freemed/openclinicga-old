@@ -39,7 +39,7 @@ public class ScreenHelper {
 
 
     //--- GET OBJECT ID ---------------------------------------------------------------------------
-    public static String getObjectId(String sUIDorID){
+    public static String getObjectId(String sUIDorID){ 
     	String sObjectId = "";
     	
     	if(sUIDorID.indexOf(".") > 0){
@@ -1128,7 +1128,7 @@ public class ScreenHelper {
         String jsAlert = "Error in checkPermission : no screen specified !";
         if(sScreen.trim().length() > 0){
             if(Application.isDisabled(sScreen)){
-            	// empty
+            	jsAlert = "Application is disabled : '"+sScreen+"'";
             }
             else if(activeUser!=null && activeUser.getParameter("sa")!=null && activeUser.getParameter("sa").length() > 0){
                 jsAlert = "";
