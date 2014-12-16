@@ -16,7 +16,7 @@
     <%-- MEAL NAME --%>
     <tr>
         <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("meals","name",sWebLanguage)%>&nbsp;</td>
-        <td class="admin2">
+        <td class="admin2" style="padding-left:5px;">
             <input type="text" class="text" name="FindMealName" id="FindMealName" size="50" maxLength="100">&nbsp;&nbsp;
             
             <%-- BUTTONS --%>
@@ -125,6 +125,7 @@
   function openBackMeal(){
     $("mealEdit").show();
     if($("mealItemsDiv")) $("mealItemsDiv").hide();
+    //getNutricientsInMeal();
     Modalbox.resizeToContent();
     Modalbox.setTitle("<%=getTranNoLink("meals","meal",sWebLanguage)%>");
   }
@@ -143,6 +144,7 @@
   function removeMealItem(id){
     if($("mealitem_"+id)){
       $("mealitem_"+id).remove();
+      getNutricientsInMeal();
       Modalbox.resizeToContent();
     }
   }
@@ -178,55 +180,53 @@
                      "</div>"+
                      "<div style='width:180px'>"+name+"</div>"+
                      "<div style='width:100px'>"+
-                      "<input type='text' size='6' maxLength='8' onKeyUp='isNumber(this);' onBlur='isNumber(this);' id='mealitemqt_"+id+"' value='"+quantity+"'/> "+unit+
+                      "<input type='text' size='6' maxLength='8' onKeyUp='isNumber(this);' onBlur='if(isNumber(this))getNutricientsInMeal();' id='mealitemqt_"+id+"' value='"+quantity+"'/> "+unit+
                      "</div>";
-      $("mealItemList").insert(li,{position:top});
+      $("mealItemList").insert(li);
       openBackMeal();
 	}
   }
     
   <%-- GET NUTRICIENTS IN MEAL --%>
-  function getNutricientsInMeal(mealid,noToggle){
+  function getNutricientsInMeal(toggle){
+	if(toggle==null) toggle = false;
     var id = "mealNutricientList";
-
-    if(!noToggle && $(id).childElements().length > 0){
-      $(id).innerHTML = "";
-      Modalbox.resizeToContent();
-
+    
+    if(toggle){
+      if($(id).style.display=="none"){
+        $(id).style.display = "table";
+        $("mealNutricientsRefresh").style.display = "inline";
+      }
+      else{
+        $(id).style.display = "none";
+        $("mealNutricientsRefresh").style.display = "none";
+      }
+    }
+    
+    var fetchData = ($(id).style.display=="table"); 
+    if(fetchData){
       if($("mealNutricientsButton").hasClassName("up")){
         $("mealNutricientsButton").removeClassName("up");
         $("mealNutricientsButton").addClassName("down");
       }
-      
-      if($("nutricientsRefresh")){
-    	$("nutricientsRefresh").style.display = "none";
-      }
-    }
-    else{
-      if($("mealNutricientsButton").hasClassName("down")){
+      else{
         $("mealNutricientsButton").removeClassName("down");
         $("mealNutricientsButton").addClassName("up");
-      } 
-      
-      if($("nutricientsRefresh")){
-    	$("nutricientsRefresh").style.display = "inline";
       }
-        
+                 
       $(id).update("<div id='wait'></div>");
       var params = "ts="+new Date().getTime();
       var elements = $("mealItemList").childElements();
       var regExp = new RegExp("[_]+","g");
       var items = "&items=";
-
       elements.each(function(elem){
         var idParts = elem.id.split(regExp);
         items+= idParts[1]+"-"+(($("mealitemqt_"+idParts[1]).value.length > 0)?$("mealitemqt_"+idParts[1]).value:"0")+",";
       });
-        
       params+= items;
       
       var url = "<c:url value='/meals/ajax/getMealItemNutricients.jsp'/>";
-      new Ajax.Updater(id,url,{parameters:params,evalScripts:true}); 
+      new Ajax.Updater(id,url,{parameters:params,evalScripts:true});
     }
   }
 

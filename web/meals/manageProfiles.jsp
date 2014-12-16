@@ -16,7 +16,7 @@
     <%-- PROFILE NAME --%>
     <tr>
         <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("meals","name",sWebLanguage)%></td>
-        <td class="admin2">
+        <td class="admin2" style="padding-left:5px;">
             <input type="text" class="text" name="FindProfileName" id="FindProfileName" size="50" maxLength="100">&nbsp;&nbsp;
             
             <%-- BUTTONS --%>
@@ -126,6 +126,7 @@
   function removeMealFromProfile(id){
     if($("meal_"+id)){
       $("meal_"+id).remove();
+      getNutricientsInProfile();
       Modalbox.resizeToContent();
     }
   }
@@ -155,22 +156,23 @@
 	}
 	else{	
       var li = document.createElement("LI");
-      li.id = "profileitem_"+id;                   
+      li.id = "meal_"+id;                   
       li.innerHTML = "<div style='width:35px'>"+
-                      "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.png' class='link' style='vertical-align:-3px;' title='<%=getTranNoLink("web","delete",sWebLanguage)%>' onclick='removeProfile(\""+id+"\");'>"+
+                      "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.png' class='link' style='vertical-align:-3px;' title='<%=getTranNoLink("web","delete",sWebLanguage)%>' onclick='removeMealFromProfile(\""+id+"\");'>"+
                      "</div>"+
                      "<div style='width:120px'>"+getHoursSelect(id,hour,min)+"</div>"+
                      "<div style='width:190px'>"+name+"</div>";
-      $("profileItemList").insert(li,{position:top});
+      $("profileItemList").insert(li);
       openBackProfile();
 	}
   }
   
-  <%-- OPEN BACK MEAL PROFILE --%>
-  function openBackProfile(name){
+  <%-- OPEN BACK MEAL PROFILE (after adding meal to profile) --%>
+  function openBackProfile(){
     if($("profileEdit")!=null){
       $("profileEdit").show();
       $("mealItemsList").update("");
+      getNutricientsInProfile();
       Modalbox.resizeToContent();
       Modalbox.setTitle("<%=getTranNoLink("meals","profile",sWebLanguage)%>");
     }
@@ -198,36 +200,31 @@
   }
     
   <%-- GET NUTRICIENTS IN PROFILE --%>
-  function getNutricientsInProfile(profileid,noToggle){
+  function getNutricientsInProfile(toggle){
+	if(toggle==null) toggle = false;
     var id = "profileNutricientsList";
+
+    if(toggle){
+      if($(id).style.display=="none"){
+        $(id).style.display = "table";
+      }
+      else{
+        $(id).style.display = "none";
+      }
+    }
     
-    if(!noToggle && $(id).childElements().length > 0){
-      $(id).innerHTML = "";
-      $(id).style.display = "none";
-      Modalbox.resizeToContent();
-      
+    var fetchData = ($(id).style.display=="table");
+    if(fetchData){
       if($("profileNutricientsButton").hasClassName("up")){
         $("profileNutricientsButton").removeClassName("up");
         $("profileNutricientsButton").addClassName("down");
       }
-      
-      if($("profileNutricientsRefresh")){
-    	$("profileNutricientsRefresh").style.display = "none";
-      }
-    }
-    else{
-      if($("profileNutricientsButton").hasClassName("down")){
+      else{
         $("profileNutricientsButton").removeClassName("down");
         $("profileNutricientsButton").addClassName("up");
       }
-      
-      if($("profileNutricientsRefresh")){
-    	$("profileNutricientsRefresh").style.display = "inline";
-      }
-      
-      $(id).style.display = "table";
-      $(id).update("<div id='wait'></div>");
-      
+     
+      $(id).update("<div id='wait'></div>");      
       var params = "ts="+new Date().getTime();
       var elements = $("profileItemList").childElements();
       var reg = new RegExp("[_]+","g");

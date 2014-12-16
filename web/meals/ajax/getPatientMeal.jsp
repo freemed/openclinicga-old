@@ -84,7 +84,7 @@
     <tr>
         <td class="admin"><%=HTMLEntities.htmlentities(getTran("meals","mealItems",sWebLanguage))%></td>
         <td class="admin2">
-            <ul id="mealItemList" class="items" style="width:370px">
+            <ul id="mealItemList" class="items" style="width:380px">
                 <%
                     Iterator iter = item.mealItems.iterator();
                     while(iter.hasNext()){
@@ -115,8 +115,8 @@
     <tr>
         <td class="admin"><%=HTMLEntities.htmlentities(getTran("meals","mealNutricients",sWebLanguage))%></td>
         <td class="admin2">
-            <a href="javascript:void(0)" id="mealNutricientsButton" class="link down" onclick="getNutricientsInMeal('<%=item.getUid()%>',false);"><%=getTranNoLink("meals","seemealNutricients",sWebLanguage)%></a>
-            <ul id="mealNutricientList" class="items" style="width:370px"></ul>
+            <a href="javascript:void(0)" id="mealNutricientsButton" class="link down" onclick="getNutricientsInMeal(true);"><%=getTranNoLink("meals","seemealNutricients",sWebLanguage)%></a>
+            <ul id="mealNutricientList" class="items" style="width:380px"></ul>
         </td>
     </tr>
     

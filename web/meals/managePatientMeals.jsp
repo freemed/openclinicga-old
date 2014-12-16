@@ -27,7 +27,7 @@
           
             <input type="button" class="button" value="<%=HTMLEntities.htmlentities(getTranNoLink("meals","addMeal",sWebLanguage))%>" onclick="getMeals();"/>
             <input type="button" class="button" value="<%=HTMLEntities.htmlentities(getTranNoLink("meals","addProfile",sWebLanguage))%>" onclick="getProfiles();"/>            
-            <input type="button" class="button" id="mealNutricientsButton" value="<%=HTMLEntities.htmlentities(getTranNoLink("meals","seeNutricients",sWebLanguage))%>" onclick="getNutricientsInPatientMeals(false);"/>
+            <input type="button" class="button" id="mealNutricientsButton" value="<%=HTMLEntities.htmlentities(getTranNoLink("meals","seeNutricients",sWebLanguage))%>" onclick="getNutricientsInPatientMeals(true);"/>
         </td>
     </tr>
     
@@ -156,32 +156,32 @@
   }
     
   <%-- GET NUTRICIENTS IN PATIENT PROFILE --%>
-  function getNutricientsInPatientProfile(noToggle){
-	if(noToggle==null) noToggle = false;
+  function getNutricientsInPatientProfile(toggle){
+	if(toggle==null) toggle = false;
     var id = "profileNutricientsList";
-    
-    if((!noToggle && $(id).childElements().length > 0)){
-      $(id).innerHTML = "";
-      $(id).style.display = "none";
-      
+
+    if(toggle){
+      if($(id).style.display=="none"){
+        $(id).style.display = "table";
+      }
+      else{
+        $(id).style.display = "none";
+        var fetchData = false;
+      }
+    }
+
+    var fetchData = ($(id).style.display=="table"); 
+    if(fetchData){
       if($("mealNutricientsButton").hasClassName("up")){
         $("mealNutricientsButton").removeClassName("up");
         $("mealNutricientsButton").addClassName("down");
       }
-    }
-    else{
-      if($("mealNutricientsButton").hasClassName("down")){
+      else{
         $("mealNutricientsButton").removeClassName("down");
         $("mealNutricientsButton").addClassName("up");
       }
 
-      if($("mealNutricientsRefresh")){
-    	$("mealNutricientsRefresh").style.display = "inline";
-      }
-
-      $(id).style.display = "table";
       $(id).update("<div id='wait'></div>");
-      
       var params = "ts="+new Date().getTime();
       var elements = $("patientProfileItems").childElements();
       var reg = new RegExp("[_]+","g");
@@ -194,39 +194,37 @@
       });
       params+= items;
 
-      $(id).style.display = "table";
       var url = "<c:url value='meals/ajax/getProfileNutricients.jsp'/>";
       new Ajax.Updater(id,url,{parameters:params,evalScripts:true});
     }
   }
   
   <%-- GET NUTRICIENTS IN PATIENT MEALS --%>
-  function getNutricientsInPatientMeals(noToggle){
-	if(noToggle==null) noToggle = false;
+  function getNutricientsInPatientMeals(toggle){
+	if(toggle==null) toggle = false;
     var id = "patientMealNutricientList";
     
-    if(!noToggle && $(id).childElements().length > 0){
-      $(id).innerHTML = "";
-      $(id).style.display = "none";
-      
+    if(toggle){
+      if($(id).style.display=="none"){
+        $(id).style.display = "table";
+      }
+      else{
+        $(id).style.display = "none";
+      }
+    }
+
+    var fetchData = ($(id).style.display=="table"); 
+    if(fetchData){
       if($("mealNutricientsButton").hasClassName("up")){
         $("mealNutricientsButton").removeClassName("up");
         $("mealNutricientsButton").addClassName("down");
       }
-    }
-    else{
-      if($("mealNutricientsButton").hasClassName("down")){
+      else{
         $("mealNutricientsButton").removeClassName("down");
         $("mealNutricientsButton").addClassName("up");
       }
-
-      if($("mealNutricientsRefresh")){
-    	$("mealNutricientsRefresh").style.display = "inline";
-      }
-
-      $(id).style.display = "table";
+    
       $(id).update("<div id='wait'></div>");
-      
       var params = "ts="+new Date().getTime();
       var elements = $("patientmeals").getElementsBySelector("TR");
       var reg = new RegExp("[_]+","g");
@@ -239,7 +237,6 @@
       });
       params+= items;
 
-      $(id).style.display = "table";
       var url = "<c:url value='meals/ajax/getMealNutricients.jsp'/>";
       new Ajax.Updater(id,url,{parameters:params,evalScripts:true});
     }

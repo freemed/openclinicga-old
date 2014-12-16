@@ -76,8 +76,8 @@
         <tr>
             <td class="admin"><%=HTMLEntities.htmlentities(getTran("meals","nutricients",sWebLanguage))%></td>
             <td class="admin2">
-                <a href="javascript:void(0)" id="profileNutricientsButton" class="link down" onclick="getNutricientsInPatientProfile(false);"><span><%=getTranNoLink("meals","seeNutricients",sWebLanguage).toLowerCase()%></span></a> 
-                <ul id="profileNutricientsList" class="items" style="display:none;width:370px"></ul>
+                <a href="javascript:void(0)" id="profileNutricientsButton" class="link down" onclick="getNutricientsInPatientProfile(true);"><%=getTranNoLink("meals","seeNutricients",sWebLanguage).toLowerCase()%></a> 
+                <ul id="profileNutricientsList" class="items" style="display:none;width:380px"></ul>
             </td>
         </tr>
         

@@ -61,7 +61,7 @@
         <tr>
             <td class="admin"><%=HTMLEntities.htmlentities(getTran("meals","profileItems",sWebLanguage))%></td>
             <td class="admin2">
-                <a href="javascript:void(0)" class="link add" onclick="searchMeal();"><span><%=HTMLEntities.htmlentities(getTran("web","add",sWebLanguage)+" "+getTranNoLink("meals","meal",sWebLanguage))%></span></a>
+                <a href="javascript:void(0)" class="link add" onclick="searchMeal();"><%=HTMLEntities.htmlentities(getTran("web","add",sWebLanguage)+" "+getTranNoLink("meals","meal",sWebLanguage))%></a>
                 <br>
                 
                 <ul id="profileItemList" class="items" style="width:380px">
@@ -86,11 +86,8 @@
         <tr>
             <td class="admin"><%=HTMLEntities.htmlentities(getTran("meals","nutricients",sWebLanguage))%></td>
             <td class="admin2">
-                <a href="javascript:void(0)" id="profileNutricientsButton" class="link down" onclick="getNutricientsInProfile('<%=profile.getUid()%>',false);"><span><%=getTranNoLink("meals","seeNutricients",sWebLanguage)%></span></a>&nbsp;&nbsp;&nbsp;
-                <a href="javascript:void(0)" id="profileNutricientsRefresh" class="link reload" style="display:none;" onclick="getNutricientsInProfile('<%=profile.getUid()%>',true);">
-                    <%=getTranNoLink("meals","reloadProfileNutricients",sWebLanguage)%>
-                </a>
-                <ul id="profileNutricientsList" class="items" style="display:none;width:370px"></ul>
+                <a href="javascript:void(0)" id="profileNutricientsButton" class="link down" onclick="getNutricientsInProfile(true);"><%=getTranNoLink("meals","seeNutricients",sWebLanguage)%></a>&nbsp;&nbsp;&nbsp;
+                <ul id="profileNutricientsList" class="items" style="display:none;width:380px"></ul>
             </td>
         </tr>
         

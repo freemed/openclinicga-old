@@ -22,6 +22,7 @@
 
     if(sMeals.length() > 0){
 	    String[] meals = sMeals.split("\\,");
+        DecimalFormat deci = new DecimalFormat("#0.00");
 	    Meal meal = null;
 	    
 	    for(int i=0; i<meals.length; i++){
@@ -38,13 +39,14 @@
 	                Iterator nutrItems = MealItem.get(mealitem).nutricientItems.iterator();
 	                while(nutrItems.hasNext()){
 	                    NutricientItem nutricient = (NutricientItem)nutrItems.next();
-	                    
+
 	                    if(nameUnitQuantity.keySet().contains(nutricient.name+"$"+nutricient.unit)){
-	                        float tmp = ((Float)nameUnitQuantity.get(nutricient.name+"$"+nutricient.unit)).floatValue();
-	                        nameUnitQuantity.put(nutricient.name+"$"+nutricient.unit,Float.valueOf(tmp+(nutricient.quantity*mealitem.quantity)));
+	                    	String sTmp = (String)nameUnitQuantity.get(nutricient.name+"$"+nutricient.unit);
+	                    	sTmp = sTmp.replaceAll(",",".");
+	                        float tmp = Float.parseFloat(sTmp);
 	                    }
 	                    else{
-	                    	nameUnitQuantity.put(nutricient.name+"$"+nutricient.unit,Float.valueOf((nutricient.quantity*mealitem.quantity)));
+	                    	nameUnitQuantity.put(nutricient.name+"$"+nutricient.unit,deci.format((nutricient.quantity*mealitem.quantity)));
 	                    }
 	                }
 	            }
@@ -69,7 +71,7 @@
 	    }
     }
 	else{
-		%><%=HTMLEntities.htmlentities(getTran("web","noRecordsfound",sWebLanguage))%><%
+		%><div style="height:25px;padding-top:10px;"><i><%=HTMLEntities.htmlentities(getTran("web","noRecordsfound",sWebLanguage))%></i></div><%
 	}
     
     if(resizeModalbox){

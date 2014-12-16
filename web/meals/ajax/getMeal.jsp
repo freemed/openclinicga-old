@@ -34,14 +34,15 @@
         <tr>
             <td class="admin"><%=HTMLEntities.htmlentities(getTran("meals","mealItems",sWebLanguage))%></td>
             <td class="admin2">
-                <a href="javascript:void(0)" class="link add" onclick="searchMealItem();"><span><%=HTMLEntities.htmlentities(getTran("meals","addMealItem",sWebLanguage))%></span></a>
+                <a href="javascript:void(0)" class="link add" onclick="searchMealItem();"><%=HTMLEntities.htmlentities(getTran("meals","addMealItem",sWebLanguage))%></a>
                 <br/>
                 
-                <ul id="mealItemList" class="items" style="width:370px">
+                <ul id="mealItemList" class="items" style="width:380px">
                     <%
                         Iterator iter = item.mealItems.iterator();
+                        MealItem mealitem;
                         while(iter.hasNext()){
-                            MealItem mealitem = (MealItem)iter.next();
+                            mealitem = (MealItem)iter.next();
                             out.write("<script>insertMealItem('"+mealitem.getUid()+"','"+mealitem.name+"','"+mealitem.unit+"','"+mealitem.quantity+"');</script>");
                         }
                     %>
@@ -53,11 +54,9 @@
         <tr>
             <td class="admin"><%=HTMLEntities.htmlentities(getTran("meals","mealNutricients",sWebLanguage))%></td>
             <td class="admin2">
-                <a href="javascript:void(0)" id="nutricientsButton" class="link down" onclick="getNutricientsInMeal('<%=item.getUid()%>',false);"><span><%=getTranNoLink("meals","seeMealNutricients",sWebLanguage)%></span></a>&nbsp;&nbsp;&nbsp;
-                <a href="javascript:void(0)" id="nutricientsRefresh" class="link reload" style="display:none;" onclick="getNutricientsInMeal('<%=item.getUid()%>',true);">
-                    <%=getTranNoLink("meals","reloadMealNutrients",sWebLanguage)%>
-                </a>
-                <ul id="mealNutricientList" class="items" style="width:370px"></ul>
+                <a href="javascript:void(0)" id="mealNutricientsButton" class="link down" onclick="getNutricientsInMeal(true);"><%=getTranNoLink("meals","seeMealNutricients",sWebLanguage)%></a>&nbsp;&nbsp;&nbsp;
+                <a href="javascript:void(0)" id="mealNutricientsRefresh" class="link reload" style="display:none;" onclick="getNutricientsInMeal();"><%=getTranNoLink("meals","reloadMealNutrients",sWebLanguage)%></a>
+                <ul id="mealNutricientList" class="items" style="display:none;width:380px"></ul>
             </td>
         </tr>
         

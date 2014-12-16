@@ -17,7 +17,7 @@
     <%-- NUTRIENT NAME --%>
     <tr>
         <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("meals","name",sWebLanguage)%></td>
-        <td class="admin2">
+        <td class="admin2" style="padding-left:5px;">
             <input type="text" class="text" id="FindNutricientName" name="FindNutricientName" size="50" maxLength="100">&nbsp;&nbsp;
             
             <%-- BUTTONS --%>
