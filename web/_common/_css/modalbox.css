@@ -73,7 +73,7 @@
 a#MB_close {
   width: 16px;
   height: 16px;
-  background: transparent url( ../../_img/Close.png ) 0 0 no-repeat;
+  background: transparent url("../../_img/icons/icon_minus.png") 0 0 no-repeat;
 }
 
 a#MB_close:hover {

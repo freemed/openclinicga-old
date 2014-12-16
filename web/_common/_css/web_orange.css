@@ -289,7 +289,7 @@ tr.admin a {
  font-weight:bolder;
  text-align:left;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  border:solid #303030 1px;
  color:#3C5C74;
 }
@@ -301,7 +301,7 @@ TD.admin {
  font-weight:bolder;
  text-align:left;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  background-color:#FFD666;
  height:22px;
  line-height:22px;
@@ -314,7 +314,7 @@ td.admin2 {
  font-weight:normal;
  text-align:left;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  vertical-align:middle;
  background-color:#F9F4CA;
 }
@@ -326,7 +326,7 @@ td.admin2right {
  font-weight:normal;
  text-align:right;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  background-color:#DEEAFF;
 }
 
@@ -340,7 +340,7 @@ td.titleadmin {
  line-height:25px;
  background:#FFE08A;
  vertical-align:middle;
- padding-left:3px;
+ text-indent:3px;
  color:#303030;
 }
 
@@ -351,7 +351,7 @@ td.titleadmin {
  font-weight:normal;
  text-align:left;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  border:none;
  background-color:#F2EBC9;
  height:20px;
@@ -365,7 +365,7 @@ tr.list {
  font-weight:normal;
  text-align:left;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  border:none;
  background-color:white;
  height:20px;
@@ -378,7 +378,7 @@ tr.listbold {
  font-weight:bolder;
  text-align:left;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  background-color:#FFE08A;
  height:20px;
 }
@@ -390,7 +390,7 @@ tr.listbold1 {
  font-weight:bolder;
  text-align:left;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  border:none;
  background-color:white;
  height:20px;
@@ -404,7 +404,7 @@ tr.listDisabled {
  font-weight:normal;
  text-align:left;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  border:none;
  background-color:#F2EBC9;
  height:20px;
@@ -417,7 +417,7 @@ tr.listText {
  font-weight:normal;
  text-align:left;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  border:none;
  background-color:#F2EBC9;
  font-style:italic;
@@ -431,7 +431,7 @@ tr.list_select {
  font-weight:normal;
  text-align:left;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  border:none;
  background-color:#FCCA6C;
  height:20px;
@@ -452,7 +452,7 @@ tr.list_selectbold {
  font-weight:bolder;
  text-align:left;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  border:none;
  background-color:#BEBEBE;
  height:20px;
@@ -465,7 +465,7 @@ tr.list_select2 {
  font-weight:normal;
  text-align:left;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  border:none;
  background-color:#F9F4CA;
 }
@@ -553,7 +553,7 @@ TD.menuItemGreen {
  font-weight:normal;
  background-color:#99cc99;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  border:none;
 }
 
@@ -581,7 +581,7 @@ TR.red {
  font-weight:normal;
  text-align:left;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  border:none;
  height:20px;
 }
@@ -594,7 +594,7 @@ TR.green {
  font-weight:normal;
  text-align:left;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  border:none;
  height:20px;
 }
@@ -605,7 +605,7 @@ TR.gray {
  font-family:arial, sans-serif;
  font-size:10px;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  border:none;
  height:22px;
  line-height:22px;
@@ -1038,7 +1038,7 @@ TR.list {
  text-align:left;
  background-color:#fff;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  border:none;
  height:20px;
 }
@@ -1051,7 +1051,7 @@ TR.list1 {
  text-align:left;
  background-color:#F2EBC9;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  height:20px;
 }
 
@@ -1064,7 +1064,7 @@ TR.listDisabled1 {
  text-align:left;
  background-color:White;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  border:none;
  height:20px;
 }
@@ -1080,7 +1080,7 @@ TR.listText1 {
  height:20px;
  border:none;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
 }
 
 TD.text {
@@ -1091,7 +1091,7 @@ TD.text {
  text-align:left;
  background-color:#fff;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  border:none;
 }
 
@@ -1103,7 +1103,7 @@ TD.textRed {
  text-align:left;
  background-color:#ff9999;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
  border:none;
 }
 
@@ -1115,7 +1115,7 @@ TR.Label {
  text-align:left;
  background-color:#F9F4CA;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
 }
 
 TR.Label2 {
@@ -1125,7 +1125,7 @@ TR.Label2 {
  font-weight:bold;
  text-align:left;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
 }
 
 TR.White {
@@ -1136,7 +1136,7 @@ TR.White {
  text-align:left;
  background-color:#fff;
  padding:1px;
- padding-left:5px;
+ text-indent:5px;
 }
 
 TD.Title {
@@ -1617,7 +1617,7 @@ div.valid {
  -moz-background-clip:border;
  -moz-background-inline-policy:continuous;
  -moz-background-origin:padding;
- background:transparent url(../../_img/themes/orange/valid.gif) no-repeat scroll 0 15px;
+ background:transparent url(../../_img/themes/default/valid.gif) no-repeat scroll 0 15px;
  font-weight:bold;
  padding:10px;
 }
@@ -1639,18 +1639,18 @@ div.question p {
 
 ul.items {
  line-height:1px;
- margin:0;
+ margin:3px 0;
  padding:0;
- padding-top:3px;
  float:left;
  _float:none;
+ border-bottom:1px solid #ccc;
 }
 
 ul.items li {
- border:1px solid #C3D9FF;
+ border:1px solid #ccc;
+ background:#ddd;
  border-bottom:none;
- list-style:none;
- padding:2px;
+ padding:1px;
  margin:0;
  display:block;
  float:left;
@@ -1712,11 +1712,11 @@ a.add {
 }
 
 a.down {
- background:url(../../_img/themes/orange/arrow_down.gif) no-repeat 6px center;
+ background:url(../../_img/themes/default/arrow_down.gif) no-repeat 6px center;
 }
 
 a.up {
- background:url(../../_img/themes/orange/arrow_up.gif) no-repeat 6px center;
+ background:url(../../_img/themes/default/arrow_up.gif) no-repeat 6px center;
 }
 
 a.reload {

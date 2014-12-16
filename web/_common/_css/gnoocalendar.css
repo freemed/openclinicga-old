@@ -14,8 +14,7 @@
 	font-weight: 	normal;
 	font-size:	12px;
 	text-decoration: none;
-	border-bottom:	solid 1px #505050;
-	border-right:	solid 1px #505050;
+	border:	solid 1px #ccc;
 	width:		180px;
 }
 /* champs texte */
@@ -52,7 +51,7 @@
 	height: 	16px;
 	font-size:	12px;
 	background:	white;
-	border:		solid 1px #949fc7;
+	border:		solid 1px #ccc;
 	font-family: 	Arial,Helvetica,sans-serif;
 	font-weight: 	bold;
 	color:		#505050;
@@ -64,7 +63,7 @@
 	width: 		20px;
 	font-size:	12px;
 	height: 	16px;
-	border:		solid 1px #b7a9c7;
+	border:		solid 1px #ccc;
 	background:	white;
 	font-family: 	Arial,Helvetica,sans-serif;
 	font-weight: 	bold;
@@ -107,7 +106,7 @@
 	width: 		20px;
 	height: 	16px;
 	background:	white;
-	border:		solid 1px #949fc7;
+	border:		solid 1px #ccc;
 	font-family: 	Arial,Helvetica,sans-serif;
 	font-weight: 	normal;
 	padding:	0px;
@@ -122,7 +121,7 @@
 {
 	width: 		20px;
 	height: 	16px;
-	background:	#C3D9FF;
+	background:	#ccc;
 	border:		solid 1px #ffffff;
 	font-family: 	Arial,Helvetica,sans-serif;
 	font-weight: 	normal;
@@ -138,8 +137,8 @@
 {
 	width: 		20px;
 	height: 	16px;
-	border:		solid 1px #b7a9c7;
-	background:	white;
+	border:		solid 1px #ccc;
+	background:	#B7A9C7;
 	font-family: 	Arial, Helvetica, sans-serif;
 	font-weight: 	normal;
 	padding:	0px;
@@ -155,7 +154,7 @@
 	width: 		20px;
 	height: 	16px;
 	border:		solid 1px #ffffff;
-	background:	#C3D9FF;
+	background:	#ccc;
 	font-family: 	Arial, Helvetica, sans-serif;
 	font-weight: 	normal;
 	padding:	0px;
@@ -171,7 +170,7 @@
 	width: 		20px;
 	height: 	16px;
 	border:		solid 1px #ffffff;
-	background:	#4975A7;
+	background:	orange;
 	font-family: 	Arial, Helvetica, sans-serif;
 	font-weight: 	normal;
 	padding:	0px;
@@ -188,7 +187,7 @@
 	width: 		20px;
 	height: 	16px;
 	border:		solid 1px orange;
-	background:	#C3D9FF;
+	background:	#ccc;
 	font-family: 	Arial, Helvetica, sans-serif;
 	font-weight: 	normal;
 	padding:	0px;
