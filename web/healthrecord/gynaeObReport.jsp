@@ -45,11 +45,11 @@
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <td class='tabs' width="2">&nbsp;</td>
-                <td class='tabunselected' width="1%" onclick="activateTab(1)" id="td1" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' nowrap>
+                <td class='tabunselected' width="1%" onclick="activateTab(1)" id="td1" nowrap>
                     &nbsp;<b><%=getTran("Web.Occup", "obreport.section1", sWebLanguage)%>
                 </b>&nbsp;</td>
                 <td class='tabs' width="2">&nbsp;</td>
-                <td class='tabunselected' width="1%" onclick="activateTab(3)" id="td3" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' nowrap>
+                <td class='tabunselected' width="1%" onclick="activateTab(3)" id="td3" nowrap>
                     &nbsp;<b><%=getTran("Web.Occup", "obreport.section2", sWebLanguage)%>
                 </b>&nbsp;</td>
                 <td class='tabs'>&nbsp;</td>

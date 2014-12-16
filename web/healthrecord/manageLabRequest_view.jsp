@@ -256,7 +256,7 @@
 	        	if(tran.getTransactionId()<=0){
 	        		String labSMS=UserParameter.getParameter(activeUser.userid,"lastLabSMS");
 	        		if(checkString(labSMS).length()>0){
-	        			%><a href="javascript:set('labsms','<%=labSMS %>')"><img class='link' src='<c:url value="/_img/valid.gif"/>'/> <%=labSMS%></a><%
+	        			%><a href="javascript:set('labsms','<%=labSMS %>')"><img class='link' src='<c:url value="/_img/themes/default/valid.gif"/>'/> <%=labSMS%></a><%
 	        		}
 	        	}
 	        %>
@@ -277,7 +277,7 @@
 	        	if(tran.getTransactionId()<=0){
 	        		String labMail=UserParameter.getParameter(activeUser.userid,"lastLabEmail");
 	        		if(checkString(labMail).length()>0){
-	        			%><a href="javascript:set('labmail','<%=labMail %>')"><img class='link' src='<c:url value="/_img/valid.gif"/>'/> <%=labMail%></a><%
+	        			%><a href="javascript:set('labmail','<%=labMail %>')"><img class='link' src='<c:url value="/_img/themes/default/valid.gif"/>'/> <%=labMail%></a><%
 	        		}
 	        	}
 	        %>

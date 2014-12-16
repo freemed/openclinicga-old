@@ -34,7 +34,7 @@
         String keywords = checkString(request.getParameter("keywords"));
         Debug.println("keywords : "+keywords);
 %>
-    <form name="RFEForm" method="post" onKeyDown='if(event.keyCode==13){doFind();}'>
+    <form name="RFEForm" method="post" onKeyDown='if(enterEvent(event,13)){doFind();}'>
         <table class='menu' width='100%' cellspacing="0" cellpadding="0">
             <tr class="admin"><td colspan="3"><%=getTran("openclinic.chuk","rfe",sWebLanguage)%></td></tr>
             <tr>
