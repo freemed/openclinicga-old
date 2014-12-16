@@ -28,7 +28,8 @@
         Debug.println("sAction             : "+sAction);
         Debug.println("sFindBedName        : "+sFindBedName);
         Debug.println("sFindBedService     : "+sFindBedService);
-        Debug.println("sFindBedServiceName : "+sFindBedServiceName);
+        Debug.println("sFindBedServiceName : "+sFindBedServiceName+"\n");
+         
         Debug.println("sEditUID            : "+sEditUID);
         Debug.println("sEditName           : "+sEditName);
         Debug.println("sEditBedService     : "+sEditBedService);
@@ -39,25 +40,26 @@
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
+    
     String sMsg = "";
     
     //--- SAVE ------------------------------------------------------------------------------------
     if(sAction.equals("SAVE")){
         Bed tmpBed = new Bed();
-        if(sEditUID.length() > 0 ){//update
+        if(sEditUID.length() > 0 ){
             tmpBed = Bed.get(sEditUID);
         }
         else{
-        	//insert
             tmpBed.setCreateDateTime(ScreenHelper.getSQLDate(getDate()));
-        }
-        
+        }        
         tmpBed.setName(sEditName);
+        
         Service sTMP = Service.getService(sEditBedService);
         if(sTMP==null){
             sTMP = new Service();
         }
         tmpBed.setService(sTMP);
+        
         int priority = 1;
         try{
             priority = Integer.parseInt(sEditPriority);
@@ -70,7 +72,7 @@
         tmpBed.setLocation(sEditLocation);
         tmpBed.setComment(sEditComment);
         tmpBed.setUpdateDateTime(ScreenHelper.getSQLDate(getDate()));
-        tmpBed.setUpdateUser(activeUser.personid);
+        tmpBed.setUpdateUser(activeUser.userid);
         tmpBed.store();
         
         sEditUID = tmpBed.getUid();
@@ -92,14 +94,15 @@
     //--- SEARCH ----------------------------------------------------------------------------------
     if(sAction.equals("SEARCH") || sAction.equals("")){
 %>
+
 <%-- BEGIN FIND BLOCK--%>
 <form name='FindBedForm' method='POST' action='<c:url value="/main.do"/>?Page=adt/manageBeds.jsp&ts=<%=getTs()%>'>
     <%=writeTableHeader("Web","manageBeds",sWebLanguage," doBack();")%>
     
-    <table class='list' width='100%' cellspacing='1' onKeyDown='if(event.keyCode==13){doFind();return false;}else{return true;}'>    
+    <table class='list' width='100%' cellspacing='1' onKeyDown='if(enterEvent(event,13)){doFind();return false;}else{return true;}'>    
         <%-- service --%>
         <tr>
-            <td class="admin2"><%=getTran("Web","service",sWebLanguage)%></td>
+            <td class="admin2" width="<%=sTDAdminWidth%>"><%=getTran("Web","service",sWebLanguage)%></td>
             <td class="admin2">
                 <input type="hidden" name="FindBedService" value="<%=sFindBedService%>">
                 <input class="text" type="text" name="FindBedServiceName" readonly size="<%=sTextWidth%>" value="<%=sFindBedServiceName%>">
@@ -111,13 +114,13 @@
         
         <%-- name --%>
         <tr>
-            <td class="admin2" width="<%=sTDAdminWidth%>"><%=getTran("Web","name",sWebLanguage)%></td>
+            <td class="admin2"><%=getTran("Web","name",sWebLanguage)%></td>
             <td class="admin2"><input class='text' name='FindBedName' value='<%=sFindBedName%>' size="<%=sTextWidth%>"></td>
         </tr>
         
         <%-- buttons --%>
         <tr>
-            <td class="admin2"/>
+            <td class="admin2">&nbsp;</td>
             <td class="admin2">
                 <input class='button' type='button' name='buttonfind' value='<%=getTranNoLink("Web","search",sWebLanguage)%>' onclick='doFind();'>&nbsp;
                 <input class='button' type='button' name='buttonclear' value='<%=getTranNoLink("Web","Clear",sWebLanguage)%>' onclick='doClear();'>&nbsp;
@@ -180,9 +183,7 @@
 	                    <td width='30%'><%=getTran("Web","name",sWebLanguage)%></td>
 	                    <td width='*'><%=getTran("Web","service",sWebLanguage)%></td>
 	                </tr>
-	                <tbody class="hand">
-	                    <%=sbResults%>
-	                </tbody>
+	                <tbody class="hand"><%=sbResults%></tbody>
 	            </table>
 	
 	            <div><%=vBeds.size()%> <%=getTran("web","recordsfound",sWebLanguage)%></div>
@@ -235,7 +236,7 @@
                 %>
                 <br>
                 <%
-                    if((sEditLocation.length()>0)&&(sEditLocation.indexOf(".")>-1)){
+                    if(sEditLocation.length() > 0 && sEditLocation.indexOf(".") > -1){
                         String sExtension = sEditLocation.substring(sEditLocation.indexOf(".")+1).toLowerCase();
 
                         if(MedwanQuery.getInstance().getConfigString("image_extensions","gif,jpg,bmp").toLowerCase().indexOf(sExtension)>-1){
@@ -338,12 +339,14 @@
   <%-- DO NEW BED --%>
   function doNewBed(){
     EditBedForm.newButton.disabled = true;
+    
     EditBedForm.Action.value = "NEW";
     EditBedForm.EditName.value = "";
-    EditBedForm.EditPriority.value="";
-    EditBedForm.EditLocation.value="";
-    EditBedForm.EditComment.value="";
-    EditBedForm.EditUID.value="";
+    EditBedForm.EditPriority.value = "";
+    EditBedForm.EditLocation.value = "";
+    EditBedForm.EditComment.value = "";
+    EditBedForm.EditUID.value = "";
+    
     EditBedForm.submit();
   }
 
@@ -366,12 +369,8 @@
   }
 
   function isNumber(val){
-    if(isNaN(val)){
-      return false;
-    }
-    else{
-      return true;
-    }
+    if(isNaN(val)) return false;
+    else           return true;
   }
 
   function openFile(){

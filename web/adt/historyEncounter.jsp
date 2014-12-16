@@ -1,7 +1,7 @@
 <%@page import="be.openclinic.adt.*,
                 be.openclinic.adt.Encounter.*,
                 java.util.Vector,
-                be.openclinic.medical.ReasonForEncounter" %>
+                be.openclinic.medical.ReasonForEncounter"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("adt.encounterhistory","select",activeUser)%>
 <%=sJSSORTTABLE%>
