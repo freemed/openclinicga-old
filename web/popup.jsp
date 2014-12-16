@@ -113,9 +113,9 @@
   }
 
   <%-- ENTER EVENT --%>
-  function enterEvent(e,targetKey){
+  function enterEvent(e,targetKeyCode){
 	var eventKey = e.which?e.which:window.event.keyCode;
-	return (eventKey==targetKey);
+	return (eventKey==targetKeyCode);
   }
   
   <%-- ENTER KEY PRESSED --%>

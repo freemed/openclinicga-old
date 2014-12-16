@@ -45,6 +45,7 @@
   <%=sJSSCRPTACULOUS%>
   <%=sJSMODALBOX%>
   <%=sIcon%>
+  <%=sJSSCRIPTS%>
 </head>
 
 <%@include file="/includes/messageChecker.jsp"%>
@@ -99,6 +100,7 @@ else{
         </td>
     </tr>
 </table>
+
 <script>
   var dateFormat = "<%=ScreenHelper.stdDateFormat.toPattern()%>";
   var ie = document.all;
@@ -107,83 +109,19 @@ else{
   function hasScrollbar(){
     return (document.getElementById("Juist").scrollHeight > document.getElementById("Juist").clientHeight);
   }
-
-  function pageResize(){
-    if(ie){
-      var rcts = document.getElementById("Juist").getClientRects();
-      var headerH = rcts[0].top;
-      document.getElementById("Juist").style.height = document.body.clientHeight - headerH;
-      if(hasScrollbar()){
-        document.getElementById("holder").style.width = document.body.clientWidth - 1;
-        document.getElementById("Juist").style.width = document.body.clientWidth - 2;
-        document.getElementById("mijn").style.width = document.getElementById("Juist").offsetWidth - 17;
-      }
-      else{
-        document.getElementById("holder").style.width = document.body.clientWidth - 1;
-        document.getElementById("Juist").style.width = document.body.clientWidth - 2;
-        document.getElementById("mijn").style.width = document.getElementById("Juist").offsetWidth;
-      }
-    }
-    else{
-      var divHeight = document.getElementById("body").offsetHeight - (document.getElementById("menu").offsetHeight+document.getElementById("header").offsetHeight+5);
-      document.getElementById("Juist").style.height = divHeight+"px";
-    }
-    resizeSearchFields();
-  }
-  
-  <%
-      // do not resize textarea's in pages below : 
-      if(!sPage.endsWith("medIntProctologyProtocol.jsp")){
-          %>
-			  Event.observe(window,'load',function(){
-			    resizeAllTextareas(10);
-			    changeInputColor();
-			    pageResize();
-			  });
-	    <%
-      }
-  %>
-
-  function checkDropdown(evt){
-    if(!dropDownChecked){
-      if(window.myButton){
-        if(ns6){
-          lastEvent = evt;
-          if(lastEvent.target.id.indexOf("menu") > -1 || lastEvent.target.id.indexOf("ddIcon") > -1){
-            if(!bSaveHasNotChanged){
-              dropDownChecked = true;
-              if(checkSaveButton()){
-                lastEvent.target.click();
-              }
-            }
-          }
-        }
-        else{
-          lastEvent = window.event;
-          if(lastEvent.srcElement.id.indexOf("menu") > -1 || lastEvent.srcElement.id.indexOf("ddIcon") > -1){
-            if(!bSaveHasNotChanged){
-              dropDownChecked = true;
-              if(checkSaveButton()){
-                lastEvent.srcElement.click();
-              }
-            }
-          }
-        }
-      }
-    }
-    else{
-      if(ns6){
-        lastEvent = evt;
-        lastEvent.target.click;
-      }
-      else{
-        lastEvent = window.event;
-        lastEvent.srcElement.click();
-      }
-    }
-  }
   
 <%
+    // do not resize textarea's in pages below : 
+    if(!sPage.endsWith("medIntProctologyProtocol.jsp")){
+        %>          
+		  Event.observe(window,'load',function(){
+			resizeAllTextareas(10);
+		    changeInputColor();
+		    pageResize();
+	      });
+	    <%
+    }
+  
     if(alertWorkTimeMsg){
 		%>
 		  var popupUrl = "<c:url value="/_common/search/workTimePopup.jsp"/>?ts=<%=getTs()%>&labelValue=<%=getTranNoLink("Web.Occup","medwan.common.workuntil",sWebLanguage)%> <%=sWorkTimeMessage%>";
@@ -192,6 +130,7 @@ else{
 		<%
     }
 
+    // alert message
     String msg = checkString(request.getParameter("msg"));
     if(msg.length() > 0){
 		%>alertDialogDirectText("<%=msg%>");<%
