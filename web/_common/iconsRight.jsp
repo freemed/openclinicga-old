@@ -292,7 +292,7 @@
     
         %><img class="link" onclick="clickMenuItem('javascript:searchMyHospitalized();');" alt="<%=getTranNoLink("Web","my_hospitalized_patients",sWebLanguage)%>" title="<%=getTranNoLink("Web","my_hospitalized_patients",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_bed.gif'/>"/><%
   
-        if(1==1){ // activeUser.getAccessRight("manage.meals.select") /////////////////////////////////////////////////////////!!!!!!!!!!
+        if(activeUser.getAccessRight("manage.meals.select")){
             %>&nbsp;<img class="link" onclick="clickMenuItem('<c:url value="/main.do" />?Page=meals/index.jsp&ts='+new Date().getTime());" alt="<%=getTranNoLink("web","meals",sWebLanguage)%>" title="<%=getTranNoLink("web","meals",sWebLanguage)%>" src="<c:url value='/_img/icons/icon_meals.png'/>"/><%
         }
         
