@@ -200,10 +200,15 @@
     //--- 3 - SPECIFIC EXAMINATIONS ---------------------------------------------------------------
     Vector examNames = new Vector(exams.keySet());
     if(activeUser.getAccessRight("examinations.specific.select")){
+    	String sServiceSuffix = "";
+    	if(activeUser.activeService.code.length() > 0){
+    		sServiceSuffix = "("+getTran("Service",activeUser.activeService.code,sWebLanguage)+")";
+    	}
+    	
 	    %>
-	    <%-- PAGE TITLE --%>
+	    <%-- TITLE --%>
 	    <tr class="admin">
-	        <td colspan="5">&nbsp;<%=getTran("web","specificExaminations",sWebLanguage)%> (<%=getTran("Service",activeUser.activeService.code,sWebLanguage)%>)</td>
+	        <td colspan="5">&nbsp;<%=getTran("web","specificExaminations",sWebLanguage)%><%=sServiceSuffix%></td>
 	    </tr>
 	    
 	    <%
@@ -316,8 +321,7 @@
                     <tr class="list<%=sClass%>" id="otherServiceHeader_<%=serviceId%>" title="<%=showExamsTran%>" onclick="hideAllServiceExaminations('<%=serviceId%>');toggleServiceRow('<%=serviceId%>');" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
                         <%-- plus-sign and servicename --%>
                         <td colspan="4">
-                            <img id="img_<%=serviceId%>" src="<%=sCONTEXTPATH%>/_img/icons/icon_plus.png" class="link">&nbsp;
-                            <%=getTran("Web","service",sWebLanguage)%> <%=getTran("service",serviceId,sWebLanguage)%>
+                            <img id="img_<%=serviceId%>" src="<%=sCONTEXTPATH%>/_img/icons/icon_plus.png" class="link" style="vertical-align:-3px;"/>&nbsp;<%=getTran("service",serviceId,sWebLanguage).toUpperCase()%>
                             (<%=examNames.size()%> <%=getTran("web.manage","examinations",sWebLanguage).toLowerCase()%>)
                         </td>
                     </tr>
@@ -349,14 +353,14 @@
                                 %>
                                 <tr class="list<%=sInnerClass%>">
                                     <%-- examination name --%>
-                                    <td><img src="<c:url value="/_img/themes/default/pijl.gif"/>"><button class='buttoninvisible'></button> <%=ScreenHelper.uppercaseFirstLetter(examName)%></td>
+                                    <td><img src="<c:url value='/_img/themes/default/pijl.gif'/>"><button class="buttoninvisible"></button> <%=ScreenHelper.uppercaseFirstLetter(examName)%></td>
                                     <%-- create --%>
                                     <td align="center">
                                         <%
-                                            if((verifiedExaminationVO.getTransactionType().equalsIgnoreCase("be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_BIOMETRY") && checkString(verifiedExaminationVO.getLastExamination()).length()>0)){
+                                            if(verifiedExaminationVO.getTransactionType().equalsIgnoreCase("be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_BIOMETRY") && checkString(verifiedExaminationVO.getLastExamination()).length()>0){
                                                 // empty
                                             }
-                                            else if((verifiedExaminationVO.getTransactionType().equalsIgnoreCase("be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DENTIST") && checkString(verifiedExaminationVO.getLastExamination()).length()>0)){
+                                            else if(verifiedExaminationVO.getTransactionType().equalsIgnoreCase("be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_DENTIST") && checkString(verifiedExaminationVO.getLastExamination()).length()>0){
                                             	// empty
                                             }
                                             else{
