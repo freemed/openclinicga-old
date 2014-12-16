@@ -303,7 +303,7 @@
         $("transactionForm").submit();
         eval("document."+ourform).submit();
       }
-      else if(event.keyCode==13){
+      else if(enterEvent(event,13)){
         eval("document."+ourform).submit();
       }
     }
