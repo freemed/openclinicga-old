@@ -72,14 +72,14 @@
       if(!time) time = 3000;
       if(option){
         if(option=="before"){
-          this.div.update("<span class='valid'><img src='<%=sCONTEXTPATH%>/_img/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span><br>"+this.div.innerHTML);
+          this.div.update("<span class='valid'><img src='<%=sCONTEXTPATH%>/_img/themes/default/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span><br>"+this.div.innerHTML);
         }
         else if(option=="after"){
-          this.div.update(this.div.innerHTML+"<br><span class='valid'><img src='<%=sCONTEXTPATH%>/_img/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
+          this.div.update(this.div.innerHTML+"<br><span class='valid'><img src='<%=sCONTEXTPATH%>/_img/themes/default/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
         }
       }
       else{
-        this.div.update("<span class='valid'><img src='<%=sCONTEXTPATH%>/_img/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
+        this.div.update("<span class='valid'><img src='<%=sCONTEXTPATH%>/_img/themes/default/valid.gif' style='vertical-align:-3px;'>&nbsp;"+msg+"</span>");
       }
       
       this.div.style.display = "block";      
