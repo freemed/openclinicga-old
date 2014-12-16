@@ -1,5 +1,5 @@
-<%@page import="be.mxs.common.util.db.MedwanQuery"%>
-<%@page import="net.admin.system.AccessLog"%>
+<%@page import="be.mxs.common.util.db.MedwanQuery,
+                net.admin.system.AccessLog"%>
 <%@include file="/includes/helper.jsp"%>
 <%@include file="/includes/SingletonContainer.jsp"%>
 
@@ -113,8 +113,8 @@
         if(activeUser!=null && ((sWebLanguage.trim().length()==0) || session.getAttribute(sAPPTITLE+"WebLanguage")==null)){
             sWebLanguage = activeUser.person.language;
             session.setAttribute(sAPPTITLE+"WebLanguage",sWebLanguage);
-            SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request, SessionContainerWO.class.getName());
-	        if(sessionContainerWO.getUserVO() == null || sessionContainerWO.getUserVO().getPersonVO() == null || !activeUser.userid.equalsIgnoreCase(sessionContainerWO.getUserVO().userId+"")) {
+            SessionContainerWO sessionContainerWO = (SessionContainerWO)SessionContainerFactory.getInstance().getSessionContainerWO(request,SessionContainerWO.class.getName());
+	        if(sessionContainerWO.getUserVO()==null || sessionContainerWO.getUserVO().getPersonVO()==null || !activeUser.userid.equalsIgnoreCase(sessionContainerWO.getUserVO().userId+"")){
 	            sessionContainerWO.setUserVO(MedwanQuery.getInstance().getUser(activeUser.userid));
 	        }
         } 

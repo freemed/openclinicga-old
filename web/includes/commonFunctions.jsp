@@ -71,5 +71,23 @@
     }
     
     return answer; // FF
+  } 
+  
+  <%-- ENTER EVENT --%>
+  function enterEvent(e,targetKeyCode){
+    var eventKey = e.which?e.which:window.event.keyCode;
+	return (eventKey==targetKeyCode);
+  }
+	  
+  <%-- ENTER KEY PRESSED --%>
+  function enterKeyPressed(e){
+    var eventKey = e.which?e.which:window.event.keyCode;
+	return (eventKey==13);
+  }
+
+  <%-- DELETE KEY PRESSED --%>
+  function deleteKeyPressed(e){
+	var eventKey = e.which?e.which:window.event.keyCode;
+	return (eventKey==46);	
   }
 </script>

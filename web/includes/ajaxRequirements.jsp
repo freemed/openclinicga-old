@@ -29,8 +29,6 @@
           $("ajaxLoader").style.display = "none";
         }
       }
-    },
-    onException:function(request){
     }
   });
 </script>

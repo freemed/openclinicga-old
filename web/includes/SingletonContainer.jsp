@@ -1,10 +1,9 @@
 <%@page import="net.admin.*,
                 be.mxs.common.util.db.MedwanQuery,
                 be.mxs.common.util.system.Debug,
-                java.sql.*,java.text.*"%>
-<%@page import="java.util.Hashtable"%>
-<%@page import="java.util.Vector"%>
-<%@page import="java.util.Iterator"%>
+                java.sql.*,
+                java.text.*,
+                java.util.*"%>
   
 <%!    
     //--- RELOAD SINGLETON ------------------------------------------------------------------------
@@ -18,7 +17,6 @@
         Vector vLabels = net.admin.Label.getNonServiceFunctionLabels();
         Iterator iter = vLabels.iterator();
 
-        Debug.println("About to (re)load labels.");
         while(iter.hasNext()){
             label = (net.admin.Label)iter.next();
             
@@ -38,11 +36,11 @@
                 //Debug.println("new type : "+label.type);
             }
 
-            labelIds.put(label.id, label);
+            labelIds.put(label.id,label);
         }
 
         // status info
-        if(Debug.enabled) {
+        if(Debug.enabled){
             Debug.println("Labels (re)loaded.");
 
             Debug.println(" * "+labelLanguages.size()+" languages");

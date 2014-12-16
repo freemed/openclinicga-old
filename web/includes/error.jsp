@@ -30,4 +30,3 @@
     String sPage = request.getParameter("Page");
     saveError(sError,sPage,activeUser);
 %>
-

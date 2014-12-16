@@ -29,7 +29,6 @@
       if(session.getAttribute("snoozeDueTime")!=null){
     	  // message displayed before, only check for message when snooze due time is passed
     	  snoozeDueTime = Long.parseLong((String)session.getAttribute("snoozeDueTime"));
-    	  //Debug.println(" snoozeDueTime : "+snoozeDueTime);
 
     	  if(snoozeDueTime==0){
     		  // stop checking for messages when snoozeDueTime is 0    		  
@@ -55,10 +54,8 @@
   <%-- CHECK FOR MESSAGE --%>
   function checkForMessage(){
     var url = "<c:url value='/includes/ajax/checkForMessage.jsp'/>?ts="+new Date().getTime();
-    var params = ""; // no parameters      
     
     new Ajax.Request(url,{
-      parameters: params,
       onComplete: function(resp){
         var data = eval("("+resp.responseText+")");
         
@@ -90,26 +87,22 @@
   <%-- SET SNOOZE IN SESSION (after doSnooze) --%>
   function setSnoozeInSession(){
     var url = "<c:url value='/includes/ajax/setSnoozeInSession.jsp'/>?ts="+new Date().getTime();
-    var params = "Action=set";      
-    
     new Ajax.Request(url,{
-      parameters: params
+      parameters: "Action=set"
     });
   }
   
   <%-- CLEAR SNOOZE IN SESSION (after doNotSnooze) --%>
   function clearSnoozeInSession(){
     var url = "<c:url value='/includes/ajax/setSnoozeInSession.jsp'/>?ts="+new Date().getTime();
-    var params = "Action=clear";      
-    
     new Ajax.Request(url,{
-      parameters: params
+      parameters: "Action=clear"
     });
   }
   
   <%-- OBSERVERS for yesNoModalbox --%>
-  var yesObserver = doSnooze.bindAsEventListener(Modalbox);
-  var noObserver = doNotSnooze.bindAsEventListener(Modalbox);
+  var yesObserver = doSnooze.bindAsEventListener(Modalbox),
+      noObserver  = doNotSnooze.bindAsEventListener(Modalbox);
   
   function setObservers(){
 	$("yesButton").observe("click",yesObserver);
@@ -126,8 +119,7 @@
     var html = "<div style='border:1px solid #bbccff;padding:1px;'>"+ // class="warning"
                 "<p>"+msg+"</p>"+
                 "<p style='text-align:center'>"+
-                 "<input type='button' class='button' id='yesButton' style='padding-left:7px;padding-right:7px' value='<%=getTranNoLink("web","yes",sWebLanguage)%>' onclick='Modalbox.hide();'/>"+
-                 "&nbsp;&nbsp;&nbsp;"+
+                 "<input type='button' class='button' id='yesButton' style='padding-left:7px;padding-right:7px' value='<%=getTranNoLink("web","yes",sWebLanguage)%>' onclick='Modalbox.hide();'/>&nbsp;&nbsp;"+
                  "<input type='button' class='button' id='noButton' style='padding-left:7px;padding-right:7px' value='<%=getTranNoLink("web","no",sWebLanguage)%>' onclick='Modalbox.hide();'/>"+
                 "</p>"+
                "</div>";
