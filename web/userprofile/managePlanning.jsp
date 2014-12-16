@@ -278,8 +278,8 @@ else if (sAction.equals("save")) {
     activeUser.parameters.add(parameter);
     session.setAttribute("activeUser", activeUser);
     out.write("<span class='valid'>"+
-                   "<img src='"+sCONTEXTPATH+"/_img/valid.gif' style='vertical-align:-3px;'>&nbsp;"+
-                   HTMLEntities.htmlentities(getTranNoLink("Web.Control","dataissaved",sWebLanguage))+
+                   "<img src='"+sCONTEXTPATH+"/_img/themes/default/valid.gif' style='vertical-align:-3px;'>&nbsp;"+
+                   HTMLEntities.htmlentities(getTranNoLink("web","dataissaved",sWebLanguage))+
                   "</span><script>if($('tabpatient')){setTimeout('window.location.reload()',500);}</script>");
     }
     catch(Exception e){
