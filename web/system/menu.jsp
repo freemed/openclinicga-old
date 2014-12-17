@@ -28,7 +28,7 @@
 <tr>
 <td width="50%" style="vertical-align:top;">
     <%-- MANAGEMENT --%>
-    <table width="100%" cellspacing="1" cellpadding="0">
+    <table width="100%" cellspacing="2" cellpadding="0">
         <tr>
             <td>
                 <%
@@ -78,7 +78,7 @@
     <div style="height:12px;">
     
     <%-- DATABASE --%>
-    <table width="100%" cellspacing="1" cellpadding="0">
+    <table width="100%" cellspacing="2" cellpadding="0">
         <tr>
             <td>
                 <% 
@@ -103,7 +103,7 @@
 
 <td width="50%" style="vertical-align:top;">
     <%-- SYNCHRONISATIE --%>
-    <table width="100%" cellspacing="1" cellpadding="0">
+    <table width="100%" cellspacing="2" cellpadding="0">
         <tr>
             <td>
                 <%
@@ -130,7 +130,7 @@
     <div style="height:12px;">
     
     <%-- TRANSLATIONS --%>
-    <table width="100%" cellspacing="1" cellpadding="0">
+    <table width="100%" cellspacing="2" cellpadding="0">
         <tr>
             <td>
                 <%
@@ -150,7 +150,7 @@
     <div style="height:12px;">
     
     <%-- SETUP --%>
-    <table width="100%" cellspacing="1" cellpadding="0">
+    <table width="100%" cellspacing="2" cellpadding="0">
         <tr>
             <td>
                 <%
@@ -183,7 +183,7 @@
     <div style="height:12px;">
     
     <%-- OTHER --%>
-    <table width="100%" cellspacing="1" cellpadding="0">
+    <table width="100%" cellspacing="2" cellpadding="0">
         <tr>
             <td>
                 <%
