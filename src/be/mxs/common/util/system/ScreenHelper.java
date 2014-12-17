@@ -1719,7 +1719,15 @@ public class ScreenHelper {
 
     //--- WRITE TABLE CHILD -----------------------------------------------------------------------
     public static String writeTblChildWithCode(String sCommand, String sHeader, String sCONTEXTDIR){
-        return "<tr>"+
+        return writeTblChildWithCode(sCommand,sHeader,sCONTEXTDIR,-1);
+    }
+    
+    public static String writeTblChildWithCode(String sCommand, String sHeader, String sCONTEXTDIR, int rowIdx){
+        return writeTblChildWithCode(sCommand,sHeader,sCONTEXTDIR,rowIdx,false);
+    }
+    
+    public static String writeTblChildWithCode(String sCommand, String sHeader, String sCONTEXTDIR, int rowIdx, boolean smallRows){
+        return "<tr"+(rowIdx>-1?(rowIdx%2==0?" class='list1'":" class='list'"):"")+(smallRows?" style='height:17px'":"")+">"+
                 "<td class='arrow'><img src='"+sCONTEXTDIR+"/_img/themes/default/pijl.gif'></td>"+
                 "<td width='99%' nowrap>"+
                  "<button class='buttoninvisible' accesskey='"+getAccessKey(sHeader)+"' onclick='"+sCommand+"'></button>"+
@@ -1730,7 +1738,15 @@ public class ScreenHelper {
 
     //--- WRITE TABLE CHILD -----------------------------------------------------------------------
     public static String writeTblChildWithCodeNoButton(String sCommand, String sHeader, String sCONTEXTDIR){
-        return "<tr>"+
+        return writeTblChildWithCodeNoButton(sCommand,sHeader,sCONTEXTDIR,-1);
+    }
+    
+    public static String writeTblChildWithCodeNoButton(String sCommand, String sHeader, String sCONTEXTDIR, int rowIdx){
+        return writeTblChildWithCodeNoButton(sCommand,sHeader,sCONTEXTDIR,rowIdx,false);
+    }
+    
+    public static String writeTblChildWithCodeNoButton(String sCommand, String sHeader, String sCONTEXTDIR, int rowIdx, boolean smallRows){
+        return "<tr"+(rowIdx>-1?(rowIdx%2==0?" class='list1'":" class='list'"):"")+(smallRows?" style='height:17px'":"")+">"+
                 "<td class='arrow'><img src='"+sCONTEXTDIR+"/_img/themes/default/pijl.gif'></td>"+
                 "<td width='99%' nowrap>"+
                  "<a href='"+sCommand+"' onMouseOver=\"window.status='';return true;\">"+sHeader+"</a>&nbsp;"+
