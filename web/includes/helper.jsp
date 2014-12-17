@@ -88,7 +88,7 @@
         return ScreenHelper.getSQLTimeStamp(tStamp);
     }
 
-    //--- WRITE TABEL CHILD -----------------------------------------------------------------------
+    //--- WRITE TaBLe CHILD -----------------------------------------------------------------------
     public String writeTblChild(String sPath, String sHeader){
         return writeTblChild(sPath,sHeader,-1);	
     }
@@ -101,13 +101,19 @@
         return ScreenHelper.writeTblChild(sPath,sHeader,sCONTEXTPATH,rowIdx,smallRows);
     }
 
-    //--- WRITE TABEL CHILD -----------------------------------------------------------------------
+    //--- WRITE TaBLe CHILD -----------------------------------------------------------------------
     public String writeTblChildNoButton(String sPath, String sHeader){
         return ScreenHelper.writeTblChildNoButton(sPath,sHeader,sCONTEXTPATH);
     }
 
     public String writeTblChildWithCode(String sCommand, String sHeader){
         return ScreenHelper.writeTblChildWithCode(sCommand,sHeader,sCONTEXTPATH);
+    }
+    public String writeTblChildWithCode(String sCommand, String sHeader, int rowIdx){
+        return ScreenHelper.writeTblChildWithCode(sCommand,sHeader,sCONTEXTPATH,rowIdx);
+    }
+    public String writeTblChildWithCode(String sCommand, String sHeader, int rowIdx, boolean smallRows){
+        return ScreenHelper.writeTblChildWithCode(sCommand,sHeader,sCONTEXTPATH,rowIdx,smallRows);
     }
 
     public String writeTblChildWithCodeNoButton(String sCommand, String sHeader){
