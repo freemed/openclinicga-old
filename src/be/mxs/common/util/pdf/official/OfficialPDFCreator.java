@@ -139,6 +139,7 @@ public class OfficialPDFCreator extends PDFCreator {
 
             while(e.hasMoreElements()){
                 paramName = (String)e.nextElement();
+                Debug.println("paramName : "+paramName+" : "+req.getParameter(paramName));
 
                 if(paramName.startsWith("tranAndServerID_")){
                     transactionIDsToBePrinted.add(req.getParameter(paramName));
@@ -266,6 +267,7 @@ public class OfficialPDFCreator extends PDFCreator {
 
         // First search the project official class
         try{
+        	Debug.println("Looking for project PDF-class 'be.mxs.common.util.pdf.official."+sProject.toLowerCase()+".examinations."+sProject.toLowerCase()+sClassName+"'");
             cls = Class.forName("be.mxs.common.util.pdf.official."+sProject.toLowerCase()+".examinations."+sProject.toLowerCase()+sClassName);
         }
         catch(ClassNotFoundException e){
@@ -275,6 +277,7 @@ public class OfficialPDFCreator extends PDFCreator {
         // else search the normal official class
         if(cls==null){
             try{
+            	Debug.println("Looking for default PDF-class 'be.mxs.common.util.pdf.official.oc.examinations."+sClassName+"'");
                 cls = Class.forName("be.mxs.common.util.pdf.official.oc.examinations."+sClassName);
             }
             catch(ClassNotFoundException e){
