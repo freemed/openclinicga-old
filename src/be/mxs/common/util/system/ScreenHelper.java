@@ -1549,7 +1549,7 @@ public class ScreenHelper {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             String sSelect = "SELECT OC_LABEL_TYPE FROM OC_UNKNOWNLABELS"+
                              " WHERE OC_LABEL_TYPE = ? AND OC_LABEL_ID = ? AND OC_LABEL_LANGUAGE = ?"+
@@ -1606,7 +1606,7 @@ public class ScreenHelper {
         return sString;
     }
 
-    //--- GET ADMIN PRIVATE CONTACT ---------------------------------------------------------------
+    //--- GET ACTIVE PRIVATE ----------------------------------------------------------------------
     public static AdminPrivateContact getActivePrivate(AdminPerson person){
         AdminPrivateContact apcActive = null;
         AdminPrivateContact apc;
@@ -1707,7 +1707,7 @@ public class ScreenHelper {
                "</tr>";
     }
 
-    //--- WRITE TABLE CHILD -----------------------------------------------------------------------
+    //--- WRITE TABLE CHILD NO BUTTON -------------------------------------------------------------
     public static String writeTblChildNoButton(String sPath, String sHeader, String sCONTEXTDIR){
         return "<tr>"+
                 "<td class='arrow'><img src='"+sCONTEXTDIR+"/_img/themes/default/pijl.gif'></td>"+
@@ -1717,7 +1717,7 @@ public class ScreenHelper {
                "</tr>";
     }
 
-    //--- WRITE TABLE CHILD -----------------------------------------------------------------------
+    //--- WRITE TABLE CHILD WITH CODE -------------------------------------------------------------
     public static String writeTblChildWithCode(String sCommand, String sHeader, String sCONTEXTDIR){
         return writeTblChildWithCode(sCommand,sHeader,sCONTEXTDIR,-1);
     }
@@ -1736,7 +1736,7 @@ public class ScreenHelper {
                "</tr>";
     }
 
-    //--- WRITE TABLE CHILD -----------------------------------------------------------------------
+    //--- WRITE TABLE CHILD WITH CODE NO BUTTON ---------------------------------------------------
     public static String writeTblChildWithCodeNoButton(String sCommand, String sHeader, String sCONTEXTDIR){
         return writeTblChildWithCodeNoButton(sCommand,sHeader,sCONTEXTDIR,-1);
     }
