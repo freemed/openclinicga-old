@@ -301,7 +301,12 @@ public class Meal extends OC_Object{
         try{
             String sSql = "SELECT * FROM OC_MEAL";
             if(findItem.name!=null && findItem.name.trim().length() > 0){
-                sSql+= " WHERE OC_MEAL_NAME LIKE '%"+findItem.name+"%'";
+                if(findItem.name.length()==1){
+                    sSql+= " WHERE OC_MEAL_NAME LIKE '"+findItem.name+"%'"; // search from begin
+            	}
+            	else{
+                    sSql+= " WHERE OC_MEAL_NAME LIKE '%"+findItem.name+"%'";
+            	}
             }
             sSql+= " ORDER BY OC_MEAL_NAME";
             Debug.println(sSql);
