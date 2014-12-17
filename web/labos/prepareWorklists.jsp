@@ -60,7 +60,7 @@
         <%
             // Show the selected worklist
             // Find all  analysis that are part of the active profile
-            Vector profileAnalysis = ResultsProfile.searchLabProfilesDataByProfileID(activeProfile);
+            Vector profileAnalysis = ResultsProfile.searchLabProfilesDataByProfileID(activeProfile,sWebLanguage);
         
             // Construct the results header
             String worklistAnalyses = "";

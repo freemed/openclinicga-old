@@ -48,6 +48,36 @@
 			sOutput+=CsvInvoiceCplr.getOutput(request);
 		}
 	}
+	else if("invoice.mfp".equalsIgnoreCase(request.getParameter("docid"))){
+		InsurarInvoice invoice = InsurarInvoice.get(request.getParameter("invoiceuid"));
+		if(invoice!=null){
+			sOutput+="INVOICE NUMBER:;"+invoice.getUid()+"\r\n";
+			sOutput+="INVOICE DATE:;"+ScreenHelper.stdDateFormat.format(invoice.getDate())+"\r\n";
+			sOutput+="INSURAR:;"+invoice.getInsurar().getName()+"\r\n";
+			sOutput+="\r\n";
+			sOutput+=CsvInvoiceMFPAdmissions.getOutput(request);
+		}
+	}
+	else if("invoice.mspls".equalsIgnoreCase(request.getParameter("docid"))){
+		InsurarInvoice invoice = InsurarInvoice.get(request.getParameter("invoiceuid"));
+		if(invoice!=null){
+			sOutput+="INVOICE NUMBER:;"+invoice.getUid()+"\r\n";
+			sOutput+="INVOICE DATE:;"+ScreenHelper.stdDateFormat.format(invoice.getDate())+"\r\n";
+			sOutput+="INSURAR:;"+invoice.getInsurar().getName()+"\r\n";
+			sOutput+="\r\n";
+			sOutput+=CsvInvoiceMSPLSAdmissions.getOutput(request);
+		}
+	}
+	else if("invoice.mspls.extra".equalsIgnoreCase(request.getParameter("docid"))){
+		ExtraInsurarInvoice invoice = ExtraInsurarInvoice.get(request.getParameter("invoiceuid"));
+		if(invoice!=null){
+			sOutput+="INVOICE NUMBER:;"+invoice.getUid()+"\r\n";
+			sOutput+="INVOICE DATE:;"+ScreenHelper.stdDateFormat.format(invoice.getDate())+"\r\n";
+			sOutput+="INSURAR:;"+invoice.getInsurar().getName()+"\r\n";
+			sOutput+="\r\n";
+			sOutput+=CsvInvoiceMSPLSAdmissionsExtra.getOutput(request);
+		}
+	}
 	else if("invoice.cplr2".equalsIgnoreCase(request.getParameter("docid"))){
 		ExtraInsurarInvoice invoice = ExtraInsurarInvoice.get(request.getParameter("invoiceuid"));
 		if(invoice!=null){

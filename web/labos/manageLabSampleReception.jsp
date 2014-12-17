@@ -85,9 +85,9 @@
             Vector unsampledRequests = LabRequest.findUnreceivedRequests(sWebLanguage);
             for(int n=0; n<unsampledRequests.size(); n++){
                 LabRequest labRequest = (LabRequest)unsampledRequests.elementAt(n);
-                if(labRequest!=null && labRequest.getRequestdate()!=null){
-                    out.print("<tr><td class='admin2'><b><a href='javascript:selectRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+");'>"+ScreenHelper.formatDate(labRequest.getRequestdate())+"</a> "+labRequest.getPatientname()+" </b></td><td class='admin2'> "+labRequest.getPatientgender()+" </td>"+
-                            "<td class='admin2'> "+ScreenHelper.format(labRequest.getPatientdateofbirth())+" </td><td class='admin2'><i> "+labRequest.getServicename()+"</i></td></tr>");
+                if(labRequest!=null && labRequest.getRequestdate()!=null) {
+                    out.print("<tr><td class='admin2'><b><a href='javascript:selectRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+");'>"+(labRequest.getRequestdate()==null?"?":ScreenHelper.stdDateFormat.format(labRequest.getRequestdate()))+"</a> "+labRequest.getPatientname()+" </b></td><td class='admin2'> "+labRequest.getPatientgender()+" </td>"+
+                            "<td class='admin2'> "+(labRequest.getPatientdateofbirth()==null?"?":ScreenHelper.stdDateFormat.format(labRequest.getPatientdateofbirth()))+" </td><td class='admin2'><i> "+labRequest.getServicename()+"</i></td></tr>");
                 }
             }
         }

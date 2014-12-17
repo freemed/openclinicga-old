@@ -4,6 +4,7 @@
                 be.openclinic.medical.Diagnosis,
                 be.openclinic.system.Transaction,
                 be.openclinic.system.Item,
+                be.openclinic.finance.*,
                 java.util.*"%>
 <%@page import="be.openclinic.medical.PaperPrescription"%>
 <%@page import="be.openclinic.medical.ReasonForEncounter"%>
@@ -24,6 +25,31 @@
         if(activeEnc!=null){
         	activeEncounterUid = activeEnc.getUid();
         }
+    }
+    if(MedwanQuery.getInstance().getConfigString("showRecentEchographies","").length()>0){
+    	String sEchographies="";
+    	int days = MedwanQuery.getInstance().getConfigInt("showRecentEchographiesPeriodInDays",270);
+    	long period=days*24;
+    	period = period*3600*1000;
+    	String sDateBegin=ScreenHelper.getSQLDate(new java.util.Date(new java.util.Date().getTime()-period));
+    	System.out.println("start="+sDateBegin);
+    	Vector debets = Debet.getPatientDebetPrestations(MedwanQuery.getInstance().getConfigString("showRecentEchographies",""),activePatient.personid, sDateBegin, "", "", "");
+		if(debets.size()>0){
+	    	for(int n=0;n<debets.size();n++){
+	    		sEchographies+=(String)debets.elementAt(n)+", ";
+	    	}
+			%>
+				<table class="list" width="100%" cellspacing="1">
+			      <tr class="admin">
+				    <td align="center"><%=getTran("openclinic.chuk","echographies.in.last",sWebLanguage)+" "+MedwanQuery.getInstance().getConfigInt("showRecentEchographiesPeriodInDays",270)+" "+getTran("web","days",sWebLanguage)%></td>
+				  </tr>
+				  <tr>
+				    <td id="echographies"><%=sEchographies%></td>
+				  </tr>
+				</table>
+	            <div style="padding-top:3px;"></div>
+			<%
+		}			
     }
 %>
 

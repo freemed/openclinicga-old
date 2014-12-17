@@ -62,9 +62,9 @@
                         if(debet.getCredited()>0){
                             sCredited = getTran("web","canceled",sWebLanguage);
                         }
-                        
-                        double patientAmount = debet.getExtraInsurarUid2()!=null && debet.getExtraInsurarUid2().length()>0?0:debet.getAmount();
-                        String insuraruid = "zeyrfgkaef";
+                        double patientAmount=debet.getExtraInsurarUid2()!=null && debet.getExtraInsurarUid2().length()>0?0:debet.getAmount();
+                        double insurarAmount=debet.getInsurarAmount()+debet.getExtraInsurarAmount();
+                        String insuraruid="zeyrfgkaef";
                         if(debet.getInsurance()!=null && debet.getInsurance().getInsurarUid()!=null){
                         	insuraruid = debet.getInsurance().getInsurarUid();
                         }
@@ -72,7 +72,7 @@
                         //if(MedwanQuery.getInstance().getConfigString("InsuranceAgentAcceptationNeededFor","").indexOf("*"+insuraruid+"*")>-1 && (activeUser==null || activeUser.getParameter("insuranceagent")==null || !activeUser.getParameter("insuranceagent").equalsIgnoreCase(insuraruid))){
                         if(false){
 	                        sReturn.append( "<tr class='list"+sClass+"'>"
-		                            +"<td><input type='hidden' name='cbDebet"+debet.getUid()+"="+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(patientAmount)+"' "+sChecked+" "+(sChecked.length()>0?" value='1'":"")+"/>"+(sChecked.length()>0?"<img src='"+sCONTEXTPATH+"/_img/checked.png'/>":"<img src='"+sCONTEXTPATH+"/_img/unchecked.png'/>")+"</td>"
+		                            +"<td><input type='hidden' id='cbDebetInsurar"+debet.getUid()+"' value='"+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(insurarAmount)+"'/><input type='hidden' name='cbDebet"+debet.getUid()+"="+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(patientAmount)+"' "+sChecked+" "+(sChecked.length()>0?" value='1'":"")+"/>"+(sChecked.length()>0?"<img src='"+sCONTEXTPATH+"/_img/checked.png'/>":"<img src='"+sCONTEXTPATH+"/_img/unchecked.png'/>")+"</td>"
 		                            +"<td>"+(debet.getDate()==null?"":ScreenHelper.getSQLDate(debet.getDate()))+"</td>"
 		                            +"<td>"+(debet.getInsurance()==null || debet.getInsurance().getInsurar()==null?"":debet.getInsurance().getInsurar().getName())+"</td>"
 		                            +"<td>"+sEncounterName+"</td>"
@@ -87,8 +87,8 @@
             			else{
 	                        sReturn.append( "<tr class='list"+sClass+"'>"
 		                            +((patientInvoice!=null && checkString(patientInvoice.getAcceptationUid()).length()>0) || (activeUser!=null && activeUser.getParameter("insuranceagent")!=null && activeUser.getParameter("insuranceagent").length()>0)?
-	                        		("<td><input type='hidden' name='cbDebet"+debet.getUid()+"="+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(patientAmount)+"' "+sChecked+" "+(sChecked.length()>0?" value='1'":"")+"/>"+(sChecked.length()>0?"<img src='"+sCONTEXTPATH+"/_img/checked.png'/>":"<img src='"+sCONTEXTPATH+"/_img/unchecked.png'/>")+"</td>"):
-		                            ("<td><input type='checkbox' name='cbDebet"+debet.getUid()+"="+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat","#.00")).format(patientAmount)+"' onclick='removeReductions();doBalance(this, true)'"+sChecked+"></td>"))
+	                        		("<td><input type='hidden' id='cbDebetInsurar"+debet.getUid()+"' value='"+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(insurarAmount)+"'/><input type='hidden' name='cbDebet"+debet.getUid()+"="+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(patientAmount)+"' "+sChecked+" "+(sChecked.length()>0?" value='1'":"")+"/>"+(sChecked.length()>0?"<img src='"+sCONTEXTPATH+"/_img/checked.png'/>":"<img src='"+sCONTEXTPATH+"/_img/unchecked.png'/>")+"</td>"):
+		                            ("<td><input type='hidden' id='cbDebetInsurar"+debet.getUid()+"' value='"+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(insurarAmount)+"'/><input type='checkbox' name='cbDebet"+debet.getUid()+"="+new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(patientAmount)+"' onclick='removeReductions();doBalance(this, true)'"+sChecked+"></td>"))
 		                            +"<td>"+(debet.getDate()==null?"":ScreenHelper.getSQLDate(debet.getDate()))+"</td>"
 		                            +"<td>"+(debet.getInsurance()==null || debet.getInsurance().getInsurar()==null?"":debet.getInsurance().getInsurar().getName())+"</td>"
 		                            +"<td>"+sEncounterName+"</td>"

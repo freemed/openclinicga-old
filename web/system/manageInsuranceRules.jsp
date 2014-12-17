@@ -31,7 +31,7 @@
 	
 	if(request.getParameter("saveButton")!=null && sPrestUid.length()>0 && nQuantity*nDays>0 && sInsurarUid.length()>0){
 		//Save rule
-		//Prestation.saveInsuranceRule(sPrestUid,sInsurarUid,nQuantity,nDays);
+		Prestation.saveInsuranceRule(sPrestUid,sInsurarUid,nQuantity,nDays);
 	}
 	if(nQuantity<0 || nDays<0){
 		sQuantity="";
@@ -105,7 +105,6 @@
                 <td class="admin2">
                     <input type='submit' class="button" name="saveButton" value="<%=getTranNoLink("accesskey","save",sWebLanguage)%>"/>
                     <input type='submit' class="button" name="findButton" value="<%=getTranNoLink("web","find",sWebLanguage)%>"/>
-                    <input type='checkbox' name='ShowOld' id='ShowOld' value='1' <%=sShowOld.length()>0?"checked":"" %>/><%=getTran("web","showinactive",sWebLanguage) %>
                 </td>
             </tr>
 	        
@@ -115,39 +114,29 @@
 
 <%
 	if(sFindButton!=null){
-		String sSql="select distinct b.oc_insurar_name,c.oc_prestation_description,a.oc_tariff_insurancecategory,a.oc_tariff_price,oc_tariff_version,oc_prestation_version "+
-			",a.oc_tariff_insuraruid,a.oc_tariff_prestationuid,a.oc_tariff_insurancecategory,a.oc_tariff_price"+
-			" from oc_tariffs a,oc_insurars b,oc_prestations c"+
+		String sSql="select distinct b.oc_insurar_name,c.oc_prestation_description,a.oc_insurancerule_quantity,oc_insurancerule_period"+
+			",a.oc_insurancerule_insuraruid,a.oc_insurancerule_prestationuid"+
+			" from oc_insurancerules a,oc_insurars b,oc_prestations c"+
 			" where"+
-			" b.oc_insurar_objectid=replace(a.oc_tariff_insuraruid,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') and "+
-			" c.oc_prestation_objectid=replace(a.oc_tariff_prestationuid,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') and "+
-			" a.oc_tariff_insuraruid like '"+sInsurarUid+"%' and "+
-			" a.oc_tariff_prestationuid like '"+sPrestUid+"%' and "+
-			" a.oc_tariff_insurancecategory like '"+sCategory+"%'" +
-			" order by b.oc_insurar_name,c.oc_prestation_description,oc_tariff_version";
+			" b.oc_insurar_objectid=replace(a.oc_insurancerule_insuraruid,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') and "+
+			" c.oc_prestation_objectid=replace(a.oc_insurancerule_prestationuid,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','') and "+
+			" a.oc_insurancerule_insuraruid like '"+sInsurarUid+"%' and "+
+			" a.oc_insurancerule_prestationuid like '"+sPrestUid+"%' "+
+			" order by b.oc_insurar_name,c.oc_prestation_description";
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 		PreparedStatement ps = oc_conn.prepareStatement(sSql);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()){
-			String iud=rs.getString("oc_tariff_insuraruid");
-			String pud=rs.getString("oc_tariff_prestationuid");
-			String cat=rs.getString("oc_tariff_insurancecategory");
-			Double price=rs.getDouble("oc_tariff_price");
-			int tariffVersion=rs.getInt("oc_tariff_version");
-			int prestationVersion=rs.getInt("oc_prestation_version");
-			if(tariffVersion==prestationVersion){
-				out.println("<tr class='list'>");
-				%>
-					<td><img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","delete",sWebLanguage)%>" onclick='selectPrestation("<%=iud%>","<%=pud %>","<%=cat %>",-1);'></td>
-				<%
-				out.print("<td>v"+tariffVersion+"</td><td><a href='javascript:selectPrestation(\""+iud+"\",\""+pud+"\",\""+cat+"\","+price+");'>"+rs.getString("oc_insurar_name")+"</a></td><td>"+rs.getString("oc_prestation_description")+"</td><td>"+
-						rs.getString("oc_tariff_insurancecategory")+"</td><td>"+rs.getDouble("oc_tariff_price")+"</td></tr>");
-			}
-			else if(sShowOld.equalsIgnoreCase("1")){
-				out.println("<tr class='listDisabled1'>");
-				out.print("<td/><td>v"+tariffVersion+"</td><td><a href='javascript:selectPrestation(\""+iud+"\",\""+pud+"\",\""+cat+"\","+price+");'>"+rs.getString("oc_insurar_name")+"</a></td><td>"+rs.getString("oc_prestation_description")+"</td><td>"+
-						rs.getString("oc_tariff_insurancecategory")+"</td><td>"+rs.getDouble("oc_tariff_price")+"</td></tr>");
-			}
+			String iud=rs.getString("oc_insurancerule_insuraruid");
+			String pud=rs.getString("oc_insurancerule_prestationuid");
+			nQuantity=rs.getDouble("oc_insurancerule_quantity");
+			nDays=rs.getDouble("oc_insurancerule_period");
+			out.println("<tr class='list'>");
+			%>
+				<td><img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","delete",sWebLanguage)%>" onclick='selectPrestation("<%=iud%>","<%=pud %>",-1,-1);'></td>
+			<%
+			out.print("<td><a href='javascript:selectPrestation(\""+iud+"\",\""+pud+"\","+nQuantity+","+nDays+");'>"+rs.getString("oc_insurar_name")+"</a></td><td>"+rs.getString("oc_prestation_description")+"</td><td>"+
+					nQuantity+"</td><td>"+nDays+"</td></tr>");
 		}
 		rs.close();
 		ps.close();
@@ -158,8 +147,8 @@
 %>
 </table>
 <script>
-	function selectPrestation(insuraruid,prestationuid,category,price){
-		window.location.href='<c:url value="/main.do?Page=system/manageTariffs.jsp"/>&tmpPrestationUID='+prestationuid+'&EditInsurarUID='+insuraruid+'&EditCategoryName='+category+'&EditPrestationPrice='+price+(price==-1?'&saveButton=true':'');
+	function selectPrestation(insuraruid,prestationuid,quantity,days){
+		window.location.href='<c:url value="/main.do?Page=system/manageInsuranceRules.jsp"/>&tmpPrestationUID='+prestationuid+'&EditInsurarUID='+insuraruid+'&EditPrestationQuantity='+quantity+'&EditPrestationDays='+days+(quantity==-1 || days==-1?'&saveButton=true':'');
 	}
 	
     function searchPrestation(){

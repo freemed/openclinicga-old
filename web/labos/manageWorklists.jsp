@@ -86,7 +86,7 @@
         <%
             // Show the selected worklist
             // Find all the analysis that are part of the active profile
-            Vector profileAnalysis = ResultsProfile.searchLabProfilesDataByProfileID(activeProfile);
+            Vector profileAnalysis = ResultsProfile.searchLabProfilesDataByProfileID(activeProfile,sWebLanguage);
         
             // Construct the results header
             String worklistAnalyses = "";
@@ -156,10 +156,9 @@
                             	// empty
                             }
                         }
-                        out.print("<td><input style='{background: "+sColor+"}' class='text' type='text' size='5' name='store."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()+"' value='"+requestedLabAnalysis.getResultValue()+"' onchange='validateAlert(this,\""+requestedLabAnalysis.getAnalysisCode()+"\");'></td>");
-                    }
-                    else{
-                        if(requestedLabAnalysis!=null){
+                        out.print("<td><input style='background: "+sColor+"' type='text' size='5' name='store." + labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode() + "' value='" + requestedLabAnalysis.getResultValue() + "' onchange='validateAlert(this,\""+requestedLabAnalysis.getAnalysisCode()+"\");'></td>");
+                    } else {
+                        if(requestedLabAnalysis !=null){
                             out.print("<td><b>"+requestedLabAnalysis.getResultValue()+"</b></td>");
                         }
                         else{
@@ -173,7 +172,7 @@
                 out.print("</tr>");
             }
             out.print("<tr><td colspan='"+(profileAnalysis.size()+4)+"'><hr/></td></tr>");
-            out.print("<tr><td colspan='2'><input readonly style='{background: yellow}' class='text' type='text' size='5'/> = "+MedwanQuery.getInstance().getLabel("web","notechnicalvalidation",sWebLanguage)+"<br/><input readonly style='{background: #ff9999}' class='text' type='text' size='5'/> = "+MedwanQuery.getInstance().getLabel("web","higherthanalertvalue",sWebLanguage)+"</td><td colspan='"+(allAnalysis.length+1)+"'><input class='button' type='submit' name='save' value='"+getTranNoLink("web","save",sWebLanguage)+"'/></tr>");
+            out.print("<tr><td colspan='2'><input readonly style='background: yellow' type='text' size='5'/> = "+MedwanQuery.getInstance().getLabel("web","notechnicalvalidation",sWebLanguage)+"<br/><input readonly style='background: #ff9999' type='text' size='5'/> = "+MedwanQuery.getInstance().getLabel("web","higherthanalertvalue",sWebLanguage)+"</td><td colspan='"+(allAnalysis.length+1)+"'><input class='button' type='submit' name='save' value='"+getTran("web","save",sWebLanguage)+"'/></tr>");
         %>
         </table>
         

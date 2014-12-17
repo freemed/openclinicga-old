@@ -1334,6 +1334,26 @@
     		<column  name="OC_TARIFF_PRICE" dbtype="float" javatype="float"/>
     		<column  name="OC_TARIFF_VERSION" dbtype="int" javatype="integer"/>
 		</columns>
+		<indexes>
+			<index name='insurar_prestation'>
+				<indexcolumn order="ASC" name="OC_TARIFF_INSURARUID"/>
+				<indexcolumn order="ASC" name="OC_TARIFF_PRESTATIONUID"/>
+			</index>
+		</indexes>
+	</table>
+	<table name="OC_INSURANCERULES" db="openclinic" sync="NONE">
+		<columns>
+    		<column  name="OC_INSURANCERULE_INSURARUID" dbtype="varchar" javatype="string" size="20"/>
+    		<column  name="OC_INSURANCERULE_PRESTATIONUID" dbtype="varchar" javatype="string" size="20"/>
+    		<column  name="OC_INSURANCERULE_QUANTITY" dbtype="int" javatype="integer"/>
+    		<column  name="OC_INSURANCERULE_PERIOD" dbtype="int" javatype="integer"/>
+		</columns>
+		<indexes>
+			<index name='insurar_prestation'>
+				<indexcolumn order="ASC" name="OC_INSURANCERULE_INSURARUID"/>
+				<indexcolumn order="ASC" name="OC_INSURANCERULE_PRESTATIONUID"/>
+			</index>
+		</indexes>
 	</table>
 	<table name="OC_INSURARCREDITS" db="openclinic" sync="NONE">
 		<columns>

@@ -39,7 +39,9 @@
 		
 		if(insurars.get(insurar)==null){
 			Insurar insurarObject = Insurar.get(insurar);
-			insurars.put(insurar,insurarObject.getName());
+			if(insurarObject!=null && insurarObject.getName()!=null){
+				insurars.put(insurar,insurarObject.getName());
+			}
 		}
 		
 		if(insurarcredits.get(month+"|"+insurar)==null){
@@ -77,7 +79,9 @@
 		
 		if(insurars.get(insurar)==null){
 			Insurar insurarObject = Insurar.get(insurar);
-			insurars.put(insurar,insurarObject.getName());
+			if(insurarObject!=null && insurarObject.getName()!=null){
+				insurars.put(insurar,insurarObject.getName());
+			}
 		}
 		
 		if(insurarcredits.get(month+"|"+insurar)==null){
@@ -115,7 +119,9 @@
 		
 		if(insurars.get(insurar)==null){
 			Insurar insurarObject = Insurar.get(insurar);
-			insurars.put(insurar,insurarObject.getName());
+			if(insurarObject!=null && insurarObject.getName()!=null){
+				insurars.put(insurar,insurarObject.getName());
+			}
 		}
 		
 		if(insurarcredits.get(month+"|"+insurar)==null){

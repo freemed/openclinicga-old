@@ -31,12 +31,12 @@
 	}
 %>
 <jsp:useBean id="upBean" scope="page" class="javazoom.upload.UploadBean" >
-    <jsp:setProperty name="upBean" property="folderstore" value="<%=MedwanQuery.getInstance().getConfigString("tempDirectory","/tmp") %>" />
+    <jsp:setProperty name="upBean" property="folderstore" value='<%=MedwanQuery.getInstance().getConfigString("tempDirectory","/tmp") %>' />
     <jsp:setProperty name="upBean" property="parser" value="<%= MultipartFormDataRequest.DEFAULTPARSER	 %>"/>
   	<jsp:setProperty name="upBean" property="filesizelimit" value="8589934592"/>
   	<jsp:setProperty name="upBean" property="overwrite" value="true"/>
   	<jsp:setProperty name="upBean" property="dump" value="true"/>
-    <jsp:setProperty name="upBean" property="parsertmpdir" value="<%=MedwanQuery.getInstance().getConfigString("tempDirectory","/tmp") %>"/>
+    <jsp:setProperty name="upBean" property="parsertmpdir" value='<%=MedwanQuery.getInstance().getConfigString("tempDirectory","/tmp") %>'/>
 </jsp:useBean>
 <%
 	int lines=0;

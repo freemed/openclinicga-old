@@ -40,6 +40,8 @@
         return s;
     }
 %>
+    <% System.out.println(new java.util.Date()+": ..."); %>
+
 <%
 	if(activePatient==null){
 		%><script>window.location.href='<c:url value="main.do?CheckService=true&CheckMedicalCenter=true"/>';</script><%
@@ -54,6 +56,7 @@
 <script>
   window.document.title="<%=sWEBTITLE+" "+getWindowTitle(request,sWebLanguage)%>";
 </script>
+    <% System.out.println(new java.util.Date()+": 0"); %>
 
 <%-- 1 : ADMINISTRATIVE DATA --%>
 <table width="100%" class="list" cellpadding="1" cellspacing="0">
@@ -63,9 +66,11 @@
             <%=getLastAccess("A."+activePatient.personid,sWebLanguage,request)%>
         </td>
     </tr>
+    <% System.out.println(new java.util.Date()+": 0.1"); %>
 	
 	<%
-	    boolean pictureExists = Picture.exists(Integer.parseInt(activePatient.personid));
+	boolean pictureExists = Picture.exists(Integer.parseInt(activePatient.personid));
+	System.out.println(new java.util.Date()+": 0.2");
 	    if(pictureExists){
 	        Picture picture = new Picture(Integer.parseInt(activePatient.personid));
 	        
@@ -88,14 +93,15 @@
 	        	pictureExists = false;
 	        }
 	    }
+		System.out.println(new java.util.Date()+": 0.3");
     %>
     <tr><td colspan="2"><%conditionalInclude("curative/encounterStatus.jsp",pageContext,"adt.encounter.select",activeUser);%></td><tr>
-
+    <% System.out.println(new java.util.Date()+": 0.4"); %>
     <tr>
         <td style="vertical-align:top;" height="100%" width="50%"><%conditionalInclude("curative/financialStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
         <td style="vertical-align:top;" height="100%" width="50%"><%conditionalInclude("curative/insuranceStatus.jsp",pageContext,"financial.balance.select",activeUser);%></td>
     <tr>
-
+    <% System.out.println(new java.util.Date()+": 0.6"); %>
     <tr><td colspan="2"><%conditionalInclude("curative/planningStatus.jsp",pageContext,"planning.select",activeUser);%></td><tr>
 
     <%
@@ -114,6 +120,7 @@
 <%-- 2 : MEDICAL DATA --%>
 <% if(activeUser.getAccessRight("curative.select")){%>
     <table width="100%" class="list" cellpadding="1" cellspacing="0">
+    <% System.out.println(new java.util.Date()+": 1"); %>
         <tr><td colspan="6" class="titleadmin"><%=getTran("web","medical.data",sWebLanguage)%></td></tr>
         <tr>
         	<%
@@ -131,14 +138,17 @@
         		}
             %>
         <tr>
+    <% System.out.println(new java.util.Date()+": 2"); %>
         <tr>
             <td colspan="2" style="vertical-align:top;" height="100%" width="30%"><%conditionalInclude("curative/warningStatus.jsp",pageContext,"occup.warning.select",activeUser);%></td>
             <td colspan="2" style="vertical-align:top;" height="100%" width="30%"><%conditionalInclude("curative/activeDiagnosisStatus.jsp",pageContext,"problemlist.select",activeUser);%></td>
             <td colspan="2" style="vertical-align:top;" height="100%"><%conditionalInclude("curative/rfeStatus.jsp",pageContext,"problemlist.select",activeUser);%></td>
         <tr>
+    <% System.out.println(new java.util.Date()+": 3"); %>
         <tr>
             <td colspan="6"><%conditionalInclude("curative/medicalHistoryStatus.jsp",pageContext,"examinations.select",activeUser);%></td>
         <tr>
+    <% System.out.println(new java.util.Date()+": 4"); %>
     </table>
 <%}%>
 <div id="responseByAjax">&nbsp;</div>

@@ -68,7 +68,7 @@
         <%
             // Show the selected worklist
             // find all the analysis that are part of the active profile
-            Vector profileAnalysis = ResultsProfile.searchLabProfilesDataByProfileID(activeProfile);
+            Vector profileAnalysis = ResultsProfile.searchLabProfilesDataByProfileID(activeProfile,sWebLanguage);
             //Construct the results header
             String worklistAnalyses = "";
             for(int n=0; n<profileAnalysis.size(); n++){
@@ -104,15 +104,14 @@
             for(int n=0; n<results.size(); n++){
                 LabRequest labRequest = (LabRequest) results.elementAt(n);
                 out.print("<tr>");
-                out.print("<td><a href='javascript:showRequest("+labRequest.getServerid()+","+labRequest.getTransactionid()+")'><b>"+labRequest.getTransactionid()+"</b></a><br/>"+ScreenHelper.formatDate(labRequest.getRequestdate())+"</td>");
-                out.print("<td><a href='javascript:readBarcode3(\"0"+labRequest.getPersonid()+"\");'><b>"+labRequest.getPatientname()+"</b></a> (°"+(labRequest.getPatientdateofbirth() != null ? ScreenHelper.formatDate(labRequest.getPatientdateofbirth()) : "")+" - "+labRequest.getPatientgender()+")<br/><i>"+labRequest.getServicename()+" - "+MedwanQuery.getInstance().getUserName(labRequest.getUserid())+"</i></td>");
-                
-                // Add all analysis results/requests
-                for(int i=0; i<profileAnalysis.size(); i++){
-                    Hashtable analysis = (Hashtable)profileAnalysis.elementAt(i);
-                    RequestedLabAnalysis requestedLabAnalysis = (RequestedLabAnalysis)labRequest.getAnalyses().get(analysis.get("labcode"));
-                    if(requestedLabAnalysis!=null && requestedLabAnalysis.getFinalvalidation()==0){
-                        String sColor = "lightgreen";
+                out.print("<td><a href='javascript:showRequest(" + labRequest.getServerid() + "," + labRequest.getTransactionid() + ")'><b>" + labRequest.getTransactionid() + "</b></a><br/>" + ScreenHelper.stdDateFormat.format(labRequest.getRequestdate()) + "</td>");
+                out.print("<td><a href='javascript:readBarcode3(\"0" + labRequest.getPersonid() + "\");'><b>" + labRequest.getPatientname() + "</b></a> (°" + (labRequest.getPatientdateofbirth() != null ? ScreenHelper.stdDateFormat.format(labRequest.getPatientdateofbirth()) : "") + " - " + labRequest.getPatientgender() + ")<br/><i>" + labRequest.getServicename() + " - " + MedwanQuery.getInstance().getUserName(labRequest.getUserid()) + "</i></td>");
+                //Add all analysis results/requests
+                for (int i = 0; i < profileAnalysis.size(); i++) {
+                    Hashtable analysis = (Hashtable) profileAnalysis.elementAt(i);
+                    RequestedLabAnalysis requestedLabAnalysis = (RequestedLabAnalysis) labRequest.getAnalyses().get(analysis.get("labcode"));
+                    if (requestedLabAnalysis != null && requestedLabAnalysis.getFinalvalidation() == 0) {
+                        String sColor="white";
                         if(requestedLabAnalysis.getTechnicalvalidation()==0){
                             sColor = "yellow";
                         }
@@ -127,14 +126,12 @@
                             	// empty
                             }
                         }
-                        out.print("<td><input style='{background: "+sColor+"}' readonly class='text' type='text' size='5' name='store."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()+"' value='"+requestedLabAnalysis.getResultValue()+"'>" +
-                                  "<input class='checkbox' type='checkbox' name='store."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()+".validated'/></td>");
-                    }
-                    else{
-                        if(requestedLabAnalysis!=null){
-                            out.print("<td><b>"+requestedLabAnalysis.getResultValue()+"</b></td>");
-                        }
-                        else{
+                        out.print("<td><input style='background: "+sColor+"' readonly class='text' type='text' size='5' name='store." + labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode() + "' value='" + requestedLabAnalysis.getResultValue() + "'>" +
+                                "<input class='checkbox' type='checkbox' name='store." + labRequest.getServerid() + "." + labRequest.getTransactionid() + "." + requestedLabAnalysis.getAnalysisCode() + ".validated'/></td>");
+                    } else {
+                        if (requestedLabAnalysis != null) {
+                            out.print("<td><b>" + requestedLabAnalysis.getResultValue() + "</b></td>");
+                        } else {
                             out.print("<td>X</td>");
                         }
                     }
@@ -143,13 +140,8 @@
                 out.print("<td></td>");
                 out.print("</tr>");
             }
-            
-            out.print("<tr><td colspan='"+(profileAnalysis.size()+4)+"'><hr/></td></tr>");
-            out.print("<tr>"+
-                       "<td colspan='2'><input readonly style='{background: yellow}' class='text' type='text' size='5'/> = "+MedwanQuery.getInstance().getLabel("web","notechnicalvalidation",sWebLanguage)+"<br/>"+
-                                       "<input readonly style='{background: #ff9999}' class='text' type='text' size='5'/> = "+MedwanQuery.getInstance().getLabel("web","higherthanalertvalue",sWebLanguage)+"</td>"+
-                       "<td><input class='button' type='submit' name='save' value='"+getTranNoLink("web","save",sWebLanguage)+"'/>"+
-                      "</tr>");
+            out.print("<tr><td colspan='" + (profileAnalysis.size() + 4) + "'><hr/></td></tr>");
+            out.print("<tr><td colspan='2'><input readonly style='background: yellow' class='text' type='text' size='5'/> = " + MedwanQuery.getInstance().getLabel("web", "notechnicalvalidation", sWebLanguage)+"<br/><input readonly style='background: #ff9999' class='text' type='text' size='5'/> = "+MedwanQuery.getInstance().getLabel("web","higherthanalertvalue",sWebLanguage)+"</td><td><input class='button' type='submit' name='save' value='" + getTran("web", "save", sWebLanguage) + "'/></tr>");
         %>
         </table>
         <input type="hidden" name="worklistAnalyses" value="<%=worklistAnalyses%>"/>

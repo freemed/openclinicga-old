@@ -662,9 +662,8 @@
             %>
             </td>
         </tr>
-        
-        <tr id="notAccountedAccomodation" style="visibility:visible;">
-            <td class="admin"><%=getTran("web","notaccountedaccomodation",sWebLanguage)%></td>
+        <tr id="notAccountedAccomodation" style="display: hidden;">
+            <td class="admin"><%=getTran("Web","notaccountedaccomodation",sWebLanguage)%></td>
             <td class='admin2'>
                 <select class="text" name="EditEncounterAccomodationPrestation" id="EditEncounterAccomodationPrestation" style="vertical-align:top;">
                     <%
@@ -693,8 +692,7 @@
                 %><script>document.getElementById("notAccountedAccomodation").style.display="block";</script><%
             }
         %>
-        
-        <%=ScreenHelper.setFormButtonsStart()%>
+                <script>document.getElementById("notAccountedAccomodation").style.visibility="visible";</script>
         <%
             if(!sReadOnly.equalsIgnoreCase("yes")){
                 %><input class='button' type="button" id="saveButton" name="saveButton" value='<%=getTranNoLink("Web","save",sWebLanguage)%>' onclick="doSave();">&nbsp;<%

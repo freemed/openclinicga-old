@@ -3,9 +3,13 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%
-    Balance balance = Balance.getActiveBalance(activePatient.personid);
+System.out.println(new java.util.Date()+": 0.4.0");
+	Balance balance = Balance.getActiveBalance(activePatient.personid);
+	System.out.println(new java.util.Date()+": 0.4.1");
     String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
+    System.out.println(new java.util.Date()+": 0.4.2");
     double saldo = Balance.getPatientBalance(activePatient.personid);
+System.out.println(new java.util.Date()+": 0.4.4");
 %>
 <table width="100%" cellpadding="0" cellspacing="0" class="list">
     <tr class="admin">
@@ -30,6 +34,7 @@
 		   	<%
 		   	
 	   		Vector debets = Debet.getPatientDebetPrestations(activePatient.personid,ScreenHelper.formatDate(new java.util.Date()),"","","");
+	   		System.out.println(new java.util.Date()+": 0.4.6");
 			int n=0;
 	   		for(;n<debets.size();n++){
 	   			if(n%3==0){

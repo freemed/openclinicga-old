@@ -5,7 +5,7 @@
 <%
 	// label value is given OR label type and id
     String labelValue = checkString(request.getParameter("labelValue"));
-    String labelType, labelID, questionTran;
+    String labelType="", labelID="", questionTran="";
 
     if(labelValue.length()==0){
         labelType = ScreenHelper.checkDbString(request.getParameter("labelType"));
@@ -16,7 +16,6 @@
         questionTran = labelValue;
     }
 %>
-
 <body class="Geenscroll">
 <table width="100%" height="100%">
     <tr>

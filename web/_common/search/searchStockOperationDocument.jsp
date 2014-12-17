@@ -84,16 +84,18 @@
 	
     //*** FIND ****************************************************************
 	if(sAction.length()==0 || sAction.equalsIgnoreCase("find")){
-		if(sUid.length() > 0){
-			operationDocument = OperationDocument.get(sUid);
-			sFindType = operationDocument.getType();
-			sFindSource = operationDocument.getSourceuid();
-			sFindSourceText = operationDocument.getSourceName(sWebLanguage);
-			sFindDestination = operationDocument.getDestinationuid();
-			sFindDestinationText = operationDocument.getDestination().getName();
-			sFindMinDate = ScreenHelper.stdDateFormat.format(operationDocument.getDate());
-			sFindMaxDate = ScreenHelper.stdDateFormat.format(operationDocument.getDate());
-			sFindReference = operationDocument.getReference();
+		if(sUid.length()>0){
+			operationDocument=OperationDocument.get(sUid);
+			if(operationDocument!=null){
+				sFindType=operationDocument.getType();
+				sFindSource=operationDocument.getSourceuid();
+				sFindSourceText=operationDocument.getSourceName(sWebLanguage);
+				sFindDestination=operationDocument.getDestinationuid();
+				sFindDestinationText=operationDocument.getDestination().getName();
+				sFindMinDate=ScreenHelper.stdDateFormat.format(operationDocument.getDate());
+				sFindMaxDate=ScreenHelper.stdDateFormat.format(operationDocument.getDate());
+				sFindReference=operationDocument.getReference();
+			}
 		}
 		else if(sFindType.length()==0 && sFindSource.length()==0 && sFindDestination.length()==0 &&
 				sFindMinDate.length()==0 && sFindMaxDate.length()==0 && sFindReference.length()==0){
@@ -199,8 +201,8 @@
 									sSource = "";
 								}
 								
-								if(document.getDestinationuid().length() > 0){
-									sDestination = document.getDestination().getName();
+								if(document.getDestinationuid().length()>0 && document.getDestination()!=null){
+									sDestination=document.getDestination().getName();
 								}
 								else{
 									sDestination = "";
@@ -255,37 +257,37 @@
 					<td class="admin"><%=getTran("web","type",sWebLanguage)%> *</td>
 					<td class="admin2">
 						<select name="documenttype" id="documenttype" class="text">
-							<%=ScreenHelper.writeSelect("operationdocumenttypes",operationDocument.getType(),sWebLanguage)%>
+							<%=ScreenHelper.writeSelect("operationdocumenttypes", operationDocument==null?"":operationDocument.getType(), sWebLanguage) %>
 						</select>
 					</td>
 				</tr>
 				<tr>
 					<td class="admin"><%=getTran("web","source",sWebLanguage)%> *</td>
 					<td class="admin2">
-		                <input class='text' type="text" name="documentsourcetext" readonly size="50" TITLE="" VALUE="<%=operationDocument.getSourceuid().length()>0?operationDocument.getSourceName(sWebLanguage):"" %>" onchange="">
+		                <input class='text' type="text" name="documentsourcetext" readonly size="50" TITLE="" VALUE="<%=operationDocument==null?"":(operationDocument.getSourceuid().length()>0?operationDocument.getSourceName(sWebLanguage):"") %>" onchange="">
 		                <img src='/openclinic/_img/icons/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='findsource("documentsource","documentsourcetext");'>&nbsp;<img src='/openclinic/_img/icons/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('documentsource')[0].value='';document.getElementsByName('documentsourcetext')[0].value='';">
-		                <input type="hidden" name="documentsource" id="documentsource" VALUE="<%=operationDocument.getSourceuid()%>">
+		                <input type="hidden" name="documentsource" id="documentsource" VALUE="<%=operationDocument==null?"":operationDocument.getSourceuid()%>">
 					</td>
 				</tr>
 				<tr>
 					<td class="admin"><%=getTran("web","destination",sWebLanguage)%> *</td>
 					<td class="admin2">
-		                <input class='text' type="text" name="documentdestinationtext" readonly size="50" TITLE="" VALUE="<%=operationDocument.getDestinationuid().length()>0?operationDocument.getDestination().getName():"" %>" onchange="">
+		                <input class='text' type="text" name="documentdestinationtext" readonly size="50" TITLE="" VALUE="<%=operationDocument==null?"":(operationDocument.getDestinationuid().length()>0?operationDocument.getDestination().getName():"") %>" onchange="">
 		                <img src='/openclinic/_img/icons/icon_search.gif' id='buttonUnit' class='link' alt='Choisir'onclick='openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField=documentdestination&ReturnServiceStockNameField=documentdestinationtext");'>&nbsp;<img src='/openclinic/_img/icons/icon_delete.gif' class='link' alt='Vider' onclick="document.getElementsByName('documentdestination')[0].value='';document.getElementsByName('documentdestinationtext')[0].value='';">
-		                <input type="hidden" name="documentdestination" id="documentdestination" VALUE="<%=operationDocument.getDestinationuid()%>">
+		                <input type="hidden" name="documentdestination" id="documentdestination" VALUE="<%=operationDocument==null?"":operationDocument.getDestinationuid()%>">
 					</td>
 				</tr>
 				<tr>
-					<td class="admin"><%=getTran("web","date",sWebLanguage)%> *</td>
-					<td class="admin2"><%=writeDateField("documentdate","editForm",operationDocument.getDate()!=null?ScreenHelper.stdDateFormat.format(operationDocument.getDate()):"",sWebLanguage)%></td>
+					<td class="admin"><%=getTran("web","date",sWebLanguage) %> *</td>
+					<td class="admin2"><%=writeDateField("documentdate","editForm",operationDocument==null?"":(operationDocument.getDate()!=null?ScreenHelper.stdDateFormat.format(operationDocument.getDate()):""),sWebLanguage) %></td>
 				</tr>
 				<tr>
 					<td class="admin"><%=getTran("web","documentcomment",sWebLanguage)%>&nbsp;</td>
-					<td class="admin2"><textarea class="text" name="documentcomment" id="documentcomment" cols="50"><%=operationDocument.getComment()%></textarea></td>
+					<td class="admin2"><textarea class="text" name="documentcomment" id="documentcomment" cols="50"><%=operationDocument==null?"":operationDocument.getComment()%></textarea></td>
 				</tr>
 				<tr>
 					<td class="admin"><%=getTran("web","documentreference",sWebLanguage)%>&nbsp;</td>
-					<td class="admin2"><input type="text" class="text" name="documentreference" id="documentreference" value="<%=operationDocument.getReference()%>" size="50"/></td>
+					<td class="admin2"><input type="text" class="text" name="documentreference" id="documentreference" value="<%=operationDocument==null?"":operationDocument.getReference()%>" size="50"/></td>
 				</tr>
 			</table>
 			

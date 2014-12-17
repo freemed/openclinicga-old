@@ -1,6 +1,7 @@
 <%@page import="be.openclinic.pharmacy.ServiceStock,
                 be.openclinic.pharmacy.Product,
                 be.openclinic.pharmacy.ProductStock,
+                be.openclinic.pharmacy.ProductStockOperation,
                 be.openclinic.medical.Prescription,
                 java.util.Vector,be.mxs.common.util.system.*,
                 be.openclinic.pharmacy.ProductOrder"%>
@@ -13,11 +14,18 @@
 	static Hashtable pumps = new Hashtable(),
 	                 pumpcounts = new Hashtable();
 
-    //--- GET LAST YEARS AVERAGE PRICE ------------------------------------------------------------
-	public double getLastYearsAveragePrice(Product product){
+public double getLastYearsAveragePrice(Product product){
+	double price=0;
+	if(pumps.get(product.getUid())!=null && pumpcounts.get(product.getUid())!=null){
+		price=(Double)pumps.get(product.getUid())/(Double)pumpcounts.get(product.getUid());
+	}
+	return price;
+}
+
+	public double getLastYearsAveragePrice(String productuid){
 		double price = 0;
-		if(pumps.get(product.getUid())!=null && pumpcounts.get(product.getUid())!=null){
-			price = (Double)pumps.get(product.getUid())/(Double)pumpcounts.get(product.getUid());
+		if(pumps.get(productuid)!=null && pumpcounts.get(productuid)!=null){
+			price=(Double)pumps.get(productuid)/(Double)pumpcounts.get(productuid);
 		}
 		return price;
 	}
@@ -101,7 +109,7 @@
             html.append("<td align='right' onclick=\"doShowDetails('"+sStockUid+"');\">"+sOrderLevel+"&nbsp;&nbsp;</td>")
                 .append("<td onclick=\"doShowDetails('"+sStockUid+"');\">"+sStockBegin+"</td>")
                 .append("</tr>");
-        }
+}
 
         return html;
     }
@@ -126,15 +134,17 @@
                changeLevelOutTran = getTranNoLink("Web.manage","changeLevelOut",sWebLanguage);
 
         // run thru found productstocks
+        HashSet opendeliveries = ProductStockOperation.getOpenProductStockDeliveries();
+        Hashtable productnames = Product.getProductNames();
+        Hashtable openquantities = ProductOrder.getOpenOrderedQuantity();
         ProductStock productStock;
         for (int i=0; i<objects.size(); i++){
             productStock = (ProductStock)objects.get(i);
             sStockUid = productStock.getUid();
 
-            product = productStock.getProduct();
-            if(product!=null){
-                sProductName = product.getName();
-                sProductUid = product.getUid();
+            if(productnames.get(productStock.getProductUid()) != null) {
+                sProductName = (String)productnames.get(productStock.getProductUid());
+                sProductUid = productStock.getProductUid();
             } 
             else{
                 sProductName = "<font color='red'>"+getTran("web","nonexistingproduct",sWebLanguage)+"</font>";
@@ -144,8 +154,11 @@
             java.util.Date tmpDate = productStock.getBegin();
             if(tmpDate!=null) sStockBegin = ScreenHelper.formatDate(tmpDate);
 
-            double nPUMP = getLastYearsAveragePrice(product);
-            int commandLevel = ProductOrder.getOpenOrderedQuantity(productStock.getUid());
+            double nPUMP = getLastYearsAveragePrice(productStock.getProductUid());
+            int commandLevel = 0;
+            if(openquantities.get(productStock.getUid())!=null){
+            	commandLevel=(Integer)openquantities.get(productStock.getUid());
+            }
 
             // alternate row-style
             if(sClass.equals("")) sClass = "1";
@@ -155,7 +168,7 @@
             html.append("<tr class='list"+sClass+"'>")
                  .append("<td width='16'>"+(activeUser.getAccessRight("pharmacy.manageproductstocks.delete")?"<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' class='link' alt='"+deleteTran+"' onclick=\"doDelete('"+sStockUid+"');\" title='"+deleteTran+"'></td>":"<td/>"))
 		         .append("<td width='16'>"+(activeUser.getAccessRight("pharmacy.viewproductstockfiches.select")?"<img src='"+sCONTEXTPATH+"/_img/icons/icon_edit.gif' class='link' onclick=\"printFiche('"+sStockUid+"');\" title='"+ficheTran+"'></td>":"<td/>"));
-            if(productStock.hasOpenDeliveries()){
+            if(opendeliveries.contains(productStock.getServiceStockUid()+"$"+productStock.getProductUid())){
                 html.append("<td width='16'><img src='"+sCONTEXTPATH+"/_img/icons/icon_incoming.gif' class='link' alt='"+incomingTran+"' onclick='javascript:receiveProduct(\""+sStockUid+"\",\""+sProductName+"\");'/>&nbsp;</td>");
             }
             else {
@@ -206,7 +219,7 @@
             html.append("<td style=\"text-align:right;\" nowrap>&nbsp;");
 
             // no buttons for unexisting product
-            if(product!=null){
+            if(productnames.get(productStock.getProductUid()) != null){
                 if(productStock.getLevel() > 0){
                     html.append("<input type='button' title='"+changeLevelOutTran+"' class='button' style='width:30px;' value=\""+outTran+"\" onclick=\"deliverProduct('"+sStockUid+"','"+sProductName+"','"+stockLevel+"');\">&nbsp;");
                 }

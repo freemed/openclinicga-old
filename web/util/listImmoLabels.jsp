@@ -222,60 +222,55 @@
 
 		String sService, sLocation, sCode, sBuyer, sComment, sClass = "";
 		int recordCount = 0;
-		if(rs.absolute(1)){
-			rs.beforeFirst();
-			
-		    %>
-		        <table width="100%" class="sortable" id="searchresults" border="0" cellpadding="1" cellspacing="0">
-					<tr class="admin">
-						<td width="60"/>
-						<td width="50">ID</td>
-						<td width="120"><%=getTran("web","service",sWebLanguage)%></td>
-						<td width="180"><%=getTran("web","immolocation",sWebLanguage)%></td>
-						<td width="100"><%=getTran("web","code",sWebLanguage)%></td>
-						<td width="200"><%=getTran("web","bailleur",sWebLanguage)%></td>
-						<td width="*"><%=getTran("web","comment",sWebLanguage)%></td>
-					</tr>
-					
-		            <%
-						while(rs.next()){
-							sServerId = checkString(rs.getString("OC_IMMO_SERVERID"));
-							sObjectId = checkString(rs.getString("OC_IMMO_OBJECTID"));
-							
-							sService  = checkString(rs.getString("OC_IMMO_SERVICEUID"));
-							sLocation = checkString(rs.getString("OC_IMMO_LOCATION"));
-							sCode     = checkString(rs.getString("OC_IMMO_CODE"));
-							sBuyer    = checkString(rs.getString("OC_IMMO_BUYER"));
-							sComment  = checkString(rs.getString("OC_IMMO_COMMENT"));
-							
-							sComment = sComment.replaceAll("\r\n","<br>").replaceAll("\n","<br>");
-							if(sComment.length() > 50) sComment = sComment.substring(0,47)+"...";
-							
-							if(sClass.length()==0) sClass = "1";
-							else                   sClass = "";
-							
-							out.print("<tr class='list"+sClass+"' onmouseover='this.className=\"list_select\"' onmouseout='this.className=\"list"+sClass+"\"'>"+
-							           "<td nowrap>"+
-							      	    "<img src='_img/icons/icon_delete.gif' class='link' title='"+getTranNoLink("web","delete",sWebLanguage)+"' onclick='deleteImmo("+sServerId+","+sObjectId+");'>&nbsp;"+
-									    "<img src='_img/icons/icon_print.gif' class='link' title='"+getTranNoLink("web","print",sWebLanguage)+"' onclick='printImmo("+sServerId+","+sObjectId+",\""+sService.trim()+"/"+sLocation+"_"+sCode+"/"+sBuyer+"\");'>&nbsp;"+
-									    "<img src='_img/icons/icon_edit.gif' class='link' title='"+getTranNoLink("web","edit",sWebLanguage)+"' onclick='editImmo("+sServerId+","+sObjectId+");'>&nbsp;"+
-									   "</td>"+
-									   "<td style='padding-left:5px;'>"+sServerId+"."+sObjectId+"</td>"+
-									   "<td style='padding-left:5px;'>"+sService+"</td>"+
-									   "<td style='padding-left:5px;'>"+sLocation+"</td>"+
-									   "<td style='padding-left:5px;'>"+sCode+"</td>"+
-									   "<td style='padding-left:5px;'>"+sBuyer+"</td>"+
-									   "<td style='padding-left:5px;'>"+sComment+"</td>"+
-									  "</tr>");
-							
-							recordCount++;
-						}
-						rs.close();
-						ps.close();
-				    %>
-			    </table>
-			<%
-		}	
+	    %>
+        <table width="100%" class="sortable" id="searchresults" border="0" cellpadding="1" cellspacing="0">
+			<tr class="admin">
+				<td width="60"/>
+				<td width="50">ID</td>
+				<td width="120"><%=getTran("web","service",sWebLanguage)%></td>
+				<td width="180"><%=getTran("web","immolocation",sWebLanguage)%></td>
+				<td width="100"><%=getTran("web","code",sWebLanguage)%></td>
+				<td width="200"><%=getTran("web","bailleur",sWebLanguage)%></td>
+				<td width="*"><%=getTran("web","comment",sWebLanguage)%></td>
+			</tr>
+        <%
+			while(rs.next()){
+				sServerId = checkString(rs.getString("OC_IMMO_SERVERID"));
+				sObjectId = checkString(rs.getString("OC_IMMO_OBJECTID"));
+				
+				sService  = checkString(rs.getString("OC_IMMO_SERVICEUID"));
+				sLocation = checkString(rs.getString("OC_IMMO_LOCATION"));
+				sCode     = checkString(rs.getString("OC_IMMO_CODE"));
+				sBuyer    = checkString(rs.getString("OC_IMMO_BUYER"));
+				sComment  = checkString(rs.getString("OC_IMMO_COMMENT"));
+				
+				sComment = sComment.replaceAll("\r\n","<br>").replaceAll("\n","<br>");
+				if(sComment.length() > 50) sComment = sComment.substring(0,47)+"...";
+				
+				if(sClass.length()==0) sClass = "1";
+				else                   sClass = "";
+				
+				out.print("<tr class='list"+sClass+"' onmouseover='this.className=\"list_select\"' onmouseout='this.className=\"list"+sClass+"\"'>"+
+				           "<td nowrap>"+
+				      	    "<img src='_img/icon_delete.gif' class='link' title='"+getTranNoLink("web","delete",sWebLanguage)+"' onclick='deleteImmo("+sServerId+","+sObjectId+");'>"+
+						    "<img src='_img/icon_print_top.gif' class='link' title='"+getTranNoLink("web","print",sWebLanguage)+"' onclick='printImmo("+sServerId+","+sObjectId+",\""+sService.trim()+"/"+sLocation+"_"+sCode+"/"+sBuyer+"\");'>"+
+						    "<img src='_img/icon_edit.gif' class='link' title='"+getTranNoLink("web","edit",sWebLanguage)+"' onclick='editImmo("+sServerId+","+sObjectId+");'>"+
+						   "</td>"+
+						   "<td style='padding-left:5px;'>"+sServerId+"."+sObjectId+"</td>"+
+						   "<td style='padding-left:5px;'>"+sService+"</td>"+
+						   "<td style='padding-left:5px;'>"+sLocation+"</td>"+
+						   "<td style='padding-left:5px;'>"+sCode+"</td>"+
+						   "<td style='padding-left:5px;'>"+sBuyer+"</td>"+
+						   "<td style='padding-left:5px;'>"+sComment+"</td>"+
+						  "</tr>");
+				
+				recordCount++;
+			}
+			rs.close();
+			ps.close();
+	    %>
+	    </table>
+		<%
 		
 		if(recordCount > 0){
 		    sMsg = recordCount+" "+getTran("web","recordsFound",sWebLanguage);

@@ -372,6 +372,7 @@
 	                <input class='text' readonly type='text' name='EditBalance' id='EditBalance' value='<%=checkString(Double.toString(patientInvoice.getBalance())).length()>0?new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceFormat")).format(dBalance):""%>' size='20'> <%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
 	                &nbsp;<%=getTran("web","total",sWebLanguage)%>: <label id='invoiceValue'></label> <%=MedwanQuery.getInstance().getConfigString("currency","EUR") %>
 	                &nbsp;<%=getTran("web","paid",sWebLanguage)%>: <label id='invoicePaid'></label> <%=MedwanQuery.getInstance().getConfigString("currency","EUR") %>
+	                &nbsp;100%: <label id='invoice100pct'></label> <%=MedwanQuery.getInstance().getConfigString("currency","EUR") %>
 	            </td>
 	            <td class='admin' nowrap><%=getTran("web","period",sWebLanguage)%></td>
 	            <td class='admin2'>
@@ -739,6 +740,70 @@
 	    else{
 	      status=document.getElementById('invoiceStatus').value;
 	    }
+	
+	    function doBalance(){
+	    	total=0.01;
+	    	total=0;
+	    	paid=0.01;
+	    	paid=0;
+	    	insurar=0.01;
+	    	insurar=0;
+	    	reduction=0.1;
+	    	reduction=0;
+	    	var elements = document.getElementsByTagName("input");
+	    	for(var n=0;n<elements.length;n++){
+	    		if(elements[n].name.indexOf("cbDebet")==0 && elements[n].checked){
+	    			total+=parseFloat(elements[n].name.split("=")[1].replace(",","."))*1;
+	    			insurar+=parseFloat(document.getElementById(elements[n].name.split("=")[0].replace("cbDebet","cbDebetInsurar")).value)*1;
+	    		}
+	    		else if(elements[n].name.indexOf("cbPatientInvoice")==0 && elements[n].checked){
+	    			paid+=parseFloat(elements[n].name.split("=")[1].replace(",","."))*1;
+	    		}
+	    	}
+	    	document.getElementById('invoiceValue').innerHTML='<b>'+total.toFixed(<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>)+'</b>';
+	    	document.getElementById('invoicePaid').innerHTML='<b>'+paid.toFixed(<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>)+'</b>';
+	    	document.getElementById('invoice100pct').innerHTML='<b>'+((insurar+total).toFixed(<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>))+'</b>';
+			var reductions=document.getElementsByName('reduction');
+			if(reductions[0].type=='radio'){
+				for(var n=0;n<reductions.length;n++){
+					if(reductions[n].checked){
+						reduction=reductions[n].value;
+					}
+		    	}
+			}
+	    	document.getElementById('EditBalance').value = (total-paid-(total*reduction/100)).toFixed(<%=MedwanQuery.getInstance().getConfigInt("currencyDecimals",2)%>);
+	    }
+	
+	    function doPrintPdf(invoiceUid){
+	        if (<%=activeUser.getAccessRight("financial.printopeninvoice.select")?"1":"0"%>==0 && ("<%=sClosed%>"!="closed")&&("<%=sClosed%>"!="canceled")){
+	            alert("<%=getTranNoLink("web","closetheinvoicefirst",sWebLanguage)%>");
+	        }
+	        else {
+	            var url = "<c:url value='/financial/createPatientInvoicePdf.jsp'/>?Proforma=no&InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value+"&PrintModel="+EditForm.PrintModel.value;
+	            window.open(url,"PatientInvoicePdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+	        }
+	    }
+	
+	    function doPrintProformaPdf(invoiceUid){
+  	        var url = "<c:url value='/financial/createPatientInvoicePdf.jsp'/>?Proforma=yes&InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value+"&PrintModel="+EditForm.PrintModel.value;
+	        window.open(url,"PatientInvoicePdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+	    }
+		
+	    function doPrintPatientReceiptPdf(invoiceUid){
+	        if (("<%=sClosed%>"!="closed")&&("<%=sClosed%>"!="canceled")){
+	            alert("<%=getTranNoLink("web","closetheinvoicefirst",sWebLanguage)%>");
+	        }
+	        else {
+	            var url = "<c:url value='/financial/createPatientInvoiceReceiptPdf.jsp'/>?InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value;
+	            window.open(url,"PatientInvoicePdf<%=new java.util.Date().getTime()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+            }
+	    }
+		
+	  function doModifyInvoice(invoiceuid){
+	    var params = '';
+	    var today = new Date();
+	    var url= '<c:url value="/financial/recreateInvoice.jsp"/>?invoiceuid='+invoiceuid+'&ts='+today;
+	    document.getElementById('patientInvoiceDebets').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
 	    new Ajax.Request(url,{
 	      method: "POST",
 	      postBody: 'EditDate='+document.getElementById('EditDate').value

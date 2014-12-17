@@ -52,16 +52,16 @@
                         if(debet.getCredited() > 0){
                             sCredited = getTran("web.occup","medwan.common.yes",sWebLanguage);
                         }
-                        
-                        hSort.put(sPatientName.toUpperCase()+"="+debet.getDate().getTime()+"="+debet.getUid(), " onclick=\"setDebet('"+debet.getUid()+"');\">"
-                               +"<td>"+ScreenHelper.getSQLDate(debet.getDate())+"</td>"
-                               +"<td>"+HTMLEntities.htmlentities(sEncounterName)+" ("+MedwanQuery.getInstance().getUser(debet.getUpdateUser()).getPersonVO().getFullName()+")</td>"
-                               +"<td>"+debet.getQuantity()+" x "+HTMLEntities.htmlentities(sPrestationDescription)+"</td>"
-                               +"<td "+(checkString(debet.getExtraInsurarUid2()).length()>0?"style='text-decoration: line-through'":"")+">"+debet.getAmount()+" "+MedwanQuery.getInstance().getConfigParam("currency", "€")+"</td>"
-                               +"<td>"+debet.getInsurarAmount()+" "+MedwanQuery.getInstance().getConfigParam("currency", "€")+"</td>"
-                               +"<td>"+debet.getExtraInsurarAmount()+" "+MedwanQuery.getInstance().getConfigParam("currency", "€")+"</td>"
-                               +"<td>"+sCredited+"</td>"
-                               +"</tr>");
+                        hSort.put(sPatientName.toUpperCase() + "=" + debet.getDate().getTime() + "=" + debet.getUid(), " onclick=\"setDebet('" + debet.getUid() + "');\">"
+                                + "<td>" + ScreenHelper.getSQLDate(debet.getDate()) + "</td>"
+                                + "<td>" + HTMLEntities.htmlentities(sEncounterName) + " ("+MedwanQuery.getInstance().getUser(debet.getUpdateUser()).getPersonVO().getFullName()+")</td>"
+                                + "<td>" + debet.getQuantity()+" x "+HTMLEntities.htmlentities(sPrestationDescription) + "</td>"
+                                + "<td>" + (debet.getAmount()+debet.getInsurarAmount()+debet.getExtraInsurarAmount()) + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
+                                + "<td "+(checkString(debet.getExtraInsurarUid2()).length()>0?"style='text-decoration: line-through'":"")+">" + debet.getAmount() + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
+                                + "<td>" + debet.getInsurarAmount() + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
+                                + "<td>" + debet.getExtraInsurarAmount() + " " + MedwanQuery.getInstance().getConfigParam("currency", "€") + "</td>"
+                                + "<td>" + sCredited + "</td>"
+                                + "</tr>");
                     }
                 }
             }
@@ -106,6 +106,7 @@
         <td><%=HTMLEntities.htmlentities(getTran("web","date",sWebLanguage))%></td>
         <td><%=HTMLEntities.htmlentities(getTran("web.finance","encounter",sWebLanguage))%></td>
         <td><%=HTMLEntities.htmlentities(getTran("web","prestation",sWebLanguage))%></td>
+        <td><%=HTMLEntities.htmlentities(getTran("web","total",sWebLanguage))%></td>
         <td><%=HTMLEntities.htmlentities(getTran("web","amount",sWebLanguage))%></td>
         <td><%=HTMLEntities.htmlentities(getTranNoLink("web.finance","amount.insurar",sWebLanguage))%></td>
         <td><%=HTMLEntities.htmlentities(getTranNoLink("web.finance","amount.complementaryinsurar",sWebLanguage))%></td>

@@ -252,28 +252,41 @@
 		              	
 		              	if(MedwanQuery.getInstance().getConfigInt("enableBurundi",0)==1){
 		                    %>
-		                        <option value="hmk" <%=defaultmodel.equalsIgnoreCase("hmk")?"selected":""%>><%=getTranNoLink("web","hmkmodel",sWebLanguage)%></option>
-		                        <option value="ascoma" <%=defaultmodel.equalsIgnoreCase("ascoma")?"selected":""%>><%=getTranNoLink("web","ascomamodel",sWebLanguage)%></option>
-		                        <option value="brarudi" <%=defaultmodel.equalsIgnoreCase("brarudi")?"selected":""%>><%=getTranNoLink("web","brarudimodel",sWebLanguage)%></option>
-		                        <option value="ambusa" <%=defaultmodel.equalsIgnoreCase("ambusa")?"selected":""%>><%=getTranNoLink("web","ambusamodel",sWebLanguage)%></option>
-		                        <option value="cplrcsv" <%=defaultmodel.equalsIgnoreCase("cplrcsv")?"selected":""%>><%=getTranNoLink("web","cplrcsvmodel",sWebLanguage)%></option>
-		                        <option value="cmck" <%=defaultmodel.equalsIgnoreCase("cmck")?"selected":""%>><%=getTranNoLink("web","cmckmodel",sWebLanguage)%></option>
-		                  	<%
-		           		}
-	                %>
-                </select>
-                <%
-                    if(insurarInvoice.getStatus().equalsIgnoreCase("closed")){
-                        %><input class="button" type="button" name="ButtonPrint" value='<%=getTranNoLink("Web","printinvoice",sWebLanguage)%>' onclick="doPrintPdf('<%=insurarInvoice.getUid()%>');"><%
-                    }
-                    else{
-                        %><input class="button" type="button" name="ButtonPrint" value='<%=getTranNoLink("Web","printprestationlist",sWebLanguage)%>' onclick="doPrintPdf('<%=insurarInvoice.getUid()%>');"><%
-                    }
-                }
-            %>
-            </td>
-        </tr>
-    </tbody>
+	                            <option value="mfp" <%=defaultmodel.equalsIgnoreCase("mfp")?"selected":""%>><%=getTranNoLink("web","mfpmodel",sWebLanguage)%></option>
+	                            <option value="mfpcsv" <%=defaultmodel.equalsIgnoreCase("mfpcsv")?"selected":""%>><%=getTranNoLink("web","mfpcsvmodel",sWebLanguage)%></option>
+                        	<%
+                   				}
+		                    	if(MedwanQuery.getInstance().getConfigInt("enableBurundi",0)==1){
+		                    %>
+	                            <option value="hmk" <%=defaultmodel.equalsIgnoreCase("hmk")?"selected":""%>><%=getTranNoLink("web","hmkmodel",sWebLanguage)%></option>
+	                            <option value="ascoma" <%=defaultmodel.equalsIgnoreCase("ascoma")?"selected":""%>><%=getTranNoLink("web","ascomamodel",sWebLanguage)%></option>
+	                            <option value="brarudi" <%=defaultmodel.equalsIgnoreCase("brarudi")?"selected":""%>><%=getTranNoLink("web","brarudimodel",sWebLanguage)%></option>
+	                            <option value="ambusa" <%=defaultmodel.equalsIgnoreCase("ambusa")?"selected":""%>><%=getTranNoLink("web","ambusamodel",sWebLanguage)%></option>
+	                            <option value="cplrcsv" <%=defaultmodel.equalsIgnoreCase("cplrcsv")?"selected":""%>><%=getTranNoLink("web","cplrcsvmodel",sWebLanguage)%></option>
+	                            <option value="msplscsv" <%=defaultmodel.equalsIgnoreCase("msplscsv")?"selected":""%>><%=getTranNoLink("web","msplscsvmodel",sWebLanguage)%></option>
+	                            <option value="cmck" <%=defaultmodel.equalsIgnoreCase("cmck")?"selected":""%>><%=getTranNoLink("web","cmckmodel",sWebLanguage)%></option>
+                        	<%
+                   				}
+                        	%>
+                        </select>
+                            <%
+                                if(insurarInvoice.getStatus().equalsIgnoreCase("closed")){
+                            %>
+                                <input class="button" type="button" name="ButtonPrint" value='<%=getTranNoLink("Web","printinvoice",sWebLanguage)%>' onclick="doPrintPdf('<%=insurarInvoice.getUid()%>');">
+                            <%
+                                }
+                                else{
+                            %>
+                                <input class="button" type="button" name="ButtonPrint" value='<%=getTranNoLink("Web","printprestationlist",sWebLanguage)%>' onclick="doPrintPdf('<%=insurarInvoice.getUid()%>');">
+                            <%
+                                }
+                            }
+                        %>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 </table>
 <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
 
@@ -425,19 +438,27 @@ function doBalance(oObject,bAdd){
 }
 
 <%-- PRINT PDF --%>
-function doPrintPdf(invoiceUid){
-  if(EditForm.PrintModel.value=='ramacsv'){
-    var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid="+invoiceUid+"&ts=<%=getTs()%>&docid=invoice.rama";
-    window.open(url,"InsurarInvoicePdf<%=getTs()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
-  }
-  else if(EditForm.PrintModel.value=='cplrcsv'){
-    var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid="+invoiceUid+"&ts=<%=getTs()%>&docid=invoice.cplr";
-    window.open(url,"InsurarInvoicePdf<%=getTs()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
-  }
-  else{
-    var url = "<c:url value='/financial/createInsurarInvoicePdf.jsp'/>?InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value+"&PrintType="+EditForm.PrintType.value+"&PrintModel="+EditForm.PrintModel.value;
-    window.open(url,"InsurarInvoicePdf<%=getTs()%>","height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
-  }
+function doPrintPdf(invoiceUid) {
+    if(EditForm.PrintModel.value=='ramacsv'){
+		var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid=" + invoiceUid + "&ts=<%=getTs()%>&docid=invoice.rama";
+	    window.open(url, "InsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    }
+    else if(EditForm.PrintModel.value=='cplrcsv'){
+		var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid=" + invoiceUid + "&ts=<%=getTs()%>&docid=invoice.cplr";
+	    window.open(url, "InsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    }
+    else if(EditForm.PrintModel.value=='mfpcsv'){
+		var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid=" + invoiceUid + "&ts=<%=getTs()%>&docid=invoice.mfp";
+	    window.open(url, "InsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    }
+    else if(EditForm.PrintModel.value=='msplscsv'){
+		var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid=" + invoiceUid + "&ts=<%=getTs()%>&docid=invoice.mspls";
+	    window.open(url, "InsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    }
+    else {
+		var url = "<c:url value='/financial/createInsurarInvoicePdf.jsp'/>?InvoiceUid=" + invoiceUid + "&ts=<%=getTs()%>&PrintLanguage=" + EditForm.PrintLanguage.value+ "&PrintType="+EditForm.PrintType.value+"&PrintModel="+EditForm.PrintModel.value;
+	    window.open(url, "InsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    }
 }
 
 function searchInsurar(){

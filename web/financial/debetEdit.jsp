@@ -494,20 +494,19 @@
 </form>
 
 <script>
-  <%-- CHECK SAVE-BUTTON RIGHTS --%>
-  function checkSaveButtonRights(){
-    if(EditForm.buttonSave!=null){
-	  var bInvisible = (document.getElementById('EditDebetUID').value=='' || document.getElementById('EditDebetUID').value=='-1') && <%=activeUser.getAccessRight("financial.debet.add")?"false":"true"%>;
-	  if(!bInvisible){
-		bInvisible = (document.getElementById('EditDebetUID').value!='' && document.getElementById('EditDebetUID').value!='-1') && <%=activeUser.getAccessRight("financial.debet.edit")?"false":"true"%>;
-	  }  
-	  
-	  if(bInvisible){
-	    EditForm.buttonSave.style.visibility = "hidden";
-	  }
-	  else{
-	    EditForm.buttonSave.style.visibility = "visible";
-	  }
+	function checkSaveButtonRights(){
+		if(EditForm.buttonSave!=null){
+			var bInvisible=(document.getElementById('EditDebetUID').value=='' || document.getElementById('EditDebetUID').value=='-1') && <%=activeUser.getAccessRight("financial.debet.add")?"false":"true"%>;
+			if(!bInvisible){
+				bInvisible=(document.getElementById('EditDebetUID').value!='' && document.getElementById('EditDebetUID').value!='-1') && <%=activeUser.getAccessRight("financial.debet.edit")?"false":"true"%>;
+			}
+			if(bInvisible){
+				EditForm.buttonSave.style.display = "none";
+			}
+			else {
+				EditForm.buttonSave.style.display = "";
+			}
+		}
 	}
   }
 	
@@ -744,13 +743,70 @@
 
   <%-- DO SAVE --%>
   function doSave(bInvoice){
-    if(EditForm.EditDate.value.length>0
-       && EditForm.EditInsuranceUID.value.length>0
-       && (EditForm.EditPrestationUID.value.length>0 || EditForm.EditPrestationGroup.value.length>0 || document.getElementById('prestationcontent').innerHTML.length>0)
-       && (EditForm.EditEncounterUID.value!="null" && EditForm.EditEncounterUID.value.length>0)){
-      var sCredited = "0";
-      if(EditForm.EditCredit.checked){
-        sCredited = "1";
+	  if(document.getElementById("invalidatesave")){
+          alert('<%=getTran("web.manage","savenotallowed",sWebLanguage)%>');
+          return false;
+	  }
+      if((EditForm.EditDate.value.length>0)
+          &&(EditForm.EditInsuranceUID.value.length>0)
+          &&(EditForm.EditPrestationUID.value.length>0 || EditForm.EditPrestationGroup.value.length>0 || document.getElementById('prestationcontent').innerHTML.length>0)
+          &&(EditForm.EditEncounterUID.value!="null" && EditForm.EditEncounterUID.value.length>0)){
+          var sCredited = "0";
+          var today = new Date();
+          if (EditForm.EditCredit.checked){
+              sCredited = "1";
+          }
+          var url= '<c:url value="/financial/debetSave2.jsp"/>?ts='+today;
+          document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+		  var prests="";
+          pars=document.all;
+          for(n=0;n<document.all.length;n++){
+              if(document.all[n].name && document.all[n].name.indexOf("PP")>-1){
+              	prests+="&"+document.all[n].name+"="+document.all[n].value;
+              }
+          }
+          new Ajax.Request(url,{
+                  method: "POST",
+                  postBody: 'EditDate=' + EditForm.EditDate.value
+                          +'&EditDebetUID=' + EditForm.EditDebetUID.value
+                          +'&EditInsuranceUID=' + EditForm.EditInsuranceUID.value
+                          +'&EditPrestationUID=' + EditForm.EditPrestationUID.value
+                          +'&EditPrestationGroupUID=' + EditForm.EditPrestationGroup.value
+                          +'&EditAmount=' + EditForm.EditAmount.value
+                          +'&EditInsurarAmount=' + EditForm.EditInsurarAmount.value
+                          +'&EditEncounterUID=' + EditForm.EditEncounterUID.value
+                          +'&EditPatientInvoiceUID=' + EditForm.EditPatientInvoiceUID.value
+                          +'&EditInsuranceInvoiceUID=' + EditForm.EditInsuranceInvoiceUID.value
+                          +'&EditComment=' + EditForm.EditComment.value
+                          +'&EditQuantity=' + EditForm.EditQuantity.value
+                          +'&EditExtraInsurarUID=' + EditForm.coverageinsurance.value
+                          <%
+	  		               	if(MedwanQuery.getInstance().getConfigInt("enableComplementaryInsurance2",0)==1){
+    			   	       %>
+                	          +'&EditExtraInsurarUID2=' + EditForm.coverageinsurance2.value
+                	      <%
+	  		               	}
+                	      %>
+                          +'&EditCareProvider=' + EditForm.EditCareProvider.value
+                          +'&EditCredit=' + sCredited
+                          +'&EditServiceUid=' + EditForm.EditDebetServiceUid.value
+                          + prests,
+                  onSuccess: function(resp){
+                      var label = eval('('+resp.responseText+')');
+                      $('divMessage').innerHTML=label.Message;
+                      $('EditDebetUID').value=label.EditDebetUID;
+                      doNew();
+                      loadUnassignedDebets();
+                      if(bInvoice){
+                    	  doQuickInvoice();
+                      }
+                  },
+                  onFailure: function(){
+                      $('divMessage').innerHTML = "Error in function doSave() => AJAX";
+                  }
+              }
+          );
+          checkQuickInvoice();
       }
       var url = '<c:url value="/financial/debetSave2.jsp"/>?ts='+new Date();
       document.getElementById('divMessage').innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading";

@@ -145,8 +145,8 @@
 		catch(Exception e){
 			//e.printStackTrace();
 		}
-		
-		int nInactive = 0;
+		insurar.setCoverSupplements(nCoverSupplements);
+		int nInactive=0;
 		try{
 			nInactive = Integer.parseInt(sEditInactive);
 		}
@@ -1086,9 +1086,7 @@
 
   <%-- SAVE INSURAR --%>
   function saveInsurar(){
-    if(transactionForm.EditInsurarName.value.length > 0 &&
-       transactionForm.EditInsurarOfficialName.value.length > 0 &&
-       transactionForm.EditInsurarLanguage.selectedIndex > 0){
+    if(transactionForm.EditInsurarName.value.length > 0 && transactionForm.EditInsurarOfficialName.value.length > 0 && transactionForm.EditInsurarLanguage.selectedIndex > 0){
       if(transactionForm.EditInsurarId.value.length==0){
         transactionForm.EditInsurarId.value = "-1";
       }

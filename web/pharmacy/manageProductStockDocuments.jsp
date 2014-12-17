@@ -178,7 +178,7 @@
 						</tr>
 						<%
 					}
-					
+
 					for(int n=0; n<documents.size(); n++){
 						OperationDocument document = (OperationDocument)documents.elementAt(n);						
 						sType = checkString(document.getType());
@@ -189,12 +189,13 @@
 						else{
 							sSource = "";
 						}
-						
-						if(document.getDestinationuid().length()>0){
+						if(document.getDestinationuid()!=null && document.getDestinationuid().length()>0 && document.getDestination()!=null){
 							sDestination = document.getDestination().getName();
 						}
 						else{
 							sDestination = "";
+							System.out.println("3.4: "+document.getDestinationuid());
+							
 						}
 						
 						if(document.getDate()!=null){

@@ -251,6 +251,7 @@
                             %>
                             <option value="hmk" <%=defaultmodel.equalsIgnoreCase("hmk")?"selected":""%>><%=getTranNoLink("web","hmkmodel",sWebLanguage)%></option>
                             <option value="cplrcsv2" <%=defaultmodel.equalsIgnoreCase("cplrcsv")?"selected":""%>><%=getTranNoLink("web","cplrcsvmodel",sWebLanguage)%></option>
+	                            <option value="msplscsv" <%=defaultmodel.equalsIgnoreCase("msplscsv")?"selected":""%>><%=getTranNoLink("web","msplscsvmodel",sWebLanguage)%></option>
                             <%
                	        }
                     %>
@@ -395,18 +396,22 @@ function doBalance(oObject,bAdd){
 
 <%-- PRINT PDF --%>
 function doPrintPdf(invoiceUid){
-  if(EditForm.PrintModel.value=='cplrcsv2'){
-	var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid="+invoiceUid+"&ts=<%=getTs()%>&docid=invoice.cplr2";
-    window.open(url,"ExtraInsurarInvoicePdf"+new Date(),"height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
-  }
-  else if(EditForm.PrintModel.value=='ramacsv'){
-	var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid="+invoiceUid+"&ts=<%=getTs()%>&docid=invoice.rama.extra";
-	window.open(url,"ExtraInsurarInvoicePdf"+new Date(),"height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
-  }
-  else{
-	var url = "<c:url value='/financial/createExtraInsurarInvoicePdf.jsp'/>?InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value+ "&PrintType="+EditForm.PrintType.value+"&PrintModel="+EditForm.PrintModel.value;
-   	window.open(url,"InsurarInvoicePdf"+new Date(),"height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
-  }
+	  if(EditForm.PrintModel.value=='cplrcsv2'){
+			var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid="+invoiceUid+"&ts=<%=getTs()%>&docid=invoice.cplr2";
+			window.open(url, "ExtraInsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+		  }
+	  else if(EditForm.PrintModel.value=='ramacsv'){
+			var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid="+invoiceUid+"&ts=<%=getTs()%>&docid=invoice.rama.extra";
+			window.open(url, "ExtraInsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+		  }
+    else if(EditForm.PrintModel.value=='msplscsv'){
+		var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid=" + invoiceUid + "&ts=<%=getTs()%>&docid=invoice.mspls.extra";
+	    window.open(url, "InsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+    }
+	  else{
+		var url = "<c:url value='/financial/createExtraInsurarInvoicePdf.jsp'/>?InvoiceUid="+invoiceUid+"&ts=<%=getTs()%>&PrintLanguage="+EditForm.PrintLanguage.value+ "&PrintType="+EditForm.PrintType.value+"&PrintModel="+EditForm.PrintModel.value;
+	   	window.open(url, "InsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+	  }
 }
 
 function searchInsurar(){
