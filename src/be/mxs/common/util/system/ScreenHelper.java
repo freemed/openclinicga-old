@@ -1686,7 +1686,7 @@ public class ScreenHelper {
                 "<tr class='admin'><td width='100%'>&nbsp;&nbsp;"+sHeader+"&nbsp;&nbsp;</td></tr>"+
                 "<tr>"+
                  "<td>"+
-                  "<table width='100%' cellspacing='1'>";
+                  "<table width='100%' cellspacing='0'>";
     }
 
     //--- WRITE TABLE CHILD -----------------------------------------------------------------------
