@@ -287,7 +287,7 @@ public class ScanDirectoryMonitorBasic implements Runnable{
 		        	if(!forced){	
 		        		//*** CONDITIONAL READ ******************************************
 			        	// check existence of archive-document
-		        		ArchiveDocumentBasic existingDoc = ArchiveDocumentBasic.get(sUDI);
+		        		ArchiveDocument existingDoc = ArchiveDocument.get(sUDI);
 		        		if(existingDoc!=null){
 				        	// check existence of linked file
 	                        File existingFile = new File(SCANDIR_BASE+"/"+SCANDIR_TO+"/"+existingDoc.storageName);
