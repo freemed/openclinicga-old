@@ -189,7 +189,12 @@ public class MealProfile extends OC_Object{
         try{
             String sSql = "SELECT * FROM OC_MEAL_PROFILES";
             if(sName!=null && sName.trim().length() > 0){
-                sSql+= " WHERE OC_MEAL_PROFILES_NAME LIKE '%"+sName+"%'";
+            	if(sName.length()==1){
+                    sSql+= " WHERE OC_MEAL_PROFILES_NAME LIKE '"+sName+"%'"; // search from begin
+            	}
+            	else{
+                    sSql+= " WHERE OC_MEAL_PROFILES_NAME LIKE '%"+sName+"%'";           		
+            	}
             }
             sSql+= " ORDER BY OC_MEAL_PROFILES_NAME";
             Debug.println(sSql);
@@ -257,7 +262,12 @@ public class MealProfile extends OC_Object{
         try{
             String sSql = "SELECT * FROM OC_MEAL_PROFILES";
             if(sName!=null && sName.trim().length() > 0){
-                sSql+= " WHERE OC_MEAL_PROFILES_NAME LIKE '%"+sName+"%'";
+            	if(sName.length()==1){
+                    sSql+= " WHERE OC_MEAL_PROFILES_NAME LIKE '"+sName+"%'"; // search from begin
+            	}
+            	else{
+                    sSql+= " WHERE OC_MEAL_PROFILES_NAME LIKE '%"+sName+"%'";
+            	}
             }
             sSql+= " ORDER BY OC_MEAL_PROFILES_NAME";
             Debug.println(sSql);

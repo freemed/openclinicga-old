@@ -306,11 +306,18 @@ public class MealItem extends OC_Object{
         try{
             String sSql = "SELECT * FROM OC_MEAL_ITEM WHERE 1=1";
             if(findItem.name!=null && findItem.name.trim().length() > 0){
-                sSql+= " AND OC_MEAL_ITEM_NAME LIKE '%"+findItem.name+"%'";
+            	if(findItem.name.length()==1){
+                    sSql+= " AND OC_MEAL_ITEM_NAME LIKE '"+findItem.name+"%'"; // search from begin
+            	}
+            	else{
+                    sSql+= " AND OC_MEAL_ITEM_NAME LIKE '%"+findItem.name+"%'";
+            	}
             }
+            
             if(findItem.description!=null && findItem.description.trim().length() > 0){
                 sSql+= " AND OC_MEAL_ITEM_DESCRIPTION LIKE '%"+findItem.description+"%'";
             }
+            
             sSql+= " ORDER BY OC_MEAL_ITEM_NAME";
             Debug.println(sSql);
             ps = oc_conn.prepareStatement(sSql);

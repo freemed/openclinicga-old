@@ -170,7 +170,12 @@ public class NutricientItem extends OC_Object{
         try{
             String sSql = "SELECT * FROM OC_NUTRICIENT_ITEM";
             if(findItem.name!=null && findItem.name.trim().length() > 0){
-                sSql+= " WHERE OC_NUTRICIENT_NAME LIKE '%"+findItem.name+"%'";
+            	if(findItem.name.length()==1){
+                    sSql+= " WHERE OC_NUTRICIENT_NAME LIKE '"+findItem.name+"%'"; // search from begin
+            	}
+            	else{
+                    sSql+= " WHERE OC_NUTRICIENT_NAME LIKE '%"+findItem.name+"%'";
+            	}
             }
             sSql+= " ORDER BY OC_NUTRICIENT_NAME";
             Debug.println(sSql);
