@@ -28,7 +28,7 @@
 <tr>
 <td width="50%" style="vertical-align:top;">
     <%-- MANAGEMENT --%>
-    <table width="100%" cellspacing="2" cellpadding="0">
+    <table width="100%" cellspacing="1" cellpadding="0">
         <tr>
             <td>
                 <%
@@ -78,7 +78,7 @@
     <div style="height:12px;">
     
     <%-- DATABASE --%>
-    <table width="100%" cellspacing="2" cellpadding="0">
+    <table width="100%" cellspacing="1" cellpadding="0">
         <tr>
             <td>
                 <% 
@@ -103,7 +103,7 @@
 
 <td width="50%" style="vertical-align:top;">
     <%-- SYNCHRONISATIE --%>
-    <table width="100%" cellspacing="2" cellpadding="0">
+    <table width="100%" cellspacing="1" cellpadding="0">
         <tr>
             <td>
                 <%
@@ -130,7 +130,7 @@
     <div style="height:12px;">
     
     <%-- TRANSLATIONS --%>
-    <table width="100%" cellspacing="2" cellpadding="0">
+    <table width="100%" cellspacing="1" cellpadding="0">
         <tr>
             <td>
                 <%
@@ -150,7 +150,7 @@
     <div style="height:12px;">
     
     <%-- SETUP --%>
-    <table width="100%" cellspacing="2" cellpadding="0">
+    <table width="100%" cellspacing="1" cellpadding="0">
         <tr>
             <td>
                 <%
@@ -183,31 +183,32 @@
     <div style="height:12px;">
     
     <%-- OTHER --%>
-    <table width="100%" cellspacing="2" cellpadding="0">
+    <table width="100%" cellspacing="1" cellpadding="0">
         <tr>
             <td>
                 <%
+                    int idx = 0;
                     hMenu = new Hashtable();
-	                hMenu.put(getTran("web.manage","memoryprofile",sWebLanguage),"main.do?Page=util/profile.jsp");
-	                hMenu.put(getTran("web.manage","quicklist",sWebLanguage),"main.do?Page=system/manageQuickList.jsp");
-	                hMenu.put(getTran("web.manage","quicklablist",sWebLanguage),"main.do?Page=system/manageQuickLabList.jsp");
-	                hMenu.put(getTran("web.manage","countarchivelabels",sWebLanguage),"main.do?Page=util/countArchiveLabels.jsp");
+	                hMenu.put(getTran("web.manage","memoryprofile",sWebLanguage),"main.do?Page=util/profile.jsp"); idx++;
+	                hMenu.put(getTran("web.manage","quicklist",sWebLanguage),"main.do?Page=system/manageQuickList.jsp"); idx++;
+	                hMenu.put(getTran("web.manage","quicklablist",sWebLanguage),"main.do?Page=system/manageQuickLabList.jsp"); idx++;
+	                hMenu.put(getTran("web.manage","countarchivelabels",sWebLanguage),"main.do?Page=util/countArchiveLabels.jsp"); idx++;
 	                if(MedwanQuery.getInstance().getConfigInt("enableMFP",0)==1){
-	                	hMenu.put(getTran("web.manage","mfptariffs",sWebLanguage),"main.do?Page=util/setMFPTariffs.jsp");
+	                	hMenu.put(getTran("web.manage","mfptariffs",sWebLanguage),"main.do?Page=util/setMFPTariffs.jsp"); idx++;
 	                }
-	                hMenu.put(getTran("web.manage","notifiermessages",sWebLanguage),"main.do?Page=system/manageNotifierMessages.jsp");
-                    hMenu.put(getTran("web.manage","ManageDefaultWeekschedules",sWebLanguage),"main.do?Page=system/manageDefaultWeekschedules.jsp");
-                    hMenu.put(getTran("web.manage","CreateSalaryCalculationsForWorkschedules",sWebLanguage),"main.do?Page=hr/management/createSalaryCalculationsForWorkschedules.jsp");
-                    hMenu.put(getTran("web.manage","CreateSalaryCalculationsForLeaves",sWebLanguage),"main.do?Page=hr/management/createSalaryCalculationsForLeaves.jsp");
-                    hMenu.put(getTran("web.manage","ManageDefaultSalaryCodes",sWebLanguage),"main.do?Page=hr/management/manageDefaultSalaryCodes.jsp");
-                    hMenu.put(getTran("web.manage","ManageSystemMessage",sWebLanguage),"main.do?Page=system/manageSystemMessage.jsp");
-                    hMenu.put(getTran("web.manage","exporttowhonet",sWebLanguage),"main.do?Page=system/exportToWHONet.jsp");
-                    hMenu.put(getTran("web.manage","manageDoubleScannedDocuments",sWebLanguage),"main.do?Page=system/manageDoubleScannedDocuments.jsp");
-                    hMenu.put(getTran("web.manage","exporttomaster",sWebLanguage),"main.do?Page=util/createOpenclinicExport.jsp");
+	                hMenu.put(getTran("web.manage","notifiermessages",sWebLanguage),"main.do?Page=system/manageNotifierMessages.jsp"); idx++;
+                    hMenu.put(getTran("web.manage","ManageDefaultWeekschedules",sWebLanguage),"main.do?Page=system/manageDefaultWeekschedules.jsp"); idx++;
+                    hMenu.put(getTran("web.manage","CreateSalaryCalculationsForWorkschedules",sWebLanguage),"main.do?Page=hr/management/createSalaryCalculationsForWorkschedules.jsp"); idx++;
+                    hMenu.put(getTran("web.manage","CreateSalaryCalculationsForLeaves",sWebLanguage),"main.do?Page=hr/management/createSalaryCalculationsForLeaves.jsp"); idx++;
+                    hMenu.put(getTran("web.manage","ManageDefaultSalaryCodes",sWebLanguage),"main.do?Page=hr/management/manageDefaultSalaryCodes.jsp"); idx++;
+                    hMenu.put(getTran("web.manage","ManageSystemMessage",sWebLanguage),"main.do?Page=system/manageSystemMessage.jsp"); idx++;
+                    hMenu.put(getTran("web.manage","exporttowhonet",sWebLanguage),"main.do?Page=system/exportToWHONet.jsp"); idx++;
+                    hMenu.put(getTran("web.manage","manageDoubleScannedDocuments",sWebLanguage),"main.do?Page=system/manageDoubleScannedDocuments.jsp"); idx++;
+                    hMenu.put(getTran("web.manage","exporttomaster",sWebLanguage),"main.do?Page=util/createOpenclinicExport.jsp"); idx++;
 
                     out.print(ScreenHelper.writeTblHeader(getTran("web.occup","medwan.common.other",sWebLanguage),sCONTEXTPATH)+
 	                          sortMenu(hMenu)+
-	                          (activePatient!=null?writeTblChildWithCode("javascript:printUserCard()",getTran("web.manage","createusercard",sWebLanguage)):"")+
+	                          (activePatient!=null?writeTblChildWithCode("javascript:printUserCard()",getTran("web.manage","createusercard",sWebLanguage),idx++):"")+
 	                          ScreenHelper.writeTblFooter());
                 %>
             </td>
