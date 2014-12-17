@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import org.jnp.interfaces.java.javaURLContextFactory;
+
 
 public class LabRequest {
     private Hashtable analyses = new Hashtable();
@@ -923,16 +925,14 @@ public class LabRequest {
         Vector requests=new Vector();
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            String sQuery="select serverid,transactionid" +
-                    " from RequestedLabAnalyses a, OC_ENCOUNTERS b,OC_ENCOUNTER_SERVICES c, LabAnalysis d" +
+            String sQuery="select distinct serverid,transactionid" +
+                    " from RequestedLabAnalyses a" +
                     " where" +
-                    " a.analysiscode=d.labcode and" +
-                    " b.OC_ENCOUNTER_SERVERID=c.OC_ENCOUNTER_SERVERID AND" +
-                    " b.OC_ENCOUNTER_OBJECTID=c.OC_ENCOUNTER_OBJECTID AND"+
-                    " a.patientid="+ MedwanQuery.getInstance().convert("int","b.OC_ENCOUNTER_PATIENTUID")+" and" +
-                    " samplereceptiondatetime is null  and d.deletetime is null" +
+                    " samplereceptiondatetime is null and (resultvalue is null or resultvalue='') and finalvalidationdatetime is null and requestdatetime>?" +
                     " order by serverid,transactionid,requestdatetime";
             PreparedStatement ps = oc_conn.prepareStatement(sQuery);
+            long week = 60000*60*24*7;
+            ps.setTimestamp(1, new java.sql.Timestamp(new java.util.Date().getTime()-week));
             ResultSet rs = ps.executeQuery();
             String activerequest="";
             while (rs.next()){

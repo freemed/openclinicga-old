@@ -2600,6 +2600,70 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
         return vUnassignedDebets;
     }
     
+    public static Vector getPatientDebetPrestations(String sPrestationUids,String sPatientId, String sDateBegin, String sDateEnd, String sAmountMin, String sAmountMax) {
+        String sSelect = "";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Vector vUnassignedDebets = new Vector();
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try {
+            sSelect = "SELECT oc_debet_date,d.oc_debet_quantity,p.OC_PRESTATION_CODE,p.OC_PRESTATION_DESCRIPTION FROM OC_ENCOUNTERS e, OC_DEBETS d, OC_PRESTATIONS p WHERE d.oc_debet_credited<>1 and p.OC_PRESTATION_OBJECTID=replace(d.OC_DEBET_PRESTATIONUID,'"+MedwanQuery.getInstance().getConfigString("serverId","1")+".','') and e.OC_ENCOUNTER_PATIENTUID = ? "
+                    + " AND d.oc_debet_encounteruid=("+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_serverid")+MedwanQuery.getInstance().concatSign()+"'.'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar", "e.oc_encounter_objectid")+")";
+            if (sDateBegin.length() > 0) {
+                sSelect += " AND d.OC_DEBET_DATE >= ?  ";
+            }
+            if (sDateEnd.length() > 0) {
+                sSelect += " AND d.OC_DEBET_DATE <= ?  ";
+            }
+            if ((sAmountMin.length() > 0) && (sAmountMax.length() > 0)) {
+                sSelect += " AND d.OC_DEBET_AMOUNT >= ? AND OC_DEBET_AMOUNT <= ? ";
+            } else if (sAmountMin.length() > 0) {
+                sSelect += " AND d.OC_DEBET_AMOUNT >= ?  ";
+            } else if (sAmountMax.length() > 0) {
+                sSelect += " AND d.OC_DEBET_AMOUNT <= ?  ";
+            }
+            if (sPrestationUids.length() > 0) {
+                sSelect += " AND d.OC_DEBET_PRESTATIONUID in ("+sPrestationUids+")  ";
+            }
+            ps = oc_conn.prepareStatement(sSelect);
+            ps.setString(1, sPatientId);
+            int iIndex = 2;
+            if (sDateBegin.length() > 0) {
+                ps.setDate(iIndex++, ScreenHelper.getSQLDate(sDateBegin));
+            }
+            if (sDateEnd.length() > 0) {
+                ps.setDate(iIndex++, ScreenHelper.getSQLDate(sDateEnd));
+            }
+            if ((sAmountMin.length() > 0) && (sAmountMax.length() > 0)) {
+                ps.setDouble(iIndex++, Double.parseDouble(sAmountMin));
+                ps.setDouble(iIndex++, Double.parseDouble(sAmountMax));
+            } else if (sAmountMin.length() > 0) {
+                ps.setDouble(iIndex++, Double.parseDouble(sAmountMin));
+            } else if (sAmountMax.length() > 0) {
+                ps.setDouble(iIndex++, Double.parseDouble(sAmountMax));
+            }
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                vUnassignedDebets.add("<b>"+ScreenHelper.getSQLDate(rs.getDate("oc_debet_date"))+"</b>: "+ rs.getInt("oc_debet_quantity")+"x "+rs.getString("OC_PRESTATION_CODE") + " (" + rs.getString("OC_PRESTATION_DESCRIPTION")+")");
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Debug.println("OpenClinic => Debet.java => getPatientDebets => " + e.getMessage() + " = " + sSelect);
+        }
+        finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                oc_conn.close();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return vUnassignedDebets;
+    }
+    
     //--- GET PATIENT DEBETS TO INVOICE -----------------------------------------------------------
     public static Vector getPatientDebetsToInvoice() {
         String sSelect = "";
@@ -2956,7 +3020,8 @@ public class Debet extends OC_Object implements Comparable,Cloneable {
         Encounter encounter = Encounter.getActiveEncounter(personid);
         Prestation prestation = Prestation.get(prestationUid);
         double dPatientAmount=0,dInsurarAmount=0,dExtraInsurarAmount=0,dExtraInsurarAmount2=0;
-        if(encounter!=null && prestation!=null){
+		InsuranceRule rule = insurance==null?null:Prestation.getInsuranceRule(prestationUid, insurance.getInsurarUid());
+        if(!Prestation.checkMaximumReached(personid, rule, quantity) && encounter!=null && prestation!=null){
 	        if (insurance != null) {
 	            type = insurance.getType();
 	            if (prestation != null) {

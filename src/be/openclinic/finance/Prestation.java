@@ -341,7 +341,108 @@ public class Prestation extends OC_Object{
 		}
     }
     
-    //--- GET PRESTATIONS BY CLASS ----------------------------------------------------------------
+    public static void saveInsuranceRule(String prestationUid, String insurarUid, double quantity,double period){
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+    	try{
+    		String sSql = "delete from OC_INSURANCERULES where OC_INSURANCERULE_PRESTATIONUID=? and " +
+    				" OC_INSURANCERULE_INSURARUID=?";
+			PreparedStatement ps = oc_conn.prepareStatement(sSql);
+			ps.setString(1, prestationUid);
+			ps.setString(2, insurarUid);
+			ps.executeUpdate();
+			ps.close();
+			if(quantity>=0){
+	    		sSql = "insert into OC_INSURANCERULES(OC_INSURANCERULE_PRESTATIONUID,OC_INSURANCERULE_INSURARUID,OC_INSURANCERULE_QUANTITY,OC_INSURANCERULE_PERIOD) values (?,?,?,?)";
+				ps = oc_conn.prepareStatement(sSql);
+				ps.setString(1, prestationUid);
+				ps.setString(2, insurarUid);
+				ps.setDouble(3, quantity);
+				ps.setDouble(4, period);
+				ps.executeUpdate();
+				ps.close();
+			}
+		}
+    	catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	try {
+			oc_conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    public static InsuranceRule getInsuranceRule(String prestationUid, String insurarUid){
+    	InsuranceRule rule = null;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+    	try{
+    		String sSql = "select * from OC_INSURANCERULES where OC_INSURANCERULE_PRESTATIONUID=? and " +
+    				" OC_INSURANCERULE_INSURARUID=?";
+			PreparedStatement ps = oc_conn.prepareStatement(sSql);
+			ps.setString(1, prestationUid);
+			ps.setString(2, insurarUid);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				rule = new InsuranceRule(insurarUid, prestationUid, rs.getDouble("OC_INSURANCERULE_QUANTITY"), rs.getDouble("OC_INSURANCERULE_PERIOD"));
+			}
+			rs.close();
+			ps.close();
+		}
+    	catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	try {
+			oc_conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return rule;
+    }
+    
+    public static boolean checkMaximumReached(String patientUid,InsuranceRule rule, int quantity){
+    	boolean bMaximumReached=false;
+    	if(rule!=null){
+	    	long time = (long)rule.getDays()*24*3600*1000;
+	    	java.util.Date start = new java.util.Date(new java.util.Date().getTime()-time);
+	        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+	    	try{
+	    		String sSql = "select SUM(OC_DEBET_QUANTITY) total from OC_DEBETS, OC_ENCOUNTERS, OC_INSURANCES where "
+	    				+ " OC_ENCOUNTER_PATIENTUID=? AND"
+	    				+ " OC_DEBET_ENCOUNTERUID='"+MedwanQuery.getInstance().getConfigInt("serverId")+".'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar","OC_ENCOUNTER_OBJECTID")+" AND"
+	    				+ " OC_INSURANCE_OBJECTID=replace(OC_DEBET_INSURANCEUID,'"+MedwanQuery.getInstance().getConfigInt("serverId")+".','')"+" AND"
+	    				+ " OC_INSURANCE_INSURARUID=? AND"
+	    				+ " OC_DEBET_PRESTATIONUID=? AND"
+	    				+ " OC_DEBET_CREDITED<>1 AND"
+	    				+ " OC_DEBET_DATE>=?"
+	    				;
+				PreparedStatement ps = oc_conn.prepareStatement(sSql);
+				ps.setString(1, patientUid);
+				ps.setString(2, rule.getInsurarUid());
+				ps.setString(3, rule.getPrestationUid());
+				ps.setDate(4,new java.sql.Date(start.getTime()));
+				ResultSet rs = ps.executeQuery();
+				if(rs.next()){
+					int total = rs.getInt("total");
+					bMaximumReached=total+quantity>rule.quantity;
+				}
+				rs.close();
+				ps.close();
+			}
+	    	catch(Exception e){
+	    		e.printStackTrace();
+	    	}
+	    	try {
+				oc_conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+   	   	return bMaximumReached;
+    }
+    
     public static Vector getPrestationsByClass(String prestationClass){
         Vector prestations = new Vector();
         

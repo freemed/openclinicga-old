@@ -7,6 +7,7 @@ import be.mxs.common.util.system.Debug;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.Vector;
 import java.sql.*;
 
@@ -126,6 +127,37 @@ public class ProductOrder extends OC_Object{
             }
         }
         return quantity;
+    }
+
+    public static Hashtable getOpenOrderedQuantity(){
+        Hashtable quantities = new Hashtable();
+        PreparedStatement ps = null;
+        ResultSet rs=null;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            String sQuery="select sum(OC_ORDER_PACKAGESORDERED-OC_ORDER_PACKAGESDELIVERED) as total,OC_ORDER_PRODUCTSTOCKUID from OC_PRODUCTORDERS" +
+                    " where " +
+                    " (OC_ORDER_STATUS is NULL OR OC_ORDER_STATUS<>'closed') group by OC_ORDER_PRODUCTSTOCKUID";
+            ps=oc_conn.prepareStatement(sQuery);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                quantities.put(rs.getString("OC_ORDER_PRODUCTSTOCKUID"),rs.getInt("total"));
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                oc_conn.close();
+            }
+            catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return quantities;
     }
 
     //--- PACKAGES ORDERED ------------------------------------------------------------------------

@@ -464,7 +464,62 @@ public class ResultsProfile {
                 hLabProfileData.put("labcodeother",ScreenHelper.checkString(rs.getString("labcodeother")));
                 hLabProfileData.put("comment",ScreenHelper.checkString(rs.getString("comment")));
                 hLabProfileData.put("unit",ScreenHelper.checkString(rs.getString("unit")));
-                hLabProfileData.put("mnemonic",ScreenHelper.checkString(rs.getString("medidoccode")).length()>0?ScreenHelper.checkString(rs.getString("medidoccode")):(String)hLabProfileData.get("labcode"));
+               	hLabProfileData.put("mnemonic",ScreenHelper.checkString(rs.getString("medidoccode")).length()>0?ScreenHelper.checkString(rs.getString("medidoccode")):(String)hLabProfileData.get("labcode"));
+                vLabProfiles.addElement(hLabProfileData);
+            }
+            rs.close();
+            ps.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs!=null)rs.close();
+                if(ps!=null)ps.close();
+                oc_conn.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return vLabProfiles;
+    }
+    public static Vector searchLabProfilesDataByProfileID(String sProfileID, String language){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String labcodeLower = MedwanQuery.getInstance().getConfigParam("lowerCompare","la.labcode"),
+                             commentLower = MedwanQuery.getInstance().getConfigParam("lowerCompare","lap.comment");
+
+        Vector vLabProfiles = new Vector();
+
+        String sSelect = "SELECT lap.labID,la.labcode,la.labtype,la.labcodeother,lap.comment,la.unit, la.medidoccode"+
+                                " FROM ResultProfiles lp, ResultProfilesAnalysis lap, LabAnalysis la"+
+                                " WHERE lap.profileID = lp.profileID"+
+                                "  AND lap.labID = la.labID"+
+                                "  AND lp.profileID = ? and la.deletetime is null"+
+                                " ORDER BY "+labcodeLower+","+commentLower;
+
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            ps = oc_conn.prepareStatement(sSelect);
+            ps.setInt(1,Integer.parseInt(sProfileID));
+            rs = ps.executeQuery();
+
+            Hashtable hLabProfileData;
+
+            while(rs.next()){
+                hLabProfileData = new Hashtable();
+                hLabProfileData.put("labID",ScreenHelper.checkString(rs.getString("labID")));
+                hLabProfileData.put("labcode",ScreenHelper.checkString(rs.getString("labcode")));
+                hLabProfileData.put("labtype",ScreenHelper.checkString(rs.getString("labtype")));
+                hLabProfileData.put("labcodeother",ScreenHelper.checkString(rs.getString("labcodeother")));
+                hLabProfileData.put("comment",ScreenHelper.checkString(rs.getString("comment")));
+                hLabProfileData.put("unit",ScreenHelper.checkString(rs.getString("unit")));
+                if(MedwanQuery.getInstance().getConfigInt("worklistsUseShortname",0)==1 && !ScreenHelper.getTran("labanalysis.short",(String)hLabProfileData.get("labID"),language).equals((String)hLabProfileData.get("labID"))){
+                	hLabProfileData.put("mnemonic",ScreenHelper.getTran("labanalysis.short",(String)hLabProfileData.get("labID"),language));
+            	}
+                else {
+                	hLabProfileData.put("mnemonic",ScreenHelper.checkString(rs.getString("medidoccode")).length()>0?ScreenHelper.checkString(rs.getString("medidoccode")):(String)hLabProfileData.get("labcode"));
+                }
 
                 vLabProfiles.addElement(hLabProfileData);
             }

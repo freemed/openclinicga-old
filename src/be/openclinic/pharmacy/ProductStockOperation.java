@@ -11,6 +11,7 @@ import be.mxs.common.util.system.Debug;
 import be.openclinic.finance.*;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Vector;
 import java.sql.*;
 import java.text.DecimalFormat;
@@ -1657,6 +1658,36 @@ public class ProductStockOperation extends OC_Object{
         }
     	
     	return operations;
+    }
+    
+    public static HashSet getOpenProductStockDeliveries() {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        HashSet deliveries = new HashSet();
+        String sSelect = "SELECT distinct OC_OPERATION_SRCDESTUID,OC_OPERATION_PRODUCTSTOCKUID FROM OC_PRODUCTSTOCKOPERATIONS where " +
+        		" OC_OPERATION_DESCRIPTION LIKE 'medicationdelivery.%' AND OC_OPERATION_SRCDESTTYPE='servicestock' AND " +
+        		" OC_OPERATION_UNITSRECEIVED<OC_OPERATION_UNITSCHANGED";
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            rs = ps.executeQuery();
+            while(rs.next()){
+            	deliveries.add(rs.getString("OC_OPERATION_SRCDESTUID")+"$"+rs.getString("OC_OPERATION_PRODUCTSTOCKUID"));
+            }
+        }
+        catch (Exception e){
+        	e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                oc_conn.close();
+            }
+            catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return deliveries;
     }
     public static Vector getOpenProductStockDeliveries(String destinationServiceStockUid,String productUid){
     	Vector operations = new Vector();

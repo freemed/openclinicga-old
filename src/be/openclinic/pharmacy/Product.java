@@ -10,6 +10,7 @@ import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.Debug;
 
 import java.sql.*;
+import java.util.Hashtable;
 import java.util.Vector;
 import java.text.SimpleDateFormat;
 
@@ -299,6 +300,36 @@ public class Product extends OC_Object implements Comparable {
         return this.supplierUid;
     }
 
+    public static Hashtable getProductNames(){
+    	Hashtable names = new Hashtable();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        String sSelect = "SELECT * FROM OC_PRODUCTS";
+        try{
+	        ps = oc_conn.prepareStatement(sSelect);
+	        rs = ps.executeQuery();
+	        while(rs.next()){
+	        	names.put(rs.getString("OC_PRODUCT_SERVERID")+"."+rs.getString("OC_PRODUCT_OBJECTID"), rs.getString("OC_PRODUCT_NAME"));
+	        }
+        }
+        catch(Exception e){
+        	e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                oc_conn.close();
+
+            }
+            catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+	        
+    	return names;
+    }
     //--- GET -------------------------------------------------------------------------------------
     public static Product get(String productUid){
         Product product = null;
