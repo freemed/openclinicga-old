@@ -403,6 +403,31 @@
 
       return false;
     }
+    else{      
+      <%
+          // check languages
+          if(supportedLanguages.length() > 0){
+	  	      tokenizer = new StringTokenizer(supportedLanguages,",");
+	  	      while(tokenizer.hasMoreTokens()){
+	  	          tmpLang = tokenizer.nextToken();
+	  	          
+	  	          %>
+	  	            if(transactionForm.EditLabelValue<%=tmpLang.toUpperCase()%>.value.length==0){
+		              transactionForm.EditLabelValue<%=tmpLang.toUpperCase()%>.focus();
+	  	              alertDialog("web.manage","dataMissing");
+	  	            }
+	  	            else 
+	  	          <%
+	  	      }
+	  	      
+	  	      %>	  	    
+	  	  	  {
+	  	  		// empty
+	  	      }
+	  	      <%
+          }
+	  %>
+    }
 
     return true;
   }
