@@ -265,12 +265,12 @@
 <%
     String sOnKeyDown = "", sBackFunction = "doBack();";
     if(!sAction.equals("edit") && !sAction.equals("new")){
-        sOnKeyDown = "onkeydown='if(enterEvent(event,13)){searchInsurar();}'";
+        sOnKeyDown = "onkeydown='if(enterKeyPressed(event)){searchInsurar();}'";
         sBackFunction = "doBackToMenu();";
     }
 %>
 
-<form id="transactionForm" name="transactionForm" method="post" <%=sOnKeyDown%> onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
+<form id="transactionForm" name="transactionForm" method="post" <%=sOnKeyDown%>>
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
     <input type="hidden" name="FindInsurarId">
@@ -662,7 +662,7 @@
                         <td class="admin"/>
                         <td class="admin2">
                             <button accesskey="<%=ScreenHelper.getAccessKey(getTranNoLink("accesskey","save",sWebLanguage))%>" class="buttoninvisible" onclick="saveInsurar();"></button>
-                            <button class="button" name="saveButton" onclick="saveInsurar();"><%=getTranNoLink("accesskey","save",sWebLanguage)%></button>&nbsp;
+                            <button type="button" class="button" name="saveButton" onclick="saveInsurar();"><%=getTranNoLink("accesskey","save",sWebLanguage)%></button>&nbsp;
 
                             <%
                                 // no delete button for new insurar
@@ -1144,12 +1144,12 @@
         if(sAction.equals("edit") || sAction.equals("new")){
             %>
               if(checkSaveButton()){
-                window.location.href = "<c:url value='/main.do'/>?Page=system/manageInsurars.jsp";
+                //window.location.href = "<c:url value='/main.do'/>?Page=system/manageInsurars.jsp";
               }
             <%
         }
         else{
-            %>window.location.href = "<c:url value='/main.do'/>?Page=system/manageInsurars.jsp";<%
+            %>//window.location.href = "<c:url value='/main.do'/>?Page=system/manageInsurars.jsp";<%
         }
     %>
   }
@@ -1160,12 +1160,12 @@
         if(sAction.equals("edit") || sAction.equals("new")){
             %>
               if(checkSaveButton()){
-                window.location.href = "<c:url value='/main.do'/>?Page=system/menu.jsp";
+                //window.location.href = "<c:url value='/main.do'/>?Page=system/menu.jsp";
               }
             <%
         }
         else{
-            %>window.location.href = "<c:url value='/main.do'/>?Page=system/menu.jsp";<%
+            %>//window.location.href = "<c:url value='/main.do'/>?Page=system/menu.jsp";<%
         }
     %>
   }
