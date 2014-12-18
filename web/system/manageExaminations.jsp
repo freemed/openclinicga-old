@@ -128,7 +128,7 @@
     }
 %>
 
-<form name="transactionForm" id="transactionForm" method="post" onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
+<form name="transactionForm" id="transactionForm" method="post">
     <input type="hidden" name="Action" value="">
     <%=writeTableHeader("Web.manage","manageexaminations",sWebLanguage,"doBack();")%>
     <table width="100%" class="menu" cellspacing="0">
