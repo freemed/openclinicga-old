@@ -314,7 +314,8 @@ td.admin2 {
  font-weight:normal;
  text-align:left;
  padding:1px;
- text-indent:5px;
+ /*text-indent:5px;*/
+ margin:5px;
  vertical-align:middle;
  background-color:#BEDEB1;
 }
@@ -326,7 +327,8 @@ td.admin2right {
  font-weight:normal;
  text-align:right;
  padding:1px;
- text-indent:5px;
+ /*text-indent:5px;*/
+ margin:5px;
  background-color:#DEEAFF;
 }
 
@@ -1710,7 +1712,7 @@ a.linkdark:hover {
 }
 
 a.add {
- background:url(../../_img/icons/icon_add.gif) no-repeat left center;
+ background:url(../../_img/icons/icon_add.gif) no-repeat 3px top;
 }
 
 a.down {
