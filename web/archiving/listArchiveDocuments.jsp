@@ -57,7 +57,11 @@
            sFindCategory = checkString(request.getParameter("FindCategory")),
            sFindBegin    = checkString(request.getParameter("FindBegin")),
            sFindEnd      = checkString(request.getParameter("FindEnd"));
+    
+    boolean onlyScanned = checkString(request.getParameter("OnlyScanned")).equals("true");
 
+    if(sAction.length()==0) sAction = "findLast";
+    
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
         Debug.println("\n****************** archiving/listArchiveDocuments.jsp *****************");
@@ -65,7 +69,8 @@
         Debug.println("sFindTitle    : "+sFindTitle);
         Debug.println("sFindCategory : "+sFindCategory);
         Debug.println("sFindBegin    : "+sFindBegin);
-        Debug.println("sFindEnd      : "+sFindEnd+"\n");
+        Debug.println("sFindEnd      : "+sFindEnd);
+        Debug.println("onlyScanned   : "+onlyScanned+"\n");
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -73,19 +78,17 @@
     int foundDocsCount = 0;
     String msg = "";
 
-    if(sAction.length()==0) sAction = "findLast";
-
     //--- FIND ------------------------------------------------------------------------------------
     if(sAction.equals("find")){
         Vector archDocs = ArchiveDocument.find(Integer.parseInt(activePatient.personid),
-        		                               sFindTitle,sFindCategory,sFindBegin,sFindEnd);
+        		                               sFindTitle,sFindCategory,sFindBegin,sFindEnd,false,onlyScanned);
         sHTML = objectsToHtml(archDocs,sWebLanguage,activeUser);
         foundDocsCount = archDocs.size();
     }
     //--- FIND LAST -------------------------------------------------------------------------------
     else if(sAction.equals("findLast")){
     	int maxDocs = MedwanQuery.getInstance().getConfigInt("RecentArchiveDocumentDisplayCount",50);
-        Vector archDocs = ArchiveDocument.getMostRecentDocuments(maxDocs,Integer.parseInt(activePatient.personid));
+        Vector archDocs = ArchiveDocument.getMostRecentDocuments(maxDocs,Integer.parseInt(activePatient.personid),onlyScanned);
         sHTML = objectsToHtml(archDocs,sWebLanguage,activeUser);
         foundDocsCount = archDocs.size();
         
@@ -134,6 +137,14 @@
         <tr>
             <td class="admin" nowrap><%=getTran("web","enddate",sWebLanguage)%>&nbsp;</td>
             <td class="admin2"><%=writeDateField("FindEnd","transactionForm",sFindEnd,sWebLanguage)%></td>
+        </tr>
+        
+        <%-- only scanned --%>
+        <tr>
+            <td class="admin" nowrap><%=getTran("web","onlyScannedDocuments",sWebLanguage)%>&nbsp;</td>
+            <td class="admin2">
+                <input type="checkbox" name="OnlyScanned" id="onlyScannedCB" value="true" <%=(onlyScanned?"checked":"")%>><%=getLabel("web","onlyScannedDocuments",sWebLanguage,"onlyScannedCB")%>
+            </td>
         </tr>
         
         <%-- BUTTONS --%>
@@ -229,7 +240,8 @@
     if(transactionForm.FindTitle.value.length > 0 ||
        transactionForm.FindCategory.selectedIndex > 0 ||
        transactionForm.FindBegin.value.length > 0 ||
-       transactionForm.FindEnd.value.length > 0){
+       transactionForm.FindEnd.value.length > 0 ||
+       transactionForm.OnlyScanned.checked){
     	return true;
     }
     return false;
