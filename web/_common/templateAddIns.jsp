@@ -417,8 +417,8 @@ function checkDropdown(evt){
       else{
         target = evt.srcElement.target;
       }
-      
-      if(target.id.indexOf("menu") > -1 || target.id.indexOf("ddIcon") > -1){
+
+      if(target!=null && (target.id.indexOf("menu") > -1 || target.id.indexOf("ddIcon") > -1)){
         if(bSaveHasNotChanged==false){
           dropDownChecked = true;
           if(checkSaveButton()==true){
