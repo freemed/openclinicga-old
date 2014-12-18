@@ -203,12 +203,34 @@
                     hMenu.put(getTran("web.manage","ManageDefaultSalaryCodes",sWebLanguage),"main.do?Page=hr/management/manageDefaultSalaryCodes.jsp"); idx++;
                     hMenu.put(getTran("web.manage","ManageSystemMessage",sWebLanguage),"main.do?Page=system/manageSystemMessage.jsp"); idx++;
                     hMenu.put(getTran("web.manage","exporttowhonet",sWebLanguage),"main.do?Page=system/exportToWHONet.jsp"); idx++;
-                    hMenu.put(getTran("web.manage","manageDoubleScannedDocuments",sWebLanguage),"main.do?Page=system/manageDoubleScannedDocuments.jsp"); idx++;
                     hMenu.put(getTran("web.manage","exporttomaster",sWebLanguage),"main.do?Page=util/createOpenclinicExport.jsp"); idx++;
 
+                    // depends on selection of activePatient
                     out.print(ScreenHelper.writeTblHeader(getTran("web.occup","medwan.common.other",sWebLanguage),sCONTEXTPATH)+
 	                          sortMenu(hMenu)+
 	                          (activePatient!=null?writeTblChildWithCode("javascript:printUserCard()",getTran("web.manage","createusercard",sWebLanguage),idx++):"")+
+	                          ScreenHelper.writeTblFooter());
+                %>
+            </td>
+        </tr>
+    </table>
+    
+    <div style="height:12px;">
+    
+    <%-- ARCHIVING --%>
+    <table width="100%" cellspacing="2" cellpadding="0">
+        <tr>
+            <td>
+                <%
+                    hMenu = new Hashtable();	              
+                    hMenu.put(getTran("web.manage","manageDoubleScannedDocuments",sWebLanguage),"main.do?Page=system/manageDoubleScannedDocuments.jsp"); idx++;
+                    if(activePatient!=null){
+                        hMenu.put(getTran("web.manage","listArchiveDocuments",sWebLanguage),"main.do?Page=archiving/listArchiveDocuments.jsp"); idx++;
+                    }
+
+                    // depends on selection of activePatient
+                    out.print(ScreenHelper.writeTblHeader(getTran("web.occup","archiving",sWebLanguage),sCONTEXTPATH)+
+	                          sortMenu(hMenu)+
 	                          ScreenHelper.writeTblFooter());
                 %>
             </td>
