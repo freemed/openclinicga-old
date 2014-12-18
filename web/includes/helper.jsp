@@ -1046,8 +1046,14 @@
 	  						"<link rel='Stylesheet' type='text/css' href='"+sCONTEXTPATH+"/_common/_css/jPicker.css'/>"+
 	  						"<script src='"+sCONTEXTPATH+"/_common/_script/jquery-1.4.4.min.js'></script>"+
 	  						"<script src='"+sCONTEXTPATH+"/_common/_script/jpicker-1.1.6.min.js'></script>";
-	String sJSJQUERY = "<script src='"+sCONTEXTPATH+"/_common/_script/jquery-1.4.4.min.js'></script>";
+	//String sJSJQUERY = "<script src='"+sCONTEXTPATH+"/_common/_script/jquery-1.4.4.min.js'></script>";
     String sJSSCRIPTS = "<script src='"+sCONTEXTPATH+"/_common/_script/scripts.js'></script>";
+    
+    String sJSCHARTJS  = "<script src='"+sCONTEXTPATH+"/_common/_script/chart.min.js'></script>";
+    //String sJSEXCANVAS = "<!--[if IE]><script src='"+sCONTEXTPATH+"/_common/_script/excanvas.js'></script><![endif]-->";
+    String sJSMORRIS   = "<script src='"+sCONTEXTPATH+"/_common/_script/morris.min.js'></script>";
+    String sJSJQUERY   = "<script src='"+sCONTEXTPATH+"/_common/_script/jquery-1.8.2.min.js'></script>";
+    String sJSRAPHAEL  = "<script src='"+sCONTEXTPATH+"/_common/_script/raphael-min.js'></script>";
 
     // varia
     String sTDAdminWidth = "200";
