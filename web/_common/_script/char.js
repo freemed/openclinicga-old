@@ -21,30 +21,6 @@ function denySpecialCharacters(inputField){
   }
 }
 
-function limitRows(textarea,maxrows){
-  var onlyLines = textarea.value.match(/\n+/g);
-  var currLines = (onlyLines?onlyLines.length:0);
-
-  if(currLines >= maxrows){
-    var lineCounter = 0;
-    var strTemp = "";
-
-    for(var i=0; i<textarea.value.length; i++){
-      var oneChar = textarea.value.substring(i,i+1);
-      if(oneChar=='\r'){
-        lineCounter++;
-        if(lineCounter==maxrows){
-          textarea.value = strTemp;
-          break;
-        }
-      }
-      else{
-        strTemp+= oneChar;
-      }
-    }
-  }
-}
-
 function limitChars(textFieldObj,maxCharsAllowed){
   var text = textFieldObj.value;
   text = replaceAll(text,"\r\n","<br>");
