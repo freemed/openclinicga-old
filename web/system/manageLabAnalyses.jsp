@@ -432,7 +432,7 @@
     %>
 
 <%-- EDIT/ADD FROM ------------------------------------------------------------------------------%>
-<form name="editForm" id="editForm" method="post" onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
+<form name="editForm" id="editForm" method="post">
   <input type="hidden" name="Action" value="<%=(sAction.equals("new")?sAction:"save")%>"/>
   <input type="hidden" name="LabID" value="<%=sLabID%>"/>
 <table border="0" width="100%" class="list" cellspacing="1">
