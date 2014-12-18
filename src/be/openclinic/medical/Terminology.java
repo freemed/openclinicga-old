@@ -11,13 +11,6 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Vector;
 
-/**
- * Created by IntelliJ IDEA.
- * User: mxs_david
- * Date: 30-jan-2007
- * Time: 10:27:43
- * To change this template use Options | File Templates.
- */
 public class Terminology extends OC_Object {
     private String terminologyType;
     private String userUID;
@@ -291,13 +284,15 @@ public class Terminology extends OC_Object {
     public void delete(){
         PreparedStatement ps = null;
 
-        String sDelete = "DELETE FROM OC_TERMINOLOGIES WHERE OC_TERMINOLOGY_TYPE = ? AND OC_TERMINOLOGY_USERUID = ?";
-
+        String sDelete = "DELETE FROM OC_TERMINOLOGIES"+
+                         " WHERE OC_TERMINOLOGY_SERVERID = ? AND OC_TERMINOLOGY_OBJECTID = ?";
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             ps = oc_conn.prepareStatement(sDelete);
-            ps.setString(1,this.getTerminologyType());
-            ps.setString(2,this.getUserUID());
+            
+            String ids[] = this.getUid().split("\\.");
+            ps.setInt(1,Integer.parseInt(ids[0]));
+            ps.setInt(2,Integer.parseInt(ids[1]));
 
             ps.execute();
             ps.close();

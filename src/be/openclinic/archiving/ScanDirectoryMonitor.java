@@ -219,6 +219,14 @@ public class ScanDirectoryMonitor implements Runnable{
 	    	    String sUDI = file.getName().substring(file.getName().indexOf("_")+1,file.getName().lastIndexOf(".")); // remove prefix and extension
 		        Debug.println("--> UDI : "+sUDI);
 		        
+		        // pad with zeroes until length of 11 chars
+		        if(sUDI.length() < 11){
+		        	while(sUDI.length()<11){
+                       sUDI = "0"+sUDI;		        		
+		        	}
+		        }
+		        Debug.println("--> UDI padded with 0 : "+sUDI);
+		        
 		        if(sUDI.length()==11){
 	        		if(validUDI(sUDI)){
 			        	if(!forced){	

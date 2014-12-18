@@ -355,6 +355,7 @@ public class PDFUserCardGeneratorNew extends PDFOfficialBasic {
             cell.setPadding(0);
             table2.addCell(cell);
 
+            //Horizontal line
             cell=new PdfPCell(table2);
             cell.setColspan(1000);
             cell.setBorder(PdfPCell.NO_BORDER);

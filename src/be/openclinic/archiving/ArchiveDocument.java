@@ -370,11 +370,11 @@ public class ArchiveDocument extends OC_Object implements Comparable {
     	
 	//--- FIND -------------------------------------------------------------------------------------
 	public static Vector find(int personId, String sFindTitle, String sFindCategory, String sFindBegin, String sFindEnd){
-	    return find(personId,sFindTitle,sFindCategory,sFindBegin,sFindEnd,false); // only not-deleted documents	
+	    return find(personId,sFindTitle,sFindCategory,sFindBegin,sFindEnd,false,false); // only not-deleted documents	
 	}
 	
 	public static Vector find(int personId, String sFindTitle, String sFindCategory, String sFindBegin, String sFindEnd,
-			                  boolean includeDeletedDocuments){
+			                  boolean includeDeletedDocuments, boolean onlyScannedDocuments){
 		Vector archDocs = new Vector();
 
 		Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
@@ -383,6 +383,10 @@ public class ArchiveDocument extends OC_Object implements Comparable {
 		
 		String sSql = "SELECT * FROM arch_documents"+
 		              " WHERE ARCH_DOCUMENT_PERSONID = ?";
+
+		if(onlyScannedDocuments){
+		    sSql+= " AND arch_document_storagename IS NOT NULL AND arch_document_storagename <> ''";	
+		}
 		
 		if(!includeDeletedDocuments){
 		    sSql+= " AND ARCH_DOCUMENT_DELETEDATE IS NULL";
@@ -485,7 +489,7 @@ public class ArchiveDocument extends OC_Object implements Comparable {
 	
 	//--- GET MOST RECENT DOCUMENTS ---------------------------------------------------------------
 	// search through transactions
-	public static Vector getMostRecentDocuments(int maxRecords, int personId) throws Exception {
+	public static Vector getMostRecentDocuments(int maxRecords, int personId, boolean onlyScannedDocuments) throws Exception {
 		Vector recentArchDocs = new Vector();
 		Vector allArchDocs = MedwanQuery.getInstance().getTransactionsByType(personId,
 				                                       ScreenHelper.ITEM_PREFIX+"TRANSACTION_TYPE_ARCHIVE_DOCUMENT");
@@ -520,7 +524,9 @@ public class ArchiveDocument extends OC_Object implements Comparable {
 			archDoc.tranServerId = tran.getServerId();
 			archDoc.tranTranId = tran.getTransactionId().intValue();
 			
-            recentArchDocs.add(archDoc);
+			if((onlyScannedDocuments && archDoc.storageName.length() > 0) || !onlyScannedDocuments){
+                recentArchDocs.add(archDoc);
+			}
 		}
 
 		return recentArchDocs;		
