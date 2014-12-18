@@ -54,7 +54,7 @@
          }
     }
 %>
-<form name="MacroForm" id="MacroForm" method="post" onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
+<form name="MacroForm" id="MacroForm" method="post">
     <input type="hidden" name="Action">
     <%
         if(sAction.equals("search")){
