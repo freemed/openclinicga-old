@@ -1,3 +1,4 @@
+<%@page import="be.openclinic.system.Screen"%>
 <%@page import="be.openclinic.adt.Encounter,
                 be.openclinic.adt.Bed,
                 be.openclinic.finance.Prestation,
@@ -1003,7 +1004,7 @@
   function ParseDate(str1){
     re = /(\d{1,2})\/(\d{1,2})\/(\d{4})/
     var arr = re.exec(str1);
-    if(dateFormat=="dd/MM/yyyy"){
+    if("<%=ScreenHelper.stdDateFormat.toPattern()%>"=="dd/MM/yyyy"){
       return new Date(parseInt(arr[3]),parseInt(arr[2],10)-1,parseInt(arr[1],10)); // YYYY/mm/dd
     }
     else{
