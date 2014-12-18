@@ -179,7 +179,7 @@
         sBackFunction = "doBackToMenu();";
     }
 %>
-<form id="transactionForm" name="transactionForm" method="post" <%=sOnKeyDown%> onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
+<form id="transactionForm" name="transactionForm" method="post" <%=sOnKeyDown%>>
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
     <input type="hidden" name="FindInsurarId">
