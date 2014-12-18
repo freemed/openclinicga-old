@@ -1714,7 +1714,7 @@ a.linkdark:hover {
 }
 
 a.add {
- background:url(../../_img/icons/icon_add.gif) no-repeat left center;
+ background:url(../../_img/icons/icon_add.gif) no-repeat 3px top;
 }
 
 a.down {
