@@ -241,7 +241,7 @@
 
 <a name="topp"></a>
 
-<form name="profileForm" id="profileForm" method="post" onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
+<form name="profileForm" id="profileForm" method="post">
     <input type="hidden" name="checkedPermissions" value="">
     <input type="hidden" name="Action" value="">
     
