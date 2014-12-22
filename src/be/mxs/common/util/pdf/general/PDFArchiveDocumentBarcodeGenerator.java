@@ -72,17 +72,20 @@ public class PDFArchiveDocumentBarcodeGenerator extends PDFOfficialBasic {
 			doc.addCreator("OpenClinic Software");  
 			
 			Rectangle rectangle = new Rectangle(0,0,new Float(MedwanQuery.getInstance().getConfigInt("archiveDocumentBarcodeWidth",600)*72/254).floatValue(),
-					                                new Float(MedwanQuery.getInstance().getConfigInt("archiveDocumentBarcodeHeight",numberOfPrints*100)*72/254).floatValue());
+					                                new Float(MedwanQuery.getInstance().getConfigInt("archiveDocumentBarcodeHeight",100)*72/254).floatValue());
             doc.setPageSize(rectangle);
-            doc.setMargins(10,10,10,10);
+            doc.setMargins(0,0,0,0);
          
             doc.setJavaScript_onLoad(MedwanQuery.getInstance().getConfigString("cardJavaScriptOnLoad","document.print();"));
             doc.open();
 
             // add content to document            
             for(int n=0; n<numberOfPrints; n++){
-                if(n%10==0) doc.newPage(); // 10 per page
-                printBarcode(sBarcode);
+                if(n>0){
+                	doc.newPage();
+                }
+            	printBarcode(sBarcode);
+                
             }
 		}
 		catch(Exception e){
@@ -114,8 +117,8 @@ public class PDFArchiveDocumentBarcodeGenerator extends PDFOfficialBasic {
             cell = new PdfPCell(image);
             cell.setBorder(PdfPCell.NO_BORDER);
             cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-            cell.setPaddingTop(15);
-            cell.setPaddingBottom(15);
+            cell.setPaddingTop(0);
+            cell.setPaddingBottom(0);
 
             table.addCell(cell);
 

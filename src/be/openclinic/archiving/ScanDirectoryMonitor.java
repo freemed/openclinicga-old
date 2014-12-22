@@ -131,15 +131,15 @@ public class ScanDirectoryMonitor implements Runnable{
 	
 	//--- LOAD CONFIG -----------------------------------------------------------------------------
 	public static void loadConfig(){
-		SCANDIR_URL  = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_url");
-		SCANDIR_BASE = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_basePath");
-		SCANDIR_FROM = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_dirFrom");
-	    SCANDIR_TO   = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_dirTo");
-	    SCANDIR_ERR  = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_dirError");
-	    SCANDIR_DEL  = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_dirDeleted");
+		SCANDIR_URL  = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_url","http://localhost/openclinic/scan");
+		SCANDIR_BASE = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_basePath","c:/projects/openclinicnew/web/scan");
+		SCANDIR_FROM = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_dirFrom","from");
+	    SCANDIR_TO   = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_dirTo","to");
+	    SCANDIR_ERR  = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_dirError","error");
+	    SCANDIR_DEL  = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_dirDeleted","deleted");
 				
 		FILES_PER_DIRECTORY = MedwanQuery.getInstance().getConfigInt("scanDirectoryMonitor_filesPerDirectory",1024);
-		MONITORING_INTERVAL = MedwanQuery.getInstance().getConfigInt("scanDirectoryMonitor_interval",60*1000);
+		MONITORING_INTERVAL = MedwanQuery.getInstance().getConfigInt("scanDirectoryMonitor_interval",10*1000);
 	    EXCLUDED_EXTENSIONS = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_notScannableFileExtensions","").toLowerCase();
 	}
 			
@@ -214,112 +214,94 @@ public class ScanDirectoryMonitor implements Runnable{
     	
     	int result = 0; // -1 = 'faulty file', +1 = 'file accepted', 0 = 'file denied'
     	
-      	if(file.getName().startsWith("SCAN_")){
-            try{
-	    	    String sUDI = file.getName().substring(file.getName().indexOf("_")+1,file.getName().lastIndexOf(".")); // remove prefix and extension
-		        Debug.println("--> UDI : "+sUDI);
-		        
-		        // pad with zeroes until length of 11 chars
-		        if(sUDI.length() < 11){
-		        	while(sUDI.length()<11){
-                       sUDI = "0"+sUDI;		        		
-		        	}
-		        }
-		        Debug.println("--> UDI padded with 0 : "+sUDI);
-		        
-		        if(sUDI.length()==11){
-	        		if(validUDI(sUDI)){
-			        	if(!forced){	
-			        		//*** CONDITIONAL READ ******************************************
-				        	// check existence of archive-document
-				        	ArchiveDocument existingDoc = ArchiveDocument.get(sUDI);
-			        		if(existingDoc!=null){
-					        	// check existence of linked file
-			        			if(existingDoc.storageName.length() > 0){
-			                        File existingFile = new File(SCANDIR_BASE+"/"+SCANDIR_TO+"/"+existingDoc.storageName);
-					        		if(existingFile.exists()){
-					        			//*** ARCH_DOC FOUND, WITH EXISTING LINKED FILE ***
-						        	    Debug.println("WARNING : A file '"+existingDoc.storageName+"' exists for the archive-document with UDI '"+existingDoc.udi+"'."+
-						        	                  " --> incoming file '"+file.getName()+"' is a double file.");
-						        	    
-						        	    // must be read by a person before overwriting the existing file
-							        	File errFile = new File(SCANDIR_BASE+"/"+SCANDIR_ERR+"/"+file.getName().replaceAll("SCAN_","DOUBLE_"));
-						        	    moveFile(file,errFile);
-								        Debug.println("--> moved file to 'scanDirectoryMonitor_dirError' : "+SCANDIR_BASE+"/"+SCANDIR_ERR);
-								        result = -1; // err
-					        		}
-					        		else{
-					        			//*** ARCH_DOC FOUND, WITHOUT EXISTING LINKED FILE ***
-						        	    Debug.println("INFO : An archive-document with UDI '"+existingDoc.udi+"' exists, but its linked file does not."+
-					        		                  " --> saved incoming file as file for the archive-document");
-						        	    acceptIncomingFile(sUDI,file);
-								        result = 1; // acc
-					        		}
+        try{
+    	    String sUDI = "00000000000"+file.getName();
+	        Debug.println("--> UDI1 : "+sUDI);
+    	    //Remove extension
+    	    sUDI=sUDI.substring(0,sUDI.lastIndexOf("."));
+	        Debug.println("--> UDI2 : "+sUDI);
+    	    //Only take last 11 characters
+    	    sUDI=sUDI.substring(sUDI.length()-11);
+	        Debug.println("--> UDI3 : "+sUDI);
+	        
+	        if(sUDI.length()==11){
+        		if(validUDI(sUDI)){
+		        	if(!forced){	
+		        		//*** CONDITIONAL READ ******************************************
+			        	// check existence of archive-document
+			        	ArchiveDocument existingDoc = ArchiveDocument.get(sUDI);
+		        		if(existingDoc!=null){
+				        	// check existence of linked file
+		        			if(existingDoc.storageName.length() > 0){
+		                        File existingFile = new File(SCANDIR_BASE+"/"+SCANDIR_TO+"/"+existingDoc.storageName);
+				        		if(existingFile.exists()){
+				        			//*** ARCH_DOC FOUND, WITH EXISTING LINKED FILE ***
+					        	    Debug.println("WARNING : A file '"+existingDoc.storageName+"' exists for the archive-document with UDI '"+existingDoc.udi+"'."+
+					        	                  " --> incoming file '"+file.getName()+"' is a double file.");
+					        	    
+					        	    // must be read by a person before overwriting the existing file
+						        	File errFile = new File(SCANDIR_BASE+"/"+SCANDIR_ERR+"/"+file.getName().replaceAll("SCAN_","DOUBLE_"));
+					        	    moveFile(file,errFile);
+							        Debug.println("--> moved file to 'scanDirectoryMonitor_dirError' : "+SCANDIR_BASE+"/"+SCANDIR_ERR);
+							        result = -1; // err
 				        		}
 				        		else{
-				        			//*** ARCH_DOC FOUND, WITHOUT REGISTERED LINKED FILE ***
-					        	    Debug.println("INFO : An archive-document with UDI '"+existingDoc.udi+"' exists and it has no linked file."+
+				        			//*** ARCH_DOC FOUND, WITHOUT EXISTING LINKED FILE ***
+					        	    Debug.println("INFO : An archive-document with UDI '"+existingDoc.udi+"' exists, but its linked file does not."+
 				        		                  " --> saved incoming file as file for the archive-document");
 					        	    acceptIncomingFile(sUDI,file);
 							        result = 1; // acc
 				        		}
 			        		}
 			        		else{
-			        			//*** NO ARCH_DOC FOUND ***
-				        	    Debug.println("WARNING : No archive-document with UDI '"+sUDI+"' found."+
-	         		        	              " --> incoming file '"+file.getName()+"' is an orphan. Register an archive-document first.");
-				        	    
-				        	    // an archive-document, to attach the scan to, must be created first
-					        	File errFile = new File(SCANDIR_BASE+"/"+SCANDIR_ERR+"/"+file.getName().replaceAll("SCAN_","ORPHAN_"));
-				        	    moveFile(file,errFile);
-						        Debug.println("--> moved file to 'scanDirectoryMonitor_dirError' : "+SCANDIR_BASE+"/"+SCANDIR_ERR);
-						        result = -1; // err
+			        			//*** ARCH_DOC FOUND, WITHOUT REGISTERED LINKED FILE ***
+				        	    Debug.println("INFO : An archive-document with UDI '"+existingDoc.udi+"' exists and it has no linked file."+
+			        		                  " --> saved incoming file as file for the archive-document");
+				        	    acceptIncomingFile(sUDI,file);
+						        result = 1; // acc
 			        		}
-			        	}
-			        	else{
-			        		//*** UN-CONDITIONAL READ ***************************************
-		        			acceptIncomingFile(sUDI,file);
-					        result = 1; // acc
-			        	}
-	        		}
-	        		else{
-	        			//*** UDI NOT VALID ***
-		        	    Debug.println("WARNING : UDI '"+sUDI+"' is not valid (~ 9 first digit MOD 97 = last 2 digits).");
-		        	    
-			        	File errFile = new File(SCANDIR_BASE+"/"+SCANDIR_ERR+"/"+file.getName().replaceAll("SCAN_","INVUDI_"));
-		        	    moveFile(file,errFile);
-				        Debug.println("--> moved file to 'scanDirectoryMonitor_dirError' : "+SCANDIR_BASE+"/"+SCANDIR_ERR);
-				        result = -1; // err
-	        		}
-		        }
-		        else{
-		        	//*** INVALID UDI ***
-		        	Debug.println("WARNING : Invalid UDI; length must be 11");
-		        	
-			        File noscanFile = new File(SCANDIR_BASE+"/"+SCANDIR_ERR+"/"+file.getName().replaceAll("SCAN_","INVUDI_"));
-			    	moveFile(file,noscanFile);
-				    Debug.println("--> moved file to 'scanDirectoryMonitor_dirError' : "+SCANDIR_BASE+"/"+SCANDIR_ERR);
+		        		}
+		        		else{
+		        			//*** NO ARCH_DOC FOUND ***
+			        	    Debug.println("WARNING : No archive-document with UDI '"+sUDI+"' found."+
+         		        	              " --> incoming file '"+file.getName()+"' is an orphan. Register an archive-document first.");
+			        	    
+			        	    // an archive-document, to attach the scan to, must be created first
+				        	File errFile = new File(SCANDIR_BASE+"/"+SCANDIR_ERR+"/"+file.getName().replaceAll("SCAN_","ORPHAN_"));
+			        	    moveFile(file,errFile);
+					        Debug.println("--> moved file to 'scanDirectoryMonitor_dirError' : "+SCANDIR_BASE+"/"+SCANDIR_ERR);
+					        result = -1; // err
+		        		}
+		        	}
+		        	else{
+		        		//*** UN-CONDITIONAL READ ***************************************
+	        			acceptIncomingFile(sUDI,file);
+				        result = 1; // acc
+		        	}
+        		}
+        		else{
+        			//*** UDI NOT VALID ***
+	        	    Debug.println("WARNING : UDI '"+sUDI+"' is not valid (~ 9 first digit MOD 97 = last 2 digits).");
+	        	    
+		        	File errFile = new File(SCANDIR_BASE+"/"+SCANDIR_ERR+"/"+file.getName().replaceAll("SCAN_","INVUDI_"));
+	        	    moveFile(file,errFile);
+			        Debug.println("--> moved file to 'scanDirectoryMonitor_dirError' : "+SCANDIR_BASE+"/"+SCANDIR_ERR);
 			        result = -1; // err
-		        }
+        		}
 	        }
-	        catch(Exception e){
-	        	Debug.printStackTrace(e);
-	        }
-      	}
-      	else{
-        	//*** INVALID PREFIX ***
-      		Debug.println("WARNING : Filenames must begin with 'SCAN_' ("+file.getName()+")");
-      		
-      		try{ 
-	        	File errFile = new File(SCANDIR_BASE+"/"+SCANDIR_ERR+"/INVPREFIX_"+file.getName());
-	    	    moveFile(file,errFile);
-		        Debug.println("--> moved file to 'scanDirectoryMonitor_dirError' : "+SCANDIR_BASE+"/"+SCANDIR_ERR);
+	        else{
+	        	//*** INVALID UDI ***
+	        	Debug.println("WARNING : Invalid UDI; length must be 11");
+	        	
+		        File noscanFile = new File(SCANDIR_BASE+"/"+SCANDIR_ERR+"/"+file.getName().replaceAll("SCAN_","INVUDI_"));
+		    	moveFile(file,noscanFile);
+			    Debug.println("--> moved file to 'scanDirectoryMonitor_dirError' : "+SCANDIR_BASE+"/"+SCANDIR_ERR);
 		        result = -1; // err
-      		}
-	        catch(Exception e){
-	        	Debug.printStackTrace(e);
 	        }
-      	}
+        }
+        catch(Exception e){
+        	Debug.printStackTrace(e);
+        }
       	
       	return result;
     }

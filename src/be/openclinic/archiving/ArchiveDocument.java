@@ -654,6 +654,7 @@ public class ArchiveDocument extends OC_Object implements Comparable {
 	                    ps.setInt(9,(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_DOC_STORAGENAME"+sStorageName).hashCode());
 	                    ps.execute();
 	                    ps.close();	
+	                    //remove transaction from cache
 					}
 					
 					Debug.println("--> Storagename set in linked transaction '"+serverId+"."+tranId+"' to '"+sStorageName+"'");
