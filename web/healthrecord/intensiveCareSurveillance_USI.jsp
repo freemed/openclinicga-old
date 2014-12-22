@@ -354,7 +354,7 @@
   }
 
   function deleteSurveillance(set){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       window.open("<c:url value='/popup.jsp'/>?Page=/healthrecord/intensiveCareSurveillance_USI_add.jsp&trandate=<mxs:propertyAccessorI18N name="transaction" scope="page" property="updateTime" formatType="date"/>&CONTEXT_CONTEXT="+document.getElementById('context_context').value+"&CONTEXT_DEPARTMENT="+document.getElementById('context_department').value + "&DataSetNr="+set+"&Action=DELETE","","toolbar=no, status=no, scrollbars=no, resizable=no, menubar=no");
     }
   }

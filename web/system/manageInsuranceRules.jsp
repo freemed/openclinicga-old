@@ -72,8 +72,8 @@
 	                        }
 	                    %>
 	                </select>
-	                <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchPrestation();">
-                	<img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="EditForm.EditPrestationName.selectedIndex=-1;EditForm.tmpPrestationUID.value='';">
+	                <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchPrestation();">
+                	<img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="EditForm.EditPrestationName.selectedIndex=-1;EditForm.tmpPrestationUID.value='';">
 	            </td>
 	        </tr>
 	        <tr>
@@ -82,8 +82,8 @@
 		        <td class="admin2">
 		            <input type="hidden" name="EditInsurarUID" value="<%=sInsurarUid %>">
 		            <input type="text" class="text" readonly name="EditInsurarText" value="<%=sInsurarText %>" size="100">
-		            <img src="<c:url value="/_img/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchInsurar();">
-		            <img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="doClearInsurar()">
+		            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchInsurar();">
+		            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","clear",sWebLanguage)%>" onclick="doClearInsurar()">
 		        </td>
 		    </tr>
 		    <tr>
@@ -133,7 +133,7 @@
 			nDays=rs.getDouble("oc_insurancerule_period");
 			out.println("<tr class='list'>");
 			%>
-				<td><img src="<c:url value="/_img/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","delete",sWebLanguage)%>" onclick='selectPrestation("<%=iud%>","<%=pud %>",-1,-1);'></td>
+				<td><img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTran("Web","delete",sWebLanguage)%>" onclick='selectPrestation("<%=iud%>","<%=pud %>",-1,-1);'></td>
 			<%
 			out.print("<td><a href='javascript:selectPrestation(\""+iud+"\",\""+pud+"\","+nQuantity+","+nDays+");'>"+rs.getString("oc_insurar_name")+"</a></td><td>"+rs.getString("oc_prestation_description")+"</td><td>"+
 					nQuantity+"</td><td>"+nDays+"</td></tr>");

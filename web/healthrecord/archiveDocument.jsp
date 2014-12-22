@@ -114,8 +114,8 @@
 			                    }
 			                    else{
 			                    	// show link to open document, when server is configured
-			                    	String sServer = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_url")+"/"+
-			                    	                 MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_dirTo");
+			                    	String sServer = MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_url","http://localhost/openclinic/scan")+"/"+
+			                    	                 MedwanQuery.getInstance().getConfigString("scanDirectoryMonitor_dirTo","to");
 			                    	if(sServer.length() > 0){
 			                            %><a href="<%=sServer+"/"+sStorageName%>" target="_new"><%=sStorageName%></a><%
 			                        }
@@ -153,7 +153,7 @@
       %>
 	}
 	else{
-	  alertDialog("web.manage","datamissing");	
+	            window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');	
 	  
 	       if(document.getElementById("trandate").value.length==0) document.getElementById("trandate").focus();
       else if(document.getElementById("title").value.length==0) document.getElementById("title").focus();

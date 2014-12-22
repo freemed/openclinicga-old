@@ -533,7 +533,7 @@ function clearSeanceFields(){
 }
 
 function deleteSeance(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sSeances = deleteRowFromArrayString(sSeances,rowid.id);
     searchresults.deleteRow(rowid.rowIndex);
     clearSeanceFields();

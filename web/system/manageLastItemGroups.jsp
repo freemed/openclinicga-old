@@ -280,7 +280,7 @@
 
   <%-- DELETE DESTINATION ITEM --%>
   function deleteDestinationItem(rowid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.Action.value = "Delete";
       transactionForm.submit();
     }
@@ -288,7 +288,8 @@
           
   <%-- DELETE SOURCE ITEM --%>
   function deleteSourceItem(rowid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
+
       sSourceItems = deleteRowFromArrayString(sSourceItems,rowid.id);
       initSelectedSourceItemsArray(sSourceItems);
       tblSourceItems.deleteRow(rowid.rowIndex);

@@ -137,7 +137,7 @@
 
                                                             if(position==risk.getRiskPosition()){
                                                                 sTableRow+= "' ><b>&bull;"+level.attributeValue("value")+"</b></td>";
-                                                                //sTableRow+="'><img src='../_img/check.gif'/></td>";
+                                                                //sTableRow+="'><img src='../_img/themes/default/check.gif'/></td>";
                                                             }
                                                             else{
                                                                 sTableRow+= "'>"+level.attributeValue("value")+"</td>";
@@ -172,28 +172,28 @@
                                                 int risklevel = risk.getRiskLevel();
 
                                                 if(risklevel>=10){
-                                                    out.print("<tr><td align='center' width='30' bgcolor='red'><img src='"+sCONTEXTPATH+"/_img/check.gif'/></td><td>&ge;10%</td></tr>");
+                                                    out.print("<tr><td align='center' width='30' bgcolor='red'><img src='"+sCONTEXTPATH+"/_img/themes/default/check.gif'/></td><td>&ge;10%</td></tr>");
                                                 }
                                                 else{
                                                     out.print("<tr><td width='30' bgcolor='red'>&nbsp;</td><td>&ge;10%</td></tr>");
                                                 }
 
                                                 if(risklevel<10 && risklevel>=5){
-                                                    out.print("<tr><td align='center' width='30' bgcolor='orange'><img src='"+sCONTEXTPATH+"/_img/check.gif'/></td><td>5-9%</td></tr>");
+                                                    out.print("<tr><td align='center' width='30' bgcolor='orange'><img src='"+sCONTEXTPATH+"/_img/themes/default/check.gif'/></td><td>5-9%</td></tr>");
                                                 }
                                                 else{
                                                     out.print("<tr><td width='30' bgcolor='orange'>&nbsp;</td><td>5-9%</td></tr>");
                                                 }
 
                                                 if(risklevel<5 && risklevel>=2){
-                                                    out.print("<tr><td align='center' width='30' bgcolor='yellow'><img src='"+sCONTEXTPATH+"/_img/check.gif'/></td><td>2-4%</td></tr>");
+                                                    out.print("<tr><td align='center' width='30' bgcolor='yellow'><img src='"+sCONTEXTPATH+"/_img/themes/default/check.gif'/></td><td>2-4%</td></tr>");
                                                 }
                                                 else{
                                                     out.print("<tr><td width='30' bgcolor='yellow'>&nbsp;</td><td>2-4%</td></tr>");
                                                 }
 
                                                 if(risklevel<2){
-                                                    out.print("<tr><td align='center' width='30' bgcolor='lightgreen'><img src='"+sCONTEXTPATH+"/_img/check.gif'/></td><td>&lt;2%</td></tr>");
+                                                    out.print("<tr><td align='center' width='30' bgcolor='lightgreen'><img src='"+sCONTEXTPATH+"/_img/themes/default/check.gif'/></td><td>&lt;2%</td></tr>");
                                                 }
                                                 else{
                                                     out.print("<tr><td width='30' bgcolor='lightgreen'>&nbsp;</td><td>&lt;2%</td></tr>");
@@ -293,28 +293,28 @@
                                                             risklevel = risk.getRiskLevel();
 
                                                             if(risklevel>=10){
-                                                                out.print("<tr><td align='center' width='30' bgcolor='red'><img src='"+sCONTEXTPATH+"/_img/check.gif'/></td><td>&ge;10%</td></tr>");
+                                                                out.print("<tr><td align='center' width='30' bgcolor='red'><img src='"+sCONTEXTPATH+"/_img/themes/default/check.gif'/></td><td>&ge;10%</td></tr>");
                                                             }
                                                             else{
                                                                 out.print("<tr><td width='30' bgcolor='red'>&nbsp;</td><td>&ge;10%</td></tr>");
                                                             }
 
                                                             if(risklevel<10 && risklevel>=5){
-                                                                out.print("<tr><td align='center' width='30' bgcolor='orange'><img src='"+sCONTEXTPATH+"/_img/check.gif'/></td><td>5-9%</td></tr>");
+                                                                out.print("<tr><td align='center' width='30' bgcolor='orange'><img src='"+sCONTEXTPATH+"/_img/themes/default/check.gif'/></td><td>5-9%</td></tr>");
                                                             }
                                                             else{
                                                                 out.print("<tr><td width='30' bgcolor='orange'>&nbsp;</td><td>5-9%</td></tr>");
                                                             }
 
                                                             if(risklevel<5 && risklevel>=2){
-                                                                out.print("<tr><td align='center' width='30' bgcolor='yellow'><img src='"+sCONTEXTPATH+"/_img/check.gif'/></td><td>2-4%</td></tr>");
+                                                                out.print("<tr><td align='center' width='30' bgcolor='yellow'><img src='"+sCONTEXTPATH+"/_img/themes/default/check.gif'/></td><td>2-4%</td></tr>");
                                                             }
                                                             else{
                                                                 out.print("<tr><td width='30' bgcolor='yellow'>&nbsp;</td><td>2-4%</td></tr>");
                                                             }
 
                                                             if(risklevel<2){
-                                                                out.print("<tr><td align='center' width='30' bgcolor='lightgreen'><img src='"+sCONTEXTPATH+"/_img/check.gif'/></td><td>&lt;2%</td></tr>");
+                                                                out.print("<tr><td align='center' width='30' bgcolor='lightgreen'><img src='"+sCONTEXTPATH+"/_img/themes/default/check.gif'/></td><td>&lt;2%</td></tr>");
                                                             }
                                                             else{
                                                                 out.print("<tr><td width='30' bgcolor='lightgreen'>&nbsp;</td><td>&lt;2%</td></tr>");
@@ -427,28 +427,28 @@
                                             <%
                                                 risklevel = risk2.getRiskLevel();
                                                 if(risklevel>=10){
-                                                    out.print("<tr><td align='center' width='30' bgcolor='red'><img src='"+sCONTEXTPATH+"/_img/check.gif'/></td><td>&ge;10%</td></tr>");
+                                                    out.print("<tr><td align='center' width='30' bgcolor='red'><img src='"+sCONTEXTPATH+"/_img/themes/default/check.gif'/></td><td>&ge;10%</td></tr>");
                                                 }
                                                 else{
                                                     out.print("<tr><td width='30' bgcolor='red'>&nbsp;</td><td>&ge;10%</td></tr>");
                                                 }
 
                                                 if(risklevel<10 && risklevel>=5){
-                                                    out.print("<tr><td align='center' width='30' bgcolor='orange'><img src='"+sCONTEXTPATH+"/_img/check.gif'/></td><td>5-9%</td></tr>");
+                                                    out.print("<tr><td align='center' width='30' bgcolor='orange'><img src='"+sCONTEXTPATH+"/_img/themes/default/check.gif'/></td><td>5-9%</td></tr>");
                                                 }
                                                 else{
                                                     out.print("<tr><td width='30' bgcolor='orange'>&nbsp;</td><td>5-9%</td></tr>");
                                                 }
 
                                                 if(risklevel<5 && risklevel>=2){
-                                                    out.print("<tr><td align='center' width='30' bgcolor='yellow'><img src='"+sCONTEXTPATH+"/_img/check.gif'/></td><td>2-4%</td></tr>");
+                                                    out.print("<tr><td align='center' width='30' bgcolor='yellow'><img src='"+sCONTEXTPATH+"/_img/themes/default/check.gif'/></td><td>2-4%</td></tr>");
                                                 }
                                                 else{
                                                     out.print("<tr><td width='30' bgcolor='yellow'>&nbsp;</td><td>2-4%</td></tr>");
                                                 }
 
                                                 if(risklevel<2){
-                                                    out.print("<tr><td align='center' width='30' bgcolor='lightgreen'><img src='"+sCONTEXTPATH+"/_img/check.gif'/></td><td>&lt;2%</td></tr>");
+                                                    out.print("<tr><td align='center' width='30' bgcolor='lightgreen'><img src='"+sCONTEXTPATH+"/_img/themes/default/check.gif'/></td><td>&lt;2%</td></tr>");
                                                 }
                                                 else{
                                                     out.print("<tr><td width='30' bgcolor='lightgreen'>&nbsp;</td><td>&lt;2%</td></tr>");
@@ -542,28 +542,28 @@
                                                         <%
                                                             risklevel = risk2.getRiskLevel();
                                                             if(risklevel>=10){
-                                                                out.print("<tr><td align='center' width='30' bgcolor='red'><img src='"+sCONTEXTPATH+"/_img/check.gif'/></td><td>&ge;10%</td></tr>");
+                                                                out.print("<tr><td align='center' width='30' bgcolor='red'><img src='"+sCONTEXTPATH+"/_img/themes/default/check.gif'/></td><td>&ge;10%</td></tr>");
                                                             }
                                                             else{
                                                                 out.print("<tr><td width='30' bgcolor='red'>&nbsp;</td><td>&ge;10%</td></tr>");
                                                             }
 
                                                             if(risklevel<10 && risklevel>=5){
-                                                                out.print("<tr><td align='center' width='30' bgcolor='orange'><img src='"+sCONTEXTPATH+"/_img/check.gif'/></td><td>5-9%</td></tr>");
+                                                                out.print("<tr><td align='center' width='30' bgcolor='orange'><img src='"+sCONTEXTPATH+"/_img/themes/default/check.gif'/></td><td>5-9%</td></tr>");
                                                             }
                                                             else{
                                                                 out.print("<tr><td width='30' bgcolor='orange'>&nbsp;</td><td>5-9%</td></tr>");
                                                             }
 
                                                             if(risklevel<5 && risklevel>=2){
-                                                                out.print("<tr><td align='center' width='30' bgcolor='yellow'><img src='"+sCONTEXTPATH+"/_img/check.gif'/></td><td>2-4%</td></tr>");
+                                                                out.print("<tr><td align='center' width='30' bgcolor='yellow'><img src='"+sCONTEXTPATH+"/_img/themes/default/check.gif'/></td><td>2-4%</td></tr>");
                                                             }
                                                             else{
                                                                 out.print("<tr><td width='30' bgcolor='yellow'>&nbsp;</td><td>2-4%</td></tr>");
                                                             }
 
                                                             if(risklevel<2){
-                                                                out.print("<tr><td align='center' width='30' bgcolor='lightgreen'><img src='"+sCONTEXTPATH+"/_img/check.gif'/></td><td>&lt;2%</td></tr>");
+                                                                out.print("<tr><td align='center' width='30' bgcolor='lightgreen'><img src='"+sCONTEXTPATH+"/_img/themes/default/check.gif'/></td><td>&lt;2%</td></tr>");
                                                             }
                                                             else{
                                                                 out.print("<tr><td width='30' bgcolor='lightgreen'>&nbsp;</td><td>&lt;2%</td></tr>");

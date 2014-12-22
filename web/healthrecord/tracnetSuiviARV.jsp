@@ -615,7 +615,7 @@ if (sSummary.indexOf("£")>-1){
   }
 
   function deleteSuivi(rowid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sSuivi = deleteRowFromArrayString(sSuivi,rowid.id);
       tblSuivi.deleteRow(rowid.rowIndex);
       clearSuiviFields();
@@ -734,7 +734,7 @@ if (sSummary.indexOf("£")>-1){
   }
 
   function deleteSummary(rowid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sSummary = deleteRowFromArrayString(sSummary,rowid.id);
       tblSummary.deleteRow(rowid.rowIndex);
       clearSummaryFields();

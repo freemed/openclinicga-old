@@ -639,7 +639,7 @@
     }
     else{
       maySubmit = false;
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
 
     return maySubmit;
@@ -647,7 +647,7 @@
 
   <%-- DO DELETE --%>
   function doDelete(medicationUid){
-	if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.EditMedicationUid.value = medicationUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();

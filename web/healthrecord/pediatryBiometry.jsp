@@ -493,7 +493,7 @@ function updateBio(){
 
 <%-- DELETE BIO --%>
 function deleteBio(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sBio = deleteRowFromArrayString(sBio,rowid.id);
     tblBio.deleteRow(rowid.rowIndex);
     clearBioFields();

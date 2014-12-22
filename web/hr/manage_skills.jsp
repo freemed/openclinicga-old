@@ -499,7 +499,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
    
       if(EditForm.lsLanguage.value.length==0) EditForm.lsLanguage.focus();
       else                                    EditForm.lsSpoken.focus();
@@ -572,7 +572,7 @@
       EditForm.ButtonUpdateLS.disabled = true;
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 
       if(EditForm.lsLanguage.value.length==0) EditForm.lsLanguage.focus();
       else                                    EditForm.lsSpoken.focus();
@@ -599,7 +599,7 @@
 
   <%-- DELETE LANGUAGE SKILL --%>
   function deleteLS(rowid){
-    if(yesnoDialog("web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sLS = deleteRowFromArrayString(sLS,rowid.id);
       tblLS.deleteRow(rowid.rowIndex);
       clearLSFields();

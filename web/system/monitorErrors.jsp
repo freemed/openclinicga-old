@@ -244,7 +244,7 @@
     }
     <%-- no dates given --%>
     else{
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       transactionForm.FindBegin.focus();
     }
   }
@@ -290,14 +290,14 @@
         untilDate = transactionForm.DelUntilDate.value;
 
     if(fromDate.length > 0 || untilDate.length > 0){
-  	  if(yesnoDialog("Web","areYouSureToDelete")){
+        if(yesnoDeleteDialog()){
         transactionForm.deleteRangeButton.disabled = true;
         transactionForm.Action.value = "deleteErrors";
         transactionForm.submit();
       }
     }
     else{
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 
            if(fromDate.length==0)  transactionForm.FromDate.focus();
       else if(untilDate.length==0) transactionForm.UntilDate.focus();

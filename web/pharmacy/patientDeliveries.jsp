@@ -131,7 +131,7 @@
 
 <script>
   function cancelOperation(uid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       document.getElementById('deleteoperation').value = uid;
       document.transactionForm.submit();
     }

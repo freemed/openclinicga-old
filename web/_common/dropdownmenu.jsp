@@ -413,7 +413,7 @@
       alertDialog("web","create.encounter.first");
     }
   }
-    
+
   <%-- READ BARCODE --%>
   function readBarcode(){
     openPopup("/_common/readBarcode.jsp&ts=<%=getTs()%>");
@@ -546,8 +546,12 @@
     openPopup("/_common/print/printPatient.jsp&Field=mijn&ts=<%=getTs()%>");
   }
     
+  function yesnoDeleteDialog(){
+	  return window.showModalDialog?yesnoDialog("Web","areYouSureToDelete"):yesnoDialog('','<%=getTranNoLink("Web","areYouSureToDelete",sWebLanguage)%>');
+  }
+
   function deletepaperprescription(prescriptionuid){
-	if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       window.open('<c:url value='/medical/deletePaperPrescription.jsp'/>?ts=<%=getTs()%>&prescriptionuid='+prescriptionuid,"delete","toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=1,height=1,menubar=no");
     }
   }
@@ -571,7 +575,7 @@
   <%-- CONFIRM LOGOUT --%>
   function confirmLogout(){
     if(verifyPrestationCheck()){
-      if(yesnoDialog("Web.occup","confirm.logout")){
+      if(window.showModalDialog?yesnoDialog("Web.occup","confirm.logout"):yesnoDialog('','<%=getTran("Web.occup","confirm.logout",sWebLanguage)%>')){
         document.location.href = '<c:url value='/logout.do'/>?ts=<%=getTs()%>';
       }
     }

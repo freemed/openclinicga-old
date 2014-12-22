@@ -14,22 +14,22 @@ function collapseAllSections(sectionCount){
 function toggleSection(sectionElem,imgElem){
   if(document.getElementById(imgElem).src.indexOf("minus.jpg") < 0){
     document.getElementById(sectionElem).style.display = "";
-    document.getElementById(imgElem).src = "_img/minus.jpg";
+    document.getElementById(imgElem).src = "_img/themes/default/minus.jpg";
   }
   else{
     document.getElementById(sectionElem).style.display = "none";
-    document.getElementById(imgElem).src = "_img/plus.jpg";
+    document.getElementById(imgElem).src = "_img/themes/default/plus.jpg";
   }
 }
 
 function showSection(sectionElem,imgElem){
   document.getElementById(sectionElem).style.display = "";
-  document.getElementById(imgElem).src = "_img/minus.jpg";
+  document.getElementById(imgElem).src = "_img/themes/default/minus.jpg";
 }
 
 function hideSection(sectionElem,imgElem){
   document.getElementById(sectionElem).style.display = "none";
-  document.getElementById(imgElem).src = "_img/plus.jpg";
+  document.getElementById(imgElem).src = "_img/themes/default/plus.jpg";
 }
 
 function selectAllPeri(onoff){

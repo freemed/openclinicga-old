@@ -320,12 +320,12 @@
 	       		transactionForm.EditMaxBatchSize.focus();
 	     	}
 
-	        alertDialog("web.manage","datamissing");
+	                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 	   	}
 	}
 	
 	function deleteLabProcedure(sLabProcedureUid){
-	  if(yesnoDialog("Web","areYouSureToDelete")){
+        if(yesnoDeleteDialog()){
 	   	transactionForm.EditLabProcedureUid.value = sLabProcedureUid;
 	   	transactionForm.Action.value = "delete";
 	   	transactionForm.submit();

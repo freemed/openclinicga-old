@@ -118,14 +118,14 @@
 
   function delValue(itemType,itemid,user){
     if(itemid==""){
-      if(yesnoDialog("web","areYouSureToDelete")){
+        if(yesnoDeleteDialog()){
         ajaxChangeSearchResults('_common/search/searchByAjax/editAutocompletionValues.jsp',transactionForm,"&itemType="+itemType+"&addOrDeleteValue=del&userID="+user,"ItemsValuesByType");
         ajaxChangeSearchResults("_common/search/searchByAjax/itemsTypesShow.jsp",transactionForm,'','selectedItemsTypes');
         ajaxChangeSearchResults("_common/search/searchByAjax/itemsTypesShow.jsp",transactionForm,"&itemTypeSelect="+itemType+"","ItemsValuesByType");
       }
     }
     else{
-      if(yesnoDialog("web","areYouSureToDelete")){
+        if(yesnoDeleteDialog()){
         ajaxChangeSearchResults('_common/search/searchByAjax/editAutocompletionValues.jsp',transactionForm,"&addOrDeleteValue=del&itemid="+itemid,"ItemsValuesByType");
         ajaxChangeSearchResults("_common/search/searchByAjax/itemsTypesShow.jsp",transactionForm,"&itemTypeSelect="+itemType+"","ItemsValuesByType");
       }

@@ -21,9 +21,10 @@
       window.showModalDialog(popupUrl,"",modalities);
     }
     else{
-      alert(labelId); // FF          
+      alert(sMsg); // FF          
     }
   }
+
 
   <%-- YESNO DIALOG --%>
   function yesnoDialog(labelType,labelId){
@@ -35,7 +36,7 @@
       answer = window.showModalDialog(popupUrl,"",modalities);
     }
     else{
-      answer = window.confirm(labelId);          
+    	answer = window.confirm(labelId);          
     }
     
     return answer; // FF

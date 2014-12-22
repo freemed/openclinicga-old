@@ -162,7 +162,7 @@
 
     <script>
       function deleteLabel(sLabelType, sLabelID, sLabelLang){
-  	    if(yesnoDialog("Web","areYouSureToDelete")){
+          if(yesnoDeleteDialog()){
           transactionForm.EditLabelType.value = sLabelType;
           transactionForm.EditLabelID.value = sLabelID;
           transactionForm.EditLabelLang.value = sLabelLang;

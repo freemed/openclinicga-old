@@ -56,7 +56,7 @@
   %>
 
   function doArchive(){
-    if(yesnoDialog("web.manage","areyousuretoarchiveactivefile")){
+      if(window.showModalDialog?yesnoDialog("web.manage","areyousuretoarchiveactivefile"):yesnoDialog('','<%=getTran("web.manage","areyousuretoarchiveactivefile",sWebLanguage)%>')){
       archiveForm.Action.value = 'Archive';
       archiveForm.archiveButton.disabled = true;
       archiveForm.submit();

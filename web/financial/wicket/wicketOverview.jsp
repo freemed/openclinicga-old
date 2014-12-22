@@ -437,7 +437,7 @@
   <%-- SHOW OVERVIEW --%>
   function showOverview(){
     if(SearchForm.FindWicketUid.value.length==0){
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       SearchForm.FindWicketUid.focus();
     }
     else{
@@ -508,7 +508,7 @@
 
   <%-- DELETE WICKET OPERATION --%>
   function deleteWicketOperation(wicketOpUid,type,wicketUid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       if(type=="Debet"){
         window.location.href = "<c:url value='/main.do'/>?Page=financial/wicket/manageWicketOperationDebet.jsp"+
                                "&EditWicketOperationUid="+wicketOpUid+

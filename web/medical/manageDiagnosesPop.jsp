@@ -558,7 +558,7 @@
        && FindDiagnosisForm.FindDiagnosisToGravity.value==""
        && FindDiagnosisForm.FindDiagnosisAuthor.value==""
        && FindDiagnosisForm.FindDiagnosisAuthorName.value==""){
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
     else{
       FindDiagnosisForm.FindButton.disabled = true;

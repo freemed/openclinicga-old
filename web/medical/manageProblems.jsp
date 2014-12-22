@@ -479,7 +479,7 @@
         && FindProblemForm.FindProblemCodeType.value == ""
         && FindProblemForm.FindProblemCertainty.value == ""
         && FindProblemForm.FindProblemGravity.value == ""){
-        alertDialog("web.manage","datamissing");
+                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
     else {
       FindProblemForm.FindButton.disabled = true;
@@ -548,7 +548,7 @@
   }
 
   function doDelete(problem){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       window.location = "<c:url value='/popup.jsp'/>?Page=medical/manageProblems.jsp&Action=DELETE&DeleteUID="+problem+"&ts=<%=getTs()%>";
     }
   }

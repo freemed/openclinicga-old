@@ -279,7 +279,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       
       <%-- focus empty field --%>
       if(document.getElementById("name").value.length==0) document.getElementById("name").focus();          
@@ -349,7 +349,7 @@
   
   <%-- DELETE SUPPLIER --%>
   function deleteSupplier(){ 
-    if(yesnoDialog("web","areYouSureToDelete")){                 
+      if(yesnoDeleteDialog()){
       disableButtons();
       
       var url = "<c:url value='/assets/ajax/supplier/deleteSupplier.jsp'/>?ts="+new Date().getTime();

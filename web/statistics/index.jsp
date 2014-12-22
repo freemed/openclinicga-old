@@ -188,6 +188,7 @@
                   writeTblChildWithCodeNoButton("javascript:downloadStats(\"user.list\",\"admin\");",getTran("Web","statistics.download.userlist",sWebLanguage))+
                   writeTblChildWithCodeNoButton("javascript:downloadStats(\"service.list\",\"openclinic\");",getTran("Web","statistics.download.servicelist",sWebLanguage))+
                   writeTblChildWithCodeNoButton("javascript:downloadStats(\"debet.list\",\"openclinic\");",getTran("Web","statistics.download.debetlist",sWebLanguage))+
+                  writeTblChildWithCodeNoButton("javascript:downloadStats(\"debet.list.per.encounter\",\"openclinic\");",getTran("Web","statistics.download.debetlist.per.encounter",sWebLanguage))+
                   writeTblChildWithCodeNoButton("javascript:downloadStats(\"prestation.list\",\"openclinic\");",getTran("Web","statistics.download.prestationlist",sWebLanguage))+
                   writeTblChildWithCodeNoButton("javascript:downloadStats(\"wicketcredits.list\",\"openclinic\");",getTran("Web","statistics.download.wicketcredits",sWebLanguage))+
                   writeTblChildWithCodeNoButton("javascript:downloadStats(\"hmk.invoices.list\",\"openclinic\");",getTran("Web","statistics.download.invoicessummary",sWebLanguage))+

@@ -159,7 +159,7 @@
           transactionForm.submit();
         }
         else{
-          alertDialog("web.manage","datamissing");
+                    window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 
           if(transactionForm.EditServerID.value.length==0){
              transactionForm.EditServerID.focus();
@@ -172,7 +172,7 @@
 
       <%-- DO DELETE --%>
       function doDelete() {
-    	if(yesnoDialog("Web","areYouSureToDelete")){
+          if(yesnoDeleteDialog()){
           transactionForm.saveButton.disabled = true;
           transactionForm.deleteButton.disabled = true;
           transactionForm.Action.value = "delete";

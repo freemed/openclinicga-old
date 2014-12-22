@@ -246,7 +246,7 @@
 
   <%-- DELETE ENCOUNTER --%>
   function deleteEncounter(id){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       var url = "<c:url value='/adt/ajaxActions/deleteEncounter.jsp'/>?EditEncounterUID="+id+"&ts="+new Date().getTime();
       new Ajax.Request(url,{
         onSuccess: function(resp){

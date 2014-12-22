@@ -48,7 +48,7 @@
 <%-- SECTION HEADER --%>
 <tr class="label" height="18">
     <td colspan="3">
-        <img id="img<%=sectionCount%>" src="<c:url value="/"/>/_img/plus.jpg" onClick="toggleSection('section<%=sectionCount%>','img<%=sectionCount%>');" class="link">&nbsp;
+        <img id="img<%=sectionCount%>" src="<c:url value="/"/>/_img/themes/default/plus.jpg" onClick="toggleSection('section<%=sectionCount%>','img<%=sectionCount%>');" class="link">&nbsp;
         <%=getTran("web","section",sWebLanguage)%> <%=sectionCount%>
     </td>
 </tr>
@@ -193,7 +193,7 @@
 <%-- SECTION HEADER --%>
 <tr class="label" height="18">
     <td colspan="3">
-        <img id="img<%=sectionCount%>" src="<c:url value="/"/>/_img/plus.jpg" onClick="toggleSection('section<%=sectionCount%>','img<%=sectionCount%>');" class="link">&nbsp;
+        <img id="img<%=sectionCount%>" src="<c:url value="/"/>/_img/themes/default/plus.jpg" onClick="toggleSection('section<%=sectionCount%>','img<%=sectionCount%>');" class="link">&nbsp;
         <%=getTran("web","section",sWebLanguage)%> <%=sectionCount%>
     </td>
 </tr>
@@ -420,7 +420,7 @@
 <%-- SECTION HEADER --%>
 <tr class="label" height="18">
     <td colspan="3">
-        <img id="img<%=sectionCount%>" src="<c:url value="/"/>/_img/plus.jpg" onClick="toggleSection('section<%=sectionCount%>','img<%=sectionCount%>');" class="link">&nbsp;
+        <img id="img<%=sectionCount%>" src="<c:url value="/"/>/_img/themes/default/plus.jpg" onClick="toggleSection('section<%=sectionCount%>','img<%=sectionCount%>');" class="link">&nbsp;
         <%=getTran("web","section",sWebLanguage)%> <%=sectionCount%>
     </td>
 </tr>
@@ -613,7 +613,7 @@
 <%-- SECTION HEADER --%>
 <tr class="label" height="18">
     <td colspan="3">
-        <img id="img<%=sectionCount%>" src="<c:url value="/"/>/_img/plus.jpg" onClick="toggleSection('section<%=sectionCount%>','img<%=sectionCount%>');" class="link">&nbsp;
+        <img id="img<%=sectionCount%>" src="<c:url value="/"/>/_img/themes/default/plus.jpg" onClick="toggleSection('section<%=sectionCount%>','img<%=sectionCount%>');" class="link">&nbsp;
         <%=getTran("web","section",sWebLanguage)%> <%=sectionCount%>
     </td>
 </tr>
@@ -898,7 +898,7 @@
 <%-- SECTION HEADER --%>
 <tr class="label" height="18">
     <td colspan="3">
-        <img id="img<%=sectionCount%>" src="<c:url value="/"/>/_img/plus.jpg" onClick="toggleSection('section<%=sectionCount%>','img<%=sectionCount%>');" class="link">&nbsp;
+        <img id="img<%=sectionCount%>" src="<c:url value="/"/>/_img/themes/default/plus.jpg" onClick="toggleSection('section<%=sectionCount%>','img<%=sectionCount%>');" class="link">&nbsp;
         <%=getTran("web","section",sWebLanguage)%> <%=sectionCount%>
     </td>
 </tr>

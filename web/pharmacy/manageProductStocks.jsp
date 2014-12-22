@@ -1084,7 +1084,7 @@ public double getLastYearsAveragePrice(Product product){
        !transactionForm.EditBegin.value.length>0 ||
        !transactionForm.EditDefaultImportance.value.length>0){
       maySubmit = false;
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
     else{
       <%-- check levels --%>
@@ -1127,7 +1127,7 @@ public double getLastYearsAveragePrice(Product product){
 
   <%-- DO DELETE --%>
   function doDelete(stockUid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.EditStockUid.value = stockUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();
@@ -1225,7 +1225,7 @@ public double getLastYearsAveragePrice(Product product){
       transactionForm.submit();
     }
     else{
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
   }
 

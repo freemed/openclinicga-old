@@ -142,7 +142,7 @@
 	  transactionForm.submit();
 	}
 	else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       document.getElementById("destination1").focus();
 	}
   }

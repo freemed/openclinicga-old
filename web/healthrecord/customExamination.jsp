@@ -375,7 +375,7 @@ Displayed using template '<%=screen.getUid()%>' saved at <%=ScreenHelper.stdDate
 	}
 	else{
       focusFirstEmptyRequiredField();
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 	}
   }
   

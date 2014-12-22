@@ -194,7 +194,7 @@
 <script>
   <%-- DELETE DEFAULT VALUE --%>
   function deleteDefaultValue(itemTypeAttributeId){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.Action.value = "delete";
       transactionForm.ItemTypeAttributeId.value = itemTypeAttributeId;
       transactionForm.backButton.disabled = true;  

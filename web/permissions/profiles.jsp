@@ -461,7 +461,7 @@
     
   <%-- DO DELETE --%>
   function doDelete(profileId,profileName){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       document.location.href = "<%=sCONTEXTPATH%>/main.do?Page=permissions/profiles.jsp&DeletePermissionID="+profileId+"&ts=<%=getTs()%>";
     }
   }

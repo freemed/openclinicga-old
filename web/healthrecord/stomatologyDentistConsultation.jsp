@@ -344,7 +344,7 @@ function addTooth(displayAlert){
   }
   else{
     if(displayAlert){
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
   }
 
@@ -411,7 +411,7 @@ function clearToothFields(){
 }
 
 function deleteTooth(rowid){
-  if(yesnoDialog("web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     vSelectedHashtable.remove(getCelFromRowString(getRowFromArrayString(sTeeth,rowid.id),0));
     sTeeth = deleteRowFromArrayString(sTeeth,rowid.id);
     tblTeeth.deleteRow(rowid.rowIndex);

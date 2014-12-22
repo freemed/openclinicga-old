@@ -381,7 +381,7 @@ function clearSAFields(){
 }
 
 function deleteSA(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sSA = deleteRowFromArrayString(sSA,rowid.id);
     tblSA.deleteRow(rowid.rowIndex);
     clearSAFields();

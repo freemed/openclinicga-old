@@ -22,7 +22,7 @@
             .append("<td align='center'>");
 
         if(sourceId.equals(activePatient.personid)){
-        	buf..append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' onclick=\"deleteFR(rowFR"+iTotal+");\" class='link' alt='").append(getTranNoLink("Web","delete",sWebLanguage)).append("'>");
+        	buf.append("<img src='"+sCONTEXTPATH+"/_img/icons/icon_delete.gif' onclick=\"deleteFR(rowFR"+iTotal+");\" class='link' alt='").append(getTranNoLink("Web","delete",sWebLanguage)).append("'>");
         }        
              
         buf.append("</td>")
@@ -217,7 +217,7 @@
                 }
                 // data missing
                 else{                    
-                  alertDialog("web.manage","datamissing");
+                            window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 
                   if(PatientEditForm.RDestinationId.value.length==0){
                     PatientEditForm.RDestinationFullName.focus();
@@ -283,7 +283,7 @@
               <%-- DELETE ALL FAMILY RELATIONS --%>
               function deleteAllFR(){
                 if(tblFR.rows.length > 1){
-                  if(yesnoDialog("Web","areYouSureToDelete")){
+                  if(yesnoDeleteDialog()){
                     deleteAllFRNoConfirm();
                   }
                 }
@@ -316,7 +316,7 @@
 
               <%-- DELETE FAMILY RELATION --%>
               function deleteFR(rowid){
-            	if(yesnoDialog("Web","areYouSureToDelete")){
+                  if(yesnoDeleteDialog()){
                   sFR = deleteRowFromArrayString(sFR,rowid.id);
                   initRelationsArray(sFR);
                   tblFR.deleteRow(rowid.rowIndex);

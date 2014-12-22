@@ -526,7 +526,7 @@
 
                 <%-- REMOVE LABANALYSIS --%>
                 function removeLabAnalysis(labid,comment,labCodeOther,labCode){
-                  if(yesnoDialog("Web","areYouSureToDelete")){
+                    if(yesnoDeleteDialog()){
                     editForm.LabID.value = labid;
                     editForm.Action.value = 'remLab';
                     editForm.LabComment.value = comment;
@@ -570,7 +570,7 @@
                       }
                   %>
                 ){
-                  alertDialog("web.manage","datamissing");
+                            window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 
                        if(editForm.EditProfileCode.value.length == 0){ editForm.EditProfileCode.focus(); }
                   <%
@@ -595,7 +595,7 @@
                   <script>
                     function checkDelete(){
                       if(editForm.EditProfileCode.value.length > 0){
-                  	    if(yesnoDialog("Web","areYouSureToDelete")){
+                          if(yesnoDeleteDialog()){
                           editForm.Action.value = 'delete';
                           editForm.submit();
                         }

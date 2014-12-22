@@ -124,7 +124,7 @@
 	       if($F("mealItemName").length==0) $("mealItemName").focus();
 	  else if($F("mealItemUnit").length==0) $("mealItemUnit").focus();
 
- 	  alertDialog("web.manage","dataMissing");
+ 	            window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 	}
   }
   

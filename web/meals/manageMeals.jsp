@@ -99,7 +99,7 @@
 	}
 	else{
 	  if($("mealName").value.length==0) $("mealName").focus();	  
-	  alertDialog("web.manage","dataMissing");
+	            window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 	}
   }
   

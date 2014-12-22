@@ -168,7 +168,7 @@
         <tr>
             <td class="admin"><%=getTran("web.finance","prestations",sWebLanguage)%></td>
             <td class="admin2">
-                <div id="divPrestations" class="searchResults" style="height:120px;;width:100%"></div>
+                <div id="divPrestations" class="searchResults" style="height:120px;width:100%"></div>
                 
                 <div style="padding-top:3px">
                     <input class="button" type="button" name="ButtonDebetSelectAll" id="ButtonDebetSelectAll" value="<%=getTranNoLink("web","selectall",sWebLanguage)%>" onclick="selectAll('cbDebet',true,'ButtonDebetSelectAll','ButtonDebetDeselectAll',true);">&nbsp;
@@ -181,7 +181,7 @@
         <tr>
             <td class="admin"><%=getTran("web.finance","credits",sWebLanguage)%></td>
             <td class="admin2">
-                <div id="divCredits" class="searchResults" style="height:120px;width:50%"></div>
+                <div id="divCredits" class="searchResults" style="height:120px;width:100%"></div>
                 
                 <div style="padding-top:3px">
                     <input class="button" type="button" name="ButtonInsurarInvoiceSelectAll" id="ButtonInsurarInvoiceSelectAll" value="<%=getTranNoLink("web","selectall",sWebLanguage)%>" onclick="selectAll('cbCredit',true,'ButtonInsurarInvoiceSelectAll','ButtonInsurarInvoiceDeselectAll',false);">&nbsp;
@@ -346,7 +346,7 @@
       });
     }
     else{
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
   }
 
@@ -390,10 +390,10 @@ function selectAll(sStartsWith,bValue,buttonDisable,buttonEnable,bAdd){
 
     if(elm.name.indexOf(sStartsWith) > -1){
       if(bValue){
-        elm.src = '_img/check.gif';
+        elm.src = '_img/themes/default/check.gif';
       }
       else{
-        elm.src = '_img/uncheck.gif'; 
+        elm.src = '_img/themes/default/uncheck.gif'; 
       }
     }
   }
@@ -411,10 +411,10 @@ function updateBalance2(){
 function doBalance(oObject,bAdd){
   var amount = oObject.name.split("=")[1];
   if(oObject.src.indexOf('/check.gif')>0){
-    oObject.src='_img/uncheck.gif';
+    oObject.src='_img/themes/default/uncheck.gif';
   }
   else{
-  	oObject.src='_img/check.gif';
+  	oObject.src='_img/themes/default/check.gif';
   }
   
   if(bAdd){

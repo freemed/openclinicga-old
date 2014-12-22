@@ -211,7 +211,7 @@
   <%-- DO DELETE --%>
   function doDelete(CategoryId){
     if(CategoryId.length > 0){
-      if(yesnoDialog("Web","areYouSureToDelete")){
+        if(yesnoDeleteDialog()){
         transactionForm.Action.value = "delete";
         transactionForm.submit();
       }
@@ -365,13 +365,13 @@
                     transactionForm.submit();
                   }
                   else{
-                    alertDialog("web.manage","dataMissing");
+                              window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
                     emptyLabelField.focus();
                   }
                 }
                 else{
                   transactionForm.EditCategoryCode.focus();
-                  alertDialog("web.manage","dataMissing");
+                            window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
                 }
               }
             </script>

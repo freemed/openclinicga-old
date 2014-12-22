@@ -233,7 +233,7 @@ function isAtLeastOnePsychologyFieldFilled(){
 }
 
 function deletePsychology(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sPsychology = deleteRowFromArrayString(sPsychology,rowid.id);
     tblPsychology.deleteRow(rowid.rowIndex);
     clearPsychologyFields();

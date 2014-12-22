@@ -337,7 +337,7 @@
 
   <%-- DELETE AUTHORIZED USER --%>
   function deleteAuthorizedUser(rowid){
-	if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sAuthorizedUsers = deleteRowFromArrayString(sAuthorizedUsers,rowid.id);
 
       <%-- update the hidden field containing just the userids --%>
@@ -419,7 +419,7 @@
 
   <%-- delete --%>
   function deleteWicket(id){
-	if(yesnoDialog("web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       window.location.href="<c:url value='/main.do'/>?Page=system/manageWickets.jsp&EditWicketUID="+id+"&Action=DELETE&ts=<%=getTs()%>";
 	}
   }

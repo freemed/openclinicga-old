@@ -164,7 +164,7 @@
 <script>              
   <%-- DO DELETE --%>
   function doDelete(prescriptionUid){
-	if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.EditPrescrUid.value = prescriptionUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();

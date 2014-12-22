@@ -501,7 +501,7 @@ function isAtLeastOneBeroepsFieldFilled(){
 }
 
 function deleteBeroep(rowid){
-  if(yesnoDialog("web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sBeroeps = deleteRowFromArrayString(sBeroeps,rowid.id);
     tblBeroeps.deleteRow(rowid.rowIndex);
     clearBeroepsFields();
@@ -589,7 +589,7 @@ function isAtLeastOneAOFieldFilled(){
 }
 
 function deleteArbeidsOngeval(rowid){
-  if(yesnoDialog("web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sAO = deleteRowFromArrayString(sAO,rowid.id);
     tblAO.deleteRow(rowid.rowIndex);
     clearArbeidsOngevalFields();
@@ -685,7 +685,7 @@ function isAtLeastOneBZFieldFilled(){
 }
 
 function deleteBZ(rowid){
-  if(yesnoDialog("web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sBZ = deleteRowFromArrayString(sBZ,rowid.id);
     tblBZ.deleteRow(rowid.rowIndex);
     clearBZFields();

@@ -408,7 +408,7 @@ function clearKinderenFields(){
 }
 
 function deleteKinderen(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sKinderen = deleteRowFromArrayString(sKinderen,rowid.id);
     tblKinderen.deleteRow(rowid.rowIndex);
     clearKinderenFields();
@@ -506,7 +506,7 @@ function clearFamiFields(){
 }
 
 function deleteFami(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sFami = deleteRowFromArrayString(sFami,rowid.id);
     tblFami.deleteRow(rowid.rowIndex);
     clearFamiFields();

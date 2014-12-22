@@ -667,7 +667,7 @@
       }
       else{
     	transactionForm.FindLabelLang.focus();
-    	alertDialog("web.manage","dataMissing");
+    	          window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       }
     }
     else if(action=="delete"){
@@ -675,7 +675,7 @@
         if(transactionForm.elements[i].type=="checkbox" &&
           transactionForm.elements[i].name.indexOf("checkbox$")>-1){
           if(transactionForm.elements[i].checked){
-            if(yesnoDialog("Web","areYouSureToDelete")){
+              if(yesnoDeleteDialog()){
               transactionForm.action.value = action;
               transactionForm.submit();
             }

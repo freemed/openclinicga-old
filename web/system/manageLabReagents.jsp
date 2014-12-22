@@ -207,13 +207,13 @@
 	  	transactionForm.EditLabReagentUnit.focus();
 	  }
 
-	  alertDialog("web.manage","dataMissing");
+	            window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 	}
   }
 	
   <%-- DELETE REAGENT --%>
   function deleteReagent(sLabReagentUid){
-	if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
 	  transactionForm.EditLabReagentUid.value = sLabReagentUid;
 	  transactionForm.Action.value = "delete";
 	  transactionForm.submit();

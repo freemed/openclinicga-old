@@ -118,7 +118,7 @@
 	}
 	else{
 	  transactionForm.UserTheme.focus();
-	  alertDialog("web.manage","dataMissing");
+	            window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 	}
   }
 </script>

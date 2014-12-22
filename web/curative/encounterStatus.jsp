@@ -72,7 +72,7 @@
                         <%=getTran("web","id",sWebLanguage)%>
                         <%
 	                        if(checkString(activeEncounter.getType()).equalsIgnoreCase("visit") && activeEncounter.getEnd()==null && activeUser.getAccessRight("adt.encounter.edit")){
-	                            %>&nbsp;<img class="link" src="<c:url value='/_img/keywords.gif'/>" onclick="closeEncounter('<%=activeEncounter.getUid() %>')" alt="<%=getTranNoLink("web","close",sWebLanguage)%>"  title="<%=getTran("web","close",sWebLanguage)%>" style="vertical-align:-4px;"/><% 
+	                            %>&nbsp;<img class="link" src="<c:url value='/_img/themes/default/keywords.jpg'/>" onclick="closeEncounter('<%=activeEncounter.getUid() %>')" alt="<%=getTranNoLink("web","close",sWebLanguage)%>"  title="<%=getTran("web","close",sWebLanguage)%>" style="vertical-align:-4px;"/><% 
 	                        }
                        	%>
                     </td>

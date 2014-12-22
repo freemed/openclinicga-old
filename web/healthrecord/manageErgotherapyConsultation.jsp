@@ -292,7 +292,7 @@
 	}
 
 	function deleteErgotherapy(rowid){
-	  if(yesnoDialog("Web","areYouSureToDelete")){
+        if(yesnoDeleteDialog()){
 	    sErgotherapy = deleteRowFromArrayString(sErgotherapy,rowid.id);
 	    tblErgotherapy.deleteRow(rowid.rowIndex);
 	    clearErgotherapyFields();

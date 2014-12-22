@@ -239,14 +239,14 @@
 <script>
   <%-- DELETE DIAGNOSIS --%>
   function deleteDiagnosis(itemid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       var index = itemid.parentNode.parentNode.rowIndex;
       document.getElementById("icpccodesTable").deleteRow(index);
     }
   }
   
   function deleteRFE(serverid,objectid){
-	if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       var params = "serverid="+serverid+"&objectid="+objectid+"&encounterUid=<%=activeEncounterUid%>&language=<%=sWebLanguage%>";
       var url= '<c:url value="/healthrecord/deleteRFE.jsp"/>?ts='+new Date();
       new Ajax.Request(url,{

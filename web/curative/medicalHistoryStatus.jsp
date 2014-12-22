@@ -188,10 +188,16 @@ try{
                                                                             <a href="<c:url value='/healthrecord/editTransaction.do'/>?be.mxs.healthrecord.createTransaction.transactionType=<%=transactionType%>&be.mxs.healthrecord.transaction_id=<%=transactionVO.getTransactionId()%>&be.mxs.healthrecord.server_id=<%=transactionVO.getServerId()%>&ts=<%=getTs()%>" onMouseOver="window.status='';return true;">
                                                                                 <%=getTran("web.occup",transactionType,sWebLanguage)%>
                                                                                 <%
-                                                                                    String sReference = transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_REFERENCE");
-                                                                                    if(sReference.length() > 0){
-                                                                                        %>(<%=sReference%>)<%                                                                                    	
+                                                                                String sReference = transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_UDI");
+                                                                                if(sReference.length() > 0){
+                                                                                    %>(<%=sReference%> - <%=transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_TITLE") %>)<%                                                                                    	
+                                                                                    String sStorageName = transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_STORAGENAME");
+                                                                                    if(sStorageName.length() == 0){
+                                                                                        %>
+                                                                                        	<img src='<c:url value="_img/icons/icon_upload.gif"/>' onclick='document.getElementById("fileuploadid").value="<%=sReference %>";document.getElementById("uploadtransactionid").value="<%=transactionVO.getServerId()+"."+transactionVO.getTransactionId() %>";document.getElementById("fileupload").click();return false'/>
+                                                                                        <%                                                                                    	
                                                                                     }
+                                                                                }
                                                                                 %>
                                                                             </a>
                                                                         <%
@@ -261,8 +267,38 @@ try{
         </tr>
     </form>
 </table>
+<form target="_newForm" name="uploadForm" action="<c:url value='/healthrecord/archiveDocumentUpload.jsp'/>" method="post" enctype="multipart/form-data">
+	<input type='hidden' name='fileuploadid' id='fileuploadid'/>
+	<input type='hidden' name='uploadtransactionid' id='uploadtransactionid'/>
+	<input style='display: none' class="text" id='fileupload' name="filename" type="file" title=""  onchange="uploadFile();"/>
+</form>
 
 <script>
+function uploadFile(){
+    if(uploadForm.filename.value.length>0){
+      uploadForm.submit();
+    }
+    window.setTimeout('checkArchiveDocument()','1000');
+  }
+
+function checkArchiveDocument(){
+    var url = "<%=sCONTEXTPATH%>/util/checkArchiveDocument.jsp?ts="+new Date().getTime();
+    new Ajax.Request(url,{
+      parameters: "tranid="+document.getElementById('uploadtransactionid').value,
+         onSuccess: function(resp){
+        	 if(trim(resp.responseText).indexOf("true")>-1){
+        		 window.location.href = "<%=sCONTEXTPATH%>/main.do?Page=curative/index.jsp";	 
+        	 }
+        	 else {
+       		    window.setTimeout('checkArchiveDocument()','1000');
+        	 }
+         },
+      onFailure: function(resp){
+        alert("ERROR :\n"+resp.responseText);
+      }
+    });
+}
+
   <%-- DEL TRAN --%>
   function deltran(transactionId,serverId,userId){
     var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
@@ -276,7 +312,7 @@ try{
       }
     }
     else{
-      if(yesnoDialog("Web","areYouSureToDelete")){
+        if(yesnoDeleteDialog()){
         window.location.href="<c:url value='/healthrecord/manageDeleteTransaction.do'/>?transactionId="+transactionId+"&serverId="+serverId+"&ts=<%=getTs()%>&be.mxs.healthrecord.updateTransaction.actionForwardKey=/main.do?Page=curative/index.jsp&ts=<%=getTs()%>";
       }
     }

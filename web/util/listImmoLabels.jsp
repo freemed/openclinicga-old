@@ -307,7 +307,7 @@
       immoForm.submit();
 	}
 	else{
-	  alertDialog("web.manage","dataMissing");
+	            window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 	}
   }
 
@@ -344,7 +344,7 @@
 
   <%-- DELETE IMMO --%>
   function deleteImmo(serverId,objectId){
-    if(yesnoDialog("web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       document.getElementById("serverId").value = serverId;
       document.getElementById("objectId").value = objectId;
 		

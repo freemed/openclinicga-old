@@ -847,7 +847,7 @@
 
   <%-- DELETE AUTHORIZED USER --%>
   function deleteAuthorizedUser(rowid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sAuthorizedUsers = deleteRowFromArrayString(sAuthorizedUsers,rowid.id);
 
       <%-- update the hidden field containing just the userids --%>
@@ -951,7 +951,7 @@
 
   <%-- DO DELETE SERVICE STOCK --%>
   function doDelete(stockUid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.EditStockUid.value = stockUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();

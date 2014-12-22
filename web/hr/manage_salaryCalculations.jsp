@@ -241,7 +241,7 @@
   function showPrevMonth(){
     if($("DisplayedMonth").value.length==0){
       $("DisplayedMonth").focus();
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
     else{
       var dispMonth = makeDate("01/"+toMonthFormat($("DisplayedMonth").value));
@@ -255,7 +255,7 @@
   function showNextMonth(){
     if($("DisplayedMonth").value.length==0){
       $("DisplayedMonth").focus();
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
     else{
       var dispMonth = makeDate("01/"+toMonthFormat($("DisplayedMonth").value));
@@ -269,7 +269,7 @@
   function showCalendar(sDate){
     if($("DisplayedMonth").value.length==0){
       $("DisplayedMonth").focus();
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
     else{
       var sOrigDate = $("DisplayedMonth").value;
@@ -336,7 +336,7 @@
 
   <%-- CREATE SALARY CALCULATIONS FOR LEAVES AND WORKSCHEDULES (for displayed month) --%>
   function createSalaryCalculationsForLeavesAndWorkschedules(personId){
-    if(yesnoDialog("web","areYouSure")){
+      if(yesnoDeleteDialog()){
       var dispMonth = makeDate("01/"+toMonthFormat($("DisplayedMonth").value));
       var nextMonth = dispMonth.getMonth()+2;
         
@@ -460,7 +460,7 @@
          if(e.target) source = e.target;
     else if(e.srcElement) source = e.srcElement;
           
-    if(yesnoDialog("web","areYouSureToDelete")){
+         if(yesnoDeleteDialog()){
       var url = "<c:url value='/hr/ajax/salarycalculations/editCalculation.jsp'/>?ts="+new Date().getTime();
       var params = "Action=delete"+
                    "&SalCalUID="+source.calculationUID;      
@@ -478,7 +478,7 @@
   
   <%-- DELETE CALCULATION THRU UID --%>
   function deleteCalculationThruUID(salCalUID){
-    if(yesnoDialog("web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       var url = "<c:url value='/hr/ajax/salarycalculations/editCalculation.jsp'/>?ts="+new Date().getTime();
       var params = "Action=delete"+
                    "&SalCalUID="+salCalUID;      
@@ -511,7 +511,7 @@
     
     <%-- add data which were entered but not yet added --%>
     if(document.getElementById("addDuration").value.length > 0 && document.getElementById("addCode").value.length > 0){
-      if(yesnoDialog("web","firstAddData")==1){
+        if(window.showModalDialog?yesnoDialog("web","firstAddData"):yesnoDialog('','<%=getTran("web","firstAddData",sWebLanguage)%>')){
         okToSubmit = addCC();
       }
     }
@@ -568,7 +568,7 @@
     
     <%-- add data which were entered but not yet added --%>
     if(document.getElementById("addDuration").value.length > 0 && document.getElementById("addCode").value.length > 0){
-      if(yesnoDialog("web","firstAddData")==1){
+        if(window.showModalDialog?yesnoDialog("web","firstAddData"):yesnoDialog('','<%=getTran("web","firstAddData",sWebLanguage)%>')){
         okToSubmit = addCC();
       }
     }
@@ -594,7 +594,7 @@
     if(okToSubmit){
       if(document.getElementById("Begin").value.length==0){
         document.getElementById("Begin").focus();
-        alertDialog("web.manage","dataMissing");
+                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
         okToSubmit = false;
       }
     } 
@@ -602,7 +602,7 @@
     if(okToSubmit){
       if(document.getElementById("End").value.length==0){
         document.getElementById("End").focus();
-        alertDialog("web.manage","dataMissing");
+                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
         okToSubmit = false;
       }
     }
@@ -688,7 +688,7 @@
   
   <%-- DELETE Calculation Code --%>
   function deleteCC(rowid){ 
-    if(yesnoDialog("web","areYouSureToDelete")==1){
+      if(yesnoDeleteDialog()){
       sCC = deleteRowFromArrayString(sCC,rowid.id);
       
       var tblCC = document.getElementById("tblCC"); // FF
@@ -742,7 +742,7 @@
     if(okToAdd){
       if(document.getElementById("addDuration").value.length==0){
         document.getElementById("addDuration").focus();
-        alertDialog("web.manage","dataMissing");
+                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
         okToAdd = false;
       }
     }
@@ -750,7 +750,7 @@
     if(okToAdd){
       if(document.getElementById("addCode").value.length==0){
         document.getElementById("codeAndLabel").focus();
-        alertDialog("web.manage","dataMissing");
+                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
         okToAdd = false;
       }
     }
@@ -844,7 +844,7 @@
 
   <%-- DELETE Calculation Code --%>
   function deleteCC(rowid){ 
-    if(yesnoDialog("web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sCC = deleteRowFromArrayString(sCC,rowid.id);
       tblCC.deleteRow(rowid.rowIndex);
       clearCCFields();

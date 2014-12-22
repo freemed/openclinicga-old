@@ -112,7 +112,7 @@
             <td class="admin2" style="vertical-align:top;padding-top:3px;">
                 <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NURSE_PROBLEMS")%> class="text" cols="60" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NURSE_PROBLEMS" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NURSE_PROBLEMS" property="value"/></textarea>
             </td>
-            <td colspan="2">
+            <td colspan="2" class='admin2'>
                 <%-- PROBLEM LIST --%>
                 <table width="100%">
                     <tr class="admin">

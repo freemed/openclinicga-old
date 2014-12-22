@@ -371,7 +371,7 @@
   <%-- DO DELETE --%>
   function doDelete(serviceId){
     if(serviceId.length > 0){
-      if(yesnoDialog("Web","areYouSureToDelete")){
+        if(yesnoDeleteDialog()){
         transactionForm.Action.value = "delete";
         transactionForm.submit();
       }
@@ -893,12 +893,12 @@
                       transactionForm.submit();
                     }
                     else{
-                        alertDialog("web.manage","datamissing");
+                                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
                         emptyLabelField.focus();
                     }
                   }
                   else{
-                    alertDialog("web.manage","datamissing");
+                              window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
                     
                     if(transactionForm.EditServiceCode.value.length==0){
                       transactionForm.EditServiceCode.focus();

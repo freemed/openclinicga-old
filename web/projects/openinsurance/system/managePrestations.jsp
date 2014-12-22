@@ -376,7 +376,7 @@
   }
 
   function deletePrestation(sPrestationUid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.EditPrestationUid.value = sPrestationUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();
@@ -511,7 +511,7 @@
   }
 
   function deleteCategory(rowid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sCategory = deleteRowFromArrayString(sCategory,rowid.id.substring(11,rowid.id.length-1));
       tblCategories.deleteRow(rowid.rowIndex);
       clearCategoryFields();

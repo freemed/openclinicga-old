@@ -466,7 +466,7 @@
     }
     else{
       maySubmit = false;
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
 
     return maySubmit;
@@ -474,7 +474,7 @@
 
   <%-- DO DELETE --%>
   function doDelete() {
-	if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.saveButton.disabled = true;
       transactionForm.deleteButton.disabled = true;
       transactionForm.Action.value = "delete";

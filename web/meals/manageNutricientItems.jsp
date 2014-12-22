@@ -71,7 +71,7 @@
            if($F("nutricientItemName").length==0) $("nutricientItemName").focus();
  	  else if($F("nutricientItemUnit").length==0) $("nutricientItemUnit").focus();
 	 	  
- 	  alertDialog("web.manage","dataMissing");
+ 	            window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 	}
   }
   

@@ -278,7 +278,7 @@
   }
 
   function doDelete(){
-	if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       window.location="<c:url value='/main.do'/>?Page=util/createProject/createProject.jsp&action=delete&projectName=<%=projectName%>&ts=<%=getTs()%>";
     }
   }

@@ -272,7 +272,7 @@ function clearImagesInformationFields(){
 }
 
 function deleteImagesInformation(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sImagesInformation = deleteRowFromArrayString(sImagesInformation,rowid.id);
     tblImagesInformation.deleteRow(rowid.rowIndex);
     clearImagesInformationFields();

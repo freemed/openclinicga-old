@@ -323,7 +323,7 @@ function clearToothFields(){
 }
 
 function deleteTooth(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     vSelectedHashtable.remove(getCelFromRowString(getRowFromArrayString(sTeeth,rowid.id),0));
     sTeeth = deleteRowFromArrayString(sTeeth,rowid.id);
     tblTeeth.deleteRow(rowid.rowIndex);

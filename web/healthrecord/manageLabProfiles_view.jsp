@@ -672,7 +672,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
 
                 <%-- REMOVE LABANALYSIS --%>
                 function removeLabAnalysis(labid,comment,labCodeOther,labCode){
-                  if(yesnoDialog("Web","areYouSureToDelete")){
+                    if(yesnoDeleteDialog()){
                     editForm.LabID.value = labid;
                     editForm.Action.value = 'remLab';
                     editForm.LabComment.value = comment;
@@ -704,7 +704,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
       <script>
         function checkSave(){
           if(editForm.EditProfileCode.value.length == 0 || editForm.EditNL.value == "" || editForm.EditFR.value == ""){
-            alertDialog("web.manage","datamissing");
+                      window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 
                  if(editForm.EditProfileCode.value.length == 0){ editForm.EditProfileCode.focus(); }
             else if(editForm.EditNL.value == ""){ editForm.EditNL.focus(); }
@@ -726,7 +726,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
           <script>
             function checkDelete(){
               if(editForm.EditProfileCode.value.length > 0){
-                if(yesnoDialog("Web","areYouSureToDelete")){
+                if(yesnoDeleteDialog()){
                   editForm.Action.value = 'delete';
                   editForm.submit();
                 }

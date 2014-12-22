@@ -361,7 +361,7 @@
       for(i=0; i<transactionForm.elements.length; i++){
         if(transactionForm.elements[i].type=="checkbox" && transactionForm.elements[i].name.indexOf("checkbox$")>-1){
           if(transactionForm.elements[i].checked==true){
-      	    if(yesnoDialog("Web","areYouSureToDelete")){
+              if(yesnoDeleteDialog()){
               transactionForm.action.value = action;
               transactionForm.submit();
             }

@@ -1245,7 +1245,7 @@
     }
     else{
       maySubmit = false;
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
 
     return maySubmit;
@@ -1253,7 +1253,7 @@
 
   <%-- DO DELETE --%>
   function doDelete(prescriptionUid){
-	if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.EditPrescrUid.value = prescriptionUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();
@@ -1352,7 +1352,7 @@
       transactionForm.submit();
     }
     else{
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
   }
 

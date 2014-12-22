@@ -547,7 +547,7 @@
 
   <%-- DELETE LAB ANALYSIS --%>
   function deleteLA(rowid,monster){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sLA = deleteRowFromArrayString(sLA,rowid.id);
       initLabAnalysisArray(sLA);
       removeFromMonsterList(monster);
@@ -590,6 +590,7 @@
         for(n=0; n<analysestoadd.length; n++){
           addLabAnalysis(analysestoadd[n].split("$")[0],analysestoadd[n].split("$")[1],analysestoadd[n].split("$")[2],analysestoadd[n].split("$")[3],analysestoadd[n].split("$")[4]);
         }
+        updateRowStyles();
       },
       onFailure: function(){
         alert("error");
@@ -618,6 +619,7 @@
 
         <%-- insert cells in row --%>
         var td = tr.insertCell(0);
+        td.width='18';
         td.innerHTML = "<center><a href=\"#\" onclick=\"deleteLA(rowLA"+iIndexLA+",'"+monster+"');\"><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a></center>";
         tr.appendChild(td);
 
@@ -658,6 +660,8 @@
         addToMonsterList(monster);
       }
     }
+    updateRowStyles();
+
   }
 
   <%-- DO BACK --%>
@@ -711,7 +715,7 @@
   <%-- DELETE ALL LABANALYSIS --%>
   function deleteAllLA(){
     if(tblLA.rows.length > 1){
-      if(yesnoDialog("Web","areYouSureToDelete")){
+        if(yesnoDeleteDialog()){
         deleteAllLANoConfirm();
       }
     }

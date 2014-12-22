@@ -225,7 +225,7 @@
       if(document.getElementById("weekScheduleType").value.length==0){
         okToSubmit = false;
         document.getElementById("weekScheduleType").focus();
-        alertDialog("web.manage","dataMissing");
+                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       }
     }
     
@@ -300,7 +300,7 @@
         
   <%-- DELETE WEEKSCHEDULE --%>
   function deleteWeekschedule(){
-    if(yesnoDialog("Web","areYouSureToDelete")){              
+      if(yesnoDeleteDialog()){
       var url = "<c:url value='/system/ajax/defaultWeekschedules/deleteDefaultWeekschedule.jsp'/>?ts="+new Date().getTime();
 
       <%-- disable buttons --%>
@@ -607,7 +607,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       
       <%-- focus empty field --%>
       if(EditForm.tbDuration.value.length==0) EditForm.tbDuration.focus();
@@ -687,7 +687,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     
       <%-- focus empty field --%>
       if(EditForm.tbDuration.value.length==0) EditForm.tbDuration.focus();
@@ -718,7 +718,7 @@
   
   <%-- DELETE TIME BLOCK --%>
   function deleteTB(rowid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sTB = deleteRowFromArrayString(sTB,rowid.id);
       tblTB.deleteRow(rowid.rowIndex);
       clearTBFields();

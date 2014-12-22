@@ -65,7 +65,7 @@
   
   <%-- DELETE SERVICE --%>
   function deleteService(serviceUid,serviceVersion){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
 	  var url = "<c:url value=''/>center/ajax/deleteService.jsp?ts=<%=getTs()%>";
 	  new Ajax.Request(url,{
 	    parameters:"ServiceUid="+serviceUid+

@@ -988,7 +988,7 @@
        !transactionForm.EditUnitPrice.value.length>0 ||
        !transactionForm.EditPackageUnits.value.length>0){
       maySubmit = false;
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
 
     <%-- one rule-field specified -> all rule-fields specified --%>
@@ -999,7 +999,7 @@
          !transactionForm.EditTimeUnitCount.value.length > 0 ||
          !transactionForm.EditTimeUnit.value.length > 0){
         maySubmit = false;
-        alertDialog("web.manage","datamissing");
+                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 
         if(transactionForm.EditUnitsPerTimeUnit.value.length==0){
           transactionForm.EditUnitsPerTimeUnit.focus();
@@ -1018,7 +1018,7 @@
 
   <%-- DO DELETE PRODUCT --%>
   function doDeleteProduct(productUid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.EditProductUid.value = productUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();
@@ -1103,7 +1103,7 @@
       transactionForm.submit();
     }
     else{
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
   }
 

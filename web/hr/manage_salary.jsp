@@ -568,7 +568,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
         
       <%-- focus empty field --%>
            if(document.getElementById("contract").value.length==0) document.getElementById("contractName").focus();
@@ -681,7 +681,7 @@
   
   <%-- DELETE SALARY --%>
   function deleteSalary(){ 
-    if(yesnoDialog("web","areYouSureToDelete")){                 
+      if(yesnoDeleteDialog()){
       var url = "<c:url value='/hr/ajax/salary/deleteSalary.jsp'/>?ts="+new Date().getTime();
 
       document.getElementById("buttonSave").disabled = true;
@@ -1040,7 +1040,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
         
       <%-- focus empty field --%>
            if(EditForm.beBegin.value.length==0) EditForm.beBegin.focus();
@@ -1116,7 +1116,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     
       <%-- focus empty field --%>
            if(EditForm.beBegin.value.length==0) EditForm.beBegin.focus();
@@ -1152,7 +1152,7 @@
   
   <%-- DELETE BENEFIT --%>
   function deleteBE(rowid){
-    if(yesnoDialog("web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sBE = deleteRowFromArrayString(sBE,rowid.id);
       tblBE.deleteRow(rowid.rowIndex);
       clearBEFields();
@@ -1390,7 +1390,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
         
       <%-- focus empty field --%>
            if(EditForm.boBegin.value.length==0) EditForm.boBegin.focus();
@@ -1469,7 +1469,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     
       <%-- focus empty field --%>
            if(EditForm.boBegin.value.length==0) EditForm.boBegin.focus();
@@ -1508,7 +1508,7 @@
   
   <%-- DELETE BONUS --%>
   function deleteBO(rowid){
-    if(yesnoDialog("web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sBO = deleteRowFromArrayString(sBO,rowid.id);
       tblBO.deleteRow(rowid.rowIndex);
       clearBOFields();
@@ -1729,7 +1729,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
         
       <%-- focus empty field --%>
            if(EditForm.oiBegin.value.length==0) EditForm.oiBegin.focus();
@@ -1805,7 +1805,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     
       <%-- focus empty field --%>
            if(EditForm.oiBegin.value.length==0) EditForm.oiBegin.focus();
@@ -1841,7 +1841,7 @@
   
   <%-- DELETE OTHER INCOME --%>
   function deleteOI(rowid){
-    if(yesnoDialog("web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sOI = deleteRowFromArrayString(sOI,rowid.id);
       tblOI.deleteRow(rowid.rowIndex);
       clearOIFields();
@@ -2061,7 +2061,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
         
       <%-- focus empty field --%>
            if(EditForm.deBegin.value.length==0) EditForm.deBegin.focus();
@@ -2137,7 +2137,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     
       <%-- focus empty field --%>
            if(EditForm.deBegin.value.length==0) EditForm.deBegin.focus();
@@ -2173,7 +2173,7 @@
   
   <%-- DELETE DEDUCTION --%>
   function deleteDE(rowid){
-    if(yesnoDialog("web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sDE = deleteRowFromArrayString(sDE,rowid.id);
       tblDE.deleteRow(rowid.rowIndex);
       clearDEFields();

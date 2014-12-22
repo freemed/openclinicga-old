@@ -257,7 +257,7 @@
   }
 
   function doDelete(){
-	if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       MacroForm.deleteButton.disabled = true;
       MacroForm.Action.value = 'delete';
       MacroForm.submit();

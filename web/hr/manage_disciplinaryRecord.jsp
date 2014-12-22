@@ -147,7 +147,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
         
       <%-- focus empty field --%>
            if(document.getElementById("date").value.length==0) document.getElementById("date").focus();
@@ -210,7 +210,7 @@
   
   <%-- DELETE DISREC --%>
   function deleteDisRec(){ 
-    if(yesnoDialog("web","areYouSureToDelete")){                 
+      if(yesnoDeleteDialog()){
       var url = "<c:url value='/hr/ajax/disciplinaryrecord/deleteDisciplinaryRecord.jsp'/>?ts="+new Date().getTime();
 
       document.getElementById("buttonSave").disabled = true;

@@ -297,8 +297,8 @@
             %>
                 <tr height="18" class="list<%=sClass%>" onmouseover='this.className="list_select";' onmouseout='this.className="list<%=sClass%>";window.status="";return true;' <%=(sTranName.length()>52?"title='"+sTranName+"'":"")%>>
                     <td onclick="toggleTranItems(<%=tranCount%>);">
-                        <img id="trTran<%=tranCount%>Plus" src="<c:url value='/_img/plus.jpg'/>">
-                        <img id="trTran<%=tranCount%>Min" src="<c:url value='/_img/minus.jpg'/>" style="display:none;">
+                        <img id="trTran<%=tranCount%>Plus" src="<c:url value='/_img/themes/default/plus.jpg'/>">
+                        <img id="trTran<%=tranCount%>Min" src="<c:url value='/_img/themes/default/minus.jpg'/>" style="display:none;">
                     </td>
                     <td onclick="toggleTranItems(<%=tranCount%>);">&nbsp;<%=ScreenHelper.stdDateFormat.format(tran.getUpdateTime())%></td>
                     <td>&nbsp;<a href="javascript:void();" onClick="showExamination('<%=sUrl%>');"><%=sTranNameShort%></a></td>
@@ -457,7 +457,7 @@
                                                     %>
                                                         <tr>
                                                             <td class="admin" width="<%=sTDAdminWidth%>"><%=sItemLabel%></td>
-                                                            <td class="admin2" width="*" nowrap><img src="<c:url value="/_img/check.gif"/>"/></td>
+                                                            <td class="admin2" width="*" nowrap><img src="<c:url value="/_img/themes/default/check.gif"/>"/></td>
                                                         </tr>
                                                     <%
                                                 }
@@ -466,7 +466,7 @@
                                                     %>
                                                         <tr>
                                                             <td class="admin" width="<%=sTDAdminWidth%>"><%=sItemLabel%></td>
-                                                            <td class="admin2" width="*" nowrap><img src="<c:url value="/_img/uncheck.gif"/>"/></td>
+                                                            <td class="admin2" width="*" nowrap><img src="<c:url value="/_img/themes/default/uncheck.gif"/>"/></td>
                                                         </tr>
                                                     <%
                                                 }
@@ -601,8 +601,8 @@
             %>
                 <tr height="18" class="list<%=sClass%>" onclick="toggleVaccItems(<%=vaccCount%>);" onmouseover='this.className="list_select";' onmouseout='this.className="list<%=sClass%>";window.status="";return true;' <%=(sTranName.length()>52?"title='"+sTranName+"'":"")%>>                                    
                     <td>
-                        <img id="trVacc<%=vaccCount%>Plus" src="<c:url value='/_img/plus.jpg'/>">
-                        <img id="trVacc<%=vaccCount%>Min" src="<c:url value='/_img/minus.jpg'/>" style="display:none;">
+                        <img id="trVacc<%=vaccCount%>Plus" src="<c:url value='/_img/themes/default/plus.jpg'/>">
+                        <img id="trVacc<%=vaccCount%>Min" src="<c:url value='/_img/themes/default/minus.jpg'/>" style="display:none;">
                     </td>
                     <td>&nbsp;<%=ScreenHelper.stdDateFormat.format(vacc.getUpdateTime())%></td>
                     <td>&nbsp;<%=getTran("web.occup",sVaccType,sWebLanguage)+sStatus%></td>
@@ -643,7 +643,7 @@
                                                 %>
                                                     <tr>
                                                         <td class="admin" width="<%=sTDAdminWidth%>"><%=sItemLabel%></td>
-                                                        <td class="admin2" width="*" nowrap><img src="<c:url value="/_img/check.gif"/>"/></td>
+                                                        <td class="admin2" width="*" nowrap><img src="<c:url value="/_img/themes/default/check.gif"/>"/></td>
                                                     </tr>
                                                 <%
                                             }
@@ -652,7 +652,7 @@
                                                 %>
                                                     <tr>
                                                         <td class="admin" width="<%=sTDAdminWidth%>"><%=sItemLabel%></td>
-                                                        <td class="admin2" width="*" nowrap><img src="<c:url value="/_img/uncheck.gif"/>"/></td>
+                                                        <td class="admin2" width="*" nowrap><img src="<c:url value="/_img/themes/default/uncheck.gif"/>"/></td>
                                                     </tr>
                                                 <%
                                             }

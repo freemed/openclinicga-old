@@ -143,7 +143,7 @@
     <tr>
         <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","type",sWebLanguage)%>&nbsp;*&nbsp;</td>
         <td class="admin2">
-            <select name="ShortcutType" class="text" onchange="getSubtypes(this);">
+            <select name="ShortcutType" id="ShortcutType" class="text" onchange="getSubtypes(this);">
                 <option value="-1"><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                 <%
                     /*
@@ -189,7 +189,7 @@
     </tr>
         
     <%-- SHORTCUT SUB-TYPE (hidden) --%>
-    <tr id="shortcutSubtypeTR" style="display:none;">
+    <tr id="shortcutSubtypeTR" style="display: none">
         <td class="admin"><%=getTran("web","subtype",sWebLanguage)%>&nbsp;*&nbsp;</td>
         <td class="admin2" id="shortcutSubtypeTD">
             <%-- ajax --%>
@@ -218,7 +218,7 @@
                                 %><br><%
                             }
                             
-                            %><img class="link" id="icon_<%=i%>" src="<%=sCONTEXTPATH%>/_img/shortcutIcons/<%=icon.getName()%>" onClick="selectIcon(this);" style="border:2px solid white;width:20px;height:20px;" filename="<%=icon.getName()%>" title="<%=icon.getName()%>"/>&nbsp;&nbsp;<%
+                            %><img class="link" id="icon_<%=i%>" src="<%=sCONTEXTPATH%>/_img/shortcutIcons/<%=icon.getName()%>" onClick="selectIcon(this);" style="border:2px solid white;width:20px;height:20px;" name="<%=icon.getName()%>" title="<%=icon.getName()%>"/>&nbsp;&nbsp;<%
                         }
                     }
                     else{
@@ -298,10 +298,9 @@
     
     <%-- clear previous selected icon --%>
     document.getElementById("ShortcutIcon").value = "";
-    
     if(clickedIcon!=null){
       <%-- visually mark selected icon --%>
-      if(clickedIcon.style.border=="white 2px solid"){
+      if(clickedIcon.style.border=="2px solid white"){
         clickedIcon.style.border = "2px solid darkblue";
       }
       else{
@@ -309,8 +308,7 @@
       }
     
       <%-- keep track of id of selected icon --%>
-      document.getElementById("ShortcutIcon").value = clickedIcon.filename;
-    
+      document.getElementById("ShortcutIcon").value = clickedIcon.name;
       var typeSelect = document.getElementById("ShortcutType");
       if(typeSelect.selectedIndex > 0){
         document.getElementById("ShortcutIconText").value = typeSelect.options[typeSelect.selectedIndex].text;
@@ -342,7 +340,7 @@
           var html = trim(resp.responseText);
           
           if(html.length > 0){
-            document.getElementById("shortcutSubtypeTR").style.display = "block";
+            document.getElementById("shortcutSubtypeTR").style.display = "";
           }
           else{
             document.getElementById("shortcutSubtypeTR").style.display = "none";
@@ -373,24 +371,23 @@
   function saveShortcut(){
     var okToSave = true;
     var fullShortcutType;
- 
     var maxNumberOfShortcuts = "<%=MedwanQuery.getInstance().getConfigString("maxUserDefinedShortcuts","5")%>";
     if((numberOfSavedShortcuts < maxNumberOfShortcuts) || document.getElementById("EditMode").value=="true"){
       <%-- type --%>
       if(okToSave){
         if(document.getElementById("ShortcutType").selectedIndex < 1){
           document.getElementById("ShortcutType").focus();
-          alertDialog("web.manage","dataMissing");
+          window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
           okToSave = false;
         }
       }  
 
       <%-- subtype --%>
       if(okToSave){
-        if(document.getElementById("shortcutSubtypeTR").style.display=="block"){
+        if(document.getElementById("shortcutSubtypeTR").style.display==""){
           if(document.getElementById("ShortcutSubtype").selectedIndex < 1){
             document.getElementById("ShortcutSubtype").focus();
-            alertDialog("web.manage","dataMissing");
+            window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
             okToSave = false;
           }
         }
@@ -434,7 +431,7 @@
       if(okToSave){
         if(document.getElementById("ShortcutIconText").value.length==0){
           document.getElementById("ShortcutIconText").focus();
-          alertDialog("web.manage","dataMissing");
+                    window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
           okToSave = false;
         }
       }
@@ -445,7 +442,6 @@
         if(prevFullShortcutType.length==0){
           prevFullShortcutType = fullShortcutType;
         }
-        
 	    var url = "<c:url value='/userprofile/ajax/saveShortcut.jsp'/>?ts="+new Date().getTime();
         var params = "UserId=<%=activeUser.userid%>"+
 				     "&PrevShortcutId="+prevFullShortcutType+
@@ -475,7 +471,7 @@
     var fullType = type;
   
     <%-- add subtype, if any (only for documents) --%>
-    if(document.getElementById("shortcutSubtypeTR").style.display=="block"){       
+    if(document.getElementById("shortcutSubtypeTR").style.display==""){       
       if(document.getElementById("ShortcutSubtype").selectedIndex > 0){
         var subtype = document.getElementById("ShortcutSubtype").options[document.getElementById("ShortcutSubtype").selectedIndex].value;
         fullType+= "$"+subtype;
@@ -526,7 +522,7 @@
           <%-- select the right icon --%>
           var icons = document.getElementById("iconsDiv").getElementsByTagName("img");
           for(var i=0; i<icons.length; i++){
-            if(icons[i].filename==data.iconName){
+            if(icons[i].name==data.iconName){
               selectIcon(icons[i]);
               break;
             }
@@ -540,7 +536,7 @@
   
   <%-- DELETE SHORTCUT --%>
   function deleteShortcut(){
-    if(yesnoDialog("web","areYouSureToDelete")==1){
+      if(yesnoDeleteDialog()){
       disableButtons();
      
       var select = document.getElementById("ShortcutType");

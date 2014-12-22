@@ -180,7 +180,7 @@
         <tr>
             <td class='admin'><%=getTran("web.finance","credits",sWebLanguage)%></td>
             <td class='admin2'>
-                <div id="divCredits" style="height:120px;width:50%" class="searchResults"></div>
+                <div id="divCredits" style="height:120px;width:100%" class="searchResults"></div>
               
                 <div style="padding-top:3px;">
                     <input class='button' type="button" name="ButtonInsurarInvoiceSelectAll" id="ButtonInsurarInvoiceSelectAll" value="<%=getTranNoLink("web","selectall",sWebLanguage)%>" onclick="selectAll('cbInsurarInvoice',true,'ButtonInsurarInvoiceSelectAll','ButtonInsurarInvoiceDeselectAll',false);">&nbsp;
@@ -316,7 +316,7 @@ function doSave(){
     });
   }
   else{
-    alertDialog("web.manage","datamissing");
+              window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
   }
 }
 

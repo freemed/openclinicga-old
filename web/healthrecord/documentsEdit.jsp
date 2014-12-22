@@ -146,7 +146,7 @@
   
   <%-- DELETE DOCUMENT --%>
   function deleteDocument(sId){	
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
 	  var remainingDocIds = "";
 	  var deletedIdx = -1;
 	  

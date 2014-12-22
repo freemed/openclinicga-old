@@ -240,7 +240,7 @@
 <script>
   <%-- DO DELETE --%>
   function doDelete(){
-	if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.saveButton.disabled = true;
       transactionForm.backButton.disabled = true;
       transactionForm.Action.value = "delete";
@@ -285,12 +285,12 @@
           transactionForm.submit();
         }
         else{
-            alertDialog("web.manage","datamissing");
+                      window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
             emptyLabelField.focus();
         }
     }
     else{
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 
       if(transactionForm.EditFavoriteId.value.length==0){
          transactionForm.EditFavoriteId.focus();

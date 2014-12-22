@@ -18,7 +18,7 @@
 
     <table class="list" width="100%" cellspacing="1">
 		<tr>
-			<td style="vertical-align:top;padding:0" class="admin2">
+			<td style="vertical-align:top;padding:0" class="admin2" width="50%">
 			    <table class="list" cellspacing="1" cellpadding="0" width="100%">
 			        <%-- DATE --%>
 			        <tr>
@@ -69,7 +69,7 @@
 			            </td>
 			            <td class="admin2">
 			                <input <%=setRightClick("ITEM_TYPE_KINESITHERAPY_APPLICATION_FREQUENCY_DAY")%> type="text" class="text" size="4" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_APPLICATION_FREQUENCY_DAY" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_APPLICATION_FREQUENCY_DAY" property="value"/>" onblur="isNumber(this);"/> /<%=getTran("openclinic.chuk","day",sWebLanguage)%>
-			                <br>
+			                &nbsp;
 			                <input <%=setRightClick("ITEM_TYPE_KINESITHERAPY_APPLICATION_FREQUENCY_WEEK")%> type="text" class="text" size="4" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_APPLICATION_FREQUENCY_WEEK" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_KINESITHERAPY_APPLICATION_FREQUENCY_WEEK" property="value"/>" onblur="isNumber(this);"/> /<%=getTran("openclinic.chuk","week",sWebLanguage)%>
 			            </td>
 			        </tr>

@@ -9,9 +9,9 @@
         if (vCredits != null) {
             String sInsurarCreditUID;
             InsurarCredit insurarcredit;
-            String sImage = "_img/check.gif";
+            String sImage = "_img/themes/default/check.gif";
             if (!bChecked) {
-                sImage = " _img/uncheck.gif";
+                sImage = " _img/themes/default/uncheck.gif";
             }
 
             for (int i = 0; i < vCredits.size(); i++) {

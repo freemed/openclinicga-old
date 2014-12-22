@@ -865,8 +865,8 @@
 	var imgs = document.getElementsByTagName("img");
     for(var i=0; i<imgs.length; i++){
       if(imgs[i].id.startsWith("cb_")){        
-   	    if(setchecked==true) imgs[i].src = "<%=sCONTEXTPATH%>/_img/check.gif";
-   	    else                 imgs[i].src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
+   	    if(setchecked==true) imgs[i].src = "<%=sCONTEXTPATH%>/_img/themes/default/check.gif";
+   	    else                 imgs[i].src = "<%=sCONTEXTPATH%>/_img/themes/default/uncheck.gif";
    	
         autoBlurLabel(imgs[i].name);
       }
@@ -876,8 +876,8 @@
   <%-- CLICK CHECKBOX --%>
   function clickCheckbox(cbName){
     var cb = eval("transactionForm."+cbName);
-    if(cb.src.endsWith("uncheck.gif")) cb.src = "<%=sCONTEXTPATH%>/_img/check.gif";
-    else                               cb.src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
+    if(cb.src.endsWith("uncheck.gif")) cb.src = "<%=sCONTEXTPATH%>/_img/themes/default/check.gif";
+    else                               cb.src = "<%=sCONTEXTPATH%>/_img/themes/default/uncheck.gif";
 	
     autoBlurLabel(cbName);
   }
@@ -885,8 +885,8 @@
   <%-- TOGGLE CHECKBOX --%>
   function toggleCheckbox(cbName){
     var cb = eval("transactionForm."+cbName);
-    if(cb.src.endsWith("uncheck.gif")) cb.src = "<%=sCONTEXTPATH%>/_img/check.gif";
-    else                               cb.src = "<%=sCONTEXTPATH%>/_img/uncheck.gif";
+    if(cb.src.endsWith("uncheck.gif")) cb.src = "<%=sCONTEXTPATH%>/_img/themes/default/check.gif";
+    else                               cb.src = "<%=sCONTEXTPATH%>/_img/themes/default/uncheck.gif";
     
     autoBlurLabel(cbName);
   }

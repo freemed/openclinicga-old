@@ -1091,7 +1091,7 @@ function clearSignesVitauxFields(){
 }
 
 function deleteSignesVitaux(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sSignesVitaux = deleteRowFromArrayString(sSignesVitaux,rowid.id);
     tblSignesVitaux.deleteRow(rowid.rowIndex);
     clearSignesVitauxFields();
@@ -1220,7 +1220,7 @@ function clearConscienceFields(){
 }
 
 function deleteConscience(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sConscience = deleteRowFromArrayString(sConscience,rowid.id);
     tblConscience.deleteRow(rowid.rowIndex);
     clearConscienceFields();
@@ -1336,7 +1336,7 @@ function clearBiometrieFields(){
 }
 
 function deleteBiometrie(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sBiometrie = deleteRowFromArrayString(sBiometrie,rowid.id);
     tblBiometrie.deleteRow(rowid.rowIndex);
     clearBiometrieFields();
@@ -1476,7 +1476,7 @@ function clearBilanEntreeFields(){
 }
 
 function deleteBilanEntree(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sBilanEntree = deleteRowFromArrayString(sBilanEntree,rowid.id);
     tblBilanEntree.deleteRow(rowid.rowIndex);
     clearBilanEntreeFields();
@@ -1627,7 +1627,7 @@ function clearSitNutriFields(){
 }
 
 function deleteSitNutri(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sSitNutri = deleteRowFromArrayString(sSitNutri,rowid.id);
     tblSitNutri.deleteRow(rowid.rowIndex);
     clearSitNutriFields();

@@ -593,7 +593,7 @@
        !transactionForm.EditProductStockUid.value.length>0 ||
        !transactionForm.EditUnitsChanged.value.length>0){
       maySubmit = false;
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
 
     return maySubmit;

@@ -479,7 +479,7 @@
 
   <%-- DELETE INSURAR --%>
   function deleteInsurar(sInsurarUid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.EditInsurarId.value = sInsurarUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();
@@ -714,7 +714,7 @@
       else{
         if(patientCount==0){
           <%-- no patients in this category, so delete it --%>
-          if(yesnoDialog("Web","areYouSureToDelete")){
+          if(yesnoDeleteDialog()){
             sCategories = deleteRowFromArrayString(sCategories,rowid.id);
             initCategoriesArray(sCategories);
             tblCategories.deleteRow(rowid.rowIndex);
@@ -743,7 +743,7 @@
     }
     else{
       <%-- category that has not been saved yet, so delete it --%>
-      if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
         sCategories = deleteRowFromArrayString(sCategories,rowid.id);
         initCategoriesArray(sCategories);
         tblCategories.deleteRow(rowid.rowIndex);
@@ -831,7 +831,7 @@
   <%-- DELETE ALL CATEGORIES --%>
   function deleteAllCategories(){
     if(tblCategories.rows.length > 1){
-      if(yesnoDialog("Web","areYouSureToDelete")){
+        if(yesnoDeleteDialog()){
         deleteAllCategoriesNoConfirm();
       }
     }

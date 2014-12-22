@@ -467,7 +467,7 @@ function updateChirurgie(){
 }
 
 function deleteChirurgie(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sChirurgie = deleteRowFromArrayString(sChirurgie,rowid.id);
     tblChirurgie.deleteRow(rowid.rowIndex);
     clearChirurgieFields();
@@ -528,7 +528,7 @@ function isAtLeastOneHeelkundeFieldFilled(){
 }
 
 function deleteHeelkunde(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sHeelkunde = deleteRowFromArrayString(sHeelkunde,rowid.id);
     tblHeelkunde.deleteRow(rowid.rowIndex);
     clearHeelkundeFields();
@@ -615,7 +615,7 @@ function isAtLeastOneLetselsFieldFilled(){
 }
 
 function deleteLetsels(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sLetsels = deleteRowFromArrayString(sLetsels,rowid.id);
     tblLetsels.deleteRow(rowid.rowIndex);
     clearLetselsFields();

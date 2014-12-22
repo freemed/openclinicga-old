@@ -18,7 +18,7 @@
 					keyword = getTran(ids[n].split("\\$")[0],ids[n].split("\\$")[1] , language);
 					
 					sHTML.append("<a href='javascript:deleteKeyword(\"").append(idsField).append("\",\"").append(textField).append("\",\"").append(ids[n]).append("\");'>")
-					      .append("<img width='8' src='"+sCONTEXTPATH+"/_img/erase.png' class='link' style='vertical-align:-1px'/>")
+					      .append("<img width='8' src='"+sCONTEXTPATH+"/_img/themes/default/erase.png' class='link' style='vertical-align:-1px'/>")
 					     .append("</a>")
 					     .append("&nbsp;<b>").append(keyword).append("</b> | ");
 				}
@@ -147,7 +147,7 @@
 			         					<textarea class="text" onkeyup="resizeTextarea(this,10)" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_FUNCTIONALSIGNS_COMMENT" property="itemId"/>]>.value" id='functional.signs.comment' cols='45' ><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_FUNCTIONALSIGNS_COMMENT" property="value"/></textarea>
 			         				</td>
 			         				<td class='admin2' width='40' nowrap style="text-align:center">
-			         				    <img width='16' id='key1' class="link" src='<c:url value="/_img/keywords.jpg"/>'/>
+			         				    <img width='16' id='key1' class="link" src='<c:url value="/_img/themes/default/keywords.jpg"/>'/>
 			         				</td>
 			         			</tr>
          					</table>
@@ -170,7 +170,7 @@
 			         					<textarea class="text" onkeyup="resizeTextarea(this,10)" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_INSPECTION_COMMENT" property="itemId"/>]>.value" id='inspection.comment' cols='45'><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_INSPECTION_COMMENT" property="value"/></textarea> 
 			         				</td>
 			         				<td class='admin2' width='40' style="text-align:center">
-			         				    <img width='16' id='key2' class="link" src='<c:url value="/_img/keywords.jpg"/>'/>
+			         				    <img width='16' id='key2' class="link" src='<c:url value="/_img/themes/default/keywords.jpg"/>'/>
 			         				</td>
 			         			</tr>
          					</table>
@@ -193,7 +193,7 @@
 			         					<textarea class="text" onkeyup="resizeTextarea(this,10)" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PALPATION_COMMENT" property="itemId"/>]>.value" id='palpation.comment' cols='45'><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_PALPATION_COMMENT" property="value"/></textarea> 
 			         				</td>
 			         				<td class='admin2' width='40' style="text-align:center">
-			         				    <img width='16' id='key3' class="link" src='<c:url value="/_img/keywords.jpg"/>'/>
+			         				    <img width='16' id='key3' class="link" src='<c:url value="/_img/themes/default/keywords.jpg"/>'/>
 			         				</td>
 			         			</tr>
          					</table>
@@ -216,7 +216,7 @@
 			         					<textarea class="text" onkeyup="resizeTextarea(this,10)" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_HEARTAUSCULTATION_COMMENT" property="itemId"/>]>.value" id='heart.auscultation.comment' cols='45'><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_HEARTAUSCULTATION_COMMENT" property="value"/></textarea> 
 			         				</td>
 			         				<td class='admin2' width='40' style="text-align:center">
-			         				    <img width='16' id='key4' class="link" src='<c:url value="/_img/keywords.jpg"/>'/>
+			         				    <img width='16' id='key4' class="link" src='<c:url value="/_img/themes/default/keywords.jpg"/>'/>
 			         				</td>
 			         			</tr>
          					</table>
@@ -239,7 +239,7 @@
 			         					<textarea class="text" onkeyup="resizeTextarea(this,10)" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LUNGAUSCULTATION_COMMENT" property="itemId"/>]>.value" id='lung.auscultation.comment' cols='45'><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LUNGAUSCULTATION_COMMENT" property="value"/></textarea> 
 			         				</td>
 			         				<td class='admin2' width='40' style="text-align:center">
-			         				    <img width='16' id='key5' class="link" src='<c:url value="/_img/keywords.jpg"/>'/>
+			         				    <img width='16' id='key5' class="link" src='<c:url value="/_img/themes/default/keywords.jpg"/>'/>
 			         				</td>
 			         			</tr>
          					</table>
@@ -262,7 +262,7 @@
 			         					<textarea class="text" onkeyup="resizeTextarea(this,10)" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_REFERENCE_COMMENT" property="itemId"/>]>.value" id='reference.comment' cols='45'><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_REFERENCE_COMMENT" property="value"/></textarea> 
 			         				</td>
 			         				<td class='admin2' width='40' style="text-align:center">
-			         				    <img width='16' id='key6' class="link" src='<c:url value="/_img/keywords.jpg"/>'/>
+			         				    <img width='16' id='key6' class="link" src='<c:url value="/_img/themes/default/keywords.jpg"/>'/>
 			         				</td>
 			         			</tr>
          					</table>
@@ -285,7 +285,7 @@
 			         					<textarea class="text" onkeyup="resizeTextarea(this,10);" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EVACUATION_COMMENT" property="itemId"/>]>.value" id='evacuation.comment' cols='45'><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_EVACUATION_COMMENT" property="value"/></textarea> 
 			         				</td>
 			         				<td class='admin2' width='40' style="text-align:center">
-			         				    <img width='16' id='key7' class="link" src='<c:url value="/_img/keywords.jpg"/>'/>
+			         				    <img width='16' id='key7' class="link" src='<c:url value="/_img/themes/default/keywords.jpg"/>'/>
 			         				</td>
 			         			</tr>
          					</table>
@@ -398,7 +398,7 @@
 	    }
 	  }
 	  
-	  document.getElementById(destinationtextfield).innerHTML+= "<a href='javascript:deleteKeyword(\""+destinationidfield+"\",\""+destinationtextfield+"\",\""+id+"\");'><img width='8' src='<c:url value="/_img/erase.png"/>' class='link' style='vertical-align:-1px'/></a> <b>"+label+"</b> | ";
+	  document.getElementById(destinationtextfield).innerHTML+= "<a href='javascript:deleteKeyword(\""+destinationidfield+"\",\""+destinationtextfield+"\",\""+id+"\");'><img width='8' src='<c:url value="/_img/themes/default/erase.png"/>' class='link' style='vertical-align:-1px'/></a> <b>"+label+"</b> | ";
 	}
   }
 

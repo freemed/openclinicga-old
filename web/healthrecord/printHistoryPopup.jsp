@@ -280,7 +280,7 @@
                             %>
                                 <tr>
                                     <td class="admin" width="<%=sTDAdminWidth%>"><%=getTranNoLink("web.occup",sLabel,sWebLanguage)%></td>
-                                    <td class="admin2" width="*"><img src="<c:url value="/_img/check.gif"/>"/></td>
+                                    <td class="admin2" width="*"><img src="<c:url value="/_img/themes/default/check.gif"/>"/></td>
                                 </tr>
                             <%
                         }
@@ -289,7 +289,7 @@
                             %>
                                 <tr>
                                     <td class="admin" width="<%=sTDAdminWidth%>"><%=getTranNoLink("web.occup",sLabel,sWebLanguage)%></td>
-                                    <td class="admin2" width="*"><img src="<c:url value="/_img/uncheck.gif"/>"/></td>
+                                    <td class="admin2" width="*"><img src="<c:url value="/_img/themes/default/uncheck.gif"/>"/></td>
                                 </tr>
                             <%
                         }

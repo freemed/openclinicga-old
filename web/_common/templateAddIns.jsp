@@ -98,7 +98,12 @@ function checkSaveButton(){
   %>
 
   if(alertAnyway || (sFormBeginStatus!=sFormCurrStatus)){
-    discardFormData = yesnoDialog("Web.Occup","medwan.common.buttonquestion");
+	  if(window.showModalDialog){
+		    discardFormData = yesnoDialog("Web.Occup","medwan.common.buttonquestion");
+	  }
+	  else {
+		    discardFormData = yesnoDialog('web','<%=getTranNoLink("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>');
+	  }
   }
 
   return discardFormData;
@@ -108,7 +113,7 @@ function checkSaveButton(){
 %>
 function verifyPrestationCheck(){
   if(document.getElementById('prestationsVerified').value=='0'){
-    if(yesnoDialog("web.occup","exported-activities-not-validated")){
+    if(window.showModalDialog?yesnoDialog("web.occup","exported-activities-not-validated"):yesnoDialog('','<%=getTran("web.occup","exported-activities-not-validated",sWebLanguage)%>')){
       showExportedActivities();
       return false;
     }

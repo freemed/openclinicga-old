@@ -197,7 +197,7 @@
     }
     else{
       if(sFormInitialStatus.length>0 && sFormInitialStatus!=serializeForm(editForm)){
-        if(yesnoDialog("web.occup","medwan.common.buttonquestion")){
+          if(window.showModalDialog?yesnoDialog("web.occup","medwan.common.buttonquestion"):yesnoDialog('','<%=getTran("web.occup","medwan.common.buttonquestion",sWebLanguage)%>')){
           okToSwitchScreens = true;
         }
         else{
@@ -287,12 +287,12 @@
     }
     else{
       if(editForm.ScreenWidth.selectedIndex==0){
-        alertDialog("web.manage","dataMissing");
+                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
         editForm.ScreenWidth.focus();
       }
       else if(editForm.ScreenHeight.selectedIndex==0){
     	editForm.ScreenHeight.focus();
-        alertDialog("web.manage","dataMissing");
+                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       }
       else{
         alertDialog("web.manage","specifyANameInEachLanguage");
@@ -371,7 +371,7 @@
 
   <%-- DELETE SCREEN --%>
   function deleteScreen(){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       var url = "<c:url value='/system/ajax/screenDesigner/deleteScreen.jsp'/>?ts="+new Date().getTime();
 
       document.getElementById("msgDiv").innerHTML = "&nbsp;<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'>' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
@@ -513,7 +513,7 @@
 
     if(checkState==true){
       if(sFormInitialStatus!=serializeForm(cellForm)){
-        if(yesnoDialog("Web.Occup","medwan.common.buttonquestion")){
+          if(window.showModalDialog?yesnoDialog("web.occup","medwan.common.buttonquestion"):yesnoDialog('','<%=getTran("web.occup","medwan.common.buttonquestion",sWebLanguage)%>')){
           if(Modalbox.initialized){
             Modalbox.hide();
           }
@@ -566,7 +566,7 @@
     
     <%-- ask to add un-added item before saving cell --%>
     if(addRowContainsData()){
-      if(yesnoDialog("web.manage","addEditedRecord")){
+        if(window.showModalDialog?yesnoDialog("web.manage","addEditedRecord"):yesnoDialog('','<%=getTran("web.manage","addEditedRecord",sWebLanguage)%>')){
         okToSave = (addItem()==true);
       }
     }  
@@ -691,7 +691,7 @@
       row.cells(2).innerHTML = cellForm.addHtmlElement.options[cellForm.addHtmlElement.selectedIndex].value;
       row.cells(3).innerHTML = cellForm.addSize.value;
       row.cells(4).innerHTML = cellForm.addDefaultValue.value;
-      row.cells(5).innerHTML = (cellForm.addRequired.checked?"<img src='<%=sCONTEXTPATH%>/_img/check.gif' alt='true'>":"<img src='<%=sCONTEXTPATH%>/_img/uncheck.gif' alt='false'>");
+      row.cells(5).innerHTML = (cellForm.addRequired.checked?"<img src='<%=sCONTEXTPATH%>/_img/themes/default/check.gif' alt='true'>":"<img src='<%=sCONTEXTPATH%>/_img/themes/default/uncheck.gif' alt='false'>");
       row.cells(6).innerHTML = cellForm.addFollowedBy.options[cellForm.addFollowedBy.selectedIndex].value;
       row.cells(7).innerHTML = "";
 
@@ -816,7 +816,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       
            if(cellForm.addItemTypeId.value.length==0) cellForm.addItemTypeId.focus();
       else if(cellForm.addHtmlElement.selectedIndex==0) cellForm.addHtmlElement.focus();

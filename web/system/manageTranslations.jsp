@@ -151,7 +151,7 @@
 	  });
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
   }
 
@@ -339,7 +339,7 @@
   <%-- ASK DELETE --%>
   function askDelete(){
     if(formComplete()){
-      if(yesnoDialog("Web","areYouSureToDeleteLabelForAllLanguages")){
+        if(yesnoDeleteDialog()){
         var url = "<%=sCONTEXTPATH%>/system/manageTranslationsStore.jsp?ts="+new Date();
         new Ajax.Request(url,{
           method: "POST",

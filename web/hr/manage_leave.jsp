@@ -196,7 +196,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       
       <%-- focus empty field --%>
            if(document.getElementById("begin").value.length==0) document.getElementById("begin").focus();
@@ -259,7 +259,7 @@
   
   <%-- DELETE LEAVES --%>
   function deleteLeave(){
-    if(yesnoDialog("web","areYouSureToDelete")){                 
+      if(yesnoDeleteDialog()){
       var url = "<c:url value='/hr/ajax/leave/deleteLeave.jsp'/>?ts="+new Date().getTime();
 
       document.getElementById("buttonSave").disabled = true;

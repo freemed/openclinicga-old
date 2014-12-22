@@ -199,7 +199,7 @@
                                                       outputString="checked"/> onclick="clearType2(this)"><%=getLabel("openclinic.chuk", "openclinic.common.dystocic", sWebLanguage, "type_r2")%>
                         </td>
                     </tr>
-                    <tr id="trtype2">
+                    <tr id="trtype2" name="trtype2">
                         <td width="25" class="admin2"/>
                         <td class="admin2">
                             <table width="100%">
@@ -279,7 +279,7 @@
                                                       outputString="checked"/> onclick="clearType3(this)"><%=getLabel("openclinic.chuk", "openclinic.common.caeserian", sWebLanguage, "type_r3")%>
                         </td>
                     </tr>
-                    <tr id="trtype3">
+                    <tr id="trtype3" name="trtype3">
                         <td class="admin2"/>
                         <td class="admin2">
                             <table width="100%" cellspacing="0">
@@ -1671,7 +1671,7 @@ if(itemAgeDateEcho!=null){
         transactionForm.dilatationOpening.selectedIndex = -1;
     }
     function deleteDilatation(rowid, dilatationHours){
-      if(yesnoDialog("Web","areYouSureToDelete")){
+        if(yesnoDeleteDialog()){
             sDilatation = deleteRowFromArrayString(sDilatation, rowid.id);
             tblDilatation.deleteRow(rowid.rowIndex);
             graphDilatation.unset(dilatationHours);
@@ -1728,7 +1728,7 @@ if(itemAgeDateEcho!=null){
         transactionForm.engagementDegree.selectedIndex = -1;
     }
     function deleteEngagement(rowid, engagementHour){
-      if(yesnoDialog("Web","areYouSureToDelete")){
+        if(yesnoDeleteDialog()){
         sEngagement = deleteRowFromArrayString(sEngagement, rowid.id);
         tblEngagement.deleteRow(rowid.rowIndex);
         graphEngagement.unset(engagementHour);
@@ -1790,7 +1790,7 @@ if(itemAgeDateEcho!=null){
       transactionForm.actionLetter.selectedIndex = -1;
     }
     function deleteAction(rowid, actionHour){
-      if(yesnoDialog("Web","areYouSureToDelete")){
+        if(yesnoDeleteDialog()){
         sAction = deleteRowFromArrayString(sAction, rowid.id);
         tblAction.deleteRow(rowid.rowIndex);
         graphAction.unset(actionHour);

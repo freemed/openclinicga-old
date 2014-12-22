@@ -192,7 +192,7 @@
   }
 
   function addcontent(){
-	if(yesnoDialog("Web","areyousuretoaddtoproducts")){
+      if(yesnoDeleteDialog()){
       var url = "<c:url value=''/>medical/ajax/addPrescriptionProductContent.jsp";
       new Ajax.Request(url,{
         method: "POST",

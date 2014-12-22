@@ -316,7 +316,7 @@
                 transactionForm.submit();
               }
               else{
-                alertDialog("web.manage","datamissing");
+                          window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
                 transactionForm.EditExamName.focus();
               }
             <%
@@ -339,7 +339,7 @@
 
   <%-- ASK DELETE --%>
   function askDelete(){
-	if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.Action.value = "delete";
       transactionForm.submit();
     }

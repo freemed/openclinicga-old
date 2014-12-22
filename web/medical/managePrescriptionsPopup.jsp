@@ -1131,7 +1131,7 @@ function checkPrescriptionFields(){
   }
   else{
     maySubmit = false;
-    alertDialog("web.manage","datamissing");
+              window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
   }
 
   return maySubmit;
@@ -1139,7 +1139,7 @@ function checkPrescriptionFields(){
 
 <%-- DO DELETE --%>
 function doDelete(prescriptionUid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     transactionForm.EditPrescrUid.value = prescriptionUid;
     transactionForm.Action.value = "delete";
     transactionForm.submit();

@@ -35,7 +35,7 @@
 			        
     <table class="list" cellspacing="1" cellpadding="0" width="100%">
         <tr>
-            <td style="vertical-align:top">                
+            <td style="vertical-align:top" width="50%">                
                 <table class="list" cellspacing="1" cellpadding="0" width="100%">
                     <%-- MEDICAL SUMMARY --------------------------------------------------------------------%>
 			        <tr class="admin" style="padding:0px;">

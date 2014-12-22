@@ -1237,7 +1237,7 @@
     }
     else{
       maySubmit = false;
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
 
     return maySubmit;
@@ -1245,7 +1245,7 @@
 
   <%-- DO DELETE --%>
   function doDelete(orderUid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.EditOrderUid.value = orderUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();
@@ -1295,7 +1295,7 @@
   }
   
   function doDeleteOperation(orderUid,operationUid){
-	if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
 	  transactionForm.EditOrderUid.value = orderUid;
 	  transactionForm.EditProductStockOperationUid.value = operationUid;
 	  transactionForm.Action.value = "deleteOperation";
@@ -1379,7 +1379,7 @@
       transactionForm.submit();
     }
     else{
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
   }
 

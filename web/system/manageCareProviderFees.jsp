@@ -155,7 +155,7 @@
     }
     
     function deleteline(feetype,feeid,userid){
-        if(yesnoDialog("web","areyousure")){
+        if(yesnoDeleteDialog()){
 	      var today = new Date();
 	      var url= '<c:url value="/system/deleteCareProviderFee.jsp"/>?ts='+today;
 	      new Ajax.Request(url,{

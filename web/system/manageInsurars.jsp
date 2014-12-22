@@ -661,8 +661,8 @@
                     <tr>
                         <td class="admin"/>
                         <td class="admin2">
-                            <button accesskey="<%=ScreenHelper.getAccessKey(getTranNoLink("accesskey","save",sWebLanguage))%>" class="buttoninvisible" onclick="saveInsurar();"></button>
-                            <button type="button" class="button" name="saveButton" onclick="saveInsurar();"><%=getTranNoLink("accesskey","save",sWebLanguage)%></button>&nbsp;
+                            <button accesskey="<%=ScreenHelper.getAccessKey(getTranNoLink("accesskey","save",sWebLanguage))%>" class="buttoninvisible" onclick="saveInsurar();"/></button>
+                            <input type='button' class="button" name="saveButton" onclick="saveInsurar();" value="<%=getTranNoLink("accesskey","save",sWebLanguage)%>"/>&nbsp;
 
                             <%
                                 // no delete button for new insurar
@@ -729,7 +729,7 @@
 
   <%-- DELETE INSURAR --%>
   function deleteInsurar(sInsurarUid){
-	if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.EditInsurarId.value = sInsurarUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();
@@ -794,7 +794,7 @@
       else if(catLabel.length==0){ transactionForm.EditCategoryLabel.focus(); }
       else if(catShare.length==0){ transactionForm.EditPatientShare.focus(); }
 
-      alertDialog("web.manage","dataMissing");
+      alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
   }
 
@@ -946,7 +946,7 @@
       else{
         if(patientCount==0){
           <%-- no patients in this category, so delete it --%>
-          if(yesnoDialog("Web","areYouSureToDelete")){
+          if(yesnoDeleteDialog()){
             sCategories = deleteRowFromArrayString(sCategories,rowid.id);
             initCategoriesArray(sCategories);
             tblCategories.deleteRow(rowid.rowIndex);
@@ -975,7 +975,7 @@
     }
     else{
       <%-- category that has not been saved yet, so delete it --%>
-  	  if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
         sCategories = deleteRowFromArrayString(sCategories,rowid.id);
         initCategoriesArray(sCategories);
         tblCategories.deleteRow(rowid.rowIndex);
@@ -1063,7 +1063,7 @@
   <%-- DELETE ALL CATEGORIES --%>
   function deleteAllCategories(){
     if(tblCategories.rows.length > 1){
-      if(yesnoDialog("Web","areYouSureToDelete")){
+        if(yesnoDeleteDialog()){
         deleteAllCategoriesNoConfirm();
       }
     }
@@ -1117,8 +1117,7 @@
       else if(transactionForm.EditInsurarLanguage.selectedIndex<1){
         transactionForm.EditInsurarLanguage.focus();
       }
-
-      alertDialog("web.manage","datamissing");
+      alertDialogDirectText('<%=getTranNoLink("web.manage","dataMissing",sWebLanguage)%>');
     }
   }
 

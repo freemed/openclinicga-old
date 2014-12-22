@@ -641,7 +641,7 @@
         function checkSave(){
           if(editForm.EditLabCode.value.length == 0 || editForm.LabType.selectedIndex == 0 ||
              editForm.EditNL.value == "" || editForm.EditFR.value == ""){
-            alertDialog("web.manage","datamissing");
+                      window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 
                  if(editForm.EditLabCode.value.length == 0){ editForm.EditLabCode.focus(); }
             else if(editForm.LabType.selectedIndex == 0){ editForm.LabType.focus(); }
@@ -670,7 +670,7 @@
                 editForm.LabType.focus();
               }
               else{
-                if(yesnoDialog("Web","areYouSureToDelete")){
+                  if(yesnoDeleteDialog()){
                   editForm.Action.value = 'delete';
                   editForm.submit();
                 }

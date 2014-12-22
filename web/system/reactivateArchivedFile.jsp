@@ -166,7 +166,7 @@
   }
 
   function doReactivate(personid){
-    if(yesnoDialog("web.manage","areyousuretoreactivatefile")){
+      if(window.showModalDialog?yesnoDialog("web.manage","areyousuretoarchiveactivefile"):yesnoDialog('','<%=getTran("web.manage","areyousuretoarchiveactivefile",sWebLanguage)%>')){
       <%-- set parameter for activePatient to be initialised (in dropdownmenu) --%>
       reactivateForm.action = reactivateForm.action+"&personid="+personid;
 

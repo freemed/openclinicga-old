@@ -500,7 +500,7 @@
           if(userWickets.size() > 0){
               %>
                 if(document.getElementById("EditCreditWicketUid").selectedIndex==0){
-                  alertDialog("web.manage","datamissing");
+                            window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
                   EditForm.EditCreditWicketUid.focus();
                   document.getElementById("buttonSave").disabled = false;
                 }
@@ -537,7 +537,7 @@
         //EditForm.EditCreditWicketUid.focus();
       }
 
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
 	  document.getElementById("buttonSave").disabled = false;
     }
   }

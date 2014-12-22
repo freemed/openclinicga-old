@@ -600,7 +600,7 @@ if (sAntecedents.indexOf("£")>-1){
   }
 
   function deleteChildren(rowid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sChildren = deleteRowFromArrayString(sChildren,rowid.id);
       tblChildren.deleteRow(rowid.rowIndex);
       clearChildrenFields();
@@ -701,7 +701,7 @@ if (sAntecedents.indexOf("£")>-1){
   }
 
   function deleteARV(rowid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sARV = deleteRowFromArrayString(sARV,rowid.id);
       tblARV.deleteRow(rowid.rowIndex);
       clearARVFields();
@@ -810,7 +810,7 @@ function addAntecedents(){
   }
 
   function deleteAntecedents(rowid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sAntecedents = deleteRowFromArrayString(sAntecedents,rowid.id);
       tblAntecedents.deleteRow(rowid.rowIndex);
       clearAntecedentsFields();

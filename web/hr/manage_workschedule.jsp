@@ -648,7 +648,7 @@
           <%-- day : hours --%>
           if(okToSubmit){
             if(document.getElementById("dayScheduleHours").value.length==0){
-              alertDialog("web.manage","dataMissing");
+                        window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
               document.getElementById("dayScheduleHours").focus();
               okToSubmit = false;
             }
@@ -658,7 +658,7 @@
           <%-- week : hours
           if(okToSubmit){
             if(document.getElementById("tbDuration").value.length==0){
-              alertDialog("web.manage","dataMissing");
+                        window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
               document.getElementById("tbDuration").focus();  
               okToSubmit = false;                    
             }
@@ -669,7 +669,7 @@
           <%-- month : hours --%>
           if(okToSubmit){
             if(document.getElementById("monthScheduleHours").value.length==0){
-              alertDialog("web.manage","dataMissing");
+                        window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
               document.getElementById("monthScheduleHours").focus();    
               okToSubmit = false;
             }
@@ -750,7 +750,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       
       <%-- focus empty field --%>
       if(document.getElementById("fte").selectedIndex==0) document.getElementById("fte").focus();          
@@ -893,7 +893,7 @@
   
   <%-- DELETE WORKSCHEDULE --%>
   function deleteWorkschedule(){   
-    if(yesnoDialog("web","areYouSureToDelete")){                 
+      if(yesnoDeleteDialog()){
       var url = "<c:url value='/hr/ajax/workschedule/deleteWorkschedule.jsp'/>?ts="+new Date().getTime();
 
       document.getElementById("buttonSave").disabled = true;
@@ -1320,7 +1320,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       
       <%-- focus empty field --%>
       /*
@@ -1430,7 +1430,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     
       <%-- focus empty field --%>
       /*
@@ -1467,7 +1467,7 @@
   
   <%-- DELETE TIME BLOCK --%>
   function deleteTB(rowid){ 
-    if(yesnoDialog("web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sTB = deleteRowFromArrayString(sTB,rowid.id);
       tblTB.deleteRow(rowid.rowIndex);
       clearTBFields();

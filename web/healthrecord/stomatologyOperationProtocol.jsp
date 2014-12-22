@@ -27,7 +27,7 @@
     
     <table class="list" width="100%" cellspacing="1">
 		<tr>
-			<td style="vertical-align:top;padding:0" class="admin2">
+			<td style="vertical-align:top;padding:0" class="admin2" width="50%">
 			    <table class="list" cellspacing="1" cellpadding="0" width="100%">
 			        <%-- DATE --%>
 			        <tr>

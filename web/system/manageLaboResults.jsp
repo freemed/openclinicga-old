@@ -438,7 +438,7 @@
       transactionForm.submit();
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       transactionForm.FindResultDate.focus();
     }
   }
@@ -453,7 +453,7 @@
 
   <%-- DO DELETE --%>
   function doDelete(serverid,transactionid,labcode){
-	if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.Action.value = "delete";
 
       transactionForm.EditServerId.value = serverid;

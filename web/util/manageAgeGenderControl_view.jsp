@@ -284,7 +284,7 @@
 
   <%-- ASK DELETE --%>
   function askDelete(sID){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       AGCForm.Action.value = "Delete";
       AGCForm.RecordID.value = sID;
       AGCForm.submit();

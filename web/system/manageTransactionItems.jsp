@@ -325,7 +325,7 @@ function askDelete() {
     transactionForm.itemTypeId.focus();
   }
   else{
-	if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.ActionField.value = "Delete";
       transactionForm.submit();
     }

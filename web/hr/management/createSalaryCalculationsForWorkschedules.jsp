@@ -156,7 +156,7 @@
 <script>  
   <%-- CREATE CALCULATIONS --%>
   function createCalculations(){
-    if(yesnoDialog("web","areYouSure")){
+      if(yesnoDeleteDialog()){
       var okToSubmit = true;
 
       if(okToSubmit){  

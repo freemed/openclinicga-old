@@ -191,7 +191,7 @@
       if($F("appointmentDateDay").trim().length==0){
         $("appointmentDateDay").focus();
       }
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
     }
     else if(!goodTime()){
       alertDialog("web.errors","appointment.must.10.min.least");

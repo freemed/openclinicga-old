@@ -562,7 +562,7 @@
       else if(transactionForm.EditLabelLang.value.length==0) transactionForm.EditLabelLang.focus();
     }
     else{
-  	  if(yesnoDialog("Web","areYouSureToDelete")){
+        if(yesnoDeleteDialog()){
         transactionForm.Action.value = "Delete";
         transactionForm.submit();
       }

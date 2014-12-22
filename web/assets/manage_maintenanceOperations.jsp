@@ -276,7 +276,7 @@
       }
     }
     else{
-      alertDialog("web.manage","dataMissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       
       <%-- focus empty field --%>
            if(document.getElementById("maintenancePlanName").value.length==0) document.getElementById("maintenancePlanName").focus(); 
@@ -344,7 +344,7 @@
   
   <%-- DELETE MAINTENANCE OPERATION --%>
   function deleteMaintenanceOperation(){
-	if(yesnoDialog("Web","areYouSureToDelete")){       
+      if(yesnoDeleteDialog()){
       disableButtons();
       
       var url = "<c:url value='/assets/ajax/maintenanceOperation/deleteMaintenanceOperation.jsp'/>?ts="+new Date().getTime();

@@ -128,7 +128,7 @@
     var maySubmit = true;
 
     if(transactionForm.EditUnit.value.length==0){
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       transactionForm.EditUnit.focus();
       maySubmit = false;
     }

@@ -328,7 +328,7 @@
     
   <%-- DO DELETE --%>
   function doDelete(){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       transactionForm.Action.value = "Delete";
       transactionForm.submit();
     }

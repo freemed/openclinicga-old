@@ -35,7 +35,7 @@
 	    if(rs.getInt("total") > 0){
 	        %>
 	        <script>
-	          if(yesnoDialog("web","patientexists")){
+            if(yesnoDeleteDialog()){
 	            window.opener.document.getElementsByName('newPatient')[0].value = "1";
 	            window.opener.document.getElementsByName('EditPatientForm')[0].submit();
 	          }

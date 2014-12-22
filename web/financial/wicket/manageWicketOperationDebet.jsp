@@ -222,19 +222,19 @@
   <%-- DO SAVE --%>
   function doSave(){
     if(EditForm.EditWicketOperationWicket.value==""){
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       EditForm.EditWicketOperationWicket.focus();
     }
     else if(EditForm.EditWicketOperationDate.value==""){
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       EditForm.EditWicketOperationDate.focus();
     }
     else if(EditForm.EditWicketOperationType.value==""){
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       EditForm.EditWicketOperationType.focus();
     }
     else if(EditForm.EditWicketOperationAmount.value==""){
-      alertDialog("web.manage","datamissing");
+                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
       EditForm.EditWicketOperationAmount.focus();
     }
     else{

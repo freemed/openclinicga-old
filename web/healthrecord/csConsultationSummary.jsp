@@ -591,7 +591,7 @@
   }
 
   function deleteRFE(serverid,objectid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       var params = "serverid="+serverid+"&objectid="+objectid+"&encounterUid=<%=encounter!=null?encounter.getUid():""%>&language=<%=sWebLanguage%>";
       var today = new Date();
       var url= '<c:url value="/healthrecord/deleteRFE.jsp"/>?ts='+today;

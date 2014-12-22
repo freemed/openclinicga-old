@@ -560,7 +560,7 @@
         <%-- header --%>
         <tr>
             <td class="admin" width="40" rowspan="2"/>
-            <td class="admin" width="50" rowspan="2" style="vertical-align:bottom;padding-bottom:4px;"><%=getTran("Web.occup","medwan.common.hour",sWebLanguage)%></td>
+            <td class="admin" rowspan="2" style="width: 50;vertical-align:bottom;padding-bottom:4px;"><%=getTran("Web.occup","medwan.common.hour",sWebLanguage)%></td>
             <td class="admin" colspan="2"><center><%=getTran("openclinic.chuk","ta",sWebLanguage)%></center></td>
             <td class="admin" width="75" rowspan="2" style="vertical-align:bottom;padding-bottom:4px;"><%=getTran("openclinic.chuk","heartfrequency",sWebLanguage)%></td>
             <td class="admin" width="90" rowspan="2" style="vertical-align:bottom;padding-bottom:4px;"><%=getTran("openclinic.chuk","temperature",sWebLanguage)%></td>
@@ -571,20 +571,20 @@
             <td class="admin" width="50"><%=getTran("openclinic.chuk","dias",sWebLanguage)%></td>
         </tr>
         <tr>
-            <td class="admin2"/>
-            <td class="admin2">
+            <td class="admin2" width="40"/>
+            <td class="admin2" width="50">
                 <input type="text" class="text" size="5" name="svheure" onblur="checkTime(this);"onkeypress="keypressTime(this)">
             </td>
-            <td class="admin2">
+            <td class="admin2" width="50">
                 <input type="text" class="text" size="4" name="svsys" onblur="isNumber(this);">
             </td>
-            <td class="admin2">
+            <td class="admin2" width="50">
                 <input type="text" class="text" size="4" name="svdias" onblur="isNumber(this);">
             </td>
-            <td class="admin2">
+            <td class="admin2" width="75">
                 <input type="text" class="text" size="4" name="svrythme" onblur="isNumber(this);"> /min
             </td>
-            <td class="admin2">
+            <td class="admin2" width="90">
                 <input type="text" class="text" size="4" name="svtemp" onblur="isNumber(this);"> °C
             </td>
             <td class="admin2">
@@ -623,30 +623,30 @@
             <td class="admin"/>
         </tr>
         <tr>
-            <td class="admin2"/>
-            <td class="admin2">
+            <td class="admin2" width="40"/>
+            <td class="admin2" width="50">
                 <input type="text" class="text" size="5" name="svrheure" onblur="checkTime(this);"onkeypress="keypressTime(this)">
             </td>
-            <td class="admin2">
+            <td class="admin2" width="75">
                 <input type="text" class="text" size="4" name="svrresp" onblur="isNumber(this);"> /min
             </td>
-            <td class="admin2">
+            <td class="admin2" width="75">
                 <input type="text" class="text" size="4" name="svrambient" onblur="isNumber(this);"> %
             </td>
-            <td class="admin2">
+            <td class="admin2" width="100">
                 <input type="text" class="text" size="4" name="svrunder" onblur="isNumber(this);"> %
             </td>
-            <td class="admin2">
+            <td class="admin2" width="100">
                 <input type="text" class="text" size="4" name="svrvolume" onblur="isNumber(this);"> l/min
             </td>
 
-            <td class="admin2">
+            <td class="admin2" width="150">
                 <select class="text" name="svrmode">
                     <option/>
                     <%=ScreenHelper.writeSelect("surveillane.vital.resp.signs.mode","",sWebLanguage)%>
                 </select>
             </td>
-            <td class="admin2">
+            <td class="admin2" width="300">
                 <input type="text" class="text" size="50" name="svrobservation" value="">
             </td>
 
@@ -686,13 +686,13 @@
             <td class="admin"/>
         </tr>
         <tr>
-            <td class="admin2"/>
-            <td class="admin2"><input type="text" class="text" size="5" name="consheure" onblur="checkTime(this);"onkeypress="keypressTime(this)"></td>
-            <td class="admin2"><input type="text" class="text" size="4" name="consyeux" onblur="if(!isNumberLimited(this,0,4))this.value='';calculateTotal();"></td>
-            <td class="admin2"><input type="text" class="text" size="4" name="consmotrice" onblur="if(!isNumberLimited(this,0,6))this.value='';calculateTotal();"></td>
-            <td class="admin2"><input type="text" class="text" size="4" name="consverbale" onblur="if(!isNumberLimited(this,0,5))this.value='';calculateTotal();"></td>
-            <td class="admin2"><input type="text" class="text" size="4" name="constotal" onblur="if(!isNumberLimited(this,0,15))this.value='';"  readonly></td>
-            <td class="admin2">
+            <td class="admin2" width="40"/>
+            <td class="admin2" width="50"><input type="text" class="text" size="5" name="consheure" onblur="checkTime(this);"onkeypress="keypressTime(this)"></td>
+            <td class="admin2" width="150"><input type="text" class="text" size="4" name="consyeux" onblur="if(!isNumberLimited(this,0,4))this.value='';calculateTotal();"></td>
+            <td class="admin2" width="150"><input type="text" class="text" size="4" name="consmotrice" onblur="if(!isNumberLimited(this,0,6))this.value='';calculateTotal();"></td>
+            <td class="admin2" width="150"><input type="text" class="text" size="4" name="consverbale" onblur="if(!isNumberLimited(this,0,5))this.value='';calculateTotal();"></td>
+            <td class="admin2" width="100"><input type="text" class="text" size="4" name="constotal" onblur="if(!isNumberLimited(this,0,15))this.value='';"  readonly></td>
+            <td class="admin2" width="150">
                 <select class="text" name="conspain">
                     <option/>
                     <option value="0" style="background-color:forestgreen">0 <%=getTran("openclinic.chuk","0.nopain",sWebLanguage)%></option>
@@ -705,7 +705,7 @@
                     <option value="7" style="background-color:orange">7</option>
                     <option value="8" style="background-color:darkorange">8</option>
                     <option value="9" style="background-color:#FF3300">9</option>
-                    <option value="10" style="background-color:#CC3300">10 <%=getTran("openclinic.chuk","0.worstpain",sWebLanguage)%></option>
+                    <option value="10" style="background-color:#CC3300">10 <%=getTran("openclinic.chuk","10.worstpain",sWebLanguage)%></option>
                 </select>
             </td>
             <td class="admin2">
@@ -741,11 +741,11 @@
             <td class="admin"/>
         </tr>
         <tr>
-            <td class="admin2"/>
-            <td class="admin2"><input type="text" class="text" size="5" name="bioheure" onblur="checkTime(this);"onkeypress="keypressTime(this)"></td>
-            <td class="admin2"><input type="text" class="text" size="4" name="biopoids" onblur="isNumber(this);calculateBMI();"> kg</td>
-            <td class="admin2"><input type="text" class="text" size="4" name="biotaille" onblur="isNumber(this);calculateBMI();"> cm</td>
-            <td class="admin2"><input type="text" class="text" size="4" name="biobmi" readonly></td>
+            <td class="admin2" width="40"/>
+            <td class="admin2" width="50"><input type="text" class="text" size="5" name="bioheure" onblur="checkTime(this);"onkeypress="keypressTime(this)"></td>
+            <td class="admin2" width="75"><input type="text" class="text" size="4" name="biopoids" onblur="isNumber(this);calculateBMI();"> kg</td>
+            <td class="admin2" width="75"><input type="text" class="text" size="4" name="biotaille" onblur="isNumber(this);calculateBMI();"> cm</td>
+            <td class="admin2" width="75"><input type="text" class="text" size="4" name="biobmi" readonly></td>
             <td class="admin2">
                 <input type="button" class="button" name="ButtonAddBiometrie" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addBiometrie();">
                 <input type="button" class="button" name="ButtonUpdateBiometrie" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateBiometrie();">
@@ -785,26 +785,26 @@
             <td class="admin" width="100"><%=getTran("openclinic.chuk","haem",sWebLanguage)%></td>
         </tr>
         <tr>
-            <td class="admin2"/>
-            <td class="admin2">
+            <td class="admin2" width="40"/>
+            <td class="admin2" width="50">
                 <input type="text" class="text" size="5" name="bentreeheure" onblur="checkTime(this);"onkeypress="keypressTime(this)">
             </td>
-            <td class="admin2">
+            <td class="admin2" width="100">
                 <input type="text" class="text" size="4" name="bentreelactate" onblur="isNumber(this);">
             </td>
-            <td class="admin2">
+            <td class="admin2" width="100">
                 <input type="text" class="text" size="4" name="bentreeglucose" onblur="isNumber(this);">
             </td>
-            <td class="admin2">
+            <td class="admin2" width="100">
                 <input type="text" class="text" size="4" name="bentreephysio" onblur="isNumber(this);">
             </td>
-            <td class="admin2">
+            <td class="admin2" width="100">
                 <input type="text" class="text" size="4" name="bentreehaem" onblur="isNumber(this);">
             </td>
-            <td class="admin2">
+            <td class="admin2" width="75">
                 <input type="text" class="text" size="4" name="bentreetrans" onblur="isNumber(this);"> ml
             </td>
-            <td class="admin2">
+            <td class="admin2" width="75">
                 <input type="text" class="text" size="4" name="bentreesang" onblur="isNumber(this);">
             </td>
             <td class="admin2">
@@ -1038,58 +1038,58 @@
                     <tr>
                         <td class="admin" width="40" rowspan="2"></td>
                         <td class="admin" width="50" rowspan="2" style="vertical-align:bottom;padding-bottom:4px;"><%=getTran("Web.occup","medwan.common.hour",sWebLanguage)%></td>
-                        <td class="admin" width="200" colspan="5"><center><%=getTran("openclinic.chuk","nutritive.liquid",sWebLanguage)%></center></td>
-                        <td class="admin" width="150" colspan="3"><center><%=getTran("openclinic.chuk","nutritional.state",sWebLanguage)%></center></td>
+                        <td class="admin" width="350" colspan="5"><center><%=getTran("openclinic.chuk","nutritive.liquid",sWebLanguage)%></center></td>
+                        <td class="admin" width="210" colspan="3"><center><%=getTran("openclinic.chuk","nutritional.state",sWebLanguage)%></center></td>
                         <td class="admin" width="*" rowspan="2" style="vertical-align:bottom;padding-bottom:4px;"><%=getTran("openclinic.chuk","observation",sWebLanguage)%></td>
                         <td class="admin" width="200" rowspan="2"></td>
                     </tr>
 
                     <%-- header --%>
                     <tr>
-                        <td class="admin"><%=getTran("openclinic.chuk","milk",sWebLanguage)%></td>
-                        <td class="admin"><%=getTran("openclinic.chuk","pulp",sWebLanguage)%></td>
-                        <td class="admin"><%=getTran("openclinic.chuk","soup",sWebLanguage)%></td>
-                        <td class="admin"><%=getTran("openclinic.chuk","juice",sWebLanguage)%></td>
-                        <td class="admin"><%=getTran("openclinic.chuk","water",sWebLanguage)%></td>
-                        <td class="admin"><%=getTran("openclinic.chuk","pb",sWebLanguage)%></td>
-                        <td class="admin"><%=getTran("openclinic.chuk","pt",sWebLanguage)%></td>
-                        <td class="admin"><%=getTran("openclinic.chuk","imc",sWebLanguage)%></td>
+                        <td class="admin" width="70"><%=getTran("openclinic.chuk","milk",sWebLanguage)%></td>
+                        <td class="admin" width="70"><%=getTran("openclinic.chuk","pulp",sWebLanguage)%></td>
+                        <td class="admin" width="70"><%=getTran("openclinic.chuk","soup",sWebLanguage)%></td>
+                        <td class="admin" width="70"><%=getTran("openclinic.chuk","juice",sWebLanguage)%></td>
+                        <td class="admin" width="70"><%=getTran("openclinic.chuk","water",sWebLanguage)%></td>
+                        <td class="admin" width="70"><%=getTran("openclinic.chuk","pb",sWebLanguage)%></td>
+                        <td class="admin" width="70"><%=getTran("openclinic.chuk","pt",sWebLanguage)%></td>
+                        <td class="admin" width="70"><%=getTran("openclinic.chuk","imc",sWebLanguage)%></td>
                     </tr>
 
                     <tr>
-                        <td class="admin2"/>
-                        <td class="admin2">
+                        <td class="admin2" width="40"/>
+                        <td class="admin2" width="50">
                             <input type="text" class="text" size="5" name="sitnutriheure" onblur="checkTime(this);"onkeypress="keypressTime(this)">
                         </td>
-                        <td class="admin2">
+                        <td class="admin2" width="70">
                             <input type="text" class="text" size="4" name="sitnutrilait" onblur="isNumber(this);"> ml
                         </td>
-                        <td class="admin2">
+                        <td class="admin2" width="70">
                             <input type="text" class="text" size="4" name="sitnutribouillie" onblur="isNumber(this);"> ml
                         </td>
-                        <td class="admin2">
+                        <td class="admin2" width="70">
                             <input type="text" class="text" size="4" name="sitnutripotage" onblur="isNumber(this);"> ml
                         </td>
-                        <td class="admin2">
+                        <td class="admin2" width="70">
                             <input type="text" class="text" size="4" name="sitnutrijuice" onblur="isNumber(this);"> ml
                         </td>
-                        <td class="admin2">
+                        <td class="admin2" width="70">
                             <input type="text" class="text" size="4" name="sitnutriwater" onblur="isNumber(this);"> ml
                         </td>
-                        <td class="admin2">
+                        <td class="admin2" width="70">
                             <input type="text" class="text" size="4" name="sitnutripb" onblur="isNumber(this);"> cm
                         </td>
-                        <td class="admin2">
+                        <td class="admin2" width="70">
                             <input type="text" class="text" size="4" name="sitnutript" onblur="isNumber(this);">
                         </td>
-                        <td class="admin2">
+                        <td class="admin2" width="70">
                             <input type="text" class="text" size="4" name="sitnutriimc" onblur="isNumber(this);" readonly>
                         </td>
                         <td class="admin2">
-                            <input type="text" class="text" size="50" name="sitnutriobservation" value="">
+                            <input type="text" class="text" size="80" name="sitnutriobservation" value="">
                         </td>
 
-                        <td class="admin2">
+                        <td class="admin2" width="200">
                             <input type="button" class="button" name="ButtonAddSitNutri" value="<%=getTranNoLink("Web","add",sWebLanguage)%>" onclick="addSitNutri();">
                             <input type="button" class="button" name="ButtonUpdateSitNutri" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>" onclick="updateSitNutri();">
                         </td>
@@ -1261,7 +1261,7 @@ function clearSignesVitauxFields(){
 }
 
 function deleteSignesVitaux(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sSignesVitaux = deleteRowFromArrayString(sSignesVitaux,rowid.id);
     tblSignesVitaux.deleteRow(rowid.rowIndex);
     clearSignesVitauxFields();
@@ -1400,7 +1400,7 @@ function clearSignesVitauxRespFields(){
 }
 
 function deleteSignesVitauxResp(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sSignesVitauxResp = deleteRowFromArrayString(sSignesVitauxResp,rowid.id);
     tblSignesVitauxResp.deleteRow(rowid.rowIndex);
     clearSignesVitauxRespFields();
@@ -1547,7 +1547,7 @@ function clearConscienceFields(){
 }
 
 function deleteConscience(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sConscience = deleteRowFromArrayString(sConscience,rowid.id);
     tblConscience.deleteRow(rowid.rowIndex);
     clearConscienceFields();
@@ -1669,7 +1669,7 @@ function clearBiometrieFields(){
 }
 
 function deleteBiometrie(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sBiometrie = deleteRowFromArrayString(sBiometrie,rowid.id);
     tblBiometrie.deleteRow(rowid.rowIndex);
     clearBiometrieFields();
@@ -1815,7 +1815,7 @@ function clearBilanEntreeFields(){
 }
 
 function deleteBilanEntree(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sBilanEntree = deleteRowFromArrayString(sBilanEntree,rowid.id);
     tblBilanEntree.deleteRow(rowid.rowIndex);
     clearBilanEntreeFields();
@@ -1989,7 +1989,7 @@ function clearSitNutriFields(){
 }
 
 function deleteSitNutri(rowid){
-  if(yesnoDialog("Web","areYouSureToDelete")){
+    if(yesnoDeleteDialog()){
     sSitNutri = deleteRowFromArrayString(sSitNutri,rowid.id);
     tblSitNutri.deleteRow(rowid.rowIndex);
     clearSitNutriFields();

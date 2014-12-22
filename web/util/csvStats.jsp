@@ -101,7 +101,7 @@
         query = "select oc_debet_date as DATE, lastname as NOM, firstname as PRENOM, oc_prestation_description as PRESTATION,"+
                 "  oc_debet_quantity as QUANTITE,"+MedwanQuery.getInstance().convert("int","oc_debet_amount")+" as PATIENT,"+
                    MedwanQuery.getInstance().convert("int","oc_debet_insuraramount")+" as ASSUREUR, oc_label_value as SERVICE,"+
-                "  oc_debet_credited as ANNULE,replace(oc_debet_patientinvoiceuid,'1.','') as FACT_PATIENT"+
+                "  oc_debet_credited as ANNULE,replace(oc_debet_patientinvoiceuid,'1.','') as FACT_PATIENT, oc_encounter_type as ENCOUNTER_TYPE"+
         		" from oc_debets, oc_encounters, adminview, oc_prestations, servicesview, oc_labels"+
         		"  where oc_encounter_objectid = replace(oc_debet_encounteruid,'1.','')"+
         		"   and oc_prestation_objectid = replace(oc_debet_prestationuid,'1.','')"+
@@ -110,9 +110,28 @@
         		"   and oc_label_id = serviceid"+
         		"   and oc_label_language = 'fr'"+
         		"   and oc_encounter_patientuid = personid"+
-        		"   and oc_debet_date >= "+MedwanQuery.getInstance().convertStringToDate("'<beginfin>'")+
-        		"   and oc_debet_date <= "+MedwanQuery.getInstance().convertStringToDate("'<endfin>'")+
+        		"   and oc_debet_date >= "+MedwanQuery.getInstance().convertStringToDate("'<begin>'")+
+        		"   and oc_debet_date <= "+MedwanQuery.getInstance().convertStringToDate("'<end>'")+
         		" ORDER BY oc_debet_date, lastname, firstname";
+        		System.out.println(query);
+    }
+	//*** 6 - DEBETS *****************************************************
+    else if("debet.list.per.encounter".equalsIgnoreCase(sQueryType)){
+        query = "select count(*) as TOTAL_ENCOUNTERS, "+MedwanQuery.getInstance().convert("int","avg(PATIENT)")+" as PATIENT,"+MedwanQuery.getInstance().convert("int",MedwanQuery.getInstance().getConfigString("stddevFunction","stdev")+"("+MedwanQuery.getInstance().convert("int","PATIENT")+")")+" as PATIENT_STDEV, "+MedwanQuery.getInstance().convert("int","avg(ASSUREUR)")+" as ASSUREUR,"+MedwanQuery.getInstance().convert("int",MedwanQuery.getInstance().getConfigString("stddevFunction","stdev")+"("+MedwanQuery.getInstance().convert("int","ASSUREUR")+")")+" as ASSUREUR_STDEV, "+MedwanQuery.getInstance().convert("int","avg(ASSUREUR_COMPL)")+" as ASSUREUR_COMPL,"+MedwanQuery.getInstance().convert("int",MedwanQuery.getInstance().getConfigString("stddevFunction","stdev")+"("+MedwanQuery.getInstance().convert("int","ASSUREUR_COMPL")+")")+" as ASSUREUR_COMPL_STDEV, ENCOUNTER_TYPE from (select sum("+MedwanQuery.getInstance().convert("int","oc_debet_amount")+") as PATIENT,sum("+
+                MedwanQuery.getInstance().convert("int","oc_debet_insuraramount")+") as ASSUREUR,sum("+
+                        MedwanQuery.getInstance().convert("int","oc_debet_extrainsuraramount")+") as ASSUREUR_COMPL,oc_encounter_objectid, oc_encounter_type as ENCOUNTER_TYPE"+
+        		" from oc_debets, oc_encounters, adminview, oc_prestations, servicesview, oc_labels"+
+        		"  where oc_encounter_objectid = replace(oc_debet_encounteruid,'1.','')"+
+        		"   and oc_prestation_objectid = replace(oc_debet_prestationuid,'1.','')"+
+        		"   and serviceid = oc_debet_serviceuid"+
+        		"   and oc_label_type = 'service'"+
+        		"   and oc_label_id = serviceid"+
+        		"   and oc_label_language = 'fr'"+
+        		"   and oc_encounter_patientuid = personid"+
+        		"   and oc_debet_date >= "+MedwanQuery.getInstance().convertStringToDate("'<begin>'")+
+        		"   and oc_debet_date <= "+MedwanQuery.getInstance().convertStringToDate("'<end>'")+
+        		" group BY oc_encounter_objectid,oc_encounter_type) a group by ENCOUNTER_TYPE";
+        		System.out.println(query);
     }
 	//*** 7 - INVOICES ***************************************************
     else if("hmk.invoices.list".equalsIgnoreCase(sQueryType)){

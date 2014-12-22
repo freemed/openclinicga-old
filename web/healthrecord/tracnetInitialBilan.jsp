@@ -318,7 +318,7 @@
   }
 
   function deleteOther(rowid){
-    if(yesnoDialog("Web","areYouSureToDelete")){
+      if(yesnoDeleteDialog()){
       sOther = deleteRowFromArrayString(sOther,rowid.id);
       tblOther.deleteRow(rowid.rowIndex);
       clearOtherFields();
