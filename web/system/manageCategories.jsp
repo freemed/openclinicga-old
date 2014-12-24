@@ -163,6 +163,7 @@
 <%=sJSEMAIL%>
 <form name="transactionForm" id="transactionForm" method="post">
     <input type="hidden" name="Action">
+    
 <%-- SEARCH FIELDS ------------------------------------------------------------------------------%>
 <%
     // only display header when not editing the data
@@ -178,6 +179,7 @@
                         <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchCategory('FindCategoryCode','FindCategoryText');">
                         <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="transactionForm.FindCategoryCode.value='';transactionForm.FindCategoryText.value='';">
                         <input type="hidden" name="FindCategoryCode" value="<%=sFindCategoryCode%>">&nbsp;
+                      
                         <%-- BUTTONS --%>
                         <input type="button" class="button" name="editButton" value="<%=getTranNoLink("Web","Edit",sWebLanguage)%>" onclick="doEdit(transactionForm.FindCategoryCode.value);">
                         <input type="button" class="button" name="clearButton" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearFields();">
