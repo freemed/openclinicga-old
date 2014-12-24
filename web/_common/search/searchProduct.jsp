@@ -248,10 +248,11 @@
 			    }
 			}
 		}
+
 	
 		if(!"false".equalsIgnoreCase(request.getParameter("resetServiceStockUid"))){
 			%>
-		    if(window.opener.document.getElementsByName("EditServiceStockUid")[0]!=undefined){
+			if(window.opener.document.getElementsByName("EditServiceStockUid")[0]!=undefined){
 		      window.opener.document.getElementsByName("EditServiceStockUid")[0].value = "<%=serviceStockUid%>";
 		    }
 		    if(window.opener.document.getElementsByName("EditServiceStockName")[0]!=undefined){

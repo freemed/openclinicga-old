@@ -1229,21 +1229,6 @@ public double getLastYearsAveragePrice(Product product){
     }
   }
 
-  <%-- popup : search product --%>
-  function searchProduct(productUidField,productNameField,supplierUidField,supplierNameField){
-    var url = "/_common/search/searchProduct.jsp&ts=<%=getTs()%>&ReturnProductUidField="+productUidField+"&ReturnProductNameField="+productNameField+"&DisplayProductsOfService=true&resetServiceStockUid=false";
-
-    if(supplierUidField!=undefined){
-      url+= "&ReturnSupplierUidField="+supplierUidField;
-    }
-
-    if(supplierNameField!=undefined){
-      url+= "&ReturnSupplierNameField="+supplierNameField;
-    }
-
-    openPopup(url);
-  }
-
   <%-- popup : search service stock --%>
   function searchServiceStock(serviceStockUidField,serviceStockNameField){
     openPopup("/_common/search/searchServiceStock.jsp&ts=<%=getTs()%>&ReturnServiceStockUidField="+serviceStockUidField+"&ReturnServiceStockNameField="+serviceStockNameField);
@@ -1360,7 +1345,7 @@ public double getLastYearsAveragePrice(Product product){
 		                 unitsPerPackageField,productStockUidField,serviceStockUidField){
     var url = "/_common/search/searchProduct.jsp&ts=<%=getTs()%>"+
               "&loadschema=true&ReturnProductUidField="+productUidField+
-              "&ReturnProductNameField="+productNameField;
+              "&ReturnProductNameField="+productNameField+"&DisplayProductsOfService=true&resetServiceStockUid=false";
 
     if(productUnitField!=undefined){
       url+= "&ReturnProductUnitField="+productUnitField;
