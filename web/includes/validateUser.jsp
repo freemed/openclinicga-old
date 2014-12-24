@@ -1,5 +1,5 @@
 <%@page import="be.mxs.common.util.db.MedwanQuery,
-                net.admin.system.AccessLog"%>
+                net.admin.system.AccessLog, java.util.*"%>
 <%@include file="/includes/helper.jsp"%>
 <%@include file="/includes/SingletonContainer.jsp"%>
 

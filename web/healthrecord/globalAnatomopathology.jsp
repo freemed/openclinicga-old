@@ -30,6 +30,7 @@
             String sServerID = sessionContainerWO.getCurrentTransactionVO().getServerId()+"";
             sIdentificationNr = "5"+ScreenHelper.padLeft(sServerID,"0",3)+MedwanQuery.getInstance().getNewOccupCounterValue("IdentificationAnatomopathologyID");
         }
+        TransactionVO tran = (TransactionVO)transaction;
     %>
 
     <table class="list" cellspacing="1" cellpadding="0" width="100%">
@@ -53,36 +54,134 @@
             </td>
         </tr>
 
+		<%-- dates --%>
+		<tr>
+            <td class="admin" width="<%=sTDAdminWidth%>">
+                <%=getTran("Web.Occup","specimen.reception.date",sWebLanguage)%>
+            </td>
+            <td class="admin2">
+            	<table width='100%'>
+            		<tr>
+            			<td class='admin2' width='200px' nowrap>
+			                <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_SPECIMEN_RECEPTION_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_SPECIMEN_RECEPTION_DATE" property="value"/>" id="specimenreceptiondate" OnBlur='checkDate(this)'>
+			                <script>writeMyDate("specimenreceptiondate");</script>
+            			</td>
+			            <td class="admin" width="<%=sTDAdminWidth%>">
+			                <%=getTran("Web.Occup","reported.date",sWebLanguage)%>
+			            </td>
+            			<td class='admin2'>
+			                <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_SPECIMEN_REPORTED_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_SPECIMEN_REPORTED_DATE" property="value"/>" id="reporteddate" OnBlur='checkDate(this)'>
+			                <script>writeMyDate("reporteddate");</script>
+            			</td>
+            		</tr>
+            	</table>
+            </td>
+		</tr>
+		
+		<%-- physician --%>
+        <tr>
+            <td class='admin'><%=getTran("web","physician",sWebLanguage)%></td>
+            <td class='admin2'>
+            	<table width='100%'>
+            		<tr>
+            			<td class='admin2' width='200px' nowrap>
+			                <input type="text" class="text" size="30" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_PHYSICIAN")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_PHYSICIAN" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_PHYSICIAN" property="value"/>">
+            			</td>
+			            <td class="admin" width="<%=sTDAdminWidth%>">
+			                <%=getTran("web","address",sWebLanguage)%>
+			            </td>
+            			<td class='admin2'>
+			                <input type="text" class="text" size="40" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_ADDRESS")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_ADDRESS" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_ADDRESS" property="value"/>">
+            			</td>
+            		</tr>
+            	</table>
+            </td>
+        </tr>
+		
         <%-- nature --%>
         <tr>
-            <td class="admin"><%=getTran("openclinic.chuk","nature",sWebLanguage)%>&nbsp;</td>
+            <td class="admin"><%=getTran("web","anatomical.location",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
-                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_NATURE")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_NATURE" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_NATURE" property="value"/></textarea>
+            	<table width='100%'>
+            		<tr>
+            		    <td class="admin2" width='1%' nowrap><%=getTran("web","anatomical.location.site",sWebLanguage)%>&nbsp;</td>
+            		    <td>
+			            	<select id='location.site' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_SITE" property="itemId"/>]>.value" class="text" onchange="fillDetail('location.organ',this.value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_ORGAN")%>');">
+				            <option/>
+				                <%=ScreenHelper.writeSelect("location.site", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_SITE"), sWebLanguage)%>
+				            </select>
+            		    </td>
+            		</tr>
+            		<tr>
+            		    <td class="admin2" width='1%' nowrap><%=getTran("web","anatomical.location.organ",sWebLanguage)%>&nbsp;</td>
+            		    <td>
+			            	<select id='location.organ' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_ORGAN" property="itemId"/>]>.value" class="text">
+				            <option/>
+				                <%=ScreenHelper.writeSelect("location.site."+tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_SITE"), tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_ORGAN"), sWebLanguage,false,false)%>
+				            </select>
+            		    </td>
+            		</tr>
+            		<tr>
+            		    <td class="admin2" width='1%' nowrap><%=getTran("web","anatomical.location.detail",sWebLanguage)%>&nbsp;</td>
+            		    <td>
+							<input type="text" class="text" size="80" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_DETAIL")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_DETAIL" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_DETAIL" property="value"/>">
+            		    </td>
+            		</tr>
+            	
+            	</table>
             </td>
         </tr>
 
-        <%-- sample_date --%>
+        <%-- procedure --%>
         <tr>
-            <td class="admin"><%=getTran("openclinic.chuk","sample_date",sWebLanguage)%>&nbsp;</td>
+            <td class="admin"><%=getTran("openclinic.chuk","procedure_type",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
-                <input type="text" class="text" size="12" maxLength="10" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_SAMPLE_DATE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_SAMPLE_DATE" property="value"/>" id="sampledate" OnBlur='checkDate(this)'>
-                <script>writeMyDate("sampledate");</script>
+	           	<select id='procedure.type' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_PROCEDURE_TYPE" property="itemId"/>]>.value" class="text" onchange="checkprocedure();">
+		            <option>
+	                <%=ScreenHelper.writeSelect("procedure.type", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_PROCEDURE_TYPE"), sWebLanguage,false,false)%>
+		            <option value='0' <%=(tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_PROCEDURE_TYPE")+"").equals("0")?"selected":"" %>><%=getTran("web","other.procedure",sWebLanguage) %></option>
+	            </select>
+				<input id='proceduretext' type="text" class="text" size="40" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_PROCEDURE_TEXT")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_PROCEDURE_TEXT" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_PROCEDURE_TEXT" property="value"/>">
             </td>
         </tr>
 
         <%-- disease_history --%>
         <tr>
-            <td class="admin"><%=getTran("openclinic.chuk","disease_history",sWebLanguage)%>&nbsp;</td>
+            <td class="admin"><%=getTran("openclinic.chuk","clinical_data",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
                 <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_HISTORY")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_HISTORY" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_HISTORY" property="value"/></textarea>
             </td>
         </tr>
 
+        <%-- gross description --%>
+        <tr>
+            <td class="admin"><%=getTran("openclinic.chuk","gross.description",sWebLanguage)%>&nbsp;</td>
+            <td class="admin2">
+                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_GROSS_DESCRIPTION")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_GROSS_DESCRIPTION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_GROSS_DESCRIPTION" property="value"/></textarea>
+            </td>
+        </tr>
+
+        <%-- microscopic examination --%>
+        <tr>
+            <td class="admin"><%=getTran("openclinic.chuk","microscopic.examination",sWebLanguage)%>&nbsp;</td>
+            <td class="admin2">
+                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_MICROSCOPIC_EXAMINATION")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_MICROSCOPIC_EXAMINATION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_MICROSCOPIC_EXAMINATION" property="value"/></textarea>
+            </td>
+        </tr>
+
         <%-- result --%>
         <tr>
-            <td class="admin"><%=getTran("openclinic.chuk","result",sWebLanguage)%>&nbsp;</td>
+            <td class="admin"><%=getTran("openclinic.chuk","conclusion",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
                 <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_RESULT")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_RESULT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_RESULT" property="value"/></textarea>
+            </td>
+        </tr>
+
+        <%-- canreg code --%>
+        <tr>
+            <td class="admin"><%=getTran("openclinic.chuk","canreg",sWebLanguage)%>&nbsp;</td>
+            <td class="admin2">
+					<input type="text" class="text" size="20" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_CANREG")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_CANREG" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_CANREG" property="value"/>">
             </td>
         </tr>
 
@@ -97,7 +196,6 @@
     
     <%-- BUTTONS --%>
     <%=ScreenHelper.alignButtonsStart()%>   
-        <input class="button" type="button" name="printLabelsButton" value="<%=getTranNoLink("Web","printlabels",sWebLanguage)%>" onclick="printLabels()"/><br>&nbsp;
         <%=getButtonsHtml(request,activeUser,activePatient,"occup.anatomopathology",sWebLanguage)%>
     <%=ScreenHelper.alignButtonsStop()%>
 
@@ -105,6 +203,62 @@
 </form>
 
 <script>
+
+	function checkprocedure(){
+		if(document.getElementById('procedure.type').value=='0'){
+			document.getElementById('proceduretext').style.display='';
+		}	
+		else{
+			document.getElementById('proceduretext').style.display='none';
+		}
+	}
+	
+	checkprocedure();
+
+	<%-- FILL DETAIL --%>	
+	function fillDetail(selectname,type,selectedvalue){
+		document.getElementById(selectname).options.length = 0;
+		
+		<%
+			Hashtable labelTypes = (Hashtable)MedwanQuery.getInstance().getLabels().get(sWebLanguage.toLowerCase());
+			if(labelTypes!=null){
+				Hashtable labelIds = (Hashtable)labelTypes.get("location.site");
+				if(labelIds!=null){
+					Enumeration idEnum = labelIds.keys();
+					while(idEnum.hasMoreElements()){
+						String type = (String)idEnum.nextElement();
+						out.println("if(type=='"+type+"'){");
+						
+						// Voor dit type gaan we nu de opties zetten
+						Hashtable options = (Hashtable)labelTypes.get("location.site."+type.toLowerCase());
+						SortedMap sortedoptions = new TreeMap(); 
+						if(options!=null){
+							Enumeration optionEnum = options.elements();
+							int counter = 0;
+							
+							while(optionEnum.hasMoreElements()){
+								String optionkey = ((Label)optionEnum.nextElement()).id.replace("'", "´");
+								String optionvalue = ((Label)options.get(optionkey)).value.replace("'", "´");
+								sortedoptions.put(Integer.parseInt(optionkey), optionvalue);
+							}
+							
+							Iterator iOptions = sortedoptions.keySet().iterator();
+							while(iOptions.hasNext()){
+								int optionkey=(Integer)iOptions.next();
+								String optionvalue=(String)sortedoptions.get(optionkey);
+								out.println("document.getElementById(selectname).options["+counter+"] = new Option('"+optionvalue+"','"+optionkey+"',false,selectedvalue=='"+optionkey+"');");
+								counter++;
+							}
+						}
+						
+						//out.println("Array.prototype.sort.call(document.getElementById(selectname).options,function(a,b){return a.text < b.text ? -1 : a.text > b.text ? 1 : 0;});");
+						out.println("if(document.getElementById(selectname).onchange) document.getElementById(selectname).onchange();");
+						out.println("}");
+					}
+				}
+			}
+		%>
+	}
   <%-- PRINT LABELS --%>
   function printLabels(){
     var url = "<c:url value='/healthrecord/createAnatomopathologyLabelPdf.jsp'/>"+
@@ -120,6 +274,9 @@
     document.getElementById("buttonsDiv").style.visibility = "hidden";
     <% out.print(takeOverTransaction(sessionContainerWO,activeUser,"document.transactionForm.submit();")); %>
   }
+  
+	checkprocedure();
+
 </script>
 
 <%=writeJSButtons("transactionForm","saveButton")%>
