@@ -19,7 +19,7 @@
 	        }
 	    }
 	    
-	    return "<tr "+(idx%2==0?"class='list'":"")+">"+
+	    return "<tr class='list'>"+
 	            "<td></td>"+
 	            "<td width='25%'><b>"+sLabel+"</b></td>"+
 	            "<td width='25%'>"+sScreenID+"</td>"+
