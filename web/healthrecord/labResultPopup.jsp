@@ -52,7 +52,7 @@
     // get specified analysis from Db
     RequestedLabAnalysis analysis = RequestedLabAnalysis.get(Integer.parseInt(serviceId),Integer.parseInt(transactionId),analysisCode);
 %>
-<form name="transactionForm" id="transactionForm" method="post" onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
+<form name="transactionForm" id="transactionForm" method="post">
 <%=writeTableHeader("Web.Occup","labresult",sWebLanguage,"")%>
 <table width="100%" class="list" cellspacing="1" cellpadding="0">
     <%-- hidden fields --%>

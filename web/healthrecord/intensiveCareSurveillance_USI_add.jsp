@@ -73,7 +73,7 @@ try{
 <%
     }else {
 %>
-<form name="transactionForm" id="transactionForm" method="POST" action='' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
+<form name="transactionForm" id="transactionForm" method="POST" action=''>
     <table cellspacing="0" cellpadding="0" width="100%">
     <tr class='admin' height='25'>
         <td><%=ScreenHelper.getTran("Web.Occup", ((TransactionVO)transaction).getTransactionType(), sWebLanguage)%></td>

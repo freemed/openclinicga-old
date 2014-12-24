@@ -1,7 +1,7 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("occup.neurologytransfer","select",activeUser)%>
-<form name="transactionForm" id="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
+<form name="transactionForm" id="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>'>
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 	<%=checkPrestationToday(activePatient.personid,false,activeUser,(TransactionVO)transaction)%>
     <input type="hidden" id="transactionId" name="currentTransactionVO.<TransactionVO[hashCode=<bean:write name="transaction" scope="page" property="transactionId"/>]>.transactionId" value="<bean:write name="transaction" scope="page" property="transactionId"/>"/>
@@ -93,7 +93,7 @@
 
   <%-- --%>
   function showTerminologyList(inputObj){
-    openPopup("/_common/search/searchTerminology.jsp&ReturnField="+inputObj.name);
+    openPopup("/_common/search/terminologyList.jsp&ReturnField="+inputObj.name);
   }
 
   <%-- SUBMIT FORM --%>

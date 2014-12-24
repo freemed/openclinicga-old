@@ -2,7 +2,7 @@
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("occup.neurologytransfer","select",activeUser)%>
 
-<form name="transactionForm" id="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>' onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
+<form name="transactionForm" id="transactionForm" method="POST" action='<c:url value="/healthrecord/updateTransaction.do"/>?ts=<%=getTs()%>'>
     <bean:define id="transaction" name="be.mxs.webapp.wl.session.SessionContainerFactory.WO_SESSION_CONTAINER" property="currentTransactionVO"/>
 	<%=checkPrestationToday(activePatient.personid,false,activeUser,(TransactionVO)transaction)%>
     
@@ -44,8 +44,8 @@
 				    <tr>
 				        <td class="admin"><%=getTran("Web.occup","neurology_transfer_consultationmotif",sWebLanguage)%>&nbsp;</td>
 				        <td class="admin2">
-				            <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NEUROLOGY_TRANSFER_CONSULTATIONMOTIF")%> class="text" cols="60" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_CONSULTATIONMOTIF" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_CONSULTATIONMOTIF" property="value"/></textarea>
-				            <a style="vertical-align:top;" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="showTerminologyList(this);"><img title="<%=getTranNoLink("web","terminologylist",sWebLanguage)%>" class="link" src="<c:url value="/_img/icons/icon_help.gif"/>"></a>
+				            <textarea id="consultationMotifTA" onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NEUROLOGY_TRANSFER_CONSULTATIONMOTIF")%> class="text" cols="60" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_CONSULTATIONMOTIF" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_CONSULTATIONMOTIF" property="value"/></textarea>
+				            <a style="vertical-align:top;" class="hand" onclick="showTerminologyList('consultationMotifTA','consultationMotif');"><img title="<%=getTranNoLink("web","terminologylist",sWebLanguage)%>" src="<c:url value="/_img/icons/icon_help.gif"/>"></a>
 				        </td>
 				    </tr>
 				   
@@ -53,8 +53,8 @@
 				    <tr>
 				        <td class="admin"><%=getTran("Web.occup","neurology_transfer_summaryworkdonewithpatient",sWebLanguage)%>&nbsp;</td>
 				        <td class="admin2">
-				            <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NEUROLOGY_TRANSFER_SUMMARY_WORK_DONE_WITH_PATIENT ")%> class="text" cols="60" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_SUMMARY_WORK_DONE_WITH_PATIENT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_SUMMARY_WORK_DONE_WITH_PATIENT" property="value"/></textarea>
-				            <a style="vertical-align:top;" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="showTerminologyList(this);"><img title="<%=getTranNoLink("web","terminologylist",sWebLanguage)%>" class="link" src="<c:url value="/_img/icons/icon_help.gif"/>"></a>
+				            <textarea id="workDoneTA" onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NEUROLOGY_TRANSFER_SUMMARY_WORK_DONE_WITH_PATIENT ")%> class="text" cols="60" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_SUMMARY_WORK_DONE_WITH_PATIENT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_SUMMARY_WORK_DONE_WITH_PATIENT" property="value"/></textarea>
+				            <a style="vertical-align:top;" class="hand" onclick="showTerminologyList('workDoneTA','workDone');"><img title="<%=getTranNoLink("web","terminologylist",sWebLanguage)%>" src="<c:url value="/_img/icons/icon_help.gif"/>"></a>
 				        </td>
 				    </tr>
 				    
@@ -62,8 +62,8 @@
 				    <tr>
 				        <td class="admin"><%=getTran("Web.occup","neurology_transfer_transfermotif",sWebLanguage)%>&nbsp;</td>
 				        <td class="admin2">
-				            <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NEUROLOGY_TRANSFER_TRANSFERMOTIF")%> class="text" cols="60" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_TRANSFERMOTIF" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_TRANSFERMOTIF" property="value"/></textarea>
-				            <a style="vertical-align:top;" onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"' onclick="showTerminologyList(this);"><img title="<%=getTranNoLink("web","terminologylist",sWebLanguage)%>" class="link" src="<c:url value="/_img/icons/icon_help.gif"/>"></a>
+				            <textarea id="transferMotifTA" onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_NEUROLOGY_TRANSFER_TRANSFERMOTIF")%> class="text" cols="60" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_TRANSFERMOTIF" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_NEUROLOGY_TRANSFER_TRANSFERMOTIF" property="value"/></textarea>
+				            <a style="vertical-align:top;" class="hand" onclick="showTerminologyList('transferMotifTA','transferMotif');"><img title="<%=getTranNoLink("web","terminologylist",sWebLanguage)%>" src="<c:url value="/_img/icons/icon_help.gif"/>"></a>
 				        </td>
 				    </tr>
 				    
@@ -96,8 +96,10 @@
   document.getElementById("transferDate").focus();
 
   <%-- SHOW TERMINOLOGY LIST --%>
-  function showTerminologyList(inputObj){
-    openPopup("/_common/search/terminologyList.jsp&ReturnField="+inputObj.name);
+  function showTerminologyList(inputField,terminologyType){
+    openPopup("/_common/search/terminologyList.jsp"+
+    		  "&ReturnField="+inputField+
+    		  "&TerminologyType="+terminologyType);
   }
 
   <%-- SUBMIT FORM --%>
@@ -115,6 +117,7 @@
     }
   }
   
+  <%-- SEARCH ENCOUNTER --%>
   function searchEncounter(){
     openPopup("/_common/search/searchEncounter.jsp&ts=<%=getTs()%>&VarCode=currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_ENCOUNTERUID" property="itemId"/>]>.value&VarText=&FindEncounterPatient=<%=activePatient.personid%>");
   }
