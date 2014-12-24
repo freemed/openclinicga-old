@@ -3540,8 +3540,8 @@ public class MedwanQuery {
                                
                 if(sArchCode.length()==0){
                 	// create new code
-	                String sArchiveID = ScreenHelper.convertToAlfabeticalCode(""+MedwanQuery.getInstance().getOpenclinicCounter("ArchiveFileID"));
-	                Debug.println("updateArchiveFile(personid:"+personid+") --> new archiveFileCode : "+sArchiveID);
+	                String sArchiveID = ScreenHelper.convertToAlfabeticalCode(""+MedwanQuery.getInstance().getNewArchiveFileCounter());
+	                System.out.println("updateArchiveFile(personid:"+personid+") --> new archiveFileCode : "+sArchiveID);
 	                
 	                // verify double use
 	                ps = ad_conn.prepareStatement("select personid from Admin where archiveFileCode=?");
@@ -3558,7 +3558,7 @@ public class MedwanQuery {
 		                ps.execute();
 	                }
 	                else{
-	                    Debug.println("updateArchiveFile(personid:"+personid+") --> archiveFileCode exists : "+sArchCode);
+	                	System.out.println("updateArchiveFile(personid:"+personid+") --> archiveFileCode exists : "+sArchCode);
 	                	rs.close();
 	                }
 	                
@@ -3573,7 +3573,7 @@ public class MedwanQuery {
                 ps.close();
                 ad_conn.close();
                 
-                Debug.println("updateArchiveFile(personid:"+personid+") --> person not found");
+                System.out.println("updateArchiveFile(personid:"+personid+") --> person not found");
                 return false;
             }
         }
@@ -3590,6 +3590,41 @@ public class MedwanQuery {
     }
     
     //--- GET OPENCLINIC COUNTER ------------------------------------------------------------------
+    public int getNewArchiveFileCounter(){
+        int newCounter = 0;
+        Connection oc_conn=getAdminConnection();
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        try{
+        	String sSql="select max(archivefilecode) code from admin where " +MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(archivefilecode)=(select max(" +MedwanQuery.getInstance().getConfigString("lengthFunction","len")+"(archivefilecode)) from admin)";
+        	ps = oc_conn.prepareStatement(sSql);
+            rs = ps.executeQuery();
+            if(rs.next()){
+            	String code=rs.getString("code");
+                newCounter = ScreenHelper.convertFromAlfabeticalCode(code)+1;
+            } 
+            else{
+                newCounter = 1;
+            }
+            rs.close();
+            ps.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+        	try{
+        		if(rs!=null) rs.close();
+        		if(ps!=null) ps.close();
+                oc_conn.close();
+        	}
+        	catch(Exception e2){
+        		e2.printStackTrace();
+        	}
+        }
+        return newCounter;
+    }
+    
     public int getOpenclinicCounter(String name){
     	int loopcounter=0;
     	while(countersInUse.get(name)!=null && loopcounter<500){
