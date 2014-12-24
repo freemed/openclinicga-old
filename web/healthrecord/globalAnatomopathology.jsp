@@ -30,6 +30,7 @@
             String sServerID = sessionContainerWO.getCurrentTransactionVO().getServerId()+"";
             sIdentificationNr = "5"+ScreenHelper.padLeft(sServerID,"0",3)+MedwanQuery.getInstance().getNewOccupCounterValue("IdentificationAnatomopathologyID");
         }
+        
         TransactionVO tran = (TransactionVO)transaction;
     %>
 
@@ -54,7 +55,7 @@
             </td>
         </tr>
 
-		<%-- dates --%>
+		<%-- dates (reception, reported) --%>
 		<tr>
             <td class="admin" width="<%=sTDAdminWidth%>">
                 <%=getTran("Web.Occup","specimen.reception.date",sWebLanguage)%>
@@ -98,7 +99,7 @@
             </td>
         </tr>
 		
-        <%-- nature --%>
+        <%-- location-site, -organ, -detail --%>
         <tr>
             <td class="admin"><%=getTran("web","anatomical.location",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
@@ -107,7 +108,7 @@
             		    <td class="admin2" width='1%' nowrap><%=getTran("web","anatomical.location.site",sWebLanguage)%>&nbsp;</td>
             		    <td>
 			            	<select id='location.site' name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_SITE" property="itemId"/>]>.value" class="text" onchange="fillDetail('location.organ',this.value,'<%=tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_ORGAN")%>');">
-				            <option/>
+				                <option/>
 				                <%=ScreenHelper.writeSelect("location.site", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_SITE"), sWebLanguage)%>
 				            </select>
             		    </td>
@@ -145,7 +146,7 @@
             </td>
         </tr>
 
-        <%-- disease_history --%>
+        <%-- history --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","clinical_data",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
@@ -169,7 +170,7 @@
             </td>
         </tr>
 
-        <%-- result --%>
+        <%-- result / conclusion --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","conclusion",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
@@ -177,15 +178,15 @@
             </td>
         </tr>
 
-        <%-- canreg code --%>
+        <%-- canreg --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","canreg",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
-					<input type="text" class="text" size="20" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_CANREG")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_CANREG" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_CANREG" property="value"/>">
+				<input type="text" class="text" size="20" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_CANREG")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_CANREG" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_CANREG" property="value"/>">
             </td>
         </tr>
 
-        <%-- declared_valid --%>
+        <%-- declared valid --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","declared_valid",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
@@ -203,7 +204,7 @@
 </form>
 
 <script>
-
+    <%-- CHECK PROCEDURE --%>
 	function checkprocedure(){
 		if(document.getElementById('procedure.type').value=='0'){
 			document.getElementById('proceduretext').style.display='';
@@ -259,6 +260,7 @@
 			}
 		%>
 	}
+	
   <%-- PRINT LABELS --%>
   function printLabels(){
     var url = "<c:url value='/healthrecord/createAnatomopathologyLabelPdf.jsp'/>"+
@@ -275,8 +277,7 @@
     <% out.print(takeOverTransaction(sessionContainerWO,activeUser,"document.transactionForm.submit();")); %>
   }
   
-	checkprocedure();
-
+  checkprocedure();
 </script>
 
 <%=writeJSButtons("transactionForm","saveButton")%>
