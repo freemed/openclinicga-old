@@ -1236,6 +1236,7 @@ SELECT.modified {
 img.link {
  cursor:pointer;
  vertical-align:middle;
+ *vertical-align:-2px;
  line-height:2em;
  border:none;
  -moz-opacity:0.8;

@@ -55,18 +55,18 @@
     
     <%=writeTableHeader("Web.manage","MonitorAccess",sWebLanguage," doBack();")%>
     
-    <table width="100%" class="menu" cellspacing="0">
+    <table width="100%" class="menu" cellspacing="1" cellpadding="0">
         <tr>
-            <td width="<%=sTDAdminWidth%>"><%=getTran("Web","Begin",sWebLanguage)%></td>
-            <td><%=writeDateField("FindBegin","transactionForm",sFindBegin,sWebLanguage)%></td>
+            <td width="<%=sTDAdminWidth%>" class="admin2"><%=getTran("Web","Begin",sWebLanguage)%></td>
+            <td class="admin2"><%=writeDateField("FindBegin","transactionForm",sFindBegin,sWebLanguage)%></td>
         </tr>
         <tr>
-            <td><%=getTran("Web","End",sWebLanguage)%></td>
-            <td><%=writeDateField("FindEnd","transactionForm",sFindEnd,sWebLanguage)%></td>
+            <td class="admin2"><%=getTran("Web","End",sWebLanguage)%></td>
+            <td class="admin2"><%=writeDateField("FindEnd","transactionForm",sFindEnd,sWebLanguage)%></td>
         </tr>
         <tr>
-            <td/>
-            <td>
+            <td class="admin2">&nbsp;</td>
+            <td class="admin2">
                 <input type="button" class="button" name="ButtonSearch" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="doSearchAccesses();">&nbsp;
                 <input type="button" class="button" name="ButtonClear" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearFields()">&nbsp;
                 <input type="button" class="button" name="ButtonBack" value="<%=getTranNoLink("Web","back",sWebLanguage)%>" onclick="doBack();">

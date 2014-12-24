@@ -396,12 +396,15 @@
     }
   }
 
+  <%-- IS NUMBER --%>
   function isNumber(val){
     if(isNaN(val)){
       if(isNaN(val)) return false;
       else           return true;
+    }
   }
-    
+
+  <%-- OPEN FILE --%>
   function openFile(){
     if(EditBedForm.EditLocation.value.length > 0){
       var url = "<%=MedwanQuery.getInstance().getConfigString("documentsdir","adt/documents/")+"/"+sEditLocation%>";
@@ -409,6 +412,7 @@
     }
   }
 
+  <%-- SEARCH SERVICE --%>
   function searchService(serviceUidField,serviceNameField){
     openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+serviceUidField+"&VarText="+serviceNameField);
   }
