@@ -27,14 +27,14 @@ public class PDFAnatomopathology extends PDFGeneralBasic {
                 if(sReceptionDate.length() > 0 || sReportedDate.length() > 0){
 	                // reception date
 	                if(sReceptionDate.length() > 0){                    
-	                    table.addCell(createItemNameCell(getTran("web.occup","specimen.reception.date"),1));
+	                    table.addCell(createItemNameCell(getTran("web.occup","specimen.reception.date"),2));
 	                    table.addCell(createValueCell(sReceptionDate,1));
 	                }
 	                
 	                // reported date                  
 	                if(sReportedDate.length() > 0){  
 		                table.addCell(createItemNameCell(getTran("web.occup","reported.date"),1));
-		                table.addCell(createValueCell(sReportedDate,2));
+		                table.addCell(createValueCell(sReportedDate,1));
 	                }
                 }
 
@@ -46,14 +46,14 @@ public class PDFAnatomopathology extends PDFGeneralBasic {
                 if(sPhysician.length() > 0 || sAddress.length() > 0){
 	                // physician
 	                if(sPhysician.length() > 0){                    
-	                    table.addCell(createItemNameCell(getTran("web","physician"),1));
+	                    table.addCell(createItemNameCell(getTran("web","physician"),2));
 	                    table.addCell(createValueCell(sPhysician,1));
 	                }
 	                
 	                // address                  
 	                if(sAddress.length() > 0){  
 		                table.addCell(createItemNameCell(getTran("web","address"),1));
-		                table.addCell(createValueCell(sAddress,2));
+		                table.addCell(createValueCell(sAddress,1));
 	                }
                 }
                 
@@ -63,25 +63,28 @@ public class PDFAnatomopathology extends PDFGeneralBasic {
                        sLocationDetail = getItemValue(IConstants_PREFIX+"ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_DETAIL");
                 
                 if(sLocationSite.length() > 0 || sLocationOrgan.length() > 0 || sLocationDetail.length() > 0){                    
-                    PdfPTable locationTable = new PdfPTable(3);
+                    PdfPTable locationTable = new PdfPTable(4);
 
                     // location site                
                     if(sLocationSite.length() > 0){
-                        addItemRow(locationTable,getTran("web","anatomical.location.site"),getTran("location.site",sLocationSite));
+                        locationTable.addCell(createItemNameCell(getTran("web","anatomical.location.site"),1));
+                        locationTable.addCell(createValueCell(getTran("location.site",sLocationSite),3));
                     }
                     
                     // location organ
                     if(sLocationOrgan.length() > 0){
-                        addItemRow(locationTable,getTran("web","anatomical.location.organ"),getTran("location.site."+sLocationSite,sLocationOrgan));
+                        locationTable.addCell(createItemNameCell(getTran("web","anatomical.location.organ"),1));
+                        locationTable.addCell(createValueCell(getTran("location.site."+sLocationSite,sLocationOrgan),3));
                     }
                     
                     // location detail
                     if(sLocationDetail.length() > 0){
-                        addItemRow(locationTable,getTran("web","anatomical.location.detail"),sLocationDetail);
+                        locationTable.addCell(createItemNameCell(getTran("web","anatomical.location.detail"),1));
+                        locationTable.addCell(createValueCell(getTran("location.site",sLocationDetail),3));
                     }
                     
-                    table.addCell(createItemNameCell(getTran("web","anatomical.location")));
-                    table.addCell(createCell(new PdfPCell(locationTable),3,PdfPCell.ALIGN_LEFT,PdfPCell.BOX));
+                    table.addCell(createItemNameCell(getTran("web","anatomical.location"),1));
+                    table.addCell(createCell(new PdfPCell(locationTable),4,PdfPCell.ALIGN_LEFT,PdfPCell.BOX));
                 }
                 
 				//***** PROCEDURE ************************* 
