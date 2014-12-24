@@ -1035,7 +1035,8 @@
     String sJSMODALBOX  = "<script src='"+sCONTEXTPATH+"/_common/_script/modalbox.js'></script>";
     String sJSGNOOCALENDAR  = "<script src='"+sCONTEXTPATH+"/_common/_script/gnoocalendar.js'></script>";
     String sJSPROTOCHART  = "<script src='"+sCONTEXTPATH+"/_common/_script/protochart/ProtoChart.js'></script>";
-    String sJSEXCANVAS  = "<script src='"+sCONTEXTPATH+"/_common/_script/protochart/excanvas.js'></script>";
+    String sJSEXCANVAS  = "<script src='"+sCONTEXTPATH+"/_common/_script/excanvas.js'></script>";
+    //String sJSEXCANVAS  = "<script src='"+sCONTEXTPATH+"/_common/_script/protochart/excanvas.js'></script>";
     String sJSROTATE  = "<script src='"+sCONTEXTPATH+"/_common/_script/rotate.js'></script>";
     String sPROGRESSBAR  = "<script src='"+sCONTEXTPATH+"/_common/_script/pb_prototype.js'></script>"+
                            "<script src='"+sCONTEXTPATH+"/_common/_script/pb_ProgressBarHandler.js'></script>";
