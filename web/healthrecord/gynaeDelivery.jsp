@@ -1257,7 +1257,6 @@
     <%=ScreenHelper.contextFooter(request)%>
 </form>
 <script>
-
     function calculateapgar(){
         if(document.getElementById("coeur1").value=="-1" || document.getElementById("resp1").value=="-1" || document.getElementById("tonus1").value=="-1" || document.getElementById("refl1").value=="-1" || document.getElementById("color1").value=="-1"){
             document.getElementById("total1").value="";
@@ -1525,7 +1524,6 @@
                     var drdeldate = lmdate;
                     drdeldate.setTime(drdeldate.getTime() + 1000 * 3600 * 24 * 280);
                     document.getElementById("drdeldate").value = drdeldate.getDate() + "/" + (drdeldate.getMonth() + 1) + "/" + drdeldate.getFullYear();
-                    checkDate(document.getElementById("drdeldate"));
                     if(timeElapsed < 12){
                         document.getElementById('trimestre_r1').checked = true;
                     }

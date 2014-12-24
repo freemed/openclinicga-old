@@ -4,7 +4,7 @@
 <html>
 <head>
     <%
-        String sUserTheme = checkString((String)session.getAttribute("UserTheme"));
+        sUserTheme = checkString((String)session.getAttribute("UserTheme"));
         if(sUserTheme.equals("default")) sUserTheme = "";
         if(sUserTheme.length() > 0) sUserTheme = "_"+sUserTheme;
     %>

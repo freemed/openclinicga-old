@@ -207,7 +207,8 @@
                   writeTblChildWithCode("javascript:getOpenInvoices()",getTran("Web","statistics.openinvoicelists",sWebLanguage))+
                   writeTblChildWithCode("javascript:getClosedNonZeroInvoices()",getTran("Web","statistics.closednonzeroinvoicelists",sWebLanguage))+
                   writeTblChildWithCode("javascript:getCanceledInvoices()",getTran("Web","statistics.canceledinvoicelists",sWebLanguage))+
-                  writeTblChildWithCode("javascript:getIssuedInsurerInvoices()",getTran("Web","statistics.issuedinsurerinvoices",sWebLanguage)));
+                  writeTblChildWithCode("javascript:getIssuedInsurerInvoices()",getTran("Web","statistics.issuedinsurerinvoices",sWebLanguage))+
+        		  writeTblChildWithCode("javascript:getUserInvoices()",getTran("Web","statistics.userinvoices",sWebLanguage)));
         out.print(ScreenHelper.writeTblFooter()+"<br>");
 
         //*** 5f - MFP *****************************************
@@ -326,9 +327,13 @@
 	openPopup(URL,500,600,"OpenClinic");
   }
   function getOpenInvoices(){
-	var URL = "statistics/openInvoiceLists.jsp&start="+document.getElementById('beginfin').value+"&end="+document.getElementById('endfin').value+"&ts=<%=getTs()%>";
-	openPopup(URL,800,600,"OpenClinic");
-  }
+		var URL = "statistics/openInvoiceLists.jsp&start="+document.getElementById('beginfin').value+"&end="+document.getElementById('endfin').value+"&ts=<%=getTs()%>";
+		openPopup(URL,800,600,"OpenClinic");
+	  }
+  function getUserInvoices(){
+		var URL = "statistics/getInvoicesPerUser.jsp&ts=<%=getTs()%>";
+		openPopup(URL,800,600,"OpenClinic");
+	  }
   function getClosedNonZeroInvoices(){
 	var URL = "statistics/closedNonZeroInvoiceLists.jsp&start="+document.getElementById('beginfin').value+"&end="+document.getElementById('endfin').value+"&ts=<%=getTs()%>";
 	openPopup(URL,800,600,"OpenClinic");

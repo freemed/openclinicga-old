@@ -101,7 +101,7 @@
 	<Row>
 		<id>1017</id>
 		<class>vaccinations</class>
-		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.Tedivax</transactiontype>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.tedivax</transactiontype>
 		<fr>Vaccination t&#233;tanos</fr>
 		<en>Vaccination tetatons</en>
 		<Data Type="Vaccination">
@@ -190,7 +190,7 @@
 	<Row>
 		<id>1019</id>
 		<class>vaccinations</class>
-		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.Twinrix</transactiontype>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.twinrix</transactiontype>
 		<fr>Vaccination H&#233;patite A+B</fr>
 		<en>Vaccination hepatitis A+B</en>
 		<Data Type="Vaccination">
@@ -265,7 +265,7 @@
 	<Row>
 		<id>1020</id>
 		<class>vaccinations</class>
-		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.YellowFever</transactiontype>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.yellowfever</transactiontype>
 		<fr>Vaccination Fi&#232;vre Jaune</fr>
 		<en>Vaccionation yellow fever</en>
 		<Data Type="Vaccination">
@@ -310,7 +310,7 @@
 	<Row>
 		<id>1021</id>
 		<class>vaccinations</class>
-		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.FSME</transactiontype>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.fsme</transactiontype>
 		<fr>Vaccination FSME</fr>
 		<en>Vaccination FSME</en>
 		<Data Type="Vaccination">
@@ -369,7 +369,7 @@
 	<Row>
 		<id>1022</id>
 		<class>vaccinations</class>
-		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.Typhus</transactiontype>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.typhus</transactiontype>
 		<fr>Vaccination Typhus</fr>
 		<en>Vaccination Typhus</en>
 		<Data Type="Vaccination">
@@ -414,7 +414,7 @@
 	<Row>
 		<id>1023</id>
 		<class>vaccinations</class>
-		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.Mencevax</transactiontype>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.mencevax</transactiontype>
 		<fr>Vaccination m&#233;ningocoques</fr>
 		<en>Vaccination meningocoques</en>
 		<Data Type="Vaccination">
@@ -465,7 +465,7 @@
 	<Row>
 		<id>1024</id>
 		<class>vaccinations</class>
-		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.Polio</transactiontype>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.polio</transactiontype>
 		<fr>Vaccination Polio</fr>
 		<en>Vaccination polio</en>
 		<Data Type="Vaccination">
@@ -524,7 +524,7 @@
 	<Row>
 		<id>1025</id>
 		<class>vaccinations</class>
-		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.Hepatitisb</transactiontype>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.hepatitisb</transactiontype>
 		<fr>Vaccination H&#233;patite B</fr>
 		<en>Vaccination hepatitis B</en>
 		<Data Type="Vaccination">
@@ -584,7 +584,7 @@
 	<Row>
 		<id>1026</id>
 		<class>vaccinations</class>
-		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.Hepatitisa</transactiontype>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.hepatitisa</transactiontype>
 		<fr>Vaccination H&#233;patite A</fr>
 		<en>Vaccination hepatitis A</en>
 		<Data Type="Vaccination">
@@ -636,7 +636,7 @@
 	<Row>
 		<id>1027</id>
 		<class>vaccinations</class>
-		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.Other</transactiontype>
+		<transactiontype>be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_VACCINATION&amp;vaccination=be.mxs.healthrecord.vaccination.other</transactiontype>
 		<fr>Vaccinations Autre</fr>
 		<en>Vaccination other</en>
 		<Data Type="Vaccination">
