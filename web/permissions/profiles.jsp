@@ -84,13 +84,21 @@
 %>
 
 <%  
+    String sAction = checkString(request.getParameter("Action"));
+
+    String sSearchProfileID = checkString(request.getParameter("SearchUserprofile"));
+    
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n*********************** permissions/profiles.jsp **********************");
+    	Debug.println("sAction          : "+sAction);
+    	Debug.println("sSearchProfileID : "+sSearchProfileID+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
     String sProfiles = "", sTmpProfileID, sTmpProfileName, sUserProfileName = "",
            sUserProfileID = "", sDefaultPage = "";
-    String sSearchProfileID = checkString(request.getParameter("SearchUserprofile"));
-    Debug.println("sSearchProfileID : "+sSearchProfileID); 
-
-    String sAction = checkString(request.getParameter("Action"));
-    Debug.println("sAction : "+sAction); 
+    
     
     //*** SAVE ************************************************************************************
     if(sAction.equals("save")){

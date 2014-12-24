@@ -5,11 +5,20 @@
 <%=checkPermission("permissions.usersPerProfile","select",activeUser)%>
 
 <%
-    String sFindProfileID   = checkString(request.getParameter("FindProfileID"));
-    String sFindApplication = checkString(request.getParameter("FindApplication"));
-    String sOrderField      = checkString(request.getParameter("OrderField"));
+    String sFindProfileID   = checkString(request.getParameter("FindProfileID")),
+           sFindApplication = checkString(request.getParameter("FindApplication")),
+           sOrderField      = checkString(request.getParameter("OrderField"));
 
     String sTmpProfileID, sTmpProfileName, sProfiles = "", sProfileName = "";
+
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n********************* permissions/searchProfile.jsp ********************");
+    	Debug.println("sFindProfileID   : "+sFindProfileID);
+    	Debug.println("sFindApplication : "+sFindApplication);
+    	Debug.println("sOrderField      : "+sOrderField+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
 
     Vector vUserProfiles = UserProfile.getUserProfiles();
     Iterator iter = vUserProfiles.iterator();
@@ -20,13 +29,13 @@
         sTmpProfileID = Integer.toString(userProfile.getUserprofileid());
         sTmpProfileName = userProfile.getUserprofilename();
 
-        sProfiles += "<option value='"+sTmpProfileID+"'";
-        if (sFindProfileID.equals(sTmpProfileID)) {
-            sProfiles += " selected";
+        sProfiles+= "<option value='"+sTmpProfileID+"'";
+        if(sFindProfileID.equals(sTmpProfileID)){
+            sProfiles+= " selected";
             sProfileName = sTmpProfileName;
         }
 
-        sProfiles += ">"+sTmpProfileName+"</option>";
+        sProfiles+= ">"+sTmpProfileName+"</option>";
     }
 %>
 
@@ -55,9 +64,9 @@
                     <option/>
                     <%
                         Hashtable hScreens = new Hashtable();
-                        hScreens.put("administration", getTran("Web", "Administration", sWebLanguage));
-                        hScreens.put("agenda", getTran("Web", "agenda", sWebLanguage));
-                        hScreens.put("medicalrecord", getTran("Web", "medicalrecord", sWebLanguage));
+                        hScreens.put("administration", getTran("Web","Administration",sWebLanguage));
+                        hScreens.put("agenda",getTran("Web","agenda",sWebLanguage));
+                        hScreens.put("medicalrecord",getTran("Web","medicalrecord",sWebLanguage));
 
                         String sScreen, sKey;
                         Enumeration e = hScreens.keys();
@@ -65,21 +74,21 @@
                         SortedSet set = new TreeSet();
 
                         // sort
-                        while (e.hasMoreElements()) {
-                            sKey = (String) e.nextElement();
-                            sScreen = (String) hScreens.get(sKey);
+                        while(e.hasMoreElements()){
+                            sKey = (String)e.nextElement();
+                            sScreen = (String)hScreens.get(sKey);
                             set.add(sScreen);
-                            hSorted.put(sScreen, sKey);
+                            hSorted.put(sScreen,sKey);
                         }
 
                         Iterator it = set.iterator();
-                        while (it.hasNext()) {
+                        while (it.hasNext()){
                             sScreen = (String) it.next();
                             sKey = (String) hSorted.get(sScreen);
 
-                    %><option value="<%=sKey%>"<%
+                            %><option value="<%=sKey%>"<%
 
-                            if (sFindApplication.equals(sKey)) {
+                            if(sFindApplication.equals(sKey)){
                                 sProfileName = sScreen;
                                 %> selected<%
                             }
@@ -94,7 +103,7 @@
 </form>
 
 <%
-    if (sFindProfileID.length()>0 || sFindApplication.length()>0) {
+    if(sFindProfileID.length()>0 || sFindApplication.length()>0){
         %>
             <%-- PRINT BUTTON top --%>
             <%=ScreenHelper.alignButtonsStart()%>
@@ -103,23 +112,22 @@
 
             <span id="printtable">
                 <span class="menu"><b><%=sProfileName%></b></span>
-
-                <table width="100%" class="list" cellspacing="O">
-
+ 
+                <table width="100%" class="menu" cellspacing="1" cellpadding="0">
                     <%-- HEADER : clickable --%>
                     <tr class="admin">
                         <td width="<%=sTDAdminWidth%>">
-                            <span onMouseOver="this.style.cursor='hand'" onmouseout="this.style.cursor='default'" onClick="transactionForm.OrderField.value='searchname';transactionForm.submit();">
+                            <span class="hand" onClick="transactionForm.OrderField.value='searchname';transactionForm.submit();">
                                 <u><%=getTran("Web","Name",sWebLanguage)%></u>
                             </span>
                         </td>
 
                         <td>
-                                <u><%=getTran("Web","service",sWebLanguage)%></u>
+                            <u><%=getTran("Web","service",sWebLanguage)%></u>
                         </td>
 
                         <td width="*">
-                            <span onMouseOver="this.style.cursor='hand'" onmouseout="this.style.cursor='default'" onClick="transactionForm.OrderField.value='userid';transactionForm.submit();">
+                            <span class="hand" onClick="transactionForm.OrderField.value='userid';transactionForm.submit();">
                                <u><%=getTran("Web.occup","medwan.authentication.login",sWebLanguage)%></u>
                             </span>
                         </td>
@@ -129,17 +137,18 @@
                         String sPersonID, sLastname, sFirstname, sLogin, sClass = "", sOldPersonID = "", sService="";
                         boolean bOK = false;
                         Vector vProfileOwners = new Vector();
-                        if (sFindProfileID.length()>0) {
+                        if(sFindProfileID.length()>0){
                             vProfileOwners = UserProfile.getProfileOwnersByProfileId(sFindProfileID,sOrderField);
                             bOK = true;
                         }
-                        else if (sFindApplication.length()>0) {
+                        else if(sFindApplication.length()>0){
                             vProfileOwners = UserProfile.getProfileOwnersByApplication(sFindApplication,sOrderField);
                             bOK = true;
                         }
 
-                        if (bOK){
+                        if(bOK){
                             %><tbody class="hand"><%
+                            		
                             Iterator iterator = vProfileOwners.iterator();
                             Hashtable hOwnerProfile;
                             while(iterator.hasNext()){
@@ -149,7 +158,7 @@
                                 sFirstname = (String)hOwnerProfile.get("firstname");
                                 sLogin     = (String)hOwnerProfile.get("userid");
 
-                                if (!sPersonID.equals(sOldPersonID)) {
+                                if(!sPersonID.equals(sOldPersonID)){
                                     sOldPersonID = sPersonID;
                                     sLastname+= " "+sFirstname;
                                     User user = User.get(Integer.parseInt(sLogin));
@@ -157,13 +166,13 @@
                                    	if(service!=null){
                                    		sService = service.getLabel(sWebLanguage);
                                    	}
-                                   	else {
+                                   	else{
                                    		sService="";
                                    	}
 
                                     // alternate row styles
-                                    if (sClass.equals("")) sClass = "1";
-                                    else                   sClass = "";
+                                    if(sClass.equals("")) sClass = "1";
+                                    else                  sClass = "";
 
                                     %>
                                         <tr class="list<%=sClass%>" onclick="window.location.href = '<%=sCONTEXTPATH%>/main.do?Page=/permissions/userpermission.jsp&PersonID=<%=sPersonID%>&ts=<%=getTs()%>';">
@@ -200,4 +209,3 @@
     window.location.href = "<c:url value='/main.do'/>?Page=permissions/index.jsp";
   }
 </script>
-

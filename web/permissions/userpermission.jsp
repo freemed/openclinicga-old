@@ -25,7 +25,7 @@
         return sReturn+"><input type='checkbox' name='"+sScreenID+"."+sPermission+"' "+sValue+" onClick=\"uncheckRowSelector('"+sScreenID+"');\"></td>";
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //--- WRITE MY CHECKBOX -----------------------------------------------------------------------
     private String writeMyCheckbox(String sLabel, String sName, String sPermission, User thisUser){
         String sChecked = "";
 
@@ -42,7 +42,7 @@
                "</tr>";
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //--- WRITE DEFAULT WICKET --------------------------------------------------------------------
     private String writeDefaultWicket(String sDefaultWicket, String sWebLanguage){
         Vector vWickets = Wicket.selectWickets();
         Iterator iter = vWickets.iterator();
@@ -67,7 +67,7 @@
         return sOut.toString();
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //--- WRITE MY INPUT --------------------------------------------------------------------------
     private String writeMyInput(String sLabel, String sName, User thisUser){
         String sValue = " value='"+thisUser.getParameter(sName.substring(4)).trim()+"'";
 
