@@ -30,11 +30,17 @@ public class PDFAnatomopathology extends PDFGeneralBasic {
 	                    table.addCell(createItemNameCell(getTran("web.occup","specimen.reception.date"),2));
 	                    table.addCell(createValueCell(sReceptionDate,1));
 	                }
+	                else {
+	                	table.addCell(emptyCell(3));
+	                }
 	                
 	                // reported date                  
 	                if(sReportedDate.length() > 0){  
 		                table.addCell(createItemNameCell(getTran("web.occup","reported.date"),1));
 		                table.addCell(createValueCell(sReportedDate,1));
+	                }
+	                else {
+	                	table.addCell(emptyCell(2));
 	                }
                 }
 
@@ -49,11 +55,17 @@ public class PDFAnatomopathology extends PDFGeneralBasic {
 	                    table.addCell(createItemNameCell(getTran("web","physician"),2));
 	                    table.addCell(createValueCell(sPhysician,1));
 	                }
+	                else {
+	                	table.addCell(emptyCell(3));
+	                }
 	                
 	                // address                  
 	                if(sAddress.length() > 0){  
 		                table.addCell(createItemNameCell(getTran("web","address"),1));
 		                table.addCell(createValueCell(sAddress,1));
+	                }
+	                else {
+	                	table.addCell(emptyCell(2));
 	                }
                 }
                 
