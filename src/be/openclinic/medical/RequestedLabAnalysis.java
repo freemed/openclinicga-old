@@ -1683,14 +1683,14 @@ public class RequestedLabAnalysis {
           ResultSet rs = null;
           Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            String sSelect = "SELECT OC_GERM_NAME FROM OC_GERMS"+
-                             " WHERE OC_GERM_NAME like '"+s+"%'";
+            String sSelect = "SELECT OC_GERM_CODE,OC_GERM_NAME FROM OC_GERMS"+
+                             " WHERE OC_GERM_NAME like '%"+s+"%' or OC_GERM_CODE='"+s.split(",")[0]+"'";
             ps = oc_conn.prepareStatement(sSelect);
 
             rs = ps.executeQuery();
             String sResult = "";
            while(rs.next()){
-               sResult = rs.getString("OC_GERM_NAME");
+               sResult = rs.getString("OC_GERM_CODE")+", "+rs.getString("OC_GERM_NAME");
                l.add(sResult);
            }
            rs.close();

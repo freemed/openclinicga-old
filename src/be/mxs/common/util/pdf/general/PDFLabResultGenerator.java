@@ -694,11 +694,19 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
     	else if(id.equalsIgnoreCase("20")){
     		return MedwanQuery.getInstance().getLabel("antibiotics","ipm",sPrintLanguage);
     	}
-    	else if("*21*22*23*24*25*26*27*28*29*30*31*32*33*".indexOf("*"+id+"*")>-1){
-    		return MedwanQuery.getInstance().getLabel("antibiotics",MedwanQuery.getInstance().getConfigString("extraAntibiotics","").split(";").length>Integer.parseInt(id)-20?MedwanQuery.getInstance().getConfigString("extraAntibiotics","").split(";")[Integer.parseInt(id)-20]:"",sPrintLanguage);
-    	}
     	else {
-    		return "?";
+    		try{
+    			int abid = Integer.parseInt(id);
+    			if(abid>20){
+    				return MedwanQuery.getInstance().getLabel("antibiotics",MedwanQuery.getInstance().getConfigString("extraAntibiotics","").split(";").length>Integer.parseInt(id)-20?MedwanQuery.getInstance().getConfigString("extraAntibiotics","").split(";")[Integer.parseInt(id)-20]:"",sPrintLanguage);
+    			}
+    	    	else {
+    	    		return "?";
+    	    	}
+    		}
+    		catch(Exception e){
+	    		return "?";
+    		}
     	}
     }
     
@@ -764,11 +772,19 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
     	else if(id.equalsIgnoreCase("20")){
     		return MedwanQuery.getInstance().getLabel("web","imipenem",sPrintLanguage);
     	}
-    	else if("*21*22*23*24*25*26*27*28*29*30*31*32*33*".indexOf("*"+id+"*")>-1){
-    		return MedwanQuery.getInstance().getLabel("web","ab"+(Integer.parseInt(id)-20),sPrintLanguage);
-    	}
     	else {
-    		return "?";
+    		try{
+    			int abid = Integer.parseInt(id);
+    			if(abid>20){
+    	    		return MedwanQuery.getInstance().getLabel("web","ab"+(Integer.parseInt(id)-20),sPrintLanguage);
+    			}
+    	    	else {
+    	    		return "?";
+    	    	}
+    		}
+    		catch(Exception e){
+	    		return "?";
+    		}
     	}
     }
     
