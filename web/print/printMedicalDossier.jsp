@@ -83,9 +83,9 @@
         Debug.println("\n******************** print/printMedicalDossier.jsp ********************");
         Debug.println("sAction    : "+sAction);
         Debug.println("sSection1  : "+sSection1);       //  1 : Administratie persoonlijk (verplicht) (photo)
-        Debug.println("sSection2  : "+sSection2);       //  2 : Administratie privé
-        Debug.println("sSection3  : "+sSection3);       //  3 : Administratie familierelaties
-        Debug.println("sSection4  : "+sSection4);       //  4 : Foto
+        Debug.println("sSection2  : "+sSection2);       //  2 : Foto
+        Debug.println("sSection3  : "+sSection3);       //  3 : Administratie privé
+        Debug.println("sSection4  : "+sSection4);       //  4 : Administratie familierelaties
         Debug.println("sSection5  : "+sSection5);       //  5 : Actieve verzekeringsgegevens
         Debug.println("sSection6  : "+sSection6);       //  6 : Historiek verzekeringsgegevens
         Debug.println("sSection7  : "+sSection7);       //  7 : Actieve geneesmiddelen voorschriften
@@ -179,7 +179,7 @@
         <%-- 4 : administration family-relations --%>
         <tr>
             <td class="admin">
-                <input type="checkbox" name="section_3" id="section_4" value="on" class="hand" <%=(sSection4.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","administrationFamilyRelation",sWebLanguage,"section_4")%>
+                <input type="checkbox" name="section_4" id="section_4" value="on" class="hand" <%=(sSection4.equals("on")?"CHECKED":"")%>>&nbsp;<%=getLabel("pdf","administrationFamilyRelation",sWebLanguage,"section_4")%>
             </td>
         </tr> 
          
@@ -291,7 +291,7 @@
                     if(sClass.length()==0) sClass = "1";
                     else                   sClass = "";
 
-					// one counter
+					// one visit
                     sOutEnc1.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">")
                              .append("<td align='center'>")
                               .append("<input type='checkbox' value='"+encounter.getUid()+"' name='visitUID_"+cbCounter+"'>")
@@ -333,14 +333,14 @@
                         .append("</tr>");
 
 		        Encounter encounter;
-				for(int i=0; i<visits.size(); i++){
-			        encounter = (Encounter)visits.get(i);
+				for(int i=0; i<admissions.size(); i++){
+			        encounter = (Encounter)admissions.get(i);
 	
                     // alternate row-style
                     if(sClass.length()==0) sClass = "1";
                     else                   sClass = "";
 
-				    // one counter
+				    // one admission
                     sOutEnc2.append("<tr class=\"list"+sClass+"\" onmouseover=\"this.className='list_select';\" onmouseout=\"this.className='list"+sClass+"';\">")
                              .append("<td align='center'>")
                               .append("<input type='checkbox' value='"+encounter.getUid()+"' name='admissionUID_"+cbCounter+"'>")
@@ -623,7 +623,7 @@
         </tr>
     </table>
 
-    <span style="text-align:right;width:100%;padding-top:5px;">
+    <span style="text-align:center;width:100%;padding-top:5px;">
         <%-- LANGUAGE SELECTOR --%>
         <select class="text" name="PrintLanguage">
             <%
@@ -803,7 +803,7 @@
 	
     for(var i=0; i<printForm.elements.length; i++){
       if(printForm.elements[i].type=="checkbox"){
-        if(printForm.elements[i].name.startsWith("encounterUID_")){
+        if(printForm.elements[i].name.startsWith("visitUID_") || printForm.elements[i].name.startsWith("admissionUID_")){
           if(printForm.elements[i].checked==true){	
             count++;
           }

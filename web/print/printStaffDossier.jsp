@@ -243,7 +243,7 @@
         </tr>
     </table>
 
-    <span style="text-align:right;width:100%;padding-top:5px;">
+    <span style="text-align:center;width:100%;padding-top:5px;">
         <%-- LANGUAGE SELECTOR --%>
         <select class="text" name="PrintLanguage">
             <%

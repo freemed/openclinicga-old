@@ -83,7 +83,7 @@
             <select name="historySelector" class="text" onchange="displayHistories()">
                 <option value=""><%=getTranNoLink("web","none",sWebLanguage)%></option>    
                 <%
-                    String sType,sValue,sOption = "",sDate = "",sTransactionID,sOldTransactionID = "";
+                    String sType, sValue, sOption = "", sDate = "", sTransactionID, sOldTransactionID = "";
                     Vector vAudiometric = Healthrecord.getAudiometricData(activePatient.personid);
                     Iterator iter = vAudiometric.iterator();
                     Hashtable hAudiometric;
@@ -99,7 +99,7 @@
                                 %><option value="<%=sOption%>"><%=sDate%></option><%
                             }
                             sOldTransactionID = sTransactionID;
-                            sDate = ScreenHelper.getSQLDate((java.sql.Date)hAudiometric.get("updatetime"));//ScreenHelper.getSQLDate(Occuprs.getDate("updateTime"));
+                            sDate = ScreenHelper.getSQLDate((java.sql.Date)hAudiometric.get("updatetime")); // ScreenHelper.getSQLDate(Occuprs.getDate("updateTime"));
                             sOption = "";
                         }
 
@@ -117,7 +117,7 @@
                         }
 
                         if(sType.length() > 0){
-                            sOption += (":"+sType + "=" + sValue + ";");
+                            sOption += (":"+sType+"="+sValue+";");
                         }
                     }
                 %>
