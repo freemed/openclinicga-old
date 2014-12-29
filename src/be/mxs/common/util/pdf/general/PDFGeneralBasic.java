@@ -215,8 +215,8 @@ public abstract class PDFGeneralBasic extends PDFBasic {
     
     public PdfPCell checkBoxCell(boolean checked, int colspan, boolean drawBorder) throws Exception {
         Image img;
-        if(checked) img = Miscelaneous.getImage("check.gif","");
-        else        img = Miscelaneous.getImage("uncheck.gif","");
+        if(checked) img = Miscelaneous.getImage("themes/default/check.gif","");
+        else        img = Miscelaneous.getImage("themes/default/uncheck.gif","");
 
         img.scaleAbsolute(8,8);
         cell = new PdfPCell(img);
@@ -242,8 +242,8 @@ public abstract class PDFGeneralBasic extends PDFBasic {
     
     public PdfPCell checkBoxCellWithLabel(boolean checked, int colspan, String sLabel, boolean drawBorder) throws Exception {
         Image img;
-        if(checked) img = Miscelaneous.getImage("check.gif","");
-        else        img = Miscelaneous.getImage("uncheck.gif","");
+        if(checked) img = Miscelaneous.getImage("themes/default/check.gif","");
+        else        img = Miscelaneous.getImage("themes/default/uncheck.gif","");
 
         img.scaleAbsolute(8,8);
         
@@ -284,8 +284,8 @@ public abstract class PDFGeneralBasic extends PDFBasic {
     
     public PdfPCell radioCell(boolean selected, int colspan, boolean drawBorder) throws Exception {
         Image img;
-        if(selected) img = Miscelaneous.getImage("radioSelected.gif","");
-        else         img = Miscelaneous.getImage("radioNotSelected.gif","");
+        if(selected) img = Miscelaneous.getImage("themes/default/radioSelected.gif","");
+        else         img = Miscelaneous.getImage("themes/default/radioNotSelected.gif","");
 
         img.scaleAbsolute(8,8);
         cell = new PdfPCell(img);
@@ -311,8 +311,8 @@ public abstract class PDFGeneralBasic extends PDFBasic {
     
     public PdfPCell radioCellWithLabel(boolean selected, int colspan, String sLabel, boolean drawBorder) throws Exception {
         Image img;
-        if(selected) img = Miscelaneous.getImage("radioSelected.gif","");
-        else         img = Miscelaneous.getImage("radioNotSelected.gif","");
+        if(selected) img = Miscelaneous.getImage("themes/default/radioSelected.gif","");
+        else         img = Miscelaneous.getImage("themes/default/radioNotSelected.gif","");
 
         img.scaleAbsolute(8,8);
         

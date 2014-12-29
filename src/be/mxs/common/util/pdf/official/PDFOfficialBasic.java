@@ -132,8 +132,8 @@ public abstract class PDFOfficialBasic extends PDFBasic {
 
     //--- CHECKBOX CELL ---------------------------------------------------------------------------
     protected PdfPCell checkBoxCell(boolean checked) throws Exception {
-        if(checked) img = Miscelaneous.getImage("check.gif","");
-        else        img = Miscelaneous.getImage("uncheck.gif","");
+        if(checked) img = Miscelaneous.getImage("themes/default/check.gif","");
+        else        img = Miscelaneous.getImage("themes/default/uncheck.gif","");
 
         img.scaleAbsolute(8,8);
         cell = new PdfPCell(img);

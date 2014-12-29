@@ -1120,6 +1120,9 @@ public class GeneralPDFCreator extends PDFCreator {
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_CS_CONSULTATION")){
             loadTransactionOfType("PDFHealthcenterConsultation",transactionVO,partsOfTransactionToPrint);
         }   
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_ARCHIVE_DOCUMENT")){
+            loadTransactionOfType("PDFArchiveDocument",transactionVO,partsOfTransactionToPrint);
+        }   
         // respiratory function examination
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_RESP_FUNC_EX")){
             if(!respGraphsArePrinted){  

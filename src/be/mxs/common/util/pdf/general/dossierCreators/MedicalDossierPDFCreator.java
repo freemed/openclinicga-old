@@ -125,23 +125,23 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
 
             //*** SECTIONS ************************************************************************
             /*
-                -  1 : Administratie persoonlijk (verplicht)
-                -  2 : Foto
-                -  3 : Administratie privé
-                -  4 : Administratie familierelaties
-                -  5 : Actieve verzekeringsgegevens
-                -  6 : Historiek verzekeringsgegevens
-                -  7 : Actieve geneesmiddelen voorschriften
-                -  8 : Actieve zorgvoorschriften
-                -  9 : Vaccinaties
-                - 10 : Probleemlijst
-                - 11 : Lijst van gestelde diagnoses
-                - 12 : Actieve afspraken
-                - 13 : Actief contact 
-                - 14 : Historiek oudere contacten (mogelijkheid om contacten te selecteren)
-                - 15 : Onderzoeken (mogelijkheid om onderzoeken te selecteren) 
-                - 16 : Waarschuwingen
-                - 17 : Handtekening
+                -  0 : Administratie persoonlijk (verplicht)
+                -  1 : Foto
+                -  2 : Administratie privé
+                -  3 : Administratie familierelaties
+                -  4 : Actieve verzekeringsgegevens
+                -  5 : Historiek verzekeringsgegevens
+                -  6 : Actieve geneesmiddelen voorschriften
+                -  7 : Actieve zorgvoorschriften
+                -  8 : Vaccinaties
+                -  9 : Probleemlijst
+                - 10 : Lijst van gestelde diagnoses
+                - 11 : Actieve afspraken
+                - 12 : Actief contact 
+                - 13 : Historiek oudere contacten (mogelijkheid om contacten te selecteren)
+                - 14 : Onderzoeken (mogelijkheid om onderzoeken te selecteren) 
+                - 15 : Waarschuwingen
+                - 16 : Handtekening
             */
             boolean[] sections = new boolean[17];
             
@@ -169,7 +169,8 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
 
             sectionIdx = 0;
             if(sections[sectionIdx++]){
-                printPatientCard(patient,sections[3]); // 0, showPhoto
+            	Debug.println("printPatientCard : showPhoto = "+sections[1]);
+                printPatientCard(patient,sections[1]); // 0, showPhoto
                 printAdminData(patient); // 0
             }
             if(sections[sectionIdx++]){
@@ -246,7 +247,8 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
     //#############################################################################################
 
     //--- PRINT ADMIN FAMILY RELATIONS ------------------------------------------------------------
-    protected void printAdminFamilyRelations(AdminPerson activePatient) throws Exception {                     
+    protected void printAdminFamilyRelations(AdminPerson activePatient) throws Exception {    
+    	Debug.println("printAdminFamilyRelations");                 
         table = new PdfPTable(3);
         table.setWidthPercentage(pageWidth);
 
@@ -298,6 +300,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
     
     //--- PRINT ACTIVE DRUG PRESCRIPTIONS (medication) --------------------------------------------
     protected void printActiveDrugPrescriptions(AdminPerson activePatient) throws Exception {  
+    	Debug.println("printActiveDrugPrescriptions");
         table = new PdfPTable(1);
         table.setWidthPercentage(pageWidth);
         
@@ -494,6 +497,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
             
     //--- PRINT ACTIVE CARE PRESCRIPTIONS ---------------------------------------------------------
     protected void printActiveCarePrescriptions(AdminPerson activePatient) throws Exception {
+    	Debug.println("printActiveCarePrescriptions");
         table = new PdfPTable(1);
         table.setWidthPercentage(pageWidth);
 
@@ -575,6 +579,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
     protected void printVaccinations(SessionContainerWO sessionContainerWO, AdminPerson activePatient) throws Exception {
         //new be.mxs.common.util.pdf.general.oc.examinations.PDFVaccinationCard().printCard(doc,sessionContainerWO,transactionVO,patient,req,sProject,sPrintLanguage,2);
 
+    	Debug.println("printVaccinations");
         table = new PdfPTable(40);
         table.setWidthPercentage(pageWidth);         
         
@@ -601,7 +606,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
                 String sNextDate = vacc.getTransactionVO().getItemValue(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_VACCINATION_NEXT_DATE");	                               
                 if(ScreenHelper.parseDate(sNextDate).before(new java.util.Date())){
                     // add warning-icon
-                    Image image = Miscelaneous.getImage("warning.gif","");
+                    Image image = Miscelaneous.getImage("icons/icon_warning.gif","");
                     image.scaleToFit(10,10);
                     
                     cell = new PdfPCell(image);
@@ -641,6 +646,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
     
     //--- PRINT PROBLEM LIST (active problems) ----------------------------------------------------
     protected void printProblemList(AdminPerson activePatient) throws Exception {
+    	Debug.println("printProblemList");
         table = new PdfPTable(5);
         table.setWidthPercentage(pageWidth);
 
@@ -696,6 +702,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
 
     //--- PRINT ACTIVE DIAGNOSES ------------------------------------------------------------------
     protected void printActiveDiagnoses(AdminPerson activePatient) throws Exception {
+    	Debug.println("printActiveDiagnoses");
         table = new PdfPTable(1);
         table.setWidthPercentage(pageWidth);
         
@@ -740,6 +747,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
 
     //--- PRINT ACTIVE APPOINTMENTS ---------------------------------------------------------------
     protected void printActiveAppointments(AdminPerson activePatient) throws Exception {
+    	Debug.println("printActiveAppointments");
         table = new PdfPTable(20);
         table.setWidthPercentage(pageWidth);
 
@@ -847,7 +855,8 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
     }
     
     //--- PRINT ACTIVE ENCOUNTER ------------------------------------------------------------------
-    protected void printActiveEncounter(AdminPerson activePatient) throws Exception {                        
+    protected void printActiveEncounter(AdminPerson activePatient) throws Exception {
+    	Debug.println("printActiveEncounter");
         table = new PdfPTable(5);
         table.setWidthPercentage(pageWidth);
 
@@ -899,6 +908,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
     //--- PRINT MOST RECENT ENCOUNTERS ------------------------------------------------------------
     // display the last encounter of each type
     protected void printMostRecentEncounters(SessionContainerWO sessionContainerWO, AdminPerson activePatient) throws Exception {
+    	Debug.println("printMostRecentEncounters");
         table = new PdfPTable(5);
         table.setWidthPercentage(pageWidth);
 
@@ -976,6 +986,8 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
     
     //--- PRINT ENCOUNTER HISTORY -----------------------------------------------------------------
     protected void printEncounterHistory(AdminPerson activePatient) throws Exception {
+    	Debug.println("printEncounterHistory");
+    	
     	// fetch UIDs of encounters to display, from parameters
     	Vector encounterUIDsToBePrinted = new Vector();
         Enumeration paramEnum = req.getParameterNames();
@@ -1108,6 +1120,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
     
     //--- PRINT WARNINGS (alerts) -----------------------------------------------------------------
     protected void printWarnings(SessionContainerWO sessionContainerWO) throws Exception {
+    	Debug.println("printWarnings");
         table = new PdfPTable(7);
         table.setWidthPercentage(pageWidth);
 
@@ -1151,6 +1164,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
     
     //--- PRINT TRANSACTIONS ----------------------------------------------------------------------
     private void printTransactions(boolean filterApplied, int partsOfTransactionToPrint) throws Exception {
+    	Debug.println("printTransactions");
         doc.add(new Paragraph(" "));
         
     	// header
@@ -1425,6 +1439,9 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
             //loadTransactionOfType("PDFUrgenceConsultation",transactionVO,partsOfTransactionToPrint);
             loadTransactionOfType("PDFClinicalExamination",transactionVO,partsOfTransactionToPrint); 
         }
+        else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_ARCHIVE_DOCUMENT")){
+            loadTransactionOfType("PDFArchiveDocument",transactionVO,partsOfTransactionToPrint);
+        }   
         // respiratory function examination
         else if(transactionVO.getTransactionType().equalsIgnoreCase(IConstants_PREFIX+"TRANSACTION_TYPE_RESP_FUNC_EX")){
             if(!respGraphsArePrinted){  

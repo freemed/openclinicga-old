@@ -18,7 +18,11 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.io.ByteArrayOutputStream;
 
+import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.pdf.general.PDFGeneralBasic;
+import be.mxs.common.util.system.Audiometry;
+import be.mxs.common.util.system.Debug;
+import be.mxs.common.util.system.HearingLoss;
 
 
 public class PDFAudiometry extends PDFGeneralBasic {
@@ -66,57 +70,258 @@ public class PDFAudiometry extends PDFGeneralBasic {
     //--- GET GRAPH TABLE -------------------------------------------------------------------------
     private PdfPTable getGraphTable() throws Exception {
         // series labels
-        String rightAirTran  = getTran("Web.Occup","medwan.healthrecord.audiometry.OD"),
-               leftAirTran   = getTran("Web.Occup","medwan.healthrecord.audiometry.OG"),
+        String rightEarTran  = getTran("Web.Occup","medwan.healthrecord.audiometry.OD"),
+               leftEarTran   = getTran("Web.Occup","medwan.healthrecord.audiometry.OG"),
                normalTran    = getTran("Web.Occup","medwan.healthrecord.audiometry.normal"),
                rightBonyTran = getTran("openclinic.chuk","audiometry.bony.OD"),
                leftBonyTran  = getTran("openclinic.chuk","audiometry.bony.OG");
 
-        // air right
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_RIGHT_0125")),rightAirTran,"0,125");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_RIGHT_025")),rightAirTran,"0,25");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_RIGHT_050")),rightAirTran,"0,5");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_RIGHT_1")),rightAirTran,"1");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_RIGHT_2")),rightAirTran,"2");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_RIGHT_4")),rightAirTran,"4");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_RIGHT_8")),rightAirTran,"8");
+        
+        //*** right ear ***        
+        String sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_RIGHT_0125");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),rightEarTran,"0,125");
+        }
+        else{
+            dataset.addValue(null,rightEarTran,"0,125");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_RIGHT_025");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),rightEarTran,"0,25");
+        }
+        else{
+            dataset.addValue(null,rightEarTran,"0,25");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_RIGHT_050");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),rightEarTran,"0,5");
+        }
+        else{
+            dataset.addValue(null,rightEarTran,"0,5");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_RIGHT_1");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),rightEarTran,"1");
+        }
+        else{
+            dataset.addValue(null,rightEarTran,"1");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_RIGHT_2");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),rightEarTran,"2");
+        }
+        else{
+            dataset.addValue(null,rightEarTran,"2");
+        }
 
-        // air left
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_LEFT_0125")),leftAirTran,"0,125");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_LEFT_025")),leftAirTran,"0,25");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_LEFT_050")),leftAirTran,"0,5");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_LEFT_1")),leftAirTran,"1");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_LEFT_2")),leftAirTran,"2");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_LEFT_4")),leftAirTran,"4");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_LEFT_8")),leftAirTran,"8");
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_RIGHT_4");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),rightEarTran,"4");
+        }
+        else{
+            dataset.addValue(null,rightEarTran,"4");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_RIGHT_8");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),rightEarTran,"8");
+        }
+        else{
+            dataset.addValue(null,rightEarTran,"8");
+        }
+        
+        //*** left ear ***  
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_LEFT_0125");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),leftEarTran,"0,125");
+        }
+        else{
+            dataset.addValue(null,leftEarTran,"0,125");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_LEFT_025");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),leftEarTran,"0,25");
+        }
+        else{
+            dataset.addValue(null,leftEarTran,"0,25");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_LEFT_050");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),leftEarTran,"0,5");
+        }
+        else{
+            dataset.addValue(null,leftEarTran,"0,5");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_LEFT_1");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),leftEarTran,"1");
+        }
+        else{
+            dataset.addValue(null,leftEarTran,"1");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_LEFT_2");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),leftEarTran,"2");
+        }
+        else{
+            dataset.addValue(null,leftEarTran,"2");
+        }
+
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_LEFT_4");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),leftEarTran,"4");
+        }
+        else{
+            dataset.addValue(null,leftEarTran,"4");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_LEFT_8");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),leftEarTran,"8");
+        }
+        else{
+            dataset.addValue(null,leftEarTran,"8");
+        }
 
         // normal
-        dataset.addValue(0,normalTran,"0,125");
-        dataset.addValue(0,normalTran,"0,25");
-        dataset.addValue(0,normalTran,"0,5");
-        dataset.addValue(0,normalTran,"1");
-        dataset.addValue(0,normalTran,"2");
-        dataset.addValue(0,normalTran,"4");
-        dataset.addValue(0,normalTran,"8");
+        int iAge = MedwanQuery.getInstance().getAge(Integer.parseInt(patient.personid));
+        String sGender = checkString(patient.gender); 
+        String sGenderLabelId = "";
+             if(sGender.equalsIgnoreCase("m")) sGenderLabelId = "male";
+        else if(sGender.equalsIgnoreCase("f")) sGenderLabelId = "female";
+             
+        HearingLoss hearingLoss = Audiometry.calculateHearingloss(iAge,sGender); 
+        
+        dataset.addValue(-Math.round(hearingLoss.getLoss0125()*1e3)/1e3,normalTran,"0,125");
+        dataset.addValue(-Math.round(hearingLoss.getLoss0250()*1e3)/1e3,normalTran,"0,25");
+        dataset.addValue(-Math.round(hearingLoss.getLoss0500()*1e3)/1e3,normalTran,"0,5");
+        dataset.addValue(-Math.round(hearingLoss.getLoss1000()*1e3)/1e3,normalTran,"1");
+        dataset.addValue(-Math.round(hearingLoss.getLoss2000()*1e3)/1e3,normalTran,"2");
+        dataset.addValue(-Math.round(hearingLoss.getLoss4000()*1e3)/1e3,normalTran,"4");
+        dataset.addValue(-Math.round(hearingLoss.getLoss8000()*1e3)/1e3,normalTran,"8");
 
-        // bony right
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_RIGHT_0125")),rightBonyTran,"0,125");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_RIGHT_025")),rightBonyTran,"0,25");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_RIGHT_050")),rightBonyTran,"0,5");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_RIGHT_1")),rightBonyTran,"1");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_RIGHT_2")),rightBonyTran,"2");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_RIGHT_4")),rightBonyTran,"4");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_RIGHT_8")),rightBonyTran,"8");
+        //*** bony right ***
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_RIGHT_0125");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),rightBonyTran,"0,125");
+        }
+        else{
+            dataset.addValue(null,rightBonyTran,"0,125");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_RIGHT_025");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),rightBonyTran,"0,25");
+        }
+        else{
+            dataset.addValue(null,rightBonyTran,"0,25");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_RIGHT_050");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),rightBonyTran,"0,5");
+        }
+        else{
+            dataset.addValue(null,rightBonyTran,"0,5");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_RIGHT_1");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),rightBonyTran,"1");
+        }
+        else{
+            dataset.addValue(null,rightBonyTran,"1");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_RIGHT_2");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),rightBonyTran,"2");
+        }
+        else{
+            dataset.addValue(null,rightBonyTran,"2");
+        }
 
-        // bony left
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_LEFT_0125")),leftBonyTran,"0,125");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_LEFT_025")),leftBonyTran,"0,25");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_LEFT_050")),leftBonyTran,"0,5");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_LEFT_1")),leftBonyTran,"1");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_LEFT_2")),leftBonyTran,"2");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_LEFT_4")),leftBonyTran,"4");
-        dataset.addValue(-Double.parseDouble(getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_LEFT_8")),leftBonyTran,"8");
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_RIGHT_4");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),rightBonyTran,"4");
+        }
+        else{
+            dataset.addValue(null,rightBonyTran,"4");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_RIGHT_8");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),rightBonyTran,"8");
+        }
+        else{
+            dataset.addValue(null,rightBonyTran,"8");
+        }
+
+        //*** bony left ***
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_LEFT_0125");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),leftBonyTran,"0,125");
+        }
+        else{
+            dataset.addValue(null,leftBonyTran,"0,125");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_LEFT_025");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),leftBonyTran,"0,25");
+        }
+        else{
+            dataset.addValue(null,leftBonyTran,"0,25");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_LEFT_050");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),leftBonyTran,"0,5");
+        }
+        else{
+            dataset.addValue(null,leftBonyTran,"0,5");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_LEFT_1");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),leftBonyTran,"1");
+        }
+        else{
+            dataset.addValue(null,leftBonyTran,"1");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_LEFT_2");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),leftBonyTran,"2");
+        }
+        else{
+            dataset.addValue(null,leftBonyTran,"2");
+        }
+
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_LEFT_4");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),leftBonyTran,"4");
+        }
+        else{
+            dataset.addValue(null,leftBonyTran,"4");
+        }
+        
+        sValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_BONY_LEFT_8");
+        if(sValue.length() > 0 && !sValue.equals("-")){
+            dataset.addValue(-Double.parseDouble(sValue),leftBonyTran,"8");
+        }
+        else{
+            dataset.addValue(null,leftBonyTran,"8");
+        }
 
         // y-axis borders
         dataset.addValue(-100,"min","0,125");
@@ -139,9 +344,11 @@ public class PDFAudiometry extends PDFGeneralBasic {
 
         // series colors
         CategoryPlot plot = chart.getCategoryPlot();
+        plot.setBackgroundPaint(new Color(230,230,230));
+        
         CategoryItemRenderer renderer = new DefaultCategoryItemRenderer();
-        renderer.setSeriesPaint(0,Color.red); // right air
-        renderer.setSeriesPaint(1,Color.blue); // left air
+        renderer.setSeriesPaint(0,Color.red); // right ear
+        renderer.setSeriesPaint(1,Color.blue); // left ear
         renderer.setSeriesPaint(2,new Color(34,139,34)); // normal (green)
         renderer.setSeriesPaint(3,Color.BLACK); // right bony
         renderer.setSeriesPaint(4,new Color(153,50,204)); // left bony (purple)
@@ -150,30 +357,16 @@ public class PDFAudiometry extends PDFGeneralBasic {
         int dotSize = 4;
         renderer.setSeriesShape(0,new Ellipse2D.Double(dotSize/2.0*(-1),dotSize/2.0*(-1),dotSize,dotSize));
         renderer.setSeriesShape(1,new Ellipse2D.Double(dotSize/2.0*(-1),dotSize/2.0*(-1),dotSize,dotSize));
-        renderer.setSeriesShape(2,new Ellipse2D.Double(0/2.0*(-1),0/2.0*(-1),0,0));
+        renderer.setSeriesShape(2,new Ellipse2D.Double(dotSize/2.0*(-1),dotSize/2.0*(-1),dotSize,dotSize));
         renderer.setSeriesShape(3,new Ellipse2D.Double(dotSize/2.0*(-1),dotSize/2.0*(-1),dotSize,dotSize));
         renderer.setSeriesShape(4,new Ellipse2D.Double(dotSize/2.0*(-1),dotSize/2.0*(-1),dotSize,dotSize));
-        renderer.setSeriesVisible(5,new Boolean(false));
-        renderer.setSeriesVisible(6,new Boolean(false));
+        renderer.setSeriesShape(5,new Ellipse2D.Double(0,0,0,0));
+        renderer.setSeriesShape(6,new Ellipse2D.Double(0,0,0,0));
         plot.setRenderer(renderer);
-
-        /*
-        // labels
-        renderer.setSeriesItemLabelGenerator(0,new StandardCategoryItemLabelGenerator("{2}",new DecimalFormat("0.000"),new DecimalFormat("0")));
-        renderer.setSeriesItemLabelsVisible(0,true);
-        renderer.setSeriesItemLabelGenerator(1,new StandardCategoryItemLabelGenerator("{2}",new DecimalFormat("0.000"),new DecimalFormat("0")));
-        renderer.setSeriesItemLabelsVisible(1,true);
-        renderer.setSeriesItemLabelGenerator(2,new StandardCategoryItemLabelGenerator("{2}",new DecimalFormat("0.000"),new DecimalFormat("0")));
-        renderer.setSeriesItemLabelsVisible(2,true);
-        renderer.setSeriesItemLabelGenerator(3,new StandardCategoryItemLabelGenerator("{2}",new DecimalFormat("0.000"),new DecimalFormat("0")));
-        renderer.setSeriesItemLabelsVisible(3,true);
-        renderer.setSeriesItemLabelGenerator(4,new StandardCategoryItemLabelGenerator("{2}",new DecimalFormat("0.000"),new DecimalFormat("0")));
-        renderer.setSeriesItemLabelsVisible(4,true);
-        */
 
         // write graph to image
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        ChartUtilities.writeChartAsPNG(os,chart,400,360);
+        ChartUtilities.writeChartAsPNG(os,chart,600,360);
         PdfPTable graphTable = new PdfPTable(1);
 
         // add image to table
@@ -185,8 +378,8 @@ public class PDFAudiometry extends PDFGeneralBasic {
         graphTable.addCell(cell);
 
         // legend
-        Phrase phrase = new Phrase(rightAirTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,BaseColor.RED));
-               phrase.add(new Chunk(leftAirTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,BaseColor.BLUE)));
+        Phrase phrase = new Phrase(rightEarTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,BaseColor.RED));
+               phrase.add(new Chunk(leftEarTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,BaseColor.BLUE)));
                phrase.add(new Chunk(normalTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,new BaseColor(34,139,34)))); // green
                phrase.add(new Chunk(rightBonyTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,BaseColor.BLACK)));
                phrase.add(new Chunk(leftBonyTran,FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,new BaseColor(153,50,204)))); // purple

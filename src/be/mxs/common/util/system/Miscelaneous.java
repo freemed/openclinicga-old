@@ -39,8 +39,8 @@ public class Miscelaneous {
     public static com.itextpdf.text.Image getImage(String name, String project){
     	com.itextpdf.text.Image image = null;
     	
-        //Try to find the image in the config cache
-        String imageSource = MedwanQuery.getInstance().getConfigString("PDFIMG."+name+"."+project);
+        // Try to find the image in the config cache
+        String imageSource = MedwanQuery.getInstance().getConfigString("PDFIMG."+name.replaceAll("/",".")+"."+project);
         if(imageSource!=null && imageSource.length()>0){
             try {
             	Debug.println("(config cache) imageSource : "+imageSource);
@@ -53,23 +53,23 @@ public class Miscelaneous {
         }
         imageSource=MedwanQuery.getInstance().getConfigString("imageSource","http://localhost/openclinic");
         
-        //Try to find the image in the project image directory
+        // Try to find the image in the project image directory
         try{
         	Debug.println("(project image directory) imageSource : "+imageSource+"/projects/"+project+"/_img/"+name);
             image = com.itextpdf.text.Image.getInstance(new URL(imageSource+"/projects/"+project+"/_img/"+name));
             if(image!=null){
-                MedwanQuery.getInstance().setConfigString("PDFIMG."+name+"."+project,imageSource+"/projects/"+project+"/_img/"+name);
+                MedwanQuery.getInstance().setConfigString("PDFIMG."+name.replaceAll("/",".")+"."+project,imageSource+"/projects/"+project+"/_img/"+name);
                 return image;
             }
         }
         catch (Exception e){}
         
-        //Try to find the image in the default image directory
+        // Try to find the image in the default image directory
         try{
         	Debug.println("(default image directory) imageSource : "+imageSource+"/_img/"+name);
             image = com.itextpdf.text.Image.getInstance(new URL(imageSource+"/_img/"+name));
             if(image!=null){
-                MedwanQuery.getInstance().setConfigString("PDFIMG."+name+"."+project,imageSource+"/_img/"+name);
+                MedwanQuery.getInstance().setConfigString("PDFIMG."+name.replaceAll("/",".")+"."+project,imageSource+"/_img/"+name);
                 return image;
             }
         }
