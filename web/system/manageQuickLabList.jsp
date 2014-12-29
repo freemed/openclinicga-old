@@ -3,13 +3,55 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%!
+//--- GET PROFILE NAME FOR CODE ---------------------------------------------------------------
+public String getProfileNameForCode(String sCode, String sWebLanguage){
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    StringBuffer sQuery = new StringBuffer();
+    String sName = sCode;
+    
+    sQuery.append("SELECT OC_LABEL_VALUE as name")
+          .append(" FROM LabProfiles p, OC_LABELS l")
+          .append(" WHERE "+ MedwanQuery.getInstance().convert("varchar","p.profileID")+" = l.OC_LABEL_ID")
+          .append(" AND l.OC_LABEL_TYPE = 'labprofiles'")
+          .append(" AND l.OC_LABEL_LANGUAGE = ?")
+          .append(" AND p.deletetime IS NULL")
+          .append(" AND p.profilecode = ?");
+	System.out.println(sQuery);
+    Connection loc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+    try{
+        ps = loc_conn.prepareStatement(sQuery.toString());
+        ps.setString(1,sWebLanguage.toLowerCase());
+        ps.setString(2,sCode);
+        rs = ps.executeQuery();
+
+        if(rs.next()){
+        	sName = rs.getString("name");
+        }
+    }
+    catch(Exception e){
+        e.printStackTrace();
+    }
+    finally{
+        try{
+            if(rs!=null)rs.close();
+            if(ps!=null)ps.close();
+            loc_conn.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    return sName;		
+}
     //-- GET ITEM VALUE ---------------------------------------------------------------------------
 	public String getItemValue(String[] labanalyses, int column, int row){
 		if(labanalyses!=null){
 			for(int n=0; n<labanalyses.length; n++){
-				if(labanalyses[n].split("£").length>=2 && labanalyses[n].split("£")[1].split("_").length==2 && 
-				   Integer.parseInt(labanalyses[n].split("£")[1].split("_")[0])==column &&
-				   Integer.parseInt(labanalyses[n].split("£")[1].split("_")[1])==row){
+				if(labanalyses[n].split("£").length>=2 && labanalyses[n].split("£")[1].split("\\.").length==2 && 
+				   Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[0])==column &&
+				   Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[1])==row){
 					return labanalyses[n].split("£")[0]; // 0
 				}
 			}
@@ -21,9 +63,9 @@
 	public String getItemColor(String[] labanalyses, int column, int row, boolean asHtml){
 		if(labanalyses!=null){
 			for(int n=0; n<labanalyses.length; n++){
-				if(labanalyses[n].split("£").length>=3 && labanalyses[n].split("£")[2].split("_").length>0 &&
-				   Integer.parseInt(labanalyses[n].split("£")[1].split("_")[0])==column &&
-				   Integer.parseInt(labanalyses[n].split("£")[1].split("_")[1])==row){
+				if(labanalyses[n].split("£").length>=3 && labanalyses[n].split("£")[2].split("\\.").length>0 &&
+				   Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[0])==column &&
+				   Integer.parseInt(labanalyses[n].split("£")[1].split("\\.")[1])==row){
 					if(asHtml){
 						if(labanalyses[n].split("£")[2].length() > 0){
 						    return " style='background-color:#"+labanalyses[n].split("£")[2]+"'";
@@ -94,7 +136,7 @@
 			if(pars.length() > 0){
 				pars+= ";";
 			}
-			pars+= labanalysis+"£"+name.split("_")[1]+"_"+name.split("_")[2]+"£"+
+			pars+= labanalysis+"£"+name.split("_")[1]+"."+name.split("_")[2]+"£"+
 			       checkString(request.getParameter(name.replace("anal_","analysiscolor_")));
 		}
 		
@@ -123,7 +165,6 @@
 	}
 
 	if(sLabAnalyses.length() > 0){
-		sLabAnalyses = sLabAnalyses.replaceAll("\\.","_");
 	    labAnalyses = sLabAnalyses.split(";");
 	}
 	
@@ -167,7 +208,7 @@
 						
 						if(val.startsWith("^")){
 							// Todo: labprofile opzoeken!
-							out.print("<td id='td_analysisname_"+i+"_"+n+"' "+getItemColor(labAnalyses,i,n,true)+" width='"+(100/cols)+"%' class='admin2'><img width='16px' src='_img/multiple.gif'/> - "+LabAnalysis.labelForCode(val.substring(1),sWebLanguage)+"</td>");
+							out.print("<td id='td_analysisname_"+i+"_"+n+"' "+getItemColor(labAnalyses,i,n,true)+" width='"+(100/cols)+"%' class='admin2'><img width='16px' src='_img/multiple.gif'/> - "+getProfileNameForCode(val.substring(1),sWebLanguage)+"</td>");
 						}
 						else{
 							LabAnalysis labAnalysis = LabAnalysis.getLabAnalysisByLabcode(val);

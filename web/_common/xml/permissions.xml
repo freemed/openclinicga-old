@@ -215,6 +215,7 @@
         <permission type="web.manage" id="manageBeds">adt.managebeds</permission>
         <permission type="web.manage" id="managetranslations">system.managetranslations</permission>
         <permission type="web" id="printlabel">system.printlabel</permission>
+        <permission type="web" id="printrecord">system.printrecord</permission>
         <permission type="web" id="managealerts">occup.managealerts</permission>
         <permission type="web.UserProfile" id="usersPerProfile">permissions.usersPerProfile</permission>
         <permission type="web" id="insurance">system.insurance</permission>

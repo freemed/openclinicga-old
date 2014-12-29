@@ -32,7 +32,11 @@
         if(checkString(activePatient.personid).length()>0 && MedwanQuery.getInstance().getConfigInt("canmodifyexistingcoreadmindata",1)==0 && !activeUser.getAccessRight("patient.modifyexistingcoreadminrecord.select")){
         	bCanModifyCore=false;
         }
-        out.print(inputRow("Web","Lastname","Lastname","Admin",activePatient.lastname,"T",bCanModifyCore, true,sWebLanguage)
+        out.print(
+    			(bCanModifyCore?inputRow("Web","begindate","UpdateTime","Admin",ScreenHelper.formatDate(new java.util.Date()),"Dp",true,false,sWebLanguage):
+    	            inputRow("Web","begindate","UpdateTime","Admin",ScreenHelper.formatDate(new java.util.Date()),"T",bCanModifyCore, true,sWebLanguage)
+    				)
+        	+inputRow("Web","Lastname","Lastname","Admin",activePatient.lastname,"T",bCanModifyCore, true,sWebLanguage)
             +inputRow("Web","Firstname","Firstname","Admin",activePatient.firstname,"T",bCanModifyCore, true,sWebLanguage)
 			+(bCanModifyCore?inputRow("Web","Dateofbirth","DateOfBirth","Admin",activePatient.dateOfBirth,"Dp",true,false,sWebLanguage):
             inputRow("Web","Dateofbirth","DateOfBirth","Admin",activePatient.dateOfBirth,"T",bCanModifyCore, true,sWebLanguage)

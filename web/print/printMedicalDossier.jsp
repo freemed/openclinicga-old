@@ -724,7 +724,7 @@
 	var okToPrint = true;
 	
 	if(okToPrint==true){
-      if(document.getElementById("section_14").checked==true && countSelectedEncounters()==0){
+      if(document.getElementById("section_14").checked==true && <%=visits.size()+admissions.size()>0%> && countSelectedEncounters()==0){
 	    alertDialog("web","firstSelectSomeEncounters");
 	    okToPrint = false;
       }

@@ -10,13 +10,13 @@
 	    String sName = sCode;
 	    
 	    sQuery.append("SELECT OC_LABEL_VALUE as name")
-	          .append("FROM LabProfiles p, OC_LABELS l")
-	          .append("WHERE "+ MedwanQuery.getInstance().convert("varchar(255)","p.profileID")+" = l.OC_LABEL_ID")
-	          .append("AND l.OC_LABEL_TYPE = 'labprofiles'")
-	          .append("AND l.OC_LABEL_LANGUAGE = ?")
-	          .append("AND p.deletetime IS NULL")
-	          .append("AND p.profilecode = ?");
-	
+	          .append(" FROM LabProfiles p, OC_LABELS l")
+	          .append(" WHERE "+ MedwanQuery.getInstance().convert("varchar","p.profileID")+" = l.OC_LABEL_ID")
+	          .append(" AND l.OC_LABEL_TYPE = 'labprofiles'")
+	          .append(" AND l.OC_LABEL_LANGUAGE = ?")
+	          .append(" AND p.deletetime IS NULL")
+	          .append(" AND p.profilecode = ?");
+		System.out.println(sQuery);
 	    Connection loc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
 	    try{
 	        ps = loc_conn.prepareStatement(sQuery.toString());
@@ -74,9 +74,7 @@
 		if(s.length()==0){
 			s=MedwanQuery.getInstance().getConfigString("quickLabList","");
 		}
-		System.out.println(s);
 		String[] sLabAnalyses = s.split(";");
-		System.out.println(sLabAnalyses.length);
 		LabAnalysis labAnalysis = null;
 		int rows=MedwanQuery.getInstance().getConfigInt("quickLabListRows",20),cols=MedwanQuery.getInstance().getConfigInt("quickLabListCols",2);
 		for (int n=0;n<rows;n++){
