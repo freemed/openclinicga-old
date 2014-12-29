@@ -205,8 +205,7 @@ public String getProfileNameForCode(String sCode, String sWebLanguage){
 						if(val.startsWith("$")){
 							out.print("<td id='td_analysisname_"+i+"_"+n+"' "+getItemColor(labAnalyses,i,n,true)+" width='"+(100/cols)+"%' class='admin'>"+val.substring(1)+"<hr/></td>");
 						}
-						
-						if(val.startsWith("^")){
+						else if(val.startsWith("^")){
 							// Todo: labprofile opzoeken!
 							out.print("<td id='td_analysisname_"+i+"_"+n+"' "+getItemColor(labAnalyses,i,n,true)+" width='"+(100/cols)+"%' class='admin2'><img width='16px' src='_img/multiple.gif'/> - "+getProfileNameForCode(val.substring(1),sWebLanguage)+"</td>");
 						}
