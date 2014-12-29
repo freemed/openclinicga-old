@@ -44,13 +44,13 @@
 		java.util.Date begin = new java.util.Date();
 		java.util.Date end = new java.util.Date();
 		try{
-			begin=ScreenHelper.parseDate(sBegin);
+			begin=new SimpleDateFormat("dd/MM/yyyy").parse(sBegin);
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
 		try{
-			end=ScreenHelper.parseDate(sEnd);
+			end=new SimpleDateFormat("dd/MM/yyyy").parse(sEnd);
 		}
 		catch(Exception e){
 			e.printStackTrace();

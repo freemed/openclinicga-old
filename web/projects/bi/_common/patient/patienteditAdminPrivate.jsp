@@ -104,12 +104,12 @@
         }*/
 
         sBeginDate+=(" size='12' onblur='checkBegin(this,"+sStartDate.trim()+")'>&nbsp;"
-            +"<img class='link' name='popcal' onclick='gfPop1.fPopCalendar(document.all[\"PBegin\"]);return false;' src='"+sCONTEXTPATH+"/_img/icons/icon_agenda.gif' alt='"+getTranNoLink("Web","Select",sWebLanguage)+"'>"
-            +"&nbsp;<img class='link' src='"+sCONTEXTPATH+"/_img/icons/icon_compose.gif' alt='"+getTranNoLink("Web","PutToday",sWebLanguage)+"' onclick='getToday(PBegin);'>");
+            +"<img class='link' name='popcal' onclick='gfPop1.fPopCalendar(document.all[\"PBegin\"]);return false;' src='"+sCONTEXTPATH+"/_img/icon_agenda.gif' ALT='"+getTran("Web","Select",sWebLanguage)+"'>"
+            +"&nbsp;<img class='link' src='"+sCONTEXTPATH+"/_img/icon_compose.gif' ALT='"+getTran("Web","PutToday",sWebLanguage)+"' onclick='getToday(PBegin);'>");
 
         if (!bNew){
-            sBeginDate+= " <img src='"+sCONTEXTPATH+"/_img/icons/icon_new.gif' id='buttonNewAPC' class='link' alt='"+getTranNoLink("Web","new",sWebLanguage)+"' onclick='newAPC()'>";
-//            sBeginDate+= "&nbsp;<input type='button' name='buttonNewAPC' class='button' onclick='newAPC()' value='"+getTranNoLink("Web","new",sWebLanguage)+"'>";
+            sBeginDate+= " <img src='"+sCONTEXTPATH+"/_img/icon_new.gif' id='buttonNewAPC' class='link' alt='"+getTran("Web","new",sWebLanguage)+"' onclick='newAPC()'>";
+//            sBeginDate+= "&nbsp;<input type='button' name='buttonNewAPC' class='button' onclick='newAPC()' value='"+getTran("Web","new",sWebLanguage)+"'>";
         }
         sBeginDate+= "</td></tr>";
 

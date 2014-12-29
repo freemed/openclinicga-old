@@ -17,7 +17,7 @@
 
     Encounter encounter = Encounter.getActiveEncounter(activePatient.personid);
     if (encounter != null) {
-    	sActiveEncounterDate=ScreenHelper.formatDate(encounter.getBegin());
+    	sActiveEncounterDate=new SimpleDateFormat("dd/MM/yyyy").format(encounter.getBegin());
     }
     
     if (sEditDebetUID.length() > 0) {
@@ -43,7 +43,7 @@
         }
     }
 	if(sActiveEncounterDate.length()==0){
-		sActiveEncounterDate=ScreenHelper.formatDate(new java.util.Date());
+		sActiveEncounterDate=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
 	}
 %>
 <form name='EditForm' id="EditForm" method='POST'>
@@ -69,7 +69,7 @@
                 <input type="button" class="button" name="ButtonSearch" value="<%=getTranNoLink("Web","search",sWebLanguage)%>" onclick="loadUnassignedDebets()">&nbsp;
                 <input type="button" class="button" name="ButtonClear" value="<%=getTranNoLink("Web","Clear",sWebLanguage)%>" onclick="clearFindFields()">&nbsp;
                 <input type="button" class="button" name="ButtonNew" value="<%=getTranNoLink("Web","new",sWebLanguage)%>" onclick="doNew()">&nbsp;
-                <input type="button" class="button" name="ButtonToday" value="<%=getTranNoLink("Web","today",sWebLanguage)%>" onclick="document.getElementById('FindDateBegin').value='<%=ScreenHelper.formatDate(new Date())%>';loadUnassignedDebets()">&nbsp;
+                <input type="button" class="button" name="ButtonToday" value="<%=getTranNoLink("Web","today",sWebLanguage)%>" onclick="document.getElementById('FindDateBegin').value='<%=new SimpleDateFormat("dd/MM/yyyy").format(new Date())%>';loadUnassignedDebets()">&nbsp;
             </td>
         </tr>
     </table>
@@ -90,7 +90,7 @@
                 java.util.Date dValidity=Debet.getContributionValidity(ins!=null?ins.getMember():activePatient.personid);
            		String sValidity=getTran("web","none",sWebLanguage);
            		if(dValidity!=null){
-           			sValidity=ScreenHelper.formatDate(dValidity);
+           			sValidity=new SimpleDateFormat("dd/MM/yyyy").format(dValidity);
            		}
             %>
             <td bgcolor="<%=dValidity==null || dValidity.before(new java.util.Date())?"red":"lightgreen" %>">

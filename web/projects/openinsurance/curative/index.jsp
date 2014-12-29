@@ -50,7 +50,7 @@
             fileOutputStream.write(picture.getPicture());
             fileOutputStream.close();
 %>
-        <tr>
+        <tr >
             <td class="image" valign="top" width="143px"><img border='0'  width="100%" src='<c:url value="/"/>documents/<%=activeUser.userid%>.jpg?ts=<%=getTs()%>'/></td>
             <td valign="top">
                 <table width="100%"  >

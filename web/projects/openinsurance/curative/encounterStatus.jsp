@@ -52,14 +52,14 @@
                     <td width="250"><i><%=getTran("curative","encounter.last.hospitalisation",sWebLanguage)%>:
                         <%
                             if(dLastAdmission != null){
-                                out.print("<a href='javascript:goRead(\""+lastAdmissionEncounter.getUid()+"\");'>"+ScreenHelper.formatDate(dLastAdmission)+"</a>");
+                                out.print("<a href='javascript:goRead(\""+lastAdmissionEncounter.getUid()+"\");'>"+new SimpleDateFormat("dd/MM/yyyy").format(dLastAdmission)+"</a>");
                             }
                         %></i>
                     </td>
                     <td><i><%=getTran("curative","encounter.last.visit",sWebLanguage)%>:
                         <%
                             if(dLastVisit != null){
-                                out.print("<a href='javascript:goRead(\""+lastVisitEncounter.getUid()+"\");'>"+ScreenHelper.formatDate(dLastVisit)+"</a>");
+                                out.print("<a href='javascript:goRead(\""+lastVisitEncounter.getUid()+"\");'>"+new SimpleDateFormat("dd/MM/yyyy").format(dLastVisit)+"</a>");
                             }
                         %></i>
                     </td>
@@ -109,7 +109,7 @@
                     <td>
                     <%
                         if(activeEncounter.getBegin() != null){
-                            out.print(ScreenHelper.formatDate(activeEncounter.getBegin()));
+                            out.print(new SimpleDateFormat("dd/MM/yyyy").format(activeEncounter.getBegin()));
                         }
                     %>
                     </td>

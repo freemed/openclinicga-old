@@ -122,11 +122,11 @@
                     <td class='admin'><%=getTran("web", "period", sWebLanguage)%></td>
                     <td class="admin2">
                         <%
-                            Date previousmonth=new Date(ScreenHelper.parseDate(new SimpleDateFormat("01/MM/yyyy").format(new Date())).getTime()-1);
+                            Date previousmonth=new Date(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("01/MM/yyyy").format(new Date())).getTime()-1);
                         %>
                         <%=writeDateField("EditBegin", "EditForm", new SimpleDateFormat("01/MM/yyyy").format(previousmonth), sWebLanguage)%>
                         <%=getTran("web","to",sWebLanguage)%>
-                        <%=writeDateField("EditEnd", "EditForm", ScreenHelper.formatDate(previousmonth), sWebLanguage)%>
+                        <%=writeDateField("EditEnd", "EditForm", new SimpleDateFormat("dd/MM/yyyy").format(previousmonth), sWebLanguage)%>
                         &nbsp;<input type="button" class="button" name="update" value="<%=getTran("web","update",sWebLanguage)%>" onclick="changeInsurar();"/>
                         &nbsp;<input type="button" class="button" name="updateBalance" value="<%=getTranNoLink("web","updateBalance",sWebLanguage)%>" onclick="updateBalance();"/>
                     </td>
@@ -348,11 +348,11 @@ function doBalance(oObject, bAdd) {
 function doPrintPdf(invoiceUid) {
     if(EditForm.PrintModel.value=='ramacsv'){
 		var url = "<c:url value='/util/csvDocs.jsp'/>?invoiceuid=" + invoiceUid + "&ts=<%=getTs()%>&docid=invoice.rama";
-	    window.open(url, "InsurarInvoicePdf<%=getTs()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+	    window.open(url, "InsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
     }
     else {
 		var url = "<c:url value='/financial/createInsurarInvoicePdf.jsp'/>?InvoiceUid=" + invoiceUid + "&ts=<%=getTs()%>&PrintLanguage=" + EditForm.PrintLanguage.value+ "&PrintType="+EditForm.PrintType.value+"&PrintModel="+EditForm.PrintModel.value;
-	    window.open(url, "InsurarInvoicePdf<%=getTs()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
+	    window.open(url, "InsurarInvoicePdf<%=new java.util.Date().getTime()%>", "height=600,width=900,toolbar=yes,status=no,scrollbars=yes,resizable=yes,menubar=yes");
     }
 }
 

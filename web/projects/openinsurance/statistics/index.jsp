@@ -3,7 +3,7 @@
 <form name="stats">
 <%
 String firstdayPreviousMonth="01/"+new SimpleDateFormat("MM/yyyy").format(new java.util.Date());
-String lastdayPreviousMonth=ScreenHelper.formatDate(new java.util.Date());
+String lastdayPreviousMonth=new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
 
 out.print(ScreenHelper.writeTblHeader(getTran("Web","statistics.memberconsumptionstats",sWebLanguage),sCONTEXTPATH)
         +"<tr><td>"+getTran("web","from",sWebLanguage)+"&nbsp;</td><td>"+writeDateField("begin","stats",firstdayPreviousMonth,sWebLanguage)+"&nbsp;"+getTran("web","to",sWebLanguage)+"&nbsp;"+writeDateField("end","stats",lastdayPreviousMonth,sWebLanguage));

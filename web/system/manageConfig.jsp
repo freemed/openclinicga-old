@@ -162,7 +162,7 @@
     <input type="hidden" name="Action">
     
     <%=writeTableHeader("Web.manage","ManageConfiguration",sWebLanguage,"main.do?Page=system/menu.jsp")%>
-    <table width="100%" cellspacing="1" cellpadding="0" class="menu">
+    <table width="100%" cellspacing="1" cellpadding="0">
         <%-- search fields --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>">Key</td>
@@ -377,7 +377,7 @@
     window.location.href = '<c:url value='/main.do'/>?Page=system/menu.jsp';
   }
 
-  transactionForm.FindKey.focus();
+  window.setTimeout('transactionForm.FindKey.focus();',300);
 </script>
 
 <%-- ALERT ---------------------------------------------------------------------------------------%>

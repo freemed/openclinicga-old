@@ -194,16 +194,16 @@
 
         tmpEncounter = Encounter.get(sEditEncounterUID);
 		if(tmpEncounter!=null && tmpEncounter.getMaxTransferDate()!=null){
-			sMaxTransferDate=ScreenHelper.formatDate(tmpEncounter.getMaxTransferDate());
+			sMaxTransferDate=new SimpleDateFormat("dd/MM/yyyy").format(tmpEncounter.getMaxTransferDate());
 		}
         sEditEncounterType            = checkString(tmpEncounter.getType());
-        sEditEncounterBegin           = checkString(ScreenHelper.formatDate(tmpEncounter.getBegin()));
+        sEditEncounterBegin           = checkString(new SimpleDateFormat("dd/MM/yyyy").format(tmpEncounter.getBegin()));
         sEditEncounterBeginHour           = checkString(new SimpleDateFormat("HH:mm").format(tmpEncounter.getBegin()));
 
         if(tmpEncounter.getEnd() == null){
             sEditEncounterEnd         = "";
         }else{
-            sEditEncounterEnd         = checkString(ScreenHelper.formatDate(tmpEncounter.getEnd()));
+            sEditEncounterEnd         = checkString(new SimpleDateFormat("dd/MM/yyyy").format(tmpEncounter.getEnd()));
             sEditEncounterEndHour     = checkString(new SimpleDateFormat("HH:mm").format(tmpEncounter.getEnd()));
         }
 
@@ -481,7 +481,7 @@
     }
 
     function deleteService(sID){
-        if(yesnoDeleteDialog()){
+      if(yesnoDialog("Web","areYouSureToDelete")){
         var params = '';
         var today = new Date();
         var url= '<c:url value="/adt/ajaxActions/editEncounterDeleteService.jsp"/>?EncounterUID=<%=sEditEncounterUID%>&ServiceUID='+sID+'&ts='+today;

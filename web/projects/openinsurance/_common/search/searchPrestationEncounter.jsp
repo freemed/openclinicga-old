@@ -1,45 +1,46 @@
-<%@page import="be.openclinic.adt.Bed,
-                be.openclinic.adt.Encounter,
-                java.util.Vector"%>
+<%@ page import="be.openclinic.adt.Bed,
+be.openclinic.adt.Encounter,
+java.util.Vector" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
-
 <%
-    String sFindEncounterPatient = checkString(request.getParameter("FindEncounterPatient")),
-           sFindEncounterManager = checkString(request.getParameter("FindEncounterManager")),
-           sFindEncounterService = checkString(request.getParameter("FindEncounterService")),
-           sFindEncounterBed     = checkString(request.getParameter("FindEncounterBed"));
+    String sFindEncounterPatient = checkString(request.getParameter("FindEncounterPatient"));
+    String sFindEncounterManager = checkString(request.getParameter("FindEncounterManager"));
+    String sFindEncounterService = checkString(request.getParameter("FindEncounterService"));
+    String sFindEncounterBed = checkString(request.getParameter("FindEncounterBed"));
 
-    String sVarCode     = checkString(request.getParameter("VarCode")),
-           sVarText     = checkString(request.getParameter("VarText")),
-           sVarFunction = checkString(request.getParameter("VarFunction"));
+    String sVarCode  = checkString(request.getParameter("VarCode"));
+    String sVarText  = checkString(request.getParameter("VarText"));
+    String sVarFunction  = checkString(request.getParameter("VarFunction"));
 
-    String sSelectEncounterPatient = ScreenHelper.normalizeSpecialCharacters(sFindEncounterPatient),
-           sSelectEncounterManager = ScreenHelper.normalizeSpecialCharacters(sFindEncounterManager),
-           sSelectEncounterService = ScreenHelper.normalizeSpecialCharacters(sFindEncounterService),
-           sSelectEncounterBed     = ScreenHelper.normalizeSpecialCharacters(sFindEncounterBed);
+    String sSelectEncounterPatient = ScreenHelper.normalizeSpecialCharacters(sFindEncounterPatient);
+    String sSelectEncounterManager = ScreenHelper.normalizeSpecialCharacters(sFindEncounterManager);
+    String sSelectEncounterService = ScreenHelper.normalizeSpecialCharacters(sFindEncounterService);
+    String sSelectEncounterBed     = ScreenHelper.normalizeSpecialCharacters(sFindEncounterBed);
 %>
-<script>
-  <%-- SET encounter --%>
-  function setEncounter(sEncounterUID,sEncounterName) {
-    window.opener.document.getElementsByName('<%=sVarCode%>')[0].value = sEncounterUID;
+<script type="text/javascript">
+    <%-- SET encounter --%>
+    function setEncounter(sEncounterUID,sEncounterName) {
+      window.opener.document.getElementsByName('<%=sVarCode%>')[0].value = sEncounterUID;
 
-    if('<%=sVarText%>'!=''){
-      window.opener.document.getElementsByName('<%=sVarText%>')[0].value = sEncounterName;
+        if ('<%=sVarText%>'!=''){
+            window.opener.document.getElementsByName('<%=sVarText%>')[0].value = sEncounterName;
+        }
+
+        <%
+            if(sVarFunction.length()>0){
+        %>
+            window.opener.<%=sVarFunction%>;
+        <%
+        }
+        %>
+
+      window.close();
     }
 
-    <%
-        if(sVarFunction.length() > 0){
-            %>window.opener.<%=sVarFunction%>;<%
-        }
-    %>
-
-    window.close();
-  }
 </script>
-
     <form name='SearchForm' method="POST" onSubmit="doFind();" onkeydown="if(enterEvent(event,13)){doFind();}">
-        <%-- SEARCH RESULTS TABLE --%>
+            <%-- SEARCH RESULTS TABLE --%>
         <table>
             <tr>
                 <td valign="top" colspan="3" align="center" class="white" width="100%">
@@ -55,16 +56,23 @@
                                 boolean recsFound = false;
                                 StringBuffer results = new StringBuffer();
                                 String sClass = "";
-                                String sType = "", sEnd = "", sStart = "", sTRClass = "", sTRSelectClass = "", sEncounterUID = "", sService = "";
+                                String sType = "";
+                                String sEnd = "";
+                                String sStart = "";
+                                String sTRClass = "";
+                                String sTRSelectClass = "";
+                                String sEncounterUID = "";
+                                String sService = "";
 
                                 while (iter.hasNext()) {
+
                                     eTmp = (Encounter) iter.next();
                                     if(!eTmp.getType().equalsIgnoreCase("coverage")){
 	                                    recsFound = true;
 	
 	                                    // alternate row-style
-	                                    if(sClass.equals("")) sClass = "1";
-	                                    else                  sClass = "";
+	                                    if (sClass.equals("")) sClass = "1";
+	                                    else sClass = "";
 	
 	                                    // names
 	                                    sEncounterUID = eTmp.getUid();
@@ -81,10 +89,10 @@
 	                                        sService = getTran("service", eTmp.getServiceUID(), sWebLanguage);
 	                                    }
 	
-	                                    sStart = ScreenHelper.formatDate(eTmp.getBegin());
+	                                    sStart = new SimpleDateFormat("dd/MM/yyyy").format(eTmp.getBegin());
 	
 	                                    if (eTmp.getEnd() != null) {
-	                                    	sEnd = ScreenHelper.formatDate(eTmp.getEnd());
+	                                    	sEnd = new SimpleDateFormat("dd/MM/yyyy").format(eTmp.getEnd());
 	                                    } else {
 	                                        sEnd = "";
 	                                    }
@@ -111,7 +119,7 @@
 
                                 if (recsFound) {
                             %>
-                                        <tbody class="hand">
+                                        <tbody onmouseover='this.style.cursor="hand"' onmouseout='this.style.cursor="default"'>
                                             <tr class="admin">
                                                 <td>ID</td>
                                                 <td nowrap><%=getTran("Web","start",sWebLanguage)%></td>

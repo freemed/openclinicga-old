@@ -1,3 +1,4 @@
+<%@include file="/includes/SingletonContainer.jsp"%>
 <%@page import="be.openclinic.finance.Insurar,
                 be.openclinic.finance.InsuranceCategory,
                 java.util.Vector,
@@ -5,10 +6,8 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%@include file="/includes/ajaxRequirements.jsp"%>
-<%@include file="/includes/SingletonContainer.jsp"%>
 <%=checkPermission("system.manageinsurars","all",activeUser)%>
 <%=sJSSORTTABLE%>
-
 <%-- Start Floating Layer -----------------------------------------------------------------------%>
 <div id="ajaxFloatingLoader" style="position:absolute;width:250px;height:30px;visibility:hidden;">
     <table width="100%" cellspacing="0" cellpadding="5" style="border:1px solid #aaa">
@@ -21,29 +20,32 @@
     </table>
 </div>
 <%-- End Floating layer -------------------------------------------------------------------------%>
-
 <%!
     //--- ADD CATEGORY ----------------------------------------------------------------------------
     private String addCategory(int iTotal, String sCatName, String sCatLabel, String sCatPatientPercentage, String sWebLanguage){
         return "<tr id='rowCategory"+iTotal+"' class='"+(iTotal%2==0?"list":"list1")+"'>"+
                 "<td>"+
-                 "<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' onclick='deleteCategory(rowCategory"+iTotal+");' alt='"+getTranNoLink("Web","delete",sWebLanguage)+"' class='link'>&nbsp;"+
-                 "<img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' onclick='editCategory(rowCategory"+iTotal+");' alt='"+getTranNoLink("Web","edit",sWebLanguage)+"' class='link'>nbsp;"+
+                 "<a href='#' onclick='deleteCategory(rowCategory"+iTotal+");'>"+
+                  "<img src='"+sCONTEXTPATH+"/_img/icon_delete.gif' alt='"+getTranNoLink("Web","delete",sWebLanguage)+"' border='0'>"+
+                 "</a>&nbsp;"+
+                 "<a href='#' onclick='editCategory(rowCategory"+iTotal+");'>"+
+                  "<img src='"+sCONTEXTPATH+"/_img/icon_edit.gif' alt='"+getTranNoLink("Web","edit",sWebLanguage)+"' border='0'>"+
+                 "</a>&nbsp;"+
                 "</td>"+
-                "<td>"+sCatName+"</td>"+
-                "<td>"+sCatLabel+"</td>"+
-                "<td>"+sCatPatientPercentage+"%</td>"+
-                "<td>"+(100-Integer.parseInt(sCatPatientPercentage))+"%</td>"+
-                "<td><div id='catDiv_"+sCatName+"'></div></td>"+
-                "<td>&nbsp;</td>"+
-               "</tr>";
+               "<td>"+sCatName+"</td>"+
+               "<td>"+sCatLabel+"</td>"+
+               "<td>"+sCatPatientPercentage+"%</td>"+
+               "<td>"+(100-Integer.parseInt(sCatPatientPercentage))+"%</td>"+
+               "<td><div id='catDiv_"+sCatName+"'></div></td>"+
+               "<td>&nbsp;</td>"+
+              "</tr>";
     }
 %>
-
 <%
     String sAction = checkString(request.getParameter("Action"));
-	if(sAction.length()==0) sAction = "search";
-	
+	if(sAction.length()==0) {
+		sAction="search";
+	}
     String msg = "", sCategoriesJS = "";
     int catCount = 0;
 
@@ -52,46 +54,45 @@
            sFindInsurarLanguage = checkString(request.getParameter("FindInsurarLanguage")),
            sFindInsurarContact  = checkString(request.getParameter("FindInsurarContact")),
            sEditInsurarId       = checkString(request.getParameter("EditInsurarId")),
-           sEditInsurarType     = checkString(request.getParameter("EditInsurarType"));
+           sEditInsurarType       = checkString(request.getParameter("EditInsurarType"));
 
-    // DEBUG //////////////////////////////////////////////////////////////////////////////////////
+    // DEBUG //////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-        Debug.println("\n************* openinsurance/system/manageCoveragePlans.jsp *************");
-        Debug.println("sAction             : "+sAction);
-        Debug.println("sEditInsurarId      : "+sEditInsurarId+"\n");
-        Debug.println("sFindInsurarId      : "+sFindInsurarId);
-        Debug.println("sFindInsurarName    : "+sFindInsurarName);
-        Debug.println("FindInsurarLanguage : "+sFindInsurarLanguage);
-        Debug.println("FindInsurarContact  : "+sFindInsurarContact+"\n");
-        Debug.println("EditInsurarType     : "+sEditInsurarType+"\n");
+        System.out.println("\n### mngInsurars ###################################");
+        System.out.println("# sAction             : "+sAction);
+        System.out.println("# sEditInsurarId      : "+sEditInsurarId+"\n");
+        System.out.println("# sFindInsurarId      : "+sFindInsurarId);
+        System.out.println("# sFindInsurarName    : "+sFindInsurarName);
+        System.out.println("# FindInsurarLanguage : "+sFindInsurarLanguage);
+        System.out.println("# FindInsurarContact  : "+sFindInsurarContact+"\n");
+        System.out.println("# EditInsurarType     : "+sEditInsurarType+"\n");
     }
-    ///////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
 
     //--- SAVE ------------------------------------------------------------------------------------
     // delete all categories for the specified insurar,
     // then add all selected categories (those in request)
     if(sAction.equals("save")){
     	if(request.getParameter("EditInsurarExtra")==null){
-			String[] supportedlanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
-			for(int n=0; n<supportedlanguages.length; n++){
+			String[] supportedlanguages=MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
+			for(int n=0;n<supportedlanguages.length;n++){
 	    		Label.delete("patientsharecoverageinsurance",sEditInsurarId,supportedlanguages[n]);
 			}
     	}
-    	else{
+    	else {
     		Label label = new Label();
-    		label.showLink = "0";
-    		label.type = "patientsharecoverageinsurance";
-    		label.id = sEditInsurarId;
-    		label.updateUserId = activeUser.userid;
-    		label.value = checkString(request.getParameter("EditInsurarName"));
-			String[] supportedlanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
-			for(int n=0; n<supportedlanguages.length; n++){
-	    		label.language = supportedlanguages[n];
+    		label.showLink="0";
+    		label.type="patientsharecoverageinsurance";
+    		label.id=sEditInsurarId;
+    		label.updateUserId=activeUser.userid;
+    		label.value=checkString(request.getParameter("EditInsurarName"));
+			String[] supportedlanguages=MedwanQuery.getInstance().getConfigString("supportedLanguages","nl,fr,en").split(",");
+			for(int n=0;n<supportedlanguages.length;n++){
+	    		label.language=supportedlanguages[n];
 	    		label.saveToDB();
 			}
     	}
 		reloadSingleton(session);
-		
         // categories
         String sCategoriesToSave   = checkString(request.getParameter("selectedCategories")),
                sCategoriesToDelete = checkString(request.getParameter("categoriesToDelete"));
@@ -180,7 +181,7 @@
         sBackFunction = "doBackToMenu();";
     }
 %>
-<form id="transactionForm" name="transactionForm" method="post" <%=sOnKeyDown%>>
+<form id="transactionForm" name="transactionForm" method="post" <%=sOnKeyDown%> onclick="setSaveButton(event);" onkeyup="setSaveButton(event);">
     <%-- hidden fields --%>
     <input type="hidden" name="Action">
     <input type="hidden" name="FindInsurarId">
@@ -246,7 +247,7 @@
 	                                    %>
 	                                        <tr class="list<%=sClass%>" onmouseover="this.style.cursor='hand';" onmouseout="this.style.cursor='default';">
 	                                            <td>
-	                                                <a href="javascript:deleteInsurar('<%=insurar.getUid()%>');"><img src='<c:url value="/_img/icon_delete.gif"/>' border='0' alt="<%=sTranDelete%>"></a>
+	                                                <a href="#" onclick="deleteInsurar('<%=insurar.getUid()%>');"><img src='<c:url value="/_img/icon_delete.gif"/>' border='0' alt="<%=sTranDelete%>"></a>
 	                                            </td>
 	                                            <td class="hand" onClick="editInsurar('<%=insurar.getUid()%>');"><%=checkString(insurar.getName())%></td>
 	                                        </tr>
@@ -479,7 +480,7 @@
 
   <%-- DELETE INSURAR --%>
   function deleteInsurar(sInsurarUid){
-      if(yesnoDeleteDialog()){
+    if(yesnoDialog("Web","areYouSureToDelete")){
       transactionForm.EditInsurarId.value = sInsurarUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();
@@ -600,8 +601,8 @@
         row.insertCell(i);
       }
 
-      row.cells[0].innerHTML = "<a href='javascript:deleteCategory(rowCategory"+iIndexCategories+");'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>&nbsp;"+
-                               "<a href='javascript:editCategory(rowCategory"+iIndexCategories+");'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web","edit",sWebLanguage)%>' border='0'></a>&nbsp;";
+      row.cells[0].innerHTML = "<a href='#' onclick='deleteCategory(rowCategory"+iIndexCategories+");'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTranNoLink("Web","delete",sWebLanguage)%>' border='0'></a>&nbsp;"+
+                               "<a href='#' onclick='editCategory(rowCategory"+iIndexCategories+");'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTranNoLink("Web","edit",sWebLanguage)%>' border='0'></a>&nbsp;";
       row.cells[1].innerHTML = catName;
 
       // remove quotes from label
@@ -663,8 +664,9 @@
 
       <%-- update table object --%>
       var row = tblCategories.rows[editCategoryRowid.rowIndex];
-      row.cells[0].innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' onClick='deleteCategory("+editCategoryRowid.id+");' alt='<%=getTran("web","delete",sWebLanguage)%>' class='link'>&nbsp;"+
-                               "<img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' onclick='editCategory("+editCategoryRowid.id+")' alt='<%=getTran("web","edit",sWebLanguage)%>' class='link'>";
+      row.cells[0].innerHTML = "<a href='#' onclick='deleteCategory("+editCategoryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_delete.gif' alt='<%=getTran("web","delete",sWebLanguage)%>' border='0'></a> "+
+                               "<a href='#' onclick='editCategory("+editCategoryRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icon_edit.gif' alt='<%=getTran("web","edit",sWebLanguage)%>' border='0'></a>";
+
       row.cells[1].innerHTML = transactionForm.EditCategoryName.value;
       row.cells[2].innerHTML = transactionForm.EditCategoryLabel.value;
       row.cells[3].innerHTML = transactionForm.EditPatientShare.value+"%";
@@ -704,17 +706,17 @@
       if(patientCount.length==0){
         var popupUrl = "<%=sCONTEXTPATH%>/_common/search/okPopup.jsp?ts=<%=getTs()%>&labelType=web.manage&labelID=countPatientsPerCategoryBeforeDelete";
         var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        if(window.showModalDialog){
-          window.showModalDialog(popupUrl,"",modalities);
+        if (window.showModalDialog) {
+            window.showModalDialog(popupUrl,"",modalities);
         }
-        else{
-          alert('<%=getTranNoLink("web.manage","countPatientsPerCategoryBeforeDelete",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
+        else {
+            alert('<%=getTranNoLink("web.manage","countPatientsPerCategoryBeforeDelete",sWebLanguage).replaceAll("\n","").replaceAll("\r","")%>');
         }
       }
       else{
         if(patientCount==0){
           <%-- no patients in this category, so delete it --%>
-          if(yesnoDeleteDialog()){
+          if(yesnoDialog("Web","areYouSureToDelete")){
             sCategories = deleteRowFromArrayString(sCategories,rowid.id);
             initCategoriesArray(sCategories);
             tblCategories.deleteRow(rowid.rowIndex);
@@ -727,8 +729,11 @@
           <%-- some patients in this category, so ask again before deleting it --%>
           var msg = "<%=getTranNoLink("web.manage","patientsInThisCategory",sWebLanguage)%><br><%=getTranNoLink("web","areyousuretodelete",sWebLanguage)%>";
           msg = replaceAll(msg,"#patientCount#",patientCount);
-          
-          if(yesnoDialog(msg)){
+          var popupUrl = "<%=sCONTEXTPATH%>/_common/search/yesnoPopup.jsp?ts=<%=getTs()%>&labelValue="+msg;
+          var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+          var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,'',modalities):window.confirm('<%=getTranNoLink("web","areyousure",sWebLanguage)%>');
+
+          if(answer==1){
             categoriesToDeleteOnSave+= categoryName+"$";
 
             sCategories = deleteRowFromArrayString(sCategories,rowid.id);
@@ -743,7 +748,7 @@
     }
     else{
       <%-- category that has not been saved yet, so delete it --%>
-      if(yesnoDeleteDialog()){
+      if(yesnoDialog("Web","areYouSureToDelete")){
         sCategories = deleteRowFromArrayString(sCategories,rowid.id);
         initCategoriesArray(sCategories);
         tblCategories.deleteRow(rowid.rowIndex);
@@ -831,7 +836,7 @@
   <%-- DELETE ALL CATEGORIES --%>
   function deleteAllCategories(){
     if(tblCategories.rows.length > 1){
-        if(yesnoDeleteDialog()){
+      if(yesnoDialog("Web","areYouSureToDelete")){
         deleteAllCategoriesNoConfirm();
       }
     }

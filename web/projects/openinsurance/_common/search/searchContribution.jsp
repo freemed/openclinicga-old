@@ -59,7 +59,7 @@
             </td>
             <td class="admin2">
                 <select class="text" name="FindPrestationType" readonly>
-                    <option value="con.openinsurance"><%=getTran("prestation.type","con.openinsurance",sWebLanguage)%></option>
+                    <option value="con.openinsurance"><%=getTran("prestation.type","con.openinsurance",sWebLanguage) %></option>
                 </select>
             </td>
         </tr>
@@ -76,9 +76,9 @@
             <td class="admin2"><%=getTran("web","sort",sWebLanguage)%></td>
             <td class="admin2">
                 <select class="text" name="FindPrestationSort">
-                    <option value="OC_PRESTATION_DESCRIPTION"><%=getTran("web","description",sWebLanguage)%></option>
-                    <option value="OC_PRESTATION_CODE"><%=getTran("web","code",sWebLanguage)%></option>
-                    <option value="OC_PRESTATION_PRICE"><%=getTran("web","price",sWebLanguage)%></option>
+                    <option value="OC_PRESTATION_DESCRIPTION"><%=getTran("web","description",sWebLanguage) %></option>
+                    <option value="OC_PRESTATION_CODE"><%=getTran("web","code",sWebLanguage) %></option>
+                    <option value="OC_PRESTATION_PRICE"><%=getTran("web","price",sWebLanguage) %></option>
                 </select>
             </td>
         </tr>

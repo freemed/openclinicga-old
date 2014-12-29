@@ -20,11 +20,11 @@
     if(!sShowButton.equals("false")){
         %>
             <%=ScreenHelper.alignButtonsStart()%>
-                <input type="button" class="button" value="<%=getTranNoLink("Web","history",sWebLanguage)%>" name="ButtonHistoryPrivate" onclick="parent.location='patienthistory.do?ts=<%=getTs()%>&contacttype=private'">&nbsp;
+                <input type="button" class="button" value="<%=getTran("Web","history",sWebLanguage)%>" name="ButtonHistoryPrivate" onclick="parent.location='patienthistory.do?ts=<%=getTs()%>&contacttype=private'">&nbsp;
                 <%
                     if (activeUser.getAccessRight("patient.administration.edit")){
                         %>
-                            <input type="button" class="button" onclick="window.location.href='<c:url value="/patientedit.do"/>?Tab=AdminPrivate&ts=<%=getTs()%>'" value="<%=getTranNoLink("Web","edit",sWebLanguage)%>">
+                            <input type="button" class="button" onclick="window.location.href='<c:url value="/patientedit.do"/>?Tab=AdminPrivate&ts=<%=getTs()%>'" value="<%=getTran("Web","edit",sWebLanguage)%>">
                         <%
                     }
                 %>

@@ -150,7 +150,7 @@
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","clinical_data",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
-                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_HISTORY")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_HISTORY" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_HISTORY" property="value"/></textarea>
+                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,2999);" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_HISTORY")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_HISTORY" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_HISTORY" property="value"/></textarea>
             </td>
         </tr>
 
@@ -158,7 +158,7 @@
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","gross.description",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
-                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_GROSS_DESCRIPTION")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_GROSS_DESCRIPTION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_GROSS_DESCRIPTION" property="value"/></textarea>
+                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,2999);" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_GROSS_DESCRIPTION")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_GROSS_DESCRIPTION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_GROSS_DESCRIPTION" property="value"/></textarea>
             </td>
         </tr>
 
@@ -166,7 +166,7 @@
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","microscopic.examination",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
-                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_MICROSCOPIC_EXAMINATION")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_MICROSCOPIC_EXAMINATION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_MICROSCOPIC_EXAMINATION" property="value"/></textarea>
+                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,2999);" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_MICROSCOPIC_EXAMINATION")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_MICROSCOPIC_EXAMINATION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_MICROSCOPIC_EXAMINATION" property="value"/></textarea>
             </td>
         </tr>
 
@@ -174,7 +174,7 @@
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","conclusion",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
-                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_RESULT")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_RESULT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_RESULT" property="value"/></textarea>
+                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,2999);" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_RESULT")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_RESULT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_RESULT" property="value"/></textarea>
             </td>
         </tr>
 
@@ -190,7 +190,7 @@
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","declared_valid",sWebLanguage)%>&nbsp;</td>
             <td class="admin2">
-                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_DECLARED_VALID")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_DECLARED_VALID" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_DECLARED_VALID" property="value"/></textarea>
+                <textarea onKeyup="resizeTextarea(this,10);limitChars(this,2999);" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_DECLARED_VALID")%> class="text" cols="100" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_DECLARED_VALID" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_DECLARED_VALID" property="value"/></textarea>
             </td>
         </tr>
     </table>
