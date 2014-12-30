@@ -668,7 +668,7 @@ public class LabRequest {
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             //First let's find all transactionid's for which at least one result is open
-            String sQuery="select distinct a.serverid,a.transactionid,a.patientid,d.gender,d.firstname,d.lastname,b.userid,d.dateofbirth,b.updatetime from RequestedLabAnalyses a, Transactions b, AdminView d where a.serverid=b.serverid and a.transactionId=b.transactionId and a.patientid=d.personid and finalvalidationdatetime is null and patientid=?";
+            String sQuery="select distinct a.serverid,a.transactionid,a.patientid,d.gender,d.firstname,d.lastname,b.userid,d.dateofbirth,b.updatetime from RequestedLabAnalyses a, Transactions b, AdminView d, Labanalysis e where a.serverid=b.serverid and a.transactionId=b.transactionId and a.patientid=d.personid and a.analysiscode=e.labcode and e.editor not in ('calculated','virtual') and finalvalidationdatetime is null and patientid=?";
             PreparedStatement ps = oc_conn.prepareStatement(sQuery);
             ps.setInt(1,personid);
             ResultSet rs = ps.executeQuery();

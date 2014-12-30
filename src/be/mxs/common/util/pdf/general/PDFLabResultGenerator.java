@@ -8,6 +8,7 @@ import be.mxs.common.util.pdf.official.EndPage2;
 import be.mxs.common.util.pdf.official.PDFOfficialBasic;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
+import be.mxs.common.util.system.Evaluate;
 import be.mxs.common.util.system.ScreenHelper;
 import be.openclinic.adt.Encounter;
 import be.openclinic.medical.LabRequest;
@@ -15,11 +16,13 @@ import be.openclinic.medical.RequestedLabAnalysis;
 import be.openclinic.medical.LabAnalysis;
 import net.admin.User;
 import net.admin.AdminPerson;
+
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import java.io.ByteArrayOutputStream;
 import java.util.*;
 import java.net.URL;
@@ -499,6 +502,124 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
                 }
                 //*** 3 - NUMERIC *****************************************************************
                 else if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getEditor().equalsIgnoreCase("numeric")){
+                	Debug.println("*** 3 - numeric ***");
+                	
+	                cell=createLabelCourier(result,8,15,Font.BOLD);
+	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	                subTable.addCell(cell);
+	                
+	                cell=createLabelCourier(unit,8,10,fonttype);
+	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	                subTable.addCell(cell);
+	                
+	                cell=createLabelCourier(min,8,10,fonttype);
+	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	                subTable.addCell(cell);
+	                
+	                cell=createLabelCourier(max,8,10,fonttype);
+	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	                subTable.addCell(cell);
+
+                    if(normal.length()==0){
+                    	Debug.println("'normal' is empty"); 
+                    	
+                    	//We proberen na te gaan of de waarde buiten de grenzen valt
+                    	try{
+	                        double iResult = Double.parseDouble(result.replaceAll(",", "\\."));
+	                        double iMin = Double.parseDouble(min.replaceAll(",", "\\."));
+	                        double iMax = Double.parseDouble(max.replaceAll(",", "\\."));
+
+	                        Debug.println("iResult : "+iResult);
+	                        Debug.println("iMin    : "+iMin);
+	                        Debug.println("iMax    : "+iMax);
+	                        
+	                        if ((iResult >= iMin)&&(iResult <= iMax)){
+	                            normal = "n";
+	                        }
+	                        else {
+	                            double iAverage = (iMax-iMin);
+	
+	                            if (iResult > iMax+iAverage*2){
+	                                normal = "+++";
+	                            }
+	                            else if (iResult > iMax + iAverage){
+	                                normal = "++";
+	                            }
+	                            else if (iResult > iMax){
+	                                normal = "+";
+	                            }
+	                            else if (iResult < iMin - iAverage*2){
+	                                normal = "---";
+	                            }
+	                            else if (iResult < iMin - iAverage){
+	                                normal = "--";
+	                            }
+	                            else if (iResult < iMin){
+	                                normal = "-";
+	                            }
+	                        }
+	                        
+	                        Debug.println("normal  : "+normal); 
+                    	}
+                    	catch(Exception e2){
+                    		//e2.printStackTrace();
+                    	}
+                    }
+                    
+                	Debug.println("normal : "+normal); 
+                    
+	                cell=createLabelCourier(normal,8,10,fonttype);
+	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	                subTable.addCell(cell);
+	                
+	                // comment
+                	if(ScreenHelper.checkString(requestedLabAnalysis.getResultComment()).length()>0){
+	                	cell=createLabelCourier("", 8, 45, fonttype);
+		                subTable.addCell(cell);
+		                
+	                	cell=createLabelCourier(requestedLabAnalysis.getResultComment(),8,55,Font.NORMAL);
+		                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+		                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+		                subTable.addCell(cell);
+                	}
+
+	                //Nu gaan we na of er een extra lijn met commentaar moet worden afgedrukt
+	                if(!MedwanQuery.getInstance().getLabel("labanalysis.refcomment",analysisCode,user.person.language).equals(analysisCode)){
+	                	cell=createLabelCourier("", 8, 45, fonttype);
+		                subTable.addCell(cell);
+		                
+	                	cell=createLabelCourier(MedwanQuery.getInstance().getLabel("labanalysis.refcomment",analysisCode,user.person.language),8,55,Font.NORMAL);
+		                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+		                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+		                subTable.addCell(cell);
+	                }
+                }
+                //*** 4 - CALCULATED *****************************************************************
+                else if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getEditor().equalsIgnoreCase("calculated")){
+            		LabAnalysis analysis = LabAnalysis.getLabAnalysisByLabcode(analysisCode);
+                	String expression = analysis.getEditorparametersParameter("OP").split("\\|")[0];
+            		Hashtable pars = new Hashtable();
+            		if(analysis.getEditorparameters().split("|").length>0){
+            			String[] sPars = analysis.getEditorparametersParameter("OP").split("\\|")[1].replaceAll(" ", "").split(",");
+            			for(int n=0;n<sPars.length;n++){
+	        				try{
+	            				pars.put(sPars[n],((RequestedLabAnalysis)labRequest.getAnalyses().get(sPars[n].replaceAll("@", ""))).getResultValue());
+	        				}
+	        				catch(Exception p){}
+            			}
+            		}
+					try{
+						result = Evaluate.evaluate(expression, pars,analysis.getEditorparametersParameter("OP").split("\\|").length>2?Integer.parseInt(analysis.getEditorparametersParameter("OP").replaceAll(" ", "").split("\\|")[2]):5);
+					}
+					catch(Exception e){
+                		result = "?";
+					}
+
                 	Debug.println("*** 3 - numeric ***");
                 	
 	                cell=createLabelCourier(result,8,15,Font.BOLD);

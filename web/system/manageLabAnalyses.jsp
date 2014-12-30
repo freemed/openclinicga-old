@@ -612,6 +612,7 @@
 				        <option value="antibiogram" <%="antibiogram".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","antibiogram",sWebLanguage)%></option>
 				        <option value="antibiogramnew" <%="antibiogramnew".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","antibiogramnew",sWebLanguage)%></option>
 				        <option value="virtual" <%="virtual".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","virtual",sWebLanguage)%></option>
+				        <option value="calculated" <%="calculated".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","calculated",sWebLanguage)%></option>
 				      </select>
 				</td>
 				<td>
@@ -729,6 +730,12 @@
 			"<input type='text' name='EPOptions' id='EPOptions' class='text' value='"+getParameter(parameters,"OP")+"' size='50'>"+
 			"</td></tr>";
 	  	}
+  	  	else if($("EditLabEditor").value=="calculated"){
+  	  		content="<tr><td class='admin2'><%=getTran("web","formula.and.parameters",sWebLanguage)%> </td>"+
+			"<td class='admin2'>"+
+			"<input type='text' name='EPOptions' id='EPOptions' class='text' value='"+getParameter(parameters,"OP")+"' size='100'>"+
+			"</td></tr>";
+	  	}
   	  	document.getElementById("ep").innerHTML=content;
   	}
 
@@ -746,7 +753,7 @@
   	  	else if(document.getElementById("EditLabEditor").value=="radiobutton" || document.getElementById("EditLabEditor").value=="radiobuttoncomment"){
   	  	  	parameters="OP:"+$("EPOptions").value;
   	  	}
-  	  	else if(document.getElementById("EditLabEditor").value=="checkbox" || document.getElementById("EditLabEditor").value=="checkboxcomment"){
+  	  	else if(document.getElementById("EditLabEditor").value=="checkbox" || document.getElementById("EditLabEditor").value=="checkboxcomment" || document.getElementById("EditLabEditor").value=="calculated"){
   	  	  	parameters="OP:"+$("EPOptions").value;
   	  	}
   	  	$("EditLabEditorParameters").value=parameters;

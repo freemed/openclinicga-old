@@ -1,4 +1,4 @@
-<%@ page import="be.openclinic.medical.RequestedLabAnalysis" %>
+<%@ page import="be.mxs.common.util.system.*,be.openclinic.medical.RequestedLabAnalysis" %>
 <%@include file="/includes/validateUser.jsp"%>
 <%@ page import="java.util.*" %>
 <%@ page import="be.openclinic.medical.LabRequest" %>
@@ -116,19 +116,25 @@
                     c = analysis.getLabId()+"";
                     u = " ("+analysis.getUnit()+")";
                     
-                    String min = analysis.getResultRefMin(activePatient.gender,activePatient.getAge());
+                    String min=null;
                     try{
+                    	min = analysis.getResultRefMin(activePatient.gender,new Double(MedwanQuery.getInstance().getNrMonths(ScreenHelper.parseDate(activePatient.dateOfBirth), new java.util.Date())).intValue());
                         float f = Float.parseFloat(min.replace(",","."));
                         min = deci.format(f);
                     }
-                    catch(Exception e){}
+                    catch(Exception e){
+                    	e.printStackTrace();
+                    }
                     
-                    String max = analysis.getResultRefMax(activePatient.gender,activePatient.getAge());
+                    String max=null;
                     try{
+                    	max = analysis.getResultRefMax(activePatient.gender,new Double(MedwanQuery.getInstance().getNrMonths(ScreenHelper.parseDate(activePatient.dateOfBirth), new java.util.Date())).intValue());
                         float f = Float.parseFloat(max.replace(",","."));
                         max = deci.format(f);
                     }
-                    catch(Exception e){}
+                    catch(Exception e){
+                    	//e.printStackTrace();
+                    }
                
                     refs = " ["+min+"-"+max+"]";
                 }
@@ -143,7 +149,7 @@
                     String result = "";
                     
                     if(requestedLabAnalysis!=null){
-                    	if(!analysis.getEditor().equalsIgnoreCase("antibiogram") && !analysis.getEditor().equalsIgnoreCase("antibiogramnew")){
+                    	if(!analysis.getEditor().equalsIgnoreCase("antibiogram") && !analysis.getEditor().equalsIgnoreCase("antibiogramnew") && !analysis.getEditor().equalsIgnoreCase("calculated")){
                     		if(analysis.getLimitedVisibility()>0 && !activeUser.getAccessRight("labos.limitedvisibility.select")){
                     			result = getTran("web","invisible",sWebLanguage);	
                     		}
@@ -161,6 +167,25 @@
 	                    	else{
 	                    		result = "?";
 	                    	}
+                    	}
+                    	else if(analysis.getEditor().equalsIgnoreCase("calculated")){
+                    		String expression = analysis.getEditorparametersParameter("OP").split("\\|")[0];
+                    		Hashtable pars = new Hashtable();
+                    		if(analysis.getEditorparameters().split("|").length>0){
+                    			String[] sPars = analysis.getEditorparametersParameter("OP").split("\\|")[1].replaceAll(" ", "").split(",");
+                    			for(int n=0;n<sPars.length;n++){
+        	        				try{
+        	            				pars.put(sPars[n],((RequestedLabAnalysis)labRequest.getAnalyses().get(sPars[n].replaceAll("@", ""))).getResultValue());
+        	        				}
+        	        				catch(Exception p){}
+                    			}
+                    		}
+							try{
+								result = Evaluate.evaluate(expression, pars,analysis.getEditorparametersParameter("OP").split("\\|").length>2?Integer.parseInt(analysis.getEditorparametersParameter("OP").replaceAll(" ", "").split("\\|")[2]):5);
+							}
+							catch(Exception e){
+	                    		result = "?";
+							}
                     	}
                     	else if(analysis.getEditor().equalsIgnoreCase("antibiogramnew")){
 	                    	if(requestedLabAnalysis.existsNonEmptyAntibiogrammesByUid(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode())){

@@ -102,6 +102,10 @@
         Enumeration enumeration = labRequest.getAnalyses().elements();
         while (enumeration.hasMoreElements()) {
             RequestedLabAnalysis requestedLabAnalysis = (RequestedLabAnalysis) enumeration.nextElement();
+            LabAnalysis analysis = LabAnalysis.getLabAnalysisByLabcode(requestedLabAnalysis.getAnalysisCode());
+			if(analysis!=null && analysis.getEditor().equalsIgnoreCase("calculated")){
+				continue;
+			}
             if (groups.get(MedwanQuery.getInstance().getLabel("labanalysis.group", requestedLabAnalysis.getLabgroup(), sWebLanguage)) == null) {
                 groups.put(MedwanQuery.getInstance().getLabel("labanalysis.group", requestedLabAnalysis.getLabgroup(), sWebLanguage), new Hashtable());
             }
@@ -142,6 +146,9 @@
                     String refs="";
                     LabAnalysis analysis = LabAnalysis.getLabAnalysisByLabcode(analysisCode);
                     if (analysis != null) {
+            			if(analysis.getEditor().equalsIgnoreCase("calculated")){
+            				continue;
+            			}
                         c = analysis.getLabId()+"";
                         refs = analysis.getResultRefMin(activePatient.gender,new Double(activePatient.getAgeInMonths()).intValue())+" - "+analysis.getResultRefMax(activePatient.gender,new Double(activePatient.getAgeInMonths()).intValue());
                         if(refs.equalsIgnoreCase(" - ")){
@@ -281,6 +288,8 @@
 									result=requestedLabAnalysis.getResultValue();
 								}
 								result+="<br/><input type='text' name='resultcomment."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()+"' value='"+requestedLabAnalysis.getResultComment()+"' class='text'/>";
+	                        }
+	                        else if(analysis.getEditor().equals("calculated")) {
 	                        }
 	                        else if(analysis.getEditor().equals("antibiogram")) {
 	                        	result = getComplexResult(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode(), RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()), sWebLanguage,requestedLabAnalysis.getFinalvalidationdatetime());                        	//result = getComplexResult(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode(), RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()), sWebLanguage);

@@ -1,4 +1,4 @@
-<%@page import="be.openclinic.medical.RequestedLabAnalysis,
+<%@page import="be.mxs.common.util.system.*,be.openclinic.medical.RequestedLabAnalysis,
                 java.util.*,
                 be.openclinic.medical.LabRequest,
                 be.openclinic.medical.LabAnalysis,
@@ -130,6 +130,26 @@
                     out.print("<tr bgcolor='#FFFCD6'><td width='25%' nowrap>"+sEdit+" <b>"+MedwanQuery.getInstance().getLabel("labanalysis",c,sWebLanguage)+" "+u+refs+"</b></td>");
                   
                     String result = (requestedLabAnalysis!=null?requestedLabAnalysis.getFinalvalidation()>0 && requestedLabAnalysis.getResultValue().length()>0?analysis.getLimitedVisibility()>0 && !activeUser.getAccessRight("labos.limitedvisibility.select")?getTran("web","invisible",sWebLanguage):requestedLabAnalysis.getResultValue()+(checkString(requestedLabAnalysis.getResultComment()).length()>0?"<br/>"+requestedLabAnalysis.getResultComment():""):"?":"");
+                	if(analysis.getEditor().equalsIgnoreCase("calculated")){
+                		String expression = analysis.getEditorparametersParameter("OP").split("\\|")[0];
+                		Hashtable pars = new Hashtable();
+                		if(analysis.getEditorparameters().split("|").length>0){
+                			String[] sPars = analysis.getEditorparametersParameter("OP").split("\\|")[1].replaceAll(" ", "").split(",");
+                			for(int n=0;n<sPars.length;n++){
+    	        				try{
+    	            				pars.put(sPars[n],((RequestedLabAnalysis)labRequest.getAnalyses().get(sPars[n].replaceAll("@", ""))).getResultValue());
+    	        				}
+    	        				catch(Exception p){}
+                			}
+                		}
+						try{
+							result = Evaluate.evaluate(expression, pars,analysis.getEditorparametersParameter("OP").split("\\|").length>2?Integer.parseInt(analysis.getEditorparametersParameter("OP").replaceAll(" ", "").split("\\|")[2]):5);
+						}
+						catch(Exception e){
+                    		result = "?";
+						}
+                	}
+
                     boolean bAbnormal = (result.length()>0 && !result.equalsIgnoreCase("?") && abnormal.toLowerCase().indexOf("*"+checkString(requestedLabAnalysis.getResultModifier()).toLowerCase()+"*")>-1);
                     
                      out.print("<td"+(bAbnormal?" bgcolor='#FF8C68'":"")+">"+result+(bAbnormal?" "+checkString(requestedLabAnalysis.getResultModifier().toUpperCase()):"")+"</td>");

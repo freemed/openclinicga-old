@@ -1,5 +1,5 @@
-<%@page import="be.mxs.common.model.vo.healthrecord.TransactionVO,
-                be.openclinic.medical.RequestedLabAnalysis,
+<%@page import="be.mxs.common.util.system.*,be.mxs.common.model.vo.healthrecord.TransactionVO,
+                be.openclinic.medical.*,
                 java.util.Vector,
                 java.util.Hashtable,
                 java.util.Collections"%>
@@ -111,6 +111,28 @@
         }
         else{
             sTmpResultValue = "";
+        	LabAnalysis analysis = LabAnalysis.getLabAnalysisByLabcode(labAnalysis.getAnalysisCode());
+        	if(analysis!=null){
+	        	if(analysis.getEditor().equalsIgnoreCase("calculated")){
+	        		String expression = analysis.getEditorparametersParameter("OP").split("\\|")[0];
+	        		Hashtable pars = new Hashtable();
+	        		if(analysis.getEditorparameters().split("|").length>0){
+	        			String[] sPars = analysis.getEditorparametersParameter("OP").split("\\|")[1].replaceAll(" ", "").split(",");
+	        			for(int n=0;n<sPars.length;n++){
+	        				try{
+	        					pars.put(sPars[n],((RequestedLabAnalysis)labAnalyses.get(sPars[n].replaceAll("@", ""))).getResultValue());
+	        				}
+	        				catch(Exception p){}
+	        			}
+	        		}
+					try{
+						sTmpResultValue = Evaluate.evaluate(expression, pars,analysis.getEditorparametersParameter("OP").split("\\|").length>2?Integer.parseInt(analysis.getEditorparametersParameter("OP").replaceAll(" ", "").split("\\|")[2]):5);
+					}
+					catch(Exception e){
+						sTmpResultValue = "?";
+					}
+	        	}
+        	}
         }
         sTmpResultUnit = getTranNoLink("labanalysis.resultunit", labAnalysis.getResultUnit(), sWebLanguage);
         sTmpResult = sTmpResultValue+" "+sTmpResultUnit;

@@ -572,7 +572,7 @@ public class LabAnalysis {
         String ref = "";
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            PreparedStatement ps = oc_conn.prepareStatement("select * from AgeGenderControl where type='LabAnalysis' and gender like '"+gender+"%' and minAge<=? and maxAge>=? and id=?");
+            PreparedStatement ps = oc_conn.prepareStatement("select * from AgeGenderControl where type='LabAnalysis' and gender like '%"+gender+"%' and minAge<=? and maxAge>=? and id=?");
             ps.setDouble(1,age);
             ps.setDouble(2,age);
             ps.setString(3, LabAnalysis.idForCode(getLabcode()));
@@ -602,7 +602,7 @@ public class LabAnalysis {
         String ref = "";
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try {
-            PreparedStatement ps = oc_conn.prepareStatement("select * from AgeGenderControl where type='LabAnalysis' and gender like '"+gender+"%' and minAge<=? and maxAge>=? and id=?");
+            PreparedStatement ps = oc_conn.prepareStatement("select * from AgeGenderControl where type='LabAnalysis' and gender like '%"+gender+"%' and minAge<=? and maxAge>=? and id=?");
             ps.setDouble(1,age);
             ps.setDouble(2,age);
             ps.setString(3,LabAnalysis.idForCode(getLabcode()));
