@@ -245,6 +245,14 @@
         </td>
     </tr>
 
+    <%-- STOCKAGE ECHANTILLON --%>
+    <tr>
+        <td class="admin"><%=getTran("Web","sample.storage",sWebLanguage)%></td>
+        <td class="admin2">
+            <input type='text' id="samplestorage" <%=setRightClick("ITEM_TYPE_LAB_SAMPLE_STORAGE")%> class="text" size="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SAMPLE_STORAGE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SAMPLE_STORAGE" property="value"/>"/>
+        </td>
+    </tr>
+
     <%-- COMMENT --%>
     <tr>
         <td class="admin"><%=getTran("Web","comment",sWebLanguage)%></td>
