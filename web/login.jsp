@@ -28,7 +28,7 @@
 %>
 <head>
     <link rel="shortcut icon" href="favourite.ico"/>
-    <META HTTP-EQUIV="Refresh" CONTENT="300">
+    <META HTTP-EQUIV="Refresh" CONTENT="600">
     <%=sCSSDEFAULT%>
     <%=sJSCHAR%>
     <%=sJSPROTOTYPE%>
