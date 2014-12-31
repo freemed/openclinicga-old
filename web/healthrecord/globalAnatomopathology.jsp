@@ -47,11 +47,19 @@
             </td>
         </tr>
 
-        <%-- identificationumber --%>
+        <%-- identification number --%>
         <tr>
             <td class='admin'><%=getTran("openclinic.chuk","identificationumber",sWebLanguage)%></td>
             <td class='admin2'>
                 <input type="text" id='rxid' class="text" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_IDENTIFICATION_NUMBER" property="itemId"/>]>.value" value="<%=sIdentificationNr%>" READONLY>
+            </td>
+        </tr>
+        
+        <%-- internal number --%>
+        <tr>
+            <td class='admin'><%=getTran("openclinic.chuk","internalNumber",sWebLanguage)%></td>
+            <td class='admin2'>
+                <input type="text" class="text" size="20" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_INTERNAL_NUMBER" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_INTERNAL_NUMBER" property="value"/>">
             </td>
         </tr>
 
