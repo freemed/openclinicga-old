@@ -51,6 +51,7 @@ import java.util.List;
 // which contain a detailed view of general medical data of the current patient.
 //#################################################################################################
 public class MedicalDossierPDFCreator extends PDFDossierCreator {
+    protected int fontSizePercentage = MedwanQuery.getInstance().getConfigInt("fontSizePercentage",100);
 
     //--- CONSTRUCTOR -----------------------------------------------------------------------------
     public MedicalDossierPDFCreator(SessionContainerWO sessionContainerWO, User user, AdminPerson patient,
@@ -668,12 +669,12 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
             	problem = (Problem)activeProblems.elementAt(n);
 
                 value = problem.getCode()+" "+MedwanQuery.getInstance().getCodeTran(problem.getCodeType()+"code"+problem.getCode(),sPrintLanguage);
-                Paragraph par = new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL));
+                Paragraph par = new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL));
 
                 // add comment if any
                 if(problem.getComment().trim().length() > 0){
                     comment = " : "+problem.getComment().trim();
-                    par.add(new Chunk(comment,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
+                    par.add(new Chunk(comment,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.ITALIC)));
                 }
 
                 cell = new PdfPCell(par);
@@ -720,7 +721,7 @@ public class MedicalDossierPDFCreator extends PDFDossierCreator {
         			diagnosis = (Diagnosis)diagnoses.elementAt(i);
         			
         			String sValue = MedwanQuery.getInstance().getCodeTran(diagnosis.getCodeType()+"code"+diagnosis.getCode(),sPrintLanguage);
-                    cell = new PdfPCell(new Paragraph("("+diagnosis.getCodeType()+") "+diagnosis.getCode()+" - "+sValue,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                    cell = new PdfPCell(new Paragraph("("+diagnosis.getCodeType()+") "+diagnosis.getCode()+" - "+sValue,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
                     cell.setColspan(1);
                     cell.setBorder(PdfPCell.BOX);
                     cell.setBorderColor(BaseColor.LIGHT_GRAY);

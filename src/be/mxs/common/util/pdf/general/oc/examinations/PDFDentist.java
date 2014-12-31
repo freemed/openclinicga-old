@@ -159,17 +159,17 @@ public class PDFDentist extends PDFGeneralBasic {
                     table.addCell(cell);
 
                     // legend at right
-                    Phrase phrase = new Phrase(getTran("openclinic.chuk","tooth.absent")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,aqua));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.fill")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,blue)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.unnerve")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,fuchsia)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.unnerve_fill")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,gray)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.fracturée")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,lime)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.impactée")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,maroon)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.incluse")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,gold)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.ectopique")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,red)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.surnuméraire")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,green)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.caries")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,BaseColor.BLACK)));
-                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.other")+"\n",FontFactory.getFont(FontFactory.HELVETICA,8,com.itextpdf.text.Font.NORMAL,BaseColor.ORANGE)));
+                    Phrase phrase = new Phrase(getTran("openclinic.chuk","tooth.absent")+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),com.itextpdf.text.Font.NORMAL,aqua));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.fill")+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),com.itextpdf.text.Font.NORMAL,blue)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.unnerve")+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),com.itextpdf.text.Font.NORMAL,fuchsia)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.unnerve_fill")+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),com.itextpdf.text.Font.NORMAL,gray)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.fracturée")+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),com.itextpdf.text.Font.NORMAL,lime)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.impactée")+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),com.itextpdf.text.Font.NORMAL,maroon)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.incluse")+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),com.itextpdf.text.Font.NORMAL,gold)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.ectopique")+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),com.itextpdf.text.Font.NORMAL,red)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.surnuméraire")+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),com.itextpdf.text.Font.NORMAL,green)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.caries")+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),com.itextpdf.text.Font.NORMAL,BaseColor.BLACK)));
+                    phrase.add(new Chunk(getTran("openclinic.chuk","tooth.other")+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),com.itextpdf.text.Font.NORMAL,BaseColor.ORANGE)));
               
                     cell = new PdfPCell(phrase);
                     cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);

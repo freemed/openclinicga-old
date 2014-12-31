@@ -5,11 +5,14 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.*;
 
 import javax.servlet.http.HttpServletRequest;
+
+import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.ScreenHelper;
 import be.mxs.common.util.system.Miscelaneous;
 
 public class PDFHeader {
-
+    protected int fontSizePercentage = MedwanQuery.getInstance().getConfigInt("fontSizePercentage",100);
+    
     //--- PRINT ------------------------------------------------------------------------------------
     public PdfPTable print(HttpServletRequest request, String sPrintLanguage, String sContextPath){
         PdfPTable table = new PdfPTable(2);
@@ -34,18 +37,18 @@ public class PDFHeader {
         // address
         Paragraph par = null;
         if(sPrintLanguage.equalsIgnoreCase("N")){
-            par = new Paragraph("OpenClinic ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD));
-            par.add(new Chunk(", Nr ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
-            par.add(new Chunk("ABC123\n",FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
-            par.add(new Chunk("Pastoriestraat 58, 3370 Boutersem\n",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
-            par.add(new Chunk("Tel. (016) 72 10 47",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
+            par = new Paragraph("OpenClinic ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD));
+            par.add(new Chunk(", Nr ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL)));
+            par.add(new Chunk("ABC123\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD)));
+            par.add(new Chunk("Pastoriestraat 58, 3370 Boutersem\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL)));
+            par.add(new Chunk("Tel. (016) 72 10 47",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL)));
         }
         else if(sPrintLanguage.equalsIgnoreCase("F")){
-            par = new Paragraph("OpenClinic ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD));
-            par.add(new Chunk(", "+ScreenHelper.getTran("pdf","header.knownas",sPrintLanguage)+" ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
-            par.add(new Chunk("ABC123\n",FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
-            par.add(new Chunk("Pastoriestraat 58, 3370 Boutersem\n",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
-            par.add(new Chunk("Tél. (016) 72 10 47",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
+            par = new Paragraph("OpenClinic ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD));
+            par.add(new Chunk(", "+ScreenHelper.getTran("pdf","header.knownas",sPrintLanguage)+" ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL)));
+            par.add(new Chunk("ABC123\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD)));
+            par.add(new Chunk("Pastoriestraat 58, 3370 Boutersem\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL)));
+            par.add(new Chunk("Tél. (016) 72 10 47",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL)));
         }
 
         cell = new PdfPCell(par);
@@ -79,18 +82,18 @@ public class PDFHeader {
         // address
         Paragraph par = null;
         if(sPrintLanguage.equalsIgnoreCase("N")){
-            par = new Paragraph("OpenClinic ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD));
-            par.add(new Chunk(", Nr ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
-            par.add(new Chunk("ABC123\n",FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
-            par.add(new Chunk("Pastoriestraat 58, 3370 Boutersem\n",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
-            par.add(new Chunk("Tel. (016) 72 10 47",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
+            par = new Paragraph("OpenClinic ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD));
+            par.add(new Chunk(", Nr ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL)));
+            par.add(new Chunk("ABC123\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD)));
+            par.add(new Chunk("Pastoriestraat 58, 3370 Boutersem\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL)));
+            par.add(new Chunk("Tel. (016) 72 10 47",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL)));
         }
         else if(sPrintLanguage.equalsIgnoreCase("F")){
-            par = new Paragraph("OpenClinic ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD));
-            par.add(new Chunk(", "+ScreenHelper.getTran("pdf","header.knownas",sPrintLanguage)+" ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
-            par.add(new Chunk("ABC123\n",FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
-            par.add(new Chunk("Pastoriestraat 58, 3370 Boutersem\n",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
-            par.add(new Chunk("Tél. (016) 72 10 47",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
+            par = new Paragraph("OpenClinic ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD));
+            par.add(new Chunk(", "+ScreenHelper.getTran("pdf","header.knownas",sPrintLanguage)+" ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL)));
+            par.add(new Chunk("ABC123\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD)));
+            par.add(new Chunk("Pastoriestraat 58, 3370 Boutersem\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL)));
+            par.add(new Chunk("Tél. (016) 72 10 47",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL)));
         }
 
         cell = new PdfPCell(par);

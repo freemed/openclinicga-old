@@ -56,6 +56,7 @@ public class GeneralPDFCreator extends PDFCreator {
     protected PdfWriter docWriter = null;
     protected final BaseColor innerBorderColor = BaseColor.LIGHT_GRAY;
     protected final BaseColor BGCOLOR_LIGHT = new BaseColor(240,240,240); // light gray
+    protected int fontSizePercentage = MedwanQuery.getInstance().getConfigInt("fontSizePercentage",100);
 
 
     //--- CONSTRUCTOR -----------------------------------------------------------------------------
@@ -73,6 +74,11 @@ public class GeneralPDFCreator extends PDFCreator {
         doc = new Document();
 
         dateFormat = ScreenHelper.stdDateFormat;
+        
+        Debug.println("Font size in PDF ("+fontSizePercentage+"%) :  6 ~ "+(Math.round((double)6*fontSizePercentage/100.0)));
+        Debug.println("Font size in PDF ("+fontSizePercentage+"%) :  7 ~ "+(Math.round((double)7*fontSizePercentage/100.0)));
+        Debug.println("Font size in PDF ("+fontSizePercentage+"%) :  8 ~ "+(Math.round((double)8*fontSizePercentage/100.0)));
+        Debug.println("Font size in PDF ("+fontSizePercentage+"%) : 10 ~ "+(Math.round((double)10*fontSizePercentage/100.0)));
     }
 
     //--- GENERATE DOCUMENT BYTES (1) -------------------------------------------------------------
@@ -138,7 +144,7 @@ public class GeneralPDFCreator extends PDFCreator {
 
             sSubTitle+= getTran("web","printdate")+": "+dateFormat.format(new Date());
             		
-            par = new Paragraph(sSubTitle,FontFactory.getFont(FontFactory.HELVETICA,10,Font.NORMAL));
+            par = new Paragraph(sSubTitle,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)10*fontSizePercentage/100.0),Font.NORMAL));
             par.setAlignment(Paragraph.ALIGN_CENTER);
             doc.add(par);
 
@@ -347,7 +353,7 @@ public class GeneralPDFCreator extends PDFCreator {
 	        cell=new PdfPCell();
 	        cell.setBorder(PdfPCell.NO_BORDER);
 	        table.addCell(cell);
-	        cell = new PdfPCell(new Paragraph(getTran("report.monthly","signature").toUpperCase()+"\n\n\n\n\n\n\n\n",FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+	        cell = new PdfPCell(new Paragraph(getTran("report.monthly","signature").toUpperCase()+"\n\n\n\n\n\n\n\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
 	        cell.setColspan(1);
 	        cell.setBorder(PdfPCell.BOX);
 	        cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -371,7 +377,7 @@ public class GeneralPDFCreator extends PDFCreator {
                 table.setWidthPercentage(100);
 
                 // title
-                cell = new PdfPCell(new Paragraph(getTran("web.occup","medwan.common.problemlist").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+                cell = new PdfPCell(new Paragraph(getTran("web.occup","medwan.common.problemlist").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
                 cell.setColspan(1);
                 cell.setBorder(PdfPCell.BOX);
                 cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -386,7 +392,7 @@ public class GeneralPDFCreator extends PDFCreator {
                 for(int n=0; n<activeProblems.size(); n++){
                     activeProblem = (Problem) activeProblems.elementAt(n);
                     value = MedwanQuery.getInstance().getCodeTran(activeProblem.getCodeType() + "code" + activeProblem.getCode(),sPrintLanguage);
-                    cell = new PdfPCell(new Paragraph(value+" ("+getTran("Web","since")+" "+dateFormat.format(activeProblem.getBegin())+")",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                    cell = new PdfPCell(new Paragraph(value+" ("+getTran("Web","since")+" "+dateFormat.format(activeProblem.getBegin())+")",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
 
                     cell.setColspan(1);
                     cell.setBorder(PdfPCell.BOX);
@@ -407,7 +413,7 @@ public class GeneralPDFCreator extends PDFCreator {
     protected void printWarnings(SessionContainerWO sessionContainerWO){
         try {
             if(sessionContainerWO.getHealthRecordVO() != null) {
-                Collection alerts = MedwanQuery.getInstance().getTransactionsByType(sessionContainerWO.getHealthRecordVO(), IConstants.TRANSACTION_TYPE_ALERT);
+                Collection alerts = MedwanQuery.getInstance().getTransactionsByType(sessionContainerWO.getHealthRecordVO(),IConstants.TRANSACTION_TYPE_ALERT);
                 sessionContainerWO.setAlerts(alerts);
 
                 if(sessionContainerWO.getActiveAlerts().size() > 0) {
@@ -416,7 +422,7 @@ public class GeneralPDFCreator extends PDFCreator {
                     table.setWidthPercentage(100);
 
                     // title
-                    cell = new PdfPCell(new Paragraph(getTran("curative","warning.status.title").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+                    cell = new PdfPCell(new Paragraph(getTran("curative","warning.status.title").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
                     cell.setColspan(4);
                     cell.setBorder(PdfPCell.BOX);
                     cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -441,7 +447,7 @@ public class GeneralPDFCreator extends PDFCreator {
                             sLabel = checkString(itemVO.getValue());
                         }
 
-                        cell = new PdfPCell(new Paragraph(sLabel,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                        cell = new PdfPCell(new Paragraph(sLabel,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
                         cell.setColspan(1);
                         cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP+PdfPCell.BOTTOM); // no right border
                         cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -455,7 +461,7 @@ public class GeneralPDFCreator extends PDFCreator {
                             sComment = checkString(itemVO.getValue());
                         }
 
-                        cell = new PdfPCell(new Paragraph(sComment,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                        cell = new PdfPCell(new Paragraph(sComment,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
                         cell.setColspan(4);
                         cell.setBorder(PdfPCell.RIGHT+PdfPCell.TOP+PdfPCell.BOTTOM); // no left border
                         cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -480,7 +486,7 @@ public class GeneralPDFCreator extends PDFCreator {
             table.setWidthPercentage(100);
 
             // main title
-            cell = new PdfPCell(new Paragraph(getTran("curative","medication.status.title").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+            cell = new PdfPCell(new Paragraph(getTran("curative","medication.status.title").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
             cell.setColspan(2);
             cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -499,7 +505,7 @@ public class GeneralPDFCreator extends PDFCreator {
 	                PdfPTable medicationTable = new PdfPTable(2);
 	
 	                // sub title
-	                cell = new PdfPCell(new Paragraph(getTran("curative","medication.chronic"),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+	                cell = new PdfPCell(new Paragraph(getTran("curative","medication.chronic"),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
 	                cell.setColspan(2);
 	                cell.setBorder(PdfPCell.BOX);
 	                cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -538,14 +544,14 @@ public class GeneralPDFCreator extends PDFCreator {
 	                    sPrescrRule = sPrescrRule.replaceAll("#timeunit#", timeUnitTran.replaceAll("  "," ").toLowerCase());
 	
 	                    // product name
-	                    cell = new PdfPCell(new Paragraph(medication.getProduct().getName(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+	                    cell = new PdfPCell(new Paragraph(medication.getProduct().getName(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
 	                    cell.setColspan(1);
 	                    cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP+PdfPCell.BOTTOM); // no right border
 	                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
 	                    medicationTable.addCell(cell);
 	
 	                    // prescription rule
-	                    cell = new PdfPCell(new Paragraph(sPrescrRule,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
+	                    cell = new PdfPCell(new Paragraph(sPrescrRule,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.ITALIC)));
 	                    cell.setColspan(1);
 	                    cell.setBorder(PdfPCell.RIGHT+PdfPCell.TOP+PdfPCell.BOTTOM); // no left border
 	                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -576,7 +582,7 @@ public class GeneralPDFCreator extends PDFCreator {
 	                PdfPTable medicationTable = new PdfPTable(2);
 	
 	                // sub title
-	                cell = new PdfPCell(new Paragraph(getTran("curative","medication.prescription"),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+	                cell = new PdfPCell(new Paragraph(getTran("curative","medication.prescription"),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
 	                cell.setColspan(2);
 	                cell.setBorder(PdfPCell.BOX);
 	                cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -616,14 +622,14 @@ public class GeneralPDFCreator extends PDFCreator {
 	                    sPrescrRule = sPrescrRule.replaceAll("#timeunit#", timeUnitTran.toLowerCase());
 	
 	                    // product name
-	                    cell = new PdfPCell(new Paragraph(prescription.getProduct().getName(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+	                    cell = new PdfPCell(new Paragraph(prescription.getProduct().getName(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
 	                    cell.setColspan(1);
 	                    cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP+PdfPCell.BOTTOM); // no right border
 	                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
 	                    medicationTable.addCell(cell);
 	
 	                    // prescription rule
-	                    cell = new PdfPCell(new Paragraph(sPrescrRule,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
+	                    cell = new PdfPCell(new Paragraph(sPrescrRule,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.ITALIC)));
 	                    cell.setColspan(1);
 	                    cell.setBorder(PdfPCell.RIGHT+PdfPCell.TOP+PdfPCell.BOTTOM); // no left border
 	                    cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -652,7 +658,7 @@ public class GeneralPDFCreator extends PDFCreator {
             }   
             //*** C : NO MEDICATION FOUND ***********************************************
             else{
-                cell = new PdfPCell(new Paragraph(getTran("curative","noMedication"),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
+                cell = new PdfPCell(new Paragraph(getTran("curative","noMedication"),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL)));
                 cell.setBorder(PdfPCell.NO_BORDER);
                 cell.setPadding(3);
                 table.addCell(cell);
@@ -808,7 +814,7 @@ public class GeneralPDFCreator extends PDFCreator {
             table.setWidthPercentage(100);
 
             // title
-            cell = new PdfPCell(new Paragraph(getTran("Web.Occup","medwan.common.administrative-data").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+            cell = new PdfPCell(new Paragraph(getTran("Web.Occup","medwan.common.administrative-data").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
             cell.setColspan(4);
             cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -817,7 +823,7 @@ public class GeneralPDFCreator extends PDFCreator {
             table.addCell(cell);
 
             // firstname
-            cell = new PdfPCell(new Paragraph(activePerson.firstname+" "+activePerson.lastname,FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
+            cell = new PdfPCell(new Paragraph(activePerson.firstname+" "+activePerson.lastname,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD)));
             cell.setColspan(2);
             cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -825,7 +831,7 @@ public class GeneralPDFCreator extends PDFCreator {
             table.addCell(cell);
 
             // dateOfBirth
-            cell = new PdfPCell(new Paragraph("°"+activePerson.dateOfBirth,FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
+            cell = new PdfPCell(new Paragraph("°"+activePerson.dateOfBirth,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD)));
             cell.setColspan(1);
             cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -833,7 +839,7 @@ public class GeneralPDFCreator extends PDFCreator {
             table.addCell(cell);
 
             // gender
-            cell = new PdfPCell(new Paragraph(activePerson.gender+"",FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
+            cell = new PdfPCell(new Paragraph(activePerson.gender+"",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD)));
             cell.setColspan(1);
             cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -843,7 +849,7 @@ public class GeneralPDFCreator extends PDFCreator {
             // address
             AdminPrivateContact contact = activePerson.getActivePrivate();
             if(contact!=null){
-                cell = new PdfPCell(new Paragraph(contact.district+" - "+ScreenHelper.getTranNoLink("province",contact.province,sPrintLanguage),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
+                cell = new PdfPCell(new Paragraph(contact.district+" - "+ScreenHelper.getTranNoLink("province",contact.province,sPrintLanguage),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL)));
                 cell.setColspan(4);
                 cell.setBorder(PdfPCell.BOX);
                 cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -1266,7 +1272,7 @@ public class GeneralPDFCreator extends PDFCreator {
 
     //--- CREATE ITEMNAME CELL ---------------------------------------------------------------------
     protected PdfPCell createItemNameCell(String itemName, int colspan){
-        cell = new PdfPCell(new Paragraph(itemName.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Paragraph(itemName.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
@@ -1282,7 +1288,7 @@ public class GeneralPDFCreator extends PDFCreator {
 
     //--- CREATE VALUE CELL ------------------------------------------------------------------------
     protected PdfPCell createValueCell(String value, int colspan){
-        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
@@ -1298,7 +1304,7 @@ public class GeneralPDFCreator extends PDFCreator {
 
     //--- CREATE TITLE CELL ------------------------------------------------------------------------
     protected PdfPCell createTitleCell(String msg, int colspan){
-        cell = new PdfPCell(new Paragraph(msg.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+        cell = new PdfPCell(new Paragraph(msg.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -1310,7 +1316,7 @@ public class GeneralPDFCreator extends PDFCreator {
 
     //--- CREATE SUBTITLE CELL --------------------------------------------------------------------
     protected PdfPCell createSubtitleCell(String msg, int colspan){
-        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -1322,7 +1328,7 @@ public class GeneralPDFCreator extends PDFCreator {
 
     //--- CREATE HEADER CELL -----------------------------------------------------------------------
     protected PdfPCell createHeaderCell(String msg, int colspan){
-        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLDITALIC)));
+        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLDITALIC)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
@@ -1350,7 +1356,7 @@ public class GeneralPDFCreator extends PDFCreator {
 
     //--- CREATE TITLE ----------------------------------------------------------------------------
     protected PdfPCell createTitle(String msg, int colspan){
-        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,10,Font.UNDERLINE)));
+        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)10*fontSizePercentage/100.0),Font.UNDERLINE)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.NO_BORDER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -1361,7 +1367,7 @@ public class GeneralPDFCreator extends PDFCreator {
 
     //--- CREATE TITLE ----------------------------------------------------------------------------
     protected PdfPCell createLabel(String msg, int fontsize, int colspan, int style){
-        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,fontsize,style)));
+        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)fontsize*fontSizePercentage/100.0),style)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.NO_BORDER);
         cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -1372,7 +1378,7 @@ public class GeneralPDFCreator extends PDFCreator {
 
     //--- CREATE BORDERLESS CELL ------------------------------------------------------------------
     protected PdfPCell createBorderlessCell(String value, int height, int colspan){
-        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setPaddingTop(height); //
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.NO_BORDER);
@@ -1400,7 +1406,7 @@ public class GeneralPDFCreator extends PDFCreator {
     }
     
     protected PdfPCell createItemValueCell(String itemValue, int colspan){
-        cell = new PdfPCell(new Paragraph(itemValue,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL))); // no uppercase
+        cell = new PdfPCell(new Paragraph(itemValue,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL))); // no uppercase
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
@@ -1412,7 +1418,7 @@ public class GeneralPDFCreator extends PDFCreator {
 
     //--- CREATE PADDED VALUE CELL ----------------------------------------------------------------
     protected PdfPCell createPaddedValueCell(String value, int colspan){
-        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
@@ -1425,7 +1431,7 @@ public class GeneralPDFCreator extends PDFCreator {
 
     //--- CREATE NUMBER VALUE CELL ----------------------------------------------------------------
     protected PdfPCell createNumberCell(String value, int colspan){
-        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);

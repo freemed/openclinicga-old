@@ -46,6 +46,7 @@ public abstract class PDFDossierCreator extends PDFCreator {
     
     protected final BaseColor innerBorderColor = BaseColor.LIGHT_GRAY;
     protected final BaseColor BGCOLOR_LIGHT = new BaseColor(240,240,240); // light gray
+    protected int fontSizePercentage = MedwanQuery.getInstance().getConfigInt("fontSizePercentage",100);
     
     
     //--- PRINT DOCUMENT HEADER -------------------------------------------------------------------
@@ -633,7 +634,7 @@ public abstract class PDFDossierCreator extends PDFCreator {
         cell.setBorder(PdfPCell.NO_BORDER);
         table.addCell(cell);
         
-        cell = new PdfPCell(new Paragraph(getTran("web","signature").toUpperCase()+"\n\n\n\n\n\n\n\n",FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+        cell = new PdfPCell(new Paragraph(getTran("web","signature").toUpperCase()+"\n\n\n\n\n\n\n\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
         cell.setColspan(1);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -701,7 +702,7 @@ public abstract class PDFDossierCreator extends PDFCreator {
 
     //--- CREATE ITEMNAME CELL ---------------------------------------------------------------------
     protected PdfPCell createItemNameCell(String itemName, int colspan){
-        cell = new PdfPCell(new Paragraph(itemName.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Paragraph(itemName.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
@@ -717,7 +718,7 @@ public abstract class PDFDossierCreator extends PDFCreator {
 
     //--- CREATE VALUE CELL ------------------------------------------------------------------------
     protected PdfPCell createValueCell(String value, int colspan){
-        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
@@ -733,7 +734,7 @@ public abstract class PDFDossierCreator extends PDFCreator {
 
     //--- CREATE TITLE CELL ------------------------------------------------------------------------
     protected PdfPCell createTitleCell(String msg, int colspan){
-        cell = new PdfPCell(new Paragraph(msg.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+        cell = new PdfPCell(new Paragraph(msg.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -745,7 +746,7 @@ public abstract class PDFDossierCreator extends PDFCreator {
 
     //--- CREATE SUBTITLE CELL --------------------------------------------------------------------
     protected PdfPCell createSubtitleCell(String msg, int colspan){
-        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -757,7 +758,7 @@ public abstract class PDFDossierCreator extends PDFCreator {
 
     //--- CREATE HEADER CELL -----------------------------------------------------------------------
     protected PdfPCell createHeaderCell(String msg, int colspan){
-        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLDITALIC)));
+        cell = new PdfPCell(new Paragraph(msg,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLDITALIC)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
@@ -807,7 +808,7 @@ public abstract class PDFDossierCreator extends PDFCreator {
 
     //--- CREATE BORDERLESS CELL ------------------------------------------------------------------
     protected PdfPCell createBorderlessCell(String value, int height, int colspan){
-        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setPaddingTop(height); //
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.NO_BORDER);
@@ -835,7 +836,7 @@ public abstract class PDFDossierCreator extends PDFCreator {
     }
     
     protected PdfPCell createItemValueCell(String itemValue, int colspan){
-        cell = new PdfPCell(new Paragraph(itemValue,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL))); // no uppercase
+        cell = new PdfPCell(new Paragraph(itemValue,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL))); // no uppercase
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
@@ -847,7 +848,7 @@ public abstract class PDFDossierCreator extends PDFCreator {
 
     //--- CREATE PADDED VALUE CELL ----------------------------------------------------------------
     protected PdfPCell createPaddedValueCell(String value, int colspan){
-        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
@@ -860,7 +861,7 @@ public abstract class PDFDossierCreator extends PDFCreator {
 
     //--- CREATE NUMBER VALUE CELL ----------------------------------------------------------------
     protected PdfPCell createNumberCell(String value, int colspan){
-        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);

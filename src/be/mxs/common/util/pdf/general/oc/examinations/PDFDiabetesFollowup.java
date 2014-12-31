@@ -288,7 +288,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             dietTable.addCell(cell);
 
-            cell = new PdfPCell(new Paragraph(getTran("diabetes","repas"), FontFactory.getFont(FontFactory.HELVETICA,7,com.itextpdf.text.Font.ITALIC)));
+            cell = new PdfPCell(new Paragraph(getTran("diabetes","repas"), FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),com.itextpdf.text.Font.ITALIC)));
             cell.setColspan(2);
             cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(innerBorderColor);
@@ -302,7 +302,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             dietTable.addCell(cell);
 
-            cell = new PdfPCell(new Paragraph(getTran("diabetes","collation"), FontFactory.getFont(FontFactory.HELVETICA,7,com.itextpdf.text.Font.ITALIC)));
+            cell = new PdfPCell(new Paragraph(getTran("diabetes","collation"), FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),com.itextpdf.text.Font.ITALIC)));
             cell.setColspan(2);
             cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(innerBorderColor);
@@ -316,7 +316,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             dietTable.addCell(cell);
 
-            cell = new PdfPCell(new Paragraph(getTran("diabetes","repas"), FontFactory.getFont(FontFactory.HELVETICA,7,com.itextpdf.text.Font.ITALIC)));
+            cell = new PdfPCell(new Paragraph(getTran("diabetes","repas"), FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),com.itextpdf.text.Font.ITALIC)));
             cell.setColspan(2);
             cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(innerBorderColor);
@@ -330,7 +330,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             dietTable.addCell(cell);
 
-            cell = new PdfPCell(new Paragraph(getTran("diabetes","collation"), FontFactory.getFont(FontFactory.HELVETICA,7,com.itextpdf.text.Font.ITALIC)));
+            cell = new PdfPCell(new Paragraph(getTran("diabetes","collation"), FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),com.itextpdf.text.Font.ITALIC)));
             cell.setColspan(2);
             cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(innerBorderColor);
@@ -344,7 +344,7 @@ public class PDFDiabetesFollowup extends PDFGeneralBasic {
             cell.setBackgroundColor(BGCOLOR_LIGHT);
             dietTable.addCell(cell);
 
-            cell = new PdfPCell(new Paragraph(getTran("diabetes","repas"), FontFactory.getFont(FontFactory.HELVETICA,7,com.itextpdf.text.Font.ITALIC)));
+            cell = new PdfPCell(new Paragraph(getTran("diabetes","repas"), FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),com.itextpdf.text.Font.ITALIC)));
             cell.setColspan(2);
             cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(innerBorderColor);

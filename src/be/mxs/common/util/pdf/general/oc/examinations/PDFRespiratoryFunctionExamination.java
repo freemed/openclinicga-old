@@ -308,8 +308,8 @@ public class PDFRespiratoryFunctionExamination extends PDFGeneralBasic {
             fevTable.addCell(cell);
 
             // custom legend
-            Phrase phrase = new Phrase("     "+r2Tran+"     ",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL,BaseColor.BLUE));
-            phrase.add(new Chunk("("+r1Tran+")",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL,BaseColor.RED)));
+            Phrase phrase = new Phrase("     "+r2Tran+"     ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL,BaseColor.BLUE));
+            phrase.add(new Chunk("("+r1Tran+")",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL,BaseColor.RED)));
             cell = new PdfPCell(phrase);
             cell.setColspan(1);
             cell.setPaddingBottom(5);
@@ -417,8 +417,8 @@ public class PDFRespiratoryFunctionExamination extends PDFGeneralBasic {
             fvcTable.addCell(cell);
 
             // custom legend
-            Phrase phrase = new Phrase("     "+r2Tran+"     ",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL,BaseColor.BLUE));
-            phrase.add(new Chunk("("+r1Tran+")",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL,BaseColor.RED)));
+            Phrase phrase = new Phrase("     "+r2Tran+"     ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL,BaseColor.BLUE));
+            phrase.add(new Chunk("("+r1Tran+")",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL,BaseColor.RED)));
             cell = new PdfPCell(phrase);
             cell.setColspan(1);
             cell.setPaddingBottom(5);

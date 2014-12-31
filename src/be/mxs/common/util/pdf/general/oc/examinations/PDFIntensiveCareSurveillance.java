@@ -464,7 +464,7 @@ public class PDFIntensiveCareSurveillance extends PDFGeneralBasic {
 
     //--- CREATE VALUE CELL ------------------------------------------------------------------------
     protected PdfPCell createValueCell(String value, int colspan, int maxHeightInLines){
-        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
@@ -477,7 +477,7 @@ public class PDFIntensiveCareSurveillance extends PDFGeneralBasic {
     
     //--- CREATE SUBTITLE CELL --------------------------------------------------------------------
     protected PdfPCell createSubtitleCell(String value, int colspan, int maxHeightInLines){
-        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(BaseColor.LIGHT_GRAY);

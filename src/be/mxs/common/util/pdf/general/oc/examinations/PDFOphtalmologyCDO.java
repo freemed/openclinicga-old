@@ -824,7 +824,7 @@ public class PDFOphtalmologyCDO extends PDFGeneralBasic {
 
     //--- CREATE GREY CELL ------------------------------------------------------------------------
     protected PdfPCell createGreyCell(String value, int colspan){
-        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
@@ -837,7 +837,7 @@ public class PDFOphtalmologyCDO extends PDFGeneralBasic {
     
     //--- CREATE ITEMNAME CELL ---------------------------------------------------------------------
     protected PdfPCell createItemNameCell(String itemName, int colspan){
-        cell = new PdfPCell(new Paragraph(itemName.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Paragraph(itemName.toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setColspan(colspan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);

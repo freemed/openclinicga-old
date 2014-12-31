@@ -37,6 +37,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.CategoryPlot;
 
 public class SummaryPDFCreator extends GeneralPDFCreator {
+    protected int fontSizePercentage = MedwanQuery.getInstance().getConfigInt("fontSizePercentage",100);
 
     //--- CONSTRUCTOR ------------------------------------------------------------------------------
     public SummaryPDFCreator(SessionContainerWO sessionContainerWO, User user, AdminPerson patient, String sProject, String sProjectDir, String sPrintLanguage){
@@ -330,8 +331,8 @@ public class SummaryPDFCreator extends GeneralPDFCreator {
                 graphTable.addCell(cell);
 
                 // legend
-                Phrase phrase = new Phrase("-"+sSBPTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,BaseColor.RED));
-                phrase.add(new Chunk("-"+sDBPTran,FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,BaseColor.BLUE)));
+                Phrase phrase = new Phrase("-"+sSBPTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL,BaseColor.RED));
+                phrase.add(new Chunk("-"+sDBPTran,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL,BaseColor.BLUE)));
                 cell = new PdfPCell(phrase);
                 cell.setPaddingBottom(10);
                 cell.setBorder(PdfPCell.NO_BORDER);
@@ -353,7 +354,7 @@ public class SummaryPDFCreator extends GeneralPDFCreator {
                 }
                 */
 
-                cell = new PdfPCell(new Paragraph(dateFormat.format(new java.util.Date()),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+                cell = new PdfPCell(new Paragraph(dateFormat.format(new java.util.Date()),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
                 cell.setColspan(1);
                 cell.setBorder(PdfPCell.BOX);
                 cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
@@ -361,7 +362,7 @@ public class SummaryPDFCreator extends GeneralPDFCreator {
                 tParent.addCell(cell);
 
                 // transaction type
-                cell = new PdfPCell(new Paragraph(getTran("web.occup","medwan.common.blood-pressure").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+                cell = new PdfPCell(new Paragraph(getTran("web.occup","medwan.common.blood-pressure").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
                 cell.setColspan(5);
                 cell.setBorder(PdfPCell.BOX);
                 cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);

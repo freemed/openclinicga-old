@@ -122,14 +122,14 @@ public class PDFClinicalExamination extends PDFGeneralBasic {
                 cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                 bioTable.addCell(cell);
 
-                cell = new PdfPCell(new Paragraph(sSystolicRight+" / "+sSystolicLeft+" mmHg",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                cell = new PdfPCell(new Paragraph(sSystolicRight+" / "+sSystolicLeft+" mmHg",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                 cell.setColspan(1);
                 cell.setBorder(PdfPCell.BOX);
                 cell.setBorderColor(innerBorderColor);
                 cell.setBackgroundColor(BGCOLOR_LIGHT);
                 bioTable.addCell(cell);
 
-                cell = new PdfPCell(new Paragraph(sDiastolicRight+" / "+sDiastolicLeft+" mmHg",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                cell = new PdfPCell(new Paragraph(sDiastolicRight+" / "+sDiastolicLeft+" mmHg",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                 cell.setColspan(1);
                 cell.setBorder(PdfPCell.BOX);
                 cell.setBorderColor(innerBorderColor);

@@ -151,12 +151,12 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
                     activeProblem = (Problem)activeProblems.elementAt(n);
 
                     value = activeProblem.getCode()+" "+ MedwanQuery.getInstance().getCodeTran(activeProblem.getCodeType()+"code"+activeProblem.getCode(),sPrintLanguage);
-                    Paragraph par = new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL));
+                    Paragraph par = new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL));
 
                     // add comment if any
                     if(activeProblem.getComment().trim().length() > 0){
                         comment = " : "+activeProblem.getComment().trim();
-                        par.add(new Chunk(comment,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
+                        par.add(new Chunk(comment,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.ITALIC)));
                     }
 
                     cell = new PdfPCell(par);
@@ -459,7 +459,7 @@ public class PDFNurseFollowup extends PDFGeneralBasic {
     
     //--- CREATE CONTENT CELL ----------------------------------------------------------------------
     protected PdfPCell createContentCell(String value){
-        cell = new PdfPCell(new Paragraph(value, FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Paragraph(value, FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setColspan(1);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);

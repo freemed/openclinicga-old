@@ -49,6 +49,7 @@ public class GeneralPDFCreator extends PDFCreator {
     private PdfPCell cell;
     private PdfPTable table;
     protected final BaseColor BGCOLOR_LIGHT = new BaseColor(240,240,240); // light gray
+    protected int fontSizePercentage = MedwanQuery.getInstance().getConfigInt("fontSizePercentage",100);
 
 
     //--- CONSTRUCTOR -----------------------------------------------------------------------------
@@ -331,7 +332,7 @@ public class GeneralPDFCreator extends PDFCreator {
 	        cell=new PdfPCell();
 	        cell.setBorder(PdfPCell.NO_BORDER);
 	        table.addCell(cell);
-	        cell = new PdfPCell(new Paragraph(getTran("report.monthly","signature").toUpperCase()+"\n\n\n\n\n\n\n\n",FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+	        cell = new PdfPCell(new Paragraph(getTran("report.monthly","signature").toUpperCase()+"\n\n\n\n\n\n\n\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
 	        cell.setColspan(1);
 	        cell.setBorder(PdfPCell.BOX);
 	        cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -355,7 +356,7 @@ public class GeneralPDFCreator extends PDFCreator {
                 table.setWidthPercentage(100);
 
                 // title
-                cell = new PdfPCell(new Paragraph(getTran("web.occup","medwan.common.problemlist").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+                cell = new PdfPCell(new Paragraph(getTran("web.occup","medwan.common.problemlist").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
                 cell.setColspan(1);
                 cell.setBorder(PdfPCell.BOX);
                 cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -370,7 +371,7 @@ public class GeneralPDFCreator extends PDFCreator {
                 for(int n=0; n<activeProblems.size(); n++){
                     activeProblem = (Problem) activeProblems.elementAt(n);
                     value = MedwanQuery.getInstance().getCodeTran(activeProblem.getCodeType() + "code" + activeProblem.getCode(),sPrintLanguage);
-                    cell = new PdfPCell(new Paragraph(value+" ("+getTran("Web","since")+" "+dateFormat.format(activeProblem.getBegin())+")",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                    cell = new PdfPCell(new Paragraph(value+" ("+getTran("Web","since")+" "+dateFormat.format(activeProblem.getBegin())+")",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
 
                     cell.setColspan(1);
                     cell.setBorder(PdfPCell.BOX);
@@ -400,7 +401,7 @@ public class GeneralPDFCreator extends PDFCreator {
                     table.setWidthPercentage(100);
 
                     // title
-                    cell = new PdfPCell(new Paragraph(getTran("curative","warning.status.title").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+                    cell = new PdfPCell(new Paragraph(getTran("curative","warning.status.title").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
                     cell.setColspan(4);
                     cell.setBorder(PdfPCell.BOX);
                     cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -425,7 +426,7 @@ public class GeneralPDFCreator extends PDFCreator {
                             sLabel = checkString(itemVO.getValue());
                         }
 
-                        cell = new PdfPCell(new Paragraph(sLabel,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                        cell = new PdfPCell(new Paragraph(sLabel,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
                         cell.setColspan(1);
                         cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP+PdfPCell.BOTTOM); // no right border
                         cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -439,7 +440,7 @@ public class GeneralPDFCreator extends PDFCreator {
                             sComment = checkString(itemVO.getValue());
                         }
 
-                        cell = new PdfPCell(new Paragraph(sComment,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                        cell = new PdfPCell(new Paragraph(sComment,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
                         cell.setColspan(4);
                         cell.setBorder(PdfPCell.RIGHT+PdfPCell.TOP+PdfPCell.BOTTOM); // no left border
                         cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -464,7 +465,7 @@ public class GeneralPDFCreator extends PDFCreator {
             table.setWidthPercentage(100);
 
             // main title
-            cell = new PdfPCell(new Paragraph(getTran("curative","medication.status.title").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+            cell = new PdfPCell(new Paragraph(getTran("curative","medication.status.title").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
             cell.setColspan(2);
             cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -480,7 +481,7 @@ public class GeneralPDFCreator extends PDFCreator {
                 PdfPTable medicationTable = new PdfPTable(2);
 
                 // sub title
-                cell = new PdfPCell(new Paragraph(getTran("curative","medication.chronic"),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+                cell = new PdfPCell(new Paragraph(getTran("curative","medication.chronic"),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
                 cell.setColspan(2);
                 cell.setBorder(PdfPCell.BOX);
                 cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -519,14 +520,14 @@ public class GeneralPDFCreator extends PDFCreator {
                     sPrescrRule = sPrescrRule.replaceAll("#timeunit#", timeUnitTran.replaceAll("  "," ").toLowerCase());
 
                     // product name
-                    cell = new PdfPCell(new Paragraph(medication.getProduct().getName(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    cell = new PdfPCell(new Paragraph(medication.getProduct().getName(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                     cell.setColspan(1);
                     cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP+PdfPCell.BOTTOM); // no right border
                     cell.setBorderColor(BaseColor.LIGHT_GRAY);
                     medicationTable.addCell(cell);
 
                     // prescription rule
-                    cell = new PdfPCell(new Paragraph(sPrescrRule,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
+                    cell = new PdfPCell(new Paragraph(sPrescrRule,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.ITALIC)));
                     cell.setColspan(1);
                     cell.setBorder(PdfPCell.RIGHT+PdfPCell.TOP+PdfPCell.BOTTOM); // no left border
                     cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -557,7 +558,7 @@ public class GeneralPDFCreator extends PDFCreator {
                 PdfPTable medicationTable = new PdfPTable(2);
 
                 // sub title
-                cell = new PdfPCell(new Paragraph(getTran("curative","medication.prescription"),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+                cell = new PdfPCell(new Paragraph(getTran("curative","medication.prescription"),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
                 cell.setColspan(2);
                 cell.setBorder(PdfPCell.BOX);
                 cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -597,14 +598,14 @@ public class GeneralPDFCreator extends PDFCreator {
                     sPrescrRule = sPrescrRule.replaceAll("#timeunit#", timeUnitTran.toLowerCase());
 
                     // product name
-                    cell = new PdfPCell(new Paragraph(prescription.getProduct().getName(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    cell = new PdfPCell(new Paragraph(prescription.getProduct().getName(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                     cell.setColspan(1);
                     cell.setBorder(PdfPCell.LEFT+PdfPCell.TOP+PdfPCell.BOTTOM); // no right border
                     cell.setBorderColor(BaseColor.LIGHT_GRAY);
                     medicationTable.addCell(cell);
 
                     // prescription rule
-                    cell = new PdfPCell(new Paragraph(sPrescrRule,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
+                    cell = new PdfPCell(new Paragraph(sPrescrRule,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.ITALIC)));
                     cell.setColspan(1);
                     cell.setBorder(PdfPCell.RIGHT+PdfPCell.TOP+PdfPCell.BOTTOM); // no left border
                     cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -645,7 +646,7 @@ public class GeneralPDFCreator extends PDFCreator {
             table.setWidthPercentage(100);
 
             // kernel-data
-            cell = new PdfPCell(new Paragraph(getTran("Web.Occup","medwan.common.kernel-data").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+            cell = new PdfPCell(new Paragraph(getTran("Web.Occup","medwan.common.kernel-data").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
             cell.setColspan(15);
             cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -654,13 +655,13 @@ public class GeneralPDFCreator extends PDFCreator {
             table.addCell(cell);
 
             // row 1 : last-periodical-examination
-            Paragraph par = new Paragraph(getTran("Web.Occup","medwan.common.last-periodical-examination").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
+            Paragraph par = new Paragraph(getTran("Web.Occup","medwan.common.last-periodical-examination").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.ITALIC));
             TransactionVO tran = sessionContainerWO.getLastTransaction(IConstants_PREFIX+"TRANSACTION_TYPE_MER");
             ItemVO item;
             if (tran!=null){
                 item =  tran.getItem(IConstants_PREFIX+"ITEM_TYPE_MER_EXAMINATION_DATE");
                 if (item!= null){
-                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
+                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD)));
                 }
             }
             cell = new PdfPCell(par);
@@ -671,9 +672,9 @@ public class GeneralPDFCreator extends PDFCreator {
             table.addCell(cell);
 
             // row 1 : next-periodical-examination
-            par = new Paragraph(getTran("Web.Occup","medwan.common.next-periodical-examination").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
+            par = new Paragraph(getTran("Web.Occup","medwan.common.next-periodical-examination").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.ITALIC));
             if (sessionContainerWO.getFlags().getLastExaminationReport()!=null && sessionContainerWO.getFlags().getLastExaminationReport().getNewExaminationDueDate()!=null){
-                par.add(new Chunk(dateFormat.format(sessionContainerWO.getFlags().getLastExaminationReport().getNewExaminationDueDate()),FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
+                par.add(new Chunk(dateFormat.format(sessionContainerWO.getFlags().getLastExaminationReport().getNewExaminationDueDate()),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD)));
             }
             cell = new PdfPCell(par);
             cell.setColspan(5);
@@ -683,7 +684,7 @@ public class GeneralPDFCreator extends PDFCreator {
             table.addCell(cell);
 
             // row 1 : next-driver-examination / Volgend onderzoek medische schifting
-            par = new Paragraph(getTran("Web.Occup","medwan.common.next-driver-examination").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
+            par = new Paragraph(getTran("Web.Occup","medwan.common.next-driver-examination").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.ITALIC));
             if (sessionContainerWO.getFlags().getLastDrivingCertificate()!=null){
 
                 // CBMT only : only display newExaminationDueDate if patient has riskcode "070" (drivinglicense)
@@ -692,13 +693,13 @@ public class GeneralPDFCreator extends PDFCreator {
                 if(riskCode070Found){
                     String newExamDueDateMinus = ScreenHelper.checkString(sessionContainerWO.getFlags().getLastDrivingCertificate().getNewExaminationDueDateMinus());
                     if(newExamDueDateMinus.length() > 0){
-                        par.add(new Chunk(newExamDueDateMinus.replaceAll("-","/"),FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
+                        par.add(new Chunk(newExamDueDateMinus.replaceAll("-","/"),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD)));
                     }
                 }
             }
             else{
                 // no data available
-                par.add(new Chunk(getTran("Web.Occup","medwan.common.no-data"),FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
+                par.add(new Chunk(getTran("Web.Occup","medwan.common.no-data"),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD)));
             }
 
             cell = new PdfPCell(par);
@@ -709,7 +710,7 @@ public class GeneralPDFCreator extends PDFCreator {
             table.addCell(cell);
 
             // row 2 : Biometrie
-            par = new Paragraph(getTran("Web.Occup","medwan.common.biometry").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
+            par = new Paragraph(getTran("Web.Occup","medwan.common.biometry").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.ITALIC));
             tran = sessionContainerWO.getLastTransactionTypeBiometry();
             if(tran!=null){
                 // height
@@ -717,14 +718,14 @@ public class GeneralPDFCreator extends PDFCreator {
                 String sHeight = "", sWeight = "";
                 if(item!=null){
                     sHeight = item.getValue();
-                    par.add(new Chunk(getTran("Web.Occup","medwan.common.length")+": "+sHeight+" cm\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    par.add(new Chunk(getTran("Web.Occup","medwan.common.length")+": "+sHeight+" cm\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                 }
 
                 // weight
                 item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_BIOMETRY_WEIGHT");
                 if(item!=null){
                     sWeight = item.getValue();
-                    par.add(new Chunk(getTran("Web.Occup","medwan.common.weight")+": "+sWeight+" kg\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    par.add(new Chunk(getTran("Web.Occup","medwan.common.weight")+": "+sWeight+" kg\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                 }
 
                 // BMI
@@ -732,7 +733,7 @@ public class GeneralPDFCreator extends PDFCreator {
                     try{
                         DecimalFormat deci = new DecimalFormat("0.0");
                         Float bmi = new Float(Float.parseFloat(sWeight.replaceAll(",",".")) *10000 / (Float.parseFloat(sHeight.replaceAll(",",".")) * Float.parseFloat(sHeight.replaceAll(",","."))));
-                        par.add(new Chunk("BMI: "+deci.format(bmi),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                        par.add(new Chunk("BMI: "+deci.format(bmi),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                     }
                     catch(Exception e){
                         e.printStackTrace();
@@ -748,20 +749,20 @@ public class GeneralPDFCreator extends PDFCreator {
             table.addCell(cell);
 
             // row 2 : Urineonderzoek
-            par = new Paragraph("URINE\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
+            par = new Paragraph("URINE\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.ITALIC));
             tran = sessionContainerWO.getLastTransactionTypeUrineExamination();
             if (tran!=null){
                 item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_URINE_ALBUMINE");
                 if (item!=null){
-                    par.add(new Chunk("Albumine: "+getTran("Web.Occup",item.getValue())+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    par.add(new Chunk("Albumine: "+getTran("Web.Occup",item.getValue())+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                 }
                 item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_URINE_GLUCOSE");
                 if (item!=null){
-                    par.add(new Chunk("Glucose: "+getTran("Web.Occup",item.getValue())+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    par.add(new Chunk("Glucose: "+getTran("Web.Occup",item.getValue())+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                 }
                 item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_URINE_BLOOD");
                 if (item!=null){
-                    par.add(new Chunk(getTran("Web.Occup","medwan.common.blood")+": "+getTran("Web.Occup",item.getValue()),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    par.add(new Chunk(getTran("Web.Occup","medwan.common.blood")+": "+getTran("Web.Occup",item.getValue()),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                 }
             }
 
@@ -773,17 +774,17 @@ public class GeneralPDFCreator extends PDFCreator {
             table.addCell(cell);
 
             // row 2 : Audiometrie
-            par = new Paragraph(getTran("Web.Occup","medwan.common.audiometry").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
+            par = new Paragraph(getTran("Web.Occup","medwan.common.audiometry").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.ITALIC));
             tran = sessionContainerWO.getLastTransactionTypeAudiometry();
             if (tran!=null){
-                par.add(new Chunk(getTran("Web.Occup","medwan.common.mean-hearing-loss").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,6,Font.ITALIC)));
+                par.add(new Chunk(getTran("Web.Occup","medwan.common.mean-hearing-loss").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)6*fontSizePercentage/100.0),Font.ITALIC)));
                 item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_RIGHT_LOSS");
                 if (item!=null){
-                    par.add(new Chunk(getTran("Web.Occup","medwan.common.right")+": -"+item.getValue()+" dB\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    par.add(new Chunk(getTran("Web.Occup","medwan.common.right")+": -"+item.getValue()+" dB\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                 }
                 item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_AUDIOMETRY_LEFT_LOSS");
                 if (item!=null){
-                    par.add(new Chunk(getTran("Web.Occup","medwan.common.left")+": -"+item.getValue()+" dB\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    par.add(new Chunk(getTran("Web.Occup","medwan.common.left")+": -"+item.getValue()+" dB\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                 }
             }
             cell = new PdfPCell(par);
@@ -794,45 +795,45 @@ public class GeneralPDFCreator extends PDFCreator {
             table.addCell(cell);
 
             // row 2 : Visus
-            par = new Paragraph(getTran("Web.Occup","medwan.common.vision").toUpperCase()+" - "+getTran("Web.Occup",IConstants_PREFIX+"item_type_opthalmology_screen_visiotest_vision_far").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
+            par = new Paragraph(getTran("Web.Occup","medwan.common.vision").toUpperCase()+" - "+getTran("Web.Occup",IConstants_PREFIX+"item_type_opthalmology_screen_visiotest_vision_far").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.ITALIC));
             tran = sessionContainerWO.getLastTransactionTypeOphtalmology();
             if (tran!=null){
-                par.add(new Chunk(getTran("Web.Occup","medwan.common.right-left-binocular").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,6,Font.ITALIC)));
-                par.add(new Chunk(getTran("Web.Occup","medwan.common.without-correction")+": ",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                par.add(new Chunk(getTran("Web.Occup","medwan.common.right-left-binocular").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)6*fontSizePercentage/100.0),Font.ITALIC)));
+                par.add(new Chunk(getTran("Web.Occup","medwan.common.without-correction")+": ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
 
                 item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_VISION_OD_WITHOUT_GLASSES");
                 if (item!=null){
-                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                 }
-                par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
 
                 item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_VISION_OG_WITHOUT_GLASSES");
                 if (item!=null){
-                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                 }
-                par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
 
                 item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_VISION_BONI_WITHOUT_GLASSES");
                 if (item!=null){
-                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                 }
-                par.add(new Chunk("\n"+getTran("Web.Occup","medwan.common.with-correction")+": ",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                par.add(new Chunk("\n"+getTran("Web.Occup","medwan.common.with-correction")+": ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
 
                 item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_VISION_OD_WITH_GLASSES");
                 if (item!=null){
-                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                 }
-                par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
 
                 item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_VISION_OG_WITH_GLASSES");
                 if (item!=null){
-                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                 }
-                par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
 
                 item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_OPTHALMOLOGY_VISION_BONI_WITH_GLASSES");
                 if (item!=null){
-                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                 }
             }
             cell = new PdfPCell(par);
@@ -843,37 +844,37 @@ public class GeneralPDFCreator extends PDFCreator {
             table.addCell(cell);
 
             // row 2 : Bloeddruk
-            par = new Paragraph(getTran("Web.Occup","medwan.common.blood-pressure").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
+            par = new Paragraph(getTran("Web.Occup","medwan.common.blood-pressure").toUpperCase()+"\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.ITALIC));
             tran = sessionContainerWO.getLastTransactionTypeGeneralClinicalExamination();
             if (tran!=null){
                 // right
                 ItemVO item1 = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_SYSTOLIC_PRESSURE_RIGHT");
                 item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_DIASTOLIC_PRESSURE_RIGHT");
                 if (item1!=null || item!=null){
-                    par.add(new Chunk(getTran("Web.Occup","medwan.common.right")+": ",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    par.add(new Chunk(getTran("Web.Occup","medwan.common.right")+": ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                     if (item1!=null){
-                        par.add(new Chunk(item1.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                        par.add(new Chunk(item1.getValue(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                     }
-                    par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                    par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
                     if (item!=null){
-                        par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                        par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                     }
-                    par.add(new Chunk(" mmHg\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    par.add(new Chunk(" mmHg\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                 }
 
                 // left
                 item = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_SYSTOLIC_PRESSURE_LEFT");
                 item1 = tran.getItem(IConstants_PREFIX+"ITEM_TYPE_CARDIAL_CLINICAL_EXAMINATION_DIASTOLIC_PRESSURE_LEFT");
                 if (item!=null || item1!=null){
-                    par.add(new Chunk(getTran("Web.Occup","medwan.common.left")+": ",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    par.add(new Chunk(getTran("Web.Occup","medwan.common.left")+": ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                     if (item!=null){
-                        par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                        par.add(new Chunk(item.getValue(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                     }
-                    par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                    par.add(new Chunk("/",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
                     if (item1!=null){
-                        par.add(new Chunk(item1.getValue(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                        par.add(new Chunk(item1.getValue(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                     }
-                    par.add(new Chunk(" mmHg\n",FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+                    par.add(new Chunk(" mmHg\n",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
                 }
             }
 
@@ -899,7 +900,7 @@ public class GeneralPDFCreator extends PDFCreator {
             table.setWidthPercentage(100);
 
             // title
-            cell = new PdfPCell(new Paragraph(getTran("Web.Occup","medwan.common.administrative-data").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+            cell = new PdfPCell(new Paragraph(getTran("Web.Occup","medwan.common.administrative-data").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
             cell.setColspan(4);
             cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -908,7 +909,7 @@ public class GeneralPDFCreator extends PDFCreator {
             table.addCell(cell);
 
             // firstname
-            cell = new PdfPCell(new Paragraph(activePerson.firstname+" "+activePerson.lastname,FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
+            cell = new PdfPCell(new Paragraph(activePerson.firstname+" "+activePerson.lastname,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD)));
             cell.setColspan(2);
             cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -916,7 +917,7 @@ public class GeneralPDFCreator extends PDFCreator {
             table.addCell(cell);
 
             // dateOfBirth
-            cell = new PdfPCell(new Paragraph("°"+activePerson.dateOfBirth,FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
+            cell = new PdfPCell(new Paragraph("°"+activePerson.dateOfBirth,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD)));
             cell.setColspan(1);
             cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -924,7 +925,7 @@ public class GeneralPDFCreator extends PDFCreator {
             table.addCell(cell);
 
             // gender
-            cell = new PdfPCell(new Paragraph(activePerson.gender+"",FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD)));
+            cell = new PdfPCell(new Paragraph(activePerson.gender+"",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD)));
             cell.setColspan(1);
             cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -934,7 +935,7 @@ public class GeneralPDFCreator extends PDFCreator {
             // address
             AdminPrivateContact contact = activePerson.getActivePrivate();
             if (contact!=null){
-                cell = new PdfPCell(new Paragraph(contact.district+" - "+ScreenHelper.getTran("province",contact.province,sPrintLanguage),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
+                cell = new PdfPCell(new Paragraph(contact.district+" - "+ScreenHelper.getTran("province",contact.province,sPrintLanguage),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL)));
                 cell.setColspan(4);
                 cell.setBorder(PdfPCell.BOX);
                 cell.setBorderColor(BaseColor.LIGHT_GRAY);

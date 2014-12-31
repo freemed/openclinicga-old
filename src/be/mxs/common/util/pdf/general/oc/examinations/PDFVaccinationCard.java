@@ -62,7 +62,7 @@ public class PDFVaccinationCard extends PDFGeneralBasic {
                 Paragraph par;
 
                 // title
-                cell = new PdfPCell(new Paragraph(getTran("Web.Occup","medwan.common.vaccination-card").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.ITALIC)));
+                cell = new PdfPCell(new Paragraph(getTran("Web.Occup","medwan.common.vaccination-card").toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.ITALIC)));
                 cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
                 cell.setBorder(PdfPCell.BOX);
                 tranTable.addCell(cell);
@@ -91,7 +91,7 @@ public class PDFVaccinationCard extends PDFGeneralBasic {
 
                         if(!activeVaccination.equalsIgnoreCase(getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_TYPE))){
                             // Set new vaccination title
-                            cell = new PdfPCell(new Paragraph(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_TYPE)).toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
+                            cell = new PdfPCell(new Paragraph(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_TYPE)).toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL)));
                             activeVaccination = getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_TYPE);
                             border = PdfPCell.TOP;
                             bShowNext = true;
@@ -111,19 +111,19 @@ public class PDFVaccinationCard extends PDFGeneralBasic {
                         table.addCell(cell);
 
                         // VACCINATION_DATE / VACCINATION_STATUS / COMMENT
-                        table.addCell(createCell(new PdfPCell(new Paragraph(getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_DATE),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL))),1,PdfPCell.ALIGN_MIDDLE,border));
-                        table.addCell(createCell(new PdfPCell(new Paragraph(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_STATUS)),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL))),1,PdfPCell.ALIGN_MIDDLE,border));
-                        table.addCell(createCell(new PdfPCell(new Paragraph(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_COMMENT)),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL))),4,PdfPCell.ALIGN_MIDDLE,border));
+                        table.addCell(createCell(new PdfPCell(new Paragraph(getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_DATE),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL))),1,PdfPCell.ALIGN_MIDDLE,border));
+                        table.addCell(createCell(new PdfPCell(new Paragraph(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_STATUS)),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL))),1,PdfPCell.ALIGN_MIDDLE,border));
+                        table.addCell(createCell(new PdfPCell(new Paragraph(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_COMMENT)),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL))),4,PdfPCell.ALIGN_MIDDLE,border));
 
                         // NEXT DATE
                         if(bShowNext){
-                            par = new Paragraph(getTran("Web.Occup","be.mxs.healthrecord.vaccination.next").toUpperCase()+": ",FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC));
+                            par = new Paragraph(getTran("Web.Occup","be.mxs.healthrecord.vaccination.next").toUpperCase()+": ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.ITALIC));
                             try{
                                 if(ScreenHelper.parseDate(getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE)).before(new Date())){
-                                    par.add(new Chunk(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE)),FontFactory.getFont(FontFactory.HELVETICA,8,Font.BOLD,BaseColor.RED)));
+                                    par.add(new Chunk(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE)),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.BOLD,BaseColor.RED)));
                                 }
                                 else{
-                                    par.add(new Chunk(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE)),FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL)));
+                                    par.add(new Chunk(getTran("Web.Occup",getItemValue(tran,IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE)),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL)));
                                 }
                             }
                             catch(Exception e){

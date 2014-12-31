@@ -12,11 +12,17 @@ public class PDFAnatomopathology extends PDFGeneralBasic {
             if(transactionVO.getItems().size() >= minNumberOfItems){
                 contentTable = new PdfPTable(1);
                 table = new PdfPTable(5);
-                
-                // identificationumber
+
+                // identification number
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_ANATOMOPATHOLOGY_IDENTIFICATION_NUMBER");
                 if(itemValue.length() > 0){
                     addItemRow(table,getTran("openclinic.chuk","identificationumber"),itemValue);
+                }
+                
+                // internal number
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_ANATOMOPATHOLOGY_INTERNAL_NUMBER");
+                if(itemValue.length() > 0){
+                    addItemRow(table,getTran("openclinic.chuk","internalNumber"),itemValue);
                 }
                 
                 //***** DATES *****************************                
@@ -105,10 +111,13 @@ public class PDFAnatomopathology extends PDFGeneralBasic {
                 if(itemValue.length() > 0){
                 	if(itemValue.equals("0")){
                 		itemValue = getTran("web","other.procedure");
+                		
+                		// append free text
+                		itemValue+= ": "+getItemValue(IConstants_PREFIX+"ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_PROCEDURE_TEXT"); 
                 	}
                 	else{
                 	    itemValue = getTran("procedure.type",itemValue);
-                	}
+                	}                	               		
                 	
                     addItemRow(table,getTran("openclinic.chuk","procedure_type"),itemValue);
                 }

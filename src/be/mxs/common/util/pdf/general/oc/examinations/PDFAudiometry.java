@@ -378,11 +378,11 @@ public class PDFAudiometry extends PDFGeneralBasic {
         graphTable.addCell(cell);
 
         // legend
-        Phrase phrase = new Phrase(rightEarTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,BaseColor.RED));
-               phrase.add(new Chunk(leftEarTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,BaseColor.BLUE)));
-               phrase.add(new Chunk(normalTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,new BaseColor(34,139,34)))); // green
-               phrase.add(new Chunk(rightBonyTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,BaseColor.BLACK)));
-               phrase.add(new Chunk(leftBonyTran,FontFactory.getFont(FontFactory.HELVETICA,8,Font.NORMAL,new BaseColor(153,50,204)))); // purple
+        Phrase phrase = new Phrase(rightEarTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL,BaseColor.RED));
+               phrase.add(new Chunk(leftEarTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL,BaseColor.BLUE)));
+               phrase.add(new Chunk(normalTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL,new BaseColor(34,139,34)))); // green
+               phrase.add(new Chunk(rightBonyTran+"     ",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL,BaseColor.BLACK)));
+               phrase.add(new Chunk(leftBonyTran,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)8*fontSizePercentage/100.0),Font.NORMAL,new BaseColor(153,50,204)))); // purple
         cell = new PdfPCell(phrase);
         cell.setPaddingBottom(10);
         cell.setBorder(PdfPCell.NO_BORDER);

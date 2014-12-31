@@ -31,7 +31,7 @@ public class PDFGenericTransaction extends PDFGeneralBasic {
                    !item.getType().equalsIgnoreCase(IConstants_PREFIX+"ITEM_TYPE_RECRUITMENT_CONVOCATION_ID")){
 
                     // itemType
-                    cell = new PdfPCell(new Phrase(getTran("web.occup",item.getType()).toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                    cell = new PdfPCell(new Phrase(getTran("web.occup",item.getType()).toUpperCase(),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
                     cell.setColspan(2);
                     cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                     cell.setBorder(PdfPCell.BOX);
@@ -39,7 +39,7 @@ public class PDFGenericTransaction extends PDFGeneralBasic {
                     table.addCell(cell);
 
                     // itemValue
-                    cell = new PdfPCell(new Phrase(getTran("web.occup",item.getValue()),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+                    cell = new PdfPCell(new Phrase(getTran("web.occup",item.getValue()),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
                     cell.setColspan(13);
                     cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                     cell.setBorder(PdfPCell.BOX);

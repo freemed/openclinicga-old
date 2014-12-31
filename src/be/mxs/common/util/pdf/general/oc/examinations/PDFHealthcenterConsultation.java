@@ -380,12 +380,12 @@ public class PDFHealthcenterConsultation extends PDFGeneralBasic {
                 problem = (Problem)activeProblems.elementAt(n);
     
                 value = problem.getCode()+" "+MedwanQuery.getInstance().getCodeTran(problem.getCodeType()+"code"+problem.getCode(),sPrintLanguage);
-                Paragraph par = new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL));
+                Paragraph par = new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL));
     
                 // add comment if any
                 if(problem.getComment().trim().length() > 0){
                     comment = " : "+problem.getComment().trim();
-                    par.add(new Chunk(comment,FontFactory.getFont(FontFactory.HELVETICA,7,Font.ITALIC)));
+                    par.add(new Chunk(comment,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.ITALIC)));
                 }
     
                 cell = new PdfPCell(par);

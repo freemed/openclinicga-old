@@ -137,7 +137,7 @@ public class PDFDrivingLicenseDeclaration extends PDFGeneralBasic {
             String commPart1 = getTran("medwan.common.driving-license-declaration.candidate-questionnaire.commitment")+" ";
             String commPart2 = getTran("medwan.common.driving-license-declaration.candidate-questionnaire.commitment1");
 
-            cell = new PdfPCell(new Phrase(commPart1+commPart2,FontFactory.getFont(FontFactory.HELVETICA,7,Font.BOLD)));
+            cell = new PdfPCell(new Phrase(commPart1+commPart2,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.BOLD)));
             cell.setColspan(40);
             cell.setBorder(PdfPCell.BOX);
             cell.setBorderColor(innerBorderColor);
@@ -166,7 +166,7 @@ public class PDFDrivingLicenseDeclaration extends PDFGeneralBasic {
     //--- ADD QUESTION -----------------------------------------------------------------------------
     private PdfPTable addQuestion(PdfPTable table, int id, String question, String answer){
         // cel 1 : nr
-        cell = new PdfPCell(new Phrase(id+"",FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Phrase(id+"",FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setColspan(1);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
@@ -174,7 +174,7 @@ public class PDFDrivingLicenseDeclaration extends PDFGeneralBasic {
         table.addCell(cell);
 
         // cel 2-38 : question
-        cell = new PdfPCell(new Phrase(question,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Phrase(question,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setColspan(37);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
@@ -182,7 +182,7 @@ public class PDFDrivingLicenseDeclaration extends PDFGeneralBasic {
         table.addCell(cell);
 
         // cel 39 and 40 : answer
-        cell = new PdfPCell(new Phrase(getTran(getItemValue(answer)),FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Phrase(getTran(getItemValue(answer)),FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setColspan(2);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);

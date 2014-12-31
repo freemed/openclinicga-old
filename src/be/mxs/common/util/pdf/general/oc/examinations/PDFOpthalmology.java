@@ -1256,7 +1256,7 @@ public class PDFOpthalmology extends PDFGeneralBasic {
 
     //--- CREATE CONTENT CELL ----------------------------------------------------------------------
     protected PdfPCell createContentCell(String value, int colSpan){
-        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,7,Font.NORMAL)));
+        cell = new PdfPCell(new Paragraph(value,FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)7*fontSizePercentage/100.0),Font.NORMAL)));
         cell.setColspan(colSpan);
         cell.setBorder(PdfPCell.BOX);
         cell.setBorderColor(innerBorderColor);
