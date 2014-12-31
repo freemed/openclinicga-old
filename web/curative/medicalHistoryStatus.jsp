@@ -188,16 +188,14 @@ try{
                                                                             <a href="<c:url value='/healthrecord/editTransaction.do'/>?be.mxs.healthrecord.createTransaction.transactionType=<%=transactionType%>&be.mxs.healthrecord.transaction_id=<%=transactionVO.getTransactionId()%>&be.mxs.healthrecord.server_id=<%=transactionVO.getServerId()%>&ts=<%=getTs()%>" onMouseOver="window.status='';return true;">
                                                                                 <%=getTran("web.occup",transactionType,sWebLanguage)%>
                                                                                 <%
-                                                                                String sReference = transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_UDI");
-                                                                                if(sReference.length() > 0){
-                                                                                    %>(<%=sReference%> - <%=transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_TITLE") %>)<%                                                                                    	
-                                                                                    String sStorageName = transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_STORAGENAME");
-                                                                                    if(sStorageName.length() == 0){
-                                                                                        %>
-                                                                                        	<img src='<c:url value="_img/icons/icon_upload.gif"/>' onclick='document.getElementById("fileuploadid").value="<%=sReference %>";document.getElementById("uploadtransactionid").value="<%=transactionVO.getServerId()+"."+transactionVO.getTransactionId() %>";document.getElementById("fileupload").click();return false'/>
-                                                                                        <%                                                                                    	
-                                                                                    }
-                                                                                }
+	                                                                                String sReference = transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_UDI");
+	                                                                                if(sReference.length() > 0){
+	                                                                                    %>(<%=sReference%> - <%=transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_TITLE") %>)<%                                                                                    	
+	                                                                                    String sStorageName = transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_STORAGENAME");
+	                                                                                    if(sStorageName.length() == 0){
+	                                                                                        %>&nbsp;<img src='<c:url value="_img/icons/icon_upload.gif"/>' class="link" onclick='document.getElementById("fileuploadid").value="<%=sReference %>";document.getElementById("uploadtransactionid").value="<%=transactionVO.getServerId()+"."+transactionVO.getTransactionId() %>";document.getElementById("fileupload").click();return false'/><%                                                                                    	
+	                                                                                    }
+	                                                                                }
                                                                                 %>
                                                                             </a>
                                                                         <%
