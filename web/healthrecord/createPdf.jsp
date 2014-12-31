@@ -5,8 +5,7 @@
                 com.itextpdf.text.*,
                 be.mxs.common.util.pdf.general.GeneralPDFCreator,
                 be.mxs.common.util.pdf.PDFCreator"%>
-<%@page import="java.util.*" %>
-
+<%@page import="java.util.*"%>
 <%=sJSSORTTABLE%>
 
 <%!
@@ -28,7 +27,8 @@
 	    com.itextpdf.text.pdf.PdfImportedPage pdfPage;
 	    com.itextpdf.text.pdf.PdfCopy.PageStamp stamp;
 	    com.itextpdf.text.Phrase phrase;
-	    
+
+	    int fontSizePercentage = MedwanQuery.getInstance().getConfigInt("fontSizePercentage",100);
 	    com.itextpdf.text.Rectangle rect = document.getPageSize();
 	    for(int i=0; i<totalPageCount;){
 	    	pdfPage = copy.getImportedPage(reader,++i);
@@ -37,11 +37,11 @@
 	        stamp = copy.createPageStamp(pdfPage);
 	        
 	    	// footer text
-	        phrase = com.itextpdf.text.Phrase.getInstance(0,sFooterText,com.itextpdf.text.FontFactory.getFont(FontFactory.HELVETICA,6));
+	        phrase = com.itextpdf.text.Phrase.getInstance(0,sFooterText,com.itextpdf.text.FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)10*fontSizePercentage/100.0)));
             com.itextpdf.text.pdf.ColumnText.showTextAligned(stamp.getUnderContent(),1,phrase,(rect.getLeft()+rect.getRight())/2,rect.getBottom()+26,0);
 	       
 	        // page count
-	        phrase = com.itextpdf.text.Phrase.getInstance(0,String.format("%d/%d",i,totalPageCount),com.itextpdf.text.FontFactory.getFont(FontFactory.HELVETICA,6));
+	        phrase = com.itextpdf.text.Phrase.getInstance(0,String.format("%d/%d",i,totalPageCount),com.itextpdf.text.FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)10*fontSizePercentage/100.0)));
             com.itextpdf.text.pdf.ColumnText.showTextAligned(stamp.getUnderContent(),1,phrase,(rect.getLeft()+rect.getRight())/2,rect.getBottom()+18,0);        
 	   
 	        stamp.alterContents();	
@@ -142,15 +142,14 @@
         //*****************************************************************************************
         //*** FILTER 1 ("Selecteer te printen onderzoeken.") **************************************
         //*****************************************************************************************
-        if (sSelectedFilter.equals("select_trans")) {
-
+        if (sSelectedFilter.equals("select_trans")){
             // header
             sOut.append("<tr class='admin'>")
                  .append("<td width='30'>&nbsp;</td>")
-                 .append("<td width='80'><DESC>"+getTran("web", "date", sWebLanguage)+"</DESC></td>")
-                 .append("<td width='45%'>"+getTran("web.occup", "medwan.common.contacttype", sWebLanguage)+"</td>")
-                 .append("<td width='250'>"+getTran("web.occup", "medwan.common.context", sWebLanguage)+"</td>")
-                 .append("<td width='200'>"+getTran("web.occup", "medwan.common.user", sWebLanguage)+"</td>")
+                 .append("<td width='80'><DESC>"+getTran("web","date", sWebLanguage)+"</DESC></td>")
+                 .append("<td width='45%'>"+getTran("web.occup","medwan.common.contacttype", sWebLanguage)+"</td>")
+                 .append("<td width='250'>"+getTran("web.occup","medwan.common.context", sWebLanguage)+"</td>")
+                 .append("<td width='200'>"+getTran("web.occup","medwan.common.user", sWebLanguage)+"</td>")
                 .append("</tr>");
 
             // records

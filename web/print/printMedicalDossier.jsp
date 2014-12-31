@@ -30,7 +30,8 @@
 	    com.itextpdf.text.pdf.PdfImportedPage pdfPage;
 	    com.itextpdf.text.pdf.PdfCopy.PageStamp stamp;
 	    com.itextpdf.text.Phrase phrase;
-	    
+
+	    int fontSizePercentage = MedwanQuery.getInstance().getConfigInt("fontSizePercentage",100);
 	    com.itextpdf.text.Rectangle rect = document.getPageSize();
 	    for(int i=0; i<totalPageCount;){
 	    	pdfPage = copy.getImportedPage(reader,++i);
@@ -39,11 +40,11 @@
 	        stamp = copy.createPageStamp(pdfPage);
 	        
 	    	// footer text
-	        phrase = com.itextpdf.text.Phrase.getInstance(0,sFooterText,com.itextpdf.text.FontFactory.getFont(FontFactory.HELVETICA,6));
+	        phrase = com.itextpdf.text.Phrase.getInstance(0,sFooterText,com.itextpdf.text.FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)10*fontSizePercentage/100.0)));
             com.itextpdf.text.pdf.ColumnText.showTextAligned(stamp.getUnderContent(),1,phrase,(rect.getLeft()+rect.getRight())/2,rect.getBottom()+26,0);
 	       
 	        // page count
-	        phrase = com.itextpdf.text.Phrase.getInstance(0,String.format("%d/%d",i,totalPageCount),com.itextpdf.text.FontFactory.getFont(FontFactory.HELVETICA,6));
+	        phrase = com.itextpdf.text.Phrase.getInstance(0,String.format("%d/%d",i,totalPageCount),com.itextpdf.text.FontFactory.getFont(FontFactory.HELVETICA,Math.round((double)10*fontSizePercentage/100.0)));
             com.itextpdf.text.pdf.ColumnText.showTextAligned(stamp.getUnderContent(),1,phrase,(rect.getLeft()+rect.getRight())/2,rect.getBottom()+18,0);        
 	   
 	        stamp.alterContents();	
@@ -379,7 +380,7 @@
                 <%
 	                if(sOutEnc1.length() > 0){
 	                    %>
-			                <table width="100%" class="sortable" id="tblEncounters1" cellspacing="1" headerRowCount="2" style="background:#fff" style="border-bottom:none;"> 
+			                <table width="100%" class="sortable" id="tblEncounters1" cellspacing="1" headerRowCount="2" style="background:#fff;border-bottom:none;"> 
 					            <%=sOutEnc1%>
 					        </table>
 		        
@@ -623,7 +624,7 @@
         </tr>
     </table>
 
-    <span style="text-align:center;width:100%;padding-top:5px;">
+    <%=ScreenHelper.alignButtonsStart()%>
         <%-- LANGUAGE SELECTOR --%>
         <select class="text" name="PrintLanguage">
             <%
@@ -650,7 +651,7 @@
         <input class="button" type="button" name="printButton" value="<%=getTranNoLink("web","print",sWebLanguage)%>" onClick="doPrint();">&nbsp;
         <input class="button" type="button" name="resetButton" value="<%=getTranNoLink("web","reset",sWebLanguage)%>" onclick="doReset();">&nbsp;
         <input class="button" type="button" name="backButton"  value="<%=getTranNoLink("web","back",sWebLanguage)%>" onclick="doBack();">
-    </span>
+    <%=ScreenHelper.alignButtonsStop()%>
 </form>
 
 <%-- SCRIPTS --------------------------------------------------------------------%>
@@ -748,7 +749,7 @@
   <%-- TOGGLE ENCOUNTER TABLE --%>
   function toggleEncounterTable(checkbox){
     if(checkbox.checked){
-      document.getElementById("encounterTable").style.display = "block";
+      document.getElementById("encounterTable").style.display = "table";
       checkAllEncounters(true);
     }
     else{
@@ -760,7 +761,7 @@
   <%-- TOGGLE TRAN TABLE --%>
   function toggleTranTable(checkbox){
     if(checkbox.checked){
-      document.getElementById("tranTable").style.display = "block";
+      document.getElementById("tranTable").style.display = "table-row";
       checkAllTransactions(true);
     }
     else{
