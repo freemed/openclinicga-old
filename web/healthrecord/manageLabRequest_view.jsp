@@ -249,15 +249,33 @@
     <tr>
         <td class="admin"><%=getTran("Web","sample.storage",sWebLanguage)%></td>
         <td class="admin2">
-            <input type='text' id="samplestorage" <%=setRightClick("ITEM_TYPE_LAB_SAMPLE_STORAGE")%> class="text" size="80" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SAMPLE_STORAGE" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SAMPLE_STORAGE" property="value"/>"/>
+            <%=getTran("Web","sample.storage.freezer",sWebLanguage)%>: <input type='text' id="samplestorage" <%=setRightClick("ITEM_TYPE_LAB_SAMPLE_STORAGE_FREEZER")%> class="text" size="20" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SAMPLE_STORAGE_FREEZER" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SAMPLE_STORAGE_FREEZER" property="value"/>"/>
+            <%=getTran("Web","sample.storage.box",sWebLanguage)%>: <input type='text' id="samplestorage" <%=setRightClick("ITEM_TYPE_LAB_SAMPLE_STORAGE_BOX")%> class="text" size="20" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SAMPLE_STORAGE_BOX" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SAMPLE_STORAGE_BOX" property="value"/>"/>
+            <%=getTran("Web","sample.storage.position",sWebLanguage)%>: <input type='text' id="samplestorage" <%=setRightClick("ITEM_TYPE_LAB_SAMPLE_STORAGE_POSITION")%> class="text" size="20" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SAMPLE_STORAGE_POSITION" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_SAMPLE_STORAGE_POSITION" property="value"/>"/>
+        </td>
+    </tr>
+
+    <%-- CLINICAL INFORMATION --%>
+    <tr>
+        <td class="admin"><%=getTran("Web","clinical.information",sWebLanguage)%></td>
+        <td class="admin2">
+            <textarea id="clinicalinformation" onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_LAB_CLINICAL_INFORMATION")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_CLINICAL_INFORMATION" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_CLINICAL_INFORMATION" property="value"/></textarea>
         </td>
     </tr>
 
     <%-- COMMENT --%>
     <tr>
+        <td class="admin"><%=getTran("Web","conclusion",sWebLanguage)%></td>
+        <td class="admin2">
+            <textarea id="conclusion" onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_LAB_COMMENT")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_COMMENT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_COMMENT" property="value"/></textarea>
+        </td>
+    </tr>
+
+    <%-- REMARK --%>
+    <tr>
         <td class="admin"><%=getTran("Web","comment",sWebLanguage)%></td>
         <td class="admin2">
-            <textarea id="remark" onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_LAB_COMMENT")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_COMMENT" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_COMMENT" property="value"/></textarea>
+            <textarea id="remark" onKeyup="resizeTextarea(this,10);limitChars(this,255);" <%=setRightClick("ITEM_TYPE_LAB_REMARK")%> class="text" cols="80" rows="2" name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_REMARK" property="itemId"/>]>.value"><mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_LAB_REMARK" property="value"/></textarea>
         </td>
     </tr>
 

@@ -41,6 +41,8 @@
            sEditorParameters="";
     int nEditUnavailable=0;
     int nEditLimitedVisibility=0;
+    int nHistoryDays=0;
+    int nHistoryValues=0;
 
     // supported languages
     String supportedLanguages = MedwanQuery.getInstance().getConfigString("supportedLanguages");
@@ -148,6 +150,18 @@
             if(request.getParameter("EditLimitedVisibility")!=null){
                 nEditLimitedVisibility=1;
             }
+            if(request.getParameter("EditHistoryDays")!=null){
+            	try{
+            		nHistoryDays=Integer.parseInt(request.getParameter("EditHistoryDays"));
+            	}
+            	catch(Exception e){}
+            }
+            if(request.getParameter("EditHistoryValues")!=null){
+            	try{
+            		nHistoryValues=Integer.parseInt(request.getParameter("EditHistoryValues"));
+            	}
+            	catch(Exception e){}
+            }
 
             //--- SAVE ANALYSIS -------------------------------------------------------------------
             // check if labcode exists
@@ -207,6 +221,8 @@
                 labAnalysis.setEditor(sEditor);
                 labAnalysis.setEditorparameters(sEditorParameters);
                 labAnalysis.setPrestationcode(sPrestationCode);
+                labAnalysis.setHistorydays(nHistoryDays);
+                labAnalysis.setHistoryvalues(nHistoryValues);
 
                 if (bInsert) {
                     labAnalysis.insert();
@@ -323,6 +339,8 @@
             nEditLimitedVisibility=labAnalysis.getLimitedVisibility();
             sEditor			=labAnalysis.getEditor();
             sEditorParameters=labAnalysis.getEditorparameters();
+            nHistoryDays = labAnalysis.getHistorydays();
+            nHistoryValues=labAnalysis.getHistoryvalues();
 
             // translate labtype
                  if(sLabType.equals("1")) sLabType = getTran("Web.occup","labanalysis.type.blood",sWebLanguage);
@@ -427,6 +445,8 @@
                 sEditor			=labAnalysis.getEditor();
                 sEditorParameters=labAnalysis.getEditorparameters();
                 sPrestationCode=labAnalysis.getPrestationcode();
+                nHistoryDays=labAnalysis.getHistorydays();
+                nHistoryValues=labAnalysis.getHistoryvalues();
             }
         }
     %>
@@ -687,6 +707,14 @@
     <td class="admin"><%=getTran("Web.manage","labanalysis.cols.limitedvisibility",sWebLanguage)%></td>
     <td class="admin2">
       <input type="checkbox" value="1" <%=nEditLimitedVisibility==1?"checked":""%> name="EditLimitedVisibility"/>
+    </td>
+  </tr>
+  <%-- HISTORY --%>
+  <tr>
+    <td class="admin"><%=getTran("Web.manage","labanalysis.history",sWebLanguage)%></td>
+    <td class="admin2">
+      <%=getTran("Web.manage","labanalysis.history.days",sWebLanguage)%>: <input type="text" name="EditHistoryDays" class="text" id="historydays" value="<%=nHistoryDays%>" size="10" onBlur="isNumber(this);">
+      <%=getTran("Web.manage","labanalysis.history.values",sWebLanguage)%>: <input type="text" name="EditHistoryValues" class="text" id="historyvalues" value="<%=nHistoryValues%>" size="10" onBlur="isNumber(this);">
     </td>
   </tr>
 </table>

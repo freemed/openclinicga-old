@@ -3387,6 +3387,8 @@
             <column name="medidoccode"    dbtype="varchar"  javatype="string"  size="50"/>
             <column name="comment"        dbtype="varchar"  javatype="string"  size="255"/>
             <column name="updateuserid"   dbtype="int"      javatype="integer"/>
+            <column name="historydays"   dbtype="int"      javatype="integer"/>
+            <column name="historyvalues"   dbtype="int"      javatype="integer"/>
             <column name="updatetime"     dbtype="datetime" javatype="date"    version="1"/>
             <column name="deletetime"     dbtype="datetime" javatype="date"    version="1"/>
             <column name="labcodeother"   dbtype="varchar"  javatype="string"  size="1"/>

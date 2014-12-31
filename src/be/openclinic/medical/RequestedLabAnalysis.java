@@ -9,10 +9,15 @@ import be.openclinic.system.Config;
 
 
 
+
+
+
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 import java.text.DecimalFormat;
+
+import net.admin.User;
 
 public class RequestedLabAnalysis {
 
@@ -284,7 +289,324 @@ public class RequestedLabAnalysis {
     public String getResultComment(){
         return this.resultComment;
     }
-
+    
+    private String getAntibioticNew(String id, String sPrintLanguage){
+    	if(id.equalsIgnoreCase("1")){
+    		return ScreenHelper.getTranNoLink("antibiotics","pen",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("2")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","oxa",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("3")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","amp",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("4")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","amc",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("5")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","czo",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("6")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","mec",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("7")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","ctx",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("8")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","gen",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("9")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","amk",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("10")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","chl",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("11")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","tcy",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("12")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","col",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("13")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","ery",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("14")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","lin",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("15")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","pri",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("16")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","sxt",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("17")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","nit",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("18")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","nal",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("19")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","cip",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("20")){
+    		return MedwanQuery.getInstance().getLabel("antibiotics","ipm",sPrintLanguage);
+    	}
+    	else {
+    		try{
+    			int abid = Integer.parseInt(id);
+    			if(abid>20){
+    				return MedwanQuery.getInstance().getLabel("antibiotics",MedwanQuery.getInstance().getConfigString("extraAntibiotics","").split(";").length>Integer.parseInt(id)-20?MedwanQuery.getInstance().getConfigString("extraAntibiotics","").split(";")[Integer.parseInt(id)-20]:"",sPrintLanguage);
+    			}
+    	    	else {
+    	    		return "?";
+    	    	}
+    		}
+    		catch(Exception e){
+	    		return "?";
+    		}
+    	}
+    }
+    
+    //--- GET ANTIBIOTIC --------------------------------------------------------------------------
+    private String getAntibiotic(String id, String sPrintLanguage){
+    	if(id.equalsIgnoreCase("1")){
+    		return MedwanQuery.getInstance().getLabel("web","penicillineg",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("2")){
+    		return MedwanQuery.getInstance().getLabel("web","oxacilline",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("3")){
+    		return MedwanQuery.getInstance().getLabel("web","ampicilline",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("4")){
+    		return MedwanQuery.getInstance().getLabel("web","amoxicacclavu",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("5")){
+    		return MedwanQuery.getInstance().getLabel("web","cefalotine",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("6")){
+    		return MedwanQuery.getInstance().getLabel("web","mecillinam",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("7")){
+    		return MedwanQuery.getInstance().getLabel("web","cefotaxime",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("8")){
+    		return MedwanQuery.getInstance().getLabel("web","gentamicine",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("9")){
+    		return MedwanQuery.getInstance().getLabel("web","amikacine",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("10")){
+    		return MedwanQuery.getInstance().getLabel("web","chloramphenicol",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("11")){
+    		return MedwanQuery.getInstance().getLabel("web","tetracycline",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("12")){
+    		return MedwanQuery.getInstance().getLabel("web","colistine",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("13")){
+    		return MedwanQuery.getInstance().getLabel("web","erythromycine",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("14")){
+    		return MedwanQuery.getInstance().getLabel("web","lincomycine",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("15")){
+    		return MedwanQuery.getInstance().getLabel("web","pristinamycine",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("16")){
+    		return MedwanQuery.getInstance().getLabel("web","cotrimoxazole",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("17")){
+    		return MedwanQuery.getInstance().getLabel("web","nitrofurane",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("18")){
+    		return MedwanQuery.getInstance().getLabel("web","acnalidixique",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("19")){
+    		return MedwanQuery.getInstance().getLabel("web","ciprofloxacine",sPrintLanguage);
+    	}
+    	else if(id.equalsIgnoreCase("20")){
+    		return MedwanQuery.getInstance().getLabel("web","imipenem",sPrintLanguage);
+    	}
+    	else {
+    		try{
+    			int abid = Integer.parseInt(id);
+    			if(abid>20){
+    	    		return MedwanQuery.getInstance().getLabel("web","ab"+(Integer.parseInt(id)-20),sPrintLanguage);
+    			}
+    	    	else {
+    	    		return "?";
+    	    	}
+    		}
+    		catch(Exception e){
+	    		return "?";
+    		}
+    	}
+    }
+    
+    public Vector getResultsHistory(User user){
+    	Vector history = new Vector();
+    	LabAnalysis labAnalysis = LabAnalysis.getLabAnalysisByLabcode(getAnalysisCode());
+    	if(labAnalysis!=null && labAnalysis.getHistoryvalues()>0 && labAnalysis.getHistorydays()>0){
+        	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            try {
+                PreparedStatement ps=conn.prepareStatement("select * from RequestedLabAnalyses where patientid=? and analysiscode=? and requestdatetime<? and finalvalidationdatetime is not null order by requestdatetime desc");
+                ps.setInt(1,Integer.parseInt(getPatientId()));
+                ps.setString(2, getAnalysisCode());
+                ps.setTimestamp(3, new java.sql.Timestamp(getRequestDate().getTime()));
+                ResultSet rs = ps.executeQuery();
+                int values=0;
+                while(rs.next()){
+            		long day = 24*3600*1000;
+            		java.util.Date limitdate = new java.util.Date(new java.util.Date().getTime()-day*labAnalysis.getHistorydays());
+            		java.util.Date date = rs.getTimestamp("requestdatetime");
+            		if(date.before(limitdate)){
+            			break;
+            		}
+                	if(labAnalysis.getEditor().equalsIgnoreCase("antibiogram")){
+                    	Map ab = RequestedLabAnalysis.getAntibiogrammes(rs.getString("serverid")+"."+rs.getString("transactionid")+"."+getAnalysisCode());
+                    	String result="";
+                    	String result2="";
+                    	if(labAnalysis.getLimitedVisibility()>0 && !user.getAccessRight("labos.limitedvisibility.select")){
+                    		result=MedwanQuery.getInstance().getLabel("web","invisible",user.person.language);                	}
+                    	else {
+    	                	if(ab.get("germ1")!=null && !(ab.get("germ1")+"").equalsIgnoreCase("")){
+    	                		result+=ab.get("germ1")+"\n";
+    	                		result2+="\n";
+    	                		String antibiotics = (String)ab.get("ANTIBIOGRAMME1");
+    	                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
+    	                			String[] tests = antibiotics.split(",");
+    	                			for(int n=0;n<tests.length;n++){
+    	                				if(tests[n].split("=").length==2){
+    	                					result+="\t"+getAntibiotic(tests[n].split("=")[0],user.person.language)+"\n";
+    	                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], user.person.language)+"\n";
+    	                				}
+    	                			}
+    	                		}
+    	                	}
+    	                	if(ab.get("germ2")!=null && !(ab.get("germ2")+"").equalsIgnoreCase("")){
+    	                		if(result.length()>0){
+    	                			result+="\n";
+    	                    		result2+="\n";
+    	                		}
+    	                		result2+="\n";
+    	                		result+=ab.get("germ2")+"\n";
+    	                		String antibiotics = (String)ab.get("ANTIBIOGRAMME2");
+    	                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
+    	                			String[] tests = antibiotics.split(",");
+    	                			for(int n=0;n<tests.length;n++){
+    	                				if(tests[n].split("=").length==2){
+    	                					result+="\t"+getAntibiotic(tests[n].split("=")[0],user.person.language)+"\n";
+    	                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], user.person.language)+"\n";
+    	                				}
+    	                			}
+    	                		}
+    	                	}
+    	                	if(ab.get("germ3")!=null && !(ab.get("3")+"").equalsIgnoreCase("")){
+    	                		if(result.length()>0){
+    	                			result+="\n";
+    	                    		result2+="\n";
+    	                		}
+    	                		result2+="\n";
+    	                		result+=ab.get("germ3")+"\n";
+    	                		String antibiotics = (String)ab.get("ANTIBIOGRAMME3");
+    	                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
+    	                			String[] tests = antibiotics.split(",");
+    	                			for(int n=0;n<tests.length;n++){
+    	                				if(tests[n].split("=").length==2){
+    	                					result+="\t"+getAntibiotic(tests[n].split("=")[0],user.person.language)+"\n";
+    	                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], user.person.language)+"\n";
+    	                				}
+    	                			}
+    	                		}
+    	                	}
+                    	}
+                		history.add(ScreenHelper.formatDate(date)+"|"+result+"|"+result2);
+                	}
+                	else if(labAnalysis.getEditor().equalsIgnoreCase("antibiogramnew")){
+                    	Map ab = RequestedLabAnalysis.getAntibiogrammes(rs.getString("serverid")+"."+rs.getString("transactionid")+"."+getAnalysisCode());
+                    	String result="";
+                    	String result2="";
+                    	if(labAnalysis.getLimitedVisibility()>0 && !user.getAccessRight("labos.limitedvisibility.select")){
+                    		result=MedwanQuery.getInstance().getLabel("web","invisible",user.person.language);                	}
+                    	else {
+    	                	if(ab.get("germ1")!=null && !(ab.get("germ1")+"").equalsIgnoreCase("")){
+    	                		result+=ab.get("germ1")+"\n";
+    	                		result2+="\n";
+    	                		String antibiotics = (String)ab.get("ANTIBIOGRAMME1");
+    	                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
+    	                			String[] tests = antibiotics.split(",");
+    	                			for(int n=0;n<tests.length;n++){
+    	                				if(tests[n].split("=").length==2){
+    	                					result+="\t"+getAntibioticNew(tests[n].split("=")[0],user.person.language)+"\n";
+    	                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], user.person.language)+"\n";
+    	                				}
+    	                			}
+    	                		}
+    	                	}
+    	                	if(ab.get("germ2")!=null && !(ab.get("germ2")+"").equalsIgnoreCase("")){
+    	                		if(result.length()>0){
+    	                			result+="\n";
+    	                    		result2+="\n";
+    	                		}
+    	                		result2+="\n";
+    	                		result+=ab.get("germ2")+"\n";
+    	                		String antibiotics = (String)ab.get("ANTIBIOGRAMME2");
+    	                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
+    	                			String[] tests = antibiotics.split(",");
+    	                			for(int n=0;n<tests.length;n++){
+    	                				if(tests[n].split("=").length==2){
+    	                					result+="\t"+getAntibioticNew(tests[n].split("=")[0],user.person.language)+"\n";
+    	                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], user.person.language)+"\n";
+    	                				}
+    	                			}
+    	                		}
+    	                	}
+    	                	if(ab.get("germ3")!=null && !(ab.get("3")+"").equalsIgnoreCase("")){
+    	                		if(result.length()>0){
+    	                			result+="\n";
+    	                    		result2+="\n";
+    	                		}
+    	                		result2+="\n";
+    	                		result+=ab.get("germ3")+"\n";
+    	                		String antibiotics = (String)ab.get("ANTIBIOGRAMME3");
+    	                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
+    	                			String[] tests = antibiotics.split(",");
+    	                			for(int n=0;n<tests.length;n++){
+    	                				if(tests[n].split("=").length==2){
+    	                					result+="\t"+getAntibioticNew(tests[n].split("=")[0],user.person.language)+"\n";
+    	                					result2+=MedwanQuery.getInstance().getLabel("antibiogramme.sensitivity", tests[n].split("=")[1], user.person.language)+"\n";
+    	                				}
+    	                			}
+    	                		}
+    	                	}
+                    	}
+                		history.add(ScreenHelper.formatDate(date)+"|"+result+"|"+result2);
+                	}
+                	else {
+                		history.add(ScreenHelper.formatDate(date)+"|"+rs.getString("resultvalue"));
+                	}
+            		values++;
+            		if(values>=labAnalysis.getHistoryvalues()){
+            			break;
+            		}
+                }
+                rs.close();
+                ps.close();
+            } catch (Exception e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	return history;
+    }
+    
     public String getResultRefMax() {
         if((patientId!=null)&&((resultRefMax==null || resultRefMax.length()==0))){
             //Find age and gender of person
