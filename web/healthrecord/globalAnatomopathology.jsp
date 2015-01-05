@@ -280,9 +280,14 @@
 
   <%-- SUBMIT FORM --%>
   function submitForm(){
-    var temp = Form.findFirstElement(transactionForm);// FOR COMPATIBILITY WITH FIREFOX
-    document.getElementById("buttonsDiv").style.visibility = "hidden";
-    <% out.print(takeOverTransaction(sessionContainerWO,activeUser,"document.transactionForm.submit();")); %>
+	if(document.getElementById("trandate").value.length==0){
+	  alertDialog("web","specifyDate");
+	}
+	else{
+      var temp = Form.findFirstElement(transactionForm);// FOR COMPATIBILITY WITH FIREFOX
+      document.getElementById("buttonsDiv").style.visibility = "hidden";
+      <% out.print(takeOverTransaction(sessionContainerWO,activeUser,"document.transactionForm.submit();")); %>
+    }
   }
   
   checkprocedure();
