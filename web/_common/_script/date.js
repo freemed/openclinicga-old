@@ -109,58 +109,6 @@ function makeDate(fulldateStr){
   }
 }
 
-function checkDateOnlyMonthAndYearAllowed(sobject){
-  var sdateStr = sobject.value.replace("-","/");
-
-  // route function call to right function
-  if(sdateStr.length!=6 && sdateStr.length!=7){
-    if(sdateStr.length==4 || sdateStr.length==5){
-      if(sdateStr.length==4 && !sdateStr.indexOf("/")){
-        return checkDateOnlyYearAllowed(sobject);
-      }
-    }
-    else{
-      return checkDate(sobject);
-    }
-  }
-
-  var month = sdateStr.substring(0,sdateStr.indexOf("/"));
-  var year = sdateStr.substring(sdateStr.lastIndexOf("/")+1);
-
-  var monthOK = 0, yearOK = 0;
-
-  // check month
-  if(month.length==0) month = "1";
-  month = parseInt(month); // remove leading zeroes
-
-  if(!isNaN(month)){
-    if(month*1 <= 12 && month*1 >= 1){
-      if(month<10) month = "0"+month;
-      monthOK = 1;
-    }
-  }
-
-  if(monthOK==1){
-    // check year
-    if(year.length!=4) year = "20"+year;
-    if(year.length==4){
-      if(!isNaN(year)){
-        if(isValidYear(year)){
-          yearOK = 1;
-        }
-      }
-    }
-  }
-
-  if(monthOK==1 && yearOK==1){
-    sobject.value = month+"/"+year;
-    return true;
-  }
-  else{
-    return checkDate(sobject);
-  }
-}
-
 function checkDateOnlyYearAllowed(sobject){
   var sdate = sobject.value;
 
@@ -175,140 +123,129 @@ function checkDateOnlyYearAllowed(sobject){
   return checkDate(sobject);
 }
 
-function checkDate(sobject){
-  var sdate = sobject.value;
+function stripDate(sDate){
+  sDate = replaceAll(sDate,"-","");
+  sDate = replaceAll(sDate,".","");
+  sDate = replaceAll(sDate,"/","");
+  
+  var validChars = "0123456789";	      
+  for(var i=0; i<sDate.length; i++){
+    if(validChars.indexOf(sDate.charAt(i)) < 0){
+      sDate = sDate.substring(0,i)+sDate.substring(i+1,sDate.length);
+    }
+  }
+     
+  return sDate;
+}
 
-  if(sdate.length<=0){
+function checkDate(sobject){
+  var sDate = sobject.value;
+  if(sDate.length==0) return true;
+  sDate = stripDate(sDate);
+
+  var sDay = "01", sMonth = "01", sYear = new Date().getYear();
+
+  if(sDate.length==8){    
+    if(dateFormat=="dd/MM/yyyy"){	
+      sDay = sDate.substring(0,2);
+      sMonth = sDate.substring(2,4);
+      sYear = sDate.substring(4,8);
+    }
+    else{
+      sMonth = sDate.substring(0,2);
+      sDay = sDate.substring(2,4);
+      sYear = sDate.substring(4,8);
+    }
+  }  
+  else if(sDate.length==6){
+    // "MMYYYY" or "DDMMYY" ?    	
+    // 1 : try MMYYYY
+    sYear = sDate.substring(2,sDate.length);
+    sYear = y2k(sYear);
+      
+    if(sYear >= 1900 && sYear < 2100){
+      // year ok
+      if(dateFormat=="dd/MM/yyyy"){
+        sDay = sDate.substring(0,1);
+        sMonth = sDate.substring(1,2);
+      }
+      else{
+        sDay = sDate.substring(1,2);
+        sMonth = sDate.substring(0,1);
+      }
+    }
+    else{
+      // 2 : try DDMMYY
+      var sYear = sDate.substring(4,sDate.length);
+      sYear = y2k(sYear);
+
+      if(sYear >= 1900 && sYear < 2100){
+        if(dateFormat=="dd/MM/yyyy"){
+          sDay = sDate.substring(0,2);
+          sMonth = sDate.substring(2,4);
+        }
+        else{
+          sDay = sDate.substring(2,4);
+          sMonth = sDate.substring(0,2);
+        }
+      }
+    }	
+  }  
+  else{
+    sobject.select();
+    sobject.focus();
+    alertDialog("web","invalidDate");
+    
+    return false;
+  }
+
+  sDay = sDay*1;
+  sMonth = sMonth*1;
+  sYear = sYear*1;
+  
+  if(sDay.length>2) sDay = sDay.substring(0,2);
+  if(sMonth.length>2) sMonth = sMonth.substring(0,2);
+  if(sYear.length>4) sYear = sYear.substring(0,4);
+
+  if(isDate(sDay,sMonth,sYear)){
+    if(sDay<10) sDay = "0"+sDay;
+	if(sMonth<10) sMonth = "0"+sMonth;
+	  
+	if(dateFormat.startsWith("MM")){
+	  // US
+      sobject.value = sMonth+"/"+sDay+"/"+sYear;
+	}
+    else{
+	  // default : EU
+	  sobject.value = sDay+"/"+sMonth+"/"+sYear;
+	}
+
     return true;
   }
   else{
-    var vnumber = '0123456789/';
-    var today = new Date();
-    var sDay = "01", sMonth = "01", sYear = today.getYear();
-
-    for(var i=0; i< sdate.length; i++){
-      if(vnumber.indexOf(sdate.charAt(i)) == -1){
-        sdate = sdate.substring(0,i)+"/"+sdate.substring(i+1,sdate.length);
-      }
-    }
-
-    if(sdate.indexOf("/")>0){
-      if(dateFormat=="dd/MM/yyyy"){
-        sDay = sdate.substring(0,sdate.indexOf("/"));
-        if(sDay.length < 2) sDay = "0"+sDay;
-        sMonth = sdate.substring(sdate.indexOf("/")+1,sdate.lastIndexOf("/"));
-        if(sMonth.length < 2) sMonth = "0"+sMonth;	
-      }
-      else{
-    	sMonth = sdate.substring(0,sdate.indexOf("/"));
-        if(sMonth.length < 2) sMonth = "0"+sMonth;
-        sDay = sdate.substring(sdate.indexOf("/")+1,sdate.lastIndexOf("/"));
-        if(sDay.length < 2) sDay = "0"+sDay;
-      }
-    }
-    else if((sdate.length==8)&&(sdate.indexOf("/")<1)){
-      if(dateFormat=="dd/MM/yyyy"){	
-        sDay = sdate.substring(0,2);
-        sMonth = sdate.substring(2,4);
-        sYear = sdate.substring(4,8);
-      }
-      else{
-        sMonth = sdate.substring(0,2);
-        sDay = sdate.substring(2,4);
-        sYear = sdate.substring(4,8);
-      }
-    }
-
-    if(sDay.length>2) sDay = sDay.substring(0,2);
-    if(sMonth.length>2) sMonth = sMonth.substring(0,2);
-    if(sYear.length>4) sYear = sYear.substring(0,4);
-
-    if(sdate.lastIndexOf("/")>0){
-      sYear = sdate.substring(sdate.lastIndexOf("/")+1,sdate.length);
-      if(sYear.length != 4){
-        sYear = "20"+sYear.substring(0,2);
-      }
-    }
-    if(isDate(sDay,sMonth,sYear)){
-	  if(dateFormat.startsWith("MM")){
-		// US
-        sobject.value = sMonth+"/"+sDay+"/"+sYear;
-	  }
-	  else{
-		// default : EU
-	    sobject.value = sDay+"/"+sMonth+"/"+sYear;
-	  }
-      return true;
-    }
-    else{
-      return false;
-    }
+    sobject.select();
+    sobject.focus();
+    alertDialog("web","invalidDate");
+    
+    return false;
   }
+  
   return true;
 }
 
-function checkLongDate(sobject){
-  var sdate = sobject.value;
-  if(sdate.length>10){
-    sdate = sdate.substring(0,10);
-  }
-  if(sdate.length>0){
-    var vnumber = '0123456789/';
-    var today = new Date();
-    var sDay = "01", sMonth = "01", sYear = today.getYear();
-    for(var i=0; i< sdate.length; i++){
-      if(vnumber.indexOf(sdate.charAt(i)) == -1){
-        sdate = sdate.substring(0,i)+"/"+sdate.substring(i+1,sdate.length);
-      }
-    }
-    if(sdate.indexOf("/")>0){
-      sDay = sdate.substring(0,sdate.indexOf("/"));
-      if(sDay.length < 2) sDay = "0"+sDay;
-      if(sDay>31) sDay = "31";
-      sMonth = sdate.substring(sdate.indexOf("/")+1, sdate.lastIndexOf("/"));
-      if(sMonth.length < 2){
-        sMonth = "0"+sMonth;
-      }
-    }
-    else if((sdate.length==8)&&(sdate.indexOf("/")<1)){
-      sDay = sdate.substring(0,2);
-      sMonth = sdate.substring(2,4);
-      sYear = sdate.substring(4,8);
-    }
-
-    if(sDay.length>2) sDay = sDay.substring(0,2);
-    if(sMonth.length>2) sMonth = sMonth.substring(0,2);
-    if(sYear.length>4) sYear = sYear.substring(0,4);
-
-    if(sdate.lastIndexOf("/")>0){
-      sYear = sdate.substring(sdate.lastIndexOf("/")+1,sdate.length);
-      if(sYear.length != 4){
-        sYear = "20"+sYear.substring(0,2);
-      }
-    }
-    if(isDate(sDay,sMonth,sYear)){
-  	  if(dateFormat.startsWith("MM")){
-  		// US
- 	    sobject.value = sMonth+"/"+sDay+"/"+sYear+sobject.value.substring(10);
-  	  }
-  	  else{
-  		// default : EU
-  	    sobject.value = sDay+"/"+sMonth+"/"+sYear+sobject.value.substring(10);
-  	  }
-      return true;
-    }
-    else{
-      //sobject.value = "";
-      sobject.focus();
-      return false;
-    }
-  }
-  return true;
+function y2k(year){
+  if(year*1 >= 1900) return year; // OK, already 19xx or 20xx
+  
+  // make 19xx or 20xx from xx
+  var actualYear = new Date().getFullYear().toString().substr(2,2)*1;
+  return (year*1 > actualYear+5) ? year*1+1900 : year*1+2000;
 }
-
-function y2k(number){ return (number < 1000) ? number + 1900 : number; }
 
 function isDate(day,month,year){
+  day*= 1;
+  month*= 1;
+  year*= 1;
+	  
   var datestatus = true;
   if(month < 1 || month > 12){ 
 	datestatus = false;
