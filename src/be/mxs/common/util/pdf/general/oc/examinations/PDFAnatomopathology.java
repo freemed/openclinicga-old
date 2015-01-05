@@ -121,12 +121,6 @@ public class PDFAnatomopathology extends PDFGeneralBasic {
                 	
                     addItemRow(table,getTran("openclinic.chuk","procedure_type"),itemValue);
                 }
-                
-                // procedure text
-                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_ANATOMOPATHOLOGY_PROCEDURE_TEXT");
-                if(itemValue.length() > 0){
-                    addItemRow(table,getTran("openclinic.chuk","procedure_type"),itemValue);
-                }
 
                 // history
                 itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_ANATOMOPATHOLOGY_HISTORY");
