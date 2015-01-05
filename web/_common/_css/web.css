@@ -287,15 +287,9 @@ tr.admin a {
  color:white;
 }
 
-.clinical {
- font-family:arial, sans-serif;
- font-size:10px;
- font-weight:bolder;
- text-align:left;
- padding:1px;
- text-indent:5px;
- border:solid #000 1px;
- color:#3C5C74;
+td.longTitle {
+ text-indent:0;
+ padding-left:5px;
 }
 
 TD.admin {
@@ -344,6 +338,17 @@ td.titleadmin {
  line-height:30px;
  background:repeat-x #DDEDFF;
  vertical-align:middle;
+}
+
+.clinical {
+ font-family:arial, sans-serif;
+ font-size:10px;
+ font-weight:bolder;
+ text-align:left;
+ padding:1px;
+ text-indent:5px;
+ border:solid #000 1px;
+ color:#3C5C74;
 }
 
 .strikelist {
@@ -1696,7 +1701,7 @@ a.link {
  outline:none;
  padding:5px;
  padding-left:22px;
- border:1px transparent solid;
+ border:1px solid transparent;
  _border:none;
  line-height:22px;
 
