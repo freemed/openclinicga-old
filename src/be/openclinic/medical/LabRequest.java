@@ -627,6 +627,7 @@ public class LabRequest {
             else if(type==0) {
                 sQuery+=" and technicalvalidator is null";
             }
+            System.out.println(sQuery);
             PreparedStatement ps = oc_conn.prepareStatement(sQuery);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){

@@ -245,6 +245,17 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
         doc.add(table);
     }
 
+	private String extractResistance(String arvs,String arv){
+		String resistance="";
+		String[] arvlist = arvs.split(";");
+		for(int n=0;n<arvlist.length;n++){
+			if(arvlist[n].split("=")[0].equalsIgnoreCase(arv) && arvlist[n].split("=").length>1){
+				return arvlist[n].split("=")[1];
+			}
+		}
+		return resistance;
+	}
+
     //--- PRINT CONTENT ---------------------------------------------------------------------------
     private void printContent(LabRequest labRequest,AdminPerson adminPerson,Date since) throws Exception{
         Debug.println("\n@@@@@@@@@@@@@@@@@@@@@@@@ printContent @@@@@@@@@@@@@@@@@@@@@@@@");
@@ -450,18 +461,24 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
                 	Vector history = requestedLabAnalysis.getResultsHistory(user);
                 	for(int n=0;n<history.size();n++){
                 		String s = (String)history.elementAt(n);
-                        cell=createLabelCourier(s.split("\\|")[0]+": ",8,45,Font.NORMAL);
-                        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
-                        subTable.addCell(cell);
-                        cell=createLabelCourier(s.split("\\|")[2],8,3,Font.NORMAL);
-                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
-                        subTable.addCell(cell);
-                        cell=createLabelCourier(s.split("\\|")[1],8,52,Font.NORMAL);
-                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
-                        subTable.addCell(cell);
+                		if(s.split("\\|").length>=3){
+	                        cell=createLabelCourier(s.split("\\|")[0]+": ",8,45,Font.NORMAL);
+	                        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	                        subTable.addCell(cell);
+	                        cell=createLabelCourier(s.split("\\|")[2].length()==0?"":s.split("\\|")[2],8,3,Font.NORMAL);
+	    	                cell.setBorder(PdfPCell.TOP);
+	    	                cell.setBorderColor(innerBorderColor);
+	                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	                        subTable.addCell(cell);
+	                        cell=createLabelCourier(s.split("\\|")[1].length()==0?"":s.split("\\|")[1],8,52,Font.NORMAL);
+	    	                cell.setBorder(PdfPCell.TOP);
+	    	                cell.setBorderColor(innerBorderColor);
+	                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	                        subTable.addCell(cell);
+                		}
                 	}
                 }
                 //*** 2 - ANTI-BIOGRAM NEW ********************************************************
@@ -536,22 +553,238 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
-                	Vector history = requestedLabAnalysis.getResultsHistory(user);
+	                
+	                Vector history = requestedLabAnalysis.getResultsHistory(user);
                 	for(int n=0;n<history.size();n++){
                 		String s = (String)history.elementAt(n);
-                        cell=createLabelCourier(s.split("\\|")[0]+": ",8,45,Font.NORMAL);
-                        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
-                        subTable.addCell(cell);
-                        cell=createLabelCourier(s.split("\\|")[2],8,3,Font.NORMAL);
-                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
-                        subTable.addCell(cell);
-                        cell=createLabelCourier(s.split("\\|")[1],8,52,Font.NORMAL);
-                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
-                        subTable.addCell(cell);
+                		if(s.split("\\|").length>=3){
+	                        cell=createLabelCourier(s.split("\\|")[0]+": ",8,45,Font.NORMAL);
+	                        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	                        subTable.addCell(cell);
+	                        cell=createLabelCourier(s.split("\\|")[2].length()==0?"":s.split("\\|")[2],8,3,Font.NORMAL);
+	    	                cell.setBorder(PdfPCell.TOP);
+	    	                cell.setBorderColor(innerBorderColor);
+	                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	                        subTable.addCell(cell);
+	                        cell=createLabelCourier(s.split("\\|")[1].length()==0?"":s.split("\\|")[1],8,52,Font.NORMAL);
+	    	                cell.setBorder(PdfPCell.TOP);
+	    	                cell.setBorderColor(innerBorderColor);
+	                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	                        subTable.addCell(cell);
+                		}
                 	}
+                }
+                //*** 2 - ANTI-VIROGRAM  ********************************************************
+                else if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getEditor().equalsIgnoreCase("antivirogram")){
+                	Debug.println("*** 2.1 - antivirogram ***");
+                	
+                	result="";
+                	if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getLimitedVisibility()>0 && !user.getAccessRight("labos.limitedvisibility.select")){
+                		result=MedwanQuery.getInstance().getLabel("web","invisible",sPrintLanguage);                	}
+                	else {
+                		
+                    	cell=createLabelCourier(MedwanQuery.getInstance().getLabel("web", "arv.coltitle1", sPrintLanguage),8,18,Font.BOLD);
+    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+    	                subTable.addCell(cell);
+                    	cell=createLabelCourier(MedwanQuery.getInstance().getLabel("web", "arv.coltitle2", sPrintLanguage),8,18,Font.BOLD);
+    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+    	                subTable.addCell(cell);
+                    	cell=createLabelCourier(MedwanQuery.getInstance().getLabel("web", "arv.coltitle3", sPrintLanguage),8,19,Font.BOLD);
+    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+    	                subTable.addCell(cell);
+    	                
+	                	cell=createLabelCourier("", 8, 45, fonttype);
+		                subTable.addCell(cell);
+
+    	                PdfPTable tblResistance = new PdfPTable(20);
+    	                boolean binitialized=false;
+    	                for(int i=0;i<MedwanQuery.getInstance().getConfigInt("maxARVlines",12);i++){
+    	                	String resistance = extractResistance(requestedLabAnalysis.getResultValue(), "a."+i);
+    	                	if(resistance.length()>0){
+    	                		cell=createLabelCourier(MedwanQuery.getInstance().getLabel("arva", i+"", sPrintLanguage),8,5,Font.BOLD);
+    	    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+    	    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+    	    	                tblResistance.addCell(cell);
+    	                		cell=createLabelCourier(MedwanQuery.getInstance().getLabel("arvresistance", resistance, sPrintLanguage),8,15,Font.NORMAL);
+    	    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+    	    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+    	    	                tblResistance.addCell(cell);
+    	    	                binitialized=true;
+    	                	}
+    	                }
+    	                if(!binitialized){
+	                		cell=createLabelCourier("-",8,20,Font.NORMAL);
+	    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	    	                tblResistance.addCell(cell);
+    	                }
+    	                cell = new PdfPCell(tblResistance);
+    	                cell.setColspan(18);
+    	                cell.setBorder(PdfPCell.NO_BORDER);
+    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+    	                subTable.addCell(cell);
+    	                
+    	                tblResistance = new PdfPTable(20);
+    	                binitialized=false;
+    	                for(int i=0;i<MedwanQuery.getInstance().getConfigInt("maxARVlines",12);i++){
+    	                	String resistance = extractResistance(requestedLabAnalysis.getResultValue(), "b."+i);
+    	                	if(resistance.length()>0){
+    	                		cell=createLabelCourier(MedwanQuery.getInstance().getLabel("arvb", i+"", sPrintLanguage),8,5,Font.BOLD);
+    	    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+    	    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+    	    	                tblResistance.addCell(cell);
+    	                		cell=createLabelCourier(MedwanQuery.getInstance().getLabel("arvresistance", resistance, sPrintLanguage),8,15,Font.NORMAL);
+    	    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+    	    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+    	    	                tblResistance.addCell(cell);
+    	    	                binitialized=true;
+    	                	}
+    	                }
+    	                if(!binitialized){
+	                		cell=createLabelCourier("-",8,20,Font.NORMAL);
+	    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	    	                tblResistance.addCell(cell);
+    	                }
+    	                cell = new PdfPCell(tblResistance);
+    	                cell.setColspan(18);
+    	                cell.setBorder(PdfPCell.NO_BORDER);
+    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+    	                subTable.addCell(cell);
+    	                
+    	                tblResistance = new PdfPTable(20);
+    	                binitialized=false;
+    	                for(int i=0;i<MedwanQuery.getInstance().getConfigInt("maxARVlines",12);i++){
+    	                	String resistance = extractResistance(requestedLabAnalysis.getResultValue(), "c."+i);
+    	                	if(resistance.length()>0){
+    	                		cell=createLabelCourier(MedwanQuery.getInstance().getLabel("arvc", i+"", sPrintLanguage),8,5,Font.BOLD);
+    	    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+    	    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+    	    	                tblResistance.addCell(cell);
+    	                		cell=createLabelCourier(MedwanQuery.getInstance().getLabel("arvresistance", resistance, sPrintLanguage),8,15,Font.NORMAL);
+    	    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+    	    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+    	    	                tblResistance.addCell(cell);
+    	    	                binitialized=true;
+    	                	}
+    	                }
+    	                if(!binitialized){
+	                		cell=createLabelCourier("-",8,20,Font.NORMAL);
+	    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+	    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	    	                tblResistance.addCell(cell);
+    	                }
+    	                cell = new PdfPCell(tblResistance);
+    	                cell.setColspan(19);
+    	                cell.setBorder(PdfPCell.NO_BORDER);
+    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+    	                subTable.addCell(cell);
+                	}
+                	
+	                Vector history = requestedLabAnalysis.getResultsHistory(user);
+                	for(int n=0;n<history.size();n++){
+                		String s = (String)history.elementAt(n);
+                		if(s.split("\\|").length>=1){
+                			cell=createLabelCourier(s.split("\\|")[0]+": ",8,45,Font.NORMAL);
+	                        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+	                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	                        subTable.addCell(cell);
+                			if(s.split("\\|").length>=2 && s.split("\\|")[1].length()>0){
+		                        PdfPTable tblResistance = new PdfPTable(20);
+		                        for(int q=0;q<s.split("\\|")[1].split(";").length;q++){
+	    	                		cell=createLabelCourier(MedwanQuery.getInstance().getLabel("arva",s.split("\\|")[1].split(";")[q].split("=")[0] , sPrintLanguage),8,5,Font.BOLD);
+	    	    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	    	    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	    	    	                tblResistance.addCell(cell);
+	    	                		cell=createLabelCourier(MedwanQuery.getInstance().getLabel("arvresistance", s.split("\\|")[1].split(";")[q].split("=")[1], sPrintLanguage),8,15,Font.NORMAL);
+	    	    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	    	    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	    	    	                tblResistance.addCell(cell);
+		                        }
+		    	                cell = new PdfPCell(tblResistance);
+		    	                cell.setColspan(18);
+		    	                cell.setBorder(PdfPCell.TOP);
+		    	                cell.setBorderColor(innerBorderColor);
+		    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+		    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+		    	                subTable.addCell(cell);
+                			}
+                			else {
+		    	                cell = createValueCell("-");
+		    	                cell.setColspan(18);
+		    	                cell.setBorder(PdfPCell.TOP);
+		    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+		    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+		    	                subTable.addCell(cell);
+                			}
+                			if(s.split("\\|").length>=3 && s.split("\\|")[2].length()>0){
+                				PdfPTable tblResistance = new PdfPTable(20);
+		                        for(int q=0;q<s.split("\\|")[2].split(";").length;q++){
+	    	                		cell=createLabelCourier(MedwanQuery.getInstance().getLabel("arvb",s.split("\\|")[2].split(";")[q].split("=")[0] , sPrintLanguage),8,5,Font.BOLD);
+	    	    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	    	    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	    	    	                tblResistance.addCell(cell);
+	    	                		cell=createLabelCourier(MedwanQuery.getInstance().getLabel("arvresistance", s.split("\\|")[2].split(";")[q].split("=")[1], sPrintLanguage),8,15,Font.NORMAL);
+	    	    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	    	    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	    	    	                tblResistance.addCell(cell);
+		                        }
+		    	                cell = new PdfPCell(tblResistance);
+		    	                cell.setColspan(18);
+		    	                cell.setBorder(PdfPCell.TOP);
+		    	                cell.setBorderColor(innerBorderColor);
+		    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+		    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+		    	                subTable.addCell(cell);
+                			}
+                			else {
+		    	                cell = createValueCell("-");
+		    	                cell.setColspan(18);
+		    	                cell.setBorder(PdfPCell.TOP);
+		    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+		    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+		    	                subTable.addCell(cell);
+                			}
+                			if(s.split("\\|").length>=4 && s.split("\\|")[3].length()>0){
+                				PdfPTable tblResistance = new PdfPTable(20);
+		                        for(int q=0;q<s.split("\\|")[3].split(";").length;q++){
+	    	                		cell=createLabelCourier(MedwanQuery.getInstance().getLabel("arvc",s.split("\\|")[3].split(";")[q].split("=")[0] , sPrintLanguage),8,5,Font.BOLD);
+	    	    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	    	    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	    	    	                tblResistance.addCell(cell);
+	    	                		cell=createLabelCourier(MedwanQuery.getInstance().getLabel("arvresistance", s.split("\\|")[3].split(";")[q].split("=")[1], sPrintLanguage),8,15,Font.NORMAL);
+	    	    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+	    	    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+	    	    	                tblResistance.addCell(cell);
+		                        }
+		    	                cell = new PdfPCell(tblResistance);
+		    	                cell.setColspan(19);
+		    	                cell.setBorder(PdfPCell.TOP);
+		    	                cell.setBorderColor(innerBorderColor);
+		    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+		    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+		    	                subTable.addCell(cell);
+                			}
+                			else {
+		    	                cell = createValueCell("-");
+		    	                cell.setColspan(19);
+		    	                cell.setBorder(PdfPCell.TOP);
+		    	                cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+		    	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+		    	                subTable.addCell(cell);
+                			}
+                		}
+                	}
+                	
                 }
                 //*** 3 - NUMERIC *****************************************************************
                 else if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getEditor().equalsIgnoreCase("numeric")){
@@ -640,18 +873,6 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 		                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 		                subTable.addCell(cell);
                 	}
-                	Vector history = requestedLabAnalysis.getResultsHistory(user);
-                	for(int n=0;n<history.size();n++){
-                		String s = (String)history.elementAt(n);
-                        cell=createLabelCourier(s.split("\\|")[0]+": ",8,45,Font.NORMAL);
-                        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
-                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
-                        subTable.addCell(cell);
-                        cell=createLabelCourier(s.split("\\|")[1],8,55,Font.NORMAL);
-                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
-                        subTable.addCell(cell);
-                	}
 
 	                //Nu gaan we na of er een extra lijn met commentaar moet worden afgedrukt
 	                if(!MedwanQuery.getInstance().getLabel("labanalysis.refcomment",analysisCode,user.person.language).equals(analysisCode)){
@@ -663,6 +884,20 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 		                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 		                subTable.addCell(cell);
 	                }
+                	Vector history = requestedLabAnalysis.getResultsHistory(user);
+                	for(int n=0;n<history.size();n++){
+                		String s = (String)history.elementAt(n);
+                        cell=createLabelCourier(s.split("\\|")[0]+": ",8,45,Font.NORMAL);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+                        subTable.addCell(cell);
+                        cell=createLabelCourier(s.split("\\|").length<2?"":s.split("\\|")[1],8,55,Font.NORMAL);
+    	                cell.setBorder(PdfPCell.TOP);
+    	                cell.setBorderColor(innerBorderColor);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+                        subTable.addCell(cell);
+                	}
                 }
                 //*** 4 - CALCULATED *****************************************************************
                 else if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getEditor().equalsIgnoreCase("calculated")){
@@ -787,28 +1022,48 @@ public class PDFLabResultGenerator extends PDFOfficialBasic {
 	                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
 	                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
 	                subTable.addCell(cell);
+                	
+	                if(ScreenHelper.checkString(requestedLabAnalysis.getResultComment()).length()>0){
+	                	if(LabAnalysis.getLabAnalysisByLabcode(analysisCode).getEditor().equalsIgnoreCase("listbox")){
+	                		for(int n=0;n<requestedLabAnalysis.getResultComment().split(";").length;n++){
+	                			String resultcommentpart=requestedLabAnalysis.getResultComment().split(";")[n];
+	                			if(resultcommentpart.split("=").length>1 && resultcommentpart.split("=")[1].length()>0 ){
+				                	cell=createLabelCourier("", 8, 45, fonttype);
+					                subTable.addCell(cell);
+				                	cell=createLabelCourier(resultcommentpart.replaceAll("=", ": "),8,55,Font.NORMAL);
+					                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+					                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+					                subTable.addCell(cell);
+	                			}
+	                		}
+	                	}
+	                	else {
+		                	cell=createLabelCourier("", 8, 45, fonttype);
+			                subTable.addCell(cell);
+		                	cell=createLabelCourier(requestedLabAnalysis.getResultComment(),8,55,Font.NORMAL);
+			                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+			                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
+			                subTable.addCell(cell);
+	                	}
+                	}
+
                 	Vector history = requestedLabAnalysis.getResultsHistory(user);
                 	for(int n=0;n<history.size();n++){
                 		String s = (String)history.elementAt(n);
                         cell=createLabelCourier(s.split("\\|")[0]+": ",8,45,Font.NORMAL);
+    	                cell.setBorder(PdfPCell.TOP);
+    	                cell.setBorderColor(innerBorderColor);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
                         cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
                         subTable.addCell(cell);
-                        cell=createLabelCourier(s.split("\\|")[1],8,55,Font.NORMAL);
+                        cell=createLabelCourier(s.split("\\|").length<=1?"":s.split("\\|")[1],8,55,Font.NORMAL);
+    	                cell.setBorder(PdfPCell.TOP);
+    	                cell.setBorderColor(innerBorderColor);
                         cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
                         cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
                         subTable.addCell(cell);
                 	}
 	                
-                	if(ScreenHelper.checkString(requestedLabAnalysis.getResultComment()).length()>0){
-	                	cell=createLabelCourier("", 8, 45, fonttype);
-		                subTable.addCell(cell);
-		                
-	                	cell=createLabelCourier(requestedLabAnalysis.getResultComment(),8,55,Font.NORMAL);
-		                cell.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
-		                cell.setVerticalAlignment(PdfPCell.ALIGN_TOP);
-		                subTable.addCell(cell);
-                	}
                 }
             }
             

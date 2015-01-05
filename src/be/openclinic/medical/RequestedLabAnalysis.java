@@ -12,10 +12,15 @@ import be.openclinic.system.Config;
 
 
 
+
+
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 import java.text.DecimalFormat;
+
+import com.itextpdf.text.Font;
+import com.itextpdf.text.pdf.PdfPCell;
 
 import net.admin.User;
 
@@ -36,6 +41,16 @@ public class RequestedLabAnalysis {
     private java.util.Date updatetime;
     private int sampler;
 
+	private String extractResistance(String arvs,String arv){
+		String resistance="";
+		String[] arvlist = arvs.split(";");
+		for(int n=0;n<arvlist.length;n++){
+			if(arvlist[n].split("=")[0].equalsIgnoreCase(arv) && arvlist[n].split("=").length>1){
+				return arvlist[n].split("=")[1];
+			}
+		}
+		return resistance;
+	}
 
     public java.util.Date getUpdatetime() {
 		return updatetime;
@@ -290,6 +305,19 @@ public class RequestedLabAnalysis {
         return this.resultComment;
     }
     
+    public String getResultCommentPart(String part){
+    	String s ="";
+    	if(part!=null){
+	    	String[] parts = getResultComment().split(";");
+	    	for(int n = 0;n<parts.length;n++){
+	    		if(part.equalsIgnoreCase(parts[n].split("=")[0]) && parts[n].split("=").length>1){
+	    			s=parts[n].split("=")[1];
+	    		}
+	    	}
+    	}
+    	return s;
+    }
+    
     private String getAntibioticNew(String id, String sPrintLanguage){
     	if(id.equalsIgnoreCase("1")){
     		return ScreenHelper.getTranNoLink("antibiotics","pen",sPrintLanguage);
@@ -464,7 +492,8 @@ public class RequestedLabAnalysis {
             		if(date.before(limitdate)){
             			break;
             		}
-                	if(labAnalysis.getEditor().equalsIgnoreCase("antibiogram")){
+
+            		if(labAnalysis.getEditor().equalsIgnoreCase("antibiogram")){
                     	Map ab = RequestedLabAnalysis.getAntibiogrammes(rs.getString("serverid")+"."+rs.getString("transactionid")+"."+getAnalysisCode());
                     	String result="";
                     	String result2="";
@@ -572,7 +601,7 @@ public class RequestedLabAnalysis {
     	                		result+=ab.get("germ3")+"\n";
     	                		String antibiotics = (String)ab.get("ANTIBIOGRAMME3");
     	                		if(antibiotics!=null && !antibiotics.replaceAll(",","").equalsIgnoreCase("")){
-    	                			String[] tests = antibiotics.split(",");
+    	                			String[] tests  = antibiotics.split(",");
     	                			for(int n=0;n<tests.length;n++){
     	                				if(tests[n].split("=").length==2){
     	                					result+="\t"+getAntibioticNew(tests[n].split("=")[0],user.person.language)+"\n";
@@ -583,6 +612,37 @@ public class RequestedLabAnalysis {
     	                	}
                     	}
                 		history.add(ScreenHelper.formatDate(date)+"|"+result+"|"+result2);
+                	}
+                	else if(labAnalysis.getEditor().equalsIgnoreCase("antivirogram")){
+                		String arva="",arvb="",arvc="";
+                		String resultvalue=rs.getString("resultvalue");
+    	                for(int i=0;i<MedwanQuery.getInstance().getConfigInt("maxARVlines",12);i++){
+    	                	String resistance = extractResistance(resultvalue, "a."+i);
+    	                	if(resistance.length()>0){
+    	                		//Voeg toe aan arvlijst A
+    	                		if(arva.length()>0){
+    	                			arva+=";";
+    	                		}
+    	                		arva+=i+"="+resistance;
+    	                	}
+    	                	resistance = extractResistance(resultvalue, "b."+i);
+    	                	if(resistance.length()>0){
+    	                		//Voeg toe aan arvlijst B
+    	                		if(arvb.length()>0){
+    	                			arvb+=";";
+    	                		}
+    	                		arvb+=i+"="+resistance;
+    	                	}
+    	                	resistance = extractResistance(resultvalue, "c."+i);
+    	                	if(resistance.length()>0){
+    	                		//Voeg toe aan arvlijst C
+    	                		if(arvc.length()>0){
+    	                			arvc+=";";
+    	                		}
+    	                		arvc+=i+"="+resistance;
+    	                	}
+    	                }
+                		history.add(ScreenHelper.formatDate(date)+"|"+arva+"|"+arvb+"|"+arvc);
                 	}
                 	else {
                 		history.add(ScreenHelper.formatDate(date)+"|"+rs.getString("resultvalue"));
@@ -1502,7 +1562,7 @@ public class RequestedLabAnalysis {
     	Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             String sQuery="update RequestedLabAnalyses set resultvalue=?,resultdate="+MedwanQuery.getInstance().getConfigString("dateFunction","getdate()")+",updatetime="+MedwanQuery.getInstance().getConfigString("dateFunction","getdate()")+",resultuserid=? where serverid=? and transactionid=? and analysiscode=? and resultvalue<>?";
-            PreparedStatement ps = oc_conn.prepareStatement(sQuery);
+	        PreparedStatement ps = oc_conn.prepareStatement(sQuery);
             ps.setString(1,value);
             ps.setInt(2,userid);
             ps.setInt(3,serverid);
@@ -1854,6 +1914,17 @@ public class RequestedLabAnalysis {
 			e.printStackTrace();
 		}
         return result;
+    }
+    public Map getAntiVirogrammes(String sUid){
+       Map map = new LinkedHashMap();
+       String[] arvs=getResultValue().split(";");
+       for(int n=0;n<arvs.length;n++){
+    	   if(arvs[n].split("=").length>1){
+    		   map.put(arvs[n].split("=")[0], arvs[n].split("=")[1]);
+    	   }
+       }
+       return map;
+
     }
     public static Map getAntibiogrammes(String sUid){
         Map map = new LinkedHashMap();
