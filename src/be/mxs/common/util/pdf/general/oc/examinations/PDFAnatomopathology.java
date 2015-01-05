@@ -113,7 +113,7 @@ public class PDFAnatomopathology extends PDFGeneralBasic {
                 		itemValue = getTran("web","other.procedure");
                 		
                 		// append free text
-                		itemValue+= ": "+getItemValue(IConstants_PREFIX+"ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_PROCEDURE_TEXT"); 
+                		itemValue+= ": "+getItemValue(IConstants_PREFIX+"ITEM_TYPE_ANATOMOPATHOLOGY_PROCEDURE_TEXT"); 
                 	}
                 	else{
                 	    itemValue = getTran("procedure.type",itemValue);
@@ -123,7 +123,7 @@ public class PDFAnatomopathology extends PDFGeneralBasic {
                 }
                 
                 // procedure text
-                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_PROCEDURE_TEXT");
+                itemValue = getItemValue(IConstants_PREFIX+"ITEM_TYPE_ANATOMOPATHOLOGY_PROCEDURE_TEXT");
                 if(itemValue.length() > 0){
                     addItemRow(table,getTran("openclinic.chuk","procedure_type"),itemValue);
                 }
