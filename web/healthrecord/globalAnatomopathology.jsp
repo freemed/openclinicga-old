@@ -150,7 +150,7 @@
 	                <%=ScreenHelper.writeSelect("procedure.type", tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_PROCEDURE_TYPE"), sWebLanguage,false,false)%>
 		            <option value='0' <%=(tran.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_PROCEDURE_TYPE")+"").equals("0")?"selected":"" %>><%=getTran("web","other.procedure",sWebLanguage) %></option>
 	            </select>
-				<input id='proceduretext' type="text" class="text" size="40" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_LOCATION_PROCEDURE_TEXT")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_PROCEDURE_TEXT" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_PROCEDURE_TEXT" property="value"/>">
+				<input id='proceduretext' type="text" class="text" size="40" <%=setRightClick("ITEM_TYPE_ANATOMOPATHOLOGY_PROCEDURE_TEXT")%> name="currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_PROCEDURE_TEXT" property="itemId"/>]>.value" value="<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_ANATOMOPATHOLOGY_PROCEDURE_TEXT" property="value"/>">
             </td>
         </tr>
 
