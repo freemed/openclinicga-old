@@ -317,7 +317,7 @@ function checkAfter(afterId,beforeObj){
     <div id="GetPreviousValue" class="ie5menu" url="javascript:loadPrevious();"><%=getTranNoLink("Web.Occup","medwan.occupational-medicine.getpreviousvalues",sWebLanguage)%></div>
     <div id="GetPreviousContextValue" class="ie5menu" url="javascript:loadPreviousContext();"><%=getTranNoLink("Web.Occup","medwan.occupational-medicine.getpreviouscontextvalues",sWebLanguage)%></div>
     <hr id="Sep2"/>
-    <div class="ie5menu" url="null"><%=getTranNoLink("Web.Occup","medwan.common.close",sWebLanguage)%></div>
+    <div class="ie5menu" url="javascript:hidemenuie5();"><%=getTranNoLink("Web.Occup","medwan.common.close",sWebLanguage)%></div>
 </div>
 
 <script>

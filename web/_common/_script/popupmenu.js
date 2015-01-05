@@ -43,7 +43,6 @@ function showmenuie5(evt){
 
 // popupmenu verbergen
 function hidemenuie5(){
-  if(!bShowMenu){
     if(typeof(ie5menu)!="undefined"){
       ie5menu.style.visibility = "hidden";
     }
@@ -51,7 +50,6 @@ function hidemenuie5(){
     for(var i=0; i<sfSelect.length; i++){
       sfSelect[i].style.visibility = "";
     }
-  }
 }
 
 // layout when hoovering a button
