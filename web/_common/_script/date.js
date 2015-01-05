@@ -191,6 +191,30 @@ function checkDate(sobject){
       }
     }	
   }  
+  else if(sDate.length==4){
+    // "DMYY" ?    	
+    sYear = sDate.substring(2,sDate.length);
+    sYear = y2k(sYear);
+      
+    if(sYear >= 1900 && sYear < 2100){
+      // year ok
+      if(dateFormat=="dd/MM/yyyy"){
+        sDay = sDate.substring(0,1);
+        sMonth = sDate.substring(1,2);
+      }
+      else{
+        sDay = sDate.substring(1,2);
+        sMonth = sDate.substring(0,1);
+      }
+    }
+    else{
+      sobject.select();
+      sobject.focus();
+      alertDialog("web","invalidDate");
+        
+      return false;
+    }
+  }  
   else{
     sobject.select();
     sobject.focus();
