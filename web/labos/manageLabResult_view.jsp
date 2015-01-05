@@ -164,6 +164,27 @@
                 			}
                 		}
                 	}
+                	else if(analysis.getEditor().equalsIgnoreCase("antibiogram")||analysis.getEditor().equalsIgnoreCase("antibiogramnew")){
+                		result="";
+                    	Map ab = RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode());
+                    	System.out.println("map:"+ab.size());
+	                	if(ab.get("germ1")!=null && !(ab.get("germ1")+"").equalsIgnoreCase("")){
+	                		result+=ab.get("germ1");
+	                	}
+	                	if(ab.get("germ2")!=null && !(ab.get("germ2")+"").equalsIgnoreCase("")){
+            				if(result.length()>0){
+            					result+="<br/>";
+            				}
+	                		result+=ab.get("germ2");
+	                	}
+	                	if(ab.get("germ3")!=null && !(ab.get("germ3")+"").equalsIgnoreCase("")){
+            				if(result.length()>0){
+            					result+="<br/>";
+            				}
+	                		result+=ab.get("germ3");
+	                	}
+                	}
+
 
                     boolean bAbnormal = (result.length()>0 && !result.equalsIgnoreCase("?") && abnormal.toLowerCase().indexOf("*"+checkString(requestedLabAnalysis.getResultModifier()).toLowerCase()+"*")>-1);
                     

@@ -104,13 +104,53 @@
         sTmpTransactionId = labAnalysis.getTransactionId();
         sTmpComment = labAnalysis.getComment();
         sTmpModifier = labAnalysis.getResultModifier();
-
+        sTmpResultUnit = getTranNoLink("labanalysis.resultunit", labAnalysis.getResultUnit(), sWebLanguage);
+        sTmpResult = "";
         // get resultvalue
         if(labAnalysis.getFinalvalidation()>0){
             sTmpResultValue = labAnalysis.getResultValue();
+        	LabAnalysis analysis = LabAnalysis.getLabAnalysisByLabcode(labAnalysis.getAnalysisCode());
+        	if(analysis!=null){
+	        	if(analysis.getEditor().equalsIgnoreCase("antivirogram")){
+	        		String[] arvs = sTmpResultValue.split(";");
+	        		sTmpResultValue="";
+	        		for(int n=0;n<arvs.length;n++){
+	        			if(arvs[n].split("=").length>1){
+	        				if(sTmpResultValue.length()>0){
+	        					sTmpResultValue+=", ";
+	        				}
+	        				try{
+	        					sTmpResultValue+=getTran("arv"+arvs[n].split("=")[0].split("\\.")[0],arvs[n].split("=")[0].split("\\.")[1],sWebLanguage)+": "+getTran("arvresistance",arvs[n].split("=")[1],sWebLanguage);
+	        				}
+	        				catch(Exception e){}
+	        			}
+	        		}
+	        	}
+            	else if(analysis.getEditor().equalsIgnoreCase("antibiogram")||analysis.getEditor().equalsIgnoreCase("antibiogramnew")){
+            		sTmpResultValue="";
+                	Map ab = RequestedLabAnalysis.getAntibiogrammes(labAnalysis.getServerId()+"."+labAnalysis.getTransactionId()+"."+labAnalysis.getAnalysisCode());
+                	System.out.println("map:"+ab.size());
+                	if(ab.get("germ1")!=null && !(ab.get("germ1")+"").equalsIgnoreCase("")){
+                		sTmpResultValue+=ab.get("germ1");
+                	}
+                	if(ab.get("germ2")!=null && !(ab.get("germ2")+"").equalsIgnoreCase("")){
+        				if(sTmpResultValue.length()>0){
+        					sTmpResultValue+="<br/>";
+        				}
+        				sTmpResultValue+=ab.get("germ2");
+                	}
+                	if(ab.get("germ3")!=null && !(ab.get("germ3")+"").equalsIgnoreCase("")){
+        				if(sTmpResultValue.length()>0){
+        					sTmpResultValue+="<br/>";
+        				}
+        				sTmpResultValue+=ab.get("germ3");
+                	}
+            	}
+        	}
+            sTmpResult = sTmpResultValue+" "+sTmpResultUnit;
         }
         else{
-            sTmpResultValue = "";
+            sTmpResultValue = "?";
         	LabAnalysis analysis = LabAnalysis.getLabAnalysisByLabcode(labAnalysis.getAnalysisCode());
         	if(analysis!=null){
 	        	if(analysis.getEditor().equalsIgnoreCase("calculated")){
@@ -127,15 +167,21 @@
 	        		}
 					try{
 						sTmpResultValue = Evaluate.evaluate(expression, pars,analysis.getEditorparametersParameter("OP").split("\\|").length>2?Integer.parseInt(analysis.getEditorparametersParameter("OP").replaceAll(" ", "").split("\\|")[2]):5);
+			            sTmpResult = sTmpResultValue+" "+sTmpResultUnit;
 					}
 					catch(Exception e){
 						sTmpResultValue = "?";
+						sTmpResult = sTmpResultValue;
 					}
 	        	}
+	        	else {
+					sTmpResult = sTmpResultValue;
+	        	}
+        	}
+        	else{
+				sTmpResult = sTmpResultValue;
         	}
         }
-        sTmpResultUnit = getTranNoLink("labanalysis.resultunit", labAnalysis.getResultUnit(), sWebLanguage);
-        sTmpResult = sTmpResultValue+" "+sTmpResultUnit;
 
         // get default-data from DB
 

@@ -19,7 +19,7 @@
     boolean bEditable = checkString(request.getParameter("editable")).equals("true");
     String[] antivirogram = sAntivirogramuid.split("\\.");%>
 
-<table width="100%" cellpadding="0" cellspacing="0" id="antivirogramtable">
+<table width="100%" id="antivirogramtable">
     <tr width="100%" class='admin'>
         <td width="33%" class="longTitle"><%=HTMLEntities.htmlentities(getTran("web","arv.coltitle1",sWebLanguage))%></td>
         <td width="33%" class="longTitle"><%=HTMLEntities.htmlentities(getTran("web","arv.coltitle2",sWebLanguage))%></td>
