@@ -149,10 +149,25 @@
                     		result = "?";
 						}
                 	}
+                	else if(analysis.getEditor().equalsIgnoreCase("antivirogram")){
+                		String[] arvs = result.split(";");
+                		result="";
+                		for(int n=0;n<arvs.length;n++){
+                			if(arvs[n].split("=").length>1){
+                				if(result.length()>0){
+                					result+="<br/>";
+                				}
+                				try{
+                					result+=getTran("arv"+arvs[n].split("=")[0].split("\\.")[0],arvs[n].split("=")[0].split("\\.")[1],sWebLanguage)+": "+getTran("arvresistance",arvs[n].split("=")[1],sWebLanguage);
+                				}
+                				catch(Exception e){}
+                			}
+                		}
+                	}
 
                     boolean bAbnormal = (result.length()>0 && !result.equalsIgnoreCase("?") && abnormal.toLowerCase().indexOf("*"+checkString(requestedLabAnalysis.getResultModifier()).toLowerCase()+"*")>-1);
                     
-                     out.print("<td"+(bAbnormal?" bgcolor='#FF8C68'":"")+">"+result+(bAbnormal?" "+checkString(requestedLabAnalysis.getResultModifier().toUpperCase()):"")+"</td>");
+                     out.print("<td nowrap"+(bAbnormal?" bgcolor='#FF8C68'":"")+">"+result+(bAbnormal?" "+checkString(requestedLabAnalysis.getResultModifier().toUpperCase()):"")+"</td>");
                      out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getSampler()>0?MedwanQuery.getInstance().getUserName(requestedLabAnalysis.getSampler()):"")+"</td>");
                      out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getSampletakendatetime()!=null?ScreenHelper.formatDate(requestedLabAnalysis.getSampletakendatetime(),ScreenHelper.fullDateFormat):"")+"</td>");
                      out.print("<td>"+(requestedLabAnalysis!=null && requestedLabAnalysis.getSamplereceptiondatetime()!=null?ScreenHelper.formatDate(requestedLabAnalysis.getSamplereceptiondatetime(),ScreenHelper.fullDateFormat):"")+"</td>");

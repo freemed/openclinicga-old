@@ -203,16 +203,16 @@ tr.menu_navigation a:hover {
 
 div.logo {
  position:absolute;
- right:2px;
- top:2px;
+ right:10px;
+ top:0px;
  width:160px;
- height:80px;
+ height:60px;
 }
 
 div.version{
  position:absolute;
- top:61px;
- right:1px;
+ top:60px;
+ right:10px;
  width:200px;
  height:10px;
  font-size:8px;
@@ -224,8 +224,8 @@ div.version{
 
 div.topicones {
  position:absolute;
- right:173px;
- top:5px;
+ right:21px;
+ top:-28px;
  width:200px;
  height:36px;
  text-align:right;

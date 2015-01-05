@@ -35,7 +35,7 @@
             if(ps!=null) ps.close();
             if(conn!=null) conn.close();
         }
-        catch(Exception e){
+        catch(Exception e2){
         	Debug.printStackTrace(e);
         }
     }

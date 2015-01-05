@@ -629,6 +629,7 @@
 				        <option value="radiobuttoncomment" <%="radiobuttoncomment".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","radiobuttoncomment",sWebLanguage)%></option>
 				        <option value="checkbox" <%="checkbox".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","checkbox",sWebLanguage)%></option>
 				        <option value="checkboxcomment" <%="checkboxcomment".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","checkboxcomment",sWebLanguage)%></option>
+				        <option value="antivirogram" <%="antivirogram".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","antivirogram",sWebLanguage)%></option>
 				        <option value="antibiogram" <%="antibiogram".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","antibiogram",sWebLanguage)%></option>
 				        <option value="antibiogramnew" <%="antibiogramnew".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","antibiogramnew",sWebLanguage)%></option>
 				        <option value="virtual" <%="virtual".equals(sEditor)?"selected":"" %>><%=getTranNoLink("web","virtual",sWebLanguage)%></option>

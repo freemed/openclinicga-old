@@ -196,21 +196,21 @@
                 int selectedFields = Integer.parseInt(request.getParameter("selectedFields"));
 
                 // compose query
-                sbQuery.append("SELECT a1.personid, a2.personid, a1.immatnew, a2.immatnew")
-                        .append("FROM Admin a1, Admin a2 ");
+                sbQuery.append(" SELECT a1.personid, a2.personid, a1.immatnew, a2.immatnew")
+                        .append(" FROM Admin a1, Admin a2 ");
 
                 // search on immatnew
                 if(selectedFields == 1){
-                    sbQuery.append("WHERE a1.immatnew = a2.immatnew");
+                    sbQuery.append(" WHERE a1.immatnew = a2.immatnew");
                 }
                 // search on searchname AND dateOfBirth
                 else if(selectedFields == 2){
-                    sbQuery.append("WHERE a1.searchname = a2.searchname")
-                            .append("AND a1.dateofbirth = a2.dateofbirth");
+                    sbQuery.append(" WHERE a1.searchname = a2.searchname")
+                            .append(" AND a1.dateofbirth = a2.dateofbirth");
                 }
 
-                sbQuery.append("AND a1.personid != a2.personid")
-                        .append("ORDER BY a1.searchname, a1.immatnew, a2.immatnew");
+                sbQuery.append(" AND a1.personid != a2.personid")
+                        .append(" ORDER BY a1.searchname, a1.immatnew, a2.immatnew");
 
               	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
                 ps = ad_conn.prepareStatement(sbQuery.toString());
@@ -306,20 +306,20 @@
 
         // compose query
         sbQuery.append("SELECT a1.personid, a2.personid, a1.lastname, a1.firstname, a1.dateofbirth, a1.immatnew, a2.immatnew,a1.archiveFileCode,a2.archiveFileCode")
-               .append("FROM Admin a1, Admin a2 ");
+               .append(" FROM Admin a1, Admin a2 ");
 
         // search on immatnew
         if(selectedFields==1){
-            sbQuery.append("WHERE a1.immatnew = a2.immatnew");
+            sbQuery.append(" WHERE a1.immatnew = a2.immatnew");
         }
         // search on searchname AND dateOfBirth
         else if(selectedFields==2){
-            sbQuery.append("WHERE a1.searchname = a2.searchname")
-                   .append("AND a1.dateofbirth = a2.dateofbirth");
+            sbQuery.append(" WHERE a1.searchname = a2.searchname")
+                   .append(" AND a1.dateofbirth = a2.dateofbirth");
         }
 
-        sbQuery.append("AND a1.personid != a2.personid")
-               .append("ORDER BY a1.searchname, a1.immatnew, a2.immatnew");
+        sbQuery.append(" AND a1.personid != a2.personid")
+               .append(" ORDER BY a1.searchname, a1.immatnew, a2.immatnew");
 
       	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         ps = ad_conn.prepareStatement(sbQuery.toString());
@@ -601,13 +601,13 @@
             // prepare statement to get person details (every column except 'searchname')
             query = new StringBuffer();
             query.append("SELECT personid,natreg,immatold,immatnew,candidate,lastname,firstname,")
-                    .append("gender,dateofbirth,comment,sourceid,Admin.language,engagement,pension,")
-                    .append("statute,claimant,updatetime,claimant_expiration,native_country,native_town,")
-                    .append("motive_end_of_service,startdate_inactivity,enddate_inactivity,")
-                    .append("code_inactivity,update_status,person_type,situation_end_of_service,")
-                    .append("updateuserid,comment1,comment2,comment3,comment4,comment5,native_country,")
-                    .append("middlename,begindate,enddate,archivefilecode")
-                    .append("FROM Admin WHERE personid = ?");
+                    .append(" gender,dateofbirth,comment,sourceid,Admin.language,engagement,pension,")
+                    .append(" statute,claimant,updatetime,claimant_expiration,native_country,native_town,")
+                    .append(" motive_end_of_service,startdate_inactivity,enddate_inactivity,")
+                    .append(" code_inactivity,update_status,person_type,situation_end_of_service,")
+                    .append(" updateuserid,comment1,comment2,comment3,comment4,comment5,native_country,")
+                    .append(" middlename,begindate,enddate,archivefilecode")
+                    .append(" FROM Admin WHERE personid = ?");
 
             ps = ad_conn.prepareStatement(query.toString());
 
@@ -675,10 +675,10 @@
             // prepare statement to get adminprivate details
             query = new StringBuffer();
             query.append("SELECT privateid, start, stop, address, city, zipcode, country, telephone, fax,")
-                    .append("mobile, email, comment, updatetime, type,district")
-                    .append("FROM AdminPrivate")
-                    .append("WHERE personid = ?")
-                    .append("AND stop IS NULL AND type = 'Official'");
+                    .append(" mobile, email, comment, updatetime, type,district")
+                    .append(" FROM AdminPrivate")
+                    .append(" WHERE personid = ?")
+                    .append(" AND stop IS NULL AND type = 'Official'");
 
             ps = ad_conn.prepareStatement(query.toString());
 
@@ -745,9 +745,9 @@
             // prepare statement to get adminprivate details
             query = new StringBuffer();
             query.append("SELECT workid,start,stop,rankid,telephone,fax,email,comment,updatetime,")
-                    .append("status,statussituation,category,companyBegin,companyEnd,companyEndReason")
-                    .append("FROM AdminWork")
-                    .append("WHERE personid = ? AND stop IS NULL");
+                    .append(" status,statussituation,category,companyBegin,companyEnd,companyEndReason")
+                    .append(" FROM AdminWork")
+                    .append(" WHERE personid = ? AND stop IS NULL");
             ps = ad_conn.prepareStatement(query.toString());
 
             //--- current work of person 1 -------------------------------------------------------------

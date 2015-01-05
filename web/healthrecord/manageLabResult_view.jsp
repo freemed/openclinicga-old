@@ -17,6 +17,13 @@
         }
     }
 
+	public String getComplexARVResult(String id, String arvs, String sWebLanguage,java.util.Date validationDate) {
+	    String sReturn = "<input type='hidden' id='resultAntiviro."+id+"' name='resultAntiviro."+id+"' value='"+arvs+"'/>";
+	    sReturn += "<a class='link' style='padding-left:2px' href='javascript:void(0)' onclick='openComplexARVResult(document.getElementById(\"resultAntiviro."+id+"\").value,\""+id+"\")'>"+getTranNoLink("web", "openAntivirogramresult", sWebLanguage)+"</a>";
+	    sReturn += " "+getTran("web","resultcomplete",sWebLanguage)+" <input type='checkbox' "+(validationDate!=null?"checked":"")+" name='validateAntiviro."+id+"'/>";
+	    return sReturn;
+	}
+
 	public String getComplexResult(String id, Map map, String sWebLanguage){
 	    String sReturn = "<input type='hidden' name='result."+id+"'/>";
 	    sReturn+= "<input type='hidden' id='resultAntibio."+id+".germ1' name='resultAntibio."+id+".germ1' value='"+checkString((String) map.get("germ1"))+"'/>";
@@ -149,7 +156,7 @@
                     String result = "";
                     
                     if(requestedLabAnalysis!=null){
-                    	if(!analysis.getEditor().equalsIgnoreCase("antibiogram") && !analysis.getEditor().equalsIgnoreCase("antibiogramnew") && !analysis.getEditor().equalsIgnoreCase("calculated")){
+                    	if(!analysis.getEditor().equalsIgnoreCase("antibiogram") && !analysis.getEditor().equalsIgnoreCase("antivirogram") && !analysis.getEditor().equalsIgnoreCase("antibiogramnew") && !analysis.getEditor().equalsIgnoreCase("calculated")){
                     		if(analysis.getLimitedVisibility()>0 && !activeUser.getAccessRight("labos.limitedvisibility.select")){
                     			result = getTran("web","invisible",sWebLanguage);	
                     		}
@@ -195,6 +202,14 @@
 	                    		result = "?";
 	                    	}
                     	}
+                    	else if(analysis.getEditor().equalsIgnoreCase("antivirogram")){
+	                    	if(requestedLabAnalysis.getResultValue()!=null && requestedLabAnalysis.getResultValue().length()>0){
+	                        	result = getComplexARVResult(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode(), requestedLabAnalysis.getResultValue(), sWebLanguage,requestedLabAnalysis.getFinalvalidationdatetime());                        	
+	                    	}
+	                    	else{
+	                    		result = "?";
+	                    	}
+                    	}
                     }
                     
                     boolean bAbnormal = (result.length()>0 && !result.equalsIgnoreCase("?") && abnormal.toLowerCase().indexOf("*"+checkString(requestedLabAnalysis.getResultModifier()).toLowerCase()+"*")>-1);
@@ -220,6 +235,12 @@
     window.open("<c:url value='/labos/createLabResultsPdf.jsp'/>?ts=<%=getTs()%>&print."+serverid+"."+transactionid+"=1","Popup"+new Date().getTime(),"toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=800,height=600,menubar=no");
   }
   
+  openComplexARVResult = function(arvs,id) {
+      var params = "antivirogramuid="+id+"&editable=false&arvs="+arvs;
+      var url = "<c:url value="/labos/ajax/getComplexARVResult.jsp" />?ts="+new Date().getTime();
+      Modalbox.show(url, {title:"<%=getTranNoLink("web","antivirogram",sWebLanguage)%>",params:params,width:650,height:600});
+  }
+
   openComplexResult = function(id){
     var params = "antibiogramuid="+id+"&editable=false";
     var url = "<c:url value="/labos/ajax/getComplexResult.jsp" />?ts="+new Date().getTime();

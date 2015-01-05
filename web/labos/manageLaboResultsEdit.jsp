@@ -15,6 +15,12 @@
             this.tag = tag;
         }
     }
+	public String getComplexARVResult(String id, String arvs, String sWebLanguage,java.util.Date validationDate) {
+	    String sReturn = "<input type='hidden' id='resultAntiviro."+id+"' name='resultAntiviro."+id+"' value='"+arvs+"'/>";
+	    sReturn += "<a class='link' style='padding-left:2px' href='javascript:void(0)' onclick='openComplexARVResult(document.getElementById(\"resultAntiviro."+id+"\").value,\""+id+"\")'>"+getTranNoLink("web", "openAntivirogramresult", sWebLanguage)+"</a>";
+	    sReturn += " "+getTran("web","resultcomplete",sWebLanguage)+" <input type='checkbox' "+(validationDate!=null?"checked":"")+" name='validateAntiviro."+id+"'/>";
+	    return sReturn;
+	}
 	public String getComplexResult(String id, Map map, String sWebLanguage,java.util.Date validationDate) {
 	    String sReturn = "<input type='hidden' name='result."+id+"' />";
 	    sReturn += "<input type='hidden' id='resultAntibio."+id+".germ1' name='resultAntibio."+id+".germ1' value='"+checkString((String) map.get("germ1"))+"'/>";
@@ -40,20 +46,56 @@
         return sReturn;
     }
 %>
+<script>
+    function showresultparts(item){
+    	partlineprefix = item.name.replace("result.","resultcommentpartline.");
+    	parts=item.options[item.selectedIndex].id.split(";");
+    	//First clear all resultcommentpartlines
+    	var x = document.getElementsByTagName("TR");
+    	for(n=0;n<x.length;n++){
+    		if(x[n].id && x[n].id.indexOf(partlineprefix)>-1){
+    			x[n].style.display='none';
+    		}
+    	}
+    	for(n=0;n<parts.length;n++){
+        	if(document.getElementById(partlineprefix+"."+parts[n])){
+         		document.getElementById(partlineprefix+"."+parts[n]).style.display='';
+        	}
+    	}
+    	partlineprefix = item.name.replace("result.","resultcommentpart.");
+    	x = document.getElementsByTagName("INPUT");
+    	for(n=0;n<x.length;n++){
+    		if(x[n].id && x[n].id.indexOf(partlineprefix)>-1){
+   	        	if(document.getElementById(x[n].id.replace("resultcommentpart","resultcommentpartline")).style.display=='none'){
+  	    			x[n].value='';
+   	        	}
+    		}
+    	}
+    }
+</script>
+
 <%
     boolean bSaved = false;
     if (request.getParameter("submit") != null) {
         bSaved = true;
         Enumeration e = request.getParameterNames();
         Hashtable composedResults = new Hashtable();
+        Hashtable resultcomments = new Hashtable();
         while (e.hasMoreElements()) {
             String name = (String) e.nextElement();
             if (name.startsWith("result.")) {
                 String[] v = name.split("\\.");
                 String value = request.getParameter(name);
-                if(RequestedLabAnalysis.updateValue(Integer.parseInt(v[1]), Integer.parseInt(v[2]), v[3], value,Integer.parseInt(activeUser.userid))>0){
-                	RequestedLabAnalysis.setModifiedFinalValidation(Integer.parseInt(v[1]), Integer.parseInt(v[2]), Integer.parseInt(activeUser.userid), "'"+v[3]+"'",value);
-                }
+                RequestedLabAnalysis.updateValue(Integer.parseInt(v[1]), Integer.parseInt(v[2]), v[3], value,Integer.parseInt(activeUser.userid));
+                RequestedLabAnalysis.setModifiedFinalValidation(Integer.parseInt(v[1]), Integer.parseInt(v[2]), Integer.parseInt(activeUser.userid), "'"+v[3]+"'",value);
+            } 
+            else if (name.startsWith("resultAntiviro.")) {
+                String[] v = name.split("\\.");
+                String value = request.getParameter(name);
+                RequestedLabAnalysis.updateValue(Integer.parseInt(v[1]), Integer.parseInt(v[2]), v[3], value,Integer.parseInt(activeUser.userid));
+               	if(request.getParameter(name.replaceAll("resultAntiviro.","validateAntiviro."))!=null){
+               		RequestedLabAnalysis.setModifiedFinalValidation(Integer.parseInt(v[1]), Integer.parseInt(v[2]), Integer.parseInt(activeUser.userid), "'"+v[3]+"'",value);
+               	}
             } 
             else if (name.startsWith("resultmultiple.")) {
                 String[] v = name.split("\\.");
@@ -70,6 +112,18 @@
                 String value = request.getParameter(name);
                 RequestedLabAnalysis.updateResultComment(Integer.parseInt(v[1]), Integer.parseInt(v[2]), v[3], value);
             } 
+            else if (name.startsWith("resultcommentpart.")) {
+                String[] v = name.split("\\.");
+                String value = request.getParameter(name);
+                String comment = (String)resultcomments.get(v[1]+"."+v[2]+"."+v[3]);
+                if(comment==null){
+                	comment="";
+                }
+                if(comment.length()>0){
+                	comment+=";";
+                }
+                resultcomments.put(v[1]+"."+v[2]+"."+v[3], comment+v[4]+"="+value);
+            } 
             else if (name.startsWith("resultAntibio.")) {
                 RequestedLabAnalysis.setAntibiogrammes(name, request.getParameter(name), activeUser.userid);
             } 
@@ -85,6 +139,13 @@
             String value = (String)composedResults.get(name);
             RequestedLabAnalysis.updateValue(Integer.parseInt(v[0]), Integer.parseInt(v[1]), v[2], value);
             RequestedLabAnalysis.setFinalValidation(Integer.parseInt(v[0]), Integer.parseInt(v[1]), Integer.parseInt(activeUser.userid), "'"+v[2]+"'");
+        }
+        Enumeration rc = resultcomments.keys();
+        while(rc.hasMoreElements()){
+            String name=(String)rc.nextElement();
+        	String[] v = name.split("\\.");
+            String value = (String)resultcomments.get(name);
+            RequestedLabAnalysis.updateResultComment(Integer.parseInt(v[0]), Integer.parseInt(v[1]), v[2], value);
         }
     }
     SortedMap requestList = new TreeMap();
@@ -187,19 +248,39 @@
 								}
 	                        }
 	                        else if (analysis.getEditor().equals("listbox")){
+	                        	HashSet resultcommentparts = new HashSet();
 								if(bEditable){
-									result="<select class='text' name='result."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()+"'>";
+									result="<select class='text' name='result."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()+"' id='result."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()+"' onchange='showresultparts(this)'>";
 									String[] options = analysis.getEditorparametersParameter("OP").split(",");
 									for(int n=0;n<options.length;n++){
 										String key=options[n];
-										String label=key;
+										String label=key.split("\\$")[0];
 										if(key.split("\\|").length>1){
 											label=key.split("\\|")[1];
 											key=key.split("\\|")[0];
 										}
-										result+="<option value='"+key+"' "+(key.equals(requestedLabAnalysis.getResultValue())?"selected":"")+">"+label+"</option>";
+										String activeparts="";
+										if(key.split("\\$").length>1){
+											for(int j=1;j<key.split("\\$").length;j++){
+												if(j>1){
+													activeparts+=";";
+												}
+												resultcommentparts.add(key.split("\\$")[j]);
+												activeparts+=key.split("\\$")[j];
+											}
+										}
+										result+="<option id='"+activeparts+"' value='"+key.split("\\$")[0]+"' "+(key.split("\\$")[0].equals(requestedLabAnalysis.getResultValue())?"selected":"")+">"+label+"</option>";
 									}
 									result+="</select>"+u;
+									Iterator it = resultcommentparts.iterator();
+									if(it.hasNext()){
+										result+="<table>";
+										while(it.hasNext()){
+											String part = (String)it.next();
+											result+="<tr style='display: none' id='resultcommentpartline."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()+"."+part+"' name='resultcommentpartline."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()+"."+part+"'><td>"+part+"</td><td><input type='text' name='resultcommentpart."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()+"."+part+"' id='resultcommentpart."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()+"."+part+"' value='"+requestedLabAnalysis.getResultCommentPart(part)+"' class='text'/></td></tr>";
+										}
+										result+="</table><script>showresultparts(document.getElementById('result."+labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()+"'))</script>";
+									}
 								} else {
 									result=requestedLabAnalysis.getResultValue();
 								}
@@ -294,6 +375,9 @@
 	                        else if(analysis.getEditor().equals("antibiogram")) {
 	                        	result = getComplexResult(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode(), RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()), sWebLanguage,requestedLabAnalysis.getFinalvalidationdatetime());                        	//result = getComplexResult(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode(), RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()), sWebLanguage);
 	                        }
+	                        else if(analysis.getEditor().equals("antivirogram")) {
+	                        	result = getComplexARVResult(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode(), requestedLabAnalysis.getResultValue(), sWebLanguage,requestedLabAnalysis.getFinalvalidationdatetime());                        	
+	                        }
 	                        else if(analysis.getEditor().equals("antibiogramnew")) {
 	                        	result = getComplexResultNew(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode(), RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()), sWebLanguage,requestedLabAnalysis.getFinalvalidationdatetime());                        	//result = getComplexResult(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode(), RequestedLabAnalysis.getAntibiogrammes(labRequest.getServerid()+"."+labRequest.getTransactionid()+"."+requestedLabAnalysis.getAnalysisCode()), sWebLanguage);
 	                        }
@@ -334,6 +418,11 @@
         var params = "antibiogramuid="+id+"&editable=<%=bEditable%>";
         var url = "<c:url value="/labos/ajax/getComplexResult.jsp" />?ts="+new Date().getTime();
         Modalbox.show(url, {title:"<%=getTranNoLink("web","antibiogram",sWebLanguage)%>",params:params,width:650,height:600});
+    }
+    openComplexARVResult = function(arvs,id) {
+        var params = "antivirogramuid="+id+"&editable=<%=bEditable%>&arvs="+arvs;
+        var url = "<c:url value="/labos/ajax/getComplexARVResult.jsp" />?ts="+new Date().getTime();
+        Modalbox.show(url, {title:"<%=getTranNoLink("web","antivirogram",sWebLanguage)%>",params:params,width:650,height:600});
     }
     openComplexResultNew = function(id) {
         var params = "antibiogramuid="+id+"&editable=<%=bEditable%>";
@@ -394,4 +483,20 @@
         });
         Modalbox.hide();
     }
+</script>
+<script>
+	function saveAntiviroGramme(id){
+		var s ='';
+		var x = document.getElementsByTagName("SELECT");
+		for(n=0;n<x.length;n++){
+			if(x[n].id.indexOf("arv")>-1 && x[n].selectedIndex>0){
+				if(s.length>0){
+					s+=";";
+				}
+				s+=x[n].id.substring(3)+"="+x[n].value;
+			}
+		}
+		document.getElementById('resultAntiviro.'+id).value=s;
+        Modalbox.hide();
+	}
 </script>
