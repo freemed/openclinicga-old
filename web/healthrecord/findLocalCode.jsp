@@ -236,7 +236,7 @@ String sPatientUid=request.getParameter("patientuid");
             }
         }
         else {
-        	alertDialog("<%=getTranNoLink("web","code.already.selected",sWebLanguage)%>");
+        	alertDialog("web","code.already.selected");
         }
 
     <%
@@ -277,7 +277,7 @@ String sPatientUid=request.getParameter("patientuid");
       }
     }
     else {
-    	alertDialog("<%=getTranNoLink("web","code.already.selected",sWebLanguage)%>");
+    	alertDialog("web","code.already.selected");
     }
 
     <%

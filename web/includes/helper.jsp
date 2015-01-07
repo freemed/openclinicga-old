@@ -317,7 +317,7 @@
             // context selector
             result+= "<td>"+getLastTransactionAccess("T."+transactionVO.getServerId()+"."+transactionVO.getTransactionId(),language,request,transactionVO.getVersion())+"</td>";
             result+= "<td align='right'>"+
-                      "<select id='ctxt' class='text' onchange=\"document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value')[0].value=this.value;show('content-details');if($('confirm'))hide('confirm');\">";
+                      "<select id='ctxt' class='text' onchange=\"document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode="+itemVO.getItemId()+"]>.value')[0].value=this.value;show('content-details');if($('confirm'))hide('confirm');\" style='display:none'>";
             UserVO user = sessionContainerWO.getUserVO();
             User activeUser = new User();
             activeUser.initialize(user.getUserId().intValue());
@@ -807,8 +807,8 @@
     		e3.printStackTrace();
     	}
     	
-    	User user=new User();
-    	user.initialize(username, User.encrypt(password));
+    	User user = new User();
+    	user.initialize(username,user.encrypt(password));
         request.getSession().setAttribute("activeUser",user);
         MedwanQuery.setSession(request.getSession(),user);
         

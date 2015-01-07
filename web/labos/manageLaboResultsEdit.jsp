@@ -390,7 +390,7 @@
 	                        }
                         }
                         boolean bAbnormal = (result.length() > 0 && !result.equalsIgnoreCase("?") && abnormal.toLowerCase().indexOf("*"+checkString(requestedLabAnalysis.getResultModifier()).toLowerCase()+"*") > -1);
-                        out.print("<td  class='color color"+i+"'>"+result+(bAbnormal ? " "+checkString(requestedLabAnalysis.getResultModifier().toUpperCase()) : "")+"</td>");
+                        out.print("<td class='color color"+i+"'>"+result+(bAbnormal ? " "+checkString(requestedLabAnalysis.getResultModifier().toUpperCase()) : "")+"</td>");
                     }
                     out.print("</tr>");
                 }

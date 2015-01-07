@@ -4,6 +4,7 @@
                 java.util.*"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+<%=sJSPROTOTYPE%>
 
 <%!
     //--- WRITE ROW -------------------------------------------------------------------------------
@@ -82,7 +83,7 @@
 
 <%
     String sDefaultPage, sDefaultWicket, sMyProfile, sProfiles = "", sTmpProfileID, sTmpProfileName,
-           sPasswordString = "", sMyProjects = "", sTmpProject, sAliasMessage = "";
+           sPasswordString = "", sMyProjects = "", sTmpProject;
     String sProjectAccessAllSites = MedwanQuery.getInstance().getConfigString("ProjectAccessAllSites");
     String sAction = checkString(request.getParameter("Action"));
 
@@ -98,13 +99,21 @@
         sSearchProject = sAPPTITLE;
     }
 
+    /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
+    if(Debug.enabled){
+    	Debug.println("\n********************* permissions/userpermission.jsp *******************");
+    	Debug.println("sAction                : "+sAction);
+    	Debug.println("sSearchProject         : "+sSearchProject);
+    	Debug.println("sProjectAccessAllSites : "+sProjectAccessAllSites+"\n");
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+        
     // initialize user
     User thisUser = new User();
     Vector vUsers = User.getUsersByPersonId(activePatient.personid);
     Iterator iter = vUsers.iterator();
 
     User user;
-    String sss = null;;
     while(iter.hasNext()){
         user = (User)iter.next();
 
@@ -125,11 +134,15 @@
 
     //--- SAVE ------------------------------------------------------------------------------------
     if(sAction.equals("save")){
+        boolean bError = false;
+            	
         thisUser.clearAccessRights();
         String sDefaultPassword = sSearchProject.toLowerCase();
+        
         Enumeration e = request.getParameterNames();
         Parameter parameter;
         String sName, sValue;
+        
         Vector vOtherUserParams = new Vector();
 
         // first keep only the user parameters that are not managed on this page
@@ -163,61 +176,17 @@
 
         thisUser.parameters.clear();
         thisUser.parameters = vOtherUserParams;
-        boolean bError = false;
 
         // add the user parameters managed on this page if they are specified
         while(e.hasMoreElements()){
             sName = checkString((String)e.nextElement());
             sValue = checkString(request.getParameter(sName)).toLowerCase();
+        	Debug.println("  "+sName+" : "+sValue);
             sName = sName.toLowerCase();
 
             if(sValue.length() > 0 && sName.startsWith("edit")){
-                boolean bCanSave = true;
-            	if(sName.startsWith("editalias")){
-                	Connection conn = MedwanQuery.getInstance().getAdminConnection();
-                	PreparedStatement ps = conn.prepareStatement("select * from userparameters where userid<>? and parameter='alias' and value=?");
-                	ps.setInt(1,Integer.parseInt(thisUser.userid));
-                	ps.setString(2,sValue);
-                	ResultSet rs = ps.executeQuery();
-                	if(rs.next()){
-                		bCanSave = false;
-                		sAliasMessage = "<font color='red'>"+getTran("web","alias",sWebLanguage)+" <b>"+sValue+"</b> "+getTran("web","unavailable",sWebLanguage)+"</font>";
-                		bError = true;
-                	}
-                	else{
-                		rs.close();
-                		ps.close();
-                		
-                		try{
-							Integer.parseInt(sValue);
-							bCanSave = false;
-                    		sAliasMessage = "<font color='red'>"+getTran("web","alias",sWebLanguage)+" <b>"+sValue+"</b> "+getTran("web","unavailable",sWebLanguage)+"</font>";
-							bError = true;
-                		}
-                		catch(Exception e1){
-                			try{
-	                			ps = conn.prepareStatement("select * from userparameters where userid=?");
-		                    	ps.setInt(1,Integer.parseInt(sValue));
-		                    	rs = ps.executeQuery();
-		                    	if(rs.next()){
-		                    		bCanSave = false;
-		                    		sAliasMessage = "<font color='red'>"+getTran("web","alias",sWebLanguage)+" <b>"+sValue+"</b> "+getTran("web","unavailable",sWebLanguage)+"</font>";
-		                    		bError = true;
-		                    	}
-                			}
-                			catch(Exception e2){
-                				// empty
-                			}
-                		}
-                	}
-                	rs.close();
-                	ps.close();
-                	conn.close();
-                }
-            	if(bCanSave){
-	            	parameter = new Parameter(sName.substring(4), sValue);
-	                thisUser.parameters.add(parameter);
-            	}
+             	parameter = new Parameter(sName.substring(4),sValue);
+	            thisUser.parameters.add(parameter);
             }
         }
 
@@ -230,11 +199,12 @@
             if((thisUser.userid.trim().length() > 0) && (thisUser.password != null) && (thisUser.password.length > 0)){
                 // everything is ok
             }
-            else {
+            else{
                 thisUser.password = thisUser.encrypt(sDefaultPassword);
                 thisUser.start = getDate();
                 thisUser.stop = "";
                 sPasswordString = " Password = "+sDefaultPassword;
+                
                 if(!thisUser.project.equals(sProjectAccessAllSites)){
                     thisUser.project = sSearchProject;
                 }
@@ -249,16 +219,16 @@
         }
 
         // save
-        if(thisUser.personid == null || thisUser.personid.length() == 0){
+        if(thisUser.personid==null || thisUser.personid.length()==0){
             thisUser.personid = activePatient.personid;
         }
-        activePatient.language=request.getParameter("ChangeLanguage");
+        activePatient.language = request.getParameter("ChangeLanguage");
         activePatient.store();
-
+    	
         // SAVE TO DB
         if(!bError && thisUser.saveToDB()){
-            if(thisUser.userid.equals(activeUser.userid)){
-                session.setAttribute("activeUser", thisUser);
+        	if(thisUser.userid.equals(activeUser.userid)){
+                session.setAttribute("activeUser",thisUser);
             }
 
             if(sPasswordString.trim().length() > 0){
@@ -294,9 +264,9 @@
             sTmpProfileID = Integer.toString(userProfile.getUserprofileid());
             sTmpProfileName = userProfile.getUserprofilename();
 
-            sProfiles += "<option value='"+sTmpProfileID+"'";
+            sProfiles+= "<option value='"+sTmpProfileID+"'";
             if(sMyProfile.equals(sTmpProfileID)){
-                sProfiles += " selected style='background-color:"+sBackgroundColor+"' ";
+                sProfiles+= " selected style='background-color:"+sBackgroundColor+"' ";
             }
 
             if(sMyProfile.equals(sTmpProfileID)){
@@ -316,7 +286,7 @@
         if(sAvailableProjects==null || sAvailableProjects.trim().length()==0){
             sProjects = sSearchProject;
         }
-        else {
+        else{
             String[] aProjects = sAvailableProjects.split(",");
             SortedSet set = new TreeSet();
 
@@ -446,11 +416,11 @@
                 <%=writeMyCheckbox(getTran("Web.Permissions","SA",sWebLanguage),"EditSA","sa",thisUser)%>
                 <%=writeMyCheckbox(getTran("Web.Permissions","ClearPassword",sWebLanguage),"EditClearPassword","",thisUser)%>
 
-                <%-- alias --%>
+                <%-- alias (numbers not allowed) --%>
                 <tr>
                     <td class="admin"><%=getTran("Web.UserProfile","alias",sWebLanguage)%></td>
                     <td class="admin2">
-                        <input type='text' class='text' name='Editalias' id='Editalias' value='<%=thisUser.getParameter("alias").trim()%>'> <%=sAliasMessage %>
+                        <input type='text' class='text' name='Editalias' id='Editalias' value='<%=thisUser.getParameter("alias").trim()%>' onKeyup="blurAlias(this,'<%=thisUser.userid%>');"> <span id="aliasMsg"></span>
                     </td>
                 </tr>
                 
@@ -570,30 +540,64 @@
           }  
           
 		  function searchInsurar(){
-		    openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>&ReturnFieldInsurarUid=EditInsuranceAgent&ReturnFieldInsurarName=insuranceagenttext&excludePatientSelfIsurarUID=true&PopupHeight=500&PopupWith=500");
+		    openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>"+
+		    		  "&ReturnFieldInsurarUid=EditInsuranceAgent"+
+		    		  "&ReturnFieldInsurarName=insuranceagenttext"+
+		    		  "&excludePatientSelfIsurarUID=true"+
+		    		  "&PopupHeight=500&PopupWith=500");
 		  }
           
           <%-- DO SAVE --%>
           function doSave(){
         	var medicalCenterOK = checkMedicalCenterLength();
+        	var aliasOK = (document.getElementById("aliasMsg").innerHTML.length==0?true:false);
 
-            if(medicalCenterOK){
+            if(medicalCenterOK && aliasOK){
               transactionForm.Action.value = "save";
               transactionForm.submit();
             }
             else{
-              transactionForm.Editmedicalcentercode.focus();
+              if(!aliasOK) transactionForm.Editalias.focus();
+              else{
+                transactionForm.Editmedicalcentercode.focus();
+              }
             }
           }
 
           <%-- LOOK UP MEDICAL CENTER --%>
           function lookupMedicalCenter(){
-            if(transactionForm.Editmedicalcentercode.value.length == 5){
+            if(transactionForm.Editmedicalcentercode.value.length==5){
               openPopup("/_common/search/blurMedicalCenter.jsp"+
             		    "&SearchCode="+transactionForm.Editmedicalcentercode.value+
             		    "&SourceVar=medicalcentercode"+
             		    "&ClearField=no"+
             		    "&MsgVar=medicalCenterMsg");
+            }
+          }
+          
+          <%-- BLUR ALIAS --%>
+          function blurAlias(aliasField,userId){
+            if(aliasField.value.length > 0){
+              if(isInteger(aliasField,false)){
+                aliasField.value = "";
+              }
+              else{
+                var params = "Alias="+aliasField.value+
+                             "&UserId="+userId;
+                var url = "<%=sCONTEXTPATH%>/permissions/ajax/aliasExists.jsp?ts="+new Date().getTime();
+                new Ajax.Request(url,{
+                  parameters: params,
+                  onSuccess: function(resp){
+                    if(resp.responseText.trim()=="true"){
+                      var msg = "<font color='red'><%=getTranNoLink("web","alias",sWebLanguage)%> <b>"+aliasField.value+"</b> <%=getTranNoLink("web","unavailable",sWebLanguage)%></font>";
+                      document.getElementById("aliasMsg").innerHTML = msg;
+			        }
+                    else{
+                      document.getElementById("aliasMsg").innerHTML = "";
+                    }
+                  }
+                });
+              }
             }
           }
 
