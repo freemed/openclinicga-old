@@ -144,7 +144,7 @@
               function checkSelectedPersons(){
                 if(mergeForm.personA.value != "" && mergeForm.personB.value != ""){
                   if(mergeForm.pid1.value == mergeForm.pid2.value){
-                    alertDialog("<%=getTran("web.manage","selectdifferentpersons",sWebLanguage)%>");
+                    alertDialog("web.manage","selectdifferentpersons");
                     mergeForm.personA.focus();
                   }
                   else{
@@ -154,11 +154,11 @@
                 }
                 else{
                   if(mergeForm.personA.value == ""){
-                	alertDialog("<%=getTran("web","somefieldsareempty",sWebLanguage)%>");
+                	alertDialog("web","somefieldsareempty");
                     mergeForm.personA.focus();
                   }
                   else if(mergeForm.personB.value == ""){
-                	alertDialog("<%=getTran("web","somefieldsareempty",sWebLanguage)%>");
+                	alertDialog("web","somefieldsareempty");
                     mergeForm.personB.focus();
                   }
                 }
@@ -986,7 +986,7 @@
                   }
                 }
                 else{
-                  alertDialog("<%=getTran("Web.manage","selectPersonToKeep",sWebLanguage)%>");
+                  alertDialog("Web.manage","selectPersonToKeep");
                 }
               }
             </script>
