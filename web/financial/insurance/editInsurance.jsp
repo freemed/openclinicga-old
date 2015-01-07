@@ -21,13 +21,13 @@
   <%-- DO SAVE --%>
   function doSave(){
     if("<%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","$$").replaceAll("\\*","")%>"==document.getElementById('EditInsurarUID').value && document.getElementById('EditInsuranceNr').value==''){
-      alertDialog("<%=getTranNoLink("web","insurancenr.mandatory",sWebLanguage)%>");
+      alertDialog("web","insurancenr.mandatory");
     }
     else if("<%=MedwanQuery.getInstance().getConfigString("InsuranceAgentAuthorizationNeededFor","$$").replaceAll("\\*","")%>"==document.getElementById('EditInsurarUID').value && document.getElementById('EditInsuranceStatus').value==''){
-      alertDialog("<%=getTranNoLink("web","insurancestatus.mandatory",sWebLanguage)%>");
+      alertDialog("web","insurancestatus.mandatory");
     }
    	else if(EditInsuranceForm.EditInsuranceStart && EditInsuranceForm.EditInsuranceStart.value.length<8){
-   	  alertDialog("<%=getTranNoLink("web","insurancedatestart.mandatory",sWebLanguage)%>");
+   	  alertDialog("web","insurancedatestart.mandatory");
    	}
   	else{
       EditInsuranceForm.EditSaveButton.disabled = true;
