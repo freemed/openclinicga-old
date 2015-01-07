@@ -576,29 +576,52 @@
           }
           
           <%-- BLUR ALIAS --%>
-          function blurAlias(aliasField,userId){
+          function blurAlias(aliasField,sUserId){
             if(aliasField.value.length > 0){
               if(isInteger(aliasField,false)){
-                aliasField.value = "";
+                aliasField.value = "";   
+                
+              	clearTimeout(aliasLookup);
+                document.getElementById("aliasMsg").innerHTML = "";
               }
               else{
-                var params = "Alias="+aliasField.value+
-                             "&UserId="+userId;
-                var url = "<%=sCONTEXTPATH%>/permissions/ajax/aliasExists.jsp?ts="+new Date().getTime();
-                new Ajax.Request(url,{
-                  parameters: params,
-                  onSuccess: function(resp){
-                    if(resp.responseText.trim()=="true"){
-                      var msg = "<font color='red'><%=getTranNoLink("web","alias",sWebLanguage)%> <b>"+aliasField.value+"</b> <%=getTranNoLink("web","unavailable",sWebLanguage)%></font>";
-                      document.getElementById("aliasMsg").innerHTML = msg;
-			        }
-                    else{
-                      document.getElementById("aliasMsg").innerHTML = "";
-                    }
-                  }
-                });
+            	queueAliasLookup(aliasField.value,sUserId);
               }
             }
+            else{
+           	  clearTimeout(aliasLookup);
+              document.getElementById("aliasMsg").innerHTML = "";
+            }
+          }
+          
+          <%-- QUEUE ALIAS LOOKUP --%>
+          var aliasLookup;
+          function queueAliasLookup(sAlias,sUserId){   
+          	clearTimeout(aliasLookup);
+            document.getElementById("aliasMsg").innerHTML = "";
+            
+        	aliasLookup = setTimeout("lookupAlias('"+sAlias+"','"+sUserId+"')",1000);
+          }
+          
+          <%-- LOOPKUP ALIAS --%>
+          function lookupAlias(sAlias,sUserId){
+            var params = "Alias="+sAlias+
+                         "&UserId="+sUserId;
+            var url = "<%=sCONTEXTPATH%>/permissions/ajax/aliasExists.jsp?ts="+new Date().getTime();
+            new Ajax.Request(url,{
+              parameters: params,
+              onSuccess: function(resp){
+                if(resp.responseText.trim()=="true"){
+                  var msg = "<font color='red'><%=getTranNoLink("web","alias",sWebLanguage)%> <b>"+sAlias+"</b> <%=getTranNoLink("web","unavailable",sWebLanguage)%></font>";
+                  document.getElementById("aliasMsg").innerHTML = msg;
+			    }
+                else{
+                  //document.getElementById("aliasMsg").innerHTML = "";
+                  var msg = "<font color='green'><%=getTranNoLink("web","alias",sWebLanguage)%> <b>"+sAlias+"</b> <%=getTranNoLink("web","available",sWebLanguage)%></font>";
+                  document.getElementById("aliasMsg").innerHTML = msg;
+                }
+              }
+            });
           }
 
           <%-- COUNCIL LOOKUP --%>
