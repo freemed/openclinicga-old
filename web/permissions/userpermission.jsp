@@ -426,7 +426,6 @@
                                 }
                                 catch(DocumentException e){
                                     out.print("<option value='administration'"+setSelected+">"+getTranNoLink("defaultPage", "administratioon", sWebLanguage)+"</option>");
-                                    //e.printStackTrace();
                                 }
                             %>
                         </select>
@@ -485,7 +484,7 @@
                 <tr>
                     <td class="admin"><%=getTran("Web.UserProfile","medicalCenterCode",sWebLanguage)%></td>
                     <td class="admin2">
-                        <input type='text' class='text' name='Editmedicalcentercode' value='<%=thisUser.getParameter("medicalcentercode").trim()%>' onKeyUp='isNumberLimited(this,0,99999);lookupMedicalCenter();' onBlur="checkMedicalCenterLength();">
+                        <input type='text' class='text' name='Editmedicalcentercode' id="medicalcentercode" value='<%=thisUser.getParameter("medicalcentercode").trim()%>' onKeyUp='isNumberLimited(this,0,99999);lookupMedicalCenter();' onBlur="checkMedicalCenterLength();">
                         <span id="medicalCenterMsg"></span>
                     </td>
                 </tr>
@@ -590,7 +589,11 @@
           <%-- LOOK UP MEDICAL CENTER --%>
           function lookupMedicalCenter(){
             if(transactionForm.Editmedicalcentercode.value.length == 5){
-              openPopup("/_common/search/blurMedicalCenter.jsp&SearchCode="+transactionForm.Editmedicalcentercode.value+"&SourceVar=medicalcentercode&MsgVar=medicalCenterMsg");
+              openPopup("/_common/search/blurMedicalCenter.jsp"+
+            		    "&SearchCode="+transactionForm.Editmedicalcentercode.value+
+            		    "&SourceVar=medicalcentercode"+
+            		    "&ClearField=no"+
+            		    "&MsgVar=medicalCenterMsg");
             }
           }
 
@@ -600,7 +603,12 @@
 			  alertDialog("web","save.user.record.first");
 			}
 			else{
-			  openPopup("/_common/search/councilLookup.jsp&council="+document.getElementById("council").value+"&regnr="+document.getElementById("Editorganisationid").value+"&language=<%=sWebLanguage%>&userid="+userid,600,400,document.getElementById("council").value);
+			  var url = "/_common/search/councilLookup.jsp"+
+                        "&council="+document.getElementById("council").value+
+			            "&regnr="+document.getElementById("Editorganisationid").value+
+			            "&language=<%=sWebLanguage%>"+
+			            "&userid="+userid;
+			  openPopup(url,600,400,document.getElementById("council").value);
 			}
 		  }
 		  
