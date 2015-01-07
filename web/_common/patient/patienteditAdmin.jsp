@@ -22,6 +22,7 @@
         return sList;
     }
 %>
+
 <%
     //--- SAVE ------------------------------------------------------------------------------------
     if((activePatient!=null)&&(request.getParameter("SavePatientEditForm")==null)) {
@@ -34,15 +35,15 @@
         }
         out.print(
     			(bCanModifyCore?inputRow("Web","begindate","UpdateTime","Admin",ScreenHelper.formatDate(new java.util.Date()),"Dp",true,false,sWebLanguage):
-    	            inputRow("Web","begindate","UpdateTime","Admin",ScreenHelper.formatDate(new java.util.Date()),"T",bCanModifyCore, true,sWebLanguage)
+    	            inputRow("Web","begindate","UpdateTime","Admin",ScreenHelper.formatDate(new java.util.Date()),"T",bCanModifyCore,true,sWebLanguage)
     				)
-        	+inputRow("Web","Lastname","Lastname","Admin",activePatient.lastname,"T",bCanModifyCore, true,sWebLanguage)
-            +inputRow("Web","Firstname","Firstname","Admin",activePatient.firstname,"T",bCanModifyCore, true,sWebLanguage)
+        	+inputRow("Web","Lastname","Lastname","Admin",activePatient.lastname,"T",bCanModifyCore,true,sWebLanguage)
+            +inputRow("Web","Firstname","Firstname","Admin",activePatient.firstname,"T",bCanModifyCore,true,sWebLanguage)
 			+(bCanModifyCore?inputRow("Web","Dateofbirth","DateOfBirth","Admin",activePatient.dateOfBirth,"Dp",true,false,sWebLanguage):
-            inputRow("Web","Dateofbirth","DateOfBirth","Admin",activePatient.dateOfBirth,"T",bCanModifyCore, true,sWebLanguage)
+            inputRow("Web","Dateofbirth","DateOfBirth","Admin",activePatient.dateOfBirth,"T",bCanModifyCore,true,sWebLanguage)
 			)
             +inputRow("Web","NativeTown","NativeTown","Admin",activePatient.nativeTown,"T",true,true,sWebLanguage)
-            +writeCountry(activePatient.nativeCountry, "NativeCountry", "Admin", "NativeCountryDescription", true, "NativeCountry",sWebLanguage)
+            +writeCountry(activePatient.nativeCountry, "NativeCountry","Admin","NativeCountryDescription",true,"NativeCountry",sWebLanguage)
             +"<tr><td class='admin'>"+getTran("web","personid",sWebLanguage)+"</td><td class='admin2'>"+activePatient.personid+"</td></tr>"
             +inputRow("Web","immatnew","ImmatNew","Admin",activePatient.getID("immatnew"),"T",true,true,sWebLanguage)
             +"<tr><td class='admin'>"+getTran("web","archiveFileCode",sWebLanguage)+"</td><td class='admin2'><input type='hidden' name='archiveFileCode' value='"+activePatient.getID("archiveFileCode")+"'/>"
@@ -83,19 +84,20 @@
         sLanguage = setOption(sLanguage,activePatient.language.toLowerCase(),sDefaultLanguage.toLowerCase(),3);
         out.print(normalRow("Web","language","Language","Admin",sWebLanguage)+sLanguage+"</select></td></tr>");
 
-      //gender
+      // gender
       String sGender = "<select name='Gender' select-one class='text'";
       sGender+="><option value='' SELECTED>"+getTran("web","choose",sWebLanguage)+"</option>";
-      sGender+="<option value='M'>"+getTran("Web.Occup","Male",sWebLanguage)+"</option><option value='F'>"+getTran("Web.Occup","Female",sWebLanguage)+"</option>";
-      sGender = setOption(sGender, activePatient.gender.toUpperCase(),MedwanQuery.getInstance().getConfigString("defaultGender","F"),3);
+      sGender+="<option value='M'>"+getTran("Web.Occup","Male",sWebLanguage)+"</option>"+
+               "<option value='F'>"+getTran("Web.Occup","Female",sWebLanguage)+"</option>";
+      sGender = setOption(sGender,activePatient.gender.toUpperCase(),MedwanQuery.getInstance().getConfigString("defaultGender","F"),3);
 
-      //gender
+      // status
       String sCivilStatus = "<select name='CivilStatus' select-one class='text'><option value=''/>"
             +ScreenHelper.writeSelect("civil.status",activePatient.comment2,sWebLanguage)+"</select>";
 
       out.print(normalRow("Web","gender","Gender","Admin",sWebLanguage)+sGender+"</select></td></tr>"
           +inputRow("Web","tracnetid","TracnetID","Admin",checkString((String)activePatient.adminextends.get("tracnetid")),"T",true,false,sWebLanguage)
-          +inputRow("Web","treating-physician","TreatingPhysician","Admin",activePatient.comment1,"T",true,false,sWebLanguage)
+          +inputRow("Web","treating-physician","Comment1","Admin",activePatient.comment1,"T",true,false,sWebLanguage)
           +normalRow("Web","civilstatus","CivilStatus","Admin",sWebLanguage)+sCivilStatus+"</td></tr>"
           +inputRow("Web","comment3","Comment3","Admin",activePatient.comment3,"T",true, false,sWebLanguage) 
           +inputRow("Web","comment5","Comment5","Admin",activePatient.comment5,"T",true, false,sWebLanguage) 
@@ -135,17 +137,34 @@ function checkSubmitAdmin(){
           break;
         }
       }
-      else if(obligatoryField.value==""){
-        if(obligatoryField.type != "hidden"){
-          activateTab('Admin');
-          obligatoryField.focus();
+      else{
+    	if(obligatoryField.value==""){
+          if(obligatoryField.type != "hidden"){
+            activateTab('Admin');
+            obligatoryField.focus();
+          }
+          maySubmit = false;
+          break;
         }
-        maySubmit = false;
-        break;
+    	else{
+    	  // selected option should be 1 or 2 (preventing data-input through "Inspect element")
+          if(obligatoryField.name=="Gender"){
+          	if(document.all("Gender").value.length > 0){
+          	  if(document.all("Gender").selectedIndex!=1 && document.all("Gender").selectedIndex!=2){
+                if(obligatoryField.type != "hidden"){
+                  activateTab('Admin');
+                  obligatoryField.focus();
+                }
+          	    maySubmit = false;
+                break;
+          	  }    
+          	}
+          }
+    	}
       }
     }
   }
-
+  
   return maySubmit;
 }
 

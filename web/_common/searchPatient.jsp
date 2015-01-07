@@ -1,6 +1,7 @@
 <%@page import="java.util.*"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+
 <%!
     //--- SET FOCUS -------------------------------------------------------------------------------
     private String setFocus(String sField, String sDefaultFocus){
@@ -48,7 +49,8 @@
         else         sUnit = "";
     } 
     else{
-        sScript = "document.getElementById(\"SF\").find"+sDefaultFocus+".focus();$(\"SF\").find"+sDefaultFocus+".className=\"selected_bold\"";
+        sScript = "$(\"SF\").find"+sDefaultFocus+".className=\"selected_bold\";"+
+                  "$(\"SF\").find"+sDefaultFocus+".focus();";
     }
 
     // unitid and unitname
@@ -177,7 +179,8 @@
 </table>
 
 <script>
-  Event.observe(window,'load',function(){<%=sScript%>});
+  //Event.observe(window,'load',function(){<%=sScript%>});
+  <%=sScript%>
   
 <%
     // red background for patients who are not hospitalized

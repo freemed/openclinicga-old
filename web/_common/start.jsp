@@ -81,7 +81,7 @@
         sNow = sNow.substring(0,sNow.lastIndexOf("/"));
 
         if(sDOB.equals(sNow)){
-            %><script>alertDialog("Happy birthday!");</script><%
+            %><script>alertDialogDirectText("Happy birthday!");</script><%
         }
     }
 

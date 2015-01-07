@@ -166,7 +166,7 @@
       ajaxChangeSearchResults('_common/search/searchByAjax/searchPatientAdd.jsp', SearchForm);
     }
     else{
-      alertDialog("<%=getTranNoLink("web","somefieldsareempty",sWebLanguage)%>");
+      alertDialog("web","somefieldsareempty");
     }
   }
     

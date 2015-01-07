@@ -70,10 +70,15 @@ try{
                                                         session.setAttribute("contextSelector",contextSelector);
                                                         sessionContainerWO.getFlags().setContext(contextSelector);
                                                     }
+
+                                                    Debug.println("--> contextSelector : "+contextSelector);
                                                     Service service;
-                                                    for (int i=0; i<activeUser.vServices.size(); i++){
+                                                    for(int i=0; i<activeUser.vServices.size(); i++){
                                                         service = (Service)activeUser.vServices.elementAt(i);
-                                                        %><option value="<%=service.code%>" <%=(service.code.equals(contextSelector)?"selected":"")%>><%=getTranNoLink("Service",service.code,sWebLanguage)%></option><%
+                                                        
+                                                        if(service.code.length() > 0){
+                                                            %><option value="<%=service.code%>" <%=(service.code.equals(contextSelector)?"selected":"")%>><%=getTranNoLink("Service",service.code,sWebLanguage)%></option><%
+                                                        }
                                                     }
                                                 %>
                                             </select>
@@ -95,13 +100,13 @@ try{
 
                                         String sClass, transactionType, sList = "", docType, servicecode;
                                         TransactionVO transactionVO;
-                                        ItemVO itemVO, item, encounteritem;
+                                        ItemVO contextItem, itemVO, item, encounteritem;
                                         Encounter encounter;
                                         Encounter activeEncounter;
 
                                         while(transactions.hasNext()){
                                             transactionVO = (TransactionVO) transactions.next();
-                                            itemVO = transactionVO.getContextItem();
+                                            contextItem = transactionVO.getContextItem();
                                             encounteritem = transactionVO.getItem(ScreenHelper.ITEM_PREFIX+"ITEM_TYPE_CONTEXT_ENCOUNTERUID");
                                             servicecode="";
                                             if(encounteritem!=null){
@@ -110,7 +115,8 @@ try{
                                             		servicecode= encounter.getServiceUID(transactionVO.getUpdateDateTime());
                                             	}
                                             }
-                                            if(contextSelector == null || contextSelector.length() == 0 || (itemVO != null && itemVO.getValue()!=null && itemVO.getValue().equalsIgnoreCase(contextSelector))){
+                                                                                        
+                                            if(contextSelector == null || contextSelector.length() == 0 || (servicecode.equalsIgnoreCase(contextSelector)) || (contextItem != null && contextItem.getValue()!=null && contextItem.getValue().equalsIgnoreCase(contextSelector))){
                                                 activeEncounter = Encounter.getActiveEncounter(activePatient.personid);
                                                 sClass = "disabled";
 
@@ -226,7 +232,7 @@ try{
                                                             %>
                                                         </td>
                                                         <td align="center"><%=transactionVO.getUser()!=null?transactionVO.getUser().getPersonVO().getFirstname():""%>,&nbsp;<%=transactionVO.getUser()!=null?transactionVO.getUser().getPersonVO().getLastname():""%></td>
-                                                        <td align="center"><%=servicecode.length()>0?servicecode+": "+getTran("service",servicecode,sWebLanguage):getTran("service",itemVO!=null?itemVO.getValue():"",sWebLanguage)%></td>
+                                                        <td align="center"><%=servicecode.length()>0?servicecode+": "+getTran("service",servicecode,sWebLanguage):getTran("service",contextItem!=null?contextItem.getValue():"",sWebLanguage)%></td>
                                                     </tr>
                                                 <%
                                             }

@@ -101,7 +101,7 @@
 				    <%
 			            String sWorkTimeMessage = checkString((String)session.getAttribute("WorkTimeMessage"));
 			            if(sWorkTimeMessage.length() > 0){
-			                %><img style="float:right;"  height='23px' src="<c:url value='/_img/themes/default/men_at_work.gif'/>" alt="<%=(getTranNoLink("Web.Occup","medwan.common.workuntil",sWebLanguage)+" "+sWorkTimeMessage)%>"/><%
+			                %><img style="float:right;" height='22px' src="<c:url value='/_img/themes/default/men_at_work.gif'/>" alt="<%=(getTranNoLink("Web.Occup","medwan.common.workuntil",sWebLanguage)+" "+sWorkTimeMessage)%>"/><%
 			            }
 		
 		                String sTmpPersonid = checkString(request.getParameter("personid"));
@@ -121,13 +121,13 @@
 		                            bPicture     = Picture.exists(Integer.parseInt(sTmpPersonid)),
 		                            bBarcode     = Barcode.exists(Integer.parseInt(sTmpPersonid));
 		                    if(!bFingerPrint){
-		                        %> <a class="imglink" href="javascript:enrollFingerPrint();"><img border='0' height='23px' src="<c:url value='/_img/themes/default/fingerprint.png'/>" alt="<%=getTranNoLink("web","enrollFingerPrint",sWebLanguage)%>"/></a><%
+		                        %> <a class="imglink" href="javascript:enrollFingerPrint();"><img border='0' height='22px' src="<c:url value='/_img/themes/default/fingerprint.png'/>" alt="<%=getTranNoLink("web","enrollFingerPrint",sWebLanguage)%>"/></a><%
 		                    }
 		                    if(!bBarcode){
-		                        %> <a class="imglink" href="javascript:printPatientCard();"><img border='0' height='23px' src="<c:url value='/_img/themes/default/badge.png'/>" alt="<%=getTranNoLink("web","printPatientCard",sWebLanguage)%>"/></a><%
+		                        %> <a class="imglink" href="javascript:printPatientCard();"><img border='0' height='22px' src="<c:url value='/_img/themes/default/badge.png'/>" alt="<%=getTranNoLink("web","printPatientCard",sWebLanguage)%>"/></a><%
 		                    }
 		                    if(!bPicture){
-		                        %> <a class="imglink" href="javascript:storePicture();"><img border='0' height='23px' src="<c:url value='/_img/themes/default/camera.png'/>" alt="<%=getTranNoLink("web","loadPicture",sWebLanguage)%>"/></a><%
+		                        %> <a class="imglink" href="javascript:storePicture();"><img border='0' height='22px' src="<c:url value='/_img/themes/default/camera.png'/>" alt="<%=getTranNoLink("web","loadPicture",sWebLanguage)%>"/></a><%
 		                    }
 		                }
 		            %>

@@ -119,3 +119,5 @@
   
   activateTab("<%=tab%>");
 </script>
+
+<%=writeJSButtons("PatientEditForm","SavePatientEditForm")%>

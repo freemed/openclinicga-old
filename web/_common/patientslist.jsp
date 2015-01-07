@@ -54,12 +54,12 @@
             lResults = AdminPerson.getUserVisits(activeUser.userid);
         } 
         else if(sUnit.length() > 0){
-        	sDateOfBirth = ScreenHelper.convertToEUDate(sDateOfBirth); // to match with EU-date in database
+        	//sDateOfBirth = ScreenHelper.convertToEUDate(sDateOfBirth); // to match with EU-date in database
             lResults = AdminPerson.getPatientsInEncounterServiceUID(simmatnew,sArchiveFileCode,snatreg,sName,sFirstname,sDateOfBirth,sUnit,sPersonID,sDistrict);
         } 
         else{
             if((simmatnew+sArchiveFileCode+snatreg+sName+sFirstname+sDateOfBirth+sPersonID+sDistrict).length()>0){
-            	sDateOfBirth = ScreenHelper.convertToEUDate(sDateOfBirth); // to match with EU-date in database
+            	//sDateOfBirth = ScreenHelper.convertToEUDate(sDateOfBirth); // to match with EU-date in database
             	lResults = AdminPerson.getAllPatients(simmatnew,sArchiveFileCode,snatreg,sName,sFirstname,sDateOfBirth,sPersonID,sDistrict,iMaxResultSet);
             }
             else {

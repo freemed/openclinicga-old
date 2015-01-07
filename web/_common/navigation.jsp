@@ -4,7 +4,6 @@
 &nbsp;&nbsp;<a href="#" onMouseOver="window.status='';return true;" onClick="doClick('<c:url value="/main.do"/>?ts=<%=getTs()%>');">Home</a>
 <%
     String sPage = checkString(request.getParameter("Page"));
-    Debug.println("sPage : "+sPage); ////
 
     if(sPage.length() > 0 && !sPage.equalsIgnoreCase("null")){
         String sPatientID = "";

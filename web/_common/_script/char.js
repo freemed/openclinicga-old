@@ -1,6 +1,8 @@
-function denySpecialCharacters(inputField){
+function denySpecialCharacters(inputField,useExtendedSet){
+  if(useExtendedSet==null) useExtendedSet = false;
   var checkChar = inputField.value.charAt(inputField.value.length-1);
-
+  var extendedSet = "()<>@,;:.[]/\'%$*%´§!^_#&|²³{}\"¨µ£`~=?+";
+  
   if(checkChar=='É' || checkChar=='é' ||
      checkChar=='È' || checkChar=='è' ||
      checkChar=='Á' || checkChar=='á' ||
@@ -15,10 +17,14 @@ function denySpecialCharacters(inputField){
      checkChar=='Ä' || checkChar=='ä' ||
      checkChar=='Ü' || checkChar=='ü' ||
      checkChar=='Ö' || checkChar=='ö' ||
-     checkChar=='Ï' || checkChar=='ï'
+     checkChar=='Ï' || checkChar=='ï' || 
+     (useExtendedSet?(extendedSet.indexOf(checkChar) > -1):false)
     ){
     inputField.value = inputField.value.substring(0,inputField.value.length-1);
   }
+  
+  // prevent double spaces
+  inputField.value = inputField.value.replace(/\s+/g," ");
 }
 
 function limitChars(textFieldObj,maxCharsAllowed){
@@ -31,10 +37,10 @@ function limitChars(textFieldObj,maxCharsAllowed){
   }
 }
 
-function limitLength(sObject){
-  var iMaxLength = 250;
-  if(sObject.value.length>iMaxLength){
-    sObject.value = sObject.value.substring(0,iMaxLength);
+function limitLength(object,iMaxLength){
+  if(iMaxLength==null) iMaxLength = 250;
+  if(object.value.length>=iMaxLength){
+    object.value = object.value.substring(0,iMaxLength-1);
   }
 }
 
@@ -75,8 +81,10 @@ function isNumberLimited(sObject,min,max){
   }
 }
 
-function isNumber(sObject){
+function isNumber(sObject,clearField){
   if(sObject.value.length==0) return false;
+  if(clearField==null) clearField = true;
+  
   sObject.value = sObject.value.replace(",",".");
   var string = sObject.value;
   var vchar = "01234567890.+-";
@@ -84,26 +92,32 @@ function isNumber(sObject){
 
   for(var i=0; i < string.length; i++){
     if(vchar.indexOf(string.charAt(i))==-1){
-      if(sObject.id){
-        setTimeout('var txt = document.getElementById(\''+sObject.id+'\'); txt.focus(); txt.select();',1);
+      if(clearField){
+        if(sObject.id){
+          setTimeout('var txt = document.getElementById(\''+sObject.id+'\'); txt.focus(); txt.select();',1);
+        }
+        else{
+          setTimeout('var txt = document.all[\''+sObject.name+'\']; txt.focus(); txt.select();',1);
+        }
+        //sObject.focus();
       }
-      else{
-        setTimeout('var txt = document.all[\''+sObject.name+'\']; txt.focus(); txt.select();',1);
-      }
-      //sObject.focus();
+      
       return false;
     }
     else{
       if(string.charAt(i)=="."){
         dotCount++;
         if(dotCount > 1){
-          if(sObject.id){
-            setTimeout('var txt = document.getElementById(\''+sObject.id+'\'); txt.focus(); txt.select();',1);
+          if(clearField){
+            if(sObject.id){
+              setTimeout('var txt = document.getElementById(\''+sObject.id+'\'); txt.focus(); txt.select();',1);
+            }
+            else{
+              setTimeout('var txt = document.all[\''+sObject.name+'\']; txt.focus(); txt.select();',1);
+            }
+            //sObject.focus();
           }
-          else{
-            setTimeout('var txt = document.all[\''+sObject.name+'\']; txt.focus(); txt.select();',1);
-          }
-          //sObject.focus();
+          
           return false;
         }
       }
@@ -117,8 +131,10 @@ function isNumber(sObject){
   return true;
 }
 
-function isInteger(sObject){
+function isInteger(sObject,clearField){
   if(sObject.value.length==0) return false;
+  if(clearField==null) clearField = true;
+  
   sObject.value = sObject.value.replace(",",".");
   var string = sObject.value;
   var vchar = "01234567890.";
@@ -126,7 +142,7 @@ function isInteger(sObject){
 
   for(var i=0; i<string.length; i++){
     if(vchar.indexOf(string.charAt(i))==-1){
-      sObject.value = "";
+      if(clearField) sObject.value = "";
       return false;
     }
   }

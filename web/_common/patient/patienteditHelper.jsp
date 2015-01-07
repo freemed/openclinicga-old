@@ -1,19 +1,20 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+
 <%!
-////////////////////////////////////////////////////////////////////////////////////////////////////
-    private String inputRow(String sLabelType, String sLabelID, String sFieldName, String sTab, String sValue
-    , String sTypeContent, boolean bEditable, boolean bUpperCase, String sWebLanguage) {
+    //--- INPUT ROW -------------------------------------------------------------------------------
+    private String inputRow(String sLabelType, String sLabelID, String sFieldName, String sTab, String sValue,
+                            String sTypeContent, boolean bEditable, boolean bUpperCase, String sWebLanguage) {
         String sReturn = normalRow(sLabelType,sLabelID,sFieldName,sTab,sWebLanguage);
 
-        if (sTypeContent.toUpperCase().equals("T")) {
-            sReturn+="<input class='text' type='text' name='"+sFieldName+"' id='"+sFieldName+"' value=\""+sValue.trim()+"\" size='"+sTextWidth+"' onblur='limitLength(this);'";
-             if (!bEditable) {
+        if(sTypeContent.toUpperCase().equals("T")){
+            sReturn+= "<input class='text' type='text' name='"+sFieldName+"' id='"+sFieldName+"' value=\""+sValue.trim()+"\" size='"+sTextWidth+"' onKeyUp='denySpecialCharacters(this,true);limitLength(this,125);'";
+            if(!bEditable){
                 sReturn+=" readonly ";
             }
 
-            if (bUpperCase) {
-                sReturn+=" style='text-transform=uppercase' onKeyUp='denySpecialCharacters(this);' ";
+            if(bUpperCase){
+                sReturn+=" style='text-transform=uppercase' ";
             }
             sReturn += ">";
         }
@@ -50,8 +51,9 @@
 
         return sReturn;
     }
-/////////////////////////////////////////////////////////////////////////////////////////
-    private String normalRow(String sLabelType, String sLabelID, String sFieldName, String sTab, String sWebLanguage) {
+ 
+    //--- NORMAL ROW ------------------------------------------------------------------------------
+    private String normalRow(String sLabelType, String sLabelID, String sFieldName, String sTab, String sWebLanguage){
         String sObligatoryFields = MedwanQuery.getInstance().getConfigString("ObligatoryFields_"+sTab);
         boolean drawAsterix = false;
         if(sObligatoryFields.toLowerCase().indexOf(sFieldName.toLowerCase()+",")>-1){
@@ -59,9 +61,10 @@
         }
         return "<tr><td class='admin'>"+getTran(sLabelType,sLabelID,sWebLanguage)+(drawAsterix?" *":"")+"</td><td class='admin2'>";
     }
-/////////////////////////////////////////////////////////////////////////////////////////
-    private String writeCountry(String sCode, String sFieldCode, String tab, String sFieldDescription
-      , boolean bEditable, String sCodeDescription,String sWebLanguage) {
+
+    //--- WRITE COUNTRY ---------------------------------------------------------------------------
+    private String writeCountry(String sCode, String sFieldCode, String tab, String sFieldDescription,
+    		                    boolean bEditable, String sCodeDescription,String sWebLanguage) {
         String sdc="";
         if (sCode.trim().length()==0) {
             sdc = "";

@@ -1709,7 +1709,7 @@
       return true; 
     }
     else{
-      alertDialog("<%=getTranNoLink("web.assets","reachedMaximumDocuments",sWebLanguage).replaceAll("#maxDocuments#","20")%>");
+      alertDialogDirectText("<%=getTranNoLink("web.assets","reachedMaximumDocuments",sWebLanguage).replaceAll("#maxDocuments#","20")%>");
       return false;
     }
   }
@@ -2223,7 +2223,7 @@
       return true;
     }
     else{
-      alertDialog("<%=getTranNoLink("web.assets","reachedMaximumDocuments",sWebLanguage).replaceAll("#maxDocuments#","20")%>");
+      alertDialogDirectText("<%=getTranNoLink("web.assets","reachedMaximumDocuments",sWebLanguage).replaceAll("#maxDocuments#","20")%>");
       return false;
     }
   }  

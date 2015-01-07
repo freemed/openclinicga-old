@@ -45,8 +45,8 @@ function unhideSelects(){
  
 <%-- DATE ERROR --%>
 function dateError(field){
-  alertDialog("Web.Occup","date.error");
-  setTimeout('document.getElementById("'+field.id+'").focus();',100);
+  //alertDialog("Web.Occup","date.error");
+  //setTimeout('document.getElementById("'+field.id+'").focus();',100);
 }  
 
 String.prototype.trim = function(){
