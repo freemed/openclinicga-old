@@ -477,7 +477,7 @@ public class Zipcode {
                 if(ScreenHelper.checkString(sQuarter).length()>0){
                 	ps.setString(n,sQuarter);
                 	n++;
-                }
+                } 
                 rs = ps.executeQuery();
 
                 if (rs.next()) {

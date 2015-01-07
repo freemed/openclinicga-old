@@ -12,13 +12,6 @@ import java.sql.ResultSet;
 import java.util.Vector;
 import java.util.Hashtable;
 
-/**
- * Created by IntelliJ IDEA.
- * User: mxs_david
- * Date: 8-jan-2007
- * Time: 15:56:33
- * To change this template use Options | File Templates.
- */
 public class MedicalCenter {
     private String code;
     private String name;
@@ -32,123 +25,121 @@ public class MedicalCenter {
     private String fax;
     private String comment;
 
-    public String getCode() {
+    public String getCode(){
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(String code){
         this.code = code;
     }
 
-    public String getName() {
+    public String getName(){
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name){
         this.name = name;
     }
 
-    public Timestamp getUpdatetime() {
+    public Timestamp getUpdatetime(){
         return updatetime;
     }
 
-    public void setUpdatetime(Timestamp updatetime) {
+    public void setUpdatetime(Timestamp updatetime){
         this.updatetime = updatetime;
     }
 
-    public String getAddress() {
+    public String getAddress(){
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(String address){
         this.address = address;
     }
 
-    public String getZipcode() {
+    public String getZipcode(){
         return zipcode;
     }
 
-    public void setZipcode(String zipcode) {
+    public void setZipcode(String zipcode){
         this.zipcode = zipcode;
     }
 
-    public String getCity() {
+    public String getCity(){
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(String city){
         this.city = city;
     }
 
-    public String getCountry() {
+    public String getCountry(){
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(String country){
         this.country = country;
     }
 
-    public String getTelephone() {
+    public String getTelephone(){
         return telephone;
     }
 
-    public void setTelephone(String telephone) {
+    public void setTelephone(String telephone){
         this.telephone = telephone;
     }
 
-    public String getEmail() {
+    public String getEmail(){
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email){
         this.email = email;
     }
 
-    public String getFax() {
+    public String getFax(){
         return fax;
     }
 
-    public void setFax(String fax) {
+    public void setFax(String fax){
         this.fax = fax;
     }
 
-    public String getComment() {
+    public String getComment(){
         return comment;
     }
 
-    public void setComment(String comment) {
+    public void setComment(String comment){
         this.comment = comment;
     }
 
+    //--- EXISTS ----------------------------------------------------------------------------------
     public static boolean exists(String sCode){
+        boolean bExists = false;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        boolean bExists = false;
-
-        String sSelect = "SELECT 1 FROM MedicalCenters WHERE code = ?";
-
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
         try{
-            ps = ad_conn.prepareStatement(sSelect);
+            String sSQL = "SELECT 1 FROM MedicalCenters WHERE code = ?";
+            ps = conn.prepareStatement(sSQL);
             ps.setString(1,sCode);
-
             rs = ps.executeQuery();
 
             if(rs.next()){
                 bExists = true;
             }
-
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(rs!=null)rs.close();
-                if(ps!=null)ps.close();
-                ad_conn.close();
-            }catch(Exception e){
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
@@ -156,15 +147,17 @@ public class MedicalCenter {
         return bExists;
     }
 
+    //--- ADD MEDICAL CENTER ----------------------------------------------------------------------
     public static void addMedicalCenter(MedicalCenter objMC){
-        PreparedStatement ps;
+        PreparedStatement ps = null;
 
-        String sInsert = " INSERT INTO MedicalCenters (code,name,updatetime,address,zipcode,city,country,"+
-                         " telephone,email,fax,comment) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        String sSQL = "INSERT INTO MedicalCenters (code,name,updatetime,address,zipcode,city,country,"+
+                      " telephone,email,fax,comment)"+
+        		      " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
         try{
-            ps = ad_conn.prepareStatement(sInsert);
+            ps = conn.prepareStatement(sSQL);
             ps.setString(1,objMC.getCode());
             ps.setString(2,objMC.getName());
             ps.setTimestamp(3,ScreenHelper.getSQLTime()); // now
@@ -178,28 +171,33 @@ public class MedicalCenter {
             ps.setString(11,objMC.getComment());
 
             ps.executeUpdate();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
-        try {
-			ad_conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        finally{
+            try{
+                if(ps!=null) ps.close();
+                conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
+    //--- SAVE MEDICAL CENTER ---------------------------------------------------------------------
     public static void saveMedicalCenter(MedicalCenter objMC){
         PreparedStatement ps = null;
 
-        String sUpdate = " UPDATE MedicalCenters SET code=?, name=?, updatetime=?, address=?, zipcode=?, city=?,"+
-                         " country=?, telephone=?, email=?, fax=?, comment=?"+
-                         " WHERE code = ?";
+        String sSQL = "UPDATE MedicalCenters SET code=?, name=?, updatetime=?, address=?, zipcode=?, city=?,"+
+                      " country=?, telephone=?, email=?, fax=?, comment=?"+
+                      " WHERE code = ?";
 
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
         try{
-            ps = ad_conn.prepareStatement(sUpdate);
+            ps = conn.prepareStatement(sSQL);
+            
             ps.setString(1,objMC.getCode());
             ps.setString(2,objMC.getName());
             ps.setTimestamp(3,ScreenHelper.getSQLTime()); // now
@@ -214,74 +212,80 @@ public class MedicalCenter {
             ps.setString(12,objMC.getCode());
 
             ps.executeUpdate();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(ps!=null)ps.close();
-                ad_conn.close();
-            }catch(Exception e){
+                if(ps!=null) ps.close();
+                conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
     }
 
+    //--- DELETE MEDICAL CENTER -------------------------------------------------------------------
     public static void deleteMedicalCenter(String sCode){
         PreparedStatement ps = null;
 
-        String sDelete = "DELETE FROM MedicalCenters WHERE code = ?";
-
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
         try{
-            ps = ad_conn.prepareStatement(sDelete);
+            String sSQL = "DELETE FROM MedicalCenters WHERE code = ?";
+            ps = conn.prepareStatement(sSQL);
             ps.setString(1,sCode);
 
             ps.executeUpdate();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(ps!=null)ps.close();
-                ad_conn.close();
-            }catch(Exception e){
+                if(ps!=null) ps.close();
+                conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
     }
 
-    public static Vector selectMedicalCenters(String sFindCenterCode, String sFindCenterName, String sFindCenterAddress, String sFindCenterZipcode, String sFindCenterCity, String sSortCol){
+    //--- SELECT MEDICAL CENTERS ------------------------------------------------------------------
+    public static Vector selectMedicalCenters(String sFindCenterCode, String sFindCenterName,
+    		                                  String sFindCenterAddress, String sFindCenterZipcode, 
+    		                                  String sFindCenterCity, String sSortCol){
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         Vector vMC = new Vector();
         MedicalCenter objMC;
 
-        String sSelect = "SELECT * FROM MedicalCenters";
-
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
         try{
+            String sSQL = "SELECT * FROM MedicalCenters";
+            
             if(sFindCenterCode.length()>0 || sFindCenterName.length()>0 || sFindCenterAddress.length()>0 ||
                sFindCenterZipcode.length()>0 || sFindCenterCity.length()>0){
-                sSelect+= " WHERE ";
+            	sSQL+= " WHERE ";
 
-                if(sFindCenterCode.length() > 0)    sSelect+= "code LIKE ? AND ";
-                if(sFindCenterName.length() > 0)    sSelect+= "name LIKE ? AND ";
-                if(sFindCenterAddress.length() > 0) sSelect+= "address LIKE ? AND ";
-                if(sFindCenterZipcode.length() > 0) sSelect+= "zipcode LIKE ? AND ";
-                if(sFindCenterCity.length() > 0)    sSelect+= "city LIKE ? AND ";
+                if(sFindCenterCode.length() > 0)    sSQL+= "code LIKE ? AND ";
+                if(sFindCenterName.length() > 0)    sSQL+= "name LIKE ? AND ";
+                if(sFindCenterAddress.length() > 0) sSQL+= "address LIKE ? AND ";
+                if(sFindCenterZipcode.length() > 0) sSQL+= "zipcode LIKE ? AND ";
+                if(sFindCenterCity.length() > 0)    sSQL+= "city LIKE ? AND ";
             }
 
             // remove last AND if any
-            if(sSelect.indexOf("AND ")>0){
-                sSelect = sSelect.substring(0,sSelect.lastIndexOf("AND "));
+            if(sSQL.indexOf("AND ")>0){
+            	sSQL = sSQL.substring(0,sSQL.lastIndexOf("AND "));
             }
 
             // order by selected col or default col
-            sSelect+= " ORDER BY "+sSortCol;
-            Debug.println("Query MC: " + sSelect);
-            ps = ad_conn.prepareStatement(sSelect);
+            sSQL+= " ORDER BY "+sSortCol;
+            ps = conn.prepareStatement(sSQL);
 
             // set questionmark values
             int questionMarkIdx = 1;
@@ -310,17 +314,17 @@ public class MedicalCenter {
 
                 vMC.addElement(objMC);
             }
-
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(rs!=null)rs.close();
-                if(ps!=null)ps.close();
-                ad_conn.close();
-            }catch(Exception e){
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
@@ -328,19 +332,17 @@ public class MedicalCenter {
         return vMC;
     }
 
+    //--- SHOW DETAILS ----------------------------------------------------------------------------
     public static MedicalCenter showDetails(String sCode){
+        MedicalCenter objMC = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        MedicalCenter objMC = null;
-
-        String sSelect = "SELECT * FROM MedicalCenters WHERE code = ?";
-
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
         try{
-            ps = ad_conn.prepareStatement(sSelect);
+            String sSQL = "SELECT * FROM MedicalCenters WHERE code = ?";
+            ps = conn.prepareStatement(sSQL);
             ps.setString(1,sCode);
-
             rs = ps.executeQuery();
 
             if(rs.next()){
@@ -358,17 +360,17 @@ public class MedicalCenter {
                 objMC.setUpdatetime(rs.getTimestamp("updatetime"));
                 objMC.setComment(ScreenHelper.checkString(rs.getString("comment")));
             }
-
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(rs!=null)rs.close();
-                if(ps!=null)ps.close();
-                ad_conn.close();
-            }catch(Exception e){
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
@@ -376,19 +378,18 @@ public class MedicalCenter {
         return objMC;
     }
 
+    //--- BLUR SELECT MEDICAL CENTER INFO ---------------------------------------------------------
     public static Hashtable blurSelectMedicalCenterInfo(String sLowerCode,String sSearchCode){
+        Hashtable hResults = new Hashtable();
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        Hashtable hResults = new Hashtable();
-
-        String sQuery = "SELECT name,address,zipcode,city,telephone FROM MedicalCenters WHERE "+sLowerCode+" = ?";
-
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
         try{
-            ps = ad_conn.prepareStatement(sQuery);
+            String sSQL = "SELECT name,address,zipcode,city,telephone"+
+                          " FROM MedicalCenters WHERE "+sLowerCode+" = ?";
+            ps = conn.prepareStatement(sSQL);
             ps.setString(1,sSearchCode);
-
             rs = ps.executeQuery();
 
             if(rs.next()){
@@ -398,38 +399,40 @@ public class MedicalCenter {
                 hResults.put("city",ScreenHelper.checkString(rs.getString("city")));
                 hResults.put("telephone",ScreenHelper.checkString(rs.getString("telephone")));
             }
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(rs!=null)rs.close();
-                if(ps!=null)ps.close();
-                ad_conn.close();
-            }catch(Exception e){
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return hResults;
     }
 
+    //--- GET MEDICAL CENTER BY CODE --------------------------------------------------------------
     public static MedicalCenter getMedicalCenterByCode(String sCode){
+        MedicalCenter medicalCenter = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String sSelect = " SELECT * FROM MedicalCenters WHERE code = ?";
-
-        MedicalCenter medicalCenter = null;
-
-    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+    	Connection conn = MedwanQuery.getInstance().getAdminConnection();
         try{
-            ps = ad_conn.prepareStatement(sSelect);
+            String sSelect = "SELECT * FROM MedicalCenters WHERE code = ?";
+            ps = conn.prepareStatement(sSelect);
             ps.setString(1,sCode);
             rs = ps.executeQuery();
 
             if(rs.next()){
                 medicalCenter = new MedicalCenter();
+                
                 medicalCenter.setCode(ScreenHelper.checkString(rs.getString("code")));
                 medicalCenter.setName(ScreenHelper.checkString(rs.getString("name")));
                 medicalCenter.setAddress(ScreenHelper.checkString(rs.getString("address")));
@@ -442,20 +445,22 @@ public class MedicalCenter {
                 medicalCenter.setUpdatetime(rs.getTimestamp("updatetime"));
                 medicalCenter.setComment(ScreenHelper.checkString(rs.getString("comment")));
             }
-
-            rs.close();
-            ps.close();
-        }catch(Exception e){
+        }
+        catch(Exception e){
             e.printStackTrace();
-        }finally{
+        }
+        finally{
             try{
-                if(rs!=null)rs.close();
-                if(ps!=null)ps.close();
-                ad_conn.close();
-            }catch(Exception e){
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return medicalCenter;
     }
+    
 }
