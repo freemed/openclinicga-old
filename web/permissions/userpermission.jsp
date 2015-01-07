@@ -12,7 +12,7 @@
         String sClass = "";
 
         if(sMyProfile.trim().length() > 0){
-            boolean bActive = UserProfilePermission.activeUserProfilePermissions(sMyProfile, sScreenID.toLowerCase(), sPermission.toLowerCase());
+            boolean bActive = UserProfilePermission.activeUserProfilePermissions(sMyProfile, sScreenID.toLowerCase(),sPermission.toLowerCase());
             if(bActive){
                 sClass = " style='background-color:"+sBackgroundColor+"'";
             }
@@ -20,7 +20,7 @@
 
         String sReturn = "<td"+sClass;
         if(sPermission.equalsIgnoreCase("motivation")){
-            sReturn += " colspan='2'";
+            sReturn+= " colspan='2'";
         }
 
         return sReturn+"><input type='checkbox' name='"+sScreenID+"."+sPermission+"' "+sValue+" onClick=\"uncheckRowSelector('"+sScreenID+"');\"></td>";
@@ -101,10 +101,10 @@
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
     if(Debug.enabled){
-    	Debug.println("\n********************* permissions/userpermission.jsp *******************");
-    	Debug.println("sAction                : "+sAction);
-    	Debug.println("sSearchProject         : "+sSearchProject);
-    	Debug.println("sProjectAccessAllSites : "+sProjectAccessAllSites+"\n");
+      Debug.println("\n********************* permissions/userpermission.jsp *******************");
+      Debug.println("sAction                : "+sAction);
+      Debug.println("sSearchProject         : "+sSearchProject);
+      Debug.println("sProjectAccessAllSites : "+sProjectAccessAllSites+"\n");
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
         
@@ -135,7 +135,7 @@
     //--- SAVE ------------------------------------------------------------------------------------
     if(sAction.equals("save")){
         boolean bError = false;
-            	
+              
         thisUser.clearAccessRights();
         String sDefaultPassword = sSearchProject.toLowerCase();
         
@@ -181,12 +181,12 @@
         while(e.hasMoreElements()){
             sName = checkString((String)e.nextElement());
             sValue = checkString(request.getParameter(sName)).toLowerCase();
-        	Debug.println("  "+sName+" : "+sValue);
+            Debug.println("  "+sName+" : "+sValue);
             sName = sName.toLowerCase();
 
             if(sValue.length() > 0 && sName.startsWith("edit")){
-             	parameter = new Parameter(sName.substring(4),sValue);
-	            thisUser.parameters.add(parameter);
+                parameter = new Parameter(sName.substring(4),sValue);
+                thisUser.parameters.add(parameter);
             }
         }
 
@@ -224,10 +224,10 @@
         }
         activePatient.language = request.getParameter("ChangeLanguage");
         activePatient.store();
-    	
+      
         // SAVE TO DB
         if(!bError && thisUser.saveToDB()){
-        	if(thisUser.userid.equals(activeUser.userid)){
+            if(thisUser.userid.equals(activeUser.userid)){
                 session.setAttribute("activeUser",thisUser);
             }
 
@@ -245,7 +245,7 @@
             }
         }
         else{
-        	sAction = "view";
+            sAction = "view";
         }
     }
     
@@ -432,24 +432,24 @@
                     </td>
                 </tr>
                 
-				<%
+                <%
                     if(MedwanQuery.getInstance().getConfigInt("enableMedicalCouncilLookup",0)==1){
-				%>
+                %>
                 <tr>
                     <td class="admin"><%=getTran("Web.UserProfile","AutomaticOrganizationIdValidation",sWebLanguage)%></td>
                     <td class="admin2">
-                    	<%
-                   			out.print("<select name='EditAutomaticOrganizationIdValidation' id='council' onchange='showRegistrationStatus();'>"+
-                    	               "<option value=''/>"+ScreenHelper.writeSelect("professional.councils",thisUser.getParameter("automaticorganizationidvalidation"),sWebLanguage)+
-                    	              "</select>");
-	            			out.print(" &nbsp;<a href='javascript:councilLookup("+thisUser.userid+");'><img id='councillookup' src='"+sCONTEXTPATH+"/_img/icons/icon_search.gif' title='"+getTranNoLink("web","verify",sWebLanguage)+"'/></a> &nbsp;&nbsp;&nbsp;<label id='registrationstatus'></label>");
-                    	%>
+                      <%
+                          out.print("<select name='EditAutomaticOrganizationIdValidation' id='council' onchange='showRegistrationStatus();'>"+
+                                     "<option value=''/>"+ScreenHelper.writeSelect("professional.councils",thisUser.getParameter("automaticorganizationidvalidation"),sWebLanguage)+
+                                    "</select>");
+                          out.print(" &nbsp;<a href='javascript:councilLookup("+thisUser.userid+");'><img id='councillookup' src='"+sCONTEXTPATH+"/_img/icons/icon_search.gif' title='"+getTranNoLink("web","verify",sWebLanguage)+"'/></a> &nbsp;&nbsp;&nbsp;<label id='registrationstatus'></label>");
+                      %>
                     </td>
                 </tr>
-				<%
-				    }
-				%>
-				
+                <%
+                      }
+                %>
+        
                 <%-- medicalCenterCode --%>
                 <tr>
                     <td class="admin"><%=getTran("Web.UserProfile","medicalCenterCode",sWebLanguage)%></td>
@@ -487,14 +487,14 @@
                         <%
                             String insuranceagenttext = "";
                             if(thisUser.getParameter("insuranceagent").length() > 0){
-                            	insuranceagenttext = Insurar.get(thisUser.getParameter("insuranceagent")).getName();
+                              insuranceagenttext = Insurar.get(thisUser.getParameter("insuranceagent")).getName();
                             }
                         %>
                         <input type="hidden" name="EditInsuranceAgent" id="EditInsuranceAgent" value="<%=thisUser.getParameter("insuranceagent")%>">
                         <input class='text' type="text" name="insuranceagenttext" id="insuranceagenttext" readonly size="49" title="<%=insuranceagenttext%>" value="<%=insuranceagenttext%>" onkeydown="window.event.keyCode = '';return true;">
-			           
-			            <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchInsurar();">
-			            <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditInsuranceAgent').value='';document.getElementById('insuranceagenttext').value='';">
+                 
+                        <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchInsurar();">
+                        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt="<%=getTranNoLink("Web","clear",sWebLanguage)%>" onclick="document.getElementById('EditInsuranceAgent').value='';document.getElementById('insuranceagenttext').value='';">
                     </td>
                 </tr>
                 
@@ -534,23 +534,23 @@
 
         <script>
           function searchInfoService(sObject){
-              if(sObject.value.length > 0){
-                openPopup("/_common/search/serviceInformation.jsp&ServiceID="+sObject.value);
-              }
+            if(sObject.value.length > 0){
+              openPopup("/_common/search/serviceInformation.jsp&ServiceID="+sObject.value);
+            }
           }  
           
-		  function searchInsurar(){
-		    openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>"+
-		    		  "&ReturnFieldInsurarUid=EditInsuranceAgent"+
-		    		  "&ReturnFieldInsurarName=insuranceagenttext"+
-		    		  "&excludePatientSelfIsurarUID=true"+
-		    		  "&PopupHeight=500&PopupWith=500");
-		  }
+          function searchInsurar(){
+            openPopup("/_common/search/searchInsurar.jsp&ts=<%=getTs()%>"+
+                      "&ReturnFieldInsurarUid=EditInsuranceAgent"+
+                      "&ReturnFieldInsurarName=insuranceagenttext"+
+                      "&excludePatientSelfIsurarUID=true"+
+                      "&PopupHeight=500&PopupWith=500");
+          }
           
           <%-- DO SAVE --%>
           function doSave(){
-        	var medicalCenterOK = checkMedicalCenterLength();
-        	var aliasOK = (document.getElementById("aliasMsg").innerHTML.length==0?true:false);
+            var medicalCenterOK = checkMedicalCenterLength();
+            var aliasOK = (document.getElementById("aliasMsg").innerHTML.length==0?true:false);
 
             if(medicalCenterOK && aliasOK){
               transactionForm.Action.value = "save";
@@ -568,10 +568,10 @@
           function lookupMedicalCenter(){
             if(transactionForm.Editmedicalcentercode.value.length==5){
               openPopup("/_common/search/blurMedicalCenter.jsp"+
-            		    "&SearchCode="+transactionForm.Editmedicalcentercode.value+
-            		    "&SourceVar=medicalcentercode"+
-            		    "&ClearField=no"+
-            		    "&MsgVar=medicalCenterMsg");
+                        "&SearchCode="+transactionForm.Editmedicalcentercode.value+
+                        "&SourceVar=medicalcentercode"+
+                        "&ClearField=no"+
+                        "&MsgVar=medicalCenterMsg");
             }
           }
           
@@ -581,15 +581,15 @@
               if(isInteger(aliasField,false)){
                 aliasField.value = "";   
                 
-              	clearTimeout(aliasLookup);
+                clearTimeout(aliasLookup);
                 document.getElementById("aliasMsg").innerHTML = "";
-              }
+              }  
               else{
-            	queueAliasLookup(aliasField.value,sUserId);
+                queueAliasLookup(aliasField.value,sUserId);
               }
             }
             else{
-           	  clearTimeout(aliasLookup);
+              clearTimeout(aliasLookup);
               document.getElementById("aliasMsg").innerHTML = "";
             }
           }
@@ -597,10 +597,10 @@
           <%-- QUEUE ALIAS LOOKUP --%>
           var aliasLookup;
           function queueAliasLookup(sAlias,sUserId){   
-          	clearTimeout(aliasLookup);
+            clearTimeout(aliasLookup);
             document.getElementById("aliasMsg").innerHTML = "";
             
-        	aliasLookup = setTimeout("lookupAlias('"+sAlias+"','"+sUserId+"')",1000);
+            aliasLookup = setTimeout("lookupAlias('"+sAlias+"','"+sUserId+"')",750);
           }
           
           <%-- LOOPKUP ALIAS --%>
@@ -614,10 +614,10 @@
                 if(resp.responseText.trim()=="true"){
                   var msg = "<font color='red'><%=getTranNoLink("web","alias",sWebLanguage)%> <b>"+sAlias+"</b> <%=getTranNoLink("web","unavailable",sWebLanguage)%></font>";
                   document.getElementById("aliasMsg").innerHTML = msg;
-			    }
+                }
                 else{
                   //document.getElementById("aliasMsg").innerHTML = "";
-                  var msg = "<font color='green'><%=getTranNoLink("web","alias",sWebLanguage)%> <b>"+sAlias+"</b> <%=getTranNoLink("web","available",sWebLanguage)%></font>";
+                  var msg = "<font color='green'><%=getTranNoLink("web","alias",sWebLanguage)%> <b>"+sAlias+"</b> <%=getTranNoLink("web","available",sWebLanguage).toLowerCase()%></font>";
                   document.getElementById("aliasMsg").innerHTML = msg;
                 }
               }
@@ -625,20 +625,20 @@
           }
 
           <%-- COUNCIL LOOKUP --%>
-		  function councilLookup(userid){
+          function councilLookup(userid){
             if(!userid){
-			  alertDialog("web","save.user.record.first");
-			}
-			else{
-			  var url = "/_common/search/councilLookup.jsp"+
+              alertDialog("web","save.user.record.first");
+            }
+            else{
+              var url = "/_common/search/councilLookup.jsp"+
                         "&council="+document.getElementById("council").value+
-			            "&regnr="+document.getElementById("Editorganisationid").value+
-			            "&language=<%=sWebLanguage%>"+
-			            "&userid="+userid;
-			  openPopup(url,600,400,document.getElementById("council").value);
-			}
-		  }
-		  
+                        "&regnr="+document.getElementById("Editorganisationid").value+
+                        "&language=<%=sWebLanguage%>"+
+                        "&userid="+userid;
+              openPopup(url,600,400,document.getElementById("council").value);
+            }
+          }
+      
           <%-- CHECK MEDICAL CENTER LENGTH --%>
           function checkMedicalCenterLength(){
             if(transactionForm.Editmedicalcentercode.value.length > 0){
@@ -669,25 +669,25 @@
             }
           }
           
-		  <%-- SHOW REGISTRATION STATUS --%>
-		  function showRegistrationStatus(){
-			if(document.getElementById('council')!=undefined){
-			  if(document.getElementById('council').value==''){
-			    document.getElementById('registrationstatus').innerHTML = '';
-			    document.getElementById('councillookup').style.visibility = 'hidden';
-			  }
-			  else if('<%=thisUser.getParameter("automaticorganizationidvalidation")%>'!=document.getElementById('council').value){
-			    document.getElementById('registrationstatus').innerHTML = '<b><img src=\"<%=sCONTEXTPATH+"/_img/icons/icon_error.jpg\""%>/> <%=getTranNoLink("lookup","unverified",sWebLanguage)%></b>';
-			    document.getElementById('councillookup').style.visibility = 'visible';
-			  }
-			}  
-			else if(document.getElementById('registrationstatus')!=undefined){
-			  document.getElementById('registrationstatus').innerHTML = '<b><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("0")?"<img src=\""+sCONTEXTPATH+"/_img/checked.png\"/>":"<img src=\""+sCONTEXTPATH+"/_img/icons/icon_error.jpg\"/>"%><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("")?" "+getTranNoLink("lookup","unverified",sWebLanguage):" "+getTranNoLink("lookup","status."+thisUser.getParameter("registrationstatus"),sWebLanguage)+" ("+thisUser.getParameter("registrationstatusupdatetime")+")"%></b>';
-			  document.getElementById('councillookup').style.visibility = 'visible';
-			}
-		  }
-		
-		  showRegistrationStatus();
+          <%-- SHOW REGISTRATION STATUS --%>
+          function showRegistrationStatus(){
+            if(document.getElementById('council')!=undefined){
+              if(document.getElementById('council').value==''){
+                document.getElementById('registrationstatus').innerHTML = '';
+                document.getElementById('councillookup').style.visibility = 'hidden';
+              }
+              else if('<%=thisUser.getParameter("automaticorganizationidvalidation")%>'!=document.getElementById('council').value){
+                document.getElementById('registrationstatus').innerHTML = '<b><img src=\"<%=sCONTEXTPATH+"/_img/icons/icon_error.jpg\""%>/> <%=getTranNoLink("lookup","unverified",sWebLanguage)%></b>';
+                document.getElementById('councillookup').style.visibility = 'visible';
+              }
+            }  
+            else if(document.getElementById('registrationstatus')!=undefined){
+              document.getElementById('registrationstatus').innerHTML = '<b><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("0")?"<img src=\""+sCONTEXTPATH+"/_img/checked.png\"/>":"<img src=\""+sCONTEXTPATH+"/_img/icons/icon_error.jpg\"/>"%><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("")?" "+getTranNoLink("lookup","unverified",sWebLanguage):" "+getTranNoLink("lookup","status."+thisUser.getParameter("registrationstatus"),sWebLanguage)+" ("+thisUser.getParameter("registrationstatusupdatetime")+")"%></b>';
+              document.getElementById('councillookup').style.visibility = 'visible';
+            }
+          }
+    
+          showRegistrationStatus();
         </script>
 
         <%=writeJSButtons("transactionForm","saveButton")%>
