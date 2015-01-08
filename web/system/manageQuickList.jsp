@@ -8,8 +8,8 @@
 		if(prestations!=null){
 			for(int n=0; n<prestations.length; n++){
 				if(prestations[n].split("£").length>=2 && prestations[n].split("£")[1].split("\\.").length==2 &&
-				   Integer.parseInt(prestations[n].split("£")[1].split("_")[0])==column &&
-				   Integer.parseInt(prestations[n].split("£")[1].split("_")[1])==row){
+				   Integer.parseInt(prestations[n].split("£")[1].split("\\.")[0])==column &&
+				   Integer.parseInt(prestations[n].split("£")[1].split("\\.")[1])==row){
 					return prestations[n].split("£")[0]; // 0
 				}
 			}
@@ -21,9 +21,9 @@
 	public String getItemColor(String[] prestations,int column, int row, boolean asHtml){
 		if(prestations!=null){
 			for(int n=0; n<prestations.length; n++){
-				if(prestations[n].split("£").length>=3 && prestations[n].split("£")[2].length()>0 &&
-				   Integer.parseInt(prestations[n].split("£")[1].split("_")[0])==column &&
-				   Integer.parseInt(prestations[n].split("£")[1].split("_")[1])==row){
+				if(prestations[n].split("£").length>=3 && prestations[n].split("£")[2].split("\\.").length>0 &&
+				   Integer.parseInt(prestations[n].split("£")[1].split("\\.")[0])==column &&
+				   Integer.parseInt(prestations[n].split("£")[1].split("\\.")[1])==row){
 					if(asHtml){
 						if(prestations[n].split("£")[2].length() > 0){
 						    return " style='background-color:#"+prestations[n].split("£")[2]+"'";
@@ -89,7 +89,7 @@
 			if(pars.length() > 0){
 				pars+= ";";
 			}
-			pars+= prestation+"£"+name.split("\\.")[1]+"_"+name.split("\\.")[2]+"£"+
+			pars+= prestation+"£"+name.split("_")[1]+"."+name.split("_")[2]+"£"+
 			       checkString(request.getParameter(name.replace("prest_","prestcolor_")));
 		}
 		
@@ -118,7 +118,6 @@
 	}
 
 	if(sPrestations.length() > 0){
-		sPrestations = sPrestations.replaceAll("\\.","_");
 		prestations = sPrestations.split(";");
 	}
 	
@@ -144,7 +143,7 @@
 
 		        for(int i=0; i<cols; i++){
 				    %>
-						<td id="td_prest_<%=i%>_<%=n%>" <%=getItemColor(prestations,i,n,true)%> width='1%' nowrap>
+						<td id="prest_<%=i%>_<%=n%>" <%=getItemColor(prestations,i,n,true)%> width='1%' nowrap>
 							<input name="prest_<%=i%>_<%=n%>" type="text" class="text" size="10" onclick="chooseColor('<%=i%>_<%=n%>');" value="<%=getItemValue(prestations,i,n)%>"/>
 							<input name="prestcolor_<%=i%>_<%=n%>" id="prestcolor_<%=i%>_<%=n%>" class="Multiple" type="hidden" value="<%=getItemColor(prestations,i,n,false)%>"/>
 							
@@ -155,20 +154,20 @@
 					String val = getItemValue(prestations,i,n);
 					if(val.length() > 0){
 						if(val.startsWith("$")){
-							out.print("<td id='td_prestname_"+i+"_"+n+"' "+getItemColor(prestations,i,n,true)+" width='"+(100/cols)+"%' class='admin'>"+val.substring(1)+"<hr/></td>");
+							out.print("<td id='prestname_"+i+"_"+n+"' "+getItemColor(prestations,i,n,true)+" width='"+(100/cols)+"%' class='admin'>"+val.substring(1)+"<hr/></td>");
 						}
 						else{
 							Prestation prestation = Prestation.getByCode(val);
 							if(prestation!=null && prestation.getDescription()!=null){
-								out.print("<td id='td_prestname_"+i+"_"+n+"' "+getItemColor(prestations,i,n,true)+" width='"+(100/cols)+"%'>"+prestation.getDescription()+"</td>");
+								out.print("<td id='prestname_"+i+"_"+n+"' "+getItemColor(prestations,i,n,true)+" width='"+(100/cols)+"%'>"+prestation.getDescription()+"</td>");
 							}
 							else{
-								out.print("<td id='td_prestname_"+i+"_"+n+"' "+getItemColor(prestations,i,n,true)+" width='"+(100/cols)+"%'><font color='red'>Code not found</font></td>");
+								out.print("<td id='prestname_"+i+"_"+n+"' "+getItemColor(prestations,i,n,true)+" width='"+(100/cols)+"%'><font color='red'>Code not found</font></td>");
 							}
 						}
 					}
 					else{
-						out.print("<td id='td_prestname_"+i+"_"+n+"' "+getItemColor(prestations,i,n,true)+" width='"+(100/cols)+"%'>&nbsp;</td>");
+						out.print("<td id='prestname_"+i+"_"+n+"' "+getItemColor(prestations,i,n,true)+" width='"+(100/cols)+"%'>&nbsp;</td>");
 					}
 				}
 		        
@@ -194,14 +193,14 @@
   <%-- SEARCH PRESTATION --%>
   function searchPrestation(id){
 	eval("transactionForm.prest_"+id+".value = '';");
-	eval("document.getElementById('td_prestname_"+id+"').innerHTML = '';");
+	eval("document.getElementById('prestname_"+id+"').innerHTML = '';");
     openPopup("/_common/search/searchPrestation.jsp&ts=<%=getTs()%>&ReturnFieldCode=prest_"+id+"&ReturnFieldDescrHtml=prestname_"+id);
   }
 
   <%-- CHOOSE COLOR --%>
   function chooseColor(id){
     openPopup("/util/colorPicker.jsp&ts=<%=getTs()%>"+
-    		  "&colorfields=td_prest_"+id+";td_prestname_"+id+
+    		  "&colorfields=prest_"+id+";prestname_"+id+
               "&valuefield=prestcolor_"+id+
               "&defaultcolor="+document.getElementById("prestcolor_"+id).value);
   }

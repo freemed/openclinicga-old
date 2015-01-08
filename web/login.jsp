@@ -88,6 +88,30 @@
     catch (Exception e) {
         // nothing
     }
+    //close visits open at last midnight
+    if(MedwanQuery.getInstance().getConfigInt("autoCloseVisits", 0)==1 && !MedwanQuery.getInstance().getConfigString("lastAutoCloseVisits","").equals(new SimpleDateFormat("yyyyMMdd").format(new java.util.Date()))){
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            String sSQL = "update oc_encounters set oc_encounter_enddate =oc_encounter_begindate where oc_encounter_type='visit' and oc_encounter_enddate is null and oc_encounter_begindate<"+MedwanQuery.getInstance().convert("date", MedwanQuery.getInstance().getConfigString("dateFunction"));
+            System.out.println(sSQL);
+            PreparedStatement ps = oc_conn.prepareStatement(sSQL);
+            ps.execute();
+            ps.close();
+            MedwanQuery.getInstance().setConfigString("lastAutoCloseVisits", new SimpleDateFormat("yyyyMMdd").format(new java.util.Date()));
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        try{
+			oc_conn.close();
+		} 
+        catch(SQLException e){
+			e.printStackTrace();
+		}
+    	
+    }
 
     //*** process 'updatequeries.xml' containing queries that need to be executed at login ***
     Object updateQueriesProcessedDate = application.getAttribute("updateQueriesProcessedDateOC");

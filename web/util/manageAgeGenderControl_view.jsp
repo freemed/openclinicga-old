@@ -290,6 +290,9 @@
       AGCForm.submit();
     }
   }
+  function yesnoDeleteDialog(){
+	  return window.showModalDialog?yesnoDialog("Web","areYouSureToDelete"):yesnoDialog('','<%=getTranNoLink("Web","areYouSureToDelete",sWebLanguage)%>');
+  }
 
     window.setTimeout("document.getElementById('EditMinAge').focus()",200);
 </script>

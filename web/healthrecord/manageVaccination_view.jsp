@@ -205,11 +205,11 @@
   }
 
 
-  if(document.getElementsByName('vaccination-type')[0].value=='be.mxs.healthrecord.vaccination.Other'){
+  if(document.getElementById('vaccination-type').value=='be.mxs.healthrecord.vaccination.Other'){
     show('vaccination-name');
   }
 
-  if(document.getElementsByName('vaccination-type')[0].value=='be.mxs.healthrecord.vaccination.Intradermo'){
+  if(document.getElementById('vaccination-type').value=='be.mxs.healthrecord.vaccination.Intradermo'){
     show('vaccination-positive-negative');
   }
   else{
@@ -217,7 +217,7 @@
   }
 
   function calculateNextDate(){
-    vaccinationType = document.getElementsByName('vaccination-type')[0].value;
+    vaccinationType = document.getElementById('vaccination-type').value;
     vaccinationSubType= document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_STATUS" property="itemId"/>]>.value')[0].value;
     vaccinationDate = document.getElementsByName('currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_DATE" property="itemId"/>]>.value')[0].value;
     sourceField = 'currentTransactionVO.items.<ItemVO[hashCode=<mxs:propertyAccessorI18N name="transaction.items" scope="page" compare="type=be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_VACCINATION_NEXT_DATE" property="itemId"/>]>.value';
