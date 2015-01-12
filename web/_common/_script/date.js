@@ -127,6 +127,18 @@ function makeDate(fulldateStr){
   }
 }
 
+function parseDate(sDate){
+  re = "/(\d{1,2})\/(\d{1,2})\/(\d{4})/";
+  var arr = re.exec(sDate);
+    
+  if(dateFormat=="dd/MM/yyyy"){
+    return new Date(parseInt(arr[3]),parseInt(arr[2])-1,parseInt(arr[1])); // YYYY/mm/dd
+  }
+  else{
+    return new Date(parseInt(arr[3]),parseInt(arr[1])-1,parseInt(arr[2])); // YYYY/dd/mm
+  }
+}
+
 function stripDate(sDate){
   sDate = replaceAll(sDate,"-","");
   sDate = replaceAll(sDate,".","");
