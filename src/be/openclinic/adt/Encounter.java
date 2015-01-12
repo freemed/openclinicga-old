@@ -17,11 +17,10 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Vector;
 import java.util.Hashtable;
-import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
 public class Encounter extends OC_Object {
-    private String type;  //Admission, Visit
+    private String type;  // Admission, Visit
     private Date begin;
     private Date end;
     private AdminPerson patient;
@@ -42,35 +41,35 @@ public class Encounter extends OC_Object {
     private int newcase;
     private String etiology;
 
-    public int getNewcase() {
+    public int getNewcase(){
 		return newcase;
 	}
 
-	public void setNewcase(int newcase) {
+	public void setNewcase(int newcase){
 		this.newcase = newcase;
 	}
 
-	public String getEtiology() {
+	public String getEtiology(){
 		return etiology;
 	}
 
-	public void setEtiology(String etiology) {
+	public void setEtiology(String etiology){
 		this.etiology = etiology;
 	}
 
-    public String getCategories() {
+    public String getCategories(){
 		return categories;
 	}
 
-	public void setCategories(String categories) {
+	public void setCategories(String categories){
 		this.categories = categories;
 	}
 
-	public String getSituation() {
+	public String getSituation(){
         return situation;
     }
 
-    public void setSituation(String situation) {
+    public void setSituation(String situation){
         this.situation = situation;
     }
 
@@ -82,66 +81,71 @@ public class Encounter extends OC_Object {
         public java.util.Date end;
     }
 
-    public Date getTransferDate() {
+    public Date getTransferDate(){
         return transferDate;
     }
 
-    public void setTransferDate(Date transferDate) {
+    public void setTransferDate(Date transferDate){
         this.transferDate = transferDate;
     }
 
-    public String getOrigin() {
+    public String getOrigin(){
         return origin;
     }
 
-    public void setOrigin(String origin) {
+    public void setOrigin(String origin){
         this.origin = origin;
     }
 
-    public String getOutcome() {
+    public String getOutcome(){
         return outcome;
     }
 
-    public void setOutcome(String outcome) {
+    public void setOutcome(String outcome){
         this.outcome = outcome;
     }
 
-    public String getType() {
+    public String getType(){
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(String type){
         this.type = type;
     }
 
-    public Date getBegin() {
+    public Date getBegin(){
         return begin;
     }
 
-    public void setBegin(Date begin) {
+    public void setBegin(Date begin){
         this.begin = begin;
     }
 
-    public Date getEnd() {
+    public Date getEnd(){
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(Date end){
         this.end = end;
     }
     
     //--- GET COVERAGE ENCOUNTER ------------------------------------------------------------------
     public static Encounter getCoverageEncounter(String patientid,String userid){
     	Encounter encounter = null;
-    	Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            PreparedStatement ps = oc_conn.prepareStatement("select * from OC_ENCOUNTERS where OC_ENCOUNTER_TYPE='coverage' and OC_ENCOUNTER_PATIENTUID=?");
+    	
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+        Connection conn = null;        
+    	
+        try{ 
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            ps = conn.prepareStatement("select * from OC_ENCOUNTERS where OC_ENCOUNTER_TYPE='coverage' and OC_ENCOUNTER_PATIENTUID=?");
             ps.setString(1, patientid);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            rs = ps.executeQuery();
+            if(rs.next()){
                 encounter = Encounter.get(rs.getString("OC_ENCOUNTER_SERVERID")+"."+rs.getString("OC_ENCOUNTER_OBJECTID"));
             }
-            else {
+            else{
             	encounter = new Encounter();
             	encounter.setBegin(new java.util.Date());
             	encounter.setEnd(new java.util.Date());
@@ -154,417 +158,544 @@ public class Encounter extends OC_Object {
             	encounter.setVersion(1);
             	encounter.store();
             }
-            rs.close();
-            ps.close();
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        catch(Exception e){
+    		Debug.printStackTrace(e);
         }
-        
-        // close connection
-        try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
+        finally{
+        	try{
+        		if(rs!=null) rs.close();
+        		if(ps!=null) ps.close();
+        		if(conn!=null) conn.close();
+        	}
+        	catch(Exception e){
+        		Debug.printStackTrace(e);
+        	}
+        }
         
     	return encounter;
     }
 
+    //--- HAS TRANSACTIONS ------------------------------------------------------------------------
     public boolean hasTransactions(){
-    	boolean bHasTransactions=false;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            PreparedStatement ps = oc_conn.prepareStatement("select count(*) total from Transactions a,HealthRecord b where a.healthRecordId=b.healthRecordId and b.personid=? and a.updatetime>=? and a.updatetime<=?");
-            ps.setInt(1, Integer.parseInt(this.getPatientUID()));
-            ps.setDate(2, new java.sql.Date(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(this.getBegin())).getTime()));
-            ps.setTimestamp(3, new java.sql.Timestamp(this.getEnd()==null?new java.util.Date().getTime():this.getEnd().getTime()));
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                bHasTransactions=rs.getInt("total")>0;
+    	boolean bHasTransactions = false;
+    	
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+        Connection conn = null;    
+        
+        try{
+            conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	String sSql = "select count(*) total from Transactions a,HealthRecord b"+
+                          " where a.healthRecordId=b.healthRecordId"+
+        			      "  and b.personid=?"+
+                          "  and a.updatetime>=? and a.updatetime<=?";
+            ps = conn.prepareStatement(sSql);
+            ps.setInt(1,Integer.parseInt(this.getPatientUID()));
+            ps.setDate(2,new java.sql.Date(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(this.getBegin())).getTime()));
+            ps.setTimestamp(3,new java.sql.Timestamp(this.getEnd()==null?new java.util.Date().getTime():this.getEnd().getTime()));
+            rs = ps.executeQuery();
+            if(rs.next()){
+                bHasTransactions = (rs.getInt("total") > 0);
             }
-            rs.close();
-            ps.close();
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        catch(Exception e){
+    		Debug.printStackTrace(e);
+        }
+        finally{
+        	try{
+        		if(rs!=null) rs.close();
+        		if(ps!=null) ps.close();
+        		if(conn!=null) conn.close();
+        	}
+        	catch(Exception e){
+        		Debug.printStackTrace(e);
+        	}
         }
         
-        // close connection
-        try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
     	return bHasTransactions;
     }
     
+    //--- HAS INVOICES ---------------------------------------------------------------------------- 
     public boolean hasInvoices(){
-    	boolean bHasInvoices=false;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            PreparedStatement ps = oc_conn.prepareStatement("select count(*) total from OC_PATIENTINVOICES where OC_PATIENTINVOICE_PATIENTUID=? and OC_PATIENTINVOICE_DATE>=? and OC_PATIENTINVOICE_DATE<=?");
-            ps.setInt(1, Integer.parseInt(this.getPatientUID()));
-            ps.setDate(2, new java.sql.Date(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(this.getBegin())).getTime()));
-            ps.setTimestamp(3, new java.sql.Timestamp(this.getEnd()==null?new java.util.Date().getTime():this.getEnd().getTime()));
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-            	bHasInvoices=rs.getInt("total")>0;
+    	boolean bHasInvoices = false;
+    	
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+        Connection conn = null;
+        
+        try{
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	String sSql = "select count(*) total"+
+        	              " from OC_PATIENTINVOICES"+
+        			      "  where OC_PATIENTINVOICE_PATIENTUID=?"+
+        	              "   and OC_PATIENTINVOICE_DATE>=? and OC_PATIENTINVOICE_DATE<=?";
+            ps = conn.prepareStatement(sSql);
+            ps.setInt(1,Integer.parseInt(this.getPatientUID()));
+            ps.setDate(2,new java.sql.Date(ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(this.getBegin())).getTime()));
+            ps.setTimestamp(3,new java.sql.Timestamp(this.getEnd()==null?new java.util.Date().getTime():this.getEnd().getTime()));
+            rs = ps.executeQuery();
+            if(rs.next()){
+            	bHasInvoices = (rs.getInt("total") > 0);
             }
-            rs.close();
-            ps.close();
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        catch(Exception e){
+    		Debug.printStackTrace(e);
+        }
+        finally{
+        	try{
+        		if(rs!=null) rs.close();
+        		if(ps!=null) ps.close();
+        		if(conn!=null) conn.close();
+        	}
+        	catch(Exception e){
+        		Debug.printStackTrace(e);
+        	}
         }
         
-        // close connection
-        try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
     	return bHasInvoices;
     }
     
-    public static Vector getAccountedAccomodations(String encounterUID) {
+    //--- GET ACCOUNTED ACCOMODATIONS -------------------------------------------------------------
+    public static Vector getAccountedAccomodations(String encounterUID){
         Vector invoicedAccomodations = new Vector();
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            PreparedStatement ps = oc_conn.prepareStatement("select * from OC_DEBETS where OC_DEBET_ENCOUNTERUID=? AND (OC_DEBET_CREDITED IS NULL OR OC_DEBET_CREDITED<>1) AND OC_DEBET_PRESTATIONUID in ('"+MedwanQuery.getInstance().getAccomodationPrestationUIDs().replaceAll(";","','")+"')");
-            ps.setString(1, encounterUID);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Debet debet = Debet.get(rs.getInt("OC_DEBET_SERVERID") + "." + rs.getInt("OC_DEBET_OBJECTID"));
+        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        
+        try{
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	String sSql = "SELECT * FROM OC_DEBETS"+
+        	              " WHERE OC_DEBET_ENCOUNTERUID=?"+
+        			      "  AND (OC_DEBET_CREDITED IS NULL OR OC_DEBET_CREDITED<>1)"+
+        	              "  AND OC_DEBET_PRESTATIONUID in ('"+MedwanQuery.getInstance().getAccomodationPrestationUIDs().replaceAll(";","','")+"')";
+            ps = conn.prepareStatement(sSql);
+            ps.setString(1,encounterUID);
+            
+            rs = ps.executeQuery();
+            while(rs.next()){
+                Debet debet = Debet.get(rs.getInt("OC_DEBET_SERVERID")+"."+ rs.getInt("OC_DEBET_OBJECTID"));
                 invoicedAccomodations.add(debet);
             }
-            rs.close();
-            ps.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        // close connection
-        try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
-        
+	    }
+	    catch(Exception e){
+			Debug.printStackTrace(e);
+	    }
+	    finally{
+	    	try{
+	    		if(rs!=null) rs.close();
+	    		if(ps!=null) ps.close();
+	    		if(conn!=null) conn.close();
+	    	}
+	    	catch(Exception e){
+	    		Debug.printStackTrace(e);
+	    	}
+	    }
+                
         return invoicedAccomodations;
     }
 
-    public static int getAdmittedOn(Date date,String encounterType){
+    //--- GET ADMITTED ON -------------------------------------------------------------------------
+    public static int getAdmittedOn(Date date, String encounterType){
         int total = 0;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            PreparedStatement ps = oc_conn.prepareStatement("select count(*) as total from OC_ENCOUNTERS where OC_ENCOUNTER_BEGINDATE<=? and (OC_ENCOUNTER_ENDDATE IS NULL OR OC_ENCOUNTER_ENDDATE>=?) and OC_ENCOUNTER_TYPE=?");
-            ps.setDate(1, new java.sql.Date(date.getTime()));
-            ps.setDate(2, new java.sql.Date(date.getTime()));
+        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        
+        try{
+        	String sSql = "SELECT count(*) as total FROM OC_ENCOUNTERS"+
+                          " WHERE OC_ENCOUNTER_BEGINDATE<=?"+
+                          "  AND (OC_ENCOUNTER_ENDDATE IS NULL OR OC_ENCOUNTER_ENDDATE>=?)"+
+                          "  AND OC_ENCOUNTER_TYPE=?";
+            ps = conn.prepareStatement(sSql);
+            ps.setDate(1,new java.sql.Date(date.getTime()));
+            ps.setDate(2,new java.sql.Date(date.getTime()));
             ps.setString(3,encounterType);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            rs = ps.executeQuery();
+            
+            if(rs.next()){
                 total = rs.getInt("total");
             }
-            rs.close();
-            ps.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        // close connection
-        try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
+	    }
+	    catch(Exception e){
+			Debug.printStackTrace(e);
+	    }
+	    finally{
+	    	try{
+	    		if(rs!=null) rs.close();
+	    		if(ps!=null) ps.close();
+	    		if(conn!=null) conn.close();
+	    	}
+	    	catch(Exception e){
+	    		Debug.printStackTrace(e);
+	    	}
+	    }
         
         return total;
     }
 
-    public static int getEnteredBetween(Date begin,Date end,String encounterType){
+    //--- GET ENTERED BETWEEN ---------------------------------------------------------------------
+    public static int getEnteredBetween(Date begin, Date end, String encounterType){
         int total = 0;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            PreparedStatement ps = oc_conn.prepareStatement("select count(*) as total from OC_ENCOUNTERS where OC_ENCOUNTER_BEGINDATE>=? and OC_ENCOUNTER_BEGINDATE<=? and OC_ENCOUNTER_TYPE=?");
-            ps.setDate(1, new java.sql.Date(begin.getTime()));
-            ps.setDate(2, new java.sql.Date(end.getTime()));
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+                
+        try{
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	String sSql = "select count(*) as total from OC_ENCOUNTERS"+
+        	              " where OC_ENCOUNTER_BEGINDATE>=? and OC_ENCOUNTER_BEGINDATE<=?"+
+        			      "  and OC_ENCOUNTER_TYPE=?";
+            ps = conn.prepareStatement(sSql);
+            ps.setDate(1,new java.sql.Date(begin.getTime()));
+            ps.setDate(2,new java.sql.Date(end.getTime()));
             ps.setString(3,encounterType);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            rs = ps.executeQuery();
+            
+            if(rs.next()){
                 total = rs.getInt("total");
             }
-            rs.close();
-            ps.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        // close connection
-        try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
+	    }
+	    catch(Exception e){
+			Debug.printStackTrace(e);
+	    }
+	    finally{
+	    	try{
+	    		if(rs!=null) rs.close();
+	    		if(ps!=null) ps.close();
+	    		if(conn!=null) conn.close();
+	    	}
+	    	catch(Exception e){
+	    		Debug.printStackTrace(e);
+	    	}
+	    }
         
         return total;
     }
 
-    public static int getEnteredBetween(Date begin,Date end,String situation,String encounterType){
+    //--- GET ENTERED BETWEEN ---------------------------------------------------------------------
+    public static int getEnteredBetween(Date begin, Date end, String situation, String encounterType){
         int total = 0;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            PreparedStatement ps = oc_conn.prepareStatement("select count(*) as total from OC_ENCOUNTERS where OC_ENCOUNTER_BEGINDATE>=? and OC_ENCOUNTER_BEGINDATE<=? and OC_ENCOUNTER_SITUATION=? and OC_ENCOUNTER_TYPE=?");
-            ps.setDate(1, new java.sql.Date(begin.getTime()));
-            ps.setDate(2, new java.sql.Date(end.getTime()));
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        
+        try{
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	String sSql = "select count(*) as total from OC_ENCOUNTERS"+
+        	              " where OC_ENCOUNTER_BEGINDATE>=? and OC_ENCOUNTER_BEGINDATE<=?"+
+        			      "  and OC_ENCOUNTER_SITUATION=? and OC_ENCOUNTER_TYPE=?";
+            ps = conn.prepareStatement(sSql);
+            ps.setDate(1,new java.sql.Date(begin.getTime()));
+            ps.setDate(2,new java.sql.Date(end.getTime()));
             ps.setString(3,situation);
             ps.setString(4,encounterType);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            rs = ps.executeQuery();
+            if(rs.next()){
                 total = rs.getInt("total");
             }
-            rs.close();
-            ps.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        // close connection
-        try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
+	    }
+	    catch(Exception e){
+			Debug.printStackTrace(e);
+	    }
+	    finally{
+	    	try{
+	    		if(rs!=null) rs.close();
+	    		if(ps!=null) ps.close();
+	    		if(conn!=null) conn.close();
+	    	}
+	    	catch(Exception e){
+	    		Debug.printStackTrace(e);
+	    	}
+	    }
         
         return total;
     }
 
-    public static int getLeftBetween(Date begin,Date end,String encounterType){
+    //--- GET LEFT BETWEEN (1) --------------------------------------------------------------------
+    public static int getLeftBetween(Date begin, Date end, String encounterType){
         int total = 0;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            PreparedStatement ps = oc_conn.prepareStatement("select count(*) as total from OC_ENCOUNTERS where OC_ENCOUNTER_ENDDATE>=? and OC_ENCOUNTER_ENDDATE<=? and OC_ENCOUNTER_TYPE=?");
-            ps.setDate(1, new java.sql.Date(begin.getTime()));
-            ps.setDate(2, new java.sql.Date(end.getTime()));
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        
+        try{
+            conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            String sSql = "select count(*) as total from OC_ENCOUNTERS"+
+                          " where OC_ENCOUNTER_ENDDATE>=? and OC_ENCOUNTER_ENDDATE<=?"+
+            		      "  and OC_ENCOUNTER_TYPE=?";
+            ps = conn.prepareStatement(sSql);
+            ps.setDate(1,new java.sql.Date(begin.getTime()));
+            ps.setDate(2,new java.sql.Date(end.getTime()));
             ps.setString(3,encounterType);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            rs = ps.executeQuery();
+            if(rs.next()){
                 total = rs.getInt("total");
             }
-            rs.close();
-            ps.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        // close connection
-        try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
+	    }
+	    catch(Exception e){
+			Debug.printStackTrace(e);
+	    }
+	    finally{
+	    	try{
+	    		if(rs!=null) rs.close();
+	    		if(ps!=null) ps.close();
+	    		if(conn!=null) conn.close();
+	    	}
+	    	catch(Exception e){
+	    		Debug.printStackTrace(e);
+	    	}
+	    }
         
         return total;
     }
 
-    public static int getLeftBetween(Date begin,Date end,String situation,String encounterType){
+    //--- GET LEFT BETWEEN (2) --------------------------------------------------------------------
+    public static int getLeftBetween(Date begin, Date end, String situation, String encounterType){
         int total = 0;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            PreparedStatement ps = oc_conn.prepareStatement("select count(*) as total from OC_ENCOUNTERS where OC_ENCOUNTER_ENDDATE>=? and OC_ENCOUNTER_ENDDATE<=? and OC_ENCOUNTER_SITUATION=? and OC_ENCOUNTER_TYPE=?");
-            ps.setDate(1, new java.sql.Date(begin.getTime()));
-            ps.setDate(2, new java.sql.Date(end.getTime()));
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        
+        try{
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	String sSql = "select count(*) as total from OC_ENCOUNTERS"+
+        	              " where OC_ENCOUNTER_ENDDATE>=? and OC_ENCOUNTER_ENDDATE<=?"+
+        			      "  and OC_ENCOUNTER_SITUATION=? and OC_ENCOUNTER_TYPE=?";
+            ps = conn.prepareStatement(sSql);
+            ps.setDate(1,new java.sql.Date(begin.getTime()));
+            ps.setDate(2,new java.sql.Date(end.getTime()));
             ps.setString(3,situation);
             ps.setString(4,encounterType);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            
+            rs = ps.executeQuery();
+            if(rs.next()){
                 total = rs.getInt("total");
             }
-            rs.close();
-            ps.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        // close connection
-        try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
+	    }
+	    catch(Exception e){
+			Debug.printStackTrace(e);
+	    }
+	    finally{
+	    	try{
+	    		if(rs!=null) rs.close();
+	    		if(ps!=null) ps.close();
+	    		if(conn!=null) conn.close();
+	    	}
+	    	catch(Exception e){
+	    		Debug.printStackTrace(e);
+	    	}
+	    }
         
         return total;
     }
 
-    public static int getLeftBetweenForOutcome(Date begin,Date end,String outcome,String encounterType){
+    //--- GET LEFT BETWEEN FOR OUTCOME ------------------------------------------------------------ 
+    public static int getLeftBetweenForOutcome(Date begin, Date end, String outcome, String encounterType){
         int total = 0;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            PreparedStatement ps = oc_conn.prepareStatement("select count(*) as total from OC_ENCOUNTERS where OC_ENCOUNTER_ENDDATE>=? and OC_ENCOUNTER_ENDDATE<=? and OC_ENCOUNTER_OUTCOME=? and OC_ENCOUNTER_TYPE=?");
-            ps.setDate(1, new java.sql.Date(begin.getTime()));
-            ps.setDate(2, new java.sql.Date(end.getTime()));
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null; 
+        
+        try{
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	String sSql = "select count(*) as total"+
+        	              " from OC_ENCOUNTERS"+
+        			      "  where OC_ENCOUNTER_ENDDATE>=? and OC_ENCOUNTER_ENDDATE<=?"+
+        	              "   and OC_ENCOUNTER_OUTCOME=? and OC_ENCOUNTER_TYPE=?";
+            ps = conn.prepareStatement(sSql);
+            ps.setDate(1,new java.sql.Date(begin.getTime()));
+            ps.setDate(2,new java.sql.Date(end.getTime()));
             ps.setString(3,outcome);
             ps.setString(4,encounterType);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            
+            rs = ps.executeQuery();
+            if(rs.next()){
                 total = rs.getInt("total");
             }
-            rs.close();
-            ps.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        // close connection
-        try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
+	    }
+	    catch(Exception e){
+			Debug.printStackTrace(e);
+	    }
+	    finally{
+	    	try{
+	    		if(rs!=null) rs.close();
+	    		if(ps!=null) ps.close();
+	    		if(conn!=null) conn.close();
+	    	}
+	    	catch(Exception e){
+	    		Debug.printStackTrace(e);
+	    	}
+	    }
         
         return total;
     }
 
-    public static int getDaysBetween(Date begin,Date end,String encounterType){
+    //--- GET DAYS BETWEEN ------------------------------------------------------------------------
+    public static int getDaysBetween(Date begin, Date end, String encounterType){
         int total = 0;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            PreparedStatement ps = oc_conn.prepareStatement("select * from OC_ENCOUNTERS where (OC_ENCOUNTER_ENDDATE>=? OR OC_ENCOUNTER_ENDDATE IS NULL) and OC_ENCOUNTER_BEGINDATE<=? and OC_ENCOUNTER_TYPE=?");
-            ps.setDate(1, new java.sql.Date(begin.getTime()));
-            ps.setDate(2, new java.sql.Date(end.getTime()));
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        
+        try{
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	String sSql = "select * from OC_ENCOUNTERS"+
+        	              " where (OC_ENCOUNTER_ENDDATE>=? OR OC_ENCOUNTER_ENDDATE IS NULL)"+
+        			      "  and OC_ENCOUNTER_BEGINDATE<=?"+
+        	              "  and OC_ENCOUNTER_TYPE=?";
+            ps = conn.prepareStatement(sSql);
+            ps.setDate(1,new java.sql.Date(begin.getTime()));
+            ps.setDate(2,new java.sql.Date(end.getTime()));
             ps.setString(3,encounterType);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+
+            rs = ps.executeQuery();
+            while(rs.next()){
+                java.sql.Date tmpBegin = rs.getDate("OC_ENCOUNTER_BEGINDATE");
+                if(begin.after(tmpBegin)){
+                	tmpBegin = new java.sql.Date(begin.getTime());
+                }
+                
+                java.sql.Date tmpEnd = rs.getDate("OC_ENCOUNTER_ENDDATE");
+                if(tmpEnd==null || tmpEnd.after(end)){
+                	tmpEnd = new java.sql.Date(end.getTime());
+                }
+                
+                long durationInDays = tmpEnd.getTime()-tmpBegin.getTime();
+                durationInDays = 1+Math.round(durationInDays/(1000*3600*24));
+                total+= durationInDays;
+            }
+	    }
+	    catch(Exception e){
+			Debug.printStackTrace(e);
+	    }
+	    finally{
+	    	try{
+	    		if(rs!=null) rs.close();
+	    		if(ps!=null) ps.close();
+	    		if(conn!=null) conn.close();
+	    	}
+	    	catch(Exception e){
+	    		Debug.printStackTrace(e);
+	    	}
+	    }
+        
+        return total;
+    }
+
+    //--- GET LEAVING DAYS BETWEEN ----------------------------------------------------------------
+    public static int getLeavingDaysBetween(Date begin, Date end, String encounterType){
+        int total = 0;
+        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        
+        try{
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	String sSql = "select * from OC_ENCOUNTERS"+
+        	              " where OC_ENCOUNTER_ENDDATE>=? and OC_ENCOUNTER_ENDDATE<=?"+
+        			      "  and OC_ENCOUNTER_TYPE=?";
+            ps = conn.prepareStatement(sSql);
+            ps.setDate(1,new java.sql.Date(begin.getTime()));
+            ps.setDate(2,new java.sql.Date(end.getTime()));
+            ps.setString(3,encounterType);
+            
+            rs = ps.executeQuery();
+            while(rs.next()){
                 java.sql.Date b=rs.getDate("OC_ENCOUNTER_BEGINDATE");
                 if(begin.after(b)){
                     b=new java.sql.Date(begin.getTime());
                 }
+                
                 java.sql.Date e=rs.getDate("OC_ENCOUNTER_ENDDATE");
                 if(e==null || e.after(end)){
                     e=new java.sql.Date(end.getTime());
                 }
+                
                 long durationInDays=e.getTime()-b.getTime();
                 durationInDays=1+Math.round(durationInDays/(1000*3600*24));
-                total += durationInDays;
+                total+= durationInDays;
             }
-            rs.close();
-            ps.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        // close connection
-        try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
+	    }
+	    catch(Exception e){
+			Debug.printStackTrace(e);
+	    }
+	    finally{
+	    	try{
+	    		if(rs!=null) rs.close();
+	    		if(ps!=null) ps.close();
+	    		if(conn!=null) conn.close();
+	    	}
+	    	catch(Exception e){
+	    		Debug.printStackTrace(e);
+	    	}
+	    }
         
         return total;
     }
 
-    public static int getLeavingDaysBetween(Date begin,Date end,String encounterType){
+    //--- GET ACCOUNTED ACCOMODATION DAYS ---------------------------------------------------------
+    public static int getAccountedAccomodationDays(String encounterUID){
         int total = 0;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            PreparedStatement ps = oc_conn.prepareStatement("select * from OC_ENCOUNTERS where OC_ENCOUNTER_ENDDATE>=? and OC_ENCOUNTER_ENDDATE<=? and OC_ENCOUNTER_TYPE=?");
-            ps.setDate(1, new java.sql.Date(begin.getTime()));
-            ps.setDate(2, new java.sql.Date(end.getTime()));
-            ps.setString(3,encounterType);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                java.sql.Date b=rs.getDate("OC_ENCOUNTER_BEGINDATE");
-                if(begin.after(b)){
-                    b=new java.sql.Date(begin.getTime());
-                }
-                java.sql.Date e=rs.getDate("OC_ENCOUNTER_ENDDATE");
-                if(e==null || e.after(end)){
-                    e=new java.sql.Date(end.getTime());
-                }
-                long durationInDays=e.getTime()-b.getTime();
-                durationInDays=1+Math.round(durationInDays/(1000*3600*24));
-                total += durationInDays;
-            }
-            rs.close();
-            ps.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
         
-        // close connection
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        
         try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
-        
-        return total;
-    }
-
-    public static int getAccountedAccomodationDays(String encounterUID) {
-        int total = 0;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-        	String sQuery="select SUM(OC_DEBET_QUANTITY) as total from OC_DEBETS where OC_DEBET_ENCOUNTERUID=? AND (OC_DEBET_CREDITED IS NULL OR OC_DEBET_CREDITED<>1) AND OC_DEBET_PRESTATIONUID in ('"+MedwanQuery.getInstance().getAccomodationPrestationUIDs().replaceAll(";","','")+"')";
-            PreparedStatement ps = oc_conn.prepareStatement(sQuery);
-            ps.setString(1, encounterUID);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            String sSql = "SELECT SUM(OC_DEBET_QUANTITY) as total FROM OC_DEBETS"+
+                          " WHERE OC_DEBET_ENCOUNTERUID=?"+
+            		      "  AND (OC_DEBET_CREDITED IS NULL OR OC_DEBET_CREDITED<>1)"+
+            		      "  AND OC_DEBET_PRESTATIONUID in ('"+MedwanQuery.getInstance().getAccomodationPrestationUIDs().replaceAll(";","','")+"')";
+            ps = conn.prepareStatement(sSql);
+            ps.setString(1,encounterUID);
+            
+            rs = ps.executeQuery();
+            if(rs.next()){
                 total = rs.getInt("total");
             }
-            rs.close();
-            ps.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        // close connection
-        try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
+	    }
+	    catch(Exception e){
+			Debug.printStackTrace(e);
+	    }
+	    finally{
+	    	try{
+	    		if(rs!=null) rs.close();
+	    		if(ps!=null) ps.close();
+	    		if(conn!=null) conn.close();
+	    	}
+	    	catch(Exception e){
+	    		Debug.printStackTrace(e);
+	    	}
+	    }
         
         return total;
     }
 
     //--- GET PATIENT -----------------------------------------------------------------------------
-    public AdminPerson getPatient() {
-        if (this.patient == null) {
-            if (this.patientUID != null && this.patientUID.length() > 0) {
+    public AdminPerson getPatient(){
+        if(this.patient == null){
+            if(this.patientUID!=null && this.patientUID.length() > 0){
             	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
-                this.setPatient(AdminPerson.getAdminPerson(ad_conn, this.patientUID));
-                try {
+                this.setPatient(AdminPerson.getAdminPerson(ad_conn,this.patientUID));
+                try{
 					ad_conn.close();
 				} 
-                catch (SQLException e) {
+                catch(SQLException e){
 					e.printStackTrace();
 				}
             } 
-            else {
+            else{
                 this.patient = null;
             }
         }
@@ -572,112 +703,120 @@ public class Encounter extends OC_Object {
         return patient;
     }
 
-    public void setPatient(AdminPerson patient) {
+    public void setPatient(AdminPerson patient){
         this.patient = patient;
     }
 
-    public Bed getBed() {
-        if (this.bed == null) {
-            if (this.bedUID != null && this.bedUID.length() > 0) {
+    //--- GET BED ---------------------------------------------------------------------------------
+    public Bed getBed(){
+        if(this.bed == null){
+            if(this.bedUID!=null && this.bedUID.length() > 0){
                 this.setBed(Bed.get(bedUID));
-            } else {
+            } else{
                 this.bed = null;
             }
         }
         return this.bed;
     }
 
-    public void setBed(Bed bed) {
+    //--- SET BED ---------------------------------------------------------------------------------
+    public void setBed(Bed bed){
         this.bed = bed;
     }
 
-    public Service getService() {
-        if (this.service == null) {
-            if (this.serviceUID != null && this.serviceUID.length() > 0) {
+    //--- GET SERVICE -----------------------------------------------------------------------------
+    public Service getService(){
+        if(this.service == null){
+            if(this.serviceUID!=null && this.serviceUID.length() > 0){
                 this.setService(Service.getService(this.serviceUID));
-            } else {
+            }
+            else{
                 this.service = null;
             }
         }
+        
         return service;
     }
 
-    public void setService(Service service) {
+    //--- SET SERVICE -----------------------------------------------------------------------------
+    public void setService(Service service){
         this.service = service;
     }
 
-    public Service getDestination() {
-        if (this.destination == null) {
-            if (this.destinationUID != null && this.destinationUID.length() > 0) {
+    //--- DESTINATION -----------------------------------------------------------------------------
+    public Service getDestination(){
+        if(this.destination == null){
+            if(this.destinationUID!=null && this.destinationUID.length() > 0){
                 this.setDestination(Service.getService(this.destinationUID));
-            } else {
+            } 
+            else{
                 this.destination = null;
             }
         }
         return destination;
     }
 
-    public void setDestination(Service destination) {
+    public void setDestination(Service destination){
         this.destination = destination;
     }
 
     //--- GET MANAGER -----------------------------------------------------------------------------
-    public User getManager() {
-        if (this.manager == null) {
+    public User getManager(){
+        if(this.manager == null){
             User tmpUser = new User();
-            if (this.managerUID != null && this.managerUID.length() > 0) {
+            if(this.managerUID!=null && this.managerUID.length() > 0){
                 boolean bCheck = tmpUser.initialize(Integer.parseInt(this.managerUID));
-                if (bCheck) {
+                if(bCheck){
                     this.setManager(tmpUser);
                 }
-            } else {
+            } else{
                 this.manager = null;
             }
         }
         return manager;
     }
 
-    public void setManager(User manager) {
+    public void setManager(User manager){
         this.manager = manager;
     }
 
-    public String getManagerUID() {
+    public String getManagerUID(){
         return this.managerUID;
     }
 
-    public void setManagerUID(String managerUID) {
+    public void setManagerUID(String managerUID){
         this.managerUID = managerUID;
     }
 
-    public String getServiceUID() {
+    public String getServiceUID(){
         return this.serviceUID;
     }
 
-    public void setServiceUID(String serviceUID) {
+    public void setServiceUID(String serviceUID){
         this.serviceUID = serviceUID;
     }
 
-    public String getDestinationUID() {
+    public String getDestinationUID(){
         return this.destinationUID;
     }
 
-    public void setDestinationUID(String destinationUID) {
+    public void setDestinationUID(String destinationUID){
         this.destinationUID = destinationUID;
     }
 
-    public String getBedUID() {
+    public String getBedUID(){
         return this.bedUID;
     }
 
-    public void setBedUID(String bedUID) {
+    public void setBedUID(String bedUID){
         this.bedUID = bedUID;
     }
 
-    public String getPatientUID() {
+    public String getPatientUID(){
         return patientUID;
     }
 
-    public void setPatientUID(String patientUID) {
+    public void setPatientUID(String patientUID){
         this.patientUID = patientUID;
     }
 
@@ -686,78 +825,100 @@ public class Encounter extends OC_Object {
     	if(MedwanQuery.getInstance().getConfigString("encounterDurationCalculationMethod","simple").equalsIgnoreCase("noLastDay")){
     		return getDurationInDaysNoLastDay();
     	}
+    	
         double duration;
-        if (getEnd() != null) {
+        if(getEnd()!=null){
             duration = getEnd().getTime() - getBegin().getTime();
-        } else {
+        }
+        else{
             duration = new Date().getTime() - getBegin().getTime();
         }
+        
         return new Double(Math.ceil(duration / (1000 * 60 * 60 * 24))).intValue();
     }
 
+    //--- GET DURATION IN DAYS NO LAST DAY --------------------------------------------------------
     public int getDurationInDaysNoLastDay() throws ParseException {
         double duration;
-        if (getEnd() != null) {
+        
+        if(getEnd()!=null){
             duration = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(getEnd())).getTime() - getBegin().getTime();
-        } else {
+        }
+        else{
             duration = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new Date())).getTime() - getBegin().getTime();
         }
+        
         return new Double(Math.ceil(duration / (1000 * 60 * 60 * 24))).intValue();
     }
 
     //--- GET DURATION IN DAYS --------------------------------------------------------------------
-    public double getDurationInDays(Date startdate) {
+    public double getDurationInDays(Date startdate){
         double duration = 0;
+        
         Date b = startdate;
-        if (startdate.before(getBegin())) {
+        if(startdate.before(getBegin())){
             b = getBegin();
         }
-        if (getEnd() != null && getEnd().before(new Date())) {
+        
+        if(getEnd()!=null && getEnd().before(new Date())){
             duration = getEnd().getTime() - b.getTime();
-        } else {
+        }
+        else{
             duration = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(new Date())).getTime() - b.getTime();
         }
+        
         return Math.ceil(duration / (1000 * 60 * 60 * 24));
     }
 
-    public double getDurationInDays(Date startdate, Date enddate) {
+    //--- GET DURATION IN DAYS --------------------------------------------------------------------
+    public double getDurationInDays(Date startdate, Date enddate){
         double duration = 0;
+        
         Date b = startdate;
-        if (startdate.before(getBegin())) {
+        if(startdate.before(getBegin())){
             b = getBegin();
         }
-        if (getEnd() != null && getEnd().before(enddate)) {
+        
+        if(getEnd()!=null && getEnd().before(enddate)){
             duration = getEnd().getTime() - b.getTime();
-        } else {
+        }
+        else{
             duration = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(enddate)).getTime() - b.getTime();
         }
+        
         return Math.ceil(duration / (1000 * 60 * 60 * 24));
     }
 
     //--- GET LAST ENCOUNTER SERVICE --------------------------------------------------------------
-    public EncounterService getLastEncounterService() {
+    public EncounterService getLastEncounterService(){
         EncounterService encounterService = null;
+        
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sSelect;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            if (getEnd() == null) {
-                sSelect = "select * from OC_ENCOUNTER_SERVICES where " +
-                        " OC_ENCOUNTER_SERVERID=? AND" +
-                        " OC_ENCOUNTER_OBJECTID=? AND" +
-                        " OC_ENCOUNTER_SERVICEENDDATE is NULL";
-            } else {
-                sSelect = "select * from OC_ENCOUNTER_SERVICES where " +
-                        " OC_ENCOUNTER_SERVERID=? AND" +
-                        " OC_ENCOUNTER_OBJECTID=?" +
-                        " ORDER BY OC_ENCOUNTER_SERVICEBEGINDATE DESC";
+        Connection conn = null;
+        String sSql;
+        
+        try{
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	
+            if(getEnd() == null){
+                sSql = "select * from OC_ENCOUNTER_SERVICES where "+
+                       " OC_ENCOUNTER_SERVERID=? AND"+
+                       " OC_ENCOUNTER_OBJECTID=? AND"+
+                       " OC_ENCOUNTER_SERVICEENDDATE is NULL";
             }
-            ps = oc_conn.prepareStatement(sSelect);
-            ps.setInt(1, Integer.parseInt(getUid().split("\\.")[0]));
-            ps.setInt(2, Integer.parseInt(getUid().split("\\.")[1]));
+            else{
+                sSql = "select * from OC_ENCOUNTER_SERVICES where "+
+                       " OC_ENCOUNTER_SERVERID=? AND"+
+                       " OC_ENCOUNTER_OBJECTID=?"+
+                       " ORDER BY OC_ENCOUNTER_SERVICEBEGINDATE DESC";
+            }
+            ps = conn.prepareStatement(sSql);
+            ps.setInt(1,Integer.parseInt(getUid().split("\\.")[0]));
+            ps.setInt(2,Integer.parseInt(getUid().split("\\.")[1]));
+            
             rs = ps.executeQuery();
-            if (rs.next()) {
+            if(rs.next()){
                 encounterService = new EncounterService();
                 encounterService.managerUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_MANAGERUID"));
                 encounterService.bedUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_BEDUID"));
@@ -765,285 +926,334 @@ public class Encounter extends OC_Object {
                 encounterService.begin = rs.getTimestamp("OC_ENCOUNTER_SERVICEBEGINDATE");
                 encounterService.end = rs.getTimestamp("OC_ENCOUNTER_SERVICEENDDATE");
             }
-        } catch (Exception e) {
-            Debug.println("OpenClinic => Encounter.java => get => " + e.getMessage());
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                oc_conn.close();
-            } catch (Exception e) {
+        }
+        catch(Exception e){
+            Debug.printStackTrace(e);
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return encounterService;
     }
 
-    public void storeLastEncounterService() {
-        //First get the actual last encounterservice
-        if (getBed() != null) bedUID = getBed().getUid();
-        if (getService() != null) serviceUID = getService().code;
-        if (getManager() != null) managerUID = getManager().userid;
+    //--- STORE LAST ENCOUNTER SERVICE ------------------------------------------------------------
+    public void storeLastEncounterService(){
+        // get the actual last encounterservice
+        if(getBed()!=null) bedUID = getBed().getUid();
+        if(getService()!=null) serviceUID = getService().code;
+        if(getManager()!=null) managerUID = getManager().userid;
+        
         EncounterService encounterService = getLastEncounterService();
-        if (encounterService == null || !encounterService.serviceUID.equals(serviceUID) || !ScreenHelper.checkString(encounterService.bedUID).equals(ScreenHelper.checkString(bedUID)) || !ScreenHelper.checkString(encounterService.managerUID).equals(ScreenHelper.checkString(managerUID))) {
+        if(encounterService == null || !encounterService.serviceUID.equals(serviceUID) || !ScreenHelper.checkString(encounterService.bedUID).equals(ScreenHelper.checkString(bedUID)) || !ScreenHelper.checkString(encounterService.managerUID).equals(ScreenHelper.checkString(managerUID))){
             PreparedStatement ps = null;
-            Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-            try {
+            Connection conn = null;
+            
+            try{            	
                 //Data have changed, keep track of the changes
                 //First check if new data do not conflict with existing data
                 //-> if begindate < existing max enddate, refuse service
-                if (encounterService != null && encounterService.end!=null && getBegin() != null && getEnd() != null && getBegin().before(encounterService.end)) {
+                if(encounterService!=null && encounterService.end!=null && getBegin()!=null && getEnd()!=null && getBegin().before(encounterService.end)){
                     return;
                 }
-                //First close the previous encounterservice
-                String sSelect = " UPDATE OC_ENCOUNTER_SERVICES SET OC_ENCOUNTER_SERVICEENDDATE=?" +
-                        " WHERE OC_ENCOUNTER_SERVERID = ? " +
-                        " AND OC_ENCOUNTER_OBJECTID = ?" +
-                        " AND OC_ENCOUNTER_SERVICEENDDATE IS NULL";
-                ps = oc_conn.prepareStatement(sSelect);
-                if (getTransferDate() == null) {
-                    ps.setTimestamp(1, new Timestamp(new Date().getTime()));
-                } else {
-                    ps.setTimestamp(1, new Timestamp(getTransferDate().getTime()));
+                
+                // close the previous encounterservice
+            	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+                String sSql = "UPDATE OC_ENCOUNTER_SERVICES SET OC_ENCOUNTER_SERVICEENDDATE=?"+
+                              " WHERE OC_ENCOUNTER_SERVERID = ? "+
+                              "  AND OC_ENCOUNTER_OBJECTID = ?"+
+                              "  AND OC_ENCOUNTER_SERVICEENDDATE IS NULL";
+                ps = conn.prepareStatement(sSql);
+                if(getTransferDate() == null){
+                    ps.setTimestamp(1,new Timestamp(new Date().getTime()));
+                } 
+                else{
+                    ps.setTimestamp(1,new Timestamp(getTransferDate().getTime()));
                 }
-                ps.setInt(2, Integer.parseInt(getUid().split("\\.")[0]));
-                ps.setInt(3, Integer.parseInt(getUid().split("\\.")[1]));
+                ps.setInt(2,Integer.parseInt(getUid().split("\\.")[0]));
+                ps.setInt(3,Integer.parseInt(getUid().split("\\.")[1]));
                 int rows=ps.executeUpdate();
                 ps.close();
-                //Now insert a new encounterservice
-                sSelect = "INSERT INTO OC_ENCOUNTER_SERVICES(OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID,OC_ENCOUNTER_SERVICEUID,OC_ENCOUNTER_BEDUID,OC_ENCOUNTER_MANAGERUID,OC_ENCOUNTER_SERVICEENDDATE,OC_ENCOUNTER_SERVICEBEGINDATE)" +
-                        " values(?,?,?,?,?,?,?)";
-                ps = oc_conn.prepareStatement(sSelect);
-                ps.setInt(1, Integer.parseInt(getUid().split("\\.")[0]));
-                ps.setInt(2, Integer.parseInt(getUid().split("\\.")[1]));
-                ps.setString(3, serviceUID);
-                ps.setString(4, bedUID);
-                ps.setString(5, managerUID);
-                ps.setTimestamp(6, getEnd() != null ? new Timestamp(getEnd().getTime()) : null);
-                if (getTransferDate() == null) {
-                    ps.setTimestamp(7, new Timestamp(new Date().getTime()));
-                } else {
-                    ps.setTimestamp(7, new Timestamp(getTransferDate().getTime() + 1));
+                
+                // insert a new encounterservice
+                sSql = "INSERT INTO OC_ENCOUNTER_SERVICES(OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID,OC_ENCOUNTER_SERVICEUID,"+
+                          " OC_ENCOUNTER_BEDUID,OC_ENCOUNTER_MANAGERUID,OC_ENCOUNTER_SERVICEENDDATE,OC_ENCOUNTER_SERVICEBEGINDATE)"+
+                          " values(?,?,?,?,?,?,?)";
+                ps = conn.prepareStatement(sSql);
+                ps.setInt(1,Integer.parseInt(getUid().split("\\.")[0]));
+                ps.setInt(2,Integer.parseInt(getUid().split("\\.")[1]));
+                ps.setString(3,serviceUID);
+                ps.setString(4,bedUID);
+                ps.setString(5,managerUID);
+                ps.setTimestamp(6,getEnd()!=null ? new Timestamp(getEnd().getTime()) : null);
+                
+                if(getTransferDate() == null){
+                    ps.setTimestamp(7,new Timestamp(new Date().getTime()));
+                }
+                else{
+                    ps.setTimestamp(7,new Timestamp(getTransferDate().getTime()+1));
                 }
                 ps.execute();
-            } catch (Exception e) {
-                Debug.println("OpenClinic => Encounter.java => storeLastEncounterService => " + e.getMessage());
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (ps != null) ps.close();
-                    oc_conn.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
-        }
-    }
-    public void storeSingleEncounterService() {
-        //First get the actual last encounterservice
-        if (getBed() != null) bedUID = getBed().getUid();
-        if (getService() != null) serviceUID = getService().code;
-        if (getManager() != null) managerUID = getManager().userid;
-        EncounterService encounterService = getLastEncounterService();
-        if (encounterService == null || !encounterService.serviceUID.equals(serviceUID) || !ScreenHelper.checkString(encounterService.bedUID).equals(ScreenHelper.checkString(bedUID)) || !ScreenHelper.checkString(encounterService.managerUID).equals(ScreenHelper.checkString(managerUID))) {
-            PreparedStatement ps = null;
-            Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-            try {
-                //Data have changed, keep track of the changes
-                //First check if new data do not conflict with existing data
-                //-> if begindate < existing max enddate, refuse service
-                if (encounterService != null && getBegin() != null && getEnd() != null && getBegin().before(encounterService.end)) {
-                    return;
-                }
-                //First delete the previous encounterservices
-                String sSelect = " DELETE FROM OC_ENCOUNTER_SERVICES " +
-                        " WHERE OC_ENCOUNTER_SERVERID = ? " +
-                        " AND OC_ENCOUNTER_OBJECTID = ?";
-                ps = oc_conn.prepareStatement(sSelect);
-                ps.setInt(1, Integer.parseInt(getUid().split("\\.")[0]));
-                ps.setInt(2, Integer.parseInt(getUid().split("\\.")[1]));
-                ps.executeUpdate();
-                ps.close();
-                //Now insert a new encounterservice
-                sSelect = "INSERT INTO OC_ENCOUNTER_SERVICES(OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID,OC_ENCOUNTER_SERVICEUID,OC_ENCOUNTER_BEDUID,OC_ENCOUNTER_MANAGERUID,OC_ENCOUNTER_SERVICEENDDATE,OC_ENCOUNTER_SERVICEBEGINDATE)" +
-                        " values(?,?,?,?,?,?,?)";
-                ps = oc_conn.prepareStatement(sSelect);
-                ps.setInt(1, Integer.parseInt(getUid().split("\\.")[0]));
-                ps.setInt(2, Integer.parseInt(getUid().split("\\.")[1]));
-                ps.setString(3, serviceUID);
-                ps.setString(4, bedUID);
-                ps.setString(5, managerUID);
-                ps.setTimestamp(6, getEnd() != null ? new Timestamp(getEnd().getTime()) : null);
-                if (getTransferDate() == null) {
-                    ps.setTimestamp(7, new Timestamp(new Date().getTime()));
-                } else {
-                    ps.setTimestamp(7, new Timestamp(getTransferDate().getTime() + 1));
-                }
-                ps.execute();
-            } catch (Exception e) {
-                Debug.println("OpenClinic => Encounter.java => storeLastEncounterService => " + e.getMessage());
+            catch(Exception e){
                 e.printStackTrace();
-            } finally {
-                try {
-                    if (ps != null) ps.close();
-                    oc_conn.close();
-                } catch (Exception e) {
+            }
+            finally{
+                try{
+                    if(ps!=null) ps.close();
+                    if(conn!=null) conn.close();
+                }
+                catch(Exception e){
                     e.printStackTrace();
                 }
             }
         }
     }
     
-    public Date getMaxTransferDate(){
-    	Date maxtransferdate=getBegin();
-    	PreparedStatement ps = null;
-        ResultSet rs = null;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            String sSelect = "SELECT max(OC_ENCOUNTER_BEGINDATE) as maxtransferdate from OC_ENCOUNTERS_VIEW" +
-                    " where" +
-                    " OC_ENCOUNTER_SERVERID=? AND" +
-                    " OC_ENCOUNTER_OBJECTID=? ";
-            ps = oc_conn.prepareStatement(sSelect);
-            ps.setInt(1, Integer.parseInt(getUid().split("\\.")[0]));
-            ps.setInt(2, Integer.parseInt(getUid().split("\\.")[1]));
-            rs = ps.executeQuery();
-            if (rs.next()) {
-            	maxtransferdate=rs.getDate("maxtransferdate");
+    //--- STORE SINGLE ENCOUNTER SERVICE ----------------------------------------------------------
+    public void storeSingleEncounterService(){
+        // get the actual last encounterservice
+        if(getBed()!=null) bedUID = getBed().getUid();
+        if(getService()!=null) serviceUID = getService().code;
+        if(getManager()!=null) managerUID = getManager().userid;
+        
+        EncounterService encounterService = getLastEncounterService();        
+        if(encounterService == null || !encounterService.serviceUID.equals(serviceUID) || !ScreenHelper.checkString(encounterService.bedUID).equals(ScreenHelper.checkString(bedUID)) || !ScreenHelper.checkString(encounterService.managerUID).equals(ScreenHelper.checkString(managerUID))){
+            PreparedStatement ps = null;
+            Connection conn = null;
+            
+            try{            	
+                //Data have changed, keep track of the changes
+                //First check if new data do not conflict with existing data
+                //-> if begindate < existing max enddate, refuse service
+                if(encounterService!=null && getBegin()!=null && getEnd()!=null && getBegin().before(encounterService.end)){
+                    return;
+                }
+                
+                // delete the previous encounterservices
+                conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            	String sSql = "DELETE FROM OC_ENCOUNTER_SERVICES"+
+                              " WHERE OC_ENCOUNTER_SERVERID = ?"+
+                              "  AND OC_ENCOUNTER_OBJECTID = ?";
+                ps = conn.prepareStatement(sSql);
+                ps.setInt(1,Integer.parseInt(getUid().split("\\.")[0]));
+                ps.setInt(2,Integer.parseInt(getUid().split("\\.")[1]));
+                ps.executeUpdate();
+                ps.close();
+                
+                // insert a new encounterservice
+                sSql = "INSERT INTO OC_ENCOUNTER_SERVICES(OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID,OC_ENCOUNTER_SERVICEUID,"+
+                       " OC_ENCOUNTER_BEDUID,OC_ENCOUNTER_MANAGERUID,OC_ENCOUNTER_SERVICEENDDATE,OC_ENCOUNTER_SERVICEBEGINDATE)"+
+                       " values(?,?,?,?,?,?,?)";
+                ps = conn.prepareStatement(sSql);
+                ps.setInt(1,Integer.parseInt(getUid().split("\\.")[0]));
+                ps.setInt(2,Integer.parseInt(getUid().split("\\.")[1]));
+                ps.setString(3,serviceUID);
+                ps.setString(4,bedUID);
+                ps.setString(5,managerUID);
+                ps.setTimestamp(6,getEnd()!=null?new Timestamp(getEnd().getTime()):null);
+                
+                if(getTransferDate()==null){
+                    ps.setTimestamp(7,new Timestamp(new Date().getTime()));
+                }
+                else{
+                    ps.setTimestamp(7,new Timestamp(getTransferDate().getTime()+1));
+                }
+                ps.execute();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+            finally{
+                try{
+                    if(ps!=null) ps.close();
+                    if(conn!=null) conn.close();
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
             }
         }
-        catch (Exception e) {
+    }
+    
+    //--- GET MAX TRANSFER DATE -------------------------------------------------------------------
+    public Date getMaxTransferDate(){
+    	Date maxtransferdate = getBegin();
+    	
+    	PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        
+        try{
+            conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            String sSql = "SELECT max(OC_ENCOUNTER_BEGINDATE) as maxtransferdate"+
+                          " FROM OC_ENCOUNTERS_VIEW"+
+                          "  WHERE OC_ENCOUNTER_SERVERID=?"+
+            		      "   AND OC_ENCOUNTER_OBJECTID=?";
+            ps = conn.prepareStatement(sSql);
+            ps.setInt(1,Integer.parseInt(getUid().split("\\.")[0]));
+            ps.setInt(2,Integer.parseInt(getUid().split("\\.")[1]));
+            rs = ps.executeQuery();
+            if(rs.next()){
+            	maxtransferdate = rs.getDate("maxtransferdate");
+            }
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
-        finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                oc_conn.close();
-            } catch (Exception e) {
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
     	return maxtransferdate;
     }
-    public Vector getTransferHistory() {
+    
+    //--- GET TRANSFER HISTORY --------------------------------------------------------------------
+    public Vector getTransferHistory(){
         Vector transferHistory = new Vector();
+        
         if(getUid()!=null){
 	        PreparedStatement ps = null;
 	        ResultSet rs = null;
-	        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-	
-	        try {
-	            String sSelect = "SELECT * from OC_ENCOUNTER_SERVICES" +
-	                    " where" +
-	                    " OC_ENCOUNTER_SERVERID=? AND" +
-	                    " OC_ENCOUNTER_OBJECTID=? AND" +
-	                    " OC_ENCOUNTER_SERVICEENDDATE IS NOT NULL" +
-	                    " ORDER BY OC_ENCOUNTER_SERVICEENDDATE DESC";
-	            ps = oc_conn.prepareStatement(sSelect);
-	            ps.setInt(1, Integer.parseInt(getUid().split("\\.")[0]));
-	            ps.setInt(2, Integer.parseInt(getUid().split("\\.")[1]));
+	        Connection conn = null;
+	        	
+	        try{
+		        conn = MedwanQuery.getInstance().getOpenclinicConnection();
+	            String sSql = "SELECT * from OC_ENCOUNTER_SERVICES"+
+	                          " WHERE OC_ENCOUNTER_SERVERID=?"+
+	            		      "  AND OC_ENCOUNTER_OBJECTID=?"+
+	                          "  AND OC_ENCOUNTER_SERVICEENDDATE IS NOT NULL"+
+                              " ORDER BY OC_ENCOUNTER_SERVICEENDDATE DESC";
+	            ps = conn.prepareStatement(sSql);
+	            ps.setInt(1,Integer.parseInt(getUid().split("\\.")[0]));
+	            ps.setInt(2,Integer.parseInt(getUid().split("\\.")[1]));
 	            rs = ps.executeQuery();
-	            while (rs.next()) {
+	            while(rs.next()){
 	                EncounterService encounterService = new EncounterService();
+	             
 	                encounterService.begin = rs.getTimestamp("OC_ENCOUNTER_SERVICEBEGINDATE");
 	                encounterService.end = rs.getTimestamp("OC_ENCOUNTER_SERVICEENDDATE");
 	                encounterService.bedUID = rs.getString("OC_ENCOUNTER_BEDUID");
 	                encounterService.serviceUID = rs.getString("OC_ENCOUNTER_SERVICEUID");
 	                encounterService.managerUID = rs.getString("OC_ENCOUNTER_MANAGERUID");
+	              
 	                transferHistory.add(encounterService);
 	            }
 	        }
-	        catch (Exception e) {
+	        catch(Exception e){
 	            e.printStackTrace();
 	        }
-	        finally {
-	            try {
-	                if (rs != null) rs.close();
-	                if (ps != null) ps.close();
-	                oc_conn.close();
-	            } catch (Exception e) {
+	        finally{
+	            try{
+	                if(rs!=null) rs.close();
+	                if(ps!=null) ps.close();
+	                if(conn!=null) conn.close();
+	            }
+	            catch(Exception e){
 	                e.printStackTrace();
 	            }
 	        }
         }
+        
 	    return transferHistory;
     }
 
-    public Vector getFullTransferHistory() {
+    //--- GET FULL TRANSFER HISTORY ---------------------------------------------------------------
+    public Vector getFullTransferHistory(){
         Vector transferHistory = new Vector();
+        
         if(getUid()!=null){
 	        PreparedStatement ps = null;
 	        ResultSet rs = null;
-	        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-	
-	        try {
-	            String sSelect = "SELECT * from OC_ENCOUNTER_SERVICES" +
-	                    " where" +
-	                    " OC_ENCOUNTER_SERVERID=? AND" +
-	                    " OC_ENCOUNTER_OBJECTID=? " +
-	                    " ORDER BY OC_ENCOUNTER_SERVICEBEGINDATE ASC";
-	            ps = oc_conn.prepareStatement(sSelect);
-	            ps.setInt(1, Integer.parseInt(getUid().split("\\.")[0]));
-	            ps.setInt(2, Integer.parseInt(getUid().split("\\.")[1]));
+	        Connection conn = null;
+	        	
+	        try{
+		        conn = MedwanQuery.getInstance().getOpenclinicConnection();
+	            String sSql = "SELECT * FROM OC_ENCOUNTER_SERVICES"+
+			                  " WHERE OC_ENCOUNTER_SERVERID=?"+
+	            		      "  AND OC_ENCOUNTER_OBJECTID=?"+
+			                  " ORDER BY OC_ENCOUNTER_SERVICEBEGINDATE ASC";
+	            ps = conn.prepareStatement(sSql);
+	            ps.setInt(1,Integer.parseInt(getUid().split("\\.")[0]));
+	            ps.setInt(2,Integer.parseInt(getUid().split("\\.")[1]));
 	            rs = ps.executeQuery();
-	            while (rs.next()) {
+	            
+	            while(rs.next()){
 	                EncounterService encounterService = new EncounterService();
+	             
 	                encounterService.begin = rs.getTimestamp("OC_ENCOUNTER_SERVICEBEGINDATE");
 	                encounterService.end = rs.getTimestamp("OC_ENCOUNTER_SERVICEENDDATE");
 	                encounterService.bedUID = rs.getString("OC_ENCOUNTER_BEDUID");
 	                encounterService.serviceUID = rs.getString("OC_ENCOUNTER_SERVICEUID");
 	                encounterService.managerUID = rs.getString("OC_ENCOUNTER_MANAGERUID");
+	              
 	                transferHistory.add(encounterService);
 	            }
 	        }
-	        catch (Exception e) {
+	        catch(Exception e){
 	            e.printStackTrace();
 	        }
-	        finally {
-	            try {
-	                if (rs != null) rs.close();
-	                if (ps != null) ps.close();
-	                oc_conn.close();
-	            } catch (Exception e) {
+	        finally{
+	            try{
+	                if(rs!=null) rs.close();
+	                if(ps!=null) ps.close();
+	                if(conn!=null) conn.close();
+	            }
+	            catch(Exception e){
 	                e.printStackTrace();
 	            }
 	        }
         }
+        
 	    return transferHistory;
     }
 
     //--- GET -------------------------------------------------------------------------------------
-    public static Encounter get(String uid) {
+    public static Encounter get(String uid){
         Encounter encounter = (Encounter)MedwanQuery.getInstance().getObjectCache().getObject("encounter",uid);
-        if(encounter!=null){
-            return encounter;
-        }
+        if(encounter!=null) return encounter;
+        
         PreparedStatement ps = null;
         ResultSet rs = null;
+        Connection conn = null;
 
         encounter = new Encounter();
 
-        if (uid != null && uid.length() > 0) {
+        if(uid!=null && uid.length() > 0){
             String sUids[] = uid.split("\\.");
-            if (sUids.length == 2) {
-                Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-                try {
-                    String sSelect = " SELECT * FROM OC_ENCOUNTERS " +
-                            " WHERE OC_ENCOUNTER_SERVERID = ? " +
-                            " AND OC_ENCOUNTER_OBJECTID = ?";
-                    ps = oc_conn.prepareStatement(sSelect);
-                    ps.setInt(1, Integer.parseInt(sUids[0]));
-                    ps.setInt(2, Integer.parseInt(sUids[1]));
+            
+            if(sUids.length == 2){
+                conn = MedwanQuery.getInstance().getOpenclinicConnection();
+                
+                try{
+                    String sSelect = "SELECT * FROM OC_ENCOUNTERS"+
+                                     " WHERE OC_ENCOUNTER_SERVERID = ?"+
+                                     "  AND OC_ENCOUNTER_OBJECTID = ?";
+                    ps = conn.prepareStatement(sSelect);
+                    ps.setInt(1,Integer.parseInt(sUids[0]));
+                    ps.setInt(2,Integer.parseInt(sUids[1]));
 
                     rs = ps.executeQuery();
 
-                    if (rs.next()) {
+                    if(rs.next()){
                         encounter.patientUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_PATIENTUID"));
                         encounter.destinationUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_DESTINATIONUID"));
 
-                        encounter.setUid(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID")) + "." + ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID")));
+                        encounter.setUid(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID"))+"."+ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID")));
                         encounter.setCreateDateTime(rs.getTimestamp("OC_ENCOUNTER_CREATETIME"));
                         encounter.setUpdateDateTime(rs.getTimestamp("OC_ENCOUNTER_UPDATETIME"));
                         encounter.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_UPDATEUID")));
@@ -1057,497 +1267,512 @@ public class Encounter extends OC_Object {
                         encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
                         
 
-                        //Now find the most recent service for this encounter
+                        // find the most recent service for this encounter
                         EncounterService encounterService = encounter.getLastEncounterService();
-                        if (encounterService != null) {
+                        if(encounterService!=null){
                             encounter.serviceUID = encounterService.serviceUID;
                             encounter.managerUID = encounterService.managerUID;
                             encounter.bedUID = encounterService.bedUID;
                         }
                     }
-                } catch (Exception e) {
-                    Debug.println("OpenClinic => Encounter.java => get => " + e.getMessage());
+                }
+                catch(Exception e){
                     e.printStackTrace();
-                } finally {
-                    try {
-                        if (rs != null) rs.close();
-                        if (ps != null) ps.close();
-                        oc_conn.close();
-                    } catch (Exception e) {
+                }
+                finally{
+                    try{
+                        if(rs!=null) rs.close();
+                        if(ps!=null) ps.close();
+                        if(conn!=null) conn.close();
+                    }
+                    catch(Exception e){
                         e.printStackTrace();
                     }
                 }
             }
         }
+        
         MedwanQuery.getInstance().getObjectCache().putObject("encounter",encounter);
         return encounter;
     }
 
     //--- RESET SERVICE DATES ---------------------------------------------------------------------
-    public void resetServiceDates() {
+    public void resetServiceDates(){
         PreparedStatement ps = null;
         ResultSet rs = null;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            String sQuery = "select count(*) total from OC_ENCOUNTER_SERVICES where OC_ENCOUNTER_SERVERID=? AND OC_ENCOUNTER_OBJECTID=?";
-            ps = oc_conn.prepareStatement(sQuery);
-            ps.setInt(1, Integer.parseInt(getUid().split("\\.")[0]));
-            ps.setInt(2, Integer.parseInt(getUid().split("\\.")[1]));
+        Connection conn = null;
+        
+        try{
+            conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            String sSql = "select count(*) total from OC_ENCOUNTER_SERVICES"+
+                          " where OC_ENCOUNTER_SERVERID=? AND OC_ENCOUNTER_OBJECTID=?";
+            ps = conn.prepareStatement(sSql);
+            ps.setInt(1,Integer.parseInt(getUid().split("\\.")[0]));
+            ps.setInt(2,Integer.parseInt(getUid().split("\\.")[1]));
+           
             rs = ps.executeQuery();
-            if (rs.next()) {
-                if (rs.getInt("total") == 1) {
+            if(rs.next()){
+                if(rs.getInt("total")==1){
                     rs.close();
                     ps.close();
-                    sQuery = "update OC_ENCOUNTER_SERVICES set OC_ENCOUNTER_SERVICEBEGINDATE=?,OC_ENCOUNTER_SERVICEENDDATE=?" +
-                            " where " +
-                            " OC_ENCOUNTER_SERVERID=? AND " +
-                            " OC_ENCOUNTER_OBJECTID=?";
-                    ps = oc_conn.prepareStatement(sQuery);
-                    ps.setDate(1, getBegin() != null ? new java.sql.Date(getBegin().getTime()) : null);
-                    ps.setDate(2, getEnd() != null ? new java.sql.Date(getEnd().getTime()) : null);
-                    ps.setInt(3, Integer.parseInt(getUid().split("\\.")[0]));
-                    ps.setInt(4, Integer.parseInt(getUid().split("\\.")[1]));
+                    
+                    sSql = "update OC_ENCOUNTER_SERVICES set OC_ENCOUNTER_SERVICEBEGINDATE=?,OC_ENCOUNTER_SERVICEENDDATE=?"+
+                           " where OC_ENCOUNTER_SERVERID=? AND OC_ENCOUNTER_OBJECTID=?";
+                    ps = conn.prepareStatement(sSql);
+                    ps.setDate(1,getBegin()!=null?new java.sql.Date(getBegin().getTime()):null);
+                    ps.setDate(2,getEnd()!=null?new java.sql.Date(getEnd().getTime()):null);
+                    ps.setInt(3,Integer.parseInt(getUid().split("\\.")[0]));
+                    ps.setInt(4,Integer.parseInt(getUid().split("\\.")[1]));
                     ps.executeUpdate();
                 }
             }
-            rs.close();
-            ps.close();
-        } catch (Exception e) {
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
-        finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                oc_conn.close();
-            } catch (Exception e) {
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
     }
 
     //--- STORE -----------------------------------------------------------------------------------
-    public void store() {
+    public void store(){
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         String sSelect, sInsert, sDelete;
         int iVersion = 1;
         String ids[];
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            if (this.getUid() != null && this.getUid().length() > 0) {
+        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            if(this.getUid()!=null && this.getUid().length() > 0){
                 ids = this.getUid().split("\\.");
-                if (ids.length == 2) {
-                    sSelect = " SELECT * FROM OC_ENCOUNTERS " +
-                            " WHERE OC_ENCOUNTER_SERVERID = ? " +
-                            " AND OC_ENCOUNTER_OBJECTID = ?";
-                    ps = oc_conn.prepareStatement(sSelect);
-                    ps.setInt(1, Integer.parseInt(ids[0]));
-                    ps.setInt(2, Integer.parseInt(ids[1]));
+                if(ids.length == 2){
+                    sSelect = "SELECT * FROM OC_ENCOUNTERS"+
+                              " WHERE OC_ENCOUNTER_SERVERID = ?"+
+                              "  AND OC_ENCOUNTER_OBJECTID = ?";
+                    ps = conn.prepareStatement(sSelect);
+                    ps.setInt(1,Integer.parseInt(ids[0]));
+                    ps.setInt(2,Integer.parseInt(ids[1]));
 
                     rs = ps.executeQuery();
-
-                    if (rs.next()) {
-                        iVersion = rs.getInt("OC_ENCOUNTER_VERSION") + 1;
+                    if(rs.next()){
+                        iVersion = rs.getInt("OC_ENCOUNTER_VERSION")+1;
                     }
 
                     rs.close();
                     ps.close();
 
-                    sInsert = " INSERT INTO OC_ENCOUNTERS_HISTORY(OC_ENCOUNTER_SERVERID," +
-                            "OC_ENCOUNTER_OBJECTID," +
-                            "OC_ENCOUNTER_TYPE," +
-                            "OC_ENCOUNTER_BEGINDATE," +
-                            "OC_ENCOUNTER_ENDDATE," +
-                            "OC_ENCOUNTER_PATIENTUID," +
-                            "OC_ENCOUNTER_CREATETIME," +
-                            "OC_ENCOUNTER_UPDATETIME," +
-                            "OC_ENCOUNTER_UPDATEUID," +
-                            "OC_ENCOUNTER_VERSION," +
-                            "OC_ENCOUNTER_OUTCOME," +
-                            "OC_ENCOUNTER_DESTINATIONUID," +
-                            "OC_ENCOUNTER_ORIGIN," +
-                            "OC_ENCOUNTER_SITUATION," +
-                            "OC_ENCOUNTER_CATEGORIES) " +
-                            " SELECT OC_ENCOUNTER_SERVERID," +
-                            " OC_ENCOUNTER_OBJECTID," +
-                            " OC_ENCOUNTER_TYPE," +
-                            " OC_ENCOUNTER_BEGINDATE," +
-                            " OC_ENCOUNTER_ENDDATE," +
-                            " OC_ENCOUNTER_PATIENTUID," +
-                            " OC_ENCOUNTER_CREATETIME," +
-                            " OC_ENCOUNTER_UPDATETIME," +
-                            " OC_ENCOUNTER_UPDATEUID," +
-                            " OC_ENCOUNTER_VERSION," +
-                            " OC_ENCOUNTER_OUTCOME," +
-                            " OC_ENCOUNTER_DESTINATIONUID," +
-                            " OC_ENCOUNTER_ORIGIN," +
-                            " OC_ENCOUNTER_SITUATION," +
-                            " OC_ENCOUNTER_CATEGORIES" +
-                            " FROM OC_ENCOUNTERS " +
-                            " WHERE OC_ENCOUNTER_SERVERID = ?" +
+                    sInsert = " INSERT INTO OC_ENCOUNTERS_HISTORY(OC_ENCOUNTER_SERVERID,"+
+                            "OC_ENCOUNTER_OBJECTID,"+
+                            "OC_ENCOUNTER_TYPE,"+
+                            "OC_ENCOUNTER_BEGINDATE,"+
+                            "OC_ENCOUNTER_ENDDATE,"+
+                            "OC_ENCOUNTER_PATIENTUID,"+
+                            "OC_ENCOUNTER_CREATETIME,"+
+                            "OC_ENCOUNTER_UPDATETIME,"+
+                            "OC_ENCOUNTER_UPDATEUID,"+
+                            "OC_ENCOUNTER_VERSION,"+
+                            "OC_ENCOUNTER_OUTCOME,"+
+                            "OC_ENCOUNTER_DESTINATIONUID,"+
+                            "OC_ENCOUNTER_ORIGIN,"+
+                            "OC_ENCOUNTER_SITUATION,"+
+                            "OC_ENCOUNTER_CATEGORIES) "+
+                            " SELECT OC_ENCOUNTER_SERVERID,"+
+                            " OC_ENCOUNTER_OBJECTID,"+
+                            " OC_ENCOUNTER_TYPE,"+
+                            " OC_ENCOUNTER_BEGINDATE,"+
+                            " OC_ENCOUNTER_ENDDATE,"+
+                            " OC_ENCOUNTER_PATIENTUID,"+
+                            " OC_ENCOUNTER_CREATETIME,"+
+                            " OC_ENCOUNTER_UPDATETIME,"+
+                            " OC_ENCOUNTER_UPDATEUID,"+
+                            " OC_ENCOUNTER_VERSION,"+
+                            " OC_ENCOUNTER_OUTCOME,"+
+                            " OC_ENCOUNTER_DESTINATIONUID,"+
+                            " OC_ENCOUNTER_ORIGIN,"+
+                            " OC_ENCOUNTER_SITUATION,"+
+                            " OC_ENCOUNTER_CATEGORIES"+
+                            " FROM OC_ENCOUNTERS "+
+                            " WHERE OC_ENCOUNTER_SERVERID = ?"+
                             " AND OC_ENCOUNTER_OBJECTID = ?";
-                    ps = oc_conn.prepareStatement(sInsert);
-                    ps.setInt(1, Integer.parseInt(ids[0]));
-                    ps.setInt(2, Integer.parseInt(ids[1]));
+                    ps = conn.prepareStatement(sInsert);
+                    ps.setInt(1,Integer.parseInt(ids[0]));
+                    ps.setInt(2,Integer.parseInt(ids[1]));
                     ps.executeUpdate();
                     ps.close();
 
-                    sDelete = " DELETE FROM OC_ENCOUNTERS " +
-                            " WHERE OC_ENCOUNTER_SERVERID = ? " +
-                            " AND OC_ENCOUNTER_OBJECTID = ? ";
-
-                    ps = oc_conn.prepareStatement(sDelete);
-                    ps.setInt(1, Integer.parseInt(ids[0]));
-                    ps.setInt(2, Integer.parseInt(ids[1]));
+                    sDelete = "DELETE FROM OC_ENCOUNTERS"+
+                              " WHERE OC_ENCOUNTER_SERVERID = ?"+
+                              "  AND OC_ENCOUNTER_OBJECTID = ?";
+                    ps = conn.prepareStatement(sDelete);
+                    ps.setInt(1,Integer.parseInt(ids[0]));
+                    ps.setInt(2,Integer.parseInt(ids[1]));
                     ps.executeUpdate();
                     ps.close();
                 }
-            } else {
-                ids = new String[]{MedwanQuery.getInstance().getConfigString("serverId"), MedwanQuery.getInstance().getOpenclinicCounter("OC_ENCOUNTERS") + ""};
             }
-            if (ids.length == 2) {
-                sInsert = " INSERT INTO OC_ENCOUNTERS" +
-                        "(" +
-                        " OC_ENCOUNTER_SERVERID," +
-                        " OC_ENCOUNTER_OBJECTID," +
-                        " OC_ENCOUNTER_TYPE," +
-                        " OC_ENCOUNTER_BEGINDATE," +
-                        " OC_ENCOUNTER_ENDDATE," +
-                        " OC_ENCOUNTER_PATIENTUID," +
-                        " OC_ENCOUNTER_CREATETIME," +
-                        " OC_ENCOUNTER_UPDATETIME," +
-                        " OC_ENCOUNTER_UPDATEUID," +
-                        " OC_ENCOUNTER_VERSION," +
-                        " OC_ENCOUNTER_OUTCOME," +
-                        " OC_ENCOUNTER_DESTINATIONUID," +
-                        " OC_ENCOUNTER_ORIGIN," +
-                        " OC_ENCOUNTER_SITUATION," +
-                        " OC_ENCOUNTER_CATEGORIES" +
-                        ") " +
+            else{
+                ids = new String[]{MedwanQuery.getInstance().getConfigString("serverId"),MedwanQuery.getInstance().getOpenclinicCounter("OC_ENCOUNTERS")+""};
+            }
+            
+            if(ids.length == 2){
+                sInsert = " INSERT INTO OC_ENCOUNTERS"+
+                        "("+
+                        " OC_ENCOUNTER_SERVERID,"+
+                        " OC_ENCOUNTER_OBJECTID,"+
+                        " OC_ENCOUNTER_TYPE,"+
+                        " OC_ENCOUNTER_BEGINDATE,"+
+                        " OC_ENCOUNTER_ENDDATE,"+
+                        " OC_ENCOUNTER_PATIENTUID,"+
+                        " OC_ENCOUNTER_CREATETIME,"+
+                        " OC_ENCOUNTER_UPDATETIME,"+
+                        " OC_ENCOUNTER_UPDATEUID,"+
+                        " OC_ENCOUNTER_VERSION,"+
+                        " OC_ENCOUNTER_OUTCOME,"+
+                        " OC_ENCOUNTER_DESTINATIONUID,"+
+                        " OC_ENCOUNTER_ORIGIN,"+
+                        " OC_ENCOUNTER_SITUATION,"+
+                        " OC_ENCOUNTER_CATEGORIES"+
+                        ") "+
                         " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-                ps = oc_conn.prepareStatement(sInsert);
-                ps.setInt(1, Integer.parseInt(ids[0]));
+                ps = conn.prepareStatement(sInsert);
+                ps.setInt(1,Integer.parseInt(ids[0]));
                 while(!MedwanQuery.getInstance().validateNewOpenclinicCounter("OC_ENCOUNTERS","OC_ENCOUNTER_OBJECTID",ids[1])){
-                    ids[1] =  MedwanQuery.getInstance().getOpenclinicCounter("OC_ENCOUNTERS") + "";
+                    ids[1] =  MedwanQuery.getInstance().getOpenclinicCounter("OC_ENCOUNTERS")+"";
                 }
-                ps.setInt(2, Integer.parseInt(ids[1]));
-                ps.setString(3, this.getType());
-                ps.setTimestamp(4, new Timestamp(this.getBegin().getTime()));
-                if (this.getEnd() == null) {
-                    ps.setNull(5, java.sql.Types.TIMESTAMP);
-                } else {
-                    ps.setTimestamp(5, new Timestamp(this.getEnd().getTime()));
+                ps.setInt(2,Integer.parseInt(ids[1]));
+                ps.setString(3,this.getType());
+                ps.setTimestamp(4,new Timestamp(this.getBegin().getTime()));
+                if(this.getEnd() == null){
+                    ps.setNull(5,java.sql.Types.TIMESTAMP);
+                } else{
+                    ps.setTimestamp(5,new Timestamp(this.getEnd().getTime()));
                 }
-                if (this.getPatient() != null) {
-                    ps.setString(6, ScreenHelper.checkString(this.getPatient().personid));
-                } else {
-                    ps.setString(6, "");
+                if(this.getPatient()!=null){
+                    ps.setString(6,ScreenHelper.checkString(this.getPatient().personid));
+                } else{
+                    ps.setString(6,"");
                 }
-                ps.setTimestamp(7, new Timestamp(this.getCreateDateTime().getTime()));
-                ps.setTimestamp(8, new Timestamp(new Date().getTime()));
-                ps.setString(9, this.getUpdateUser());
-                ps.setInt(10, iVersion);
-                ps.setString(11, this.getOutcome());
-                if (this.getDestination() != null) {
-                    ps.setString(12, ScreenHelper.checkString(this.getDestination().code));
-                } else {
-                    ps.setString(12, "");
+                ps.setTimestamp(7,new Timestamp(this.getCreateDateTime().getTime()));
+                ps.setTimestamp(8,new Timestamp(new Date().getTime()));
+                ps.setString(9,this.getUpdateUser());
+                ps.setInt(10,iVersion);
+                ps.setString(11,this.getOutcome());
+                if(this.getDestination()!=null){
+                    ps.setString(12,ScreenHelper.checkString(this.getDestination().code));
                 }
-                ps.setString(13, this.getOrigin());
-                ps.setString(14, this.getSituation());
-                ps.setString(15, this.getCategories());
+                else{
+                    ps.setString(12,"");
+                }
+                ps.setString(13,this.getOrigin());
+                ps.setString(14,this.getSituation());
+                ps.setString(15,this.getCategories());
                 ps.executeUpdate();
                 ps.close();
-                this.setUid(ids[0] + "." + ids[1]);
+                
+                this.setUid(ids[0]+"."+ ids[1]);
                 storeLastEncounterService();
             }
-            String sUpdate="";
+            
+            String sUpdate = "";
             int housekeepingcounter = MedwanQuery.getInstance().getOpenclinicCounter("EncounterHouseKeeping");
             if(housekeepingcounter>100){
-                ps = oc_conn.prepareStatement("update OC_COUNTERS set OC_COUNTER_VALUE=? where OC_COUNTER_NAME=?");
-                ps.setInt(1, 1);
-                ps.setString(2, "EncounterHouseKeeping");
+                ps = conn.prepareStatement("update OC_COUNTERS set OC_COUNTER_VALUE=? where OC_COUNTER_NAME=?");
+                ps.setInt(1,1);
+                ps.setString(2,"EncounterHouseKeeping");
                 ps.execute();
                 ps.close();
+                
                 MedwanQuery.getInstance().getUsedCounters().put("EncounterHouseKeeping",1);
-	            sUpdate = "update oc_encounter_services set oc_encounter_serviceenddate= " +
-	                    " (select max(oc_encounter_enddate)" +
-	                    "   from oc_encounters a" +
-	                    "   where" +
-	                    "   a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid and" +
-	                    "   a.oc_encounter_enddate<oc_encounter_services.oc_encounter_serviceenddate)" +
-	                    "where exists " +
-	                    " (select a.oc_encounter_enddate" +
-	                    "   from oc_encounters a" +
-	                    "   where" +
-	                    "   a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid and" +
+	            sUpdate = "update oc_encounter_services set oc_encounter_serviceenddate= "+
+	                    " (select max(oc_encounter_enddate)"+
+	                    "   from oc_encounters a"+
+	                    "   where"+
+	                    "   a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid and"+
+	                    "   a.oc_encounter_enddate<oc_encounter_services.oc_encounter_serviceenddate)"+
+	                    "where exists "+
+	                    " (select a.oc_encounter_enddate"+
+	                    "   from oc_encounters a"+
+	                    "   where"+
+	                    "   a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid and"+
 	                    "   a.oc_encounter_enddate<oc_encounter_services.oc_encounter_serviceenddate)";
-	            ps = oc_conn.prepareStatement(sUpdate);
+	            ps = conn.prepareStatement(sUpdate);
 	            ps.executeUpdate();
 	            ps.close();
 	
-	            sUpdate = "update oc_encounter_services set oc_encounter_servicebegindate= " +
-	                    " (select max(oc_encounter_begindate)" +
-	                    "   from oc_encounters a" +
-	                    "   where" +
-	                    "   a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid and" +
-	                    "   a.oc_encounter_begindate>oc_encounter_services.oc_encounter_servicebegindate)" +
-	                    "where exists " +
-	                    " (select a.oc_encounter_begindate" +
-	                    "   from oc_encounters a" +
-	                    "   where" +
-	                    "   a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid and" +
+	            sUpdate = "update oc_encounter_services set oc_encounter_servicebegindate= "+
+	                    " (select max(oc_encounter_begindate)"+
+	                    "   from oc_encounters a"+
+	                    "   where"+
+	                    "   a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid and"+
+	                    "   a.oc_encounter_begindate>oc_encounter_services.oc_encounter_servicebegindate)"+
+	                    "where exists "+
+	                    " (select a.oc_encounter_begindate"+
+	                    "   from oc_encounters a"+
+	                    "   where"+
+	                    "   a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid and"+
 	                    "   a.oc_encounter_begindate>oc_encounter_services.oc_encounter_servicebegindate)";
-	            ps = oc_conn.prepareStatement(sUpdate);
+	            ps = conn.prepareStatement(sUpdate);
 	            ps.executeUpdate();
 	            ps.close();
 	
-	            sUpdate = "update oc_encounter_services set oc_encounter_serviceenddate= " +
-	            " (select max(oc_encounter_enddate) oc_encounter_enddate" +
-	            "   from oc_encounters a" +
-	            "   where" +
-	            "   a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid)" +
-	            "where " +
-	            " oc_encounter_serviceenddate is null and" +
-	            " exists (" +
-	            "  select * from oc_encounters a" +
-	            "  where" +
-	            "  a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid and" +
-	            "  oc_encounter_enddate is not null)";
-				ps = oc_conn.prepareStatement(sUpdate);
+	            sUpdate = "update oc_encounter_services set oc_encounter_serviceenddate= "+
+			            " (select max(oc_encounter_enddate) oc_encounter_enddate"+
+			            "   from oc_encounters a"+
+			            "   where"+
+			            "   a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid)"+
+			            "where "+
+			            " oc_encounter_serviceenddate is null and"+
+			            " exists ("+
+			            "  select * from oc_encounters a"+
+			            "  where"+
+			            "  a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid and"+
+			            "  oc_encounter_enddate is not null)";
+				ps = conn.prepareStatement(sUpdate);
 				ps.executeUpdate();
 				ps.close();
 				
 				sUpdate = "update oc_encounter_services  set oc_encounter_serviceenddate=(select max(oc_encounter_enddate)"+
-				" from oc_encounters a where"+
-				" a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid)"+
-				" where"+
-				" oc_encounter_serviceenddate is null and"+
-				" exists (select * from oc_encounters a where"+
-				" a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid and"+
-				" a.oc_encounter_enddate is not null)";
-				ps = oc_conn.prepareStatement(sUpdate);
+						" from oc_encounters a where"+
+						" a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid)"+
+						" where"+
+						" oc_encounter_serviceenddate is null and"+
+						" exists (select * from oc_encounters a where"+
+						" a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid and"+
+						" a.oc_encounter_enddate is not null)";
+				ps = conn.prepareStatement(sUpdate);
 				ps.executeUpdate();
 				ps.close();
             }
             resetServiceDates();
             
             try{
-            	//Basic syntax (MS SQL Server)
-	            sUpdate = "update oc_encounter_services set oc_encounter_serviceenddate= " +
-	                    " (select oc_encounter_servicebegindate" +
-	                    "   from oc_encounter_services a" +
-	                    "   where" +
-	                    "   a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid and" +
-	                    "   a.oc_encounter_servicebegindate<oc_encounter_services.oc_encounter_serviceenddate and" +
-	                    "   a.oc_encounter_serviceenddate is null)" +
-	                    "where " +
-	                    " exists (select oc_encounter_servicebegindate" +
-	                    "   from oc_encounter_services a" +
-	                    "   where" +
-	                    "   a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid and" +
-	                    "   a.oc_encounter_servicebegindate<oc_encounter_services.oc_encounter_serviceenddate and" +
-	                    "   a.oc_encounter_serviceenddate is null) and" +
+            	// Basic syntax (MS SQL Server)
+	            sUpdate = "update oc_encounter_services set oc_encounter_serviceenddate= "+
+	                    " (select oc_encounter_servicebegindate"+
+	                    "   from oc_encounter_services a"+
+	                    "   where"+
+	                    "   a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid and"+
+	                    "   a.oc_encounter_servicebegindate<oc_encounter_services.oc_encounter_serviceenddate and"+
+	                    "   a.oc_encounter_serviceenddate is null)"+
+	                    "where "+
+	                    " exists (select oc_encounter_servicebegindate"+
+	                    "   from oc_encounter_services a"+
+	                    "   where"+
+	                    "   a.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid and"+
+	                    "   a.oc_encounter_servicebegindate<oc_encounter_services.oc_encounter_serviceenddate and"+
+	                    "   a.oc_encounter_serviceenddate is null) and"+
 	                    "   oc_encounter_objectid=?";
-	            ps = oc_conn.prepareStatement(sUpdate);
+	            ps = conn.prepareStatement(sUpdate);
 	            ps.setInt(1,Integer.parseInt(getUid().split("\\.")[1]));
 	            ps.executeUpdate();
 	            ps.close();
             }
             catch(Exception e2){
-            	//Alternative syntax (MySQL)
-	            sUpdate = "update oc_encounter_services a,oc_encounter_services b set a.oc_encounter_serviceenddate=b.oc_encounter_servicebegindate " +
-                "   where" +
-                "   b.oc_encounter_objectid=a.oc_encounter_objectid and" +
-                "   b.oc_encounter_servicebegindate<a.oc_encounter_serviceenddate and" +
-                "   b.oc_encounter_serviceenddate is null and" +
-                "   b.oc_encounter_objectid=?";
-		        ps = oc_conn.prepareStatement(sUpdate);
+            	// Alternative syntax (MySQL)
+	            sUpdate = "update oc_encounter_services a,oc_encounter_services b set a.oc_encounter_serviceenddate=b.oc_encounter_servicebegindate "+
+			              " where"+
+			              " b.oc_encounter_objectid=a.oc_encounter_objectid and"+
+			              " b.oc_encounter_servicebegindate<a.oc_encounter_serviceenddate and"+
+			              " b.oc_encounter_serviceenddate is null and"+
+			              " b.oc_encounter_objectid=?";
+		        ps = conn.prepareStatement(sUpdate);
 		        ps.setInt(1,Integer.parseInt(getUid().split("\\.")[1]));
 		        ps.executeUpdate();
 		        ps.close();
             }
-
-        } catch (Exception e) {
-            Debug.println("OpenClinic => Encounter.java => store => " + e.getMessage());
+        }
+        catch(Exception e){
             e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                oc_conn.close();
-            } catch (Exception e) {
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         MedwanQuery.getInstance().getObjectCache().putObject("encounter",this);
     }
 
-    public void storeWithoutServiceHistory() {
+    //--- STORE WITHOUT SERVICE HISTORY -----------------------------------------------------------
+    public void storeWithoutServiceHistory(){
         PreparedStatement ps = null;
         ResultSet rs = null;
+        Connection conn = null;
 
         String sSelect, sInsert, sDelete;
-
         int iVersion = 1;
         String ids[];
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            if (this.getUid() != null && this.getUid().length() > 0) {
+        
+        try{
+            conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            
+            if(this.getUid()!=null && this.getUid().length() > 0){
                 ids = this.getUid().split("\\.");
-                if (ids.length == 2) {
-                    sSelect = " SELECT * FROM OC_ENCOUNTERS " +
-                            " WHERE OC_ENCOUNTER_SERVERID = ? " +
-                            " AND OC_ENCOUNTER_OBJECTID = ?";
-                    ps = oc_conn.prepareStatement(sSelect);
-                    ps.setInt(1, Integer.parseInt(ids[0]));
-                    ps.setInt(2, Integer.parseInt(ids[1]));
-
+                if(ids.length == 2){
+                    sSelect = "SELECT * FROM OC_ENCOUNTERS"+
+                              " WHERE OC_ENCOUNTER_SERVERID = ?"+
+                              "  AND OC_ENCOUNTER_OBJECTID = ?";
+                    ps = conn.prepareStatement(sSelect);
+                    ps.setInt(1,Integer.parseInt(ids[0]));
+                    ps.setInt(2,Integer.parseInt(ids[1]));
                     rs = ps.executeQuery();
-
-                    if (rs.next()) {
-                        iVersion = rs.getInt("OC_ENCOUNTER_VERSION") + 1;
+                    if(rs.next()){
+                        iVersion = rs.getInt("OC_ENCOUNTER_VERSION")+1;
                     }
-
                     rs.close();
                     ps.close();
 
-                    sInsert = " INSERT INTO OC_ENCOUNTERS_HISTORY(OC_ENCOUNTER_SERVERID," +
-                            "OC_ENCOUNTER_OBJECTID," +
-                            "OC_ENCOUNTER_TYPE," +
-                            "OC_ENCOUNTER_BEGINDATE," +
-                            "OC_ENCOUNTER_ENDDATE," +
-                            "OC_ENCOUNTER_PATIENTUID," +
-                            "OC_ENCOUNTER_CREATETIME," +
-                            "OC_ENCOUNTER_UPDATETIME," +
-                            "OC_ENCOUNTER_UPDATEUID," +
-                            "OC_ENCOUNTER_VERSION," +
-                            "OC_ENCOUNTER_OUTCOME," +
-                            "OC_ENCOUNTER_DESTINATIONUID," +
-                            "OC_ENCOUNTER_ORIGIN," +
-                            "OC_ENCOUNTER_SITUATION," +
-                            "OC_ENCOUNTER_CATEGORIES) " +
-                            " SELECT OC_ENCOUNTER_SERVERID," +
-                            " OC_ENCOUNTER_OBJECTID," +
-                            " OC_ENCOUNTER_TYPE," +
-                            " OC_ENCOUNTER_BEGINDATE," +
-                            " OC_ENCOUNTER_ENDDATE," +
-                            " OC_ENCOUNTER_PATIENTUID," +
-                            " OC_ENCOUNTER_CREATETIME," +
-                            " OC_ENCOUNTER_UPDATETIME," +
-                            " OC_ENCOUNTER_UPDATEUID," +
-                            " OC_ENCOUNTER_VERSION," +
-                            " OC_ENCOUNTER_OUTCOME," +
-                            " OC_ENCOUNTER_DESTINATIONUID," +
-                            " OC_ENCOUNTER_ORIGIN," +
-                            " OC_ENCOUNTER_SITUATION," +
-                            " OC_ENCOUNTER_CATEGORIES" +
-                            " FROM OC_ENCOUNTERS " +
-                            " WHERE OC_ENCOUNTER_SERVERID = ?" +
-                            " AND OC_ENCOUNTER_OBJECTID = ?";
-                    ps = oc_conn.prepareStatement(sInsert);
-                    ps.setInt(1, Integer.parseInt(ids[0]));
-                    ps.setInt(2, Integer.parseInt(ids[1]));
+                    sInsert = " INSERT INTO OC_ENCOUNTERS_HISTORY(OC_ENCOUNTER_SERVERID,"+
+                              "OC_ENCOUNTER_OBJECTID,"+
+                              "OC_ENCOUNTER_TYPE,"+
+                              "OC_ENCOUNTER_BEGINDATE,"+
+                              "OC_ENCOUNTER_ENDDATE,"+
+                              "OC_ENCOUNTER_PATIENTUID,"+
+                              "OC_ENCOUNTER_CREATETIME,"+
+                              "OC_ENCOUNTER_UPDATETIME,"+
+                              "OC_ENCOUNTER_UPDATEUID,"+
+                              "OC_ENCOUNTER_VERSION,"+
+                              "OC_ENCOUNTER_OUTCOME,"+
+                              "OC_ENCOUNTER_DESTINATIONUID,"+
+                              "OC_ENCOUNTER_ORIGIN,"+
+                              "OC_ENCOUNTER_SITUATION,"+
+                              "OC_ENCOUNTER_CATEGORIES) "+
+                              " SELECT OC_ENCOUNTER_SERVERID,"+
+                              " OC_ENCOUNTER_OBJECTID,"+
+                              " OC_ENCOUNTER_TYPE,"+
+                              " OC_ENCOUNTER_BEGINDATE,"+
+                              " OC_ENCOUNTER_ENDDATE,"+
+                              " OC_ENCOUNTER_PATIENTUID,"+
+                              " OC_ENCOUNTER_CREATETIME,"+
+                              " OC_ENCOUNTER_UPDATETIME,"+
+                              " OC_ENCOUNTER_UPDATEUID,"+
+                              " OC_ENCOUNTER_VERSION,"+
+                              " OC_ENCOUNTER_OUTCOME,"+
+                              " OC_ENCOUNTER_DESTINATIONUID,"+
+                              " OC_ENCOUNTER_ORIGIN,"+
+                              " OC_ENCOUNTER_SITUATION,"+
+                              " OC_ENCOUNTER_CATEGORIES"+
+                              " FROM OC_ENCOUNTERS "+
+                              "  WHERE OC_ENCOUNTER_SERVERID = ?"+
+                              "   AND OC_ENCOUNTER_OBJECTID = ?";
+                    ps = conn.prepareStatement(sInsert);
+                    ps.setInt(1,Integer.parseInt(ids[0]));
+                    ps.setInt(2,Integer.parseInt(ids[1]));
                     ps.executeUpdate();
                     ps.close();
 
-                    sDelete = " DELETE FROM OC_ENCOUNTERS " +
-                            " WHERE OC_ENCOUNTER_SERVERID = ? " +
-                            " AND OC_ENCOUNTER_OBJECTID = ? ";
-
-                    ps = oc_conn.prepareStatement(sDelete);
-                    ps.setInt(1, Integer.parseInt(ids[0]));
-                    ps.setInt(2, Integer.parseInt(ids[1]));
+                    sDelete = "DELETE FROM OC_ENCOUNTERS"+
+                              " WHERE OC_ENCOUNTER_SERVERID = ?"+
+                              "  AND OC_ENCOUNTER_OBJECTID = ?";
+                    ps = conn.prepareStatement(sDelete);
+                    ps.setInt(1,Integer.parseInt(ids[0]));
+                    ps.setInt(2,Integer.parseInt(ids[1]));
                     ps.executeUpdate();
                     ps.close();
                 }
-            } else {
-                ids = new String[]{MedwanQuery.getInstance().getConfigString("serverId"), MedwanQuery.getInstance().getOpenclinicCounter("OC_ENCOUNTERS") + ""};
+            } 
+            else{
+                ids = new String[]{MedwanQuery.getInstance().getConfigString("serverId"),MedwanQuery.getInstance().getOpenclinicCounter("OC_ENCOUNTERS")+""};
             }
             
-            if (ids.length == 2) {
-                sInsert = " INSERT INTO OC_ENCOUNTERS" +
-                        "(" +
-                        " OC_ENCOUNTER_SERVERID," +
-                        " OC_ENCOUNTER_OBJECTID," +
-                        " OC_ENCOUNTER_TYPE," +
-                        " OC_ENCOUNTER_BEGINDATE," +
-                        " OC_ENCOUNTER_ENDDATE," +
-                        " OC_ENCOUNTER_PATIENTUID," +
-                        " OC_ENCOUNTER_CREATETIME," +
-                        " OC_ENCOUNTER_UPDATETIME," +
-                        " OC_ENCOUNTER_UPDATEUID," +
-                        " OC_ENCOUNTER_VERSION," +
-                        " OC_ENCOUNTER_OUTCOME," +
-                        " OC_ENCOUNTER_DESTINATIONUID," +
-                        " OC_ENCOUNTER_ORIGIN," +
-                        " OC_ENCOUNTER_SITUATION," +
-                        " OC_ENCOUNTER_CATEGORIES" +
-                        ") " +
+            if(ids.length == 2){
+                sInsert = " INSERT INTO OC_ENCOUNTERS"+
+                        "("+
+                        " OC_ENCOUNTER_SERVERID,"+
+                        " OC_ENCOUNTER_OBJECTID,"+
+                        " OC_ENCOUNTER_TYPE,"+
+                        " OC_ENCOUNTER_BEGINDATE,"+
+                        " OC_ENCOUNTER_ENDDATE,"+
+                        " OC_ENCOUNTER_PATIENTUID,"+
+                        " OC_ENCOUNTER_CREATETIME,"+
+                        " OC_ENCOUNTER_UPDATETIME,"+
+                        " OC_ENCOUNTER_UPDATEUID,"+
+                        " OC_ENCOUNTER_VERSION,"+
+                        " OC_ENCOUNTER_OUTCOME,"+
+                        " OC_ENCOUNTER_DESTINATIONUID,"+
+                        " OC_ENCOUNTER_ORIGIN,"+
+                        " OC_ENCOUNTER_SITUATION,"+
+                        " OC_ENCOUNTER_CATEGORIES"+
+                        ") "+
                         " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-                ps = oc_conn.prepareStatement(sInsert);
-                ps.setInt(1, Integer.parseInt(ids[0]));
+                ps = conn.prepareStatement(sInsert);
+                ps.setInt(1,Integer.parseInt(ids[0]));
                 while(!MedwanQuery.getInstance().validateNewOpenclinicCounter("OC_ENCOUNTERS","OC_ENCOUNTER_OBJECTID",ids[1])){
-                    ids[1] =  MedwanQuery.getInstance().getOpenclinicCounter("OC_ENCOUNTERS") + "";
+                    ids[1] =  MedwanQuery.getInstance().getOpenclinicCounter("OC_ENCOUNTERS")+"";
                 }
-                ps.setInt(2, Integer.parseInt(ids[1]));
-                ps.setString(3, this.getType());
-                ps.setTimestamp(4, new Timestamp(this.getBegin().getTime()));
-                if (this.getEnd() == null) {
-                    ps.setNull(5, java.sql.Types.TIMESTAMP);
-                } else {
-                    ps.setTimestamp(5, new Timestamp(this.getEnd().getTime()));
+                ps.setInt(2,Integer.parseInt(ids[1]));
+                ps.setString(3,this.getType());
+                ps.setTimestamp(4,new Timestamp(this.getBegin().getTime()));
+                if(this.getEnd() == null){
+                    ps.setNull(5,java.sql.Types.TIMESTAMP);
+                } else{
+                    ps.setTimestamp(5,new Timestamp(this.getEnd().getTime()));
                 }
-                if (this.getPatient() != null) {
-                    ps.setString(6, ScreenHelper.checkString(this.getPatient().personid));
-                } else {
-                    ps.setString(6, "");
+                if(this.getPatient()!=null){
+                    ps.setString(6,ScreenHelper.checkString(this.getPatient().personid));
+                } else{
+                    ps.setString(6,"");
                 }
-                ps.setTimestamp(7, new Timestamp(this.getCreateDateTime().getTime()));
-                ps.setTimestamp(8, new Timestamp(new Date().getTime()));
-                ps.setString(9, this.getUpdateUser());
-                ps.setInt(10, iVersion);
-                ps.setString(11, this.getOutcome());
-                if (this.getDestination() != null) {
-                    ps.setString(12, ScreenHelper.checkString(this.getDestination().code));
-                } else {
-                    ps.setString(12, "");
+                ps.setTimestamp(7,new Timestamp(this.getCreateDateTime().getTime()));
+                ps.setTimestamp(8,new Timestamp(new Date().getTime()));
+                ps.setString(9,this.getUpdateUser());
+                ps.setInt(10,iVersion);
+                ps.setString(11,this.getOutcome());
+                if(this.getDestination()!=null){
+                    ps.setString(12,ScreenHelper.checkString(this.getDestination().code));
+                } else{
+                    ps.setString(12,"");
                 }
-                ps.setString(13, this.getOrigin());
-                ps.setString(14, this.getSituation());
-                ps.setString(15, this.getCategories());
+                ps.setString(13,this.getOrigin());
+                ps.setString(14,this.getSituation());
+                ps.setString(15,this.getCategories());
                 ps.executeUpdate();
                 ps.close();
-                this.setUid(ids[0] + "." + ids[1]);
+                
+                this.setUid(ids[0]+"."+ ids[1]);
                 storeSingleEncounterService();
             }
-            String sUpdate="";
+            
+            String sUpdate = "";
             int housekeepingcounter = MedwanQuery.getInstance().getOpenclinicCounter("EncounterHouseKeeping");
-            if(housekeepingcounter>100){
-                ps = oc_conn.prepareStatement("update OC_COUNTERS set OC_COUNTER_VALUE=? where OC_COUNTER_NAME=?");
-                ps.setInt(1, 1);
-                ps.setString(2, "EncounterHouseKeeping");
+            if(housekeepingcounter > 100){
+                ps = conn.prepareStatement("update OC_COUNTERS set OC_COUNTER_VALUE=? where OC_COUNTER_NAME=?");
+                ps.setInt(1,1);
+                ps.setString(2,"EncounterHouseKeeping");
                 ps.execute();
                 ps.close();
+                
                 MedwanQuery.getInstance().getUsedCounters().put("EncounterHouseKeeping",1);
             }
+            
             resetServiceDates();
         }
-        catch (Exception e) {
-            Debug.println("OpenClinic => Encounter.java => store => " + e.getMessage());
+        catch(Exception e){
             e.printStackTrace();
-        } 
-        finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                oc_conn.close();
-            } 
-            catch (Exception e) {
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
@@ -1556,96 +1781,103 @@ public class Encounter extends OC_Object {
     }
 
     //--- GET ACTIVE ENCOUNTER FOR BED ------------------------------------------------------------
-    public static Encounter getActiveEncounterForBed(Bed bed) {
+    public static Encounter getActiveEncounterForBed(Bed bed){
         Encounter activeEncounter = null;
-        String sSelect = " SELECT OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID " +
-		                 " FROM OC_ENCOUNTER_SERVICES" +
-		                 " WHERE OC_ENCOUNTER_BEDUID = ? " +
-		                 " AND (OC_ENCOUNTER_SERVICEENDDATE IS NULL" +
-		                 " OR OC_ENCOUNTER_SERVICEENDDATE > ?)";
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            PreparedStatement ps = oc_conn.prepareStatement(sSelect);
-            ps.setString(1, bed.getUid());
-            ps.setTimestamp(2, new Timestamp(new java.util.Date().getTime()));
+        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        
+        String sSql = "SELECT OC_ENCOUNTER_SERVERID, OC_ENCOUNTER_OBJECTID"+
+		              " FROM OC_ENCOUNTER_SERVICES"+
+		              "  WHERE OC_ENCOUNTER_BEDUID = ?"+
+		              "   AND (OC_ENCOUNTER_SERVICEENDDATE IS NULL OR OC_ENCOUNTER_SERVICEENDDATE > ?)";
 
-            ResultSet rs = ps.executeQuery();
+        try{
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            ps = conn.prepareStatement(sSql);
+            ps.setString(1,bed.getUid());
+            ps.setTimestamp(2,new Timestamp(new java.util.Date().getTime()));
 
-            if (rs.next()) {
-                String sUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID")) + "." + ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
+            rs = ps.executeQuery();
+            if(rs.next()){
+                String sUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID"))+"."+ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
                 activeEncounter = Encounter.get(sUID);
             }
-
-            rs.close();
-            ps.close();
-        } 
-        catch (Exception e) {
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
-
-		// close connection
-		try{
-			oc_conn.close();
-		}
-		catch(SQLException e){
-			e.printStackTrace();
-		}
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
 		
         return activeEncounter;
     }
 
     //--- GET ACTIVE ENCOUNTER --------------------------------------------------------------------
-    public static Encounter getActiveEncounter(String patientUID) {
+    public static Encounter getActiveEncounter(String patientUID){
         Encounter activeEncounter = null;
-        PreparedStatement ps;
-        ResultSet rs;
+        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
 
-        String sSelect = " SELECT OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID " +
-				         " FROM OC_ENCOUNTERS" +
-				         " WHERE OC_ENCOUNTER_PATIENTUID = ? " +
-				         " AND OC_ENCOUNTER_ENDDATE IS NULL and NOT OC_ENCOUNTER_TYPE = 'coverage'";
-
-		Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-		try {
-		    ps = oc_conn.prepareStatement(sSelect);
-		    ps.setString(1, patientUID);
-		
+		try{
+			conn = MedwanQuery.getInstance().getOpenclinicConnection();
+	        String sSql = "SELECT OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID "+
+			              " FROM OC_ENCOUNTERS"+
+			              "  WHERE OC_ENCOUNTER_PATIENTUID = ?"+
+			              "   AND OC_ENCOUNTER_ENDDATE IS NULL"+
+			              "   AND NOT OC_ENCOUNTER_TYPE = 'coverage'";
+		    ps = conn.prepareStatement(sSql);
+		    ps.setString(1,patientUID);		
 		    rs = ps.executeQuery();
 		
-		    if (rs.next()) {
-		        String sUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID")) + "." + ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
+		    if(rs.next()){
+		        String sUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID"))+"."+ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
 		        activeEncounter = Encounter.get(sUID);
 		    }
-		    else {
-				sSelect = " SELECT OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID " +
-				" FROM OC_ENCOUNTERS" +
-				" WHERE OC_ENCOUNTER_PATIENTUID = ? " +
-				" AND OC_ENCOUNTER_ENDDATE > ? and NOT OC_ENCOUNTER_TYPE = 'coverage' order by OC_ENCOUNTER_ENDDATE DESC,OC_ENCOUNTER_OBJECTID DESC";
+		    else{
+		    	sSql = "SELECT OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID "+
+						  " FROM OC_ENCOUNTERS"+
+					  	  "  WHERE OC_ENCOUNTER_PATIENTUID = ? "+
+				  		  "   AND OC_ENCOUNTER_ENDDATE > ?"+
+					  	  "   AND NOT OC_ENCOUNTER_TYPE = 'coverage'"+
+					  	  " ORDER BY OC_ENCOUNTER_ENDDATE DESC, OC_ENCOUNTER_OBJECTID DESC";
 				rs.close();
 				ps.close();
-				ps = oc_conn.prepareStatement(sSelect);
-				ps.setString(1, patientUID);
-				ps.setTimestamp(2, new Timestamp(ScreenHelper.getSQLDate(ScreenHelper.getDate()).getTime()));
+				
+				ps = conn.prepareStatement(sSql);
+				ps.setString(1,patientUID);
+				ps.setTimestamp(2,new Timestamp(ScreenHelper.getSQLDate(ScreenHelper.getDate()).getTime()));
 				rs = ps.executeQuery();
-				if (rs.next()) {
-					String sUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID")) + "." + ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
+				if(rs.next()){
+					String sUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID"))+"."+ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
 					activeEncounter = Encounter.get(sUID);
 				}
-		    }
-		    rs.close();
-		    ps.close();
-		} 
-		catch (Exception e) {
-		    e.printStackTrace();
-		}
-
-		// close connection
-		try{
-			oc_conn.close();
-		}
-		catch(SQLException e){
-			e.printStackTrace();
-		}
+		    }        
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
 		
         return activeEncounter;
     }
@@ -1654,18 +1886,20 @@ public class Encounter extends OC_Object {
     public static Vector getInactiveEncounters(String sPatientUID, String sType, java.util.Date dLimit){
     	Vector encounters = new Vector();
         
-        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
+        Connection conn = null;
         
         try{
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        		
             if(sPatientUID!=null && sPatientUID.length() > 0){
                 String sSql = "SELECT * FROM OC_ENCOUNTERS"+
                               " WHERE OC_ENCOUNTER_PATIENTUID = ?"+
                               "  AND lower(OC_ENCOUNTER_TYPE) = ?"+
 					          "  AND (OC_ENCOUNTER_ENDDATE IS NOT NULL AND OC_ENCOUNTER_ENDDATE < ?)"+
 					          " ORDER BY OC_ENCOUNTER_ENDDATE DESC";                
-                ps = oc_conn.prepareStatement(sSql);
+                ps = conn.prepareStatement(sSql);
                 ps.setString(1,sPatientUID);
                 ps.setString(2,sType);
                 ps.setTimestamp(3,new Timestamp(dLimit.getTime()));
@@ -1677,7 +1911,7 @@ public class Encounter extends OC_Object {
                     encounter.patientUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_PATIENTUID"));
                     encounter.destinationUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_DESTINATIONUID"));
 
-                    encounter.setUid(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID")) + "." + ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID")));
+                    encounter.setUid(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID"))+"."+ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID")));
                     encounter.setCreateDateTime(rs.getTimestamp("OC_ENCOUNTER_CREATETIME"));
                     encounter.setUpdateDateTime(rs.getTimestamp("OC_ENCOUNTER_UPDATETIME"));
                     encounter.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_UPDATEUID")));
@@ -1707,56 +1941,47 @@ public class Encounter extends OC_Object {
             e.printStackTrace();
         }
         finally{
-        	try{
-        		if(rs!=null) rs.close();
-        		if(ps!=null) ps.close();
-        	}
-        	catch(Exception e){
-        		e.printStackTrace();
-        	}
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
         }
-        
-        // close connection
-        try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
         
         return encounters;
     }
 
     //--- GET INACTIVE ENCOUNTER BEFORE -----------------------------------------------------------
-    public static Encounter getInactiveEncounterBefore(String patientUID, String type, java.util.Date dLimit) {
+    public static Encounter getInactiveEncounterBefore(String patientUID, String type, java.util.Date dLimit){
         Encounter encounter = null;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            PreparedStatement ps;
-            ResultSet rs;
 
-            String sSelectPrevEncounter = " SELECT *" +
-					                      " FROM OC_ENCOUNTERS" +
-					                      " WHERE OC_ENCOUNTER_PATIENTUID = ? " +
-					                      " AND lower(OC_ENCOUNTER_TYPE) = ? " +
-					                      " AND (OC_ENCOUNTER_ENDDATE IS NOT NULL" +
-					                      " OR OC_ENCOUNTER_ENDDATE < ?)" +
-					                      " ORDER BY OC_ENCOUNTER_ENDDATE DESC";
-            if (patientUID != null && patientUID.length() > 0) {
-                ps = oc_conn.prepareStatement(sSelectPrevEncounter);
-                ps.setString(1, patientUID);
-                ps.setString(2, type);
-                ps.setTimestamp(3, new Timestamp(dLimit.getTime()));
-
-
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        
+        try{
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            String sSql = "SELECT * FROM OC_ENCOUNTERS"+
+					      " WHERE OC_ENCOUNTER_PATIENTUID = ? "+
+					      "  AND lower(OC_ENCOUNTER_TYPE) = ? "+
+					      "  AND (OC_ENCOUNTER_ENDDATE IS NOT NULL OR OC_ENCOUNTER_ENDDATE < ?)"+
+					      " ORDER BY OC_ENCOUNTER_ENDDATE DESC";
+            if(patientUID!=null && patientUID.length() > 0){
+                ps = conn.prepareStatement(sSql);
+                ps.setString(1,patientUID);
+                ps.setString(2,type);
+                ps.setTimestamp(3,new Timestamp(dLimit.getTime()));
                 rs = ps.executeQuery();
 
-                if (rs.next()) {
+                if(rs.next()){
                     encounter = new Encounter();
                     encounter.patientUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_PATIENTUID"));
                     encounter.destinationUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_DESTINATIONUID"));
 
-                    encounter.setUid(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID")) + "." + ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID")));
+                    encounter.setUid(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID"))+"."+ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID")));
                     encounter.setCreateDateTime(rs.getTimestamp("OC_ENCOUNTER_CREATETIME"));
                     encounter.setUpdateDateTime(rs.getTimestamp("OC_ENCOUNTER_UPDATETIME"));
                     encounter.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_UPDATEUID")));
@@ -1769,239 +1994,241 @@ public class Encounter extends OC_Object {
                     encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                     encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                     encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
-                    //Now find the most recent service for this encounter
+                   
+                    // find the most recent service for this encounter
                     EncounterService encounterService = encounter.getLastEncounterService();
-                    if (encounterService != null) {
+                    if(encounterService!=null){
                         encounter.serviceUID = encounterService.serviceUID;
                         encounter.managerUID = encounterService.managerUID;
                         encounter.bedUID = encounterService.bedUID;
                     }
                 }
-
-                rs.close();
-                ps.close();
-
-            }
-        } catch (Exception e) {
+	        }
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
-        
-        // close connection
-        try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
-        
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    
         return encounter;
     }
 
-    public String getEncounterDisplayName(String language) {
+    //--- GET ENCOUNTER DISPLAY NAME --------------------------------------------------------------
+    public String getEncounterDisplayName(String language){
         String sType = "", sBegin = "", sEnd = "";
 
-        if (ScreenHelper.checkString(this.getType()).length() > 0) {
-            sType = ", " + MedwanQuery.getInstance().getLabel("encountertype", this.getType(), language);
+        if(ScreenHelper.checkString(this.getType()).length() > 0){
+            sType = ", "+ MedwanQuery.getInstance().getLabel("encountertype",this.getType(),language);
         }
 
-        if (this.getBegin() != null) {
-            sBegin = ", " + ScreenHelper.stdDateFormat.format(this.getBegin());
+        if(this.getBegin()!=null){
+            sBegin = ", "+ ScreenHelper.stdDateFormat.format(this.getBegin());
         }
 
-        if (this.getEnd() != null) {
-            sEnd = " -> " + ScreenHelper.stdDateFormat.format(this.getEnd());
+        if(this.getEnd()!=null){
+            sEnd = " -> "+ ScreenHelper.stdDateFormat.format(this.getEnd());
         }
 
-        return this.getUid() + sBegin + sEnd + sType;
+        return this.getUid()+sBegin+sEnd+sType;
     }
 
-    public String getEncounterDisplayNameService(String language) {
+    //--- GET ENCOUNTER DISPLAY NAME SERVICE ------------------------------------------------------
+    public String getEncounterDisplayNameService(String language){
         String sType = "", sBegin = "", sEnd = "", sService="";
 
-        if (ScreenHelper.checkString(this.getType()).length() > 0) {
-            sType = ", " + MedwanQuery.getInstance().getLabel("encountertype", this.getType(), language);
+        if(ScreenHelper.checkString(this.getType()).length() > 0){
+            sType = ", "+ MedwanQuery.getInstance().getLabel("encountertype",this.getType(),language);
         }
 
-        if (this.getBegin() != null) {
-            sBegin = ", " + ScreenHelper.stdDateFormat.format(this.getBegin());
+        if(this.getBegin()!=null){
+            sBegin = ", "+ ScreenHelper.stdDateFormat.format(this.getBegin());
         }
 
-        if (this.getEnd() != null) {
-            sEnd = " -> " + ScreenHelper.stdDateFormat.format(this.getEnd());
+        if(this.getEnd()!=null){
+            sEnd = " -> "+ ScreenHelper.stdDateFormat.format(this.getEnd());
         }
-        if (ScreenHelper.checkString(this.getServiceUID()).length() > 0) {
-            sService = MedwanQuery.getInstance().getLabel("service", this.getServiceUID(), language);
+        if(ScreenHelper.checkString(this.getServiceUID()).length() > 0){
+            sService = MedwanQuery.getInstance().getLabel("service",this.getServiceUID(),language);
         }
 
-
-        return sService + sBegin + sEnd + sType;
+        return sService+sBegin+sEnd+sType;
     }
 
-    public String getEncounterDisplayNameNoDate(String language) {
+    //--- GET ENCOUNERS DISPLAY NAME NO DATE ------------------------------------------------------
+    public String getEncounterDisplayNameNoDate(String language){
         String sType = "", sBegin = "", sEnd = "";
 
-        if (ScreenHelper.checkString(this.getType()).length() > 0) {
-            sType = ", " + MedwanQuery.getInstance().getLabel("encountertype", this.getType(), language);
+        if(ScreenHelper.checkString(this.getType()).length() > 0){
+            sType = ", "+MedwanQuery.getInstance().getLabel("encountertype",this.getType(),language);
         }
 
-        return this.getUid() + sBegin + sEnd + sType+" ("+this.getServiceUID()+")";
+        return this.getUid()+sBegin+sEnd+sType+" ("+this.getServiceUID()+")";
     }
 
+    //--- SELECT ENCOUNTERS -----------------------------------------------------------------------
     public static Vector selectEncounters(String serverID, String objectID, String beginDate, String endDate, String type,
-                                          String managerID, String serviceID, String bedID, String patientID, String sortColumn) {
-        PreparedStatement ps;
-        ResultSet rs;
+                                          String managerID, String serviceID, String bedID, String patientID, String sortColumn){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
 
         Vector vEncounters = new Vector();
 
-        String sSelect = "SELECT *" +
-                " FROM OC_ENCOUNTERS_VIEW" +
-                " WHERE" +
-                " 1=1 ";
+        String sSelect = "SELECT *"+
+                         " FROM OC_ENCOUNTERS_VIEW"+
+                         " WHERE 1=1 ";
 
         String sConditions = "";
 
-        if (serverID.length() > 0) {
-            sConditions += " OC_ENCOUNTER_SERVERID = ? AND";
+        if(serverID.length() > 0){
+            sConditions+= " OC_ENCOUNTER_SERVERID = ? AND";
         }
-        if (objectID.length() > 0) {
-            sConditions += " OC_ENCOUNTER_OBJECTID = ? AND";
+        if(objectID.length() > 0){
+            sConditions+= " OC_ENCOUNTER_OBJECTID = ? AND";
         }
-        if (beginDate.length() > 0) {
-            sConditions += " OC_ENCOUNTER_BEGINDATE > ? AND";
+        if(beginDate.length() > 0){
+            sConditions+= " OC_ENCOUNTER_BEGINDATE > ? AND";
         }
-        if (endDate.length() > 0) {
-            sConditions += " OC_ENCOUNTER_ENDDATE < ? AND";
+        if(endDate.length() > 0){
+            sConditions+= " OC_ENCOUNTER_ENDDATE < ? AND";
         }
-        if (type.length() > 0) {
-            sConditions += " OC_ENCOUNTER_TYPE = ? AND";
+        if(type.length() > 0){
+            sConditions+= " OC_ENCOUNTER_TYPE = ? AND";
         }
-        if (managerID.length() > 0) {
-            sConditions += " OC_ENCOUNTER_MANAGERUID = ? AND";
+        if(managerID.length() > 0){
+            sConditions+= " OC_ENCOUNTER_MANAGERUID = ? AND";
         }
-        if (serviceID.length() > 0) {
-            sConditions += " OC_ENCOUNTER_SERVICEUID = ? AND";
+        if(serviceID.length() > 0){
+            sConditions+= " OC_ENCOUNTER_SERVICEUID = ? AND";
         }
-        if (bedID.length() > 0) {
-            sConditions += " OC_ENCOUNTER_BEDUID = ? AND";
+        if(bedID.length() > 0){
+            sConditions+= " OC_ENCOUNTER_BEDUID = ? AND";
         }
-        if (patientID.length() > 0) {
-            sConditions += " OC_ENCOUNTER_PATIENTUID = ? AND";
+        if(patientID.length() > 0){
+            sConditions+= " OC_ENCOUNTER_PATIENTUID = ? AND";
         }
 
-        if (sConditions.length() > 0) {
-            sSelect = sSelect + " AND  " + sConditions;
-            sSelect = sSelect.substring(0, sSelect.length() - 3);
+        if(sConditions.length() > 0){
+            sSelect = sSelect+" AND  "+ sConditions;
+            sSelect = sSelect.substring(0,sSelect.length() - 3);
 
-	        if (sortColumn.length() > 0) {
-	            sSelect += " ORDER BY " + sortColumn;
+	        if(sortColumn.length() > 0){
+	            sSelect+= " ORDER BY "+ sortColumn;
 	        }
 	
 	        int i = 1;
 	
-	        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-	        try {
-	            ps = oc_conn.prepareStatement(sSelect);
+	        conn = MedwanQuery.getInstance().getOpenclinicConnection();
+	        try{
+	            ps = conn.prepareStatement(sSelect);
 	
-	            if (serverID.length() > 0) {
-	                ps.setInt(i++, Integer.parseInt(serverID));
+	            if(serverID.length() > 0){
+	                ps.setInt(i++,Integer.parseInt(serverID));
 	            }
-	            if (objectID.length() > 0) {
-	                ps.setInt(i++, Integer.parseInt(objectID));
+	            if(objectID.length() > 0){
+	                ps.setInt(i++,Integer.parseInt(objectID));
 	            }
-	            if (beginDate.length() > 0) {
-	                ps.setTimestamp(i++, new Timestamp(ScreenHelper.getSQLDate(beginDate).getTime()));
+	            if(beginDate.length() > 0){
+	                ps.setTimestamp(i++,new Timestamp(ScreenHelper.getSQLDate(beginDate).getTime()));
 	            }
-	            if (endDate.length() > 0) {
-	                ps.setTimestamp(i++, new Timestamp(ScreenHelper.getSQLDate(endDate).getTime()));
+	            if(endDate.length() > 0){
+	                ps.setTimestamp(i++,new Timestamp(ScreenHelper.getSQLDate(endDate).getTime()));
 	            }
-	            if (type.length() > 0) {
-	                ps.setString(i++, type);
+	            if(type.length() > 0){
+	                ps.setString(i++,type);
 	            }
-	            if (managerID.length() > 0) {
-	                ps.setString(i++, managerID);
+	            if(managerID.length() > 0){
+	                ps.setString(i++,managerID);
 	            }
-	            if (serviceID.length() > 0) {
-	                ps.setString(i++, serviceID);
+	            if(serviceID.length() > 0){
+	                ps.setString(i++,serviceID);
 	            }
-	            if (bedID.length() > 0) {
-	                ps.setString(i++, bedID);
+	            if(bedID.length() > 0){
+	                ps.setString(i++,bedID);
 	            }
-	            if (patientID.length() > 0) {
-	                ps.setString(i++, patientID);
+	            if(patientID.length() > 0){
+	                ps.setString(i++,patientID);
 	            }
 	
 	            rs = ps.executeQuery();
 	
-	            String sTmp, sTmp1;
-	
+	            String sTmp, sTmp1;	
 	            Encounter eTmp;
 	
-	            while (rs.next()) {
+	            while(rs.next()){
 	                eTmp = new Encounter();
 	
 	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID"));
 	                sTmp1 = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
 	
-	                if (sTmp.length() > 0 && sTmp1.length() > 0) {
-	                    eTmp.setUid(sTmp + "." + sTmp1);
+	                if(sTmp.length() > 0 && sTmp1.length() > 0){
+	                    eTmp.setUid(sTmp+"."+ sTmp1);
 	                }
 	
-	                if (ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_BEGINDATE")).length() > 0) {
+	                if(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_BEGINDATE")).length() > 0){
 	                    eTmp.setBegin(rs.getTimestamp("OC_ENCOUNTER_BEGINDATE"));
 	                }
 	
-	                if (ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ENDDATE")).length() > 0) {
+	                if(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ENDDATE")).length() > 0){
 	                    eTmp.setEnd(rs.getTimestamp("OC_ENCOUNTER_ENDDATE"));
 	                }
 	
 	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_MANAGERUID"));
-	                if (sTmp.length() > 0) {
+	                if(sTmp.length() > 0){
 	                    eTmp.managerUID = sTmp;
 	                }
 	
 	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVICEUID"));
-	                if (sTmp.length() > 0) {
+	                if(sTmp.length() > 0){
 	                    eTmp.serviceUID = sTmp;
 	                }
 	
 	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_DESTINATIONUID"));
-	                if (sTmp.length() > 0) {
+	                if(sTmp.length() > 0){
 	                    eTmp.destinationUID = sTmp;
 	                }
 	
 	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_BEDUID"));
-	                if (sTmp.length() > 0) {
+	                if(sTmp.length() > 0){
 	                    eTmp.bedUID = sTmp;
 	                }
 	
 	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_PATIENTUID"));
-	                if (sTmp.length() > 0) {
+	                if(sTmp.length() > 0){
 	                    eTmp.patientUID = sTmp;
 	                }
 	
 	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_TYPE"));
-	                if (sTmp.length() > 0) {
+	                if(sTmp.length() > 0){
 	                    eTmp.setType(sTmp);
 	                }
 	
 	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OUTCOME"));
-	                if (sTmp.length() > 0) {
+	                if(sTmp.length() > 0){
 	                    eTmp.setOutcome(sTmp);
 	                }
 	
 	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN"));
-	                if (sTmp.length() > 0) {
+	                if(sTmp.length() > 0){
 	                    eTmp.setOrigin(sTmp);
 	                }
 	
 	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION"));
-	                if (sTmp.length() > 0) {
+	                if(sTmp.length() > 0){
 	                    eTmp.setSituation(sTmp);
 	                }
 	                
 	                sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES"));
-	                if (sTmp.length() > 0) {
+	                if(sTmp.length() > 0){
 	                    eTmp.setCategories(sTmp);
 	                }
 	                
@@ -2009,593 +2236,639 @@ public class Encounter extends OC_Object {
 	
 	                vEncounters.addElement(eTmp);
 	            }
-	
-	            rs.close();
-	            ps.close();
-	            oc_conn.close();
-	        } catch (Exception e) {
+	        }
+	        catch(Exception e){
 	            e.printStackTrace();
 	        }
+	        finally{
+	            try{
+	                if(rs!=null) rs.close();
+	                if(ps!=null) ps.close();
+	                if(conn!=null) conn.close();
+	            }
+	            catch(Exception e){
+	                e.printStackTrace();
+	            }
+	        }
         }
+        
         return vEncounters;
     }
 
+    //--- SELECT ENCOUNTERS UNIQUE ----------------------------------------------------------------
     public static Vector selectEncountersUnique(String serverID, String objectID, String beginDate, String endDate, String type,
-                                                String managerID, String serviceID, String bedID, String patientID, String sortColumn) {
-        PreparedStatement ps;
-        ResultSet rs;
+                                                String managerID, String serviceID, String bedID, String patientID, String sortColumn){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
 
         Vector vEncounters = new Vector();
-
-        String sSelect = "SELECT *" +
-                " FROM OC_ENCOUNTERS" +
-                " WHERE" +
-                " 1=1 ";
-
+        String sSelect = "SELECT * FROM OC_ENCOUNTERS WHERE 1=1 ";
         String sConditions = "";
 
-        if (serverID.length() > 0) {
-            sConditions += " OC_ENCOUNTER_SERVERID = ? AND";
+        if(serverID.length() > 0){
+            sConditions+= " OC_ENCOUNTER_SERVERID = ? AND";
         }
-        if (objectID.length() > 0) {
-            sConditions += " OC_ENCOUNTER_OBJECTID = ? AND";
+        if(objectID.length() > 0){
+            sConditions+= " OC_ENCOUNTER_OBJECTID = ? AND";
         }
-        if (beginDate.length() > 0) {
-            sConditions += " OC_ENCOUNTER_BEGINDATE > ? AND";
+        if(beginDate.length() > 0){
+            sConditions+= " OC_ENCOUNTER_BEGINDATE > ? AND";
         }
-        if (endDate.length() > 0) {
-            sConditions += " OC_ENCOUNTER_ENDDATE < ? AND";
+        if(endDate.length() > 0){
+            sConditions+= " OC_ENCOUNTER_ENDDATE < ? AND";
         }
-        if (type.length() > 0) {
-            sConditions += " OC_ENCOUNTER_TYPE = ? AND";
+        if(type.length() > 0){
+            sConditions+= " OC_ENCOUNTER_TYPE = ? AND";
         }
-        if (patientID.length() > 0) {
-            sConditions += " OC_ENCOUNTER_PATIENTUID = ? AND";
-        }
-
-        if (sConditions.length() > 0) {
-            sSelect = sSelect + " AND  " + sConditions;
-            sSelect = sSelect.substring(0, sSelect.length() - 3);
+        if(patientID.length() > 0){
+            sConditions+= " OC_ENCOUNTER_PATIENTUID = ? AND";
         }
 
-        if (sortColumn.length() > 0) {
-            sSelect += " ORDER BY " + sortColumn;
+        if(sConditions.length() > 0){
+            sSelect = sSelect+" AND  "+ sConditions;
+            sSelect = sSelect.substring(0,sSelect.length() - 3);
+        }
+
+        if(sortColumn.length() > 0){
+            sSelect+= " ORDER BY "+ sortColumn;
         }
 
         int i = 1;
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            ps = oc_conn.prepareStatement(sSelect);
+        conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            ps = conn.prepareStatement(sSelect);
 
-            if (serverID.length() > 0) {
-                ps.setInt(i++, Integer.parseInt(serverID));
+            if(serverID.length() > 0){
+                ps.setInt(i++,Integer.parseInt(serverID));
             }
-            if (objectID.length() > 0) {
-                ps.setInt(i++, Integer.parseInt(objectID));
+            if(objectID.length() > 0){
+                ps.setInt(i++,Integer.parseInt(objectID));
             }
-            if (beginDate.length() > 0) {
-                ps.setTimestamp(i++, new Timestamp(ScreenHelper.getSQLDate(beginDate).getTime()));
+            if(beginDate.length() > 0){
+                ps.setTimestamp(i++,new Timestamp(ScreenHelper.getSQLDate(beginDate).getTime()));
             }
-            if (endDate.length() > 0) {
-                ps.setTimestamp(i++, new Timestamp(ScreenHelper.getSQLDate(endDate).getTime()));
+            if(endDate.length() > 0){
+                ps.setTimestamp(i++,new Timestamp(ScreenHelper.getSQLDate(endDate).getTime()));
             }
-            if (type.length() > 0) {
-                ps.setString(i++, type);
+            if(type.length() > 0){
+                ps.setString(i++,type);
             }
-            if (patientID.length() > 0) {
-                ps.setString(i++, patientID);
+            if(patientID.length() > 0){
+                ps.setString(i++,patientID);
             }
 
             rs = ps.executeQuery();
 
             String sTmp, sTmp1;
-
             Encounter eTmp;
 
-            while (rs.next()) {
+            while(rs.next()){
                 eTmp = new Encounter();
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID"));
                 sTmp1 = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
 
-                if (sTmp.length() > 0 && sTmp1.length() > 0) {
-                    eTmp.setUid(sTmp + "." + sTmp1);
+                if(sTmp.length() > 0 && sTmp1.length() > 0){
+                    eTmp.setUid(sTmp+"."+ sTmp1);
                 }
 
-                if (ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_BEGINDATE")).length() > 0) {
+                if(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_BEGINDATE")).length() > 0){
                     eTmp.setBegin(rs.getTimestamp("OC_ENCOUNTER_BEGINDATE"));
                 }
 
-                if (ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ENDDATE")).length() > 0) {
+                if(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ENDDATE")).length() > 0){
                     eTmp.setEnd(rs.getTimestamp("OC_ENCOUNTER_ENDDATE"));
                 }
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_DESTINATIONUID"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.destinationUID = sTmp;
                 }
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_PATIENTUID"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.patientUID = sTmp;
                 }
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_TYPE"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.setType(sTmp);
                 }
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OUTCOME"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.setOutcome(sTmp);
                 }
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.setOrigin(sTmp);
                 }
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.setSituation(sTmp);
                 }
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.setCategories(sTmp);
                 }
                 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_UPDATEUID"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.setUpdateUser(sTmp);
                 }
                 
                 vEncounters.addElement(eTmp);
             }
-
-            rs.close();
-            ps.close();
-            oc_conn.close();
-        } catch (Exception e) {
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        
         return vEncounters;
     }
     
+    //--- GET LAST ENCOUNTER ----------------------------------------------------------------------
     public static Encounter getLastEncounter(String personid){
-    	Encounter encounter=null;
-    	PreparedStatement ps;
-        ResultSet rs;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+    	Encounter encounter = null;
+    	
+    	PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        
         try{
-        	String sSelect = "select * from OC_ENCOUNTERS where OC_ENCOUNTER_PATIENTUID=? order by OC_ENCOUNTER_BEGINDATE DESC";
-        	ps=oc_conn.prepareStatement(sSelect);
-        	ps.setString(1, personid);
-        	rs=ps.executeQuery();
+            conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	String sSql = "select * from OC_ENCOUNTERS where OC_ENCOUNTER_PATIENTUID=?"+
+                          " order by OC_ENCOUNTER_BEGINDATE DESC";
+        	ps = conn.prepareStatement(sSql);
+        	ps.setString(1,personid);
+        	rs = ps.executeQuery();
         	if(rs.next()){
-        		encounter=Encounter.get(rs.getString("OC_ENCOUNTER_SERVERID")+"."+rs.getString("OC_ENCOUNTER_OBJECTID"));
+        		encounter = Encounter.get(rs.getString("OC_ENCOUNTER_SERVERID")+"."+rs.getString("OC_ENCOUNTER_OBJECTID"));
         	}
-        	rs.close();
-        	ps.close();
         }
         catch(Exception e){
-        	e.printStackTrace();
+            e.printStackTrace();
         }
-        
-        // close connection
-        try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
         
     	return encounter;
     }
     
+    //--- SELECT LAST ENCOUNTERS ------------------------------------------------------------------
     public static Vector selectLastEncounters(String patientUid){
-        PreparedStatement ps,ps2;
-        ResultSet rs,rs2;
         Vector vEncounters = new Vector();
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        
+        PreparedStatement ps = null, ps2;
+        ResultSet rs = null, rs2;
+        Connection conn = null;
+        
         try{
-        	String sSelect = "select * from OC_ENCOUNTERS where OC_ENCOUNTER_PATIENTUID=? order by OC_ENCOUNTER_BEGINDATE";
-        	ps=oc_conn.prepareStatement(sSelect);
-        	ps.setString(1, patientUid);
-        	rs=ps.executeQuery();
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	String sSql = "select * from OC_ENCOUNTERS where OC_ENCOUNTER_PATIENTUID=?"+
+                          " order by OC_ENCOUNTER_BEGINDATE";
+        	ps = conn.prepareStatement(sSql);
+        	ps.setString(1,patientUid);
+        	rs = ps.executeQuery();
+        	
         	while(rs.next()){
                 Encounter eTmp = new Encounter();
-                if (ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_BEGINDATE")).length() > 0) {
+                if(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_BEGINDATE")).length() > 0){
                     eTmp.setBegin(rs.getTimestamp("OC_ENCOUNTER_BEGINDATE"));
                 }
-                if (ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ENDDATE")).length() > 0) {
+                if(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ENDDATE")).length() > 0){
                     eTmp.setEnd(rs.getTimestamp("OC_ENCOUNTER_ENDDATE"));
                 }
                 String sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_PATIENTUID"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.patientUID = sTmp;
                 }
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_TYPE"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.setType(sTmp);
                 }
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OUTCOME"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.setOutcome(sTmp);
                 }
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.setOrigin(sTmp);
                 }
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.setSituation(sTmp);
                 }
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.setCategories(sTmp);
                 }
                 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_DESTINATIONUID"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.destinationUID = sTmp;
                 }
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID"));
                 String sTmp1 = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
-                if (sTmp.length() > 0 && sTmp1.length() > 0) {
-                    eTmp.setUid(sTmp + "." + sTmp1);
+                if(sTmp.length() > 0 && sTmp1.length() > 0){
+                    eTmp.setUid(sTmp+"."+ sTmp1);
                 }
-                //Try to find the last service
-                sSelect="select * from OC_ENCOUNTER_SERVICES where OC_ENCOUNTER_SERVERID=? and OC_ENCOUNTER_OBJECTID=? order by OC_ENCOUNTER_SERVICEBEGINDATE DESC";
-                ps2=oc_conn.prepareStatement(sSelect);
-                ps2.setInt(1, Integer.parseInt(sTmp));
-                ps2.setInt(2, Integer.parseInt(sTmp1));
-                rs2=ps2.executeQuery();
+                
+                // find the last service
+                sSql = "select * from OC_ENCOUNTER_SERVICES where OC_ENCOUNTER_SERVERID=? and OC_ENCOUNTER_OBJECTID=?"+
+                       " order by OC_ENCOUNTER_SERVICEBEGINDATE DESC";
+                ps2 = conn.prepareStatement(sSql);
+                ps2.setInt(1,Integer.parseInt(sTmp));
+                ps2.setInt(2,Integer.parseInt(sTmp1));
+                rs2 = ps2.executeQuery();
                 if(rs2.next()){
                     sTmp = ScreenHelper.checkString(rs2.getString("OC_ENCOUNTER_MANAGERUID"));
-                    if (sTmp.length() > 0) {
+                    if(sTmp.length() > 0){
                         eTmp.managerUID = sTmp;
                     }
                     sTmp = ScreenHelper.checkString(rs2.getString("OC_ENCOUNTER_SERVICEUID"));
-                    if (sTmp.length() > 0) {
+                    if(sTmp.length() > 0){
                         eTmp.serviceUID = sTmp;
                     }
                     sTmp = ScreenHelper.checkString(rs2.getString("OC_ENCOUNTER_BEDUID"));
-                    if (sTmp.length() > 0) {
+                    if(sTmp.length() > 0){
                         eTmp.bedUID = sTmp;
                     }
                 }
                 rs2.close();
                 ps2.close();
+                
                 vEncounters.addElement(eTmp);
         	}
-        	rs.close();
-        	ps.close();
         }
         catch(Exception e){
-        	e.printStackTrace();
+            e.printStackTrace();
         }
-        
-        // close connection
-        try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
         
     	return vEncounters;
     }
 
+    //--- SELECT LAST ENCOUNTERS ------------------------------------------------------------------
     public static Vector selectLastEncounters(String serverID, String objectID, String beginDate, String endDate, String type,
-                                              String managerID, String serviceID, String bedID, String patientID, String sortColumn) {
-        PreparedStatement ps;
-        ResultSet rs;
+                                              String managerID, String serviceID, String bedID, String patientID, String sortColumn){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
 
         Vector vEncounters = new Vector();
 
-        String sSelect = "SELECT A.*" +
-                " FROM OC_ENCOUNTERS_VIEW A, (select max(OC_ENCOUNTER_BEGINDATE) OC_ENCOUNTER_BEGINDATE,OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID" +
-                " from OC_ENCOUNTERS_VIEW WHERE 1=1";
-        String sSelect2=
-                " group by OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID) B" +
-                " WHERE" +
-                " A.OC_ENCOUNTER_BEGINDATE=B.OC_ENCOUNTER_BEGINDATE AND" +
-                " A.OC_ENCOUNTER_SERVERID=B.OC_ENCOUNTER_SERVERID AND" +
-                " A.OC_ENCOUNTER_OBJECTID=B.OC_ENCOUNTER_OBJECTID ";
+        String sSelect = "SELECT A.*"+
+                         " FROM OC_ENCOUNTERS_VIEW A, (select max(OC_ENCOUNTER_BEGINDATE) OC_ENCOUNTER_BEGINDATE,OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID"+
+                         "  from OC_ENCOUNTERS_VIEW WHERE 1=1";
+        
+        String sSelect2 = " group by OC_ENCOUNTER_SERVERID,OC_ENCOUNTER_OBJECTID) B"+
+                          " WHERE"+
+                          "  A.OC_ENCOUNTER_BEGINDATE=B.OC_ENCOUNTER_BEGINDATE AND"+
+                          "  A.OC_ENCOUNTER_SERVERID=B.OC_ENCOUNTER_SERVERID AND"+
+                          "  A.OC_ENCOUNTER_OBJECTID=B.OC_ENCOUNTER_OBJECTID ";
 
         String sConditions = "";
 
-        if (serverID.length() > 0) {
-            sConditions += " OC_ENCOUNTER_SERVERID = ? AND";
+        if(serverID.length() > 0){
+            sConditions+= " OC_ENCOUNTER_SERVERID = ? AND";
         }
-        if (objectID.length() > 0) {
-            sConditions += " OC_ENCOUNTER_OBJECTID = ? AND";
+        if(objectID.length() > 0){
+            sConditions+= " OC_ENCOUNTER_OBJECTID = ? AND";
         }
-        if (beginDate.length() > 0) {
-            sConditions += " OC_ENCOUNTER_BEGINDATE > ? AND";
+        if(beginDate.length() > 0){
+            sConditions+= " OC_ENCOUNTER_BEGINDATE > ? AND";
         }
-        if (endDate.length() > 0) {
-            sConditions += " OC_ENCOUNTER_ENDDATE < ? AND";
+        if(endDate.length() > 0){
+            sConditions+= " OC_ENCOUNTER_ENDDATE < ? AND";
         }
-        if (type.length() > 0) {
-            sConditions += " OC_ENCOUNTER_TYPE = ? AND";
+        if(type.length() > 0){
+            sConditions+= " OC_ENCOUNTER_TYPE = ? AND";
         }
-        if (managerID.length() > 0) {
-            sConditions += " OC_ENCOUNTER_MANAGERUID = ? AND";
+        if(managerID.length() > 0){
+            sConditions+= " OC_ENCOUNTER_MANAGERUID = ? AND";
         }
-        if (serviceID.length() > 0) {
-            sConditions += " OC_ENCOUNTER_SERVICEUID = ? AND";
+        if(serviceID.length() > 0){
+            sConditions+= " OC_ENCOUNTER_SERVICEUID = ? AND";
         }
-        if (bedID.length() > 0) {
-            sConditions += " OC_ENCOUNTER_BEDUID = ? AND";
+        if(bedID.length() > 0){
+            sConditions+= " OC_ENCOUNTER_BEDUID = ? AND";
         }
-        if (patientID.length() > 0) {
-            sConditions += " OC_ENCOUNTER_PATIENTUID = ? AND";
+        if(patientID.length() > 0){
+            sConditions+= " OC_ENCOUNTER_PATIENTUID = ? AND";
         }
         
         String sConditions2 = "";
 
-        if (serverID.length() > 0) {
-        	sConditions2 += " A.OC_ENCOUNTER_SERVERID = ? AND";
+        if(serverID.length() > 0){
+        	sConditions2+= " A.OC_ENCOUNTER_SERVERID = ? AND";
         }
-        if (objectID.length() > 0) {
-        	sConditions2 += " A.OC_ENCOUNTER_OBJECTID = ? AND";
+        if(objectID.length() > 0){
+        	sConditions2+= " A.OC_ENCOUNTER_OBJECTID = ? AND";
         }
-        if (beginDate.length() > 0) {
-        	sConditions2 += " A.OC_ENCOUNTER_BEGINDATE > ? AND";
+        if(beginDate.length() > 0){
+        	sConditions2+= " A.OC_ENCOUNTER_BEGINDATE > ? AND";
         }
-        if (endDate.length() > 0) {
-        	sConditions2 += " A.OC_ENCOUNTER_ENDDATE < ? AND";
+        if(endDate.length() > 0){
+        	sConditions2+= " A.OC_ENCOUNTER_ENDDATE < ? AND";
         }
-        if (type.length() > 0) {
-        	sConditions2 += " A.OC_ENCOUNTER_TYPE = ? AND";
+        if(type.length() > 0){
+        	sConditions2+= " A.OC_ENCOUNTER_TYPE = ? AND";
         }
-        if (managerID.length() > 0) {
-        	sConditions2 += " A.OC_ENCOUNTER_MANAGERUID = ? AND";
+        if(managerID.length() > 0){
+        	sConditions2+= " A.OC_ENCOUNTER_MANAGERUID = ? AND";
         }
-        if (serviceID.length() > 0) {
-        	sConditions2 += " A.OC_ENCOUNTER_SERVICEUID = ? AND";
+        if(serviceID.length() > 0){
+        	sConditions2+= " A.OC_ENCOUNTER_SERVICEUID = ? AND";
         }
-        if (bedID.length() > 0) {
-        	sConditions2 += " A.OC_ENCOUNTER_BEDUID = ? AND";
+        if(bedID.length() > 0){
+        	sConditions2+= " A.OC_ENCOUNTER_BEDUID = ? AND";
         }
-        if (patientID.length() > 0) {
-        	sConditions2 += " A.OC_ENCOUNTER_PATIENTUID = ? AND";
+        if(patientID.length() > 0){
+        	sConditions2+= " A.OC_ENCOUNTER_PATIENTUID = ? AND";
         }
 
-        if (sConditions.length() > 0) {
-            sSelect = sSelect + " AND  " + sConditions;
-            sSelect = sSelect.substring(0, sSelect.length() - 3);
+        if(sConditions.length() > 0){
+            sSelect = sSelect+" AND  "+ sConditions;
+            sSelect = sSelect.substring(0,sSelect.length() - 3);
         }
-        if (sConditions2.length() > 0) {
-            sSelect2 = sSelect2 + " AND  " + sConditions2;
-            sSelect2 = sSelect2.substring(0, sSelect2.length() - 3);
+        if(sConditions2.length() > 0){
+            sSelect2 = sSelect2+" AND  "+ sConditions2;
+            sSelect2 = sSelect2.substring(0,sSelect2.length() - 3);
         }
         sSelect = sSelect+" "+sSelect2;
-        if (sortColumn.length() > 0) {
-            sSelect += " ORDER BY " + sortColumn;
+        if(sortColumn.length() > 0){
+            sSelect+= " ORDER BY "+ sortColumn;
         }
 
         int i = 1;
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            ps = oc_conn.prepareStatement(sSelect);
+        conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            ps = conn.prepareStatement(sSelect);
 
             for(int n=0;n<2;n++){
-	            if (serverID.length() > 0) {
-	                ps.setInt(i++, Integer.parseInt(serverID));
+	            if(serverID.length() > 0){
+	                ps.setInt(i++,Integer.parseInt(serverID));
 	            }
-	            if (objectID.length() > 0) {
-	                ps.setInt(i++, Integer.parseInt(objectID));
+	            if(objectID.length() > 0){
+	                ps.setInt(i++,Integer.parseInt(objectID));
 	            }
-	            if (beginDate.length() > 0) {
-	                ps.setTimestamp(i++, new Timestamp(ScreenHelper.getSQLDate(beginDate).getTime()));
+	            if(beginDate.length() > 0){
+	                ps.setTimestamp(i++,new Timestamp(ScreenHelper.getSQLDate(beginDate).getTime()));
 	            }
-	            if (endDate.length() > 0) {
-	                ps.setTimestamp(i++, new Timestamp(ScreenHelper.getSQLDate(endDate).getTime()));
+	            if(endDate.length() > 0){
+	                ps.setTimestamp(i++,new Timestamp(ScreenHelper.getSQLDate(endDate).getTime()));
 	            }
-	            if (type.length() > 0) {
-	                ps.setString(i++, type);
+	            if(type.length() > 0){
+	                ps.setString(i++,type);
 	            }
-	            if (managerID.length() > 0) {
-	                ps.setString(i++, managerID);
+	            if(managerID.length() > 0){
+	                ps.setString(i++,managerID);
 	            }
-	            if (serviceID.length() > 0) {
-	                ps.setString(i++, serviceID);
+	            if(serviceID.length() > 0){
+	                ps.setString(i++,serviceID);
 	            }
-	            if (bedID.length() > 0) {
-	                ps.setString(i++, bedID);
+	            if(bedID.length() > 0){
+	                ps.setString(i++,bedID);
 	            }
-	            if (patientID.length() > 0) {
-	                ps.setString(i++, patientID);
+	            if(patientID.length() > 0){
+	                ps.setString(i++,patientID);
 	            }
             }
             rs = ps.executeQuery();
 
             String sTmp, sTmp1;
-
             Encounter eTmp;
 
-            while (rs.next()) {
+            while(rs.next()){
                 eTmp = new Encounter();
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID"));
                 sTmp1 = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
 
-                if (sTmp.length() > 0 && sTmp1.length() > 0) {
-                    eTmp.setUid(sTmp + "." + sTmp1);
+                if(sTmp.length() > 0 && sTmp1.length() > 0){
+                    eTmp.setUid(sTmp+"."+ sTmp1);
                 }
 
-                if (ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_BEGINDATE")).length() > 0) {
+                if(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_BEGINDATE")).length() > 0){
                     eTmp.setBegin(rs.getTimestamp("OC_ENCOUNTER_BEGINDATE"));
                 }
 
-                if (ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ENDDATE")).length() > 0) {
+                if(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ENDDATE")).length() > 0){
                     eTmp.setEnd(rs.getTimestamp("OC_ENCOUNTER_ENDDATE"));
                 }
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_MANAGERUID"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.managerUID = sTmp;
                 }
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVICEUID"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.serviceUID = sTmp;
                 }
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_DESTINATIONUID"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.destinationUID = sTmp;
                 }
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_BEDUID"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.bedUID = sTmp;
                 }
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_PATIENTUID"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.patientUID = sTmp;
                 }
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_TYPE"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.setType(sTmp);
                 }
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OUTCOME"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.setOutcome(sTmp);
                 }
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.setOrigin(sTmp);
                 }
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.setSituation(sTmp);
                 }
 
                 sTmp = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES"));
-                if (sTmp.length() > 0) {
+                if(sTmp.length() > 0){
                     eTmp.setCategories(sTmp);
                 }
                 
                 vEncounters.addElement(eTmp);
             }
-
-            rs.close();
-            ps.close();
-        } catch (Exception e) {
+        }
+        catch(Exception e){
             e.printStackTrace();
         }
-        
-        // close connection
-        try{
-			oc_conn.close();
-		}
-        catch(SQLException e){
-			e.printStackTrace();
-		}
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
         
         return vEncounters;
     }
 
-    public static Encounter getActiveEncounterOnDate(Timestamp tOnDate, String sPatientUID) {
+    //--- GET ACTIVE ENCOUNER ON DATE -------------------------------------------------------------
+    public static Encounter getActiveEncounterOnDate(Timestamp tOnDate, String sPatientUID){
         PreparedStatement ps = null;
         ResultSet rs = null;
+        Connection conn = null;
 
-        String sSelect = "SELECT * FROM OC_ENCOUNTERS WHERE OC_ENCOUNTER_BEGINDATE < ? AND (OC_ENCOUNTER_ENDDATE > ? OR OC_ENCOUNTER_ENDDATE IS NULL) AND OC_ENCOUNTER_PATIENTUID = ? order by OC_ENCOUNTER_BEGINDATE DESC";
+        String sSql = "SELECT * FROM OC_ENCOUNTERS"+
+                      " WHERE OC_ENCOUNTER_BEGINDATE < ? AND (OC_ENCOUNTER_ENDDATE > ? OR OC_ENCOUNTER_ENDDATE IS NULL)"+
+        		      "  AND OC_ENCOUNTER_PATIENTUID = ?"+
+                      " ORDER BY OC_ENCOUNTER_BEGINDATE DESC";
 
         Encounter activeEnc = null;
-
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
+        try{
             if(tOnDate!=null){
-                tOnDate=new Timestamp(ScreenHelper.fullDateFormat.parse(ScreenHelper.stdDateFormat.format(tOnDate)+" 23:59").getTime());
+                tOnDate = new Timestamp(ScreenHelper.fullDateFormat.parse(ScreenHelper.stdDateFormat.format(tOnDate)+" 23:59").getTime());
             }
-            ps = oc_conn.prepareStatement(sSelect);
-            ps.setTimestamp(1, tOnDate);
-            ps.setTimestamp(2, tOnDate);
-            ps.setString(3, sPatientUID);
+
+            conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            ps = conn.prepareStatement(sSql);
+            ps.setTimestamp(1,tOnDate);
+            ps.setTimestamp(2,tOnDate);
+            ps.setString(3,sPatientUID);
+            
             rs = ps.executeQuery();
-            if (rs.next()) {
-                String sUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID")) + "." + ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
+            if(rs.next()){
+                String sUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID"))+"."+ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
                 activeEnc = Encounter.get(sUID);
             }
-            else {
+            else{
             	rs.close();
             	ps.close();
-                ps = oc_conn.prepareStatement(sSelect);
-                Timestamp begin=new Timestamp(tOnDate.getTime());
+            	
+                ps = conn.prepareStatement(sSql);
+                
+                Timestamp begin = new Timestamp(tOnDate.getTime());
                 begin.setTime(begin.getTime()+24*3600*1000);
-                Timestamp end=new Timestamp(tOnDate.getTime());
+                
+                Timestamp end = new Timestamp(tOnDate.getTime());
                 end.setTime(end.getTime()-24*3600*1000);
-                ps.setTimestamp(1, begin);
-                ps.setTimestamp(2, end);
-                ps.setString(3, sPatientUID);
+                
+                ps.setTimestamp(1,begin);
+                ps.setTimestamp(2,end);
+                ps.setString(3,sPatientUID);
+                
                 rs = ps.executeQuery();
-                if (rs.next()) {
-                    String sUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID")) + "." + ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
+                if(rs.next()){
+                    String sUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID"))+"."+ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
                     activeEnc = Encounter.get(sUID);
                 }
             }
-        } catch (Exception e) {
+        }
+        catch(Exception e){
             e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                oc_conn.close();
-            } catch (Exception e) {
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return activeEnc;
     }
 
-    public static Hashtable getHospitalizePatients(String sFindBegin, String sFindEnd, String sFindServiceCode) {
+    //--- GET HOSPITALIZED PATIENTS ---------------------------------------------------------------
+    public static Hashtable getHospitalizePatients(String sFindBegin, String sFindEnd, String sFindServiceCode){
         Hashtable hServices = new Hashtable();
+        
         PreparedStatement ps = null;
         ResultSet rs = null;
+        Connection conn = null;
+        
+        try{
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            String sSQL = "SELECT b.OC_ENCOUNTER_SERVICEUID, a.OC_ENCOUNTER_BEGINDATE, a.OC_ENCOUNTER_ENDDATE, a.OC_ENCOUNTER_OUTCOME"+
+                          " FROM OC_ENCOUNTERS a,OC_ENCOUNTER_SERVICES b"+
+            		      "  WHERE a.OC_ENCOUNTER_SERVERID=b.OC_ENCOUNTER_SERVERID"+
+                          "   AND a.OC_ENCOUNTER_OBJECTID=b.OC_ENCOUNTER_OBJECTID";
 
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            String sSQL = "SELECT b.OC_ENCOUNTER_SERVICEUID, a.OC_ENCOUNTER_BEGINDATE, a.OC_ENCOUNTER_ENDDATE, a.OC_ENCOUNTER_OUTCOME "
-                    + " FROM OC_ENCOUNTERS a,OC_ENCOUNTER_SERVICES b WHERE "
-                    + " a.OC_ENCOUNTER_SERVERID=b.OC_ENCOUNTER_SERVERID AND a.OC_ENCOUNTER_OBJECTID=b.OC_ENCOUNTER_OBJECTID ";
-
-            if (sFindEnd.length() > 0) {
-                sSQL += " AND a.OC_ENCOUNTER_BEGINDATE <= ?";
+            if(sFindEnd.length() > 0){
+                sSQL+= " AND a.OC_ENCOUNTER_BEGINDATE <= ?";
             }
 
-            if (sFindBegin.length() > 0) {
-                sSQL += " AND a.OC_ENCOUNTER_BEGINDATE >= ?";
+            if(sFindBegin.length() > 0){
+                sSQL+= " AND a.OC_ENCOUNTER_BEGINDATE >= ?";
             }
 
-            if (sFindServiceCode.length() > 0) {
-                sSQL += " AND OC_ENCOUNTER_SERVICEUID = ? ";
+            if(sFindServiceCode.length() > 0){
+                sSQL+= " AND OC_ENCOUNTER_SERVICEUID = ? ";
             }
             Debug.println(sSQL);
-            ps = oc_conn.prepareStatement(sSQL);
+            ps = conn.prepareStatement(sSQL);
 
             int iIndex = 1;
-            if (sFindEnd.length() > 0) {
-                ps.setDate(iIndex++, ScreenHelper.getSQLDate(sFindEnd));
+            if(sFindEnd.length() > 0){
+                ps.setDate(iIndex++,ScreenHelper.getSQLDate(sFindEnd));
             }
 
-            if (sFindBegin.length() > 0) {
-                ps.setDate(iIndex++, ScreenHelper.getSQLDate(sFindBegin));
+            if(sFindBegin.length() > 0){
+                ps.setDate(iIndex++,ScreenHelper.getSQLDate(sFindBegin));
             }
 
-            if (sFindServiceCode.length() > 0) {
-                ps.setString(iIndex++, sFindServiceCode);
+            if(sFindServiceCode.length() > 0){
+                ps.setString(iIndex++,sFindServiceCode);
             }
 
             String sServiceId;
@@ -2603,106 +2876,115 @@ public class Encounter extends OC_Object {
             Vector vRows;
             rs = ps.executeQuery();
 
-            while (rs.next()) {
+            while(rs.next()){
                 sServiceId = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVICEUID"));
 
                 hRow = new Hashtable();
-                hRow.put("outcome", ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OUTCOME")));
-                hRow.put("begin", rs.getDate("OC_ENCOUNTER_BEGINDATE"));
+                hRow.put("outcome",ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OUTCOME")));
+                hRow.put("begin",rs.getDate("OC_ENCOUNTER_BEGINDATE"));
 
                 // end date
                 java.sql.Date endDate = rs.getDate("OC_ENCOUNTER_ENDDATE");
-                if(endDate!=null) hRow.put("end", endDate);
+                if(endDate!=null)hRow.put("end",endDate);
 
-                vRows = (Vector) hServices.get(sServiceId);
+                vRows = (Vector)hServices.get(sServiceId);
 
-                if (vRows == null) {
+                if(vRows==null){
                     vRows = new Vector();
                 }
 
                 vRows.add(hRow);
-                hServices.put(sServiceId, vRows);
+                hServices.put(sServiceId,vRows);
             }
-            rs.close();
-            ps.close();
         }
-        catch (Exception e) {
+        catch(Exception e){
             e.printStackTrace();
         }
-        finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                oc_conn.close();
-            } catch (Exception e) {
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
+        
         return hServices;
     }
 
-    public static int getHospitalizePatientsAtDate(String sDate, String sFindServiceCode) {
+    //--- GET HOSPITALIZE PATIENTS AT DATE --------------------------------------------------------
+    public static int getHospitalizePatientsAtDate(String sDate, String sFindServiceCode){
+    	int totalPatients = 0;
         PreparedStatement ps = null;
-        ResultSet rs = null;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
-            String sSQL = "SELECT count(*) AS TotalPatients "
-                    + " FROM OC_ENCOUNTERS a,OC_ENCOUNTER_SERVICES b WHERE "
-                    + " a.OC_ENCOUNTER_SERVERID=b.OC_ENCOUNTER_SERVERID AND a.OC_ENCOUNTER_OBJECTID=b.OC_ENCOUNTER_OBJECTID "
-                    + " AND a.OC_ENCOUNTER_BEGINDATE <= ? AND a.OC_ENCOUNTER_ENDDATE >= ? AND b.OC_ENCOUNTER_SERVICEUID = ?";
-            ps = oc_conn.prepareStatement(sSQL);
-            ps.setDate(1, ScreenHelper.getSQLDate(sDate));
-            ps.setDate(2, ScreenHelper.getSQLDate(sDate));
-            ps.setString(3, sFindServiceCode);
+        ResultSet rs = null;        
+        Connection conn = null;
+        
+        try{
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            String sSQL = "SELECT count(*) AS TotalPatients"+
+                          " FROM OC_ENCOUNTERS a,OC_ENCOUNTER_SERVICES b"+
+            		      "  WHERE a.OC_ENCOUNTER_SERVERID=b.OC_ENCOUNTER_SERVERID"+
+                          "   AND a.OC_ENCOUNTER_OBJECTID=b.OC_ENCOUNTER_OBJECTID"+
+                          "   AND a.OC_ENCOUNTER_BEGINDATE <= ?"+
+                          "   AND a.OC_ENCOUNTER_ENDDATE >= ?"+
+                          "   AND b.OC_ENCOUNTER_SERVICEUID = ?";
+            ps = conn.prepareStatement(sSQL);
+            ps.setDate(1,ScreenHelper.getSQLDate(sDate));
+            ps.setDate(2,ScreenHelper.getSQLDate(sDate));
+            ps.setString(3,sFindServiceCode);
             rs = ps.executeQuery();
 
-            if (rs.next()) {
-                return rs.getInt("TotalPatients");
+            if(rs.next()){
+            	totalPatients = rs.getInt("TotalPatients");
             }
-            rs.close();
-            ps.close();
         }
-        catch (Exception e) {
+        catch(Exception e){
             e.printStackTrace();
         }
-        finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                oc_conn.close();
-            } catch (Exception e) {
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
-        return 0;
+        
+        return totalPatients;
     }
 
-    //--- DELETE ----------------------------------------------------------------------------------
-    public static void deleteById(String Uid) {
-
-        if (Uid != null && Uid.length() > 0) {
+    //--- DELETE BY ID ----------------------------------------------------------------------------
+    public static void deleteById(String Uid){
+        if(Uid!=null && Uid.length() > 0){
             String sUids[] = Uid.split("\\.");
-            if (sUids.length == 2) {
+            
+            if(sUids.length==2){
                 PreparedStatement ps = null;
-                Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-                try {
-                    String sSelect = "DELETE FROM OC_ENCOUNTERS WHERE OC_ENCOUNTER_SERVERID = ? AND OC_ENCOUNTER_OBJECTID = ?";
-                    ps = oc_conn.prepareStatement(sSelect);
-                    ps.setInt(1, Integer.parseInt(sUids[0]));
-                    ps.setInt(2, Integer.parseInt(sUids[1]));
-
+                Connection conn = null;
+                
+                try{
+                	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+                    String sSelect = "DELETE FROM OC_ENCOUNTERS"+
+                	                 " WHERE OC_ENCOUNTER_SERVERID = ? AND OC_ENCOUNTER_OBJECTID = ?";
+                    ps = conn.prepareStatement(sSelect);
+                    ps.setInt(1,Integer.parseInt(sUids[0]));
+                    ps.setInt(2,Integer.parseInt(sUids[1]));
                     ps.executeUpdate();
                 }
-                catch (Exception e) {
+                catch(Exception e){
                     e.printStackTrace();
                 }
-                finally {
-                    try {
-                        if (ps != null) ps.close();
-                        oc_conn.close();
+                finally{
+                    try{
+                        if(ps!=null) ps.close();
+                        if(conn!=null) conn.close();
                     }
-                    catch (SQLException se) {
-                        se.printStackTrace();
+                    catch(Exception e){
+                        e.printStackTrace();
                     }
                 }
             }
@@ -2710,31 +2992,34 @@ public class Encounter extends OC_Object {
     }
 
     //--- DELETE SERVICE --------------------------------------------------------------------------
-    public static void deleteService(String sEncounterUid, String sServiceUid) {
-        if ((ScreenHelper.checkString(sEncounterUid).length() > 0 && ScreenHelper.checkString(sServiceUid).length()>0)) {
+    public static void deleteService(String sEncounterUid, String sServiceUid){
+        if((ScreenHelper.checkString(sEncounterUid).length() > 0 && ScreenHelper.checkString(sServiceUid).length() > 0)){
             String aUids[] = sEncounterUid.split("\\.");
-            if (aUids.length == 2) {
-                PreparedStatement ps = null;
-                Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-                try {
-                    String sSQL = "DELETE FROM OC_ENCOUNTER_SERVICES where OC_ENCOUNTER_SERVERID=? AND OC_ENCOUNTER_OBJECTID=? "
-                        +" AND OC_ENCOUNTER_SERVICEUID = ? ";
-                    ps = oc_conn.prepareStatement(sSQL);
+            if(aUids.length==2){
+                PreparedStatement ps = null;                
+                Connection conn = null;
+                
+                try{
+                	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+                    String sSQL = "DELETE FROM OC_ENCOUNTER_SERVICES"+
+                                  " WHERE OC_ENCOUNTER_SERVERID=? AND OC_ENCOUNTER_OBJECTID=?"+
+                                  "  AND OC_ENCOUNTER_SERVICEUID = ?";
+                    ps = conn.prepareStatement(sSQL);
                     ps.setInt(1,Integer.parseInt(aUids[0]));
                     ps.setInt(2,Integer.parseInt(aUids[1]));
                     ps.setString(3,sServiceUid);
                     ps.executeUpdate();
                 }
-                catch (Exception e) {
+                catch(Exception e){
                     e.printStackTrace();
                 }
-                finally {
-                    try {
-                        if (ps != null) ps.close();
-                        oc_conn.close();
+                finally{
+                    try{
+                        if(ps!=null) ps.close();
+                        if(conn!=null) conn.close();
                     }
-                    catch (SQLException se) {
-                        se.printStackTrace();
+                    catch(Exception e){
+                        e.printStackTrace();
                     }
                 }
             }
@@ -2744,83 +3029,71 @@ public class Encounter extends OC_Object {
     //--- CHECK EXISTANCE -------------------------------------------------------------------------
     public static boolean checkExistance(String sEncounterUid){
         boolean bIsGood = true;
+        
         PreparedStatement ps = null;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
+        Connection conn = null;
+        
+        try{
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();	
         	
             String sSQL = "SELECT * FROM OC_CREDITS WHERE OC_CREDIT_ENCOUNTERUID = ?";
-            ps = oc_conn.prepareStatement(sSQL);
+            ps = conn.prepareStatement(sSQL);
             ps.setString(1,sEncounterUid);
             ResultSet rs = ps.executeQuery();
-
-            if (rs.next()){
-                bIsGood = false;
-            }
+            if(rs.next()) bIsGood = false;
             rs.close();
             ps.close();
 
-            if (bIsGood){
+            if(bIsGood){
                 sSQL = "SELECT * FROM OC_DEBETS WHERE OC_DEBET_ENCOUNTERUID = ?";
-                ps = oc_conn.prepareStatement(sSQL);
+                ps = conn.prepareStatement(sSQL);
                 ps.setString(1,sEncounterUid);
                 rs = ps.executeQuery();
-
-                if (rs.next()){
-                    bIsGood = false;
-                }
+                if(rs.next()) bIsGood = false;
                 rs.close();
                 ps.close();
             }
 
-            if (bIsGood){
+            if(bIsGood){
                 sSQL = "SELECT * FROM OC_DIAGNOSES WHERE OC_DIAGNOSIS_ENCOUNTERUID = ?";
-                ps = oc_conn.prepareStatement(sSQL);
+                ps = conn.prepareStatement(sSQL);
                 ps.setString(1,sEncounterUid);
                 rs = ps.executeQuery();
-
-                if (rs.next()){
-                    bIsGood = false;
-                }
+                if(rs.next()) bIsGood = false;
                 rs.close();
                 ps.close();
             }
 
-            if (bIsGood){
+            if(bIsGood){
                 sSQL = "SELECT * FROM OC_FINANCEDEBETS WHERE OC_FINANCEDEBET_ENCOUNTERUID = ?";
-                ps = oc_conn.prepareStatement(sSQL);
+                ps = conn.prepareStatement(sSQL);
                 ps.setString(1,sEncounterUid);
                 rs = ps.executeQuery();
-
-                if (rs.next()){
-                    bIsGood = false;
-                }
+                if(rs.next()) bIsGood = false;
                 rs.close();
                 ps.close();
             }
 
-            if (bIsGood){
+            if(bIsGood){
                 sSQL = "SELECT * FROM OC_PATIENTCREDITS WHERE OC_PATIENTCREDIT_ENCOUNTERUID = ?";
-                ps = oc_conn.prepareStatement(sSQL);
+                ps = conn.prepareStatement(sSQL);
                 ps.setString(1,sEncounterUid);
                 rs = ps.executeQuery();
-
-                if (rs.next()){
-                    bIsGood = false;
-                }
+                if(rs.next()) bIsGood = false;
                 rs.close();
                 ps.close();
             }
         }
-        catch (Exception e) {
+        catch(Exception e){
             e.printStackTrace();
         }
-        finally {
-            try {
-                if (ps != null) ps.close();
-                oc_conn.close();
+        finally{
+            try{
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
             }
-            catch (SQLException se) {
-                se.printStackTrace();
+            catch(Exception e){
+                e.printStackTrace();
             }
         }
         
@@ -2832,10 +3105,12 @@ public class Encounter extends OC_Object {
         try{
             Vector encounterServices = getTransferHistory();
             
-            for(int n=0;n<encounterServices.size();n++){
+            for(int n=0; n<encounterServices.size(); n++){
                 EncounterService encounterService = (EncounterService)encounterServices.elementAt(n);
-                Date begin = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(encounterService.begin));
-                Date end = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(encounterService.end));
+              
+                Date begin = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(encounterService.begin)),
+                     end   = ScreenHelper.parseDate(ScreenHelper.stdDateFormat.format(encounterService.end));
+               
                 if(!begin.after(date) && (end==null || !end.before(date))&& encounterService.serviceUID!=null && encounterService.serviceUID.trim().length()>0){
                     return encounterService.serviceUID;
                 }
@@ -2844,41 +3119,46 @@ public class Encounter extends OC_Object {
         catch(Exception e){
             e.printStackTrace();
         }
+        
         return getServiceUID();
     }
     
     //--- GET OVERLAP ENCOUNTERS ------------------------------------------------------------------
     public static Vector getOverlapEncounters(String personid, Date begin, Date end){
     	Vector encounters = new Vector();
-    	PreparedStatement ps=null;
-        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
-        try {
+    	
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+        Connection conn = null;
+        
+        try{
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
             String sSQL = "SELECT * from OC_ENCOUNTERS where OC_ENCOUNTER_PATIENTUID=?"+
-                          " AND OC_ENCOUNTER_BEGINDATE<? AND (OC_ENCOUNTER_ENDDATE>? OR OC_ENCOUNTER_SERVICEENDDATE IS NULL)"+
-            		      "  order by OC_ENCOUNTER_BEGINDATE";
-            ps = oc_conn.prepareStatement(sSQL);
-            ps.setString(1, personid);
-            ps.setTimestamp(2, new java.sql.Timestamp(end.getTime()));
-            ps.setTimestamp(3, new java.sql.Timestamp(begin.getTime()));
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()){
+                          " AND OC_ENCOUNTER_BEGINDATE<?"+
+            		      " AND (OC_ENCOUNTER_ENDDATE>? OR OC_ENCOUNTER_SERVICEENDDATE IS NULL)"+
+            		      "  ORDER BY OC_ENCOUNTER_BEGINDATE";
+            ps = conn.prepareStatement(sSQL);
+            ps.setString(1,personid);
+            ps.setTimestamp(2,new java.sql.Timestamp(end.getTime()));
+            ps.setTimestamp(3,new java.sql.Timestamp(begin.getTime()));
+            rs = ps.executeQuery();
+            while(rs.next()){
             	encounters.add(Encounter.get(rs.getInt("OC_ENCOUNTER_SERVERID")+"."+rs.getInt("OC_ENCOUNTER_OBJECTID")));
             }
-            rs.close();
-            ps.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                if (ps != null) ps.close();
-                oc_conn.close();
-            }
-            catch (SQLException se) {
-                se.printStackTrace();
-            }
-        }
+	    }
+	    catch(Exception e){
+			Debug.printStackTrace(e);
+	    }
+	    finally{
+	    	try{
+	    		if(rs!=null) rs.close();
+	    		if(ps!=null) ps.close();
+	    		if(conn!=null) conn.close();
+	    	}
+	    	catch(Exception e){
+	    		Debug.printStackTrace(e);
+	    	}
+	    }
         
     	return encounters;
     }
