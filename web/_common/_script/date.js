@@ -158,7 +158,7 @@ function checkDate(dateObj){
   var sDate = dateObj.value;
   if(sDate.length==0) return true;
   sDate = replaceAll(sDate,"-","/");
-  sDate = replaceAll(sDate,".","/");
+  sDate = replaceAll(sDate,"\\.","/");
 
   var sDay = "01", sMonth = "01", sYear = new Date().getYear();
   
