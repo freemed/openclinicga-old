@@ -568,7 +568,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
         
       <%-- focus empty field --%>
            if(document.getElementById("contract").value.length==0) document.getElementById("contractName").focus();
@@ -764,26 +764,24 @@
     document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Calculating";
     
     var url = "<c:url value='/hr/ajax/salary/calculateBonus.jsp'/>?ts="+new Date().getTime();
-    new Ajax.Request(url,
-      {
-        method: "POST",
-        postBody: "SalaryUid="+EditForm.EditSalaryUid.value+
-                  "&bonusType="+document.getElementById("boType").value+
-                  "&bonusPercentage="+document.getElementById("boPercentage").value+
-                  "&begin="+document.getElementById("beginDate").value+
-                  "&end="+document.getElementById("endDate").value+
-                  "&salary="+document.getElementById("salary").value+
-                  "&salaryPeriod="+document.getElementById("salaryPeriod").value,
-        onSuccess: function(resp){
-          var data = eval("("+resp.responseText+")");          
-          $("boAmount").value = data.value;            
-          $("divMessage").innerHTML = data.message;
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/salary/calculateBonus.jsp' : "+resp.responseText.trim();
-        }
+    new Ajax.Request(url,{
+      method: "POST",
+      postBody: "SalaryUid="+EditForm.EditSalaryUid.value+
+                "&bonusType="+document.getElementById("boType").value+
+                "&bonusPercentage="+document.getElementById("boPercentage").value+
+                "&begin="+document.getElementById("beginDate").value+
+                "&end="+document.getElementById("endDate").value+
+                "&salary="+document.getElementById("salary").value+
+                "&salaryPeriod="+document.getElementById("salaryPeriod").value,
+      onSuccess: function(resp){
+        var data = eval("("+resp.responseText+")");          
+        $("boAmount").value = data.value;            
+        $("divMessage").innerHTML = data.message;
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'hr/ajax/salary/calculateBonus.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
   
   <%-- CALCULATE OTHER INCOME --%>
@@ -797,20 +795,18 @@
                      "&end="+document.getElementById("endDate").value+
                      "&salary="+document.getElementById("salary").value+
                      "&salaryPeriod="+document.getElementById("salaryPeriod").value;    
-    new Ajax.Request(url,
-      {
-        method: "POST",
-        postBody: parameters,
-        onSuccess: function(resp){
-          var data = eval("("+resp.responseText+")");          
-          $("oiAmount").value = data.value;            
-          $("divMessage").innerHTML = data.message;
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/salary/calculateOtherIncome.jsp' : "+resp.responseText.trim();
-        }
+    new Ajax.Request(url,{
+      method: "POST",
+      postBody: parameters,
+      onSuccess: function(resp){
+        var data = eval("("+resp.responseText+")");          
+        $("oiAmount").value = data.value;            
+        $("divMessage").innerHTML = data.message;
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'hr/ajax/salary/calculateOtherIncome.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
   
   <%-- CALCULATE DEDUCTION --%>
@@ -818,25 +814,23 @@
     document.getElementById("divMessage").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Calculating";
     
     var url = "<c:url value='/hr/ajax/salary/calculateDeduction.jsp'/>?ts="+new Date().getTime();
-    new Ajax.Request(url,
-      {
-        method: "POST",
-        postBody: "SalaryUid="+EditForm.EditSalaryUid.value+
-                  "&deductionType="+document.getElementById("deType").value+
-                  "&begin="+document.getElementById("beginDate").value+
-                  "&end="+document.getElementById("endDate").value+
-                  "&salary="+document.getElementById("salary").value+
-                  "&salaryPeriod="+document.getElementById("salaryPeriod").value,
-        onSuccess: function(resp){
-          var data = eval("("+resp.responseText+")");          
-          $("deAmount").value = data.value;            
-          $("divMessage").innerHTML = data.message;
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/salary/calculateDeduction.jsp' : "+resp.responseText.trim();
-        }
+    new Ajax.Request(url,{
+      method: "POST",
+      postBody: "SalaryUid="+EditForm.EditSalaryUid.value+
+                "&deductionType="+document.getElementById("deType").value+
+                "&begin="+document.getElementById("beginDate").value+
+                "&end="+document.getElementById("endDate").value+
+                "&salary="+document.getElementById("salary").value+
+                "&salaryPeriod="+document.getElementById("salaryPeriod").value,
+      onSuccess: function(resp){
+        var data = eval("("+resp.responseText+")");          
+        $("deAmount").value = data.value;            
+        $("divMessage").innerHTML = data.message;
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'hr/ajax/salary/calculateDeduction.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
     
   <%-- SEARCH CONTRACT --%>
@@ -1040,7 +1034,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTranNoLink("web.manage","dataMissing",sWebLanguage)%>');
         
       <%-- focus empty field --%>
            if(EditForm.beBegin.value.length==0) EditForm.beBegin.focus();
@@ -1116,7 +1110,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
     
       <%-- focus empty field --%>
            if(EditForm.beBegin.value.length==0) EditForm.beBegin.focus();
@@ -1390,7 +1384,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
         
       <%-- focus empty field --%>
            if(EditForm.boBegin.value.length==0) EditForm.boBegin.focus();
@@ -1469,7 +1463,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
     
       <%-- focus empty field --%>
            if(EditForm.boBegin.value.length==0) EditForm.boBegin.focus();
@@ -1729,7 +1723,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
         
       <%-- focus empty field --%>
            if(EditForm.oiBegin.value.length==0) EditForm.oiBegin.focus();
@@ -1805,7 +1799,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
     
       <%-- focus empty field --%>
            if(EditForm.oiBegin.value.length==0) EditForm.oiBegin.focus();
@@ -2061,7 +2055,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
         
       <%-- focus empty field --%>
            if(EditForm.deBegin.value.length==0) EditForm.deBegin.focus();
@@ -2137,7 +2131,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
     
       <%-- focus empty field --%>
            if(EditForm.deBegin.value.length==0) EditForm.deBegin.focus();

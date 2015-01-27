@@ -682,7 +682,7 @@
               }
             }  
             else if(document.getElementById('registrationstatus')!=undefined){
-              document.getElementById('registrationstatus').innerHTML = '<b><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("0")?"<img src=\""+sCONTEXTPATH+"/_img/checked.png\"/>":"<img src=\""+sCONTEXTPATH+"/_img/icons/icon_error.jpg\"/>"%><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("")?" "+getTranNoLink("lookup","unverified",sWebLanguage):" "+getTranNoLink("lookup","status."+thisUser.getParameter("registrationstatus"),sWebLanguage)+" ("+thisUser.getParameter("registrationstatusupdatetime")+")"%></b>';
+              document.getElementById('registrationstatus').innerHTML = '<b><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("0")?"<img src=\""+sCONTEXTPATH+"/_img/themes/default/checked.png\"/>":"<img src=\""+sCONTEXTPATH+"/_img/icons/icon_error.jpg\"/>"%><%=thisUser.getParameter("registrationstatus").equalsIgnoreCase("")?" "+getTranNoLink("lookup","unverified",sWebLanguage):" "+getTranNoLink("lookup","status."+thisUser.getParameter("registrationstatus"),sWebLanguage)+" ("+thisUser.getParameter("registrationstatusupdatetime")+")"%></b>';
               document.getElementById('councillookup').style.visibility = 'visible';
             }
           }

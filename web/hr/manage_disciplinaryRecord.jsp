@@ -147,7 +147,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
         
       <%-- focus empty field --%>
            if(document.getElementById("date").value.length==0) document.getElementById("date").focus();

@@ -144,40 +144,38 @@
         document.getElementById("buttonDelete").disabled = true;
         document.getElementById("buttonNew").disabled = true;
         
-        new Ajax.Request(url,
-          {
-            method: "POST",
-            postBody: "EditCareerUid="+EditForm.EditCareerUid.value+
-                      "&PersonId=<%=activePatient.personid%>"+
-                      "&careerBegin="+document.getElementById("careerBegin").value+
-                      "&careerEnd="+document.getElementById("careerEnd").value+
-                      "&contractUid="+document.getElementById("contract").value+
-                      "&position="+document.getElementById("position").value+
-                      "&serviceUid="+document.getElementById("service").value+
-                      "&grade="+document.getElementById("grade").value+
-                      "&status="+document.getElementById("status").value+
-                      "&comment="+document.getElementById("comment").value,
-            onSuccess: function(resp){
-              var data = eval("("+resp.responseText+")");
-              $("divMessage").innerHTML = data.message;
+        new Ajax.Request(url,{
+          method: "POST",
+          postBody: "EditCareerUid="+EditForm.EditCareerUid.value+
+                    "&PersonId=<%=activePatient.personid%>"+
+                    "&careerBegin="+document.getElementById("careerBegin").value+
+                    "&careerEnd="+document.getElementById("careerEnd").value+
+                    "&contractUid="+document.getElementById("contract").value+
+                    "&position="+document.getElementById("position").value+
+                    "&serviceUid="+document.getElementById("service").value+
+                    "&grade="+document.getElementById("grade").value+
+                    "&status="+document.getElementById("status").value+
+                    "&comment="+document.getElementById("comment").value,
+          onSuccess: function(resp){
+            var data = eval("("+resp.responseText+")");
+            $("divMessage").innerHTML = data.message;
 
-              loadCareers();
-              newCareer();
+            loadCareers();
+            newCareer();
               
-              //EditForm.EditCareerUid.value = data.newUid;
-              document.getElementById("buttonSave").disabled = false;
-              document.getElementById("buttonDelete").disabled = false;
-              document.getElementById("buttonNew").disabled = false;
-            },
-            onFailure: function(resp){
-              $("divMessage").innerHTML = "Error in 'hr/ajax/career/saveCareer.jsp' : "+resp.responseText.trim();
-            }
+            //EditForm.EditCareerUid.value = data.newUid;
+            document.getElementById("buttonSave").disabled = false;
+            document.getElementById("buttonDelete").disabled = false;
+            document.getElementById("buttonNew").disabled = false;
+          },
+          onFailure: function(resp){
+            $("divMessage").innerHTML = "Error in 'hr/ajax/career/saveCareer.jsp' : "+resp.responseText.trim();
           }
-        );
+        });
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
       
       <%-- focus empty field --%>
            if(document.getElementById("careerBegin").value.length==0) document.getElementById("careerBegin").focus();

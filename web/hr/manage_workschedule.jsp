@@ -648,7 +648,7 @@
           <%-- day : hours --%>
           if(okToSubmit){
             if(document.getElementById("dayScheduleHours").value.length==0){
-                        window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                        alertDialog("web.manage","dataMissing");
               document.getElementById("dayScheduleHours").focus();
               okToSubmit = false;
             }
@@ -658,7 +658,7 @@
           <%-- week : hours
           if(okToSubmit){
             if(document.getElementById("tbDuration").value.length==0){
-                        window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                        alertDialog("web.manage","dataMissing");
               document.getElementById("tbDuration").focus();  
               okToSubmit = false;                    
             }
@@ -669,7 +669,7 @@
           <%-- month : hours --%>
           if(okToSubmit){
             if(document.getElementById("monthScheduleHours").value.length==0){
-                        window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                        alertDialog("web.manage","dataMissing");
               document.getElementById("monthScheduleHours").focus();    
               okToSubmit = false;
             }
@@ -718,39 +718,37 @@
           sParameters+= "&scheduleType=month";
         }
         
-        new Ajax.Request(url,
-          {
-            method: "POST",
-            postBody: sParameters,                        
-            onSuccess: function(resp){
-              var data = eval("("+resp.responseText+")");
-              $("divMessage").innerHTML = data.message;
+        new Ajax.Request(url,{
+          method: "POST",
+          postBody: sParameters,                        
+          onSuccess: function(resp){
+            var data = eval("("+resp.responseText+")");
+            $("divMessage").innerHTML = data.message;
 
-              if(document.getElementById("EditScheduleUid").value=="-1"){
-            	addSchedulePeriod(document.getElementById("EditScheduleUid").value);
-              }
-              else{
-            	var sPeriod = document.getElementById("begin").value+"_"+document.getElementById("end").value;
-                updateSchedulePeriod(document.getElementById("EditScheduleUid").value,sPeriod);
-              }
-              
-              loadWorkschedules();
-              newWorkschedule();
-              
-              //EditForm.EditScheduleUid.value = data.newUid;
-              document.getElementById("buttonSave").disabled = false;
-              document.getElementById("buttonDelete").disabled = false;
-              document.getElementById("buttonNew").disabled = false;
-            },
-            onFailure: function(resp){
-              $("divMessage").innerHTML = "Error in 'hr/ajax/workschedule/saveWorkschedule.jsp' : "+resp.responseText.trim();
+            if(document.getElementById("EditScheduleUid").value=="-1"){
+              addSchedulePeriod(document.getElementById("EditScheduleUid").value);
             }
+            else{
+              var sPeriod = document.getElementById("begin").value+"_"+document.getElementById("end").value;
+              updateSchedulePeriod(document.getElementById("EditScheduleUid").value,sPeriod);
+            }
+              
+            loadWorkschedules();
+            newWorkschedule();
+              
+            //EditForm.EditScheduleUid.value = data.newUid;
+            document.getElementById("buttonSave").disabled = false;
+            document.getElementById("buttonDelete").disabled = false;
+            document.getElementById("buttonNew").disabled = false;
+          },
+          onFailure: function(resp){
+            $("divMessage").innerHTML = "Error in 'hr/ajax/workschedule/saveWorkschedule.jsp' : "+resp.responseText.trim();
           }
-        );
+        });
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
       
       <%-- focus empty field --%>
       if(document.getElementById("fte").selectedIndex==0) document.getElementById("fte").focus();          
@@ -762,20 +760,18 @@
     document.getElementById("divWorkschedules").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br>Loading..";            
     var url = "<c:url value='/hr/ajax/workschedule/getWorkschedules.jsp'/>?ts="+new Date().getTime();
   
-    new Ajax.Updater("divWorkschedules",url,
-      {
-        method: "GET",
-        evalScripts: true,
-        parameters: "PatientId=<%=activePatient.personid%>",
-        onSuccess: function(resp){
-          $("divWorkschedules").innerHTML = resp.responseText;
-          setTimeout("sortables_init()",500);
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/workschedule/getWorkschedules.jsp' : "+resp.responseText.trim();
-        }
+    new Ajax.Updater("divWorkschedules",url,{
+      method: "GET",
+      evalScripts: true,
+      parameters: "PatientId=<%=activePatient.personid%>",
+      onSuccess: function(resp){
+        $("divWorkschedules").innerHTML = resp.responseText;
+        setTimeout("sortables_init()",500);
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'hr/ajax/workschedule/getWorkschedules.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }  
   
   var periodsWithSchedule = new Array();
@@ -786,7 +782,7 @@
 	
     for(var i=0; i<periodsWithSchedule.length && scheduleFound==false; i++){
       if(periodsWithSchedule[i].indexOf(scheduleUid+"_")==0){
-    	  scheduleFound = true;
+    	scheduleFound = true;
       }
     }
 
@@ -821,79 +817,77 @@
     hideAllSchedules();
     var url = "<c:url value='/hr/ajax/workschedule/getWorkschedule.jsp'/>?ts="+new Date().getTime();
     
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "ScheduleUid="+scheduleUid,
-        onSuccess: function(resp){
-          var data = eval("("+resp.responseText+")");
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "ScheduleUid="+scheduleUid,
+      onSuccess: function(resp){
+        var data = eval("("+resp.responseText+")");
 
-          $("EditScheduleUid").value = scheduleUid;
-          $("begin").value = data.begin;
-          $("end").value = data.end;
+        $("EditScheduleUid").value = scheduleUid;
+        $("begin").value = data.begin;
+        $("end").value = data.end;
           
-          <%-- fte --%>
-          for(var i=0; i<$("fte").options.length; i++){
-            if($("fte").options[i].text==data.fte){
-              $("fte").selectedIndex = i;
-            }
+        <%-- fte --%>
+        for(var i=0; i<$("fte").options.length; i++){
+          if($("fte").options[i].text==data.fte){
+            $("fte").selectedIndex = i;
           }
-          
-          <%-- open tr --%>
-               if(data.type=="day")   document.getElementById("dayScheduleTr").style.display = "block";
-          else if(data.type=="week")  document.getElementById("weekScheduleTr").style.display = "block";
-          else if(data.type=="month") document.getElementById("monthScheduleTr").style.display = "block";
-                    
-          <%-- type --%>
-               if(data.type=="day")   document.getElementById("scheduleTypeDay").checked = true;
-          else if(data.type=="week")  document.getElementById("scheduleTypeWeek").checked = true;
-          else if(data.type=="month") document.getElementById("scheduleTypeMonth").checked = true;
-          
-          <%-- schedule --%>
-          if(data.type=="day"){
-            $("dayScheduleStart").value = data.dayScheduleStart; 
-            $("dayScheduleEnd").value = data.dayScheduleEnd; 
-            $("dayScheduleHours").value = data.dayScheduleHours;              
-          }
-          else if(data.type=="week"){
-            <%-- weekScheduleType --%>
-            for(var i=0; i<$("weekScheduleType").options.length; i++){
-              if($("weekScheduleType").options[i].value==data.weekScheduleType){
-                $("weekScheduleType").selectedIndex = i;
-              }
-            }
-              
-            document.getElementById("timeBlocks").value = data.weekSchedule;
-            displayTimeBlocks();
-          }
-          else if(data.type=="month"){
-            <%-- monthScheduleType --%>
-            for(var i=0; i<$("monthScheduleType").options.length; i++){
-              if($("monthScheduleType").options[i].value==data.monthScheduleType){
-                $("monthScheduleType").selectedIndex = i;
-              }
-            }
-               
-            $("monthScheduleHours").value = data.monthScheduleHours;
-          }
-          
-          document.getElementById("divMessage").innerHTML = ""; 
-          resizeAllTextareas(8);
-
-          <%-- display hidden buttons --%>
-          document.getElementById("buttonDelete").style.visibility = "visible";
-          document.getElementById("buttonNew").style.visibility = "visible";
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/workschedule/getWorkschedule.jsp' : "+resp.responseText.trim();
         }
+          
+        <%-- open tr --%>
+             if(data.type=="day")   document.getElementById("dayScheduleTr").style.display = "block";
+        else if(data.type=="week")  document.getElementById("weekScheduleTr").style.display = "block";
+        else if(data.type=="month") document.getElementById("monthScheduleTr").style.display = "block";
+                    
+        <%-- type --%>
+             if(data.type=="day")   document.getElementById("scheduleTypeDay").checked = true;
+        else if(data.type=="week")  document.getElementById("scheduleTypeWeek").checked = true;
+        else if(data.type=="month") document.getElementById("scheduleTypeMonth").checked = true;
+          
+        <%-- schedule --%>
+        if(data.type=="day"){
+          $("dayScheduleStart").value = data.dayScheduleStart; 
+          $("dayScheduleEnd").value = data.dayScheduleEnd; 
+          $("dayScheduleHours").value = data.dayScheduleHours;              
+        }
+        else if(data.type=="week"){
+          <%-- weekScheduleType --%>
+          for(var i=0; i<$("weekScheduleType").options.length; i++){
+            if($("weekScheduleType").options[i].value==data.weekScheduleType){
+              $("weekScheduleType").selectedIndex = i;
+            }
+          }
+              
+          document.getElementById("timeBlocks").value = data.weekSchedule;
+          displayTimeBlocks();
+        }
+        else if(data.type=="month"){
+          <%-- monthScheduleType --%>
+          for(var i=0; i<$("monthScheduleType").options.length; i++){
+            if($("monthScheduleType").options[i].value==data.monthScheduleType){
+              $("monthScheduleType").selectedIndex = i;
+            }
+          }
+             
+          $("monthScheduleHours").value = data.monthScheduleHours;
+        }
+         
+        document.getElementById("divMessage").innerHTML = ""; 
+        resizeAllTextareas(8);
+
+        <%-- display hidden buttons --%>
+        document.getElementById("buttonDelete").style.visibility = "visible";
+        document.getElementById("buttonNew").style.visibility = "visible";
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'hr/ajax/workschedule/getWorkschedule.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
   
   <%-- DELETE WORKSCHEDULE --%>
   function deleteWorkschedule(){   
-      if(yesnoDeleteDialog()){
+    if(yesnoDeleteDialog()){
       var url = "<c:url value='/hr/ajax/workschedule/deleteWorkschedule.jsp'/>?ts="+new Date().getTime();
 
       document.getElementById("buttonSave").disabled = true;
@@ -1320,7 +1314,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
       
       <%-- focus empty field --%>
       /*
@@ -1430,7 +1424,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
     
       <%-- focus empty field --%>
       /*

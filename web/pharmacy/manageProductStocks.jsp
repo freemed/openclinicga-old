@@ -1084,7 +1084,7 @@ public double getLastYearsAveragePrice(Product product){
        !transactionForm.EditBegin.value.length>0 ||
        !transactionForm.EditDefaultImportance.value.length>0){
       maySubmit = false;
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
     }
     else{
       <%-- check levels --%>
@@ -1225,7 +1225,7 @@ public double getLastYearsAveragePrice(Product product){
       transactionForm.submit();
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
     }
   }
 

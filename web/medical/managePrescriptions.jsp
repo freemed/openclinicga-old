@@ -1245,7 +1245,7 @@
     }
     else{
       maySubmit = false;
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
     }
 
     return maySubmit;
@@ -1352,7 +1352,7 @@
       transactionForm.submit();
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
     }
   }
 

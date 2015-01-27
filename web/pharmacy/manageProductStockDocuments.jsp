@@ -340,7 +340,7 @@
       else if(document.getElementById("documentdestination").value.length==0) document.getElementById("documentdestinationtext").focus();
 	  else if(document.getElementById("documentdate").value.length==0) document.getElementById("documentdate").focus();
 			  
-	            window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+	  alertDialog("web.manage","dataMissing");
 	}
   }
 	
@@ -353,7 +353,7 @@
   }
 	
   function deleteOperation(uid){
-      if(yesnoDeleteDialog()){
+    if(yesnoDeleteDialog()){
       window.location.href='<c:url value="/main.jsp"/>?Page=pharmacy/manageProductStockDocuments.jsp&ts=<%=getTs()%>&doaction=edit&deleteoperation='+uid+'&documentuid=<%=sUid%>';
     }
   }

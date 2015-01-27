@@ -654,40 +654,6 @@
         return sReturn;
     }
 
-    /*
-    //--- GET ITEM TYPE ---------------------------------------------------------------------------
-    // should be named 'getItemValue'
-    public String getItemType(Collection collection, String sItemType){
-    	Debug.println("\nsItemType : "+sItemType); /////////
-        String sText = "";
-        ItemVO item;
-        Object[] aItems = collection.toArray();
-        int i, y;
-
-        for(i=1; i<6; i++){
-            for(y=0; y<aItems.length; y++){
-                item = (ItemVO)aItems[y];
-                if(item.getType().toLowerCase().equals(sItemType.toLowerCase()+i)){
-                    sText+= checkString(item.getValue());
-                }
-            }
-        }
-
-        if(sText.trim().length() == 0){
-            for(y=0; y<aItems.length; y++){
-                item = (ItemVO)aItems[y];
-                if(item.getType().toLowerCase().equals(sItemType.toLowerCase())){
-                    sText+= checkString(item.getValue());
-                }
-            }
-        }
-
-    	Debug.println("DONE : "+sText); /////////
-        return sText;
-    }
-    */
-
-    // new version (old : above)
     //--- GET ITEM TYPE ---------------------------------------------------------------------------
     // should be named 'getItemValue'
     public String getItemType(Collection collection, String sItemType){

@@ -219,32 +219,30 @@
       document.getElementById("buttonSave").disabled = true;
       document.getElementById("buttonClear").disabled = true;
       
-      new Ajax.Request(url,
-        {
-          method: "POST",
-          postBody: "EditSkillUid="+(EditForm.EditSkillUid.value.length > 0?EditForm.EditSkillUid.value:"-1")+
-                    "&PersonId=<%=activePatient.personid%>"+                        
-                    "&languages="+document.getElementById("languages").value+
-                    "&drivingLicense="+document.getElementById("drivingLicense").value+
-                    "&itOffice="+document.getElementById("itOffice").value+
-                    "&itInternet="+document.getElementById("itInternet").value+
-                    "&itOther="+document.getElementById("itOther").value+
-                    "&communicationSkills="+document.getElementById("communicationSkills").value+
-                    "&stressResistance="+document.getElementById("stressResistance").value+
-                    "&comment="+document.getElementById("comment").value,
-          onSuccess: function(resp){
-            var data = eval("("+resp.responseText+")");
-            $("divMessage").innerHTML = data.message;
+      new Ajax.Request(url,{
+        method: "POST",
+        postBody: "EditSkillUid="+(EditForm.EditSkillUid.value.length > 0?EditForm.EditSkillUid.value:"-1")+
+                  "&PersonId=<%=activePatient.personid%>"+                        
+                  "&languages="+document.getElementById("languages").value+
+                  "&drivingLicense="+document.getElementById("drivingLicense").value+
+                  "&itOffice="+document.getElementById("itOffice").value+
+                  "&itInternet="+document.getElementById("itInternet").value+
+                  "&itOther="+document.getElementById("itOther").value+
+                  "&communicationSkills="+document.getElementById("communicationSkills").value+
+                  "&stressResistance="+document.getElementById("stressResistance").value+
+                  "&comment="+document.getElementById("comment").value,
+        onSuccess: function(resp){
+          var data = eval("("+resp.responseText+")");
+          $("divMessage").innerHTML = data.message;
                       
-            EditForm.EditSkillUid.value = data.newUid;
-            document.getElementById("buttonSave").disabled = false;
-            document.getElementById("buttonClear").disabled = false;
-          },
-          onFailure: function(resp){
-            $("divMessage").innerHTML = "Error in 'hr/ajax/skills/saveSkill.jsp' : "+resp.responseText.trim();
-          }
+          EditForm.EditSkillUid.value = data.newUid;
+          document.getElementById("buttonSave").disabled = false;
+          document.getElementById("buttonClear").disabled = false;
+        },
+        onFailure: function(resp){
+          $("divMessage").innerHTML = "Error in 'hr/ajax/skills/saveSkill.jsp' : "+resp.responseText.trim();
         }
-      );
+      });
     }
   }
     
@@ -252,37 +250,35 @@
   function displaySkill(){          
     var url = "<c:url value='/hr/ajax/skills/getSkill.jsp'/>?ts="+new Date().getTime();
     
-    new Ajax.Request(url,
-      {
-        method: "GET",
-        parameters: "PersonId=<%=activePatient.personid%>",
-        onSuccess: function(resp){
-          var data = eval("("+resp.responseText+")");
+    new Ajax.Request(url,{
+      method: "GET",
+      parameters: "PersonId=<%=activePatient.personid%>",
+      onSuccess: function(resp){
+        var data = eval("("+resp.responseText+")");
 
-          $("EditSkillUid").value = data.skillUid;
-          $("languages").value = data.languages.unhtmlEntities();
-          displayLanguageSkills();
+        $("EditSkillUid").value = data.skillUid;
+        $("languages").value = data.languages.unhtmlEntities();
+        displayLanguageSkills();
           
-          $("drivingLicense").value = data.drivingLicense.unhtmlEntities();
-          $("itOffice").value = data.itOffice;
-          $("itInternet").value = data.itInternet;
-          $("itOther").value = replaceAll(data.itOther,"<br>","\n");
-          $("communicationSkills").value = data.communicationSkills.unhtmlEntities();
-          $("stressResistance").value = data.stressResistance;
-          $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
+        $("drivingLicense").value = data.drivingLicense.unhtmlEntities();
+        $("itOffice").value = data.itOffice;
+        $("itInternet").value = data.itInternet;
+        $("itOther").value = replaceAll(data.itOther,"<br>","\n");
+        $("communicationSkills").value = data.communicationSkills.unhtmlEntities();
+        $("stressResistance").value = data.stressResistance;
+        $("comment").value = replaceAll(data.comment.unhtmlEntities(),"<br>","\n");
                         
-          document.getElementById("divMessage").innerHTML = ""; 
-          resizeAllTextareas(8);
+        document.getElementById("divMessage").innerHTML = ""; 
+        resizeAllTextareas(8);
 
-          <%-- display hidden buttons --%>
-          document.getElementById("buttonSave").style.visibility = "visible";
-          document.getElementById("buttonClear").style.visibility = "visible";
-        },
-        onFailure: function(resp){
-          $("divMessage").innerHTML = "Error in 'hr/ajax/skills/getSkill.jsp' : "+resp.responseText.trim();
-        }
+        <%-- display hidden buttons --%>
+        document.getElementById("buttonSave").style.visibility = "visible";
+        document.getElementById("buttonClear").style.visibility = "visible";
+      },
+      onFailure: function(resp){
+        $("divMessage").innerHTML = "Error in 'hr/ajax/skills/getSkill.jsp' : "+resp.responseText.trim();
       }
-    );
+    });
   }
   
   <%-- CLEAR SKILL --%>
@@ -499,7 +495,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
    
       if(EditForm.lsLanguage.value.length==0) EditForm.lsLanguage.focus();
       else                                    EditForm.lsSpoken.focus();
@@ -572,7 +568,7 @@
       EditForm.ButtonUpdateLS.disabled = true;
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
 
       if(EditForm.lsLanguage.value.length==0) EditForm.lsLanguage.focus();
       else                                    EditForm.lsSpoken.focus();

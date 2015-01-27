@@ -162,41 +162,39 @@
         document.getElementById("buttonDelete").disabled = true;
         document.getElementById("buttonNew").disabled = true;
         
-        new Ajax.Request(url,
-          {
-            method: "POST",
-            postBody: "EditLeaveUid="+EditForm.EditLeaveUid.value+
-                      "&PersonId=<%=activePatient.personid%>"+
-                      "&begin="+document.getElementById("begin").value+
-                      "&end="+document.getElementById("end").value+
-                      "&duration="+document.getElementById("duration").value+
-                      "&type="+document.getElementById("type").value+
-                      "&requestDate="+document.getElementById("requestDate").value+
-                      "&authorizationDate="+document.getElementById("authorizationDate").value+
-                      "&authorizedBy="+document.getElementById("authorizedBy").value+
-                      "&episodeCode="+document.getElementById("episodeCode").value+
-                      "&comment="+document.getElementById("comment").value,                          
-            onSuccess: function(resp){
-              var data = eval("("+resp.responseText+")");
-              $("divMessage").innerHTML = data.message;
+        new Ajax.Request(url,{
+          method: "POST",
+          postBody: "EditLeaveUid="+EditForm.EditLeaveUid.value+
+                    "&PersonId=<%=activePatient.personid%>"+
+                    "&begin="+document.getElementById("begin").value+
+                    "&end="+document.getElementById("end").value+
+                    "&duration="+document.getElementById("duration").value+
+                    "&type="+document.getElementById("type").value+
+                    "&requestDate="+document.getElementById("requestDate").value+
+                    "&authorizationDate="+document.getElementById("authorizationDate").value+
+                    "&authorizedBy="+document.getElementById("authorizedBy").value+
+                    "&episodeCode="+document.getElementById("episodeCode").value+
+                    "&comment="+document.getElementById("comment").value,                          
+          onSuccess: function(resp){
+            var data = eval("("+resp.responseText+")");
+            $("divMessage").innerHTML = data.message;
               
-              loadLeaves();
-              newLeave();
+            loadLeaves();
+            newLeave();
               
-              //EditForm.EditLeaveUid.value = data.newUid;
-              document.getElementById("buttonSave").disabled = false;
-              document.getElementById("buttonDelete").disabled = false;
-              document.getElementById("buttonNew").disabled = false;
-            },
-            onFailure: function(resp){
-              $("divMessage").innerHTML = "Error in 'hr/ajax/leave/saveLeave.jsp' : "+resp.responseText.trim();
-            }
+            //EditForm.EditLeaveUid.value = data.newUid;
+            document.getElementById("buttonSave").disabled = false;
+            document.getElementById("buttonDelete").disabled = false;
+            document.getElementById("buttonNew").disabled = false;
+          },
+          onFailure: function(resp){
+            $("divMessage").innerHTML = "Error in 'hr/ajax/leave/saveLeave.jsp' : "+resp.responseText.trim();
           }
-        );
+        });
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
       
       <%-- focus empty field --%>
            if(document.getElementById("begin").value.length==0) document.getElementById("begin").focus();

@@ -621,7 +621,7 @@
        !transactionForm.EditOperationDate.value.length>0 ||
        !transactionForm.EditProductStockUid.value.length>0){
       maySubmit = false;
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
     }
 
     return maySubmit;
@@ -629,7 +629,7 @@
 
   <%-- DO DELETE --%>
   function doDelete(operationUid){
-      if(yesnoDeleteDialog()){
+    if(yesnoDeleteDialog()){
       transactionForm.EditStockUid.value = operationUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();
@@ -705,7 +705,7 @@
       transactionForm.submit();
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
     }
   }
 

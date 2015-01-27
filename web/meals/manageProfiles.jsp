@@ -82,7 +82,7 @@
 	}
     else{
       if($("profileName").value.length==0) $("profileName").focus();	 	
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
     }
   }
   

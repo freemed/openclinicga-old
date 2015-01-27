@@ -289,7 +289,7 @@
     <%-- required fields --%>
     if(!transactionForm.EditProductUid.value.length>0 || !transactionForm.EditProductName.value.length>0){
       maySubmit = false;
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
     }
 
     return maySubmit;
@@ -297,7 +297,7 @@
 
   <%-- DO DELETE PRODUCT --%>
   function doDeleteProduct(productUid){
-      if(yesnoDeleteDialog()){
+    if(yesnoDeleteDialog()){
       transactionForm.EditProductUid.value = productUid;
       transactionForm.Action.value = "delete";
       transactionForm.submit();

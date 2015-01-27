@@ -241,7 +241,7 @@
   function showPrevMonth(){
     if($("DisplayedMonth").value.length==0){
       $("DisplayedMonth").focus();
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
     }
     else{
       var dispMonth = makeDate("01/"+toMonthFormat($("DisplayedMonth").value));
@@ -255,7 +255,7 @@
   function showNextMonth(){
     if($("DisplayedMonth").value.length==0){
       $("DisplayedMonth").focus();
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
     }
     else{
       var dispMonth = makeDate("01/"+toMonthFormat($("DisplayedMonth").value));
@@ -269,7 +269,7 @@
   function showCalendar(sDate){
     if($("DisplayedMonth").value.length==0){
       $("DisplayedMonth").focus();
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
     }
     else{
       var sOrigDate = $("DisplayedMonth").value;
@@ -594,7 +594,7 @@
     if(okToSubmit){
       if(document.getElementById("Begin").value.length==0){
         document.getElementById("Begin").focus();
-                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                  alertDialog("web.manage","dataMissing");
         okToSubmit = false;
       }
     } 
@@ -602,7 +602,7 @@
     if(okToSubmit){
       if(document.getElementById("End").value.length==0){
         document.getElementById("End").focus();
-                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                  alertDialog("web.manage","dataMissing");
         okToSubmit = false;
       }
     }
@@ -742,7 +742,7 @@
     if(okToAdd){
       if(document.getElementById("addDuration").value.length==0){
         document.getElementById("addDuration").focus();
-                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                  alertDialog("web.manage","dataMissing");
         okToAdd = false;
       }
     }
@@ -750,7 +750,7 @@
     if(okToAdd){
       if(document.getElementById("addCode").value.length==0){
         document.getElementById("codeAndLabel").focus();
-                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                  alertDialog("web.manage","dataMissing");
         okToAdd = false;
       }
     }

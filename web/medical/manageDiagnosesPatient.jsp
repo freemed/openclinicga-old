@@ -566,7 +566,7 @@
        && FindDiagnosisForm.FindDiagnosisEncounterName.value==""
        && FindDiagnosisForm.FindDiagnosisAuthor.value==""
        && FindDiagnosisForm.FindDiagnosisAuthorName.value==""){
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
     }
     else{
       FindDiagnosisForm.FindButton.disabled = true;

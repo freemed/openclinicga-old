@@ -4,6 +4,7 @@
                 java.util.Hashtable,
                 java.util.Collections" %>
 <%@include file="/includes/validateUser.jsp"%>
+<%@include file="/includes/commonFunctions.jsp"%>
 <%@page errorPage="/includes/error.jsp"%>
 
 <%=checkPermission("pharmacy.viewordertickets","all",activeUser)%>
@@ -477,7 +478,7 @@
       transactionForm.submit();
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
     }
   }
 
@@ -565,9 +566,7 @@
       window.open(url,"OrderTicketsPDF<%=new java.util.Date().getTime()%>","height=600, width=845, toolbar=yes, status=no, scrollbars=yes, resizable=yes, menubar=yes");
     }
     else{
-      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=selectatleastoneorder";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","selectatleastoneorder",sWebLanguage)%>");
+      alertDialog("web.manage","selectatleastoneorder");
     }
   }
 
@@ -592,9 +591,7 @@
 	  }
 	}
 	else{
-	  var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=selectatleastoneorder";
-	  var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-	  (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","selectatleastoneorder",sWebLanguage)%>");
+	  alertDialog("web.manage","selectAtleastOneOrder");
 	}
   }
 

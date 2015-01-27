@@ -988,7 +988,7 @@
        !transactionForm.EditUnitPrice.value.length>0 ||
        !transactionForm.EditPackageUnits.value.length>0){
       maySubmit = false;
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
     }
 
     <%-- one rule-field specified -> all rule-fields specified --%>
@@ -999,7 +999,7 @@
          !transactionForm.EditTimeUnitCount.value.length > 0 ||
          !transactionForm.EditTimeUnit.value.length > 0){
         maySubmit = false;
-                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+        alertDialog("web.manage","dataMissing");
 
         if(transactionForm.EditUnitsPerTimeUnit.value.length==0){
           transactionForm.EditUnitsPerTimeUnit.focus();
@@ -1103,7 +1103,7 @@
       transactionForm.submit();
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
     }
   }
 

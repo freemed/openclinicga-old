@@ -200,43 +200,41 @@
                           "&diploma="+document.getElementById("diploma").value+
                           "&diplomaDate="+document.getElementById("diplomaDate").value;
       
-       if(document.getElementById("diplomaCode1")!=null){
-         sParameters+= "&diplomaCode1="+document.getElementById("diplomaCode1").value;
-       }
-       if(document.getElementById("diplomaCode2")!=null){
-         sParameters+= "&diplomaCode2="+document.getElementById("diplomaCode2").value;
-       }
-       if(document.getElementById("diplomaCode3")!=null){
-         sParameters+= "&diplomaCode3="+document.getElementById("diplomaCode3").value;
-       }
+        if(document.getElementById("diplomaCode1")!=null){
+          sParameters+= "&diplomaCode1="+document.getElementById("diplomaCode1").value;
+        }
+        if(document.getElementById("diplomaCode2")!=null){
+          sParameters+= "&diplomaCode2="+document.getElementById("diplomaCode2").value;
+        }
+        if(document.getElementById("diplomaCode3")!=null){
+          sParameters+= "&diplomaCode3="+document.getElementById("diplomaCode3").value;
+        }
       
-       sParameters+= "&comment="+document.getElementById("comment").value;
+        sParameters+= "&comment="+document.getElementById("comment").value;
         
-        new Ajax.Request(url,
-          {
-            method: "POST",
-            postBody: sParameters,
-            onSuccess: function(resp){
-              var data = eval("("+resp.responseText+")");
-              $("divMessage").innerHTML = data.message;
+        new Ajax.Request(url,{
+          method: "POST",
+          postBody: sParameters,
+          onSuccess: function(resp){
+            var data = eval("("+resp.responseText+")");
+            $("divMessage").innerHTML = data.message;
 
-              loadTrainings();
-              newTraining();
+            loadTrainings();
+            newTraining();
               
-              //EditForm.EditTrainingUid.value = data.newUid;
-              document.getElementById("buttonSave").disabled = false;
-              document.getElementById("buttonDelete").disabled = false;
-              document.getElementById("buttonNew").disabled = false;
-            },
-            onFailure: function(resp){
-              $("divMessage").innerHTML = "Error in 'hr/ajax/training/saveTraining.jsp' : "+resp.responseText.trim();
-            }
+            //EditForm.EditTrainingUid.value = data.newUid;
+            document.getElementById("buttonSave").disabled = false;
+            document.getElementById("buttonDelete").disabled = false;
+            document.getElementById("buttonNew").disabled = false;
+          },
+          onFailure: function(resp){
+            $("divMessage").innerHTML = "Error in 'hr/ajax/training/saveTraining.jsp' : "+resp.responseText.trim();
           }
-        );
+        });
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
         
       <%-- focus empty field --%>
            if(document.getElementById("begin").value.length==0) document.getElementById("begin").focus();

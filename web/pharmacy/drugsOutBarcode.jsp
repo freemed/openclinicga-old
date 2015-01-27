@@ -73,7 +73,7 @@
               "&ServiceStock="+document.getElementById("servicestock").value+
               "&DrugBarcode="+document.getElementById("drugbarcode").value+
               "&Quantity="+document.getElementById("quantity").value+
-              "&ts="+new Date();
+              "&ts="+new Date().getTime();
     new Ajax.Request(url,{
       method: "GET",
       parameters: "",
