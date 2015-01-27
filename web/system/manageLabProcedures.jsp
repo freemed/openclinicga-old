@@ -261,29 +261,21 @@
 	}
 	
     function ajaxChangeSearchResults(urlForm, SearchForm, moreParams) {
-        document.getElementById('divFindRecords').innerHTML = "<div style='text-align:center'><img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading</div>";
-        var url = urlForm;
-        var params = Form.serialize(SearchForm)+moreParams;
-        var myAjax = new Ajax.Updater(
-                "divFindRecords", url,
-        {
-            evalScripts:true,
-            method: 'post',
-            parameters: params,
-            onload: function() {
-
-            },
-            onSuccess: function(resp) {
-
-
-            },
-            onFailure:function() {
-                $('divFindRecords').innerHTML = "Problem with ajax request !!";
-
-            }
-
-        });
-
+      document.getElementById('divFindRecords').innerHTML = "<div style='text-align:center'><img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/><br/>Loading</div>";
+      var url = urlForm;
+      var params = Form.serialize(SearchForm)+moreParams;
+      var myAjax = new Ajax.Updater("divFindRecords",url,{
+        evalScripts:true,
+        method: 'post',
+        parameters: params,
+        onload: function() {
+        },
+        onSuccess: function(resp) {
+        },
+        onFailure:function() {
+          $('divFindRecords').innerHTML = "Problem with ajax request !!";
+        }
+      });
     }
 
 	<%-- SEARCH REAGENT --%>
@@ -320,12 +312,12 @@
 	       		transactionForm.EditMaxBatchSize.focus();
 	     	}
 
-	                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+	        alertDialog("web.manage","dataMissing");
 	   	}
 	}
 	
 	function deleteLabProcedure(sLabProcedureUid){
-        if(yesnoDeleteDialog()){
+      if(yesnoDeleteDialog()){
 	   	transactionForm.EditLabProcedureUid.value = sLabProcedureUid;
 	   	transactionForm.Action.value = "delete";
 	   	transactionForm.submit();

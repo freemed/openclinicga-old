@@ -245,9 +245,7 @@
 
     }
     else{ 
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=selectasourceitem";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm('<%=getTranNoLink("web.manage","selectasourceitem",sWebLanguage)%>');
+      alertDialog("web.manage","selectASourceitem";
 
       if(transactionForm.EditDestinationItemType.value.length==0){
         transactionForm.EditDestinationItemType.focus();
@@ -361,10 +359,7 @@
     }
 
     if(transactionForm.selectedSourceItemTypes.value.length == 0){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=selectatleastonesourceitem";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm('<%=getTranNoLink("web.manage","selectatleastonesourceitem",sWebLanguage)%>');
-
+      alertDialog("web.manage","selectAtLeastOneSourceitem");
       transactionForm.SourceItemTypeAdd.focus();
     }
     else{

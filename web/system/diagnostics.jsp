@@ -144,9 +144,7 @@
       transactionForm.submit();
     }
     else{
-      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=selectAtLeastOneDiagnostic";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","selectAtLeastOneDiagnostic",sWebLanguage)%>");
+      alertDialog("web.manage","selectAtLeastOneDiagnostic");
     }
   }
 
@@ -157,9 +155,7 @@
       transactionForm.submit();
     }
     else{
-      var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage&labelID=selectAtLeastOneDiagnostic";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","selectAtLeastOneDiagnostic",sWebLanguage)%>");
+      alertDialog("web.manage","selectAtLeastOneDiagnostic");
     }
   }
 

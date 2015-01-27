@@ -150,7 +150,6 @@
                         // get examinations
                         while (iter.hasNext()) {
                             hResults = (Hashtable) iter.next();
-                            System.out.println((String) hResults.get("id")); //////////
                             hExaminations.put(getTran("examination", (String) hResults.get("id"), sWebLanguage), hResults.get("id"));
                         }
 
@@ -167,8 +166,8 @@
                             sKey = getTran("examination", sID, sWebLanguage);
 
                             // alternate row-style
-                            if (sClass.equals("")) sClass = "1";
-                            else sClass = "";
+                            if(sClass.equals("")) sClass = "1";
+                            else                  sClass = "";
 
                             sSelected = "";
 
@@ -316,7 +315,7 @@
                 transactionForm.submit();
               }
               else{
-                          window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
                 transactionForm.EditExamName.focus();
               }
             <%

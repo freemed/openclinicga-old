@@ -813,7 +813,7 @@
             }
         %>
         ){
-                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+        alertDialog("web.manage","dataMissing");
         
              if(editForm.EditLabCode.value.length == 0){ editForm.EditLabCode.focus(); }
         else if(editForm.LabType.selectedIndex == 0){ editForm.LabType.focus(); }

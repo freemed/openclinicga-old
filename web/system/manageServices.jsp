@@ -839,11 +839,7 @@
                   if(transactionForm.EditServiceEmail.value.length > 0){
                     if(!validEmailAddress(transactionForm.EditServiceEmail.value)){
                       maySubmit = false;
-
-                      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=invalidemailaddress";
-                      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","invalidemailaddress",sWebLanguage)%>");
-
+                      alertDialog("web","invalidEmailAddress",sWebLanguage)%>");
                       transactionForm.EditServiceEmail.focus();
                     }
                   }
@@ -854,11 +850,7 @@
                   if(transactionForm.EditContactEmail.value.length > 0){
                     if(!validEmailAddress(transactionForm.EditContactEmail.value)){
                       maySubmit = false;
-
-                      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=invalidemailaddress";
-                      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","invalidemailaddress",sWebLanguage)%>");
-
+                      alertDialog("web","invalidEmailAddress");
                       transactionForm.EditContactEmail.focus();
                     }
                   }
@@ -893,12 +885,12 @@
                       transactionForm.submit();
                     }
                     else{
-                                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                        alertDialog("web.manage","dataMissing");
                         emptyLabelField.focus();
                     }
                   }
                   else{
-                              window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                    alertDialog("web.manage","dataMissing");
                     
                     if(transactionForm.EditServiceCode.value.length==0){
                       transactionForm.EditServiceCode.focus();

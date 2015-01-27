@@ -208,25 +208,25 @@
     </table>
     <%=getTran("Web","colored_fields_are_obligate",sWebLanguage)%>
     <script>
-        transactionForm.EditCareTypeID.focus();
+      transactionForm.EditCareTypeID.focus();
 
-        function doSave(){
-            if(!transactionForm.EditTimeUnit.value.length==0 &&
-               !transactionForm.EditTimeUnitCount.value.length==0 &&
-               !transactionForm.EditUnitsPerTimeUnit.value.length==0 &&
-               !transactionForm.EditCareTypeID.value.length==0){
-                transactionForm.Action.value = "save";
-                transactionForm.submit();
-            }
-            else {
-                          window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
-            }
+      function doSave(){
+        if(!transactionForm.EditTimeUnit.value.length==0 &&
+           !transactionForm.EditTimeUnitCount.value.length==0 &&
+           !transactionForm.EditUnitsPerTimeUnit.value.length==0 &&
+           !transactionForm.EditCareTypeID.value.length==0){
+          transactionForm.Action.value = "save";
+          transactionForm.submit();
         }
+        else{
+          alertDialog("web.manage","dataMissing");
+        }
+      }
 
-        function clearDescriptionRule(){
-            transactionForm.EditUnitsPerTimeUnit.value = '';
-            transactionForm.EditTimeUnitCount.value = '';
-            transactionForm.EditTimeUnit.value = '';
-        }
+      function clearDescriptionRule(){
+        transactionForm.EditUnitsPerTimeUnit.value = '';
+        transactionForm.EditTimeUnitCount.value = '';
+        transactionForm.EditTimeUnit.value = '';
+      }
     </script>
 </form>

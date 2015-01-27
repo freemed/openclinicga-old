@@ -1,6 +1,7 @@
 <%@page import="java.util.StringTokenizer"%>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+<%@include file="/includes/commonFunctions.jsp"%>
 <%=checkPermissionPopup("system.managetranslations","",activeUser)%>
 
 <%
@@ -579,13 +580,7 @@
   <%-- ALERT --%>
   <%
       if(labelAllreadyExists || invalidCharFound){
-          %>
-              <script>
-                var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelValue=<%=msg%>";
-                var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-               (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=msg%>");
-              </script>
-          <%
+          %><script>alertDialogDirectText("<%=msg%>");</script><%
       }
   %>
 </form>
