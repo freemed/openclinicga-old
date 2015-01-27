@@ -220,11 +220,7 @@
       if(!validEmailAddress(PatientEditForm.PEmail.value)){
         maySubmit = false;
         displayGenericAlert = false;
-
-        var popupUrl = "<c:url value="/popup.jsp"/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web&labelID=invalidemailaddress";
-        var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-        (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","invalidemailaddress",sWebLanguage)%>");
-
+        alertDialog("web","invalidemailaddress");
         activateTab('AdminPrivate');
         PatientEditForm.PEmail.focus();
       }
@@ -234,15 +230,15 @@
     for(var i=0; i<aObligatoryFields.length; i++){
       var obligatoryField = document.all(aObligatoryFields[i]);
 
-      if(obligatoryField != null){
-        if(obligatoryField.type == undefined){
-          if(obligatoryField.innerHTML == ""){
+      if(obligatoryField!=null){
+        if(obligatoryField.type==undefined){
+          if(obligatoryField.innerHTML==""){
             maySubmit = false;
             break;
           }
         }
-        else if(obligatoryField.value == ""){
-          if(obligatoryField.type != "hidden"){
+        else if(obligatoryField.value==""){
+          if(obligatoryField.type!="hidden"){
             activateTab('AdminPrivate');
             obligatoryField.focus();
           }

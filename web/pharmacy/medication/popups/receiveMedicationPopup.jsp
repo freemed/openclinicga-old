@@ -372,7 +372,6 @@
   function findsearchsource(sourceid,sourcename){
 	openPopup("/_common/search/searchService.jsp&ts=<%=getTs()%>&VarCode="+sourceid+"&VarText="+sourcename);
   }
-
 </script>
 
 <%
@@ -511,7 +510,7 @@
 	                     	%>
 	                      		<tr> 
 	                      		    <td class="admin"><%=getTran("web","receivecomment",sWebLanguage)%></td>
-	                      		    <td><textarea class='text' name='EditReceiveComment'  id="EditReceiveComment"></textarea></td>
+	                      		    <td><textarea class='text' name='EditReceiveComment' id="EditReceiveComment"></textarea></td>
 	                      		<tr>
 						    <%
                       	}
@@ -523,9 +522,9 @@
                     <%
                     
                         // get previous used values to reuse in javascript
-                        String sPrevUsedSrcDestType  = checkString((String)session.getAttribute("PrevUsedReceiptSrcDestType")),
-                        	sPrevUsedSrcDestUid  = checkString((String)session.getAttribute("PrevUsedReceiptSrcDestUid")),
-                        	sPrevUsedSrcDestName = checkString((String)session.getAttribute("PrevUsedReceiptSrcDestName"));
+                        String sPrevUsedSrcDestType = checkString((String)session.getAttribute("PrevUsedReceiptSrcDestType")),
+                               sPrevUsedSrcDestUid  = checkString((String)session.getAttribute("PrevUsedReceiptSrcDestUid")),
+                        	   sPrevUsedSrcDestName = checkString((String)session.getAttribute("PrevUsedReceiptSrcDestName"));
                         String supplierCode = "";
 
                         if(sPrevUsedSrcDestUid.length()==0){
@@ -725,6 +724,7 @@
   <%-- CHECK STOCK FIELDS --%>
   function checkStockFields(){
     var maySubmit = true;
+    
     <%-- required fields --%>
     if(!transactionForm.EditOperationDescr.value.length>0 ||
        !transactionForm.EditUnitsChanged.value.length>0 ||
@@ -732,7 +732,7 @@
        !transactionForm.EditProductStockUid.value.length>0 ||
        (transactionForm.EditBatchNumber && transactionForm.EditBatchNumber.value.length>0 && transactionForm.EditBatchEnd.value.length==0)){
       maySubmit = false;
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
     }
     
 	if(maySubmit){
