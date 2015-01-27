@@ -248,7 +248,7 @@
                           response.sendRedirect("changePassword.do?ts="+getTs());
                       }
                   }
-
+                  
                   if(noticeTime > -1){
                       double daysLeftTillNotice = ((double)pwdChangeDate+((availability-noticeTime)*millisInDay)-now)/millisInDay;
                       if(daysLeftTillNotice <= 0){

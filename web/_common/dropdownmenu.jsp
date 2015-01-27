@@ -545,17 +545,14 @@
   function doPrint(){
     openPopup("/_common/print/printPatient.jsp&Field=mijn&ts=<%=getTs()%>");
   }
-    
-  function yesnoDeleteDialog(){
-	  return window.showModalDialog?yesnoDialog("Web","areYouSureToDelete"):yesnoDialog('','<%=getTranNoLink("Web","areYouSureToDelete",sWebLanguage)%>');
-  }
 
   function deletepaperprescription(prescriptionuid){
-      if(yesnoDeleteDialog()){
+    if(yesnoDeleteDialog()){
       window.open('<c:url value='/medical/deletePaperPrescription.jsp'/>?ts=<%=getTs()%>&prescriptionuid='+prescriptionuid,"delete","toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=1,height=1,menubar=no");
     }
   }
     
+  <%-- GET POS PRINTER SERVER --%>
   function getPOSPrinterServer(){
     var POSPrinterServer = 'http://localhost/openclinic';
     var url = '<%=MedwanQuery.getInstance().getConfigString("javaPOSServer","http://localhost/openclinic")%>/util/getPOSPrinterServer.jsp';
@@ -636,7 +633,7 @@
     return s;
   }
     
-  <%-- open search in progress popup --%>
+  <%-- OPEN SEARCH IN PROGRESS POPUP --%>
   function openSearchInProgressPopup(){
     var popupWidth = 250;
     var popupHeight = 120;

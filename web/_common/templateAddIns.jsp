@@ -1,4 +1,4 @@
-<%@include file="/includes/validateUser.jsp" %>
+<%@include file="/includes/validateUser.jsp"%>
 <input type="hidden" name="prestationsVerified" value="0" id="prestationsVerified">
 <%
 	// prestations verified
@@ -98,12 +98,7 @@ function checkSaveButton(){
   %>
 
   if(alertAnyway || (sFormBeginStatus!=sFormCurrStatus)){
-	  if(window.showModalDialog){
-		    discardFormData = yesnoDialog("Web.Occup","medwan.common.buttonquestion");
-	  }
-	  else {
-		    discardFormData = yesnoDialog('web','<%=getTranNoLink("Web.Occup","medwan.common.buttonquestion",sWebLanguage)%>');
-	  }
+    discardFormData = yesnoDialog("Web.Occup","medwan.common.buttonquestion");
   }
 
   return discardFormData;
@@ -536,5 +531,3 @@ function printGrowthGraph5To20Year(ageInMonths,gender){
 <%
     }
 %>
-
-

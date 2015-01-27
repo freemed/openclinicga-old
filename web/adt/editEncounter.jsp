@@ -396,6 +396,7 @@
 %>
 
     <%=writeTableHeader("Web.manage","manageEncounters",sWebLanguage,sOther)%>
+    
     <table class='list' border='0' width='100%' cellspacing='1'>
         <%-- type --%>
         <tr>
@@ -438,6 +439,7 @@
                 <input class="text" name="EditEncounterBeginHour" value="<%=sEditEncounterBeginHour%>" size="5" onkeyup='calculateAccomodationDates();' onblur="checkTime(this);calculateAccomodationDates();" onkeypress="keypressTime(this)">
             </td>
         </tr>
+        
         <%-- date end --%>
         <tr>
             <td class="admin"><%=getTran("web","enddate",sWebLanguage)%></td>
@@ -446,12 +448,7 @@
                 <input class="text" name="EditEncounterEndHour" value="<%=sEditEncounterEndHour%>" size="5" onkeyup='calculateAccomodationDates();' onblur="checkTime(this);calculateAccomodationDates();" onkeypress="keypressTime(this)">
             </td>
         </tr>
-        <script>
-          function setTime(field){
-            document.getElementsByName(field)[0].value=new Date().getHours()+":"+(new Date().getMinutes()>10?new Date().getMinutes():"0"+new Date().getMinutes());
-          }
-        </script>
-        
+                
         <%-- origin --%>
         <tr>
             <td class="admin"><%=getTran("openclinic.chuk","urgency.origin",sWebLanguage)%> *</td>
@@ -517,11 +514,9 @@
                     <table width="100%">
                 <%
                     if(tmpEncounter!=null){
-                        Vector transferHistory = tmpEncounter.getTransferHistory();
-                        Encounter.EncounterService encounterService;
                         Hashtable username;
                         
-                        encounterService = tmpEncounter.getLastEncounterService();
+                        Encounter.EncounterService encounterService = tmpEncounter.getLastEncounterService();
                         if(encounterService!=null && encounterService.end==null){
                             username = User.getUserName(encounterService.managerUID);
                             
@@ -535,7 +530,8 @@
                             </tr>
                             <%
                         }
-                        
+
+                        Vector transferHistory = tmpEncounter.getTransferHistory();
                         for(int n=0; n<transferHistory.size(); n++){
                             encounterService = (Encounter.EncounterService)transferHistory.elementAt(n);
                             username = User.getUserName(encounterService.managerUID);
@@ -731,9 +727,7 @@
                   EditEncounterForm.CloseActiveEncounter.value = "CLOSE";
                 }
 
-                var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts=<%=getTs()%>&labelType=adt.encounter&labelID=encounter_close";
-                var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("adt.encounter","encounter_close",sWebLanguage)%>");
+                var answer = confirmDialog("adt.encounter","encounter_close");
                 if(answer){
                   window.location.href='<c:url value="/main.do?Page=adt/editEncounter.jsp&EditEncounterUID="/><%=activeEncounter.getUid()%>';
                 }
@@ -757,7 +751,13 @@
   }
   checkEncounterType();
 
-  <%-- enable/disable button to choose a bed if service is chosen or not --%>
+  <%-- SET TIME --%>
+  function setTime(field){
+    document.getElementsByName(field)[0].value = (new Date().getHours()>10?new Date().getHours():"0"+new Date().getHours())+":"+
+                                                 (new Date().getMinutes()>10?new Date().getMinutes():"0"+new Date().getMinutes());
+  }
+  
+  <%-- SET BED BUTTON --%>
   function setBedButton(){
     if(EditEncounterForm.EditEncounterService.value=="" || EditEncounterForm.EditEncounterServiceName.value==""){
       EditEncounterForm.SearchBedButton.disabled = true;
@@ -920,18 +920,21 @@
   function calculateAccomodationDates(){
     if(EditEncounterForm.EditEncounterEnd.value.length>0 && EditEncounterForm.EditEncounterEndHour.value.length==0){
       EditEncounterForm.EditEncounterEndHour.value = "12:00";
-      if(EditEncounterForm.EditEncounterEnd.value.split("/").length==3 && EditEncounterForm.EditEncounterEnd.value.split("/")[2].length==4){
-        if(isDate(EditEncounterForm.EditEncounterEnd.value.split("/")[0],EditEncounterForm.EditEncounterEnd.value.split("/")[1],EditEncounterForm.EditEncounterEnd.value.split("/")[2])){
-          var end = makeDate(EditEncounterForm.EditEncounterEnd.value);
-          var toDay = new Date();
-          if(end.getYear()==toDay.getYear() && end.getMonth()==toDay.getMonth() && end.getDay()==toDay.getDay()){
+      
+      var sEndDate = EditEncounterForm.EditEncounterEnd.value;
+      var dateParts = sEndDate.split("/");
+      if(dateParts.length==3 && dateParts[2].length==4){
+        if(isDate(dateParts[0],dateParts[1],dateParts[2])){
+          var end = makeDate(sEndDate);
+          var today = new Date();
+          if(end.getYear()==today.getYear() && end.getMonth()==today.getMonth() && end.getDay()==today.getDay()){
             setTime("EditEncounterEndHour");
           }
         }
       }
     }
     else if(EditEncounterForm.EditEncounterEnd.value.length==0){
-      EditEncounterForm.EditEncounterEndHour.value="";
+      EditEncounterForm.EditEncounterEndHour.value = "";
     }
         
     if(EditEncounterForm.EditEncounterBegin.value.split("/").length==3){
@@ -947,6 +950,7 @@
             end = makeDate(EditEncounterForm.EditEncounterEnd.value);
           }
         }
+        
         if(EditEncounterForm.EditEncounterEndHour.value.split(":").length==2){
           end.setTime(end.getTime()+EditEncounterForm.EditEncounterEndHour.value.split(":")[0]*60*60000+EditEncounterForm.EditEncounterEndHour.value.split(":")[1]*60000);
         }
@@ -960,7 +964,7 @@
           var days = Math.ceil((end.getTime()-begin.getTime())/(24*3600*1000));
           var accounted = <%=Encounter.getAccountedAccomodationDays(sEditEncounterUID)%>;
           if(document.getElementById("d2")!=null){
-            document.getElementById("d2").innerHTML=Math.round(accounted*100/days);
+            document.getElementById("d2").innerHTML = Math.round(accounted*100/days);
           }
                     
           if(days!=accounted && Math.ceil(days-accounted)!=0){
@@ -970,12 +974,12 @@
             }
           }
           else{
-            EditEncounterForm.DoAccountAccomodationDays.checked=false;
+            EditEncounterForm.DoAccountAccomodationDays.checked = false;
             hide("notAccountedAccomodation");
           }
         }
         else{
-          EditEncounterForm.DoAccountAccomodationDays.checked=false;
+          EditEncounterForm.DoAccountAccomodationDays.checked = false;
           hide("notAccountedAccomodation");
         }
       }
@@ -983,7 +987,7 @@
   }
 
   <%-- CHECK ENCOUNTER TYPE --%>
-  <%-- check type and display right inputfields --%>
+  <%-- display inputfields according to encounter type --%>
   function checkEncounterType(){
     if(EditEncounterForm.EditEncounterType.value=="admission"){
       //document.getElementById("Service").style.display = "block";

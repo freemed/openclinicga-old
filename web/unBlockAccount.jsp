@@ -115,17 +115,17 @@
             </tr>
 
             <%-- REQUEST ID --%>
+            <%
+                DecimalFormat deci = new DecimalFormat();
+                deci.setGroupingSize(3);
+                deci.setGroupingUsed(true);
+                String sRequestIdFormatted = deci.format(Integer.parseInt(sRequestId));
+            %>
             <tr>
                 <td class="admin"><%=ScreenHelper.getTranNoLink("Web.manage","unblockrequestid","e")%></td>
                 <td class="admin2">
-                    <%
-                        DecimalFormat deci = new DecimalFormat();
-                        deci.setGroupingSize(3);
-                        deci.setGroupingUsed(true);
-                        String sRequestIdFormatted = deci.format(Integer.parseInt(sRequestId));
-                    %>
-                    <input type="hidden" name="requestId" value="<%=sRequestId%>">
                     <input class='text' type='text' name='requestIdFormatted' size='20' maxLength='9' value='<%=sRequestIdFormatted%>' READONLY/>
+                    <input type="hidden" name="requestId" value="<%=sRequestId%>">
                 </td>
             </tr>
 
@@ -156,6 +156,7 @@
         <script>
           document.getElementsByName('login')[0].focus();
 
+          <%-- DO UNBLOCK --%>
           function doUnblock(){
             if((unblockForm.login.value.length>0 || unblockForm.ip.value.length>0) &&
                unblockForm.requestId.value.length>0 &&
@@ -165,11 +166,34 @@
               unblockForm.submit();
             }
             else{
-                        window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+              alertDialog("web.manage","dataMissing");
+            }
+          }
+          
+          <%-- ALERT DIALOG --%>
+          function alertDialog(labelType,labelId){
+            if(window.showModalDialog){
+              var popupUrl = "<c:url value='/_common/search/okPopupSimple.jsp'/>?ts=<%=ScreenHelper.getTs()%>&labelType="+labelType+"&labelID="+labelId;
+              var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+              window.showModalDialog(popupUrl,"",modalities);
+            }
+            else{
+           	  alertDialogDirectText("<%=getTranNoLink("web.manage","dataMissing","e")%>"); // Opera          
+            }
+          }
+          
+          <%-- ALERT DIALOG DIRECT TEXT --%>
+          function alertDialogDirectText(sMsg){
+            if(window.showModalDialog){
+              var popupUrl = "<c:url value='/_common/search/okPopupSimple.jsp'/>?ts=<%=ScreenHelper.getTs()%>&labelValue="+sMsg;
+              var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
+              window.showModalDialog(popupUrl,"",modalities);
+            }
+            else{
+              alert(sMsg); // Opera          
             }
           }
         </script>
     </form>
 </body>
 </html>
-

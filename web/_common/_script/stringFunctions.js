@@ -239,6 +239,10 @@ String.prototype.unhtmlEntities = function(){
   return newString;
 }
 
+function replaceAll(source,target,substitute){
+  return source.replace(new RegExp(target,"g"),substitute);
+}
+
 /**
  * numericEntities : Convert all applicable characters to numeric entities
  * example:
@@ -269,7 +273,6 @@ String.prototype.numericEntities = function(){
   return newString;
 }
 
-
 /**
  * trim : Strip whitespace from the beginning and end of a string
  * example:
@@ -279,7 +282,6 @@ String.prototype.numericEntities = function(){
 String.prototype.trim = function(){
   return this.replace(/^\s*([^ ]*)\s*$/, "$1");
 }
-
 
 /**
  * ucfirst

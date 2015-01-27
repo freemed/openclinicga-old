@@ -25,11 +25,15 @@ function toggle_id(element){
 }
 
 function show(element){
-  document.getElementById(element).style.display = '';
+  if(document.getElementById(element)){
+    document.getElementById(element).style.display = '';
+  }
 }
 
 function hide(element){
-  document.getElementById(element).style.display = 'none';
+  if(document.getElementById(element)){
+    document.getElementById(element).style.display = 'none';
+  }
 }
 
 function popup(mylink, windowname){

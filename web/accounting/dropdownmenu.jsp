@@ -471,14 +471,10 @@
     
   <%-- DELETE PAPER PRESCRIPTION --%>
   function deletepaperprescription(prescriptionuid){
-      if(yesnoDeleteDialog()){
+    if(yesnoDeleteDialog()){
       var w = window.open('<c:url value='/medical/deletePaperPrescription.jsp'/>?ts=<%=getTs()%>&prescriptionuid='+prescriptionuid,"delete","toolbar=no,status=yes,scrollbars=yes,resizable=yes,width=1,height=1,menubar=no");
     }
   }
-  function yesnoDeleteDialog(){
-	  return window.showModalDialog?yesnoDialog("Web","areYouSureToDelete"):yesnoDialog('','<%=getTranNoLink("Web","areYouSureToDelete",sWebLanguage)%>');
-  }
-
     
   <%-- GET POS PRINTER SERVER --%>
   function getPOSPrinterServer(){

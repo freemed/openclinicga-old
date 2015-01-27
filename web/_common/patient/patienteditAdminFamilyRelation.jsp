@@ -108,7 +108,7 @@
                 
                 <%-- relation type --%>
                 <tr>
-                    <td class="admin"><%=getTran("Web.admin","relationType",sWebLanguage)%>&nbsp;</td>
+                    <td class="admin"><%=getTran("Web.admin","relationType",sWebLanguage)%>&nbsp;*&nbsp;</td>
                     <td class="admin2">
                         <select class="text" name="RRelationType">
                             <option><%=getTranNoLink("web","choose",sWebLanguage)%></option>
@@ -159,9 +159,9 @@
               function addFR(){
                 var sourceId      = PatientEditForm.RSourceId.value;
                 var destinationId = PatientEditForm.RDestinationId.value;
-                var relationType  = PatientEditForm.RRelationType.value;
+                var relationType  = PatientEditForm.RRelationType.options[PatientEditForm.RRelationType.selectedIndex].value;
 
-                if(destinationId.length > 0 && relationType.length > 0){
+                if(destinationId.length > 0 && PatientEditForm.RRelationType.selectedIndex > 0){
                   if(destinationId=="<%=activePatient.personid%>"){                    
                     alertDialog("web.manage","destinationpersonmaynotequalpatient");
 
@@ -217,7 +217,7 @@
                 }
                 // data missing
                 else{                    
-                            window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                  alertDialog("web.manage","dataMissing");
 
                   if(PatientEditForm.RDestinationId.value.length==0){
                     PatientEditForm.RDestinationFullName.focus();
