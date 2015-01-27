@@ -1,5 +1,8 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+<%@include file="/includes/commonFunctions.jsp"%>
+<%=sJSPROTOTYPE%>
+<%=sJSSTRINGFUNCTIONS%>
 
 <html>
 <head>
@@ -8,7 +11,7 @@
         if(sUserTheme.equals("default")) sUserTheme = "";
         if(sUserTheme.length() > 0) sUserTheme = "_"+sUserTheme;
     %>
-    <link href="<c:url value='/_common/_css/web<%=sUserTheme%>.css'/>" rel="stylesheet" type="text/css" media="screen">
+    <link href="<%=sCONTEXTPATH%>/_common/_css/web<%=sUserTheme%>.css" rel="stylesheet" type="text/css" media="screen">
 </head>
 
 <body>
@@ -46,9 +49,9 @@
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
     //--- DISPLAY PASSWORDS -----------------------------------------------------------------------
-    if(request.getParameter("SaveUserProfile")==null) {
+    if(request.getParameter("SaveUserProfile")==null){
         %>
-            <form name='UserProfile' action='<c:url value='/changePassword.do'/>' method='post'>
+            <form name='UserProfile' action='<c:url value='/changePassword.do'/>' method='post' onkeydown="if(enterEvent(event,13)){doSubmit();}">
                 <input type='hidden' name='SaveUserProfile' value='ok'/>
                 <input type='hidden' name='ts' value='<%=getTs()%>'/>
                     
@@ -87,28 +90,23 @@
             <script>
               UserProfile.OldPassword.focus();
 
+              <%-- DO SUBMIT --%>
               function doSubmit(){
-                if (UserProfile.OldPassword.value.length==0){
+                if(UserProfile.OldPassword.value.length==0){
                   UserProfile.OldPassword.focus();
                 }
-                else if (UserProfile.NewPassword1.value.length==0){
+                else if(UserProfile.NewPassword1.value.length==0){
                   UserProfile.NewPassword1.focus();
                 }
-                else if (UserProfile.NewPassword2.value.length==0){
+                else if(UserProfile.NewPassword2.value.length==0){
                   UserProfile.NewPassword2.focus();
                 }
-                else if (UserProfile.NewPassword1.value.length > 250){
-                  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.Password&labelID=PasswordTooLong";
-                  var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                  (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.Password","PasswordTooLong",sWebLanguage)%>");
-
+                else if(UserProfile.NewPassword1.value.length > 250){
+                  alertDialog("web.Password","PasswordTooLong");
                   UserProfile.NewPassword1.focus();
                 }
-                else if (UserProfile.NewPassword2.value.length > 250){
-                  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.Password&labelID=PasswordTooLong";
-                  var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                  (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.Password","PasswordTooLong",sWebLanguage)%>");
-
+                else if(UserProfile.NewPassword2.value.length > 250){
+                  alertDialog("web.Password","PasswordTooLong");
                   UserProfile.NewPassword2.focus();
                 }
                 else{
@@ -163,14 +161,10 @@
 
         //--- show popup to remind the user to change his password ---
         boolean showReminder = !checkString(request.getParameter("popup")).equals("no");
-
         if(showReminder){
             %>
                 <script>
-                  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=999999999&labelType=Web.Password&labelID=mustUpdatePasswordNow";
-                  var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                  (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.Password","mustUpdatePasswordNow",sWebLanguage)%>");
-
+                  alertDialog("web.password","mustUpdatePasswordNow");
                   UserProfile.OldPassword.focus();
                 </script>
             <%
@@ -204,7 +198,12 @@
                 oldPwdCount = notReusablePasswords;
             }
 
+            Debug.println("*********** noReuseOfOldPwd : "+noReuseOfOldPwd); ///////////
+            Debug.println("*********** oldPwdCount : "+oldPwdCount); ///////////
+            Debug.println("*********** sNewPassword1 : "+sNewPassword1); ///////////
+            Debug.println("*********** sOldPassword : "+sOldPassword); ///////////
             boolean passwordIsUsedBefore = User.isPasswordUsedBefore(sNewPassword1,activeUser,oldPwdCount);
+            Debug.println("*********** -->  passwordIsUsedBefore : "+passwordIsUsedBefore); ///////////
 
             if(passwordIsUsedBefore || sNewPassword1.equals(sOldPassword)){
                 rulesObeyed = false;
@@ -325,10 +324,39 @@
                     uUser.password = aNewPassword;
                     uUser.userid = activeUser.userid;
                     uUser.savePasswordToDB();
+                    
                     // also store the new password in session
                     activeUser.password = aNewPassword;
                     session.setAttribute("activeUser", activeUser);
-
+                    
+                    //*** 2 : set the updatetime to now when the password is used before, otherwise add the new password ***
+                    String sSql = "UPDATE UsedPasswords SET updatetime = ?"+
+                   	              " WHERE userId = ?"+
+                                  "  AND CAST(encryptedPassword AS BINARY) = ?";
+                    Connection conn = MedwanQuery.getInstance().getAdminConnection();
+                    PreparedStatement ps = conn.prepareStatement(sSql);
+                    ps.setTimestamp(1,getSQLTime()); // now
+                    ps.setInt(2,Integer.parseInt(activeUser.userid));
+                    ps.setBytes(3,activeUser.encrypt(sNewPassword1));
+                    int updatedRecords = ps.executeUpdate();
+                    ps.close();
+                    conn.close();
+                    
+                    if(updatedRecords==0){                
+                    	sSql = "INSERT INTO UsedPasswords(usedPasswordId,encryptedPassword,userId,updatetime,serverid)"+
+                               " VALUES (?,?,?,?,?)";
+                        conn = MedwanQuery.getInstance().getAdminConnection();
+                        ps = conn.prepareStatement(sSql);
+                        ps.setInt(1,MedwanQuery.getInstance().getOpenclinicCounter("UsedPasswords"));
+                        ps.setBytes(2,activeUser.encrypt(sNewPassword1));
+                        ps.setInt(3,Integer.parseInt(activeUser.userid));
+                        ps.setTimestamp(4,getSQLTime()); // now
+                        ps.setInt(5,MedwanQuery.getInstance().getConfigInt("serverId"));
+                        ps.executeUpdate();
+                        ps.close();
+                        conn.close();
+                    }
+                    
                     // let user remember when he last changed his password
                     Parameter pwdChangeParam = new Parameter("pwdChangeDate",System.currentTimeMillis()+"");
                     activeUser.updateParameter(pwdChangeParam);
@@ -358,8 +386,16 @@
 
         //--- back button ---
         StringBuffer backButton = new StringBuffer();
-        backButton.append("<input type='button' class='button' value='").append(getTranNoLink("Web","back",sWebLanguage)).append("' ")
-                  .append("onclick='window.location.href=\""+sCONTEXTPATH+"/main.do\"'");
+        if(rulesObeyed && !errorOldPassword && !errorNewPassword){
+        	// OK, go to main page
+	        backButton.append("<input type='button' class='button' value='").append(getTranNoLink("Web","back",sWebLanguage)).append("' ")
+	                  .append("onclick='window.location.href=\""+sCONTEXTPATH+"/main.do\"'");
+        }
+        else{
+        	// not OK, revert to password page
+        	backButton.append("<input type='button' class='button' value='").append(getTranNoLink("Web","back",sWebLanguage)).append("' ")
+                      .append("onclick='window.location.href=\""+sCONTEXTPATH+"/changePassword.do?popup=no\"'");
+        }
 
         //--- display errors ---
         // end table

@@ -244,7 +244,7 @@
     }
     <%-- no dates given --%>
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
       transactionForm.FindBegin.focus();
     }
   }
@@ -297,7 +297,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
 
            if(fromDate.length==0)  transactionForm.FromDate.focus();
       else if(untilDate.length==0) transactionForm.UntilDate.focus();

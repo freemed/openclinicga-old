@@ -553,11 +553,9 @@
             <script>
               function checkSave(){
                 <%
-                  if(!sAction.equals("new")){
-                %>
-                  addLabAnalysis();
-                <%
-                }
+                    if(!sAction.equals("new")){
+                        %>addLabAnalysis();<%
+                    }
                 %>
                 if(editForm.EditProfileCode.value.length == 0
                   <%
@@ -570,7 +568,7 @@
                       }
                   %>
                 ){
-                            window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                       alertDialog("web.manage","dataMissing");
 
                        if(editForm.EditProfileCode.value.length == 0){ editForm.EditProfileCode.focus(); }
                   <%

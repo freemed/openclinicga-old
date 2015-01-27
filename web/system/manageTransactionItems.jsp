@@ -238,13 +238,7 @@
 <%-- ALERT ---------------------------------------------------------------------------------------%>
 <%
   if(showAlert){
-    %>
-      <script>
-          var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web.Manage&labelID=transactionItemExists";
-          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage","transactionItemExists",sWebLanguage)%>");
-      </script>
-    <%
+    %><script>alertDialog("web.manage","transactionItemExists");</script><%
   }
 %>
 <%-- SCRIPTS TILL EOF ----------------------------------------------------------------------------%>
@@ -265,16 +259,12 @@ function checkMaxChars(inputObj,maxChars){
 
 function keysNotEmpty(){
   if(transactionForm.transactionTypeId.value==""){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web&labelID=TransactionItemKeyFieldsAreEmpty";
-    var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","TransactionItemKeyFieldsAreEmpty",sWebLanguage)%>");
+    alertDialog("web","TransactionItemKeyFieldsAreEmpty");
     transactionForm.transactionTypeId.focus();
     return false;
   }
   else if(transactionForm.itemTypeId.value==""){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web&labelID=TransactionItemKeyFieldsAreEmpty";
-    var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","TransactionItemKeyFieldsAreEmpty",sWebLanguage)%>");
+    alertDialog("web","TransactionItemKeyFieldsAreEmpty");
     transactionForm.itemTypeId.focus();
     return false;
   }
@@ -301,31 +291,23 @@ function doBack(){
 
 function askDelete() {
   if(transactionForm.FindKey1.value=="-1"){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web&labelID=FirstSelectTransactionItem";
-    var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","FirstSelectTransactionItem",sWebLanguage)%>");
+    alertDialog("web","FirstSelectTransactionItem");
     transactionForm.FindKey1.focus();
   }
   else if(transactionForm.FindKey2.value=="-1"){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web&labelID=FirstSelectTransactionItem";
-    var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","FirstSelectTransactionItem",sWebLanguage)%>");
+    alertDialog("web","FirstSelectTransactionItem");
     transactionForm.FindKey2.focus();
   }
   else if(transactionForm.transactionTypeId.value==""){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web&labelID=TransactionItemKeyFieldsAreEmpty";
-    var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","TransactionItemKeyFieldsAreEmpty",sWebLanguage)%>");
+    alertDialog("web","TransactionItemKeyFieldsAreEmpty");
     transactionForm.transactionTypeId.focus();
   }
   else if(transactionForm.itemTypeId.value==""){
-    var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=Web&labelID=TransactionItemKeyFieldsAreEmpty";
-    var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-    (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","TransactionItemKeyFieldsAreEmpty",sWebLanguage)%>");
+    alertDialog("web","TransactionItemKeyFieldsAreEmpty");
     transactionForm.itemTypeId.focus();
   }
   else{
-      if(yesnoDeleteDialog()){
+    if(yesnoDeleteDialog()){
       transactionForm.ActionField.value = "Delete";
       transactionForm.submit();
     }

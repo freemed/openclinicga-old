@@ -62,13 +62,13 @@
     session.setAttribute("screen",screen);	
     
     if(screen.getXmlData()!=null){
-        Debug.println("\fetched : n"+screen.getXmlData().asXML()+"\n"); ///////////////
+        Debug.println("\fetched : n"+screen.getXmlData().asXML()+"\n");
     }
 
     if(Debug.enabled){
 	    Debug.println("width : "+screen.widthInCells);
 	    Debug.println("height : "+screen.heightInRows);
-	    Debug.println("labels : "+getLabelsHtml(screen)); ////////
+	    Debug.println("labels : "+getLabelsHtml(screen));
 	    Debug.println("transactionType : "+screen.getTransactionType());
 	    Debug.println("examId : "+screen.getExamId());
     }
@@ -81,7 +81,7 @@
   "transactionType":"<%=HTMLEntities.htmlentities(screen.getTransactionType())%>",
   <%
       if(!sScreenUID.equals("new")){
-          %>"updateTime":"<%=ScreenHelper.fullDateFormat.format(screen.getUpdateDateTime())%>",<%
+          %>"updateTime":"<%=ScreenHelper.stdDateFormat.format(screen.getUpdateDateTime())%>",<%
       }
       else{
           %>"updateTime":"",<%

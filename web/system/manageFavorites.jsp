@@ -285,15 +285,15 @@
           transactionForm.submit();
         }
         else{
-                      window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
-            emptyLabelField.focus();
+          alertDialog("web.manage","dataMissing");
+          emptyLabelField.focus();
         }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
 
       if(transactionForm.EditFavoriteId.value.length==0){
-         transactionForm.EditFavoriteId.focus();
+        transactionForm.EditFavoriteId.focus();
       }
     }
   }

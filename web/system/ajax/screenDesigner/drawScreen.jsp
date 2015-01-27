@@ -47,7 +47,4 @@
     session.setAttribute("screen",screen);
 %>
 
-{
-  "screenUID":"<%=screen.getUid()%>",
-  "html":"<%=HTMLEntities.htmlentities(sHtml)%>"
-}
+<%=HTMLEntities.htmlentities(sHtml)%>

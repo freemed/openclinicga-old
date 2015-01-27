@@ -377,7 +377,7 @@
       if(okToSave){
         if(document.getElementById("ShortcutType").selectedIndex < 1){
           document.getElementById("ShortcutType").focus();
-          window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+          alertDialog("web.manage","dataMissing");
           okToSave = false;
         }
       }  
@@ -387,7 +387,7 @@
         if(document.getElementById("shortcutSubtypeTR").style.display==""){
           if(document.getElementById("ShortcutSubtype").selectedIndex < 1){
             document.getElementById("ShortcutSubtype").focus();
-            window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+            alertDialog("web.manage","dataMissing");
             okToSave = false;
           }
         }
@@ -431,7 +431,7 @@
       if(okToSave){
         if(document.getElementById("ShortcutIconText").value.length==0){
           document.getElementById("ShortcutIconText").focus();
-                    window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+          alertDialog("web.manage","dataMissing");
           okToSave = false;
         }
       }
@@ -536,7 +536,7 @@
   
   <%-- DELETE SHORTCUT --%>
   function deleteShortcut(){
-      if(yesnoDeleteDialog()){
+    if(yesnoDeleteDialog()){
       disableButtons();
      
       var select = document.getElementById("ShortcutType");

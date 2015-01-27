@@ -165,13 +165,13 @@
                     <%-- header --%>
                     <tr class="admin" style="padding-left:5px;">
                         <td width="50">&nbsp;</td>
-                        <td width="200">itemTypeId / labelId&nbsp;*&nbsp;</td>
-                        <td width="120"><%=getTranNoLink("web.manage","htmlElement",sWebLanguage)%>&nbsp;*&nbsp;</td>
+                        <td width="170">itemTypeId / labelId&nbsp;*&nbsp;</td>
+                        <td width="110"><%=getTranNoLink("web.manage","htmlElement",sWebLanguage)%>&nbsp;*&nbsp;</td>
                         <td width="50"><%=getTranNoLink("web.manage","size",sWebLanguage)%></td>
-                        <td width="150">defaultValue / label</td>
-                        <td width="100"><%=getTranNoLink("web.manage","required",sWebLanguage)%></td>
+                        <td width="135">defaultValue / label</td>
+                        <td width="70"><%=getTranNoLink("web.manage","required",sWebLanguage)%></td>
                         <td width="100"><%=getTranNoLink("web.manage","followedBy",sWebLanguage)%></td>
-                        <td width="150">&nbsp;</td>
+                        <td width="175">&nbsp;</td>
                     </tr>
                     
                     <%-- add-row --%>
@@ -200,7 +200,7 @@
                         
                         <%-- size --%>
                         <td class="admin">
-                            <input type="text" class="text" name="addSize" value="" size="3" maxLength="3" onBlur="checkIntegerField(this);">
+                            <input type="text" class="text" name="addSize" value="" size="2" maxLength="3" onBlur="checkIntegerField(this);">
                         </td>
                         
                         <%-- defaultValue --%>
@@ -277,6 +277,6 @@
 <%-- Ajax loader --------------------------------------------------------------------------------%>
 <center>
     <div id="ajaxLoader" style="position:absolute;top:100px;left:280px;visibility:hidden;width:280px;height:40px;border:1px solid #ccc;background:#eee;padding:30px;">
-        <center><img src="<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif" style="vertical-align:-3px;"/>&nbsp;&nbsp;Loading..</center>
+        <center><img src="<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif" style="vertical-align:-3px;"/>&nbsp;&nbsp;Saving..</center>
     </div>
 </center>

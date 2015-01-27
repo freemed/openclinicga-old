@@ -253,10 +253,7 @@
 
   function doSave(){
     if(EditForm.projectName.value.length==0){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage.project&labelID=alertemptyname";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage.project","alertemptyname",sWebLanguage)%>");
-
+      alertDialog("web.manage.project","alertEmptyName");
     }
     else{
       EditForm.savebutton.disabled = true;
@@ -267,9 +264,7 @@
 
   function addToTextarea(textarea,filename){
     if(filename == ""){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.manage.project&labelID=alertaddmessage";
-      var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.manage.project","alertaddmessage",sWebLanguage)%>");
+      alertDialog("web.manage.project","alertAddMessage");
     }
     else{
       textarea = textarea + filename + "\r";
@@ -278,7 +273,7 @@
   }
 
   function doDelete(){
-      if(yesnoDeleteDialog()){
+    if(yesnoDeleteDialog()){
       window.location="<c:url value='/main.do'/>?Page=util/createProject/createProject.jsp&action=delete&projectName=<%=projectName%>&ts=<%=getTs()%>";
     }
   }

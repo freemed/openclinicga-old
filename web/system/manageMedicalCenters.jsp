@@ -441,10 +441,7 @@
       <%-- check center code --%>
       if(maySubmit){
         if(transactionForm.EditCenterCode.value.length < 5){
-          var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web.errors&labelID=error.medical-center-needs-5-characters";
-          var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-          var answer = (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web.errors","error.medical-center-needs-5-characters",sWebLanguage)%>");
-
+          alertDialog("web.errors","error.medical-center-needs-5-characters");
           transactionForm.EditCenterCode.focus();
           maySubmit = false;
         }
@@ -454,10 +451,7 @@
       if(maySubmit){
         if(transactionForm.EditCenterEmail.value.length > 0){
           if(!validEmailAddress(transactionForm.EditCenterEmail.value)){
-            var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=invalidemailaddress";
-            var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-            (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","invalidemailaddress",sWebLanguage)%>");
-
+            alertDialog("web","invalidemailaddress");
             transactionForm.EditCenterEmail.focus();
             maySubmit = false;
           }
@@ -466,7 +460,7 @@
     }
     else{
       maySubmit = false;
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
     }
 
     return maySubmit;

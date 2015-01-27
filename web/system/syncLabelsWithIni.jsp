@@ -667,7 +667,7 @@
       }
       else{
     	transactionForm.FindLabelLang.focus();
-    	          window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+    	alertDialog("web.manage","dataMissing");
       }
     }
     else if(action=="delete"){

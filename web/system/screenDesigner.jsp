@@ -92,7 +92,7 @@
     <div id="tranTypeDiv" style="width:100%;height:22px;color:#999;"><%-- Ajax --%></div>
     
     <%-- link to manageServiceExaminations --%>
-    <div id="linkDiv" style="width:100%;height:22px;display:none">
+    <div id="linkDiv" style="width:100%;height:22px;display:none;padding-top:10px">
 	    <img src="<c:url value='/_img/themes/default/pijl.gif'/>">
 	    <a href="<c:url value='/main.do'/>?Page=system/manageServiceExaminations.jsp?ts=<%=getTs()%>" onMouseOver="window.status='';return true;"><%=getTran("web.manage","manageServiceExaminations",sWebLanguage)%></a>&nbsp;
     </div>
@@ -105,7 +105,7 @@
  
   <%-- LIST SAVED SCREENS --%>
   function listSavedScreens(){
-    document.getElementById("savedScreensDiv").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'>' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
+    document.getElementById("savedScreensDiv").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/>&nbsp;&nbsp;Loading..";
     var url = "<c:url value='/system/ajax/screenDesigner/listSavedScreens.jsp'/>?ts="+new Date().getTime();
     new Ajax.Request(url,{
       method: "GET",
@@ -134,7 +134,6 @@
       document.getElementById("linkDiv").style.display = "none";
 
       clearForm();
-      registerFormState(editForm);
     }
     else{
       var screenUID = editForm.ScreenUID.value;
@@ -154,10 +153,10 @@
           editForm.ScreenExamId.value = data.examId;
           document.getElementById("labelsDiv").innerHTML = data.labelsHtml;
                     
-          document.getElementById("screenTable").style.display = "block";
+          document.getElementById("screenTable").style.display = "table";
             
           if(data.transactionType.length > 0){
-            document.getElementById("tranTypeDiv").innerHTML = "<i>transactionType: <b>"+data.transactionType+"</b><br/>["+data.updateTime+"]</i>";
+            document.getElementById("tranTypeDiv").innerHTML = "<i>transactionType: <b>"+data.transactionType+"</b><br/>[Screen "+screenUID+" saved on "+data.updateTime+"]</i>";
           }
           else{
             document.getElementById("tranTypeDiv").innerHTML = "";
@@ -172,7 +171,6 @@
           else{
             editForm.deleteButton.style.display = "none";
             document.getElementById("layoutDiv").innerHTML = "<i><%=getTranNoLink("web.manage","layoutInstructions",sWebLanguage)%></i>";
-            registerFormState(editForm);
              
             if(data.width > -1 && data.height > -1){
               drawScreen(screenUID);
@@ -197,12 +195,7 @@
     }
     else{
       if(sFormInitialStatus.length>0 && sFormInitialStatus!=serializeForm(editForm)){
-          if(window.showModalDialog?yesnoDialog("web.occup","medwan.common.buttonquestion"):yesnoDialog('','<%=getTran("web.occup","medwan.common.buttonquestion",sWebLanguage)%>')){
-          okToSwitchScreens = true;
-        }
-        else{
-          okToSwitchScreens = false;
-        }
+        okToSwitchScreens = yesnoDialog("web.occup","medwan.common.buttonquestion");
       }
     }
     
@@ -220,31 +213,28 @@
         height = editForm.ScreenHeight.options[editForm.ScreenHeight.selectedIndex].value;
     
     if(width > 0 && height > 0){
-      document.getElementById("layoutDiv").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'>' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
+      document.getElementById("layoutDiv").innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/>&nbsp;&nbsp;Loading..";
       
       var url = "<c:url value='/system/ajax/screenDesigner/drawScreen.jsp'/>?ts="+new Date().getTime();
-      new Ajax.Request(url,{
-        method: "GET",
+      new Ajax.Updater("layoutDiv",url,{
+        evalScripts: true,
+        method: "post",
         parameters: "ScreenUID="+screenUID+
                     "&Width="+width+
                     "&Height="+height+
                     "&CellsEditable="+(screenUID=="new"?"false":"true"),
-        onSuccess: function(resp){  
-          var data = eval("("+resp.responseText+")");
-          document.getElementById("layoutDiv").innerHTML = data.html;
+        onComplete: function(resp){
           if(screenUID=="new"){
             document.getElementById("layoutDiv").innerHTML+= "<i><%=getTranNoLink("web.manage","tableInstructionsNew",sWebLanguage)%></i>";
           }
           else{
-        	document.getElementById("layoutDiv").innerHTML+= "<i><%=getTranNoLink("web.manage","tableInstructions",sWebLanguage)%></i>";
+            document.getElementById("layoutDiv").innerHTML+= "<i><%=getTranNoLink("web.manage","tableInstructions",sWebLanguage)%></i>";
           }
           document.getElementById("msgDiv").innerHTML = "";
           document.getElementById("linkDiv").style.display = "block";
-          
-          if(editForm.performedAction.value.length==0){
-            registerFormState(editForm);       
-          }
-        },
+
+          registerFormState(editForm);
+        },          
         onFailure: function(){
           document.getElementById("msgDiv").innerHTML = "<font color='red'>Error in function drawScreen()</font>";
         }
@@ -261,7 +251,7 @@
     if(editForm.ScreenWidth.selectedIndex > 0 &&
        editForm.ScreenHeight.selectedIndex > 0 &&
        areAllLabelsSpecified()){
-      document.getElementById("msgDiv").innerHTML = "&nbsp;<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'>' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
+      document.getElementById("msgDiv").innerHTML = "&nbsp;<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/>&nbsp;&nbsp;Saving..";
       editForm.saveButton.disabled = true; 
       if(editForm.deleteButton) editForm.deleteButton.disabled = true; 
         
@@ -277,7 +267,7 @@
           clearForm();  
           document.getElementById("msgDiv").innerHTML = data.msg;
           document.getElementById("tranTypeDiv").innerHTML = "";
-          listSavedScreens(); <%-- to update name of screen when name changed --%> 
+          listSavedScreens(); <%-- to update name of screen when name changed --%>
         },
         onFailure: function(){
           alert(resp.responseText); ///
@@ -287,12 +277,12 @@
     }
     else{
       if(editForm.ScreenWidth.selectedIndex==0){
-                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+        alertDialog("web.manage","dataMissing");
         editForm.ScreenWidth.focus();
       }
       else if(editForm.ScreenHeight.selectedIndex==0){
     	editForm.ScreenHeight.focus();
-                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+        alertDialog("web.manage","dataMissing");
       }
       else{
         alertDialog("web.manage","specifyANameInEachLanguage");
@@ -371,10 +361,10 @@
 
   <%-- DELETE SCREEN --%>
   function deleteScreen(){
-      if(yesnoDeleteDialog()){
+    if(yesnoDeleteDialog()){
       var url = "<c:url value='/system/ajax/screenDesigner/deleteScreen.jsp'/>?ts="+new Date().getTime();
 
-      document.getElementById("msgDiv").innerHTML = "&nbsp;<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'>' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
+      document.getElementById("msgDiv").innerHTML = "&nbsp;<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/>&nbsp;&nbsp;Deleting..";
       editForm.saveButton.disabled = true; 
       editForm.deleteButton.disabled = true; 
       
@@ -401,7 +391,7 @@
     editForm.performedAction.value = "deleteRow";
     var url = "<c:url value='/system/ajax/screenDesigner/deleteRow.jsp'/>?ts="+new Date().getTime();
 
-    document.getElementById("msgDiv").innerHTML = "&nbsp;<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'>' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
+    document.getElementById("msgDiv").innerHTML = "&nbsp;<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/>&nbsp;&nbsp;Deleting..";
     editForm.saveButton.disabled = true; 
     editForm.deleteButton.disabled = true; 
       
@@ -433,12 +423,12 @@
   <%-- MOVE ROW --%>
   function moveRow(directionAndStep,rowId){
     editForm.performedAction.value = "moveRow";
-    var url = "<c:url value='/system/ajax/screenDesigner/moveRow.jsp'/>?ts="+new Date().getTime();
 
-    document.getElementById("msgDiv").innerHTML = "&nbsp;<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'>' style='vertical-align:-3px;'/>&nbsp;&nbsp;Loading..";
+    document.getElementById("msgDiv").innerHTML = "&nbsp;<img src='<%=sCONTEXTPATH%>/_img/themes/<%=sUserTheme%>/ajax-loader.gif'/>&nbsp;&nbsp;Moving..";
     editForm.saveButton.disabled = true; 
     editForm.deleteButton.disabled = true; 
-      
+
+    var url = "<c:url value='/system/ajax/screenDesigner/moveRow.jsp'/>?ts="+new Date().getTime();
     new Ajax.Request(url,{
       method: "GET",
       parameters: "ScreenUID="+editForm.ScreenUID.value+
@@ -513,7 +503,7 @@
 
     if(checkState==true){
       if(sFormInitialStatus!=serializeForm(cellForm)){
-          if(window.showModalDialog?yesnoDialog("web.occup","medwan.common.buttonquestion"):yesnoDialog('','<%=getTran("web.occup","medwan.common.buttonquestion",sWebLanguage)%>')){
+        if(yesnoDialog("web.occup","medwan.common.buttonquestion")){
           if(Modalbox.initialized){
             Modalbox.hide();
           }
@@ -566,7 +556,7 @@
     
     <%-- ask to add un-added item before saving cell --%>
     if(addRowContainsData()){
-        if(window.showModalDialog?yesnoDialog("web.manage","addEditedRecord"):yesnoDialog('','<%=getTran("web.manage","addEditedRecord",sWebLanguage)%>')){
+      if(window.showModalDialog?yesnoDialog("web.manage","addEditedRecord"):yesnoDialog('','<%=getTran("web.manage","addEditedRecord",sWebLanguage)%>')){
         okToSave = (addItem()==true);
       }
     }  
@@ -619,7 +609,7 @@
 		       row.cells[2].innerHTML+"£"+ // htmlElement-type
 		       row.cells[3].innerHTML+"£"+ // size
                row.cells[4].innerHTML+"£"+ // defaultValue
-               (row.cells[5].innerHTML.indexOf("/checked.gif")>-1?"true":"false")+"£"+ // required
+               (row.cells[5].innerHTML.indexOf("/check.gif")>-1?"true":"false")+"£"+ // required
                row.cells[6].innerHTML+"£"; // followedBy
       
       // add print-labels
@@ -663,6 +653,8 @@
   function editItem(rowId){
     var row = document.getElementById(rowId);
 
+    setAddRowOptions(cellForm.addHtmlElement);
+    
     cellForm.activeRowId.value = rowId;
     cellForm.addItemTypeId.value = row.cells[1].innerHTML;
     cellForm.addHtmlElement.value = row.cells[2].innerHTML;
@@ -673,10 +665,9 @@
 
     cellForm.UpdateButton.disabled = false;
     
-    document.getElementById("printlabelsDiv").style.display = "block";
+    document.getElementById("printlabelsDiv").style.display = "table-row";
     fetchPrintlabelsForItem(cellForm.activeCellId.value,cellForm.addItemTypeId.value);
-    
-    setAddRowOptions(cellForm.addHtmlElement);
+    Modalbox.resizeToContent();    
   }
 
   <%-- UPDATE ITEM --%>
@@ -685,21 +676,21 @@
       var rowId = cellForm.activeRowId.value;
       var row = document.getElementById(rowId);
         
-      row.cells(0).innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' onclick=\"deleteItem('"+rowId+"')\" alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' class='link'></a>&nbsp;"+
-                               "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' onclick=\"editItem('"+rowId+"')\" alt='<%=getTranNoLink("web","edit",sWebLanguage)%>'  class='link' style='vertical-align:-3px'></a>";
-      row.cells(1).innerHTML = cellForm.addItemTypeId.value;
-      row.cells(2).innerHTML = cellForm.addHtmlElement.options[cellForm.addHtmlElement.selectedIndex].value;
-      row.cells(3).innerHTML = cellForm.addSize.value;
-      row.cells(4).innerHTML = cellForm.addDefaultValue.value;
-      row.cells(5).innerHTML = (cellForm.addRequired.checked?"<img src='<%=sCONTEXTPATH%>/_img/themes/default/check.gif' alt='true'>":"<img src='<%=sCONTEXTPATH%>/_img/themes/default/uncheck.gif' alt='false'>");
-      row.cells(6).innerHTML = cellForm.addFollowedBy.options[cellForm.addFollowedBy.selectedIndex].value;
-      row.cells(7).innerHTML = "";
+      row.cells[0].innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' onclick=\"deleteItem('"+rowId+"');\" alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' class='link'/>&nbsp;"+
+                               "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' onclick=\"editItem('"+rowId+"');\" alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' class='link' style='vertical-align:-3px'/>";
+      row.cells[1].innerHTML = cellForm.addItemTypeId.value;
+      row.cells[2].innerHTML = cellForm.addHtmlElement.options[cellForm.addHtmlElement.selectedIndex].value;
+      row.cells[3].innerHTML = cellForm.addSize.value;
+      row.cells[4].innerHTML = cellForm.addDefaultValue.value;
+      row.cells[5].innerHTML = (cellForm.addRequired.checked?"<img src='<%=sCONTEXTPATH%>/_img/themes/default/check.gif' alt='true'>":"<img src='<%=sCONTEXTPATH%>/_img/themes/default/uncheck.gif' alt='false'>");
+      row.cells[6].innerHTML = cellForm.addFollowedBy.options[cellForm.addFollowedBy.selectedIndex].value;
+      row.cells[7].innerHTML = "";
 
       clearAddRow();
       cellForm.UpdateButton.disabled = true;
       
       // print-labels
-      row.cells(7).text = concatPrintlabels();
+      row.cells[7].text = concatPrintlabels();
       document.getElementById("printlabelsDiv").style.display = "none";
       clearPrintlabels();
     }
@@ -775,9 +766,8 @@
   }  
   
   <%-- ADD ITEM --%>  
-  function addItem(){    
-    if(cellForm.addItemTypeId.value.length > 0 &&
-       cellForm.addHtmlElement.selectedIndex > 0){
+  function addItem(){ 
+    if(cellForm.addItemTypeId.value.length > 0 && cellForm.addHtmlElement.selectedIndex > 0){
       if(isItemAlreadySelected(cellForm.addItemTypeId.value)==false){
         row = itemsTable.insertRow();
 
@@ -795,18 +785,19 @@
         row.insertCell();
             
         row.id = "row_"+rowIdx; 
-        row.cells(0).innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' onclick=\"deleteItem('row_"+rowIdx+"');\" alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' class='link'></a>&nbsp;"+
+        row.cells[0].innerHTML = "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' onclick=\"deleteItem('row_"+rowIdx+"');\" alt='<%=getTranNoLink("web","delete",sWebLanguage)%>' class='link'></a>&nbsp;"+
                                  "<img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' onclick=\"editItem('row_"+rowIdx+"');\" alt='<%=getTranNoLink("web","edit",sWebLanguage)%>' class='link' style='vertical-align:-3px'></a>";
-        row.cells(1).innerHTML = cellForm.addItemTypeId.value;
-        row.cells(2).innerHTML = cellForm.addHtmlElement.options[cellForm.addHtmlElement.selectedIndex].value;
-        row.cells(3).innerHTML = cellForm.addSize.value;
-        row.cells(4).innerHTML = cellForm.addDefaultValue.value;
-        row.cells(5).innerHTML = (cellForm.addRequired.checked?"true":"false");
-        row.cells(6).innerHTML = cellForm.addFollowedBy.options[cellForm.addFollowedBy.selectedIndex].value;
-        row.cells(7).innerHTML = ""; 
+        row.cells[1].innerHTML = cellForm.addItemTypeId.value;
+        row.cells[2].innerHTML = cellForm.addHtmlElement.options[cellForm.addHtmlElement.selectedIndex].value;
+        row.cells[3].innerHTML = cellForm.addSize.value;
+        row.cells[4].innerHTML = cellForm.addDefaultValue.value; 
+        row.cells[5].innerHTML = (cellForm.addRequired.checked?"<img src='<%=sCONTEXTPATH%>/_img/themes/default/check.gif' alt='true'>":"<img src='<%=sCONTEXTPATH%>/_img/themes/default/uncheck.gif' alt='false'>");
+        row.cells[6].innerHTML = cellForm.addFollowedBy.options[cellForm.addFollowedBy.selectedIndex].value;
+        row.cells[7].innerHTML = ""; 
     
         rowIdx++;
         clearAddRow();
+        Modalbox.resizeToContent();
         return true;
       }
       else{
@@ -816,7 +807,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
       
            if(cellForm.addItemTypeId.value.length==0) cellForm.addItemTypeId.focus();
       else if(cellForm.addHtmlElement.selectedIndex==0) cellForm.addHtmlElement.focus();
@@ -832,7 +823,7 @@
     
     for(var i=2; i<itemsTable.rows.length; i++){ // 2 : skip header and add-row
       row = itemsTable.rows[i];    
-      if(row.cells(1).innerHTML==itemId){
+      if(row.cells[1].innerHTML==itemId){
         return true;
       }
     }

@@ -2,6 +2,7 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/_common/templateAddIns.jsp"%>
 <%@include file="/includes/SingletonContainer.jsp"%>
+<%@include file="/includes/commonFunctions.jsp"%>
 <%=checkPermission("system.managetranslations","all",activeUser)%>
 <%
     String sAction = checkString(request.getParameter("Action"));
@@ -161,6 +162,7 @@
         }
     }
 %>
+
 <%-- Start Floating Layer -----------------------------------------------------------------------%>
 <div id="FloatingLayer" style="position:absolute;width:250px;left:220;top:160;visibility:hidden">
     <table border="0" width="250" cellspacing="0" cellpadding="5" style="border:1px solid #aaa">
@@ -171,6 +173,7 @@
         </tr>
     </table>
 </div>
+
 <%-- End Floating layer -------------------------------------------------------------------------%>
 <form name="transactionForm" method="post" action="<c:url value='/popup.jsp'/>?Page=system/manageTranslationsPopupSimple.jsp&ts=<%=getTs()%>">
     <%=writeTableHeader("Web","ManageTranslations",sWebLanguage,"")%>
@@ -227,24 +230,21 @@
         <input class="button" type="button" name="SaveButton" value="<%=getTranNoLink("Web","Save",sWebLanguage)%>" onclick="checkSave();">&nbsp;
         <input class="button" type="button" name="closeButton" value="<%=getTranNoLink("Web","close",sWebLanguage)%>" onclick="window.close();">
     <%=ScreenHelper.alignButtonsStop()%>
+    
     <%-- hidden fields --%>
     <input type="hidden" name="EditOldLabelLang" value="<%=editLabelLang%>">
     <input type="hidden" name="EditOldLabelType" value="<%=editLabelType%>">
     <input type="hidden" name="EditOldLabelID" value="<%=editLabelID%>">
     <input type="hidden" name="Action">
+    
     <%-- ALERT --%>
     <%
         if(labelAllreadyExists || invalidCharFound){
-            %>
-                <script>
-                  var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelValue=<%=msg%>";
-                  var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-                  (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=msg%>");
-                </script>
-            <%
+            %><script>alertDialogDirectText("<%=msg%>");</script><%
         }
     %>
 </form>
+
 <%-- SCRIPTS ------------------------------------------------------------------------------------%>
 <script>
   textCounter(transactionForm.EditLabelValue,transactionForm.remLen,250);
@@ -273,14 +273,12 @@
     }
   }
 
-  <%-- IS FORM COMPLETE --%>
+  <%-- FORM COMPLETE --%>
   function formComplete(){
     if(transactionForm.EditLabelType.value=="" || transactionForm.EditLabelID.value=="" ||
        transactionForm.EditLabelLang.value=="" || transactionForm.EditLabelValue.value==""){
-      var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/okPopup.jsp&ts=<%=getTs()%>&labelType=web&labelID=somefieldsareempty";
-      var modalities = "dialogWidth:266px;dialogHeight:143px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
-      (window.showModalDialog)?window.showModalDialog(popupUrl,"",modalities):window.confirm("<%=getTranNoLink("web","somefieldsareempty",sWebLanguage)%>");
-
+      alertDialog("web","someFieldsAreEmpty");
+      
       if(transactionForm.EditLabelType.value.length==0){
         transactionForm.EditLabelType.focus();
       }

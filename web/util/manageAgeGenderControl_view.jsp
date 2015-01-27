@@ -1,5 +1,7 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
+<%@include file="/includes/commonFunctions.jsp"%>
+
 <%!
     //--- GET NEW COUNTER VALUE --------------------------------------------------------------------
     public String getNewCounterValue(String sCounterName, Connection OccupdbConnection){
@@ -284,15 +286,12 @@
 
   <%-- ASK DELETE --%>
   function askDelete(sID){
-      if(yesnoDeleteDialog()){
+    if(yesnoDeleteDialog()){
       AGCForm.Action.value = "Delete";
       AGCForm.RecordID.value = sID;
       AGCForm.submit();
     }
   }
-  function yesnoDeleteDialog(){
-	  return window.showModalDialog?yesnoDialog("Web","areYouSureToDelete"):yesnoDialog('','<%=getTranNoLink("Web","areYouSureToDelete",sWebLanguage)%>');
-  }
 
-    window.setTimeout("document.getElementById('EditMinAge').focus()",200);
+  window.setTimeout("document.getElementById('EditMinAge').focus()",200);
 </script>
