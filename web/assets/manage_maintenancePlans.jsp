@@ -240,7 +240,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
       
       <%-- focus empty field --%>
            if(document.getElementById("name").value.length==0)      document.getElementById("name").focus();    

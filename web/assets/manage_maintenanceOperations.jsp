@@ -255,28 +255,26 @@
                       "&nextDate="+EditForm.nextDate.value;
 
         var url = "<c:url value='/assets/ajax/maintenanceOperation/saveMaintenanceOperation.jsp'/>?ts="+new Date().getTime();
-        new Ajax.Request(url,
-          {
-            method: "POST",
-            postBody: sParams,                   
-            onSuccess: function(resp){
-              var data = eval("("+resp.responseText+")");
-              $("divMessage").innerHTML = data.message;
+        new Ajax.Request(url,{
+          method: "POST",
+          postBody: sParams,                   
+          onSuccess: function(resp){
+            var data = eval("("+resp.responseText+")");
+            $("divMessage").innerHTML = data.message;
 
-              //loadMaintenanceOperation();
-              searchMaintenanceOperations();
-              newMaintenanceOperation();
-              enableButtons();
-            },
-            onFailure: function(resp){
-              $("divMessage").innerHTML = "Error in 'assets/ajax/maintenanceOperation/saveMaintenanceOperation.jsp' : "+resp.responseText.trim();
-            }
+            //loadMaintenanceOperation();
+            searchMaintenanceOperations();
+            newMaintenanceOperation();
+            enableButtons();
+          },
+          onFailure: function(resp){
+            $("divMessage").innerHTML = "Error in 'assets/ajax/maintenanceOperation/saveMaintenanceOperation.jsp' : "+resp.responseText.trim();
           }
-        );
+        });
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
       
       <%-- focus empty field --%>
            if(document.getElementById("maintenancePlanName").value.length==0) document.getElementById("maintenancePlanName").focus(); 

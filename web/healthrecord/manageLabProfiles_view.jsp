@@ -704,7 +704,7 @@ Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
       <script>
         function checkSave(){
           if(editForm.EditProfileCode.value.length == 0 || editForm.EditNL.value == "" || editForm.EditFR.value == ""){
-                      window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                      alertDialog("web.manage","dataMissing");
 
                  if(editForm.EditProfileCode.value.length == 0){ editForm.EditProfileCode.focus(); }
             else if(editForm.EditNL.value == ""){ editForm.EditNL.focus(); }

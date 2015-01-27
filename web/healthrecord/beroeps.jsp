@@ -472,17 +472,17 @@ function addBeroep(){
       row.insertCell();
       row.insertCell();
 
-      row.cells(0).innerHTML = "<a href='javascript:deleteBeroep(rowBeroeps"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+      row.cells[0].innerHTML = "<a href='javascript:deleteBeroep(rowBeroeps"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
                               +"<a href='javascript:editBeroep(rowBeroeps"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
-      row.cells(1).innerHTML = "&nbsp;"+transactionForm.BeroepsDateBegin.value;
-      row.cells(2).innerHTML = "&nbsp;"+transactionForm.BeroepsDateEnd.value;
-      row.cells(3).innerHTML = "&nbsp;"+transactionForm.BeroepsDescription.value;
+      row.cells[1].innerHTML = "&nbsp;"+transactionForm.BeroepsDateBegin.value;
+      row.cells[2].innerHTML = "&nbsp;"+transactionForm.BeroepsDateEnd.value;
+      row.cells[3].innerHTML = "&nbsp;"+transactionForm.BeroepsDescription.value;
 
       if(transactionForm.BeroepsPA.value == "Y"){
-        row.cells(4).innerHTML = "&nbsp;<%=getTran("Web","yes",sWebLanguage)%>";
+        row.cells[4].innerHTML = "&nbsp;<%=getTran("Web","yes",sWebLanguage)%>";
       }
       else if(transactionForm.BeroepsPA.value == "N"){
-        row.cells(4).innerHTML = "&nbsp;<%=getTran("Web","no",sWebLanguage)%>";
+        row.cells[4].innerHTML = "&nbsp;<%=getTran("Web","no",sWebLanguage)%>";
       }
 
       // reset
@@ -533,12 +533,12 @@ function updateBeroep(){
 
     // update table object
     row = tblBeroeps.rows[editBeroepRowid.rowIndex];
-    row.cells(0).innerHTML = "<a href='javascript:deleteBeroep("+editBeroepRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+    row.cells[0].innerHTML = "<a href='javascript:deleteBeroep("+editBeroepRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
 	                        +"<a href='javascript:editBeroep("+editBeroepRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
-    row.cells(1).innerHTML = "&nbsp;"+transactionForm.BeroepsDateBegin.value;
-    row.cells(2).innerHTML = "&nbsp;"+transactionForm.BeroepsDateEnd.value;
-    row.cells(3).innerHTML = "&nbsp;"+transactionForm.BeroepsDescription.value;
-    row.cells(4).innerHTML = "&nbsp;"+transactionForm.BeroepsPA.value;
+    row.cells[1].innerHTML = "&nbsp;"+transactionForm.BeroepsDateBegin.value;
+    row.cells[2].innerHTML = "&nbsp;"+transactionForm.BeroepsDateEnd.value;
+    row.cells[3].innerHTML = "&nbsp;"+transactionForm.BeroepsDescription.value;
+    row.cells[4].innerHTML = "&nbsp;"+transactionForm.BeroepsPA.value;
 
     // reset
     clearBeroepsFields();
@@ -569,11 +569,11 @@ function addArbeidsOngeval(){
 
     sBI = formatBI(transactionForm.ArbeidsOngevallenBI.value);
 
-	row.cells(0).innerHTML = "<a href='javascript:deleteArbeidsOngeval(rowAO"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+	row.cells[0].innerHTML = "<a href='javascript:deleteArbeidsOngeval(rowAO"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
                             +"<a href='javascript:editArbeidsOngeval(rowAO"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
-    row.cells(1).innerHTML = "&nbsp;"+transactionForm.ArbeidsOngevallenDate.value;
-    row.cells(2).innerHTML = "&nbsp;"+transactionForm.ArbeidsOngevallenDescription.value;
-    row.cells(3).innerHTML = "&nbsp;"+sBI;
+    row.cells[1].innerHTML = "&nbsp;"+transactionForm.ArbeidsOngevallenDate.value;
+    row.cells[2].innerHTML = "&nbsp;"+transactionForm.ArbeidsOngevallenDescription.value;
+    row.cells[3].innerHTML = "&nbsp;"+sBI;
 
     // reset
     clearArbeidsOngevalFields();
@@ -621,11 +621,11 @@ function updateArbeidsOngeval(){
     sBI = formatBI(transactionForm.ArbeidsOngevallenBI.value);
 
     row = tblAO.rows[editAORowid.rowIndex];
-    row.cells(0).innerHTML = "<a href='javascript:deleteArbeidsOngeval("+editAORowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+    row.cells[0].innerHTML = "<a href='javascript:deleteArbeidsOngeval("+editAORowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
                             +"<a href='javascript:editArbeidsOngeval("+editAORowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
-    row.cells(1).innerHTML = "&nbsp;"+transactionForm.ArbeidsOngevallenDate.value;
-    row.cells(2).innerHTML = "&nbsp;"+transactionForm.ArbeidsOngevallenDescription.value;
-    row.cells(3).innerHTML = "&nbsp;"+sBI;
+    row.cells[1].innerHTML = "&nbsp;"+transactionForm.ArbeidsOngevallenDate.value;
+    row.cells[2].innerHTML = "&nbsp;"+transactionForm.ArbeidsOngevallenDescription.value;
+    row.cells[3].innerHTML = "&nbsp;"+sBI;
 
     // reset
     clearArbeidsOngevalFields();
@@ -657,17 +657,17 @@ function addBZ(){
 
     sBI = formatBI(transactionForm.BeroepsziektenBI.value);
 
-    row.cells(0).innerHTML = "<a href='javascript:deleteBZ(rowBZ"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+    row.cells[0].innerHTML = "<a href='javascript:deleteBZ(rowBZ"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
 	                        +"<a href='javascript:editBZ(rowBZ"+iIndexBeroeps+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
-    row.cells(1).innerHTML = "&nbsp;"+transactionForm.BeroepsziektenDate.value;
-    row.cells(2).innerHTML = "&nbsp;"+transactionForm.BeroepsziektenDescription.value;
-    row.cells(3).innerHTML = "&nbsp;"+sBI;
+    row.cells[1].innerHTML = "&nbsp;"+transactionForm.BeroepsziektenDate.value;
+    row.cells[2].innerHTML = "&nbsp;"+transactionForm.BeroepsziektenDescription.value;
+    row.cells[3].innerHTML = "&nbsp;"+sBI;
 
     if(transactionForm.BeroepsziektenErkenning.value == "Y"){
-      row.cells(4).innerHTML = "&nbsp;<%=getTran("Web","yes",sWebLanguage)%>";
+      row.cells[4].innerHTML = "&nbsp;<%=getTran("Web","yes",sWebLanguage)%>";
     }
     else if(transactionForm.BeroepsziektenErkenning.value == "N"){
-      row.cells(4).innerHTML = "&nbsp;<%=getTran("Web","no",sWebLanguage)%>";
+      row.cells[4].innerHTML = "&nbsp;<%=getTran("Web","no",sWebLanguage)%>";
     }
 
     // reset
@@ -719,12 +719,12 @@ function updateBZ(){
     sBI = formatBI(transactionForm.BeroepsziektenBI.value);
 
     row = tblBZ.rows[editBZRowid.rowIndex];
-    row.cells(0).innerHTML = "<a href='javascript:deleteBZ("+editBZRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
+    row.cells[0].innerHTML = "<a href='javascript:deleteBZ("+editBZRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_delete.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.delete",sWebLanguage)%>' border='0'></a> "
 	                        +"<a href='javascript:editBZ("+editBZRowid.id+")'><img src='<%=sCONTEXTPATH%>/_img/icons/icon_edit.gif' alt='<%=getTranNoLink("Web.Occup","medwan.common.edit",sWebLanguage)%>' border='0'></a>";
-    row.cells(1).innerHTML = "&nbsp;"+transactionForm.BeroepsziektenDate.value;
-    row.cells(2).innerHTML = "&nbsp;"+transactionForm.BeroepsziektenDescription.value;
-    row.cells(3).innerHTML = "&nbsp;"+sBI;
-    row.cells(4).innerHTML = "&nbsp;"+transactionForm.BeroepsziektenErkenning.value;
+    row.cells[1].innerHTML = "&nbsp;"+transactionForm.BeroepsziektenDate.value;
+    row.cells[2].innerHTML = "&nbsp;"+transactionForm.BeroepsziektenDescription.value;
+    row.cells[3].innerHTML = "&nbsp;"+sBI;
+    row.cells[4].innerHTML = "&nbsp;"+transactionForm.BeroepsziektenErkenning.value;
 
     // reset
     clearBZFields();

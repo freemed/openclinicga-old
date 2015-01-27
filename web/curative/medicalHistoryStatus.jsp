@@ -196,15 +196,16 @@ try{
                                                                                 <%
 	                                                                                String sReference = transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_UDI");
 	                                                                                if(sReference.length() > 0){
-	                                                                                    %>(<%=sReference%> - <%=transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_TITLE") %>)<%                                                                                    	
-	                                                                                    String sStorageName = transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_STORAGENAME");
-	                                                                                    if(sStorageName.length() == 0){
-	                                                                                        %>&nbsp;<img src='<c:url value="_img/icons/icon_upload.gif"/>' class="link" onclick='document.getElementById("fileuploadid").value="<%=sReference %>";document.getElementById("uploadtransactionid").value="<%=transactionVO.getServerId()+"."+transactionVO.getTransactionId() %>";document.getElementById("fileupload").click();return false'/><%                                                                                    	
-	                                                                                    }
+	                                                                                    %>(<%=sReference%> - <%=transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_TITLE") %>)<%
 	                                                                                }
                                                                                 %>
                                                                             </a>
                                                                         <%
+                                                                        
+                                                                        String sStorageName = transactionVO.getItemValue("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_DOC_STORAGENAME");
+                                                                        if(sStorageName.length()==0){
+                                                                            %>&nbsp;<img src='<c:url value="_img/icons/icon_upload.gif"/>' class="link" onclick='document.getElementById("fileuploadid").value="<%=sReference %>";document.getElementById("uploadtransactionid").value="<%=transactionVO.getServerId()+"."+transactionVO.getTransactionId()%>";document.getElementById("fileupload").click();return false'/><%                                                                                    	
+                                                                        }
                                                                     }
                                                                     // no Document
                                                                     else{

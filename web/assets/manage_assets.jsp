@@ -824,7 +824,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
       
       <%-- focus empty field --%>
            if(document.getElementById("code").value.length==0) document.getElementById("code").focus();
@@ -1255,7 +1255,7 @@
         }
       }
       else{
-                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+        alertDialog("web.manage","dataMissing");
     
         <%-- focus empty field --%>
              if(EditForm.gaDate.value.length==0) EditForm.gaDate.focus();
@@ -1308,7 +1308,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
     
       <%-- focus empty field --%>
            if(EditForm.gaDate.value.length==0) EditForm.gaDate.focus();
@@ -1475,7 +1475,7 @@
         }
       }
       else{
-                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+        alertDialog("web.manage","dataMissing");
     
         <%-- focus empty field --%>
              if(EditForm.loDate.value.length==0) EditForm.loDate.focus();
@@ -1528,7 +1528,7 @@
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
     
       <%-- focus empty field --%>
            if(EditForm.loDate.value.length==0) EditForm.loDate.focus();
@@ -1700,7 +1700,7 @@
         EditForm.ButtonUpdatePD.disabled = true;
       }
       else{
-                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+        alertDialog("web.manage","dataMissing");
       
         <%-- focus empty field --%>
         if(EditForm.pdID.value.length==0) EditForm.pdID.focus();
@@ -1748,7 +1748,7 @@
       EditForm.ButtonUpdatePD.disabled = true;
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
     
       <%-- focus empty field --%>
       if(EditForm.pdID.value.length==0) EditForm.pdID.focus();
@@ -1986,7 +1986,7 @@
         calculateReimbursementTotals();
       }
       else{
-                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+        alertDialog("web.manage","dataMissing");
     
         <%-- focus empty field --%>
              if(EditForm.rpDate.value.length==0) EditForm.rpDate.focus();
@@ -2039,7 +2039,7 @@
       calculateReimbursementTotals();
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
     
       <%-- focus empty field --%>
            if(EditForm.rpDate.value.length==0) EditForm.rpDate.focus();
@@ -2214,7 +2214,7 @@
         EditForm.ButtonUpdateLD.disabled = true;
       }
       else{
-                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+        alertDialog("web.manage","dataMissing");
     
         <%-- focus empty field --%>
         if(EditForm.ldID.value.length==0) EditForm.ldID.focus();
@@ -2282,7 +2282,7 @@
       EditForm.ButtonUpdateLD.disabled = true;
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
     
       <%-- focus empty field --%>
       if(EditForm.ldID.value.length==0) EditForm.ldID.focus();

@@ -231,12 +231,12 @@
         submitForm();
       }
       else{
-                  window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                  alertDialog("web.manage","dataMissing");
         transactionForm.examination.focus();
       }
     }
     else{
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+                alertDialog("web.manage","dataMissing");
       transactionForm.applying_physician.focus();
     }
   }

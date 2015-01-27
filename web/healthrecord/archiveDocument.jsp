@@ -153,7 +153,7 @@
       %>
 	}
 	else{
-	            window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');	
+	            alertDialog("web.manage","dataMissing");	
 	  
 	       if(document.getElementById("trandate").value.length==0) document.getElementById("trandate").focus();
       else if(document.getElementById("title").value.length==0) document.getElementById("title").focus();

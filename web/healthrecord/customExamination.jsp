@@ -330,9 +330,9 @@
             </td>
         </tr>
 
-        <%-- configured items --%>
+        <%-- configured items (layout of data) --%>
         <%
-            Screen screen = Screen.getByExamId(sCustomExamType,tran.getUpdateTime());
+            Screen screen = Screen.getByExamType(sCustomExamType,tran.getUpdateTime());
             if(Debug.enabled) tran.displayItems();
             
             out.print(displayScreen(screen,tran,sWebLanguage));
@@ -353,8 +353,15 @@
     <%=ScreenHelper.alignButtonsStop()%>
 </form>
 
-Transaction '<%=tran.getServerId()+"."+tran.getTransactionId()%>' saved at <%=ScreenHelper.fullDateFormat.format(tran.getTimestamp())%><br/>
-Displayed using template '<%=screen.getUid()%>' saved at <%=ScreenHelper.stdDateFormat.format(screen.getUpdateDateTime())%>
+<%
+    if(Debug.enabled){
+	    if(!tran.isNew()){
+	    	%>Transaction '<%=tran.getServerId()+"."+tran.getTransactionId()%>' saved at <%=ScreenHelper.fullDateFormat.format(tran.getTimestamp())%><br/><%
+	    }
+
+        %>Displayed using template '<%=screen.getUid()%>' saved at <%=ScreenHelper.stdDateFormat.format(screen.getUpdateDateTime())%><%
+	}
+%>
 
 <%=ScreenHelper.contextFooter(request)%>
 
@@ -375,7 +382,7 @@ Displayed using template '<%=screen.getUid()%>' saved at <%=ScreenHelper.stdDate
 	}
 	else{
       focusFirstEmptyRequiredField();
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+      alertDialog("web.manage","dataMissing");
 	}
   }
   

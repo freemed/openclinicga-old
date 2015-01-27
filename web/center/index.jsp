@@ -42,7 +42,7 @@
   function setSearch(){
     var params = "FindBegin="+$F("FindBegin")+
                  "&FindEnd="+$F("FindEnd")+
-                 "&ts="+new Date();
+                 "&ts="+new Date().getTime();
     var url = "<%=sCONTEXTPATH%>/center/ajax/searchServices.jsp";
     new Ajax.Request(url,{
       parameters:params,
