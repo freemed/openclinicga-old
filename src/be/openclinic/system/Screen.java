@@ -258,7 +258,7 @@ public class Screen extends OC_Object {
     	}
 
     	int newIdx = specifiedRowIdx-directionAndStep; // minus !
-    	if(newIdx > 0 && newIdx<rows.size()){
+    	if(newIdx >= 0 && newIdx<rows.size()){
 	    	Debug.println("Moving row '"+sRowId+"' from "+specifiedRowIdx+" to "+newIdx+" ("+directionAndStep+")");
 	    	newRows.insertElementAt(specifiedRow,newIdx);
     	}
@@ -348,56 +348,82 @@ public class Screen extends OC_Object {
     //--- EXPAND ROWS -----------------------------------------------------------------------------
     public Vector expandRows(){
         Debug.println("\n****************************** EXPAND ROWS ****************************");
-        Debug.println("heightInRows : "+this.heightInRows);
         Debug.println("widthInCells : "+this.widthInCells);
+        Debug.println("heightInRows : "+this.heightInRows);
     	
         Vector rows = new Vector();
         
         //*** 1 - rows ***
-        Hashtable row = null;;
+        Hashtable row = null;
+        boolean newRow = false; 
         for(int r=0; r<heightInRows; r++){
         	String sRowId = "";
         	
-        	// respect the actual order
+        	// keep the existing rows
         	if(r<this.rows.size()){
                 row = (Hashtable)this.rows.get(r);
                 sRowId = ScreenHelper.checkString((String)row.get("Attr_id"));
                 row = getRow(sRowId);
+                Debug.println("("+r+") EXISTING ROW"); ///////
+                newRow = false;
         	}
-        			
-            if(row==null){
+        	// create new row when actually expanding
+        	else if(row==null){
             	row = new Hashtable();
             	row.put("Attr_id","row_"+r);
             	sRowId = "cell_"+r;
+                Debug.println("("+r+") NEW ROW"); ///////
+                newRow = true;
             }
             
             //*** 2 - cells ***
             Vector cells = new Vector();
             Hashtable cell; 
             for(int c=0; c<widthInCells; c++){
-                cell = getCell((sRowId.replaceAll("row","cell"))+"_"+c);
-                
-                if(cell==null){
-                    cell = new Hashtable();
+                if(newRow){
+                    //***** all cells are new too *****
+         	        cell = new Hashtable();
                     cell.put("Attr_id",(sRowId.replaceAll("row","cell"))+"_"+c);
-                    
+                   
                     // default attributes (can be overwritten later)
                     //cell.put("Attr_width",MedwanQuery.getInstance().getConfigString("defaultCellWidth",(c==0?"admin":"admin2")));
                     if(c==0){
                         cell.put("Attr_width",MedwanQuery.getInstance().getConfigString("defaultCellWidth","200"));
                     }
                     cell.put("Attr_class",MedwanQuery.getInstance().getConfigString("defaultCellClass",(c==0?"admin":"admin2")));
-                    //cell.put("Attr_colspan",MedwanQuery.getInstance().getConfigString("defaultCellColspan","1"));                                
-                }
+                    //cell.put("Attr_colspan",MedwanQuery.getInstance().getConfigString("defaultCellColspan","1"));	
+            	}
+            	else{
+            		//***** existing cell *****
+                    cell = getCell((sRowId.replaceAll("row","cell"))+"_"+c);
+                    
+                    if(cell==null){
+                        //***** cell not found *****
+                    	Debug.println("  ("+c+") NEW CELL"); //////
+                    	
+             	        cell = new Hashtable();
+                        cell.put("Attr_id",(sRowId.replaceAll("row","cell"))+"_"+c);
+                       
+                        // default attributes (can be overwritten later)
+                        //cell.put("Attr_width",MedwanQuery.getInstance().getConfigString("defaultCellWidth",(c==0?"admin":"admin2")));
+                        if(c==0){
+                            cell.put("Attr_width",MedwanQuery.getInstance().getConfigString("defaultCellWidth","200"));
+                        }
+                        cell.put("Attr_class",MedwanQuery.getInstance().getConfigString("defaultCellClass",(c==0?"admin":"admin2")));
+                        //cell.put("Attr_colspan",MedwanQuery.getInstance().getConfigString("defaultCellColspan","1"));
+                    }
+            	}
                 
                 cells.add(cell);
             }
             
             row.put("Cells",cells);
             
-            rows.add(row);            
+            rows.add(row);         
+            row = null;   
         }
-    	
+
+        Debug.println("----> "+rows.size()); ///////
         return rows;
     }
     
@@ -785,9 +811,7 @@ public class Screen extends OC_Object {
     }
     
     //--- COPY SCREEN RECORD TO HISTORY -----------------------------------------------------------
-    private void copyScreenRecordToHistory(String sUid){
-    	System.out.println("**************** copyScreenRecordToHistory ("+sUid+") ****************"); /////////////////
-    	        
+    private void copyScreenRecordToHistory(String sUid){    	        
         Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         PreparedStatement ps = null;
                 
@@ -882,11 +906,6 @@ public class Screen extends OC_Object {
         Iterator rowAttrKeyIter;
         Enumeration cellAttrEnum;
         String sRowId;
-
-    	/////////////////////////////////
-    	for(int i=0; i<this.getRows().size(); i++){
-    		Hashtable roww = (Hashtable)this.getRows().get(i);
-    	}
     	
         for(int r=0; r<this.rows.size(); r++){
             row = (Hashtable)this.rows.get(r);
@@ -918,7 +937,7 @@ public class Screen extends OC_Object {
                  .append(" onClick=deleteRow('"+sRowId+"')> ");
             
             if(r > 0){
-	            sHtml.append("<img src='"+sCONTEXTPATH+"/_img/top.jpg' class='link'")
+	            sHtml.append("<img src='"+sCONTEXTPATH+"/_img/themes/default/top.jpg' class='link'")
 	                 .append(" alt='"+ScreenHelper.getTranNoLink("web","moveUp",sWebLanguage)+"'")
 	                 .append(" onClick=moveRow(1,'"+sRowId+"')> ");
             }
@@ -927,7 +946,7 @@ public class Screen extends OC_Object {
             }
 
             if(r < rows.size()-1){
-	            sHtml.append("<img src='"+sCONTEXTPATH+"/_img/bottom.jpg' class='link'")
+	            sHtml.append("<img src='"+sCONTEXTPATH+"/_img/themes/default/bottom.jpg' class='link'")
 	                 .append(" alt='"+ScreenHelper.getTranNoLink("web","moveDown",sWebLanguage)+"'")
 	                 .append(" onClick=moveRow(-1,'"+sRowId+"')> ");
             }
@@ -1045,7 +1064,7 @@ public class Screen extends OC_Object {
                                  .append(" onblur='checkDate(this);'")
                                  .append(">");
                             
-                            sHtml.append("<script>writeMyDate('item_"+item.getItemTypeId()+"');</script>");
+                            sHtml.append("<script>getMyDate('item_"+item.getItemTypeId()+"');</script>");
                         }
                         //*** select ***
                         else if(item.getHtmlElement().equals("select")){
@@ -1229,16 +1248,17 @@ public class Screen extends OC_Object {
         return screen;
     }
     
-    //--- GET BY EXAMID ---------------------------------------------------------------------------
+    //--- GET BY EXAM TYPE ------------------------------------------------------------------------
     // examId ~ examType ~ tranType
-    public static Screen getByExamId(String sExamId, java.util.Date saveDate){
-    	return getByExamId(sExamId,"oc_screens",saveDate);	
+    public static Screen getByExamType(String sExamType, java.util.Date saveDate){
+    	return getByExamType(sExamType,"oc_screens",saveDate);	
     }
     
-    public static Screen getByExamId(String sExamId, String sScreensTable, java.util.Date saveDate){
+    public static Screen getByExamType(String sExamType, String sScreensTable, java.util.Date saveDate){
         Debug.println("\n*************************************************************************************");
-        Debug.println("******************** GET BY EXAM ID ("+sExamId+", "+sScreensTable+", "+saveDate+") *********************");
+        Debug.println("******************** GET BY EXAM TYPE ("+sExamType+", "+sScreensTable+", "+ScreenHelper.stdDateFormat.format(saveDate)+") *********************");
         Debug.println("*************************************************************************************");
+       
         Screen screen = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -1248,11 +1268,10 @@ public class Screen extends OC_Object {
         try{
             String sSql = "SELECT * FROM "+sScreensTable+
                           " WHERE OC_SCREEN_TRANSACTIONTYPE = ?"+
-            		      "  AND ? = OC_SCREEN_UPDATETIME"+
+            		      "  AND OC_SCREEN_UPDATETIME = ?"+
                           " ORDER BY OC_SCREEN_UPDATETIME desc"; // most recent version first
             ps = oc_conn.prepareStatement(sSql);
-            ps.setString(1,ScreenHelper.ITEM_PREFIX+"TRANSACTION_TYPE_CUSTOMEXAMINATION"+sExamId);
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@ new java.sql.Date(saveDate.getTime()) : "+new java.sql.Date(saveDate.getTime())); ///////////
+            ps.setString(1,ScreenHelper.ITEM_PREFIX+"TRANSACTION_TYPE_CUSTOMEXAMINATION"+sExamType);
             ps.setDate(2,new java.sql.Date(saveDate.getTime()));
 
             // execute
@@ -1261,7 +1280,7 @@ public class Screen extends OC_Object {
                 screen = new Screen();
                 screen.setUid(rs.getString("OC_SCREEN_SERVERID")+"."+rs.getString("OC_SCREEN_OBJECTID"));
 
-                Debug.println("--> Transaction found : "+screen.getUid());
+                Debug.println("--> Screen found : "+screen.getUid());
 
                 // xml
                 byte[] xmlBytes = rs.getBytes("OC_SCREEN_XMLDATA");
@@ -1302,10 +1321,10 @@ public class Screen extends OC_Object {
             else{
             	if(sScreensTable.equalsIgnoreCase("oc_screens")){
 	            	// search in history
-	            	screen = getByExamId(sExamId,"oc_screens_history",saveDate);
+	            	screen = getByExamType(sExamType,"oc_screens_history",saveDate);
             	}
             	else{
-                    Debug.println("--> Transaction not found");            		
+                    Debug.println("--> Screen not found");            		
             	}
             }
         }
@@ -1421,6 +1440,7 @@ public class Screen extends OC_Object {
     }
     
     //--- DELETE ----------------------------------------------------------------------------------
+    // Delete in such way that old transactions can still be displayed 
     public boolean delete(String sScreenUID, String sExamId, int userId){
         boolean errorOccurred = false;
         PreparedStatement ps = null;
@@ -1429,6 +1449,9 @@ public class Screen extends OC_Object {
         Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         
         try{
+        	//*** 0 - COPY TO HISTORY *****************************************
+        	copyScreenRecordToHistory(sScreenUID);
+        	
             //*** 1 - DELETE SCREEN *******************************************
             String sSql = "DELETE FROM oc_screens"+
                           " WHERE (OC_SCREEN_SERVERID = ? AND OC_SCREEN_OBJECTID = ?)";
@@ -1437,6 +1460,7 @@ public class Screen extends OC_Object {
             ps.setInt(2,Integer.parseInt(sScreenUID.substring(sScreenUID.indexOf(".")+1)));            
             ps.executeUpdate();
             
+            /*
             //*** 1b - DELETE SCREEN HISTORY **********************************
             sSql = "DELETE FROM oc_screens_history"+
                    " WHERE (OC_SCREEN_SERVERID = ? AND OC_SCREEN_OBJECTID = ?)";
@@ -1444,14 +1468,17 @@ public class Screen extends OC_Object {
             ps.setInt(1,Integer.parseInt(sScreenUID.substring(0,sScreenUID.indexOf("."))));
             ps.setInt(2,Integer.parseInt(sScreenUID.substring(sScreenUID.indexOf(".")+1)));            
             ps.executeUpdate();
-                        
+            */
+            
             //*** 2 - UN-REGISTER EXAMINATION and TRANSACTIONITEMS ************
             unregisterExamination(sExamId,userId); // in database
+            Examination.deleteServiceExamination(Integer.parseInt(sExamId));
             boolean examFound = unregisterExaminationInXML(sExamId); // in xml
             if(examFound){
-                unregisterTransactionItems();
+                //unregisterTransactionItems();
             }
             
+            /*
             //*** 3 - DELETE LABELS *******************************************
             sSql = "DELETE FROM oc_labels"+
                    " WHERE (OC_LABEL_TYPE = ? AND OC_LABEL_ID = ?)";
@@ -1466,6 +1493,7 @@ public class Screen extends OC_Object {
             ps.setString(1,"web.occup");
             ps.setString(2,this.examId);                        
             ps.executeUpdate();
+            */
         }
         catch(Exception e){
             errorOccurred = true;
@@ -1640,14 +1668,8 @@ public class Screen extends OC_Object {
     //--- UNREGISTER EXAMINATION ------------------------------------------------------------------
     // delete record from database
     private void unregisterExamination(String sExamId, int userId){        
-        // mark examination as deleted
-        Examination exam = new Examination();
-        exam.setDeletedate(ScreenHelper.getSQLTime());
-        exam.setUpdatetime(ScreenHelper.getSQLTime());
-        exam.setUpdateuserid(userId);
-        exam.setId(Integer.parseInt(sExamId));
-
-        Examination.deleteExamination(exam);
+        // delete examination
+        Examination.deleteExamination(Integer.parseInt(sExamId));
 
         // remove labels
         /*
@@ -1703,7 +1725,7 @@ public class Screen extends OC_Object {
                             XMLWriter writer = new XMLWriter(fileWriter,format);
                             writer.write(document);
                             
-                            Debug.println("\n"+document.asXML()+"\n");
+                            //Debug.println("\n"+document.asXML()+"\n");
                             writer.close();
                             fileWriter.close();
                             

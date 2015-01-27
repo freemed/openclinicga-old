@@ -215,19 +215,13 @@ public class Examination {
     }
 
     //--- DELETE EXAMINATION ----------------------------------------------------------------------
-    public static void deleteExamination(Examination objExam){
+    public static void deleteExamination(int examId){    	
         PreparedStatement ps = null;
 
-        String sDelete = "UPDATE Examinations SET deletedate=?, updatetime=?, updateuserid=?"+
-                         " WHERE id=?";
         Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
-            ps = oc_conn.prepareStatement(sDelete);
-            ps.setTimestamp(1,objExam.getDeletedate());
-            ps.setTimestamp(2,objExam.getUpdatetime());
-            ps.setInt(3,objExam.getUpdateuserid());
-            ps.setInt(4,objExam.getId());
-            
+            ps = oc_conn.prepareStatement("DELETE FROM Examinations WHERE id = ?");
+            ps.setInt(1,examId);            
             ps.executeUpdate();
         }
         catch(Exception e){
@@ -235,7 +229,7 @@ public class Examination {
         }
         finally{
             try{
-                if(ps!=null)ps.close();
+                if(ps!=null) ps.close();
                 oc_conn.close();
             }
             catch(Exception e){
@@ -243,7 +237,34 @@ public class Examination {
             }
         }
         
-        MedwanQuery.getInstance().removeExamination(objExam.getId()+"");
+        MedwanQuery.getInstance().removeExamination(examId+"");
+    }
+    
+    //--- DELETE SERVICE EXAMINATION ----------------------------------------------------------------
+    public static void deleteServiceExamination(int examId){
+        PreparedStatement ps = null;
+
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+        	String sSql = "DELETE FROM ServiceExaminations WHERE examinationid = ?";
+            ps = oc_conn.prepareStatement(sSql);
+            ps.setInt(1,examId);            
+            ps.executeUpdate();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(ps!=null) ps.close();
+                oc_conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        
+        MedwanQuery.getInstance().removeServiceExaminations(examId+"");
     }
 
     //--- SELECT EXAMINATIONS ---------------------------------------------------------------------

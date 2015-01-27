@@ -27,6 +27,8 @@ public class PDFGenericTransaction extends PDFGeneralBasic {
 
                 if(!item.getType().equalsIgnoreCase(IConstants_PREFIX+"ITEM_TYPE_CONTEXT_CONTEXT") &&
                    !item.getType().equalsIgnoreCase(IConstants_PREFIX+"ITEM_TYPE_CONTEXT_DEPARTMENT") &&
+                   !item.getType().equalsIgnoreCase(IConstants_PREFIX+"ITEM_TYPE_CONTEXT_ENCOUNTERUID") &&
+                   !item.getType().equalsIgnoreCase(IConstants_PREFIX+"ITEM_TYPE_PRIVATETRANSACTION") &&
                    !item.getType().equalsIgnoreCase(IConstants_PREFIX+"ITEM_TYPE_TRANSACTION_RESULT") &&
                    !item.getType().equalsIgnoreCase(IConstants_PREFIX+"ITEM_TYPE_RECRUITMENT_CONVOCATION_ID")){
 

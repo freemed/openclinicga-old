@@ -401,6 +401,7 @@ public class MedwanQuery {
     	}
     }
     
+	//--- SET SESSION -----------------------------------------------------------------------------
     public static void setSession(HttpSession session,User user){
     	Enumeration e = sessions.keys();
     	while(e.hasMoreElements()){
@@ -3541,7 +3542,7 @@ public class MedwanQuery {
                 if(sArchCode.length()==0){
                 	// create new code
 	                String sArchiveID = ScreenHelper.convertToAlfabeticalCode(""+MedwanQuery.getInstance().getNewArchiveFileCounter());
-	                System.out.println("updateArchiveFile(personid:"+personid+") --> new archiveFileCode : "+sArchiveID);
+	                Debug.println("updateArchiveFile(personid:"+personid+") --> new archiveFileCode : "+sArchiveID);
 	                
 	                // verify double use
 	                ps = ad_conn.prepareStatement("select personid from Admin where archiveFileCode=?");
@@ -3558,7 +3559,7 @@ public class MedwanQuery {
 		                ps.execute();
 	                }
 	                else{
-	                	System.out.println("updateArchiveFile(personid:"+personid+") --> archiveFileCode exists : "+sArchCode);
+	                	Debug.println("updateArchiveFile(personid:"+personid+") --> archiveFileCode exists : "+sArchCode);
 	                	rs.close();
 	                }
 	                
@@ -3573,7 +3574,7 @@ public class MedwanQuery {
                 ps.close();
                 ad_conn.close();
                 
-                System.out.println("updateArchiveFile(personid:"+personid+") --> person not found");
+                Debug.println("updateArchiveFile(personid:"+personid+") --> person not found");
                 return false;
             }
         }
@@ -5883,11 +5884,11 @@ public class MedwanQuery {
             for(Iterator iterator = transactionVO.getItems().iterator(); iterator.hasNext();){
                 itemVO = (ItemVO) iterator.next();
                 if(itemVO.getValue().trim().length() > 0){
-                	System.out.println("================================================="); //////////////////
-                	System.out.println("============ SAVING ITEM ========================"); //////////////////
-                	System.out.println("================================================="); //////////////////
-                    System.out.println("itemVO.getType : "+itemVO.getType()); /////////
-                    System.out.println("itemVO.getValue : "+itemVO.getValue()); /////////
+                	Debug.println("================================================="); //////////////////
+                	Debug.println("============ SAVING ITEM ========================"); //////////////////
+                	Debug.println("================================================="); //////////////////
+                	Debug.println("itemVO.getType : "+itemVO.getType());
+                	Debug.println("itemVO.getValue : "+itemVO.getValue());
                     
                     sSelect = "insert into Items(itemId,type,"+getConfigString("valueColumn")+","+
                               getConfigString("dateColumn")+",transactionId,serverid,version,versionserverid,valuehash)"+
