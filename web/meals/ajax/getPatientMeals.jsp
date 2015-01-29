@@ -63,9 +63,11 @@
 
     if(lMeals.size() > 0){
     	%><script>ts_makeSortable(document.getElementById("patientmeals"));</script><%
+    	%><script>$("mealNutricientsButton").disabled = false;</script><%
     	%><%=lMeals.size()%> <%=HTMLEntities.htmlentities(getTran("web","recordsFound",sWebLanguage))%><%
     }
     else{
+    	%><script>$("mealNutricientsButton").disabled = true;</script><%
     	%><%=HTMLEntities.htmlentities(getTran("web","noRecordsFound",sWebLanguage))%><%
     }
 %>

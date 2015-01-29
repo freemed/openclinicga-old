@@ -224,21 +224,24 @@
         $("mealNutricientsButton").addClassName("up");
       }
     
-      $(id).update("<div id='wait'></div>");
-      var params = "ts="+new Date().getTime();
-      var elements = $("patientmeals").getElementsBySelector("TR");
-      var reg = new RegExp("[_]+","g");
-      var items = "&meals=";
-      elements.each(function(s){
-        if(s.id.length > 0){
-          var t = s.id.split(reg);
-          items+= t[1]+",";
-        }
-      });
-      params+= items;
+      if($("patientmeals")!=null){
+        $(id).update("<div id='wait'></div>");
+          
+        var params = "ts="+new Date().getTime();
+        var elements = $("patientmeals").getElementsBySelector("TR");
+        var reg = new RegExp("[_]+","g");
+        var items = "&meals=";
+        elements.each(function(s){
+          if(s.id.length > 0){
+            var t = s.id.split(reg);
+            items+= t[1]+",";
+          }
+        });
+        params+= items;
 
-      var url = "<c:url value='meals/ajax/getMealNutricients.jsp'/>";
-      new Ajax.Updater(id,url,{parameters:params,evalScripts:true});
+        var url = "<c:url value='meals/ajax/getMealNutricients.jsp'/>";
+        new Ajax.Updater(id,url,{parameters:params,evalScripts:true});
+      }
     }
   }
 
@@ -252,15 +255,15 @@
   function addDays(d,j){
     var date = new Date(makeDate(d).getTime()+(1000*60*60*24*j));
     if(date){
-	  if(this.format=="us"){	
+      if(dateFormat=="dd/MM/yyyy"){
         $('datechoosed').value = (date.getDate()>9?"":"0")+date.getDate()+"/"+
                                  (date.getMonth()>8?"":"0")+(date.getMonth()+1)+"/"+
-                                 y2k(date.getYear());
+                                 date.getFullYear();
 	  }
 	  else{	
         $('datechoosed').value = (date.getMonth()>8?"":"0")+(date.getMonth()+1)+"/"+
                                  (date.getDate()>9?"":"0")+date.getDate()+"/"+
-                                 y2k(date.getYear());
+                                 date.getFullYear();
 	  }
     }	
 

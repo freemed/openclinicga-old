@@ -116,7 +116,7 @@
         <td class="admin"><%=HTMLEntities.htmlentities(getTran("meals","mealNutricients",sWebLanguage))%></td>
         <td class="admin2">
             <a href="javascript:void(0)" id="mealNutricientsButton" class="link down" onclick="getNutricientsInMeal(true);"><%=getTranNoLink("meals","seemealNutricients",sWebLanguage)%></a>
-            <ul id="mealNutricientList" class="items" style="width:380px"></ul>
+            <ul id="mealNutricientList" class="items" style="display:none;width:380px"></ul>
         </td>
     </tr>
     

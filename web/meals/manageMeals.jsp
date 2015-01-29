@@ -191,29 +191,32 @@
   function getNutricientsInMeal(toggle){
 	if(toggle==null) toggle = false;
     var id = "mealNutricientList";
-    
-    if(toggle){
+
+    if(toggle){      
       if($(id).style.display=="none"){
         $(id).style.display = "table";
-        $("mealNutricientsRefresh").style.display = "inline";
+        $("mealNutricientsButton").removeClassName("down");
+        $("mealNutricientsButton").addClassName("up");
+        
+        if($("mealNutricientsRefresh")!=null){
+          $("mealNutricientsRefresh").style.display = "inline";
+        }
       }
       else{
         $(id).style.display = "none";
-        $("mealNutricientsRefresh").style.display = "none";
+        $("mealNutricientsButton").removeClassName("up");
+        $("mealNutricientsButton").addClassName("down");
+        
+        if($("mealNutricientsRefresh")!=null){
+          $("mealNutricientsRefresh").style.display = "none";
+        }
       }
     }
     
+    Modalbox.resizeToContent();
+    
     var fetchData = ($(id).style.display=="table"); 
-    if(fetchData){
-      if($("mealNutricientsButton").hasClassName("up")){
-        $("mealNutricientsButton").removeClassName("up");
-        $("mealNutricientsButton").addClassName("down");
-      }
-      else{
-        $("mealNutricientsButton").removeClassName("down");
-        $("mealNutricientsButton").addClassName("up");
-      }
-                 
+    if(fetchData){                 
       $(id).update("<div id='wait'></div>");
       var params = "ts="+new Date().getTime();
       var elements = $("mealItemList").childElements();
