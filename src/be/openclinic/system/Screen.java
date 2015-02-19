@@ -1063,8 +1063,8 @@ public class Screen extends OC_Object {
                                  .append(" size='11' maxLength='10'")
                                  .append(" onblur='checkDate(this);'")
                                  .append(">");
-                            
-                            sHtml.append("<script>getMyDate('item_"+item.getItemTypeId()+"');</script>");
+
+                            sHtml.append("<script>getMyDate('item_"+item.getItemTypeId()+"','"+sCONTEXTPATH+"/_img/icons/icon_agenda.gif','"+ScreenHelper.getTran("web","putToday",sWebLanguage)+"',true,false);</script>");
                         }
                         //*** select ***
                         else if(item.getHtmlElement().equals("select")){

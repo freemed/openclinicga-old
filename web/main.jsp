@@ -46,6 +46,7 @@
   <%=sJSMODALBOX%>
   <%=sIcon%>
   <%=sJSSCRIPTS%>
+  <%=sJSSTRINGFUNCTIONS%>
 </head>
 
 <%@include file="/includes/messageChecker.jsp"%>

@@ -319,7 +319,54 @@ public class Label implements Serializable {
         return labelExists;
     }
 
+    //--- HAS SIBLINGS ----------------------------------------------------------------------------
+    // same type, _comparable_ id, same language and same value
+    public static boolean hasSiblings(String type, String id, String value, String lang){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        boolean hasSiblings = false;
+
+        String lcaseLabelType  = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_TYPE"),
+               lcaseLabelId    = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_ID"),
+               lcaseLabelLang  = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_LANGUAGE"),
+               lcaseLabelValue = ScreenHelper.getConfigParam("lowerCompare","OC_LABEL_VALUE");
+
+        Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            String sSql = "SELECT * FROM OC_LABELS"+
+                          " WHERE "+lcaseLabelType+"=? AND "+lcaseLabelId+" LIKE ?"+
+            		      "  AND "+lcaseLabelLang+"=? AND "+lcaseLabelValue+"=?";
+            ps = conn.prepareStatement(sSql);
+            ps.setString(1,type.toLowerCase());
+            ps.setString(2,id.toLowerCase());
+            ps.setString(3,lang.toLowerCase());
+            ps.setString(4,value);
+            rs = ps.executeQuery();
+
+            if(rs.next()) hasSiblings = true;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                conn.close();
+            }
+            catch(SQLException sqle){
+                sqle.printStackTrace();
+            }
+        }
+
+        return hasSiblings;
+    }
+
     //--- DELETE ----------------------------------------------------------------------------------
+    public static void delete(String sType, String sId){
+        delete(sType,sId,""); // all languages	
+    }
+    
     public static void delete(String sType, String sId, String sLanguage){
         PreparedStatement ps = null;
 
@@ -330,11 +377,18 @@ public class Label implements Serializable {
         Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             String sSql = "DELETE FROM OC_LABELS"+
-                          " WHERE "+lcaseLabelType+"=? AND "+lcaseLabelID+"=? AND "+lcaseLabelLang+"=?";
+                          " WHERE "+lcaseLabelType+"=? AND "+lcaseLabelID+"=?";
+            
+            if(sLanguage.length() > 0){
+            	sSql+= "AND "+lcaseLabelLang+"=?";
+            }
+            
             ps = oc_conn.prepareStatement(sSql);
             ps.setString(1,sType.toLowerCase());
             ps.setString(2,sId.toLowerCase());
-            ps.setString(3,sLanguage.toLowerCase());
+            if(sLanguage.length() > 0){
+                ps.setString(3,sLanguage.toLowerCase());
+            }
             ps.executeUpdate();
         }
         catch(Exception e){

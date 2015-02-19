@@ -53,7 +53,7 @@
     var url = "<c:url value='/_common/getLabel.jsp'/>?ts=<%=ScreenHelper.getTs()%>&LabelType="+labelType+"&LabelId="+labelId;
     new Ajax.Request(url,{
       onSuccess:function(resp){
-        var label = resp.responseText.unhtmlEntities();
+        var label = resp.responseText.trim();
         if(label.length > 0){
           alertDialogDirectText(label);
         }
@@ -77,7 +77,7 @@
       var url = "<c:url value='/_common/getLabel.jsp'/>?ts=<%=ScreenHelper.getTs()%>&LabelType="+labelType+"&LabelId="+labelId;
       new Ajax.Request(url,{
         onSuccess:function(resp){
-          var label = resp.responseText.unhtmlEntities();
+          var label = resp.responseText.trim();
           if(label.length > 0){
         	answer = yesnoDialogDirectText(label);
           }

@@ -420,7 +420,7 @@
   }
     
   function readBarcode2(barcode){
-    var transform = "<%=MedwanQuery.getInstance().getConfigString("CCDKeyboardTransformString","à&é\\\"'(§è!ç")%>";
+    var transform = "<%=MedwanQuery.getInstance().getConfigString("CCDKeyboardTransformString","Ã &Ã©\\\"'(Â§Ã¨!Ã§")%>";
     var oldbarcode = barcode;
     barcode = "";
     for(var n=0; n<oldbarcode.length; n++){
@@ -460,7 +460,7 @@
 
   <%-- READ BARCODE 3 --%>
   function readBarcode3(barcode){
-    var transform = "<%=MedwanQuery.getInstance().getConfigString("CCDKeyboardTransformString","à&é\\\"'(§è!ç")%>";
+    var transform = "<%=MedwanQuery.getInstance().getConfigString("CCDKeyboardTransformString","Ã &Ã©\\\"'(Â§Ã¨!Ã§")%>";
     var oldbarcode = barcode;
     barcode = "";
     for(var n=0; n<oldbarcode.length; n++){
@@ -563,18 +563,18 @@
         var label = eval('('+resp.responseText+')');
         if(label.server.length>0){
           POSPrinterServer=label.server;
-        };
+        }
       }
     });
     return POSPrinterServer;
   }
-   
+
   <%-- CONFIRM LOGOUT --%>
   function confirmLogout(){
     if(verifyPrestationCheck()){
-      if(window.showModalDialog?yesnoDialog("Web.occup","confirm.logout"):yesnoDialog('','<%=getTran("Web.occup","confirm.logout",sWebLanguage)%>')){
-        document.location.href = '<c:url value='/logout.do'/>?ts=<%=getTs()%>';
-      }
+      yesnoDialog("Web.occup","confirm.logout",function(){
+    	document.location.href = "<c:url value='/logout.do'/>?ts=<%=getTs()%>";
+      });
     }
   }
  
@@ -589,10 +589,6 @@
       setTimeout("Modalbox.hide()",time);
     }
   }
-  
-  function refreshWindow(){
-    window.location.reload(true);
-  }
 
   <%-- YESNO MODALBOX (2 buttons) --%>
   function yesnoModalBox(yesFunction,msg){
@@ -604,6 +600,11 @@
 			    "</p>"+
 			   "</div>";
     Modalbox.show(html,{title:'<%=getTranNoLink("web","message",sWebLanguage)%>',width:300});
+  }
+
+  <%-- REFRESH WINDOW --%>
+  function refreshWindow(){
+    window.location.reload(true);
   }
   
   <%-- OPEN POPUP --%>
