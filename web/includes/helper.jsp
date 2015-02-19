@@ -536,7 +536,7 @@
         // compute starttime
         String sJS = "starttime=new Date().getTime()+";
 
-        if(checkString(activeUser.getParameter("Timeout")).length() > 0){
+        if(activeUser!=null && checkString(activeUser.getParameter("Timeout")).length() > 0){
             sJS+= Integer.parseInt(activeUser.getParameter("Timeout")) * 1000;
         }
         else{
