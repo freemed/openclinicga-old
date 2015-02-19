@@ -239,6 +239,38 @@ String.prototype.unhtmlEntities = function(){
   return newString;
 }
 
+function unhtmlEntities(text){
+  var chars = new Array ('&','à','á','â','ã','ä','å','æ','ç','è','é',
+                         'ê','ë','ì','í','î','ï','ð','ñ','ò','ó','ô',
+                         'õ','ö','ø','ù','ú','û','ü','ý','þ','ÿ','À',
+                         'Á','Â','Ã','Ä','Å','Æ','Ç','È','É','Ê','Ë',
+                         'Ì','Í','Î','Ï','Ð','Ñ','Ò','Ó','Ô','Õ','Ö',
+                         'Ø','Ù','Ú','Û','Ü','Ý','Þ','€','\"','ß','<',
+                         '>','¢','£','¤','¥','¦','§','¨','©','ª','«',
+                         '¬','­','®','¯','°','±','²','³','´','µ','¶',
+                         '·','¸','¹','º','»','¼','½','¾');
+
+  var entities = new Array ('amp','agrave','aacute','acirc','atilde','auml','aring',
+                            'aelig','ccedil','egrave','eacute','ecirc','euml','igrave',
+                            'iacute','icirc','iuml','eth','ntilde','ograve','oacute',
+                            'ocirc','otilde','ouml','oslash','ugrave','uacute','ucirc',
+                            'uuml','yacute','thorn','yuml','Agrave','Aacute','Acirc',
+                            'Atilde','Auml','Aring','AElig','Ccedil','Egrave','Eacute',
+                            'Ecirc','Euml','Igrave','Iacute','Icirc','Iuml','ETH','Ntilde',
+                            'Ograve','Oacute','Ocirc','Otilde','Ouml','Oslash','Ugrave',
+                            'Uacute','Ucirc','Uuml','Yacute','THORN','euro','quot','szlig',
+                            'lt','gt','cent','pound','curren','yen','brvbar','sect','uml',
+                            'copy','ordf','laquo','not','shy','reg','macr','deg','plusmn',
+                            'sup2','sup3','acute','micro','para','middot','cedil','sup1',
+                            'ordm','raquo','frac14','frac12','frac34');
+
+  var newString = text;
+  for(var i=0; i<entities.length; i++){
+    newString = replaceAll(newString,"&"+entities[i]+";",chars[i]);
+  }
+  return newString;
+}
+
 function replaceAll(source,target,substitute){
   return source.replace(new RegExp(target,"g"),substitute);
 }
