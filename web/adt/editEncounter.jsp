@@ -727,8 +727,7 @@
                   EditEncounterForm.CloseActiveEncounter.value = "CLOSE";
                 }
 
-                var answer = confirmDialog("adt.encounter","encounter_close");
-                if(answer){
+                if(yesnoDialog("adt.encounter","encounter_close")){
                   window.location.href='<c:url value="/main.do?Page=adt/editEncounter.jsp&EditEncounterUID="/><%=activeEncounter.getUid()%>';
                 }
                 else{

@@ -32,7 +32,7 @@
       onSuccess:function(resp){
         var label = resp.responseText.trim();
         if(label.length > 0){
-          label = convertSpecialCharsToHTML(label);
+          label = label.unhtmlEntities();
           alertDialogDirectText(label);
         }
         else{

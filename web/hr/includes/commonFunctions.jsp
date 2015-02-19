@@ -172,6 +172,7 @@
       onSuccess:function(resp){
         var label = resp.responseText.trim();
         if(label.length > 0){
+          label = label.unhtmlEntities();
           alertDialogDirectText(label);
         }
         else{

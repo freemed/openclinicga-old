@@ -283,7 +283,7 @@
   
   <%-- CLEAR SKILL --%>
   function clearSkill(){
-    if(confirmDialog("web","areYouSureToClear")){                 
+    if(yesnoDialog("web","areYouSureToClear")){                 
       $("languages").value = "";
       $("drivingLicense").value = "";
       $("itOffice").value = "";
