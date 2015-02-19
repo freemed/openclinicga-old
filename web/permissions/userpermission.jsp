@@ -420,6 +420,7 @@
                 <tr>
                     <td class="admin"><%=getTran("Web.UserProfile","alias",sWebLanguage)%></td>
                     <td class="admin2">
+                    	<input type='hidden' name='aliasMsgOK' id='aliasMsgOK' value=''/>
                         <input type='text' class='text' name='Editalias' id='Editalias' value='<%=thisUser.getParameter("alias").trim()%>' onKeyup="blurAlias(this,'<%=thisUser.userid%>');"> <span id="aliasMsg"></span>
                     </td>
                 </tr>
@@ -550,7 +551,7 @@
           <%-- DO SAVE --%>
           function doSave(){
             var medicalCenterOK = checkMedicalCenterLength();
-            var aliasOK = (document.getElementById("aliasMsg").innerHTML.length==0?true:false);
+            var aliasOK = (document.getElementById("aliasMsgOK").value.length==0?true:false);
 
             if(medicalCenterOK && aliasOK){
               transactionForm.Action.value = "save";
@@ -614,11 +615,13 @@
                 if(resp.responseText.trim()=="true"){
                   var msg = "<font color='red'><%=getTranNoLink("web","alias",sWebLanguage)%> <b>"+sAlias+"</b> <%=getTranNoLink("web","unavailable",sWebLanguage)%></font>";
                   document.getElementById("aliasMsg").innerHTML = msg;
+                  document.getElementById("aliasMsgOK").value = "NOK";
                 }
                 else{
                   //document.getElementById("aliasMsg").innerHTML = "";
                   var msg = "<font color='green'><%=getTranNoLink("web","alias",sWebLanguage)%> <b>"+sAlias+"</b> <%=getTranNoLink("web","available",sWebLanguage).toLowerCase()%></font>";
                   document.getElementById("aliasMsg").innerHTML = msg;
+                  document.getElementById("aliasMsgOK").value = "";
                 }
               }
             });
