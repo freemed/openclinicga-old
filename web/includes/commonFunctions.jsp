@@ -43,32 +43,41 @@
   }
 
   <%-- YESNO DIALOG --%>
-  function yesnoDialog(labelType,labelId){
+  function yesnoDialog(labelType,labelId,callbackFunction){
     var answer = "";
     
     if(window.showModalDialog){
       var popupUrl = "<c:url value='/popup.jsp'/>?Page=_common/search/yesnoPopup.jsp&ts="+new Date().getTime()+"&labelType="+labelType+"&labelID="+labelId;
       var modalities = "dialogWidth:266px;dialogHeight:163px;center:yes;scrollbars:no;resizable:no;status:no;location:no;";
       answer = window.showModalDialog(popupUrl,"",modalities);
+
+      if(callbackFunction){
+    	if(answer==true) callbackFunction.call(this);
+      }
+      else return answer;
     }
-    else{       
+    else{   
       var url = "<c:url value='/_common/getLabel.jsp'/>?ts=<%=ScreenHelper.getTs()%>&LabelType="+labelType+"&LabelId="+labelId;
       new Ajax.Request(url,{
+        async:false,
         onSuccess:function(resp){
-          var label = resp.responseText.unhtmlEntities();
+          var label = resp.responseText.trim();
           if(label.length > 0){
-        	answer = yesnoDialogDirectText(label);
+            label = label.unhtmlEntities();
+        	if(yesnoDialogDirectText(label)){
+              callbackFunction.call(this);
+        	}
           }
           else{
-        	answer = window.confirm(labelType+"."+labelId);
+        	if(window.confirm(labelType+"."+labelId)){
+              callbackFunction.call(this);
+        	}
           }
         }
       });
     }
-    
-    return answer;
   }
-  
+
   <%-- YESNO DIALOG DIRECT TEXT --%>
   function yesnoDialogDirectText(labelText){
     var answer = "";
@@ -84,7 +93,7 @@
     
     return answer; // FF
   }
-    
+      
   <%-- YESNO DELETE DIALOG --%>
   function yesnoDeleteDialog(){
 	<%
