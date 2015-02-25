@@ -41,6 +41,7 @@
  			   sSpouseEmployer = checkString(request.getParameter("SpouseEmployer")), 				
                sExport = checkString(request.getParameter("datacenterpatientexport")),
 		       sDeathCertificateOn = checkString(request.getParameter("DeathCertificateOn")),
+		       sUpdateTime = checkString(request.getParameter("UpdateTime")),
 		       sDeathCertificateTo = checkString(request.getParameter("DeathCertificateTo"));
         
        String sCenterreasons="";
@@ -101,7 +102,7 @@
 
         //--- SAVE ---------------------------------------------------------------------------------
         if (bReturn) {
-
+			try{
             AdminPrivateContact apc = ScreenHelper.getActivePrivate(activePatient);
             if (apc == null) {
                 apc = new AdminPrivateContact();
@@ -119,7 +120,14 @@
             activePatient.nativeCountry = sNativeCountry;
             activePatient.nativeTown = sNativeTown;
             AdminID aID;
-
+			if(sUpdateTime.length()>0){
+				try{
+					activePatient.modifyTime=ScreenHelper.parseDate(sUpdateTime);
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			}
             if (sImmatNew.trim().length() > 0) {
                 aID = new AdminID("ImmatNew", sImmatNew.toUpperCase());
                 activePatient.ids.add(aID);
@@ -291,6 +299,10 @@
                 }
             }
           	activePatient.setExportRequest(sExport.equalsIgnoreCase("1"));
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
         }
     }
     

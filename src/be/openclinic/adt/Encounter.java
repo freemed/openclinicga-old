@@ -220,6 +220,57 @@ public class Encounter extends OC_Object {
     	return bHasTransactions;
     }
     
+    public boolean discontinuedAccident(){
+    	boolean bDiscontinued=false;
+    	if(this.getCategories()!=null && this.getCategories().length()>0 && this.getCategories().indexOf("A")<0){
+    		return bDiscontinued;
+    	}
+    	PreparedStatement ps = null;
+    	ResultSet rs = null;
+        Connection conn = null;
+        
+        try{
+        	conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	String sSql = "select *"+
+        	              " from OC_ENCOUNTERS"+
+        			      "  where OC_ENCOUNTER_PATIENTUID=?"
+        			      + " and OC_ENCOUNTER_BEGINDATE<?"+
+        	              "   order by OC_ENCOUNTER_BEGINDATE DESC";
+            ps = conn.prepareStatement(sSql);
+            ps.setInt(1,Integer.parseInt(this.getPatientUID()));
+            ps.setDate(2,new java.sql.Date(this.getBegin().getTime()));
+            rs = ps.executeQuery();
+            long day = 24*3600*1000;
+            java.util.Date activeBeginDate = this.getBegin();
+            while(rs.next()){
+            	java.util.Date endDate = rs.getTimestamp("OC_ENCOUNTER_ENDDATE");
+            	if(endDate!=null && activeBeginDate.getTime()-endDate.getTime()>2*day){
+            		break;
+            	}
+            	String categories=rs.getString("OC_ENCOUNTER_CATEGORIES");
+            	if(categories!=null && categories.length()>0 && categories.indexOf("A")<0){
+            		bDiscontinued=true;
+            		break;
+            	}
+            }
+        }
+        catch(Exception e){
+    		Debug.printStackTrace(e);
+        }
+        finally{
+        	try{
+        		if(rs!=null) rs.close();
+        		if(ps!=null) ps.close();
+        		if(conn!=null) conn.close();
+        	}
+        	catch(Exception e){
+        		Debug.printStackTrace(e);
+        	}
+        }
+    	
+    	return bDiscontinued;
+    }
+    
     //--- HAS INVOICES ---------------------------------------------------------------------------- 
     public boolean hasInvoices(){
     	boolean bHasInvoices = false;
@@ -1268,6 +1319,8 @@ public class Encounter extends OC_Object {
                         encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                         encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                         encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
+                        encounter.setNewcase(rs.getInt("OC_ENCOUNTER_NEWCASE"));
+                        encounter.setEtiology(rs.getString("OC_ENCOUNTER_ETIOLOGY"));
                         
 
                         // find the most recent service for this encounter
@@ -1390,7 +1443,9 @@ public class Encounter extends OC_Object {
 	                          "OC_ENCOUNTER_DESTINATIONUID,"+
 	                          "OC_ENCOUNTER_ORIGIN,"+
 	                          "OC_ENCOUNTER_SITUATION,"+
-	                          "OC_ENCOUNTER_CATEGORIES) "+
+	                          "OC_ENCOUNTER_CATEGORIES, "+
+	                          "OC_ENCOUNTER_NEWCASE, "+
+	                          "OC_ENCOUNTER_ETIOLOGY) "+
 	                          " SELECT OC_ENCOUNTER_SERVERID,"+
 	                          " OC_ENCOUNTER_OBJECTID,"+
 	                          " OC_ENCOUNTER_TYPE,"+
@@ -1405,7 +1460,9 @@ public class Encounter extends OC_Object {
 	                          " OC_ENCOUNTER_DESTINATIONUID,"+
 	                          " OC_ENCOUNTER_ORIGIN,"+
 	                          " OC_ENCOUNTER_SITUATION,"+
-	                          " OC_ENCOUNTER_CATEGORIES"+
+	                          " OC_ENCOUNTER_CATEGORIES,"+
+	                          " OC_ENCOUNTER_NEWCASE,"+
+	                          " OC_ENCOUNTER_ETIOLOGY"+
 	                          " FROM OC_ENCOUNTERS "+
 	                          " WHERE OC_ENCOUNTER_SERVERID = ?"+
 	                          " AND OC_ENCOUNTER_OBJECTID = ?";
@@ -1447,9 +1504,11 @@ public class Encounter extends OC_Object {
                           " OC_ENCOUNTER_DESTINATIONUID,"+
                           " OC_ENCOUNTER_ORIGIN,"+
                           " OC_ENCOUNTER_SITUATION,"+
-                          " OC_ENCOUNTER_CATEGORIES"+
+                          " OC_ENCOUNTER_CATEGORIES,"+
+                          " OC_ENCOUNTER_NEWCASE,"+
+                          " OC_ENCOUNTER_ETIOLOGY"+
                           ") "+
-                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 ps = conn.prepareStatement(sInsert);
                 ps.setInt(1,Integer.parseInt(ids[0]));
                 while(!MedwanQuery.getInstance().validateNewOpenclinicCounter("OC_ENCOUNTERS","OC_ENCOUNTER_OBJECTID",ids[1])){
@@ -1484,6 +1543,8 @@ public class Encounter extends OC_Object {
                 ps.setString(13,this.getOrigin());
                 ps.setString(14,this.getSituation());
                 ps.setString(15,this.getCategories());
+                ps.setInt(16, getNewcase());
+                ps.setString(17, getEtiology());
                 ps.executeUpdate();
                 ps.close();
                 
@@ -1658,22 +1719,26 @@ public class Encounter extends OC_Object {
                               "OC_ENCOUNTER_DESTINATIONUID,"+
                               "OC_ENCOUNTER_ORIGIN,"+
                               "OC_ENCOUNTER_SITUATION,"+
-                              "OC_ENCOUNTER_CATEGORIES) "+
-                              " SELECT OC_ENCOUNTER_SERVERID,"+
-                              " OC_ENCOUNTER_OBJECTID,"+
-                              " OC_ENCOUNTER_TYPE,"+
-                              " OC_ENCOUNTER_BEGINDATE,"+
-                              " OC_ENCOUNTER_ENDDATE,"+
-                              " OC_ENCOUNTER_PATIENTUID,"+
-                              " OC_ENCOUNTER_CREATETIME,"+
-                              " OC_ENCOUNTER_UPDATETIME,"+
-                              " OC_ENCOUNTER_UPDATEUID,"+
-                              " OC_ENCOUNTER_VERSION,"+
-                              " OC_ENCOUNTER_OUTCOME,"+
-                              " OC_ENCOUNTER_DESTINATIONUID,"+
-                              " OC_ENCOUNTER_ORIGIN,"+
-                              " OC_ENCOUNTER_SITUATION,"+
-                              " OC_ENCOUNTER_CATEGORIES"+
+	                          "OC_ENCOUNTER_CATEGORIES, "+
+	                          "OC_ENCOUNTER_NEWCASE, "+
+	                          "OC_ENCOUNTER_ETIOLOGY) "+
+	                          " SELECT OC_ENCOUNTER_SERVERID,"+
+	                          " OC_ENCOUNTER_OBJECTID,"+
+	                          " OC_ENCOUNTER_TYPE,"+
+	                          " OC_ENCOUNTER_BEGINDATE,"+
+	                          " OC_ENCOUNTER_ENDDATE,"+
+	                          " OC_ENCOUNTER_PATIENTUID,"+
+	                          " OC_ENCOUNTER_CREATETIME,"+
+	                          " OC_ENCOUNTER_UPDATETIME,"+
+	                          " OC_ENCOUNTER_UPDATEUID,"+
+	                          " OC_ENCOUNTER_VERSION,"+
+	                          " OC_ENCOUNTER_OUTCOME,"+
+	                          " OC_ENCOUNTER_DESTINATIONUID,"+
+	                          " OC_ENCOUNTER_ORIGIN,"+
+	                          " OC_ENCOUNTER_SITUATION,"+
+	                          " OC_ENCOUNTER_CATEGORIES,"+
+	                          " OC_ENCOUNTER_NEWCASE,"+
+	                          " OC_ENCOUNTER_ETIOLOGY"+
                               " FROM OC_ENCOUNTERS "+
                               "  WHERE OC_ENCOUNTER_SERVERID = ?"+
                               "   AND OC_ENCOUNTER_OBJECTID = ?";
@@ -1714,9 +1779,11 @@ public class Encounter extends OC_Object {
                           " OC_ENCOUNTER_DESTINATIONUID,"+
                           " OC_ENCOUNTER_ORIGIN,"+
                           " OC_ENCOUNTER_SITUATION,"+
-                          " OC_ENCOUNTER_CATEGORIES"+
+                          " OC_ENCOUNTER_CATEGORIES,"+
+                          " OC_ENCOUNTER_NEWCASE,"+
+                          " OC_ENCOUNTER_ETIOLOGY"+
                           ") "+
-                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                          " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 ps = conn.prepareStatement(sInsert);
                 ps.setInt(1,Integer.parseInt(ids[0]));
                 while(!MedwanQuery.getInstance().validateNewOpenclinicCounter("OC_ENCOUNTERS","OC_ENCOUNTER_OBJECTID",ids[1])){
@@ -1752,6 +1819,8 @@ public class Encounter extends OC_Object {
                 ps.setString(13,this.getOrigin());
                 ps.setString(14,this.getSituation());
                 ps.setString(15,this.getCategories());
+                ps.setInt(16, getNewcase());
+                ps.setString(17, getEtiology());
                 ps.executeUpdate();
                 ps.close();
                 
@@ -1934,6 +2003,8 @@ public class Encounter extends OC_Object {
                     encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                     encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                     encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
+                    encounter.setNewcase(rs.getInt("OC_ENCOUNTER_NEWCASE"));
+                    encounter.setEtiology(rs.getString("OC_ENCOUNTER_ETIOLOGY"));
                     
                     // find the most recent service for this encounter
                     EncounterService encounterService = encounter.getLastEncounterService();
@@ -2004,6 +2075,8 @@ public class Encounter extends OC_Object {
                     encounter.setOrigin(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_ORIGIN")));
                     encounter.setSituation(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SITUATION")));
                     encounter.setCategories(ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_CATEGORIES")));
+                    encounter.setNewcase(rs.getInt("OC_ENCOUNTER_NEWCASE"));
+                    encounter.setEtiology(rs.getString("OC_ENCOUNTER_ETIOLOGY"));
                    
                     // find the most recent service for this encounter
                     EncounterService encounterService = encounter.getLastEncounterService();
@@ -2448,6 +2521,42 @@ public class Encounter extends OC_Object {
     	return encounter;
     }
     
+    //--- GET LAST ENCOUNTER ----------------------------------------------------------------------
+    public static Encounter getFirstEncounter(String personid){
+    	Encounter encounter = null;
+    	
+    	PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        
+        try{
+            conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        	String sSql = "select * from OC_ENCOUNTERS where OC_ENCOUNTER_PATIENTUID=?"+
+                          " order by OC_ENCOUNTER_BEGINDATE ASC";
+        	ps = conn.prepareStatement(sSql);
+        	ps.setString(1,personid);
+        	rs = ps.executeQuery();
+        	if(rs.next()){
+        		encounter = Encounter.get(rs.getString("OC_ENCOUNTER_SERVERID")+"."+rs.getString("OC_ENCOUNTER_OBJECTID"));
+        	}
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        
+    	return encounter;
+    }
+    
     //--- SELECT LAST ENCOUNTERS ------------------------------------------------------------------
     public static Vector selectLastEncounters(String patientUid){
         Vector vEncounters = new Vector();
@@ -2779,7 +2888,7 @@ public class Encounter extends OC_Object {
         Connection conn = null;
 
         String sSql = "SELECT * FROM OC_ENCOUNTERS"+
-                      " WHERE OC_ENCOUNTER_BEGINDATE < ? AND (OC_ENCOUNTER_ENDDATE > ? OR OC_ENCOUNTER_ENDDATE IS NULL)"+
+                      " WHERE OC_ENCOUNTER_BEGINDATE <= ? AND (OC_ENCOUNTER_ENDDATE >= ? OR OC_ENCOUNTER_ENDDATE IS NULL)"+
         		      "  AND OC_ENCOUNTER_PATIENTUID = ?"+
                       " ORDER BY OC_ENCOUNTER_BEGINDATE DESC";
 
@@ -2820,6 +2929,48 @@ public class Encounter extends OC_Object {
                     String sUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID"))+"."+ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
                     activeEnc = Encounter.get(sUID);
                 }
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                if(conn!=null) conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        
+        return activeEnc;
+    }
+
+    //--- GET ACTIVE ENCOUNER ON DATE -------------------------------------------------------------
+    public static Encounter getActiveEncounterOnDateStrict(Timestamp tOnDate, String sPatientUID){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = null;
+
+        String sSql = "SELECT * FROM OC_ENCOUNTERS"+
+                      " WHERE OC_ENCOUNTER_BEGINDATE <= ? AND (OC_ENCOUNTER_ENDDATE >= ? OR OC_ENCOUNTER_ENDDATE IS NULL)"+
+        		      "  AND OC_ENCOUNTER_PATIENTUID = ?"+
+                      " ORDER BY OC_ENCOUNTER_BEGINDATE DESC";
+
+        Encounter activeEnc = null;
+        try{
+            conn = MedwanQuery.getInstance().getOpenclinicConnection();
+            ps = conn.prepareStatement(sSql);
+            ps.setTimestamp(1,tOnDate);
+            ps.setTimestamp(2,tOnDate);
+            ps.setString(3,sPatientUID);
+            
+            rs = ps.executeQuery();
+            if(rs.next()){
+                String sUID = ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_SERVERID"))+"."+ScreenHelper.checkString(rs.getString("OC_ENCOUNTER_OBJECTID"));
+                activeEnc = Encounter.get(sUID);
             }
         }
         catch(Exception e){

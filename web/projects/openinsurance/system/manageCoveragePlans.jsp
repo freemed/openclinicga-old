@@ -13,7 +13,7 @@
     <table width="100%" cellspacing="0" cellpadding="5" style="border:1px solid #aaa">
         <tr>
             <td bgcolor="#dddddd" style="text-align:center;padding:20px;">
-                <img src="<c:url value='/_img/ajax-loader.gif'/>"><br><br>
+                <img src="<c:url value='/_img/themes/default/ajax-loader.gif'/>"><br><br>
                 <%=getTran("web","searchInProgress",sWebLanguage)%>
             </td>
         </tr>

@@ -221,6 +221,35 @@ public class AccessLog {
         }
     }
     
+    //--- INSERT (3) ------------------------------------------------------------------------------
+    public static void insert(String sUserID,String accessCode, java.util.Date accessTime){
+        PreparedStatement ps = null;
+
+        String sInsert = "INSERT INTO AccessLogs(accessid,userid,accesstime,accesscode)"+
+                         " VALUES (?,?,?,?)";
+    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+        try{
+            ps = ad_conn.prepareStatement(sInsert);
+            ps.setInt(1,MedwanQuery.getInstance().getOpenclinicCounter("AccessLogs"));
+            ps.setInt(2,Integer.parseInt(sUserID));
+            ps.setTimestamp(3,new java.sql.Timestamp(accessTime.getTime()));
+            ps.setString(4,accessCode);
+            ps.executeUpdate();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(ps!=null) ps.close();
+                ad_conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    
     //--- GET LAST ACCESS -------------------------------------------------------------------------
     public static List getLastAccess(String patientId, int nb){
         PreparedStatement ps = null;
@@ -260,6 +289,78 @@ public class AccessLog {
         }
         
         return l;
+    }
+
+    public static java.util.Date getFirstAccess(String id){
+        java.util.Date d = null;
+    	PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        String sSelect = "SELECT * FROM AccessLogs"+
+                         " WHERE accesscode = ?"+
+                         "  ORDER BY accessid";
+    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+        try{
+            ps = ad_conn.prepareStatement(sSelect);
+            ps.setString(1,id);
+
+            rs = ps.executeQuery();
+            if(rs.next()){
+            	d=rs.getDate("accesstime");
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                ad_conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        
+        return d;
+    }
+
+    public static void setFirstAccess(String id,java.util.Date d){
+    	PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        String sSelect = "SELECT * FROM AccessLogs WHERE accesscode = ?  ORDER BY accessid";
+    	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
+        try{
+            ps = ad_conn.prepareStatement(sSelect);
+            ps.setString(1,id);
+
+            rs = ps.executeQuery();
+            if(rs.next()){
+            	int i = rs.getInt("accessid");
+            	rs.close();
+            	ps.close();
+            	ps=ad_conn.prepareStatement("update AccessLogs set accesstime=? where accessid=?");
+            	ps.setTimestamp(1, new java.sql.Timestamp(d.getTime()));
+            	ps.setInt(2, i);
+            	ps.execute();
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                ad_conn.close();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        
     }
 
     //--- GET ACCESS TIMES ------------------------------------------------------------------------

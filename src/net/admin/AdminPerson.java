@@ -5,6 +5,7 @@ import be.mxs.common.model.vo.healthrecord.TransactionVO;
 import be.mxs.common.util.db.MedwanQuery;
 import be.mxs.common.util.system.Debug;
 import be.mxs.common.util.system.ScreenHelper;
+import be.openclinic.adt.Encounter;
 import be.openclinic.common.OC_Object;
 import be.openclinic.medical.Prescription;
 
@@ -65,6 +66,7 @@ public class AdminPerson extends OC_Object{
     String activeMD="";
     String activePara="";
     public AdminSocSec socsec;
+    public java.util.Date modifyTime;
 
     //--- CONSTRUCTOR -----------------------------------------------------------------------------
     public AdminPerson() {
@@ -900,21 +902,43 @@ public class AdminPerson extends OC_Object{
             bReturn = false;
         }
 
-        AccessLog.insert(this.updateuserid==null?"0":this.updateuserid,"M."+this.personid);
-        if(bNew){
-            AccessLog.insert(this.updateuserid==null?"0":this.updateuserid,"C."+this.personid);
+        java.util.Date cd = getCreationDate();
+        
+        if(this.modifyTime!=null){
+        	AccessLog.insert(this.updateuserid==null?"0":this.updateuserid,"M."+this.personid, this.modifyTime);
+        	if(bNew || cd==null){
+            	AccessLog.insert(this.updateuserid==null?"0":this.updateuserid,"C."+this.personid, this.modifyTime);
+        	}
+        	else if(cd.after(this.modifyTime)){
+        		setCreationDate(this.modifyTime);
+        	}
+        }
+        else {
+        	AccessLog.insert(this.updateuserid==null?"0":this.updateuserid,"M."+this.personid);
+        	if(bNew){
+            	AccessLog.insert(this.updateuserid==null?"0":this.updateuserid,"C."+this.personid);
+        	}
         }
         return bReturn;
     }
 
+    
     //--- SAVE TO DB WITH SUPPLIED ID -------------------------------------------------------------
-    public boolean saveToDBWithSuppliedID(Connection connection, String sPersonID,String activeMedicalCenter,String activeMD,String activePara) {
+    public boolean 	WithSuppliedID(Connection connection, String sPersonID,String activeMedicalCenter,String activeMD,String activePara) {
         this.activeMedicalCenter=activeMedicalCenter;
         this.activeMD=activeMD;
         this.activePara=activePara;
         return saveToDBWithSuppliedID(connection,sPersonID);
     }
 
+    public java.util.Date getCreationDate(){
+    	return AccessLog.getFirstAccess("C."+personid);
+    }
+    
+    public void setCreationDate(java.util.Date d){
+    	AccessLog.setFirstAccess("C."+personid,d);
+    }
+    
     public boolean saveToDBWithSuppliedID(Connection connection, String sPersonID) {
         boolean bReturn = true;
         PreparedStatement ps;

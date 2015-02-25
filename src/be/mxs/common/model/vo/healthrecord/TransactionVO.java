@@ -66,7 +66,11 @@ public class TransactionVO extends IObjectReference implements Serializable, IId
         //Debug.println("New serverId="+this.serverId);
     }
     
-    public String getObjectType(){
+    public TransactionVO() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getObjectType(){
         return "Transaction";
     }
 

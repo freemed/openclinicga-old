@@ -20,13 +20,108 @@
 	
 	
 	Connection conn = MedwanQuery.getInstance().getOpenclinicConnection();
-	String sQuery="select count(*) total,oc_prestation_objectid,oc_prestation_description from oc_debets d,oc_encounters e, oc_prestations p where p.oc_prestation_objectid=replace(d.oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and e.oc_encounter_objectid=replace(d.oc_debet_encounteruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and oc_prestation_class='"+MedwanQuery.getInstance().getConfigString("cnarKineClass","kine")+"' and d.oc_debet_date>=? and d.oc_debet_date<=? group by oc_prestation_objectid,oc_prestation_description";
+	String sQuery="select gender,dateofbirth,t.updatetime from transactions t,healthrecord h, adminview a where t.healthrecordid=h.healthrecordid and h.personid=a.personid and t.updatetime>=? and t.updatetime<? and t.transactiontype='be.mxs.common.model.vo.healthrecord.IConstants.TRANSACTION_TYPE_CNAR_KINECONSULTATION'";
+	SortedMap genderages = new TreeMap();
+	int total=0;
+	long day = 24*3600*1000;
+	long year = 365 * day;
 	PreparedStatement ps = conn.prepareStatement(sQuery);
 	ps.setTimestamp(1,new java.sql.Timestamp(dBegin.getTime()));
 	ps.setTimestamp(2,new java.sql.Timestamp(dEnd.getTime()));
 	ResultSet rs = ps.executeQuery();
 	SortedMap prestations = new TreeMap();
-	int total=0;
+	while(rs.next()){
+		String gender = rs.getString("gender");
+		java.util.Date dateofbirth=rs.getDate("dateofbirth");
+		java.util.Date encounterdate=rs.getDate("updatetime");
+		try{
+			int age = new Long((encounterdate.getTime()-dateofbirth.getTime())/year).intValue();
+			if(age<5){
+				age=0;
+			}
+			else if (age<15){
+				age=5;
+			}
+			else {
+				age=15;
+			}
+			if("m".equalsIgnoreCase(rs.getString("gender")) || "f".equalsIgnoreCase(rs.getString("gender"))){
+				String code =age+"."+gender.toUpperCase();
+				total=1;
+				if((Integer)genderages.get(code)!=null){
+					total=(Integer)genderages.get(code)+1;
+				}
+				genderages.put(code,total);
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	rs.close();
+	ps.close();
+	%>
+		<table width="100%">
+			<tr class='admin'><td colspan='5'><%=getTran("cnar","statistics.kine.title1.0",sWebLanguage)%></td></tr>
+			<tr class='admin'>
+				<td rowspan="2"><%=getTran("cnar","statistics.agecategory",sWebLanguage)%></td>
+				<td colspan="4"><%=getTran("web","total",sWebLanguage)%></td>
+			</tr>
+			<tr class='admin'>
+				<td><%=getTran("web","male",sWebLanguage)%></td>
+				<td>%</td>
+				<td><%=getTran("web","female",sWebLanguage)%></td>
+				<td>%</td>
+			</tr>
+			<%
+				int m0 = genderages.get("0.M")!=null?(Integer)genderages.get("0.M"):0;
+				int f0 = genderages.get("0.F")!=null?(Integer)genderages.get("0.F"):0;
+				int m5 = genderages.get("5.M")!=null?(Integer)genderages.get("5.M"):0;
+				int f5 = genderages.get("5.F")!=null?(Integer)genderages.get("5.F"):0;
+				int m15 = genderages.get("15.M")!=null?(Integer)genderages.get("15.M"):0;
+				int f15 = genderages.get("15.F")!=null?(Integer)genderages.get("15.F"):0;
+				total = m0+f0+m5+f5+m15+f15;
+				int male = m0+m5+m15;
+				int female = f0+f5+f15;
+			%>
+			<tr>
+				<td class='admin' >0 - 5</td>
+				<td class='admin2'><%=m0 %></td>
+				<td class='admin2'><%=total>0?m0*100/(total):0 %>%</td>
+				<td class='admin2'><%=f0 %></td>
+				<td class='admin2'><%=total>0?f0*100/(total):0 %>%</td>
+			</tr>
+			<tr>
+				<td class='admin' >5 - 15</td>
+				<td class='admin2'><%=m5 %></td>
+				<td class='admin2'><%=total>0?m5*100/(total):0 %>%</td>
+				<td class='admin2'><%=f5 %></td>
+				<td class='admin2'><%=total>0?f5*100/(total):0 %>%</td>
+			</tr>
+			<tr>
+				<td class='admin' >15+</td>
+				<td class='admin2'><%=m15 %></td>
+				<td class='admin2'><%=total>0?m15*100/(total):0 %>%</td>
+				<td class='admin2'><%=f15 %></td>
+				<td class='admin2'><%=total>0?f15*100/(total):0 %>%</td>
+			</tr>
+			<tr class='admin'>
+				<td><%=getTran("web","total",sWebLanguage)%></td>
+				<td><%=male %></td>
+				<td><%=total>0?male*100/(total):0 %>%</td>
+				<td><%=female %></td>
+				<td><%=total>0?female*100/(total):0 %>%</td>
+			</tr>
+		</table>
+	<br/><hr/><br/>
+<%
+	sQuery="select count(*) total,oc_prestation_objectid,oc_prestation_description from oc_debets d,oc_encounters e, oc_prestations p where p.oc_prestation_objectid=replace(d.oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and e.oc_encounter_objectid=replace(d.oc_debet_encounteruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and oc_prestation_class='"+MedwanQuery.getInstance().getConfigString("cnarKineClass","kine")+"' and d.oc_debet_date>=? and d.oc_debet_date<=? group by oc_prestation_objectid,oc_prestation_description";
+	ps = conn.prepareStatement(sQuery);
+	ps.setTimestamp(1,new java.sql.Timestamp(dBegin.getTime()));
+	ps.setTimestamp(2,new java.sql.Timestamp(dEnd.getTime()));
+	rs = ps.executeQuery();
+	prestations = new TreeMap();
+	total=0;
 	while(rs.next()){
 		String prestation=rs.getString("oc_prestation_objectid")+";"+rs.getString("oc_prestation_description");
 		int count = rs.getInt("total");
@@ -35,26 +130,26 @@
 	}
 	rs.close();
 	ps.close();
-	%>
-	<table width="100%">
-		<tr class='admin'><td colspan='3'><%=getTran("cnar","statistics.kine.title1",sWebLanguage)%></td></tr>
-		<tr class='admin'>
-			<td rowspan="2"><%=getTran("cnar","statistics.prestation.kine",sWebLanguage)%></td>
-			<td colspan="2"><%=getTran("web","total",sWebLanguage)%></td>
-		</tr>
-		<tr class='admin'>
-			<td><%=getTran("web","numberofcases",sWebLanguage)%></td>
-			<td>%</td>
-		</tr>
-	<%
-		Iterator i = prestations.keySet().iterator();
-		while(i.hasNext()){
-			String prestation=(String)i.next();
-			out.println("<tr><td class='admin'>"+prestation.split(";")[1]+"</td><td class='admin2'>"+prestations.get(prestation)+"</td><td class='admin2'>"+new DecimalFormat("#0.00").format((new Double((Integer)prestations.get(prestation)))*100/total)+"</td></tr>");
-		}
-	%>
-		<tr class='admin'><td><%=getTran("web","total",sWebLanguage)%></td><td><%=total %></td><td>100%</td></tr>
-	</table>
+%>
+<table width="100%">
+	<tr class='admin'><td colspan='3'><%=getTran("cnar","statistics.kine.title1",sWebLanguage)%></td></tr>
+	<tr class='admin'>
+		<td rowspan="2"><%=getTran("cnar","statistics.prestation.kine",sWebLanguage)%></td>
+		<td colspan="2"><%=getTran("web","total",sWebLanguage)%></td>
+	</tr>
+	<tr class='admin'>
+		<td><%=getTran("web","numberofcases",sWebLanguage)%></td>
+		<td>%</td>
+	</tr>
+<%
+	Iterator i = prestations.keySet().iterator();
+	while(i.hasNext()){
+		String prestation=(String)i.next();
+		out.println("<tr><td class='admin'>"+prestation.split(";")[1]+"</td><td class='admin2'>"+prestations.get(prestation)+"</td><td class='admin2'>"+new DecimalFormat("#0.00").format((new Double((Integer)prestations.get(prestation)))*100/total)+"</td></tr>");
+	}
+%>
+	<tr class='admin'><td><%=getTran("web","total",sWebLanguage)%></td><td><%=total %></td><td>100%</td></tr>
+</table>
 <%
 	sQuery="select count(*) total,oc_prestation_objectid,oc_prestation_description,gender from oc_debets d,oc_encounters e, oc_prestations p, adminview a where e.oc_encounter_patientuid=a.personid and p.oc_prestation_objectid=replace(d.oc_debet_prestationuid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and e.oc_encounter_objectid=replace(d.oc_debet_encounteruid,'"+MedwanQuery.getInstance().getConfigString("serverId")+".','') and oc_prestation_class='"+MedwanQuery.getInstance().getConfigString("cnarKineClass","kine")+"' and d.oc_debet_date>=? and d.oc_debet_date<=? group by oc_prestation_objectid,oc_prestation_description,gender";
 	ps = conn.prepareStatement(sQuery);

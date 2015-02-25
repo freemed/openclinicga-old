@@ -2,8 +2,20 @@
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%
-	Hashtable parameters = new Hashtable();
-	parameters.put("@par@", "100.0");
-%>
+	Connection conn = MedwanQuery.getInstance().getAdminConnection();
+	PreparedStatement ps = conn.prepareStatement("select personid from admin");
+	ResultSet rs = ps.executeQuery();
+	while(rs.next()){
+		String personid = rs.getString("personid");
+		AdminPerson person = AdminPerson.getAdminPerson(personid);
+		Encounter firstEncounter = Encounter.getFirstEncounter(personid);
+		java.util.Date cd = person.getCreationDate();
+		if(cd==null && firstEncounter!=null && firstEncounter.getBegin()!=null){
+        	AccessLog.insert(activeUser.userid,"C."+personid,firstEncounter.getBegin());
+		}
+		else if(firstEncounter!=null && firstEncounter.getBegin()!=null && cd.after(firstEncounter.getBegin())){
+			person.setCreationDate(firstEncounter.getBegin());
+		}
+	}
 
-<%= Evaluate.evaluate("5+log10(@par@)", parameters)%>
+%>

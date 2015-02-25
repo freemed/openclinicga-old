@@ -23,6 +23,9 @@ public class WicketDebet extends OC_Object{
     private ObjectReference referenceObject;
 
     public Wicket getWicket(){
+    	if(wicket==null && wicketUID!=null && wicketUID.length()>0){
+    		wicket = Wicket.get(wicketUID);
+    	}
         return wicket;
     }
 

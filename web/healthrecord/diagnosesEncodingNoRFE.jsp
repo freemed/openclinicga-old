@@ -214,31 +214,33 @@
 
 <script>
   function readClipboard(){
-    var txt = window.clipboardData.getData("Text");
-    if(txt.length > 0){
-      if(window.DOMParser){
-        parser = new DOMParser();
-        xmlDoc = parser.parseFromString(txt,"text/xml");
-      }
-      else{
-        xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
-        xmlDoc.async = "false";
-        xmlDoc.loadXML(txt);
-        
-        var concepts = xmlDoc.getElementsByTagName("concept");
-        if(concepts.length > 0){
-          var conceptId = concepts[0].getAttribute("id");
-          var snomedId = concepts[0].getAttribute("snomedId");
-          var ctv3id = concepts[0].getAttribute("ctv3id");
-  
-          var fullySpecifiedName = concepts[0].getAttribute("fullySpecifiedName");	
-          document.getElementById("snomedcodes").innerHTML+= "<span id='SNOMEDITEM."+conceptId+"'>"+
-                                                              "<input type='hidden' name='SNOMEDCONCEPT."+conceptId+"."+snomedId+"."+ctv3id+"' value='"+fullySpecifiedName+"'/>"+
-                                                              conceptId+" <b>"+fullySpecifiedName+"</b><br/>"+
-                                                             "</span>";
-          window.clipboardData.setData("Text","");
-        }  
-      }
+    if(window.clipboardData){
+		var txt = window.clipboardData.getData("Text");
+	    if(txt.length > 0){
+	      if(window.DOMParser){
+	        parser = new DOMParser();
+	        xmlDoc = parser.parseFromString(txt,"text/xml");
+	      }
+	      else{
+	        xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+	        xmlDoc.async = "false";
+	        xmlDoc.loadXML(txt);
+	        
+	        var concepts = xmlDoc.getElementsByTagName("concept");
+	        if(concepts.length > 0){
+	          var conceptId = concepts[0].getAttribute("id");
+	          var snomedId = concepts[0].getAttribute("snomedId");
+	          var ctv3id = concepts[0].getAttribute("ctv3id");
+	  
+	          var fullySpecifiedName = concepts[0].getAttribute("fullySpecifiedName");	
+	          document.getElementById("snomedcodes").innerHTML+= "<span id='SNOMEDITEM."+conceptId+"'>"+
+	                                                              "<input type='hidden' name='SNOMEDCONCEPT."+conceptId+"."+snomedId+"."+ctv3id+"' value='"+fullySpecifiedName+"'/>"+
+	                                                              conceptId+" <b>"+fullySpecifiedName+"</b><br/>"+
+	                                                             "</span>";
+	          window.clipboardData.setData("Text","");
+	        }  
+	      }
+	    }
     }
   }
 

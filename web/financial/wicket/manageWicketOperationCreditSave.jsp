@@ -7,6 +7,8 @@
            sEditWicketOperationAmount  = checkString(request.getParameter("EditWicketOperationAmount")),
            sEditWicketOperationType    = checkString(request.getParameter("EditWicketOperationType")),
            sEditWicketOperationComment = checkString(request.getParameter("EditWicketOperationComment")),
+           sEditWicketOperationSource = checkString(request.getParameter("EditWicketOperationSource")),
+           sEditWicketOperationSourceType = checkString(request.getParameter("EditWicketOperationSourceType")),
            sEditWicketOperationWicket  = checkString(request.getParameter("EditWicketOperationWicket")),
            sEditWicketOperationDate    = checkString(request.getParameter("EditWicketOperationDate"));
 
@@ -45,6 +47,12 @@
     session.setAttribute("defaultwicket",sEditWicketOperationWicket);
     wicketOp.setUpdateDateTime(getSQLTime());
     wicketOp.setUpdateUser(activeUser.userid);
+    if(sEditWicketOperationSource.length()>0){
+    	ObjectReference referenceObject = new ObjectReference();
+    	referenceObject.setObjectType(sEditWicketOperationSourceType);
+    	referenceObject.setObjectUid(sEditWicketOperationSource);
+    	wicketOp.setReferenceObject(referenceObject);
+    }
     wicketOp.store();
 
     Wicket wicket = Wicket.get(sEditWicketOperationWicket);

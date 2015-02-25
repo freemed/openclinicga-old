@@ -78,6 +78,7 @@ public class CreateTransactionAction extends Action {
                     }
                     else {
                         try {
+                            MedwanQuery.getInstance().getObjectCache().removeObject("transaction", serverId+"."+transactionId);
                             existingTransaction = MedwanQuery.getInstance().loadTransaction(Integer.parseInt(serverId),Integer.parseInt(transactionId));
                         }
                         catch (NumberFormatException e) {

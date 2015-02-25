@@ -5,7 +5,9 @@
 <%
 	Balance balance = Balance.getActiveBalance(activePatient.personid);
     String sCurrency = MedwanQuery.getInstance().getConfigParam("currency","€");
+    System.out.println("1: "+new SimpleDateFormat("HH:mm:ss SSS").format(new java.util.Date()));
     double saldo = Balance.getPatientBalance(activePatient.personid);
+    System.out.println("2: "+new SimpleDateFormat("HH:mm:ss SSS").format(new java.util.Date()));
 %>
 <table width="100%" cellpadding="0" cellspacing="0" class="list">
     <tr class="admin">
@@ -28,8 +30,10 @@
 			    	<td colspan="3"><b><%=getTran("web","deliveries.in.last.24.hours",sWebLanguage)%></b></td>
 			    </tr>
 		   	<%
-		   	
+		    System.out.println("3: "+new SimpleDateFormat("HH:mm:ss SSS").format(new java.util.Date()));
+
 	   		Vector debets = Debet.getPatientDebetPrestations(activePatient.personid,ScreenHelper.formatDate(new java.util.Date()),"","","");
+	   	    System.out.println("4: "+new SimpleDateFormat("HH:mm:ss SSS").format(new java.util.Date()));
 	   		int n=0;
 	   		for(;n<debets.size();n++){
 	   			if(n%3==0){

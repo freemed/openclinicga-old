@@ -153,7 +153,7 @@ public abstract class TransactionFactory {
             }
         }
     }
-
+    
     public void populateTransaction(TransactionVO targetTransactionVO, TransactionVO sourceTransactionVO) {
         if ( (sourceTransactionVO == null) || (targetTransactionVO == null) ) return;
 

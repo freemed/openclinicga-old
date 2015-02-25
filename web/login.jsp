@@ -93,11 +93,40 @@
         Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
         try{
             String sSQL = "update oc_encounters set oc_encounter_enddate =oc_encounter_begindate where oc_encounter_type='visit' and oc_encounter_enddate is null and oc_encounter_begindate<"+MedwanQuery.getInstance().convert("date", MedwanQuery.getInstance().getConfigString("dateFunction"));
-            System.out.println(sSQL);
             PreparedStatement ps = oc_conn.prepareStatement(sSQL);
             ps.execute();
             ps.close();
             MedwanQuery.getInstance().setConfigString("lastAutoCloseVisits", new SimpleDateFormat("yyyyMMdd").format(new java.util.Date()));
+
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        try{
+			oc_conn.close();
+		} 
+        catch(SQLException e){
+			e.printStackTrace();
+		}
+    	
+    }
+
+    //close long admissions
+    if(MedwanQuery.getInstance().getConfigInt("autoCloseAdmissions", 0)==1 && !MedwanQuery.getInstance().getConfigString("lastAutoCloseAdmissions","").equals(new SimpleDateFormat("yyyyMMdd").format(new java.util.Date()))){
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            String sSQL = MedwanQuery.getInstance().getConfigString("closeAdmisionServicesQuery","update oc_encounter_services,servicesview set oc_encounter_serviceenddate=date_add(oc_encounter_servicebegindate,INTERVAL (select serviceadmissionlimit from servicesview where oc_encounter_serviceuid=serviceid) day) where OC_ENCOUNTER_SERVICEENDDATE is null and serviceadmissionlimit>0 and datediff(now(),OC_ENCOUNTER_SERVICEBEGINDATE)>serviceadmissionlimit and oc_encounter_serviceuid=serviceid and oc_encounter_serviceenddate is null");
+            PreparedStatement ps = oc_conn.prepareStatement(sSQL);
+            ps.execute();
+            ps.close();
+            sSQL = "update oc_encounters set oc_encounter_enddate=(select max(oc_encounter_serviceenddate) from oc_encounter_services where oc_encounters.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid) "+
+            		" where oc_encounter_enddate is null and not exists (select * from oc_encounter_services where "+
+            		" oc_encounters.oc_encounter_objectid=oc_encounter_services.oc_encounter_objectid and oc_encounter_serviceenddate is null)";
+            ps = oc_conn.prepareStatement(sSQL);
+            ps.execute();
+            ps.close();
+            MedwanQuery.getInstance().setConfigString("lastAutoCloseAdmissions", new SimpleDateFormat("yyyyMMdd").format(new java.util.Date()));
 
         }
         catch(Exception e){
@@ -227,12 +256,23 @@
         <a href="http://mxs.rwandamed.org" target="_new"><b>The Open-IT Group Ltd</b></a>
         <BR/> PO Box 3242 - Kigali Rwanda Tel +250 07884 32 435 -
         <a href="mailto:mxs@rwandamed.org">openit@rwandamed.org</a>
-        <% } else if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("bi")){ %>
-        <img src="_img/flags/burundiflag.jpg" height="15px" width="30px" alt="Burundi"/>
-        <a href="http://www.openit-burundi.net" target="_new"><b>Open-IT Burundi SPRL</b></a>
-        <BR/> Avenue de l'ONU 6, BP 7205 - Bujumbura +257 78 837 342<br/>
-        <a href="mailto:info@openit-burundi.net">info@openit-burundi.net</a>
-        <% } else if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("ml")){ %>
+        <% } else if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("bi")){ 
+        	if(MedwanQuery.getInstance().getConfigString("projectref","").equalsIgnoreCase("paiss")){
+	        %>
+		        <img src="_img/flags/btc.png" height="20px" alt="CTB Burundi"/>
+		        <a href="http://www.btcctb.org" target="_new"><b>CTB Burundi - PAISS</b></a>
+		        <BR/> Avenue de la Croix Rouge, BP 6708 - Bujumbura +257 222 775 48<br/>
+	        <% 
+        	}
+        	else {
+    	        %>
+		        <img src="_img/flags/burundiflag.jpg" height="15px" width="30px" alt="Burundi"/>
+		        <a href="http://www.openit-burundi.net" target="_new"><b>Open-IT Burundi SPRL</b></a>
+		        <BR/> Avenue de l'ONU 6, BP 7205 - Bujumbura +257 78 837 342<br/>
+		        <a href="mailto:info@openit-burundi.net">info@openit-burundi.net</a>
+	        <% 
+        	}
+        } else if (MedwanQuery.getInstance().getConfigString("mxsref", "rw").equalsIgnoreCase("ml")){ %>
         <img src="_img/flags/maliflag.jpg" height="15px" width="30px" alt="Mali"/>
         <a href="http://www.sante.gov.ml/" target="_new"><b>ANTIM</b></a> et <a href="http://www.mxs.be" target="_new"><b>MXS</b></a>
         <BR/> Hamdalaye ACI 2000, Rue 340, Porte 541, Bamako - Mali<br/>

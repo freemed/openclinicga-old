@@ -712,7 +712,7 @@
 					}
 		            var today = new Date();
 		            var url= '<c:url value="/financial/patientInvoiceSave.jsp"/>?ts='+today;
-		            document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+		            document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Loading";
 		            var status="";
 		            if(document.getElementById('invoiceStatus').selectedIndex){
 		            	status=document.getElementById("invoiceStatus").options[document.getElementById("invoiceStatus").selectedIndex].value;
@@ -842,7 +842,7 @@
 	    var params = '';
 	    var today = new Date();
 	    var url= '<c:url value="/financial/recreateInvoice.jsp"/>?invoiceuid='+invoiceuid+'&ts='+today;
-	    document.getElementById('patientInvoiceDebets').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+	    document.getElementById('patientInvoiceDebets').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Loading";
 	    new Ajax.Request(url,{
 		  method: "GET",
 	      parameters: params,
@@ -886,7 +886,7 @@
 	    var params = '';
 	    var today = new Date();
 	    var url= '<c:url value="/financial/patientInvoiceGetOpenPatientInvoices.jsp"/>?PatientId=<%=sPatientId%>&ts='+today;
-	    document.getElementById('divOpenPatientInvoices').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+	    document.getElementById('divOpenPatientInvoices').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Loading";
 	    new Ajax.Request(url,{
 		  method: "GET",
 	      parameters: params,
@@ -900,7 +900,7 @@
 	    var params = '';
 	    var today = new Date();
 	    var url= '<c:url value="/financial/getPatientDebets.jsp"/>?PatientUID=<%=sPatientId%>&PatientInvoiceUID='+EditForm.EditPatientInvoiceUID.value+'&EditInvoiceService=' +EditForm.EditInvoiceService.value+'&Begin='+EditForm.EditBegin.value+'&End='+EditForm.EditEnd.value+'&ts='+today;
-	    document.getElementById('patientInvoiceDebets').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+	    document.getElementById('patientInvoiceDebets').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Loading";
 	    new Ajax.Request(url,{
 		  method: "GET",
 	      parameters: params,

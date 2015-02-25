@@ -472,17 +472,17 @@
   openComplexARVResult = function(arvs,id,editable) {
       var params = "antivirogramuid="+id+"&editable="+editable+"&arvs="+arvs;
       var url = "<c:url value="/labos/ajax/getComplexARVResult.jsp" />?ts="+new Date().getTime();
-      Modalbox.show(url, {title:"<%=getTranNoLink("web","antivirogram",sWebLanguage)%>",params:params,width:650,height:600});
+      Modalbox.show(url, {title:"<%=getTranNoLink("web","antivirogram",sWebLanguage)%>",params:params,width:650,height:<%=MedwanQuery.getInstance().getConfigInt("antibiogramHeight",600)%>});
   }
   openComplexResult = function(id,editable) {
       var params = "antibiogramuid="+id+"&editable="+editable;
       var url = "<c:url value="/labos/ajax/getComplexResult.jsp" />?ts="+new Date().getTime();
-      Modalbox.show(url, {title:"<%=getTranNoLink("web","antibiogram",sWebLanguage)%>",params:params,width:650,height:600});
+      Modalbox.show(url, {title:"<%=getTranNoLink("web","antibiogram",sWebLanguage)%>",params:params,width:650,height:<%=MedwanQuery.getInstance().getConfigInt("antibiogramHeight",600)%>});
   }
   openComplexResultNew = function(id,editable) {
       var params = "antibiogramuid="+id+"&editable="+editable;
       var url = "<c:url value="/labos/ajax/getComplexResultNew.jsp" />?ts="+new Date().getTime();
-      Modalbox.show(url, {title:"<%=getTranNoLink("web","antibiogram",sWebLanguage)%>",params:params,width:650,height:600});
+      Modalbox.show(url, {title:"<%=getTranNoLink("web","antibiogram",sWebLanguage)%>",params:params,width:650,height:<%=MedwanQuery.getInstance().getConfigInt("antibiogramHeight",600)%>});
   }
 
 	function saveAntiviroGramme(id){

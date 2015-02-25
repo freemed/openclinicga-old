@@ -537,6 +537,62 @@ public class WicketCredit extends OC_Object{
         return vWicketOps;
     }
 
+    public static Vector selectWaitingTransfers(String sWicketUID){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String sSelect = "SELECT * FROM OC_WICKET_DEBETS WHERE OC_WICKET_DEBET_REFERENCETYPE='WicketTransfer' and OC_WICKET_DEBET_REFERENCEUID=?"
+        		+ " AND NOT EXISTS (SELECT * FROM OC_WICKET_CREDITS WHERE OC_WICKET_CREDIT_REFERENCETYPE='WicketTransfer' and OC_WICKET_CREDIT_REFERENCEUID='"+MedwanQuery.getInstance().getConfigInt("serverId")+".'"+MedwanQuery.getInstance().concatSign()+MedwanQuery.getInstance().convert("varchar", "OC_WICKET_DEBET_OBJECTID")+")";
+
+        Vector vWicketOps = new Vector();
+
+        WicketDebet wicketOp;
+        Connection oc_conn=MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            ps = oc_conn.prepareStatement(sSelect);
+            ps.setString(1,sWicketUID);
+
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+                wicketOp = new WicketDebet();
+
+                wicketOp.setUid(ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_SERVERID")) + "." + ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_OBJECTID")));
+                wicketOp.setWicketUID(ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_WICKETUID")));
+                wicketOp.setCreateDateTime(rs.getTimestamp("OC_WICKET_DEBET_CREATETIME"));
+                wicketOp.setUpdateDateTime(rs.getTimestamp("OC_WICKET_DEBET_UPDATETIME"));
+                wicketOp.setUpdateUser(ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_UPDATEUID")));
+                wicketOp.setAmount(rs.getDouble("OC_WICKET_DEBET_AMOUNT"));
+                wicketOp.setOperationDate(rs.getTimestamp("OC_WICKET_DEBET_OPERATIONDATE"));
+                wicketOp.setUserUID(rs.getInt("OC_WICKET_DEBET_USERUID"));
+                wicketOp.setOperationType(ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_TYPE")));
+                wicketOp.setComment(new StringBuffer(ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_COMMENT"))));
+
+                ObjectReference or = new ObjectReference();
+                or.setObjectType(ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_REFERENCETYPE")));
+                or.setObjectUid(ScreenHelper.checkString(rs.getString("OC_WICKET_DEBET_REFERENCEUID")));
+                wicketOp.setReferenceObject(or);
+                wicketOp.setVersion(rs.getInt("OC_WICKET_DEBET_VERSION"));
+
+                vWicketOps.addElement(wicketOp);
+            }
+
+            rs.close();
+            ps.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs!=null)rs.close();
+                if(ps!=null)ps.close();
+                oc_conn.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return vWicketOps;
+    }
+
     public void delete(){
         PreparedStatement ps = null;
 

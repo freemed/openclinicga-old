@@ -20,6 +20,8 @@
 		   sEditWicketOperationAmount  = checkString(request.getParameter("EditWicketOperationAmount")),
 		   sEditWicketOperationType    = checkString(request.getParameter("EditWicketOperationType")),
 		   sEditWicketOperationComment = checkString(request.getParameter("EditWicketOperationComment")),
+		   sEditWicketOperationTarget = checkString(request.getParameter("EditWicketOperationTarget")),
+		   sEditWicketOperationTargetType = sEditWicketOperationTarget.length()>0?"WicketTransfer":"",
 		   sEditWicketOperationWicket  = checkString(request.getParameter("EditWicketOperationWicket"));
     
     if(request.getParameter("FindWicketOperationUID")!=null){
@@ -39,6 +41,7 @@
     	Debug.println("sEditWicketOperationAmount  : "+sEditWicketOperationAmount); 
     	Debug.println("sEditWicketOperationType    : "+sEditWicketOperationType); 
     	Debug.println("sEditWicketOperationComment : "+sEditWicketOperationComment); 
+    	Debug.println("sEditWicketOperationTarget : "+sEditWicketOperationTarget); 
     	Debug.println("sEditWicketOperationWicket  : "+sEditWicketOperationWicket+"\n");
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,6 +61,10 @@
 	        }
 	        sEditWicketOperationType = checkString(wicketOp.getOperationType());
 	        sEditWicketOperationWicket = checkString(wicketOp.getWicketUID());
+	        if(wicketOp.getReferenceObject()!=null){
+	        	sEditWicketOperationTarget = checkString(wicketOp.getReferenceObject().getObjectUid());
+	        	sEditWicketOperationTargetType = checkString(wicketOp.getReferenceObject().getObjectType());
+	        }
         }
         else{
         	sMsg = getTran("web","noRecordsFound",sWebLanguage);
@@ -115,6 +122,30 @@
                             }
                             
                             %><option value="<%=wicket.getUid()%>" <%=sSelected%>><%=wicket.getUid()%>&nbsp;<%=getTranNoLink("service",wicket.getServiceUID(),sWebLanguage)%></option><%
+                        }
+                    %>
+                </select>
+            </td>
+        </tr>
+        
+        <tr>
+            <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("web","destination",sWebLanguage)%></td>
+            <td class='admin2'>
+                <select class="text" name="EditWicketOperationTarget">
+                    <option value=""></option>
+                    <%
+                        vWickets = Wicket.getWicketsForUser(activeUser.userid);
+                        iter = vWickets.iterator();
+
+                        while(iter.hasNext()){
+                            wicket = (Wicket)iter.next();
+                            if(sEditWicketOperationTargetType.equalsIgnoreCase("WicketTransfer") && sEditWicketOperationTarget.equals(wicket.getUid())){
+                                sSelected = " selected";
+                            }
+                            else{
+                                sSelected = "";
+                            }
+                            %><option value="<%=wicket.getUid()%>"  <%=sSelected%>><%=wicket.getUid()%>&nbsp;<%=getTranNoLink("service",wicket.getServiceUID(),sWebLanguage)%></option><%
                         }
                     %>
                 </select>
@@ -234,9 +265,12 @@
       EditForm.EditWicketOperationType.focus();
     }
     else if(EditForm.EditWicketOperationAmount.value==""){
-                window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
-      EditForm.EditWicketOperationAmount.focus();
-    }
+        window.showModalDialog?alertDialog("web.manage","dataMissing"):alertDialogDirectText('<%=getTran("web.manage","dataMissing",sWebLanguage)%>');
+		EditForm.EditWicketOperationAmount.focus();
+	}
+    else if(EditForm.EditWicketOperationWicket.value==EditForm.EditWicketOperationTarget.value){
+        window.showModalDialog?alertDialog("web.manage","source.and.target.cannot.be.the.same"):alertDialogDirectText('<%=getTranNoLink("web.manage","source.and.target.cannot.be.the.same",sWebLanguage)%>');
+	}
     else{
       EditForm.EditSaveButton.disabled = true;
       var url = '<c:url value="/financial/wicket/manageWicketOperationDebetSave.jsp"/>?ts='+new Date();
@@ -247,6 +281,7 @@
                   '&EditWicketOperationType='+EditForm.EditWicketOperationType.value+
                   '&EditWicketOperationComment='+EditForm.EditWicketOperationComment.value+
                   '&EditWicketOperationDate='+EditForm.EditWicketOperationDate.value+
+                  '&EditWicketOperationTarget='+EditForm.EditWicketOperationTarget.value+
                   '&EditWicketOperationWicket='+EditForm.EditWicketOperationWicket.value,
         onSuccess: function(resp){
           var label = eval('('+resp.responseText+')');

@@ -977,10 +977,11 @@
     String sJSSORTTABLE = "<script src='"+sCONTEXTPATH+"/_common/_script/sorttable.js'></script>";
     String sJSAXMAKER = "<script src='"+sCONTEXTPATH+"/_common/_script/ajaxMaker.js'></script>";
     String sJSPROTOTYPE = "<script src='"+sCONTEXTPATH+"/_common/_script/prototype.js'></script>";
-    String sJSSCRPTACULOUS = "<script src='"+sCONTEXTPATH+"/_common/_script/scriptaculous.js'></script>";
+    String sJSSCRPTACULOUS = "<script src='"+sCONTEXTPATH+"/_common/_script/scriptaculous/scriptaculous.js'></script>";
     String sJSCONTROLMODAL = "<script src='"+sCONTEXTPATH+"/_common/_script/modalDialog.js'></script>";
     String sJSSTRINGFUNCTIONS = "<script src='"+sCONTEXTPATH+"/_common/_script/stringFunctions.js'></script>";
-    String sJSDROPDOWNMENU = "<script src='"+sCONTEXTPATH+"/_common/_script/dropdownmenu.js'></script>";
+    //String sJSDROPDOWNMENU = "<script src='"+sCONTEXTPATH+"/_common/_script/dropdownmenu.js'></script>";
+    String sJSDROPDOWNMENU = ""; //Script was removed, call should disappear
     String sJSDATE = "<script src='"+sCONTEXTPATH+"/_common/_script/date.js'></script>";
     String sJSPOPUPMENU = "<script src='"+sCONTEXTPATH+"/_common/_script/popupmenu.js'></script>";
     String sJSTOGGLE = "<script src='"+sCONTEXTPATH+"/_common/_script/toggle_lib.js'></script>";

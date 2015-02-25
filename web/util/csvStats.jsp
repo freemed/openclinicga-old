@@ -149,7 +149,8 @@
 		PreparedStatement ps = loc_conn.prepareStatement(query);
 		ResultSet rs = ps.executeQuery();
 		int counter = 1;
-		
+		String doctor =checkString(request.getParameter("doctor"));
+		String service=checkString(request.getParameter("service"));
 	    response.setContentType("application/octet-stream; charset=windows-1252");
 	    response.setHeader("Content-Disposition", "Attachment;Filename=\"OpenClinicStatistic"+new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())+".csv\"");
 	    
@@ -166,9 +167,14 @@
         
 		while(rs.next()){
 			sResult = new StringBuffer();
-			
 			PatientInvoice invoice = PatientInvoice.get(rs.getString("oc_patientinvoice_serverid")+"."+rs.getString("oc_patientinvoice_objectid"));
 			if(invoice!=null){
+				if(doctor.length()>0 && invoice.getSignatures().indexOf("("+doctor+")")<0){
+					continue;
+				}
+				if(service.length()>0 && !invoice.getServices().contains(service)){
+					continue;
+				}
 				sResult.append(invoice.getUid().split("\\.")[1]+";");
 				sResult.append((invoice.getDate()==null?"":ScreenHelper.stdDateFormat.format(invoice.getDate()))+";");
 				sResult.append((invoice.getPatient()==null?"":invoice.getPatient().getFullName())+";");

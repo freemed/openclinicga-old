@@ -1,5 +1,4 @@
-<%@page import="be.openclinic.finance.Wicket,
-                be.openclinic.finance.WicketCredit,
+<%@page import="be.openclinic.finance.*,
                 java.util.Vector"%>
 <%@include file="/includes/validateUser.jsp"%>
 <%=checkPermission("financial.wicketoperation","select",activeUser)%>
@@ -20,6 +19,8 @@
            sEditWicketOperationAmount  = checkString(request.getParameter("EditWicketOperationAmount")),
            sEditWicketOperationType    = checkString(request.getParameter("EditWicketOperationType")),
            sEditWicketOperationComment = checkString(request.getParameter("EditWicketOperationComment")),
+           sEditWicketOperationSource = checkString(request.getParameter("EditWicketOperationSource")),
+           sEditWicketOperationSourceType = checkString(request.getParameter("EditWicketOperationSourceType")),
            sEditWicketOperationWicket  = checkString(request.getParameter("EditWicketOperationWicket"));
            
     if(request.getParameter("FindWicketOperationUID")!=null){
@@ -59,6 +60,10 @@
 	        }
 	        sEditWicketOperationType = checkString(wicketOp.getOperationType());
 	        sEditWicketOperationWicket = checkString(wicketOp.getWicketUID());
+	        if(wicketOp.getReferenceObject()!=null){
+	        	sEditWicketOperationSourceType=wicketOp.getReferenceObject().getObjectType();
+	        	sEditWicketOperationSource=wicketOp.getReferenceObject().getObjectUid();
+	        }
 	        version = wicketOp.getVersion();
         }
         else{
@@ -96,12 +101,14 @@
 </form>
 
 <form name="EditForm" method="POST" action="<c:url value='/main.do'/>?Page=financial/wicket/manageWicketOperationCredit.jsp&ts=<%=getTs()%>">
+	<input type='hidden' name='EditWicketOperationSource' id='EditWicketOperationSource' value='<%=sEditWicketOperationSource %>'/>
+	<input type='hidden' name='EditWicketOperationSourceType' id='EditWicketOperationSourceType' value='<%=sEditWicketOperationSourceType %>'/>
     <table class='list' border='0' width='100%' cellspacing='1' cellpadding='0'>
         <%-- wicket --%>
         <tr>
             <td class="admin" width="<%=sTDAdminWidth%>"><%=getTran("wicket","wicket",sWebLanguage)%>&nbsp;*</td>
             <td class='admin2'>
-                <select class="text" name="EditWicketOperationWicket">
+                <select class="text" name="EditWicketOperationWicket" id="EditWicketOperationWicket" onchange='loadWaitingTransfers();loadTodayCredits()'>
                     <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
                     <%
                         Vector vWickets = Wicket.getWicketsForUser(activeUser.userid);
@@ -124,7 +131,23 @@
                 </select>
             </td>
         </tr>
-        
+		<%
+			if(sEditWicketOperationSourceType.equalsIgnoreCase("WicketTransfer")){
+		%>
+	        <tr>
+	            <td class="admin"><%=getTran("web","from",sWebLanguage)%></td>
+	            <td class="admin2" id='sourcetd'>
+	                <%
+	                	WicketDebet wo = WicketDebet.get(sEditWicketOperationSource);
+	                	if(wo!=null && wo.getWicket()!=null && wo.getWicket().getService()!=null){
+	                		out.print(wo.getWicket().getService().getLabel(sWebLanguage)+ " ("+wo.getUid()+")");
+	                	}
+	                %>
+	            </td>
+	        </tr>
+        <%
+			}
+        %>
         <%-- DATE --%>
         <tr>
             <td class="admin" ><%=getTran("Web","date",sWebLanguage)%>&nbsp;*</td>
@@ -148,7 +171,7 @@
            		}
            		else{
 	            	%>
-		                <select class="text" name='EditWicketOperationType'>
+		                <select class="text" name='EditWicketOperationType' id='EditWicketOperationType'>
 		                <option value=""><%=getTranNoLink("web","choose",sWebLanguage)%></option>
 		                    <%=ScreenHelper.writeSelect("wicketcredit.type",sEditWicketOperationType,sWebLanguage)%>
 		                </select>
@@ -162,7 +185,7 @@
         <tr>
             <td class="admin"><%=getTran("web","amount",sWebLanguage)%>&nbsp;*</td>
             <td class="admin2">
-                <input class="text" type="text" name="EditWicketOperationAmount" value="<%=sEditWicketOperationAmount%>" onblur="isNumberNegAndPos(this)"/> <%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
+                <input class="text" type="text" name="EditWicketOperationAmount" id="EditWicketOperationAmount" value="<%=sEditWicketOperationAmount%>" onblur="isNumberNegAndPos(this)"/> <%=MedwanQuery.getInstance().getConfigParam("currency","€")%>
             </td>
         </tr>
         
@@ -170,7 +193,7 @@
         <tr>
             <td class="admin"><%=getTran("web","comment",sWebLanguage)%></td>
             <td class="admin2">
-                <textarea class="text" name="EditWicketOperationComment" cols="55" rows="4"><%=sEditWicketOperationComment%></textarea>
+                <textarea class="text" name="EditWicketOperationComment" id="EditWicketOperationComment" cols="55" rows="4"><%=sEditWicketOperationComment%></textarea>
             </td>
         </tr>
         
@@ -195,7 +218,8 @@
     <span id="divMessage"></span>
 </form>
 
-<div id="divTodayCredits" style="width:100%;height:250px;overflow:auto;"></div>
+<div id="divTodayCredits" style="width:100%;height:100px;overflow:auto;"></div>
+<div id="divWaitingTransfers" style="width:100%;height:250px;overflow:auto;"></div>
 
 <script>
   <%-- DO FIND --%>
@@ -238,6 +262,11 @@
     EditForm.EditWicketOperationAmount.value = "";
     EditForm.EditWicketOperationType.value = "";
     EditForm.EditWicketOperationComment.value = "";
+    EditForm.EditWicketOperationSource.value = "";
+    EditForm.EditWicketOperationSourceType.value = "";
+	if(document.getElementById('sourcetd')){
+	 document.getElementById('sourcetd').innerHTML='';
+	}
   }
 
   <%-- DO SAVE --%>
@@ -269,6 +298,8 @@
                   '&EditWicketOperationType='+EditForm.EditWicketOperationType.value+
                   '&EditWicketOperationComment='+EditForm.EditWicketOperationComment.value+
                   '&EditWicketOperationDate='+EditForm.EditWicketOperationDate.value+
+                  '&EditWicketOperationSource='+EditForm.EditWicketOperationSource.value+
+                  '&EditWicketOperationSourceType='+EditForm.EditWicketOperationSourceType.value+
                   '&EditWicketOperationWicket='+EditForm.EditWicketOperationWicket.value,
         onSuccess: function(resp){
           var label = eval('('+resp.responseText+')');
@@ -351,15 +382,39 @@
     EditForm.EditWicketOperationUID.value = uid;
     EditForm.submit();
   }
+  
+  function setWicketCredit(sourceUid,amount,comment){
+	  document.getElementById('EditWicketOperationUID').value='';
+	  document.getElementById('EditWicketOperationSource').value=sourceUid;
+	  document.getElementById('EditWicketOperationSourceType').value='WicketTransfer';
+	  document.getElementById('EditWicketOperationAmount').value=amount;
+	  document.getElementById('EditWicketOperationComment').value=comment;
+	  document.getElementById('EditWicketOperationType').value='<%=MedwanQuery.getInstance().getConfigString("defaultCashTransferType","cash.transfer")%>';
+	  if(document.getElementById('sourcetd')){
+		  document.getElementById('sourcetd').innerHTML=sourceUid;
+	  }
+  }
 
   <%-- LOAD TODAY CREDITS --%>
   function loadTodayCredits(){
     var url = '<c:url value="/financial/wicket/todayWicketCredits.jsp"/>?ts='+new Date();
     new Ajax.Request(url,{
       method: "POST",
-      postBody: 'EditWicketOperationWicket=<%=sEditWicketOperationWicket%>',
+      postBody: 'EditWicketOperationWicket='+document.getElementById('EditWicketOperationWicket').value,
       onSuccess: function(resp){
         $('divTodayCredits').innerHTML = resp.responseText;
+      }
+    });
+  }
+
+  <%-- LOAD TODAY CREDITS --%>
+  function loadWaitingTransfers(){
+    var url = '<c:url value="/financial/wicket/waitingTransfers.jsp"/>?ts='+new Date();
+    new Ajax.Request(url,{
+      method: "POST",
+      postBody: 'EditWicketOperationWicket='+document.getElementById('EditWicketOperationWicket').value,
+      onSuccess: function(resp){
+        $('divWaitingTransfers').innerHTML = resp.responseText;
       }
     });
   }
@@ -371,4 +426,5 @@
   }
 
   loadTodayCredits();
+  loadWaitingTransfers();
 </script>

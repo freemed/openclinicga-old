@@ -71,7 +71,7 @@
         </tr>
     </table>
     <br>
-    <div id="divUnassignedDebets" class="searchResults" style="height:120px;"><img src="<c:url value="/_img/ajax-loader.gif"/>"/><br/>Loading</div>
+    <div id="divUnassignedDebets" class="searchResults" style="height:120px;"><img src="<c:url value="/_img/themes/default/ajax-loader.gif"/>"/><br/>Loading</div>
     <input class='text' readonly type='hidden' id='EditAmount' name='EditAmount' value='<%=debet.getAmount()+debet.getExtraInsurarAmount()%>' size='20'>
     <input class='text' readonly type='hidden' id='EditInsurarAmount' name='EditInsurarAmount' value='<%=debet.getInsurarAmount()%>' size='20'> 
     <br>
@@ -228,7 +228,7 @@
 <script>
 	function changeQuicklistPrestations(prestations){
         EditForm.EditPrestationName.style.backgroundColor='white';
-        document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Calculating";
+        document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Calculating";
         var today = new Date();
         var url= '<c:url value="/financial/getPrestationAmount2.jsp"/>?ts='+today;
         new Ajax.Request(url,{
@@ -261,7 +261,7 @@
       else {
           EditForm.EditPrestationName.style.backgroundColor='white';
           if (!bFirst){
-              document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Calculating";
+              document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Calculating";
               var today = new Date();
               var url= '<c:url value="/financial/getPrestationAmount2.jsp"/>?ts='+today;
               new Ajax.Request(url,{
@@ -326,7 +326,7 @@
               sCredited = "1";
           }
           var url= '<c:url value="/financial/contributionSave.jsp"/>?ts='+today;
-          document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+          document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Loading";
 		  var prests="";
           pars=document.all;
           for(n=0;n<document.all.length;n++){
@@ -420,7 +420,7 @@
     }
 
     function loadUnassignedDebets(){
-        document.getElementById('divUnassignedDebets').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+        document.getElementById('divUnassignedDebets').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Loading";
         var params = 'FindDateBegin=' + EditForm.FindDateBegin.value
               +"&FindDateEnd="+EditForm.FindDateEnd.value
               +"&FindAmountMin="+EditForm.FindAmountMin.value

@@ -8,6 +8,7 @@
 		   sEditWicketOperationType    = checkString(request.getParameter("EditWicketOperationType")),
 		   sEditWicketOperationComment = checkString(request.getParameter("EditWicketOperationComment")),
 		   sEditWicketOperationWicket  = checkString(request.getParameter("EditWicketOperationWicket")),
+		   sEditWicketOperationTarget  = checkString(request.getParameter("EditWicketOperationTarget")),
 		   sEditWicketOperationDate    = checkString(request.getParameter("EditWicketOperationDate"));
 
     /// DEBUG /////////////////////////////////////////////////////////////////////////////////////
@@ -39,7 +40,12 @@
     catch(Exception e){
     	// empty
     };
-    
+    if(sEditWicketOperationTarget.length()>0){
+    	ObjectReference referenceObject = new ObjectReference();
+    	referenceObject.setObjectType("WicketTransfer");
+    	referenceObject.setObjectUid(sEditWicketOperationTarget);
+    	wicketOp.setReferenceObject(referenceObject);
+    }
     wicketOp.setUserUID(Integer.parseInt(activeUser.userid));
     wicketOp.setWicketUID(sEditWicketOperationWicket);
     session.setAttribute("defaultwicket",sEditWicketOperationWicket);

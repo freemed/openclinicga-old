@@ -13,6 +13,7 @@ import be.openclinic.pharmacy.ProductStock;
 import be.openclinic.pharmacy.ProductStockOperation;
 import be.openclinic.pharmacy.ServiceStock;
 import be.chuk.Article;
+
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.*;
 
@@ -30,7 +31,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.SortedMap;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.Vector;
 import java.util.Hashtable;
 import java.util.Enumeration;
@@ -1314,21 +1317,33 @@ public class PDFPharmacyReportGenerator extends PDFOfficialBasic {
 		java.util.Date end = ScreenHelper.parseDate(sDateEnd);
 		double subtotal=0, generaltotal=0;
  		Vector deliveries = ProductStockOperation.getServiceStockDeliveries(sServiceStockUID, begin, new java.util.Date(end.getTime()+day), "OC_OPERATION_DATE,OC_OPERATION_DOCUMENTUID", "ASC");
+ 		//we groeperen de records per datum/product
+ 		SortedMap products = new TreeMap();
  		for(int n=0;n<deliveries.size();n++){
  			ProductStockOperation operation = (ProductStockOperation)deliveries.elementAt(n);
  			String date=ScreenHelper.stdDateFormat.format(operation.getDate());
- 			String document="";
- 			if(operation.getDocument()!=null){
- 				document=operation.getDocument().getReference();
+ 			ProductStock stock = operation.getProductStock();
+ 			int quantity=operation.getUnitsChanged();
+ 			if(products.get(date+";"+stock.getUid())==null){
+ 				products.put(date+";"+stock.getUid(),0);
  			}
+			products.put(date+";"+stock.getUid(),(Integer)products.get(date+";"+stock.getUid())+quantity);
+ 		}
+ 		Iterator i = products.keySet().iterator();
+ 		while(i.hasNext()){
+ 			String s = (String)i.next();
+ 			ProductStock stock = ProductStock.get(s.split(";")[1]);
+ 			String date=s.split(";")[0];
+ 			String document="";
+ 			int quantity=(Integer)products.get(s);
  			addCol(row,20,document);
  			addCol(row,20,date);
- 			addCol(row,80,operation.getProductStock()!=null && operation.getProductStock().getProduct()!=null?ScreenHelper.checkString(operation.getProductStock().getProduct().getName()):"");
- 			addCol(row,20,operation.getUnitsChanged()+"");
- 			double price=operation.getProductStock()==null || operation.getProductStock().getProduct()==null?0:operation.getProductStock().getProduct().getLastYearsAveragePrice(operation.getDate()==null?new java.util.Date():operation.getDate());
+ 			addCol(row,80,stock!=null && stock.getProduct()!=null?ScreenHelper.checkString(stock.getProduct().getName()):"");
+ 			addCol(row,20,""+quantity);
+ 			double price=stock==null || stock.getProduct()==null?0:stock.getProduct().getLastYearsAveragePrice(date==null?new java.util.Date():ScreenHelper.getSQLDate(date));
  			addPriceCol(row,20,price,"#,##0.00");
- 			addPriceCol(row,20,operation.getUnitsChanged()*price);
- 			generaltotal+=operation.getUnitsChanged()*price;
+ 			addPriceCol(row,20,quantity*price);
+ 			generaltotal+=quantity*price;
  		}
 
  		row =t.addElement("row");

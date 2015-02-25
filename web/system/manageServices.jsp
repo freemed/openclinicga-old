@@ -76,6 +76,7 @@
                sEditServiceDefaultContext = checkString(request.getParameter("EditServiceDefaultContext")),
                sEditDefaultServiceStockUid = checkString(request.getParameter("EditDefaultServiceStockUid")),
                sEditTotalBeds = checkString(request.getParameter("EditTotalBeds")),
+               sEditServiceAdmissionLimit = checkString(request.getParameter("EditServiceAdmissionLimit")),
                sEditServiceWicket = checkString(request.getParameter("EditServiceWicket")),
                sEditServiceCostcenter = checkString(request.getParameter("EditServiceCostcenter")),
                sEditServiceAcceptsVisits = checkString(request.getParameter("EditServiceAcceptsVisits")),
@@ -141,6 +142,12 @@
             }
             catch(Exception a){
                 hServiceInfo.put("totalbeds",new Integer(0));
+            }
+            try{
+                hServiceInfo.put("serviceadmissionlimit",new Integer(sEditServiceAdmissionLimit));
+            }
+            catch(Exception a){
+                hServiceInfo.put("serviceadmissionlimit",new Integer(0));
             }
             
             // codes
@@ -227,6 +234,7 @@
             hServiceInfo.put("contactfax",sEditContactFax);
             hServiceInfo.put("contactemail",sEditContactEmail);
             hServiceInfo.put("totalbeds",sEditTotalBeds);
+            hServiceInfo.put("serviceadmissionlimit",sEditServiceAdmissionLimit);
             hServiceInfo.put("costcenter",sEditServiceCostcenter);
             hServiceInfo.put("performeruid",sEditCareProvider);
             hServiceInfo.put("stayprestationuid",sEditStayPrestationUid);
@@ -599,6 +607,15 @@
                         <input type="text" class="text" name="EditTotalBeds" value="<%=service.totalbeds%>" size="<%=sTextWidth%>">
                     </td>
                 </tr>
+                <%-- Service admission limit --%>
+                <% if(MedwanQuery.getInstance().getConfigInt("autoCloseAdmissions", 0)==1){ %>
+                <tr>
+                    <td class="admin"> <%=getTran("Web","serviceadmissionlimit",sWebLanguage)%></td>
+                    <td class="admin2">
+                        <input type="text" class="text" name="EditServiceAdmissionLimit" value="<%=service.serviceadmissionlimit%>" size="<%=sTextWidth%>">
+                    </td>
+                </tr>
+                <%} %>
                 <%-- MEDICAL CENTRE (code5) --%>
                 <tr>
                     <td class="admin"> <%=getTran("Web","medicalcentre",sWebLanguage)%></td>

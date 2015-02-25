@@ -417,17 +417,17 @@
     openComplexResult = function(id) {
         var params = "antibiogramuid="+id+"&editable=<%=bEditable%>";
         var url = "<c:url value="/labos/ajax/getComplexResult.jsp" />?ts="+new Date().getTime();
-        Modalbox.show(url, {title:"<%=getTranNoLink("web","antibiogram",sWebLanguage)%>",params:params,width:650,height:600});
+        Modalbox.show(url, {title:"<%=getTranNoLink("web","antibiogram",sWebLanguage)%>",params:params,width:<%=MedwanQuery.getInstance().getConfigInt("antibiogramWidth",650)%>,height:<%=MedwanQuery.getInstance().getConfigInt("antibiogramHeight",600)%>});
     }
     openComplexARVResult = function(arvs,id) {
         var params = "antivirogramuid="+id+"&editable=<%=bEditable%>&arvs="+arvs;
         var url = "<c:url value="/labos/ajax/getComplexARVResult.jsp" />?ts="+new Date().getTime();
-        Modalbox.show(url, {title:"<%=getTranNoLink("web","antivirogram",sWebLanguage)%>",params:params,width:650,height:600});
+        Modalbox.show(url, {title:"<%=getTranNoLink("web","antivirogram",sWebLanguage)%>",params:params,width:<%=MedwanQuery.getInstance().getConfigInt("antibiogramWidth",650)%>,height:<%=MedwanQuery.getInstance().getConfigInt("antibiogramHeight",600)%>});
     }
     openComplexResultNew = function(id) {
         var params = "antibiogramuid="+id+"&editable=<%=bEditable%>";
         var url = "<c:url value="/labos/ajax/getComplexResultNew.jsp" />?ts="+new Date().getTime();
-        Modalbox.show(url, {title:"<%=getTranNoLink("web","antibiogram",sWebLanguage)%>",params:params,width:650,height:600});
+        Modalbox.show(url, {title:"<%=getTranNoLink("web","antibiogram",sWebLanguage)%>",params:params,width:<%=MedwanQuery.getInstance().getConfigInt("antibiogramWidth",650)%>,height:<%=MedwanQuery.getInstance().getConfigInt("antibiogramHeight",600)%>});
     }
     addObserversToAntibiogram = function(id) {
         $("germ1").value = $F("resultAntibio."+id+".germ1");

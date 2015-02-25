@@ -269,7 +269,7 @@
     if(h > screen.height) h = screen.height;
     w = w+35;
     if(w < 400) w = 400;
-    h = h+80;
+    h = h+130;
     window.resizeTo(w,h);
     window.moveTo((screen.width-w)/2,(screen.height-h)/2);
   }

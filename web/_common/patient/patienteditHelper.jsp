@@ -2,8 +2,15 @@
 <%@include file="/includes/validateUser.jsp"%>
 
 <%!
+
+	private String inputRow(String sLabelType, String sLabelID, String sFieldName, String sTab, String sValue,
+            String sTypeContent, boolean bEditable, boolean bUpperCase, String sWebLanguage){
+		return inputRowOpen(sLabelType, sLabelID, sFieldName, sTab, sValue,
+                sTypeContent, bEditable, bUpperCase, sWebLanguage) + "</td></tr>";
+	}
+
     //--- INPUT ROW -------------------------------------------------------------------------------
-    private String inputRow(String sLabelType, String sLabelID, String sFieldName, String sTab, String sValue,
+    private String inputRowOpen(String sLabelType, String sLabelID, String sFieldName, String sTab, String sValue,
                             String sTypeContent, boolean bEditable, boolean bUpperCase, String sWebLanguage) {
         String sReturn = normalRow(sLabelType,sLabelID,sFieldName,sTab,sWebLanguage);
 
@@ -47,7 +54,6 @@
                 +"&nbsp;<img class='link' src='"+sCONTEXTPATH+"/_img/compose.gif' ALT='"
                 +getTran("Web","PutToday",sWebLanguage)+"' onclick=\"getToday("+sFieldName+");\">");
         }
-        sReturn+="</td></tr>";
 
         return sReturn;
     }

@@ -77,7 +77,7 @@
   }
 
   <%-- SEARCH REAGENTS --%>
-  function searchReagents()
+  function searchReagents(){
     SearchForm.Action.value = "search";
     ajaxChangeSearchResults('_common/search/searchByAjax/searchReagentShow.jsp',SearchForm);
   }

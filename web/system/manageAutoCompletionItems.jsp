@@ -6,7 +6,7 @@
 <%=checkPermission("system.management", "all", activeUser)%>
 
 
-<script type="text/javascript" src="../_common/_script/scriptaculous.js"></script>
+<script type="text/javascript" src="../_common/_script/scriptaculous/scriptaculous.js"></script>
 <script type="text/javascript" src="../_common/_script/unittest.js"></script>
 <script type="text/javascript" src="../_common/_script/sorttable.js"></script>
 

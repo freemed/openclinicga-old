@@ -82,7 +82,7 @@ public class ExporterLab extends Exporter {
 								ps.setTimestamp(2,new java.sql.Timestamp(end.getTime()));
 								ResultSet rs = ps.executeQuery();
 								while(rs.next()){
-									String labcode=rs.getString("labanalysiscode");
+									String labcode=rs.getString("analysiscode");
 									sb.append("<labtest editor='numeric' code='"+labcode+"' count='"+rs.getInt("total")+"' average='"+rs.getDouble("average")+"' standarddeviation='"+rs.getDouble("stdev")+"' month='"+i+"' year='"+n+"'/>");
 								}
 								rs.close();

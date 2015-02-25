@@ -51,6 +51,12 @@
 	if("1".equalsIgnoreCase((String)activePatient.adminextends.get("vip"))){
 	    sVip="<img border='0' src='_img/icons/icon_vip.jpg' alt='"+getTranNoLink("web","vip",sWebLanguage)+"'/>";
 	}
+	
+	String sDiscontinued="";
+	Encounter activeEncounter= Encounter.getActiveEncounter(activePatient.personid);
+	if(activeEncounter!=null && activeEncounter.discontinuedAccident()){
+		sDiscontinued="<img border='0' src='"+sCONTEXTPATH+"/_img/icons/icon_warning.gif'/> <font style='font-size:15px' color='red'>"+getTran("web","discontinuedaccident",sWebLanguage)+"</font>";
+	}
 %>
 <script>
   window.document.title="<%=sWEBTITLE+" "+getWindowTitle(request,sWebLanguage)%>";
@@ -60,7 +66,7 @@
 <table width="100%" class="list" cellpadding="1" cellspacing="0">
     <tr>
         <td colspan="10" class="titleadmin">
-            <div style="float:left;vertical-align:middle"><%=getTran("web","administrative.data",sWebLanguage)+" "+sVip%></div>
+            <div style="float:left;vertical-align:middle"><%=getTran("web","administrative.data",sWebLanguage)+" "+sVip+" "+sDiscontinued%></div>
             <%=getLastAccess("A."+activePatient.personid,sWebLanguage,request)%>
         </td>
     </tr>

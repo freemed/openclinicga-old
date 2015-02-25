@@ -113,7 +113,7 @@ else{
   
 <%
     // do not resize textarea's in pages below : 
-    if(!sPage.endsWith("medIntProctologyProtocol.jsp")){
+    if(!sPage.endsWith("medIntProctologyProtocols.jsp")){
         %>          
 		  Event.observe(window,'load',function(){
 			resizeAllTextareas(10);

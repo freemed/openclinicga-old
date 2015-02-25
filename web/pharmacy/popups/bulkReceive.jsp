@@ -60,7 +60,7 @@
 	<table width="100%" class="list" cellpadding="0" cellspacing="1">
 	    <%-- TITLE --%>
 	    <tr class="admin">
-	       <td colspan="8"><%=getTran("web","bulkReceive",sWebLanguage)%></td>
+	       <td colspan="9"><%=getTran("web","bulkReceive",sWebLanguage)%></td>
 	    </tr>
 	       
 	<%
@@ -76,6 +76,7 @@
 					<td><%=getTran("web","product",sWebLanguage)%></td>
 					<td><%=getTran("web","sent",sWebLanguage)%></td>
 					<td><%=getTran("web","received",sWebLanguage)%></td>
+					<td><%=getTran("web","batch",sWebLanguage)%></td>
 					<td><%=getTran("web","remains",sWebLanguage)%></td>
 			    </tr>
 	    	<%
@@ -100,6 +101,7 @@
 			 out.print("<td>"+productname+"</td>");
 			 out.print("<td>"+operation.getUnitsChanged()+"</td>");
 			 out.print("<td>"+operation.getUnitsReceived()+"</td>");
+			 out.print("<td>"+(operation.getBatchNumber()!=null?operation.getBatchNumber():"")+"</td>");
 			 out.print("<td><input type='text' class='text' size='5' onchange='validatemax("+(operation.getUnitsChanged()-operation.getUnitsReceived())+",this.value);' name='receive."+operation.getUid()+"' value='"+(operation.getUnitsChanged()-operation.getUnitsReceived())+"'></td>");
 			out.print("</tr>");
 		}

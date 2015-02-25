@@ -963,6 +963,57 @@ public class ServiceStock extends OC_Object{
         return foundObjects;
     }
     
+    public static Vector getStocksByUserWithEmpty(String sUserId){
+        Vector foundObjects = new Vector();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        Connection oc_conn = MedwanQuery.getInstance().getOpenclinicConnection();
+        try{
+            String sSelect = "SELECT * FROM OC_SERVICESTOCKS b"+
+            		         "  order by OC_STOCK_NAME";
+            ps = oc_conn.prepareStatement(sSelect);
+            
+            // execute
+            rs = ps.executeQuery();
+            ServiceStock stock = null;
+            while(rs.next()){
+                    if(rs.getString("OC_STOCK_AUTHORIZEDUSERS")!=null){
+                        String[] s = rs.getString("OC_STOCK_AUTHORIZEDUSERS").split("\\$");
+                      
+                        for(int i=0; i<s.length; i++){
+                            if(s[i].equals(sUserId)){
+                                stock = new ServiceStock();
+                                
+                                stock.setUid(rs.getString("OC_STOCK_SERVERID")+"."+rs.getString("OC_STOCK_OBJECTID"));
+                                stock.setName(rs.getString("OC_STOCK_NAME"));
+                                stock.setServiceUid(rs.getString("OC_STOCK_SERVICEUID"));
+                                stock.setAuthorizedUserIds(rs.getString("OC_STOCK_AUTHORIZEDUSERS"));
+                                
+                                foundObjects.add(stock);
+                            }
+                        }
+                    }
+                //}
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            try{
+                if(rs!=null) rs.close();
+                if(ps!=null) ps.close();
+                oc_conn.close();
+            }
+            catch (SQLException se){
+                se.printStackTrace();
+            }
+        }
+        
+        return foundObjects;
+    }
+    
     //--- IS ACTIVE -------------------------------------------------------------------------------
     public boolean isActive(){
         boolean isActive = false;

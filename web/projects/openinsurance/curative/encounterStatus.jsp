@@ -97,7 +97,7 @@
                         <%
                             if(activeEncounter.getDurationInDays()>Encounter.getAccountedAccomodationDays(activeEncounter.getUid())){
                                 %>
-                                    <img class="link" src="<c:url value='/_img/money.gif'/>"/>
+                                    <img class="link" src="<c:url value='/_img/icons/icon_money.gif'/>"/>
                                 <%
                             }
                         %>

@@ -55,6 +55,7 @@ public class Service {
     public String code4="";
     public String code5="";
     public int totalbeds=0;
+    public int serviceadmissionlimit=0;
 
     public Date updatetime;
     public String updateuserid;
@@ -108,6 +109,7 @@ public class Service {
         costcenter="";
         acceptsVisits="0";
         stayprestationuid="";
+        serviceadmissionlimit=0;
         //updatetime;
         //updateuserid;
     }
@@ -152,8 +154,8 @@ public class Service {
                     "  inscode, contract, contracttype, contactperson, contractdate,"+
                     "  contactaddress, contactzipcode, contactcity, contactcountry,"+
                     "  contacttelephone, contactfax, contactemail, portal_email, wicket, defaultcontext,"+
-                    "  defaultservicestockuid, code1, code2, code3, code4, code5, updatetime,totalbeds,inactive,costcenter,performeruid,acceptsVisits,stayprestationuid)"+
-                    " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                    "  defaultservicestockuid, code1, code2, code3, code4, code5, updatetime,totalbeds,inactive,costcenter,performeruid,acceptsVisits,stayprestationuid,serviceadmissionlimit)"+
+                    " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	          ps = conn.prepareStatement(sSelect);
 	          ps.setString(1,this.code.toUpperCase());
@@ -198,6 +200,7 @@ public class Service {
 	          ps.setString(38,this.performeruid);
 	          ps.setString(39,this.acceptsVisits);
 	          ps.setString(40,this.stayprestationuid);
+	          ps.setInt(41,this.serviceadmissionlimit);
 	          ps.executeUpdate();
 	          if(ps!=null) ps.close();
 	          conn.close();
@@ -366,8 +369,8 @@ public class Service {
                               "  inscode, contract, contracttype, contactperson, contractdate,"+
                               "  contactaddress, contactzipcode, contactcity, contactcountry,"+
                               "  contacttelephone, contactfax, contactemail, portal_email, wicket, defaultcontext,"+
-                              "  defaultservicestockuid, code1, code2, code3, code4, code5, updatetime,totalbeds,inactive,costcenter,performeruid,acceptsVisits,stayprestationuid)"+
-                              " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                              "  defaultservicestockuid, code1, code2, code3, code4, code5, updatetime,totalbeds,inactive,costcenter,performeruid,acceptsVisits,stayprestationuid,serviceadmissionlimit)"+
+                              " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                     rs.close();
                     ps.close();
@@ -414,6 +417,7 @@ public class Service {
                     ps.setString(38,this.performeruid);
                     ps.setString(39,this.acceptsVisits);
                     ps.setString(40,this.stayprestationuid);
+                    ps.setInt(41,this.serviceadmissionlimit);
                     ps.executeUpdate();
                     if(ps!=null) ps.close();
                 }
@@ -487,6 +491,7 @@ public class Service {
                     service.updatetime = rs.getDate("updatetime");
                     service.updateuserid = rs.getString("updateuserid");
                     service.totalbeds=rs.getInt("totalbeds");
+                    service.serviceadmissionlimit=rs.getInt("serviceadmissionlimit");
                     service.costcenter=rs.getString("costcenter");
                     service.performeruid=rs.getString("performeruid");
                     service.acceptsVisits=rs.getString("acceptsVisits");
@@ -1051,8 +1056,8 @@ public class Service {
                          " fax, comment, updatetime, email, serviceparentid, inscode, serviceorder," +
                          " servicelanguage, updateuserid, contract, contracttype, contactperson, contractdate," +
                          " defaultcontext, defaultservicestockuid, contactaddress, contactzipcode, contactcity," +
-                         " contactcountry, contacttelephone, contactfax, contactemail, code3, code5,wicket,totalbeds,inactive,costcenter,performeruid,acceptsVisits,stayprestationuid)" +
-                         " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                         " contactcountry, contacttelephone, contactfax, contactemail, code3, code5,wicket,totalbeds,inactive,costcenter,performeruid,acceptsVisits,stayprestationuid,serviceadmissionlimit)" +
+                         " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
         try{
@@ -1097,6 +1102,7 @@ public class Service {
             ps.setString(35,hService.get("performeruid").toString());
             ps.setString(36,hService.get("acceptsVisits").toString());
             ps.setString(37,hService.get("stayprestationuid").toString());
+            ps.setInt(38,((Integer)hService.get("serviceadmissionlimit")).intValue());
 
             ps.executeUpdate();
             ps.close();
@@ -1123,7 +1129,7 @@ public class Service {
                          "  servicelanguage = ?, updateuserid = ?, contract = ?, contracttype = ?, contactperson = ?," +
                          "  contractdate = ?, defaultcontext = ?, defaultservicestockuid = ?, contactaddress = ?," +
                          "  contactzipcode = ?, contactcity = ?, contactcountry = ?, contacttelephone = ?," +
-                         "  contactfax = ?, contactemail = ?, code3 = ?, code5 = ?, wicket = ?, totalbeds = ?, inactive = ?, costcenter= ?, performeruid=?,acceptsVisits=?,stayprestationuid=?" +
+                         "  contactfax = ?, contactemail = ?, code3 = ?, code5 = ?, wicket = ?, totalbeds = ?, inactive = ?, costcenter= ?, performeruid=?,acceptsVisits=?,stayprestationuid=?,serviceadmissionlimit=?" +
                          " WHERE serviceid = ?";
 
     	Connection ad_conn = MedwanQuery.getInstance().getAdminConnection();
@@ -1169,8 +1175,9 @@ public class Service {
             ps.setString(35, hService.get("performeruid").toString());
             ps.setString(36, hService.get("acceptsVisits").toString());
             ps.setString(37, hService.get("stayprestationuid").toString());
+            ps.setInt(38, Integer.parseInt(hService.get("serviceadmissionlimit").toString()));
 
-            ps.setString(38, hService.get("oldserviceid").toString());
+            ps.setString(39, hService.get("oldserviceid").toString());
 
             ps.executeUpdate();
             ps.close();

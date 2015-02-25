@@ -35,6 +35,47 @@
 	    </indexes>
     </table>
     
+    <table name="OC_PATIENTCREDITS" db="openclinic" sync="NONE">
+    	<columns>
+	    	<column name="OC_PATIENTCREDIT_SERVERID" dbtype="int" javatype="integer"/>
+	    	<column name="OC_PATIENTCREDIT_OBJECTID" dbtype="int" javatype="integer"/>
+		    <column name="OC_PATIENTCREDIT_CREATEDATETIME" dbtype="datetime" javatype="date"/>
+		    <column name="OC_PATIENTCREDIT_UPDATETIME" dbtype="datetime" javatype="date"/>
+	    	<column name="OC_PATIENTCREDIT_UPDATEUID" dbtype="varchar" javatype="string" size="20"/>
+	    	<column name="OC_PATIENTCREDIT_VERSION" dbtype="int" javatype="integer"/>
+		    <column name="OC_PATIENTCREDIT_DATE" dbtype="datetime" javatype="date"/>
+	    	<column name="OC_PATIENTCREDIT_INVOICEUID" dbtype="varchar" javatype="string" size="25"/>
+	    	<column name="OC_PATIENTCREDIT_AMOUNT" dbtype="float" javatype="float"/>
+	    	<column name="OC_PATIENTCREDIT_TYPE" dbtype="varchar" javatype="string" size="255"/>
+	    	<column name="OC_PATIENTCREDIT_ENCOUNTERUID" dbtype="varchar" javatype="string" size="20"/>
+	    	<column name="OC_PATIENTCREDIT_COMMENT" dbtype="varchar" javatype="string" size="255"/>
+    	</columns>
+	    <indexes>
+	    	<index name="PATIENTCREDIT_OBJECTID">
+	    		<indexcolumn order="ASC" name="OC_PATIENTCREDIT_OBJECTID"/>
+	    	</index>
+	    	<index name="PATIENTCREDIT_INVOICEUID">
+	    		<indexcolumn order="ASC" name="OC_PATIENTCREDIT_INVOICEUID"/>
+	    	</index>
+	    	<index name="PATIENTCREDIT_ENCOUNTERUID">
+	    		<indexcolumn order="ASC" name="OC_PATIENTCREDIT_ENCOUNTERUID"/>
+	    	</index>
+	    </indexes>
+    </table>
+    <table name="OC_LABPROCEDURES" db="openclinic" sync="NONE">
+    	<columns>
+	    	<column name="OC_LABPROCEDURE_SERVERID" dbtype="int" javatype="integer"/>
+	    	<column name="OC_LABPROCEDURE_OBJECTID" dbtype="int" javatype="integer"/>
+		    <column name="OC_LABPROCEDURE_CREATEDATETIME" dbtype="datetime" javatype="date"/>
+	    	<column name="OC_LABPROCEDURE_MAXBATCHSIZE" dbtype="int" javatype="integer"/>
+	    	<column name="OC_LABPROCEDURE_MINBATCHSIZE" dbtype="int" javatype="integer"/>
+	    	<column name="OC_LABPROCEDURE_MAXDELAYINDAYS" dbtype="int" javatype="integer"/>
+		    <column name="OC_LABPROCEDURE_UPDATEDATETIME" dbtype="datetime" javatype="date"/>
+	    	<column name="OC_LABPROCEDURE_UPDATEUID" dbtype="int" javatype="integer"/>
+	    	<column name="OC_LABPROCEDURE_VERSION" dbtype="int" javatype="integer"/>
+	        <column name="OC_LABPROCEDURE_NAME" dbtype="varchar" javatype="string" size="255"/>      
+    	</columns>
+    </table>
     <table name="AC_JOURNALITEMS" db="ocadmin" sync="NONE">
     	<columns>
 	        <column name="AC_JOURNALITEM_JOURNALID" dbtype="int" javatype="integer"/>
@@ -3026,7 +3067,7 @@
 		<columns>
 			<column name="OC_REAGENT_SERVERID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
 			<column name="OC_REAGENT_OBJECTID" dbtype="int" javatype="integer" primary="1" nulls="0"/>
-            <column name="OC_REAGENT_CREATEDATETIME" dbtype="datetime" javatype="date" nulls="0"/>
+            <column name="OC_REAGENT_CREATETIME" dbtype="datetime" javatype="date" nulls="0"/>
             <column name="OC_REAGENT_NAME" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_REAGENT_UNIT" dbtype="varchar" javatype="string" size="50"/>
             <column name="OC_REAGENT_PROVIDER" dbtype="varchar" javatype="string" size="50"/>
@@ -3486,6 +3527,7 @@
             <column name="acceptsVisits" dbtype="int" javatype="integer"/>
             <column name="performeruid" dbtype="varchar" javatype="string" size="50"/>
             <column name="stayprestationuid" dbtype="varchar" javatype="string" size="50"/>
+            <column name="serviceadmissionlimit" dbtype="int" javatype="integer"/>
         </columns>
 		<indexes>
 			<index name="services_serviceid">

@@ -383,7 +383,7 @@
     }
   }
   function searchPrestation(){
-    document.getElementById('divFindRecords').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+    document.getElementById('divFindRecords').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Loading";
     var today = new Date();
     var desc=transactionForm.FindPrestationDescr.value;
     var params = 'FindPrestationCode=' + escape(transactionForm.FindPrestationCode.value)

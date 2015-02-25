@@ -12,9 +12,11 @@ import be.dpms.medwan.webapp.wo.occupationalmedicine.RiskProfileRisksInfoWO;
 import be.dpms.medwan.webapp.wo.occupationalmedicine.RiskProfileSystemInfoWO;
 import be.mxs.common.model.vo.healthrecord.*;
 import be.mxs.common.util.db.MedwanQuery;
+import be.mxs.common.util.system.ScreenHelper;
 import net.admin.User;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.*;
 
 public class SessionContainerWO extends be.mxs.webapp.wo.common.system.SessionContainerWO {
@@ -556,7 +558,7 @@ public class SessionContainerWO extends be.mxs.webapp.wo.common.system.SessionCo
             String currentContext = "", context;
             ItemVO itemVO = currentTransaction.getItem("be.mxs.common.model.vo.healthrecord.IConstants.ITEM_TYPE_CONTEXT_CONTEXT");
             if (itemVO!=null){
-                currentContext = itemVO.getValue();
+                currentContext = ScreenHelper.checkString(itemVO.getValue());
             }
 
             TransactionVO transaction;
@@ -569,7 +571,7 @@ public class SessionContainerWO extends be.mxs.webapp.wo.common.system.SessionCo
                     context = "";
 
                     if (itemVO!=null){
-                        context = itemVO.getValue();
+                        context = ScreenHelper.checkString(itemVO.getValue());
                     }
                     if (currentContext.equals(context)){
                         TransactionVO tmpTransaction = MedwanQuery.getInstance().loadTransaction(transaction.getServerId(),transaction.getTransactionId().intValue());

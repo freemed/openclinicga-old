@@ -109,7 +109,7 @@
             <td>
                 <input class='<%=setFocus("natreg",sDefaultFocus)%>' TYPE='TEXT' NAME='findnatreg' VALUE="<%=sNatreg%>" size='25' onblur='limitLength(this);'>
             </td>
-            <td align="right" nowrap><%=getTran("Web", "immatnew", sWebLanguage)%>&nbsp;<input class='<%=setFocus("immatnew",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase' name='findimmatnew' value="<%=sNewimmat%>" size='20' onblur='limitLength(this);'></td>
+            <td align="right" nowrap><%=getTran("Web", "immatnew", sWebLanguage)%>&nbsp;<input class='<%=setFocus("immatnew",sDefaultFocus)%>' type='TEXT' style='text-transform:uppercase' name='findimmatnew' id='findimmatnew' value="<%=sNewimmat%>" size='20' onblur='limitLength(this);'></td>
             <%
                 if(activePatient!=null && activePatient.getID("archiveFileCode").length() > 0){
             %>

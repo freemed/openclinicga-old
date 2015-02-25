@@ -48,7 +48,7 @@
 	      }
 		});
 	}
-	document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+	document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Loading";
 	window.setTimeout("pollMessage();",200);
 	
 </script>

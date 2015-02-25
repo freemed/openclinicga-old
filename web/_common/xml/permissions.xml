@@ -100,6 +100,7 @@
         <permission type="web" id="urgencybedoverview">adt.urgencybedoverview</permission>
         <permission type="web" id="managecareprescriptionsschema">medical.managecareprescriptionsschema</permission>
         <permission type="web" id="technicalexaminations">technicalexaminations</permission>
+        <permission type="web" id="fastphysiotherapy">fastphysiotherapy</permission>
     </application>
     <application type="Web" id="planning">
         <permission type="web" id="planning">planning</permission>
@@ -227,6 +228,8 @@
         <permission type="web" id="permissions">system.permissions</permission>
     </application>
     <application type="Web" id="pharmacy">
+        <permission type="web" id="patient.copypharmacystocks">patient.copypharmacystocks</permission>
+        <permission type="web" id="patient.modifypharmacydelivery">patient.modifypharmacydelivery</permission>
         <permission type="web" id="pharmacy">pharmacy</permission>
         <permission type="web" id="medication">medication</permission>
         <permission type="web" id="medicationdelivery">medication.medicationdelivery</permission>

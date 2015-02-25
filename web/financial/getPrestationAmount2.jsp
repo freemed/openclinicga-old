@@ -21,6 +21,7 @@
     String sPrestationServiceUid = checkString(request.getParameter("PrestationServiceUid"));
     String sPrestationServiceName= checkString(request.getParameter("PrestationServiceName"));
     String sPrice = checkString(request.getParameter("EditPrice"));
+    String sEnableInsurance = checkString(request.getParameter("EnableInsurance"));
     String prestationcontent="",pa="",pi="", pc1="",pc2="",pbi="",coveragePct="";
     if(sQuantity.length()==0){
         sQuantity="0";
@@ -125,6 +126,11 @@
 	        	}
 	        }
 
+	      	if(sEnableInsurance.length()==0){
+	      		dPatientAmount2+=dInsurarAmount2;
+	      		dInsurarAmount2=0;
+	      	}
+
 	        pa=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(dPatientAmount2);
 	      	pi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(dInsurarAmount2);
 	    	coveragePct=" ("+new Double(dInsurarAmount2*100/(dInsurarAmount+dPatientAmount)).intValue()+"%)";
@@ -139,7 +145,8 @@
 	      	}
 	      	pc1=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(dCoverage1);
 	      	pc2=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(dCoverage2);
-
+			
+	      	
 			//Only add prestation content if no rules violated
 			InsuranceRule rule = insurance==null?null:Prestation.getInsuranceRule(prestation.getUid(), insurance.getInsurarUid());
 			if(!Prestation.checkMaximumReached(activePatient.personid, rule, quantity)){
@@ -227,6 +234,11 @@
 		    	        	}
 		    	        }
 	
+		    	      	if(sEnableInsurance.length()==0){
+		    	      		dPatientAmount2+=dInsurarAmount2;
+		    	      		dInsurarAmount2=0;
+		    	      	}
+
 		    	        pa=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(dPatientAmount2);
 		    	      	pi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(dInsurarAmount2);
 		    	    	coveragePct=" ("+new Double(dInsurarAmount2*100/(dInsurarAmount2+dPatientAmount2)).intValue()+"%)";
@@ -357,6 +369,11 @@
         	}
         }
 
+      	if(sEnableInsurance.length()==0){
+      		dPatientAmount+=dInsurarAmount;
+      		dInsurarAmount=0;
+      	}
+
         pa=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(dPatientAmount);
       	pi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(dInsurarAmount);
     	coveragePct=" ("+new Double(dInsurarAmount*100/(dInsurarAmount+dPatientAmount)).intValue()+"%)";
@@ -462,6 +479,12 @@
 	    					dCoverage2=dPatientAmount2;
 	    	        	}
 	    	        }
+	    	        
+	    	      	if(sEnableInsurance.length()==0){
+	    	      		dPatientAmount2+=dInsurarAmount2;
+	    	      		dInsurarAmount2=0;
+	    	      	}
+
 	    	      	pa=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(dPatientAmount2);
 	    	      	pi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(dInsurarAmount2);
 	    	    	coveragePct=" ("+new Double(dInsurarAmount2*100/(dInsurarAmount2+dPatientAmount2)).intValue()+"%)";
@@ -604,6 +627,11 @@
 	        	}
 	        }
 
+	      	if(sEnableInsurance.length()==0){
+	      		dPatientAmount2+=dInsurarAmount2;
+	      		dInsurarAmount2=0;
+	      	}
+
 	        pa=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(dPatientAmount2);
 	      	pi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(dInsurarAmount2);
 	    	coveragePct=" ("+new Double(dInsurarAmount*100/(dInsurarAmount+dPatientAmount)).intValue()+"%)";
@@ -706,6 +734,11 @@
 		    	        	}
 		    	        }
 	
+		    	      	if(sEnableInsurance.length()==0){
+		    	      		dPatientAmount2+=dInsurarAmount2;
+		    	      		dInsurarAmount2=0;
+		    	      	}
+
 		    	        pa=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(dPatientAmount2);
 		    	      	pi=new DecimalFormat(MedwanQuery.getInstance().getConfigString("priceCalculationFormat","#.00")).format(dInsurarAmount2);
 		    	    	coveragePct=" ("+new Double(dInsurarAmount2*100/(dInsurarAmount2+dPatientAmount2)).intValue()+"%)";

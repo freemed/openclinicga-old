@@ -36,7 +36,7 @@
 	                       "<td valign='middle'>"+
 	                        "<a href='javascript:copyproduct(\""+rs.getInt("OC_PRODUCT_SERVERID")+"."+rs.getInt("OC_PRODUCT_OBJECTID")+"\");'>");
 	            
-	            %><img src='<c:url value="/_img/arrow_right.gif"/>' class='link' alt='<%=getTranNoLink("web","right",sWebLanguage)%>'/></a>&nbsp;<%
+	            %><img src='<c:url value="/_img/themes/default/arrow_right.gif"/>' class='link' alt='<%=getTranNoLink("web","right",sWebLanguage)%>'/></a>&nbsp;<%
 	            
 	            out.print(  "<a href='javascript:copycontent(\""+rs.getInt("OC_PRODUCT_SERVERID")+"."+rs.getInt("OC_PRODUCT_OBJECTID")+"\");'>"+rs.getString("OC_PRODUCT_NAME")+"</a>"+
 	                       "</td>"+

@@ -62,7 +62,7 @@
 		    </tr>
 		    
 		    <tbody class="hand">
-				<%=addTodayWickets(vWicketsToday,sWebLanguage,activeUser.getAccessRight("financial.superuser.select")))%>
+				<%=addTodayWickets(vWicketsToday,sWebLanguage,activeUser.getAccessRight("financial.superuser.select"))%>
 		    </tbody>
 		</table>
         <%

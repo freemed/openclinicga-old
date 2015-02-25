@@ -114,7 +114,8 @@ public class EditTransactionAction extends Action {
                     }
                     else {
                         try {
-                            existingTransaction = MedwanQuery.getInstance().loadTransaction(Integer.parseInt(serverId),Integer.parseInt(transactionId));
+                            MedwanQuery.getInstance().getObjectCache().removeObject("transaction", serverId+"."+transactionId);
+                        	existingTransaction = MedwanQuery.getInstance().loadTransaction(Integer.parseInt(serverId),Integer.parseInt(transactionId));
                         }
                         catch (NumberFormatException e) {
                             throw new TransactionNotFoundException();

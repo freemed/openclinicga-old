@@ -88,6 +88,7 @@
                 html.append("<td>")
                      .append("<input type='button' class='button' value='"+calculateOrderTran+"' onclick=\"doCalculateOrder('"+sServiceStockUid+"','"+sServiceName+"');\">&nbsp;")
                      .append("<input type='button' class='button' value='"+productStockTran+"' onclick=\"displayProductStockManagement('"+sServiceStockUid+"','"+sServiceUid+"');\">&nbsp;")
+                     .append(activeUser.getAccessRight("patient.copypharmacystocks.select")?"<input type='button' class='button' value='"+getTranNoLink("web","copy",sWebLanguage)+"' onclick=\"copyProducts('"+sServiceStockUid+"');\">&nbsp;":"")
                     .append("</td>");
             } 
             else{
@@ -1148,8 +1149,12 @@
   }
 
   function printMonthlyConsumption(serviceStockUid){
-	openPopup("statistics/pharmacy/getMonthlyConsumption.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
-  }
+		openPopup("statistics/pharmacy/getMonthlyConsumption.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+	  }
+
+  function copyProducts(serviceStockUid){
+		openPopup("pharmacy/copyProducts.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);
+	  }
 
   function printExpiration(serviceStockUid){
 	openPopup("statistics/pharmacy/getExpiration.jsp&ts=<%=getTs()%>&ServiceStockUid="+serviceStockUid,200,200);

@@ -242,7 +242,7 @@ function doSave() {
         EditForm.ButtonSave.disabled = true;
         var today = new Date();
         var url = '<c:url value="/financial/insuranceInvoiceSave.jsp"/>?ts=' + today;
-        document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Saving";
+        document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Saving";
         new Ajax.Request(url, {
             method: "POST",
             postBody: 'EditDate=' + EditForm.EditDate.value
@@ -400,7 +400,7 @@ function changeInsurar() {
         document.getElementById("invoicedetailstable").style.visibility="hidden";
     }
     var url = '<c:url value="/financial/insurarInvoiceGetPrestationsWithoutPatientInvoice.jsp"/>?ts=' + <%=getTs()%>;
-    document.getElementById('divPrestations').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+    document.getElementById('divPrestations').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Loading";
     var pb= 'InsurarUid=' + EditForm.EditInsurarUID.value
             + '&EditBegin=' + EditForm.EditBegin.value
             + '&EditEnd=' + EditForm.EditEnd.value
@@ -423,7 +423,7 @@ function changeInsurar() {
             );
 
     var url = '<c:url value="/financial/insurarInvoiceGetCredits.jsp"/>?ts='  + <%=getTs()%>;
-    document.getElementById('divCredits').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+    document.getElementById('divCredits').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Loading";
     new Ajax.Request(url, {
         method: "POST",
         postBody: 'InsurarUid=' + EditForm.EditInsurarUID.value

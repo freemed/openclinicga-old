@@ -1,4 +1,4 @@
-<%@ page import="java.util.*,be.openclinic.system.ExportSpecification,be.openclinic.medical.LabAnalysis,be.openclinic.finance.*" %>
+<%@ page import="java.util.*,be.openclinic.system.ExportSpecification,be.openclinic.medical.*,be.openclinic.finance.*" %>
 <%@page errorPage="/includes/error.jsp"%>
 <%@include file="/includes/validateUser.jsp"%>
 
@@ -38,6 +38,7 @@
            sAlertValue = "",
            sPrestationType = "",
            sEditor="",
+           sProcedure="",
            sEditorParameters="";
     int nEditUnavailable=0;
     int nEditLimitedVisibility=0;
@@ -141,6 +142,7 @@
             sShortTimeValue = checkString(request.getParameter("EditShortTimeValue"));
             sPrestationCode = checkString(request.getParameter("EditPrestationCode"));
             sLabGroup = checkString(request.getParameter("EditLabGroup"));
+            sProcedure = checkString(request.getParameter("EditLabProcedure"));
             sEditor=checkString(request.getParameter("EditLabEditor"));
             sEditorParameters=checkString(request.getParameter("EditLabEditorParameters"));
             sPrestationType = "LABCODE." + sEditLabCode;
@@ -222,6 +224,7 @@
                 labAnalysis.setEditorparameters(sEditorParameters);
                 labAnalysis.setPrestationcode(sPrestationCode);
                 labAnalysis.setHistorydays(nHistoryDays);
+                labAnalysis.setProcedureUid(sProcedure);
                 labAnalysis.setHistoryvalues(nHistoryValues);
 
                 if (bInsert) {
@@ -334,6 +337,7 @@
             sBiomonitoring = labAnalysis.getBiomonitoring();
             sMedidoccode   = labAnalysis.getMedidoccode();
             sLabCodeOther  = labAnalysis.getLabcodeother();
+            sProcedure     = labAnalysis.getProcedureUid();
             sLabGroup      = labAnalysis.getLabgroup();
             nEditUnavailable=labAnalysis.getUnavailable();
             nEditLimitedVisibility=labAnalysis.getLimitedVisibility();
@@ -438,6 +442,7 @@
                 sLabCodeOther   = checkString(labAnalysis.getLabcodeother());
                 sAlertValue     = checkString(labAnalysis.getAlertvalue());
                 sLimitValue     = checkString(labAnalysis.getLimitvalue());
+                sProcedure     = checkString(labAnalysis.getProcedureUid());
                 sShortTimeValue = checkString(labAnalysis.getShorttimevalue());
                 sEditLabUnit    = checkString(labAnalysis.getUnit());
                 nEditUnavailable= labAnalysis.getUnavailable();
@@ -679,6 +684,24 @@
   <%
   }
   %>
+  <tr>
+    <td class="admin"><%=getTran("web","labprocedure",sWebLanguage)%></td>
+    <td class="admin2">
+        <input class="text" type="text" name="EditLabProcedure" id="EditLabProcedure" size="10" maxLength="50" readonly value="<%=sProcedure%>" >
+        <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTranNoLink("Web","select",sWebLanguage)%>" onclick="searchLabProcedure();">
+        <img src="<c:url value="/_img/icons/icon_delete.gif"/>" class="link" alt='Vider' onclick="document.getElementById('EditLabProcedure').value='';document.getElementById('EditLabProcedureName').value='';"> 
+        <%
+        	String sProcedureName="";
+        	if(sProcedure.length()>0){
+        		LabProcedure procedure = LabProcedure.get(sProcedure);
+        		if(procedure!=null){
+        			sProcedureName=checkString(procedure.getName());
+        		}
+        	}
+        %>
+        <input class="greytext" readonly disabled type="text" name="EditLabProcedureName" id="EditLabProcedureName" value="<%=sProcedureName%>" size="50"/>
+    </td>
+  </tr>
   <%-- LAB GROUP --%>
   <tr>
     <td class="admin"><%=getTran("Web.manage","labanalysis.cols.labgroup",sWebLanguage)%></td>
@@ -797,10 +820,14 @@
   	  	}
   	  	return "";
   	}
-  function searchPrestation(){
-	  document.getElementById("EditPrestationCode").value = "";
-      openPopup("/_common/search/searchPrestation.jsp&ts=<%=getTs()%>&ReturnFieldUid=EditPrestationCode&ReturnFieldDescr=EditPrestationName");
-  }
+    function searchPrestation(){
+  	  document.getElementById("EditPrestationCode").value = "";
+        openPopup("/_common/search/searchPrestation.jsp&ts=<%=getTs()%>&ReturnFieldUid=EditPrestationCode&ReturnFieldDescr=EditPrestationName");
+    }
+    function searchLabProcedure(){
+  	  document.getElementById("EditLabProcedure").value = "";
+        openPopup("/_common/search/searchLabProcedure.jsp&ts=<%=getTs()%>&ReturnFieldUid=EditLabProcedure&ReturnFieldDescr=EditLabProcedureName");
+    }
     function checkSave(){
       if(editForm.EditLabCode.value.length == 0 || editForm.LabType.selectedIndex == 0 || editForm.EditLabGroup.selectedIndex == 0
         <%
