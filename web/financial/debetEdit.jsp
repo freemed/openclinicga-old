@@ -97,7 +97,7 @@
     </table>
     <br>
     
-    <div id="divUnassignedDebets" class="searchResults" style="height:120px;"><img src="<c:url value="/_img/ajax-loader.gif"/>"/><br/>Loading</div>
+    <div id="divUnassignedDebets" class="searchResults" style="height:120px;"><img src="<c:url value="/_img/themes/default/ajax-loader.gif"/>"/><br/>Loading</div>
     <input class='text' readonly type='hidden' id='EditAmount' name='EditAmount' value='<%=debet.getAmount()+debet.getExtraInsurarAmount()%>' size='20'>
     <input class='text' readonly type='hidden' id='EditInsurarAmount' name='EditInsurarAmount' value='<%=debet.getInsurarAmount()%>' size='20'> 
     <br>
@@ -109,6 +109,7 @@
         <tr>
             <td class='admin'><%=getTran("Web","insurance",sWebLanguage)%> *</td>
             <td class='admin2'>
+            	<input type="checkbox" name="EnableInsurance" id="EnableInsurance" checked  onchange="changeInsurance()"/>
                 <select class="text" id='EditInsuranceUID' name="EditInsuranceUID" onchange="changeInsurance()">
                     <option/>
                     <%
@@ -279,16 +280,23 @@
         <tr><td colspan='2' class='admin2' id='prestationcontent'>
         <%
         	if(sEditDebetUID.length() > 0 && debet!=null && debet.getPrestation()!=null){
+        		String serviceName="";
+        		Service service = Service.getService(debet.getServiceUid());
+        		if(service!=null){
+        			serviceName=service.getLabel(sWebLanguage);
+        		}
                 String prestationcontent ="<table width='100%' id='mytable'>";
-                prestationcontent+="<tr><td width='50%'><b>"+getTran("web","prestation",sWebLanguage)+"</b></td>"+
-                "<td width='25%'><b>"+getTran("web.finance","amount.patient",sWebLanguage)+"</b></td>"+
+                prestationcontent+="<tr><td><b>"+getTran("web","prestation",sWebLanguage)+"</b></td>"+
+                "<td><b>"+getTran("web.finance","amount.patient",sWebLanguage)+"</b></td>"+
                 "<td><b>"+getTran("web.finance","amount.insurar",sWebLanguage)+"</b></td>"+
                 "<td><b>"+getTranNoLink("web.finance","amount.complementaryinsurar",sWebLanguage)+"</b></td>"+
+                "<td><b>"+getTran("web","service",sWebLanguage)+"</b></td>"+
                 "</tr>";
                 prestationcontent+="<td><input type='hidden' name='PPC_"+debet.getPrestationUid()+"'/>"+debet.getPrestation().getCode()+": "+debet.getPrestation().getDescription()+"</td>";
                 prestationcontent+="<td "+(debet.getExtraInsurarUid2()!=null && debet.getExtraInsurarUid2().length()>0?"class='strikeonly'":"")+"><input type='hidden' name='PPP_"+debet.getPrestationUid()+"' value='"+debet.getAmount()+"'/>"+debet.getAmount()+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
                 prestationcontent+="<td><input type='hidden' name='PPI_"+debet.getPrestationUid()+"' value='"+debet.getInsurarAmount()+"'/>"+debet.getInsurarAmount()+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
     	        prestationcontent+="<td><input type='hidden' name='PPE_"+debet.getPrestationUid()+"' value='"+debet.getExtraInsurarAmount()+"'/>"+debet.getExtraInsurarAmount()+" "+MedwanQuery.getInstance().getConfigParam("currency","€")+"</td>";
+    	        prestationcontent+="<td>"+serviceName+"</td>";
                 prestationcontent+="</tr>";
                 prestationcontent+="</table>";
        			out.print(prestationcontent);
@@ -309,7 +317,7 @@
            <td class='admin2'>
                <input type="hidden" name="EditDebetServiceUid" id="EditDebetServiceUid" value="<%=sEditDebetServiceUid%>">
                <input class="text" type="text" name="EditDebetServiceName" id="EditDebetServiceName" readonly size="<%=sTextWidth%>" value="<%=sEditDebetServiceName%>" >
-               <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="searchService('EditDebetServiceUid','EditDebetServiceName');">
+               <img src="<c:url value="/_img/icons/icon_search.gif"/>" class="link" alt="<%=getTran("Web","select",sWebLanguage)%>" onclick="alertcontinuity();searchService('EditDebetServiceUid','EditDebetServiceName');">
            </td>
        </tr>
         <tr>
@@ -423,6 +431,15 @@
     <input type='hidden' id="prestationids" name="prestationids" value=""/>
 </form>
 <script>
+	function alertcontinuity(){
+		<%
+			Encounter e = Encounter.getActiveEncounter(activePatient.personid);
+			if(e!=null && e.getCategories()!=null && e.getCategories().length()>0 && !e.getCategories().equalsIgnoreCase("A")){
+				out.println("alert('"+getTranNoLink("web","verifyencounter",sWebLanguage)+"')");
+			}
+		%>
+	}
+	
 	function checkSaveButtonRights(){
 		if(EditForm.buttonSave!=null){
 			var bInvisible=(document.getElementById('EditDebetUID').value=='' || document.getElementById('EditDebetUID').value=='-1') && <%=activeUser.getAccessRight("financial.debet.add")?"false":"true"%>;
@@ -449,7 +466,7 @@
 	function changeQuicklistPrestations(prestations,bInvoice){
 		$('prestationids').value=prestations;
         EditForm.EditPrestationName.style.backgroundColor='white';
-        document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Calculating";
+        document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Calculating";
         var today = new Date();
         var url= '<c:url value="/financial/getPrestationAmount2.jsp"/>?ts='+today;
         new Ajax.Request(url,{
@@ -459,6 +476,7 @@
     	            '&EditInsuranceUID=' + EditForm.EditInsuranceUID.value+
     	            '&EditDate=' + EditForm.EditDate.value+
                    '&CoverageInsurance=' + EditForm.coverageinsurance.value+
+                    '&EnableInsurance=' + (EditForm.EnableInsurance.checked?'1':'')+
                    '&PrestationServiceUid=' + EditForm.EditDebetServiceUid.value+
                    '&PrestationServiceName=' + EditForm.EditDebetServiceName.value+
                    <%
@@ -501,7 +519,7 @@
 	      else {
 	          EditForm.EditPrestationName.style.backgroundColor='white';
 	          if (!bFirst){
-	              document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Calculating";
+	              document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Calculating";
 	              var today = new Date();
 	              var url= '<c:url value="/financial/getPrestationAmount2.jsp"/>?ts='+today;
 	              new Ajax.Request(url,{
@@ -512,6 +530,7 @@
 		                      '&EditInsuranceUID=' + EditForm.EditInsuranceUID.value+
 		       	              '&EditDate=' + EditForm.EditDate.value+
 		                      '&CoverageInsurance=' + EditForm.coverageinsurance.value+
+		                      '&EnableInsurance=' + (EditForm.EnableInsurance.checked?'1':'')+
 			                   '&PrestationServiceUid=' + EditForm.EditDebetServiceUid.value+
 			                   '&PrestationServiceName=' + EditForm.EditDebetServiceName.value+
 		                      <%
@@ -552,7 +571,7 @@
 	      else {
 	          EditForm.EditPrestationName.style.backgroundColor='white';
 	          if (!bFirst){
-	              document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Calculating";
+	              document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Calculating";
 	              var today = new Date();
 	              var url= '<c:url value="/financial/getPrestationAmount2.jsp"/>?ts='+today;
 	              new Ajax.Request(url,{
@@ -564,6 +583,7 @@
 		                      '&EditInsuranceUID=' + EditForm.EditInsuranceUID.value+
 		       	              '&EditDate=' + EditForm.EditDate.value+
 		                      '&CoverageInsurance=' + EditForm.coverageinsurance.value+
+		                      '&EnableInsurance=' + (EditForm.EnableInsurance.checked?'1':'')+
 			                   '&PrestationServiceUid=' + EditForm.EditDebetServiceUid.value+
 			                   '&PrestationServiceName=' + EditForm.EditDebetServiceName.value+
 		                      <%
@@ -605,6 +625,7 @@
 	                +'&EditDebetUID=' + EditForm.EditDebetUID.value
                   	+'&PrestationUID=' + EditForm.EditPrestationName.value
 	                +'&CoverageInsurance=' + EditForm.coverageinsurance.value
+                    +'&EnableInsurance=' + (EditForm.EnableInsurance.checked?'1':'')
     	            +'&EditDate=' + EditForm.EditDate.value
                     +'&PrestationServiceUid=' + EditForm.EditDebetServiceUid.value
                     +'&PrestationServiceName=' + EditForm.EditDebetServiceName.value
@@ -701,7 +722,7 @@
               sCredited = "1";
           }
           var url= '<c:url value="/financial/debetSave2.jsp"/>?ts='+today;
-          document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+          document.getElementById('divMessage').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Loading";
 		  var prests="";
           pars=document.all;
           for(n=0;n<document.all.length;n++){
@@ -886,7 +907,7 @@
 		});
   }
   function loadUnassignedDebets(){
-    document.getElementById('divUnassignedDebets').innerHTML = "<img src='<c:url value="/_img/ajax-loader.gif"/>'/><br/>Loading";
+    document.getElementById('divUnassignedDebets').innerHTML = "<img src='<c:url value="/_img/themes/default/ajax-loader.gif"/>'/><br/>Loading";
     var params = 'FindDateBegin=' + EditForm.FindDateBegin.value
                 +"&FindDateEnd="+EditForm.FindDateEnd.value
                 +"&FindAmountMin="+EditForm.FindAmountMin.value
